@@ -1,12 +1,84 @@
-﻿<Window x:Class="GameHelper.MainWindow"
+<Window x:Class="GameHelper.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:GameHelper"
-        mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="GameHelper — PoE2 Chaos craft (MVP)"
+        Height="620"
+        Width="520"
+        MinHeight="440"
+        MinWidth="480">
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="16" HorizontalAlignment="Stretch">
 
-    </Grid>
+            <TextBlock Text="Область Chaos Orb" FontWeight="SemiBold" Margin="0,0,0,4"/>
+            <TextBlock x:Name="OrbInfo"
+                       Text="не задана — нажмите кнопку ниже"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,6"
+                       Foreground="#555"/>
+            <Button x:Name="PickOrbBtn"
+                    Content="Задать область (Chaos Orb)…"
+                    HorizontalAlignment="Left"
+                    Padding="12,6"
+                    Margin="0,0,0,12"
+                    Click="PickOrbBtn_OnClick"/>
+
+            <TextBlock Text="Область предмета" FontWeight="SemiBold" Margin="0,0,0,4"/>
+            <TextBlock x:Name="ItemInfo"
+                       Text="не задана — нажмите кнопку ниже"
+                       TextWrapping="Wrap"
+                       Margin="0,0,0,6"
+                       Foreground="#555"/>
+            <Button x:Name="PickItemBtn"
+                    Content="Задать область (предмет)…"
+                    HorizontalAlignment="Left"
+                    Padding="12,6"
+                    Margin="0,0,0,12"
+                    Click="PickItemBtn_OnClick"/>
+
+            <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4"
+                       Text="Шаблон аффикса (в буфере после Ctrl+C). Символ n — место для цифр, например «+n to all skill gem»"/>
+            <TextBox x:Name="AffixPattern" Margin="0,0,0,6" AcceptsReturn="False"/>
+
+            <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4"
+                       Text="Минимальное число на месте n (если в шаблоне есть n; иначе не используется)"/>
+            <TextBox x:Name="MinRoll" Margin="0,0,0,12" Text="0"/>
+
+            <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4"
+                       Text="Задержка после перемещения мыши и после клика, мс (одно значение для всех шагов Move, ЛКМ, ПКМ)"/>
+            <TextBox x:Name="MouseActionDelayMs" Margin="0,0,0,12" Text="80"/>
+
+            <TextBlock Text="Задержка после Ctrl+C перед чтением буфера, мс" FontWeight="SemiBold" Margin="0,0,0,4"/>
+            <TextBox x:Name="ClipboardDelayMs" Margin="0,0,0,12" Text="220"/>
+
+            <TextBlock Text="Максимум операций (N)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+            <TextBox x:Name="MaxOps" Margin="0,0,0,12" Text="20"/>
+
+            <CheckBox x:Name="TraceInputCheckBox"
+                      Margin="0,0,0,8"
+                      Content="Подробный лог ввода (отладка: шаги мыши/клавиш и позиция курсора)"
+                      ToolTip="Включите и смотрите окно лога или файл Log/session_… после закрытия приложения. Рекомендуется запуск отладки F5 из Cursor."/>
+
+            <CheckBox x:Name="StepConfirmCheckBox"
+                      Margin="0,0,0,8"
+                      Content="Пошаговое подтверждение: окно после каждого действия (Enter = Продолжить)"
+                      ToolTip="Для отладки. Закрытие окна крестиком отменяет цикл (Стоп). В бою с игрой обычно выключено."/>
+
+            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                <Button x:Name="StartBtn" Content="Старт" Width="100" Margin="0,0,8,0" Click="StartBtn_OnClick"/>
+                <Button x:Name="StopBtn" Content="Стоп" Width="100" IsEnabled="False" Click="StopBtn_OnClick"/>
+            </StackPanel>
+
+            <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4">
+                Лог в окне; полный лог крафта (буфер vs строка пользователя) — файл в папке Log проекта после каждого «Старт». Сессионный лог — при закрытии приложения.
+            </TextBlock>
+            <TextBox x:Name="LogBox"
+                     MinHeight="160"
+                     IsReadOnly="True"
+                     VerticalScrollBarVisibility="Auto"
+                     HorizontalScrollBarVisibility="Auto"
+                     TextWrapping="Wrap"
+                     FontFamily="Consolas"
+                     SnapsToDevicePixels="True"/>
+        </StackPanel>
+    </ScrollViewer>
 </Window>

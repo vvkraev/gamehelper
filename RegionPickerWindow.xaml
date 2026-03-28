@@ -1,0 +1,37 @@
+<Window x:Class="GameHelper.RegionPickerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="#66000000"
+        Topmost="True"
+        ShowInTaskbar="False"
+        Cursor="Cross"
+        KeyDown="Window_KeyDown">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0"
+                   Text="Зажмите ЛКМ и выделите область. Esc — отмена."
+                   Foreground="White"
+                   FontSize="18"
+                   Margin="24,20,24,8"
+                   TextAlignment="Center"
+                   IsHitTestVisible="False"/>
+        <Canvas x:Name="Surface"
+                Grid.Row="1"
+                Background="Transparent"
+                MouseLeftButtonDown="Surface_OnMouseLeftButtonDown"
+                MouseMove="Surface_OnMouseMove"
+                MouseLeftButtonUp="Surface_OnMouseLeftButtonUp">
+            <Rectangle x:Name="Band"
+                       Stroke="#FFEB3B"
+                       StrokeThickness="2"
+                       Fill="Transparent"
+                       IsHitTestVisible="False"
+                       Visibility="Collapsed"/>
+        </Canvas>
+    </Grid>
+</Window>

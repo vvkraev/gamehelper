@@ -3,6 +3,10 @@
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
+logs/
+# Логи крафта и сессии (в корне репозитория)
+Log/*.txt
+Log/*.tmp
 
 ## Visual Studio / VS Code / Rider
 .vs/
@@ -22,6 +26,9 @@
 Thumbs.db
 ehthumbs.db
 Desktop.ini
+
+## Local app settings (next to .csproj)
+settings.json
 
 ## Others
 *.DotSettings.user
