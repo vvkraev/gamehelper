@@ -1,40 +1,188 @@
-# Path of Exile 2 Item System Documentation
+# 🎮 МЕХАНИКИ ИГРЫ — Path of Exile 2
 
-## Overview
-Path of Exile 2 builds upon the foundations of its predecessor's item system, introducing new dynamics, enhancing existing mechanics, and offering players a rich variety of options. This documentation provides a comprehensive overview of the item types, rarities, currencies, affixes, and their interactions within the game.
+Полная документация о предметах, валютах, аффиксах и их взаимодействии в Path of Exile 2.
 
-## Item Types
-In Path of Exile 2, items are categorized into several types:
-- **Weapons**: Used for dealing damage, including swords, axes, bows, staves, and wands.
-- **Armors**: Gear that provides protection, such as helmets, chest armor, gloves, boots, and shields.
-- **Accessories**: Items that are equipped in the character's slots, including rings and amulets.
-- **Consumables**: Items that can be used for healing or buffs, such as potions and flasks.
-- **Gems**: Skill and support gems that provide abilities and enhance gameplay.
+## Содержание
+1. [Типы предметов](#1-типы-предметов)
+2. [Редкость предметов](#2-редкость-предметов)
+3. [Структура предметов](#3-структура-предметов)
+4. [Валюты крафта (4 основные)](#4-валюты-крафта-4-основные)
+5. [Аффиксы](#5-аффиксы)
+6. [Взаимодействия валют](#6-взаимодействия-валют)
+7. [Ближайшие шаги](#7-ближайшие-шаги)
 
-## Item Rarities
-Items in Path of Exile 2 can be found in different rarities:
-- **Normal**: Basic items with no special properties.
-- **Magic**: Items that possess one or two modifiers.
-- **Rare**: Items with three or more modifiers, offering significant power.
-- **Unique**: Special items with predefined properties, often pivotal to certain builds.
+---
 
-## Currencies
-Currencies in the game are used for crafting and item enhancement:
-- **Chaos Orbs**: Used to reroll rare item modifiers.
-- **Exalted Orbs**: Used to add a new random modifier to a rare item.
-- **Mirror of Kalandra**: Creates a mirror image of a non-unique item.
-- **Crafting Shards**: Used to craft specific item properties.
+## 1. ТИПЫ ПРЕДМЕТОВ
 
-## Affixes
-Each item can have various affixes that affect gameplay:
-- **Prefixes**: Typically provide beneficial stats like increased damage or speed.
-- **Suffixes**: Often grant defensive bonuses or additional effects.
-- **Hybrid Affixes**: Combine elements of both prefixes and suffixes.
+### Полный список (5 основных типов)
 
-### Interactions
-- **Item Synergies**: Certain items enhance the effectiveness of others, creating powerful combinations.
-- **Crafting**: Players can manipulate item properties to suit their desired builds using craftable affixes.
-- **Item Upgrades**: Higher rarity items can be upgraded for better stats, enhancing the player's capabilities.
+| № | Тип | Англ. название | Описание |
+|----|---|---|---|
+| 1 | **Вещи** | Items | Оружие, броня, аксессуары (кольца, амулеты, пояса). Могут быть разных классов. |
+| 2 | **Путевые камни** | Waystones | Специальные предметы для открытия карт. Могут быть улучшены аффиксами. |
+| 3 | **Таблички** | Tablets | Предметы, которые дают модификаторы к мастерству или другим параметрам. |
+| 4 | **Самоцветы** | Gems | Драгоценные камни, которые дают умения. Также могут иметь аффиксы. |
+| 5 | **Утерянные самоцветы** | Lost Gems | Редкие версии самоцветов с повышенными характеристиками. |
 
-## Conclusion
-The item system in Path of Exile 2 is a cornerstone of the gameplay experience, allowing for deep customization and strategic depth. Understanding the various elements—types, rarities, currencies, affixes, and their interactions—is essential for maximizing your success in the game.
+### Почему типы отличаются?
+
+Каждый тип предмета имеет **собственную структуру** в буфере обмена (когда вы делаете `Ctrl+C` на предмет в игре).
+
+**Для приложения это означает:**
+- Нужно **распознавать тип предмета** из текста буфера
+- Для каждого типа должна быть **своя логика парсинга**
+- Для каждого типа свои **правила максимума аффиксов**
+
+---
+
+## 2. РЕДКОСТЬ ПРЕДМЕТОВ
+
+### Три типа редкости
+
+### Максимум аффиксов по типам предметов
+
+---
+
+## 3. СТРУКТУРА ПРЕДМЕТОВ
+
+### 3.1 Структура ВЕЩИ (Items)
+
+Пример текста из буфера обмена:
+
+#### Что означает каждая часть?
+
+| Поле | Пример | Что это | Можно ли менять |
+|---|---|---|---|
+| **Item Class** | `Sceptres` | Класс предмета — определяет доступные аффиксы | ✗ Нет |
+| **Rarity** | `Rare` | Редкость | Через валюты |
+| **Unique Name** | `Wrath Crack` | Художественное название | ✗ Нет |
+| **Base Name** | `Wrath Sceptre` | База предмета (тип) | ✗ Нет |
+| **Implicit** | `Spirit: 100` | IMPLICIT аффикс — встроенный | ✗ Нет |
+| **Requires** | `Level 78, 137 Int` | Требования к персонажу | ✗ Нет |
+| **Item Level** | `79` | Уровень предмета — влияет на TIER аффиксов | ✗ Нет |
+| **Grants Skill** | `Level 18 Fulmination` | Дополнительное умение | ✓ Divine |
+| **Affixes** | `Allies in your...` | Явные аффиксы | ✓ Валюты |
+
+### 3.2 Классы предметов (Item Classes)
+
+---
+
+## 4. ВАЛЮТЫ КРАФТА (4 ОСНОВНЫЕ)
+
+### 4.1 Chaos Orb — ХАОС ✨
+
+**Действие:** Заменяет один **случайный аффикс** на **любой возможный случайный аффикс**
+
+**Применимо к:**
+- ✓ Magic (может добавить или изменить)
+- ✓ Rare (меняет один из существующих)
+
+**Вероятность:** На N аффиксах = 1/N шанс каждый раз
+
+---
+
+### 4.2 Orb of Augmentation — АУГ 🔹
+
+**Действие:** **Добавляет** один случайный аффикс к Magic предмету
+
+**Применимо к:**
+- ✓ Только **Magic** (если есть место < 2 аффиксов)
+- ✗ Normal, Rare
+
+**Вероятность:** 100% (если есть место)
+
+---
+
+### 4.3 Orb of Annulment — АНУЛ ⚠️
+
+**Действие:** **Удаляет** случайный аффикс
+
+**Применимо к:**
+- ✓ Magic, Rare (если есть аффиксы)
+- ✗ Normal
+
+**Вероятность:** На N аффиксах = 1/N шанс удалить нужный
+
+---
+
+### 4.4 Divine Orb — ДИВАН 💎
+
+**Действие:** **Перекатывает значения** аффиксов **внутри их TIER**
+
+**Применимо к:**
+- ✓ Magic, Rare (на аффиксах со значениями)
+- ✓ Implicit
+
+**Вероятность:** На каждый аффикс независимо
+
+---
+
+## 5. АФФИКСЫ
+
+### Типы аффиксов
+
+#### **Implicit** (встроенный)
+- **Один** на каждом предмете
+- Зависит от **базы** предмета
+- **Не меняется** стандартными валютами
+- Пример: `Spirit: 100` на Wrath Sceptre
+
+#### **Explicit** (явный)
+- Остальные аффиксы
+- **Меняются** валютами
+- Максимум: 2 (Magic) или 4-6 (Rare)
+
+### TIER аффиксов
+
+Каждый аффикс имеет **диапазон значений** (TIER):
+
+**Важно:** Divine перекатывает **внутри** одного TIER, не переходя в другой
+
+---
+
+## 6. ВЗАИМОДЕЙСТВИЯ ВАЛЮТ
+
+### Таблица: Что происходит при применении валют?
+
+#### CHAOS ORB
+
+#### AUG (Orb of Augmentation)
+
+#### DIVINE (Divine Orb)
+
+---
+
+## 7. БЛИЖАЙШИЕ ШАГИ
+
+### Phase 1: Основы (Chaos Orb) — ТЕКУЩЕЕ ✅
+
+**Статус:** Должно быть реализовано
+- ✅ Распознание типа предмета
+- ✅ Распознание редкости
+- ✅ Распознание аффиксов
+- ✅ Проверка аффикса по шаблону
+- ✅ Цикл Chaos Orb крафта
+
+### Phase 2: Другие валюты 📋
+
+**Приоритет:** После стабилизации Phase 1
+- [ ] Aug Orb (добавить аффикс)
+- [ ] Anul Orb (удалить аффикс)
+- [ ] Divine Orb (перекат значений)
+
+### Phase 3: Расширение 🚀
+
+**Приоритет:** После Phase 2
+- [ ] Другие типы предметов
+- [ ] TIER информация для аффиксов
+- [ ] Автоматическое определение доступных аффиксов
+
+---
+
+## 🔗 СВЯЗАННЫЕ ДОКУМЕНТЫ
+
+- [SRS.md](./SRS.md) — требования
+- [ROADMAP.md](./ROADMAP.md) — план
+- [ITEM_PARSING.md](./ITEM_PARSING.md) — как парсить предметы
+- [CRAFTING_STRATEGIES.md](./CRAFTING_STRATEGIES.md) — стратегии крафта
