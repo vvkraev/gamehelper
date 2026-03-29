@@ -1,0 +1,23 @@
+<Window x:Class="GameHelper.ItemParsingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Parsed Item Properties" Height="350" Width="525">
+    <Grid>
+        <Label Content="Item Name:" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="ItemNameTextBox" HorizontalAlignment="Left" Height="25" Margin="150,10,0,0" VerticalAlignment="Top" Width="300"/>
+
+        <Label Content="Item Type:" HorizontalAlignment="Left" Margin="10,50,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="ItemTypeTextBox" HorizontalAlignment="Left" Height="25" Margin="150,50,0,0" VerticalAlignment="Top" Width="300"/>
+
+        <Label Content="Item Properties:" HorizontalAlignment="Left" Margin="10,90,0,0" VerticalAlignment="Top"/>
+        <TextBox Name="ItemPropertiesTextBox" HorizontalAlignment="Left" Height="100" Margin="150,90,0,0" VerticalAlignment="Top" Width="300" TextWrapping="Wrap" AcceptsReturn="True"/>
+
+        <Button Content="Display Properties" HorizontalAlignment="Left" Margin="10,210,0,0" VerticalAlignment="Top" Width="120" Click="DisplayProperties_Click"/>
+    </Grid>
+</Window>
+
+// Code-behind (C#)
+// private void DisplayProperties_Click(object sender, RoutedEventArgs e)
+// {
+//     // Add logic to display the parsed item properties
+// }
