@@ -110,6 +110,9 @@ public sealed class OmenActivationService
         return true;
     }
 
+    /// <summary>Красная рамка вокруг ячейки — омен считается визуально активированным (см. ASCII-флоу).</summary>
+    public bool IsOmenCellVisuallyActivated(ScreenRect cell) => CellHasRedBorder(cell);
+
     private bool CellHasRedBorder(ScreenRect cell)
     {
         // Берём узкие полосы вдоль границы ячейки и считаем долю "красных" пикселей.

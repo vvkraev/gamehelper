@@ -973,11 +973,41 @@ public partial class MainWindow : Window
             return;
         }
 
+        if (isExalt && (_ritualInventoryRegion is null || _currencyInventoryRegion is null || _omenGreaterStashRegion is null))
+        {
+            MessageBox.Show(
+                "Для крафта Orb of Exaltation задайте области: Ritual inventory, Currency inventory и Omen of Greater Exaltation Stash (для автопополнения омнов).",
+                "Области RefillOmen",
+                MessageBoxButton.OK,
+                MessageBoxImage.Warning);
+            return;
+        }
+
         if (isExalt)
         {
             var (wantPrefix, wantSuffix) = GetWantedAffixTypes(_craftPlan);
             var prefixOnly = wantPrefix && !wantSuffix;
             var suffixOnly = wantSuffix && !wantPrefix;
+
+            if (prefixOnly && _omenSinistralStashRegion is null)
+            {
+                MessageBox.Show(
+                    "Для условия только с префиксами задайте область Omen of Sinistral Exaltation Stash.",
+                    "Области RefillOmen",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
+
+            if (suffixOnly && _omenDextralStashRegion is null)
+            {
+                MessageBox.Show(
+                    "Для условия только с суффиксами задайте область Omen of Dextral Exaltation Stash.",
+                    "Области RefillOmen",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+                return;
+            }
 
             if (prefixOnly && _omenSinistralCells.Count == 0)
             {
@@ -1194,6 +1224,11 @@ public partial class MainWindow : Window
                         var (r, consumed) = await _exaltCraft.RunAsync(
                             exalt,
                             annul,
+                            _ritualInventoryRegion ?? default,
+                            _currencyInventoryRegion ?? default,
+                            _omenSinistralStashRegion ?? default,
+                            _omenDextralStashRegion ?? default,
+                            _omenGreaterStashRegion ?? default,
                             _omenSinistralCells,
                             _omenDextralCells,
                             _omenGreaterCells,

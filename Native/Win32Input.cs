@@ -130,6 +130,26 @@ public static class Win32Input
         keybd_event(VkControl, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
     }
 
+    /// <summary>Ctrl+ЛКМ (например перенос стака из ritual stash в инвентарь в PoE2).</summary>
+    public static void SendCtrlLeftClick()
+    {
+        InputTrace?.Invoke("[Key] Ctrl DOWN");
+        keybd_event(VkControl, 0, 0, UIntPtr.Zero);
+        ClickLeft();
+        InputTrace?.Invoke("[Key] Ctrl UP");
+        keybd_event(VkControl, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+    }
+
+    /// <summary>Ctrl+ПКМ (например частичное снятие стака в stash).</summary>
+    public static void SendCtrlRightClick()
+    {
+        InputTrace?.Invoke("[Key] Ctrl DOWN");
+        keybd_event(VkControl, 0, 0, UIntPtr.Zero);
+        ClickRight();
+        InputTrace?.Invoke("[Key] Ctrl UP");
+        keybd_event(VkControl, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+    }
+
     public static void ReleaseCtrl()
     {
         keybd_event(VkC, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
