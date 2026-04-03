@@ -1,0 +1,69 @@
+{
+  "name": "Body Armours - \u0441\u043F\u0438\u0440\u0438\u0442",
+  "savedAt": "2026-04-01T01:00:44.1592691+03:00",
+  "craftMode": "\u0410\u0443\u0433\u002B\u0410\u043D\u043D\u0443\u043B",
+  "plan": {
+    "expectedItemClass": "Body Armours",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "single",
+            "single": {
+              "affixType": "Prefix Modifier",
+              "affixName": "",
+              "affixTier": 0,
+              "statTemplate": "\u002B to Spirit",
+              "minRoll": 57,
+              "minRolls": [
+                57
+              ]
+            },
+            "sum": null,
+            "count": null
+          },
+          {
+            "kind": "count",
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 1,
+              "members": [
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "% to Cold Resistance",
+                  "minRoll": 41,
+                  "minRolls": [
+                    41
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "% to Fire Resistance",
+                  "minRoll": 41,
+                  "minRolls": [
+                    41
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "% to Lightning Resistance",
+                  "minRoll": 41,
+                  "minRolls": [
+                    41
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

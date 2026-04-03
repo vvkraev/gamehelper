@@ -13,12 +13,14 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0"
+        <TextBlock x:Name="HintText"
+                   Grid.Row="0"
                    Text="Зажмите ЛКМ и выделите область. Esc — отмена."
                    Foreground="White"
                    FontSize="18"
                    Margin="24,20,24,8"
                    TextAlignment="Center"
+                   TextWrapping="Wrap"
                    IsHitTestVisible="False"/>
         <Canvas x:Name="Surface"
                 Grid.Row="1"
@@ -32,6 +34,8 @@
                        Fill="Transparent"
                        IsHitTestVisible="False"
                        Visibility="Collapsed"/>
+            <Canvas x:Name="GridLayer"
+                    IsHitTestVisible="False"/>
         </Canvas>
     </Grid>
 </Window>

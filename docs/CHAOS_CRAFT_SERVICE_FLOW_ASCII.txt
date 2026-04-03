@@ -1,0 +1,151 @@
+# ChaosCraftService — decision flow (ASCII)
+#
+# Цель: зафиксировать текущую логику ChaosCraftService (перед рефакторингом/поиском багов ввода).
+# Сервис: Services/ChaosCraftService.cs
+#
+# Термины
+# -------
+# itemArea      : ScreenRect ячейки предмета (текущая ячейка сетки)
+# orbArea       : ScreenRect области Chaos Orb
+# N             : общий лимит попыток на сессию (управляется MainWindow)
+# remaining     : сколько попыток осталось на сессию перед входом в RunAsync
+# segmentMaxOps : сколько попыток разрешено потратить в этом вызове RunAsync (обычно remaining)
+# attemptOffset : глобальный оффсет попыток (для сквозной нумерации в логе)
+# clip          : текст буфера обмена после Ctrl+Alt+C
+# parsed        : ParsedItem из ItemParser.Parse(clip)
+# match         : результат CraftConditionEvaluator.TryEvaluate(plan, parsed)
+#
+# Ключевые тайминги
+# -----------------
+# MouseActionDelayMs           : пауза между Move/Click/Shift шагами (с jitter ±30%)
+# HoverSettleBeforeClipboardMs : пауза после наведения на предмет перед Ctrl+Alt+C
+# ClipboardDelayMs             : пауза после Ctrl+Alt+C перед чтением буфера (с jitter ±30%)
+#
+# Clipboard retry
+# --------------
+# ReadClipboardAfterCtrlAltCAsync:
+#   - ClearClipboard()
+#   - MoveTo itemArea (центр с inset=1)
+#   - wait MouseActionDelayMs + HoverSettleBeforeClipboardMs
+#   - Ctrl+Alt+C
+#   - wait ClipboardDelayMs
+#   - read clipboard
+#   - if empty: wait 1000ms, repeat once
+#
+#
+# High level: MainWindow loop
+# ---------------------------
+# MainWindow.Start:
+#   for each item cell:
+#     PrecheckAsync(itemArea)
+#       - reads clipboard via Ctrl+Alt+C
+#       - if empty -> EmptyCell (skip cell)
+#       - parse & validate class
+#       - if condition already true -> AlreadySatisfied (skip cell)
+#       - else -> Ready -> RunAsync(orbArea,itemArea,...)
+#
+#
+# PrecheckAsync(itemArea, plan)
+# -----------------------------
+#
+#   +-------------------------------+
+#   | PrecheckAsync(itemArea, plan) |
+#   +-------------------------------+
+#               |
+#               v
+#   +-------------------------------+
+#   | ReadItemClipboardTextAsync    |
+#   |  - ClearClipboard             |
+#   |  - MoveTo itemArea center     |
+#   |  - Ctrl+Alt+C                 |
+#   |  - wait, read clipboard       |
+#   +-------------------------------+
+#               |
+#      +--------+--------------------+
+#      |                             |
+#      v                             v
+#  clip empty?                    clip non-empty
+#      |                             |
+#      v                             v
+#  Outcome=EmptyCell             parse ItemParser
+#                                  |
+#                         +--------+------------------+
+#                         |                           |
+#                         v                           v
+#                    parse invalid?              parse valid
+#                         |                           |
+#                         v                           v
+#                    Outcome=Failed            class mismatch?
+#                                                     |
+#                                           +---------+--------+
+#                                           |                  |
+#                                           v                  v
+#                                     mismatch -> Failed    match -> evaluate condition
+#                                                             |
+#                                                  +----------+-----------+
+#                                                  |                      |
+#                                                  v                      v
+#                                           condition true?         condition false?
+#                                                  |                      |
+#                                                  v                      v
+#                                        Outcome=AlreadySatisfied   Outcome=Ready
+#
+#
+# RunAsync(orbArea, itemArea, plan, ..., segmentMaxOps)
+# ----------------------------------------------------
+#
+# For attempt = 1..segmentMaxOps:
+#
+#   +-----------------------------------------------------------+
+#   | Attempt loop                                              |
+#   +-----------------------------------------------------------+
+#               |
+#               v
+#   +-----------------------------------------------------------+
+#   | 1) ReadClipboardAfterCtrlAltCAsync(itemArea)               |
+#   |    - clear clipboard                                      |
+#   |    - MoveTo itemArea (center)                             |
+#   |    - Ctrl+Alt+C                                           |
+#   |    - wait, read clipboard                                 |
+#   |    - retry once after 1000ms if empty                      |
+#   +-----------------------------------------------------------+
+#               |
+#      +--------+------------------------------+
+#      |                                       |
+#      v                                       v
+#  clip empty?                             clip non-empty
+#      |                                       |
+#      v                                       v
+#  return EmptyCell (consumed 0)          parse -> evaluate condition
+#                                              |
+#                                  +-----------+-------------+
+#                                  |                         |
+#                                  v                         v
+#                           condition true?             condition false?
+#                                  |                         |
+#                                  v                         v
+#                    return AffixFound (consumed 0)     proceed to apply Chaos Orb
+#                                                        |
+#                                                        v
+#   +-----------------------------------------------------------+
+#   | 2) Apply + Check (single step, consumes 1 attempt)         |
+#   |    - (if first orb use in this RunAsync)                    |
+#   |        MoveTo orbArea (random interior point, 80% center)   |
+#   |        ShiftDown                                            |
+#   |        RightClick (orb)                                     |
+#   |    - MoveTo itemArea (random interior point, 80% center)    |
+#   |    - LeftClick (item)                                       |
+#   |    - (WITHOUT ShiftUp)                                      |
+#   |    - ReadClipboardAfterCtrlAltCAsync(itemArea)              |
+#   |    - parse -> evaluate condition                            |
+#   |    - if true -> STOP (AffixFound)                           |
+#   |    - if false -> continue loop with next LeftClick (orb stays selected) |
+#   +-----------------------------------------------------------+
+#
+#
+# Cancellation / errors
+# ---------------------
+# - OperationCanceledException -> return Cancelled (attemptsConsumed attempt-1)
+# - Any other exception -> return Error (attemptsConsumed attempt-1)
+# - In finally per-attempt: ReleaseShift() (Ctrl/Alt release behavior may vary by version)
+#

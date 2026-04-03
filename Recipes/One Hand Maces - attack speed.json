@@ -1,0 +1,28 @@
+{
+  "name": "One Hand Maces - attack speed",
+  "savedAt": "2026-03-31T20:51:59.9362835+03:00",
+  "plan": {
+    "expectedItemClass": "One Hand Maces",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "single",
+            "single": {
+              "affixType": "Suffix Modifier",
+              "affixName": "",
+              "affixTier": 0,
+              "statTemplate": "% increased Attack Speed",
+              "minRoll": 26,
+              "minRolls": [
+                26
+              ]
+            },
+            "sum": null,
+            "count": null
+          }
+        ]
+      }
+    ]
+  }
+}

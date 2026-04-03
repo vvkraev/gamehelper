@@ -1,0 +1,24 @@
+---
+description: Require x:Name for all WPF XAML elements
+globs: **/*.xaml
+alwaysApply: false
+---
+
+# WPF: `x:Name` обязателен для элементов
+
+- Всегда задавай `x:Name` **каждому** визуальному элементу в XAML, который добавляешь или редактируешь: `TabControl`, `TabItem`, `Grid`, `StackPanel`, `TextBlock`, `TextBox`, `Button`, `CheckBox`, `Border`, `ScrollViewer`, `Canvas`, `Rectangle`, и т.д.
+- Исключения допускаются только для **одноразовых** элементов без взаимодействия и без потенциальных будущих правок; если сомневаешься — **добавь `x:Name`**.
+
+## Зачем
+
+- Пользователь может ссылаться на элементы по имени и давать точные инструкции.
+- Упрощает тестирование/автоматизацию и будущий рефакторинг UI.
+
+## Пример
+
+```xml
+<TabItem x:Name="TabCraft" Header="Крафт">
+    <Button x:Name="SaveRecipeBtn" Content="Сохранить рецепт…" />
+</TabItem>
+```
+

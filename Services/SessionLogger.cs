@@ -62,6 +62,32 @@ public static class SessionLogger
         NewLine?.Invoke(line);
     }
 
+    /// <summary>Содержимое буфера обмена после Ctrl+Alt+C (в т.ч. в файл session_*.txt).</summary>
+    /// <param name="tag">Контекст: предпроверка, попытка крафта, парсинг предмета и т.д.</param>
+    public static void InfoClipboard(string tag, string? clipboardText, int maxChars = 12000)
+    {
+        if (clipboardText == null)
+        {
+            Info($"[Буфер обмена — {tag}] (null)");
+            return;
+        }
+
+        if (clipboardText.Length == 0)
+        {
+            Info($"[Буфер обмена — {tag}] (пустая строка)");
+            return;
+        }
+
+        if (clipboardText.Length <= maxChars)
+        {
+            Info($"[Буфер обмена — {tag}]\n{clipboardText}");
+            return;
+        }
+
+        Info(
+            $"[Буфер обмена — {tag}] (показано {maxChars} из {clipboardText.Length} символов)\n{clipboardText[..maxChars]}…");
+    }
+
     public static void Shutdown()
     {
         string wipCopy;

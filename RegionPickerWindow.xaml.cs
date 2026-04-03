@@ -12,19 +12,31 @@ namespace GameHelper;
 /// </summary>
 public partial class RegionPickerWindow : Window
 {
-    private Point _dragStart;
+    private System.Windows.Point _dragStart;
     private bool _dragging;
     private bool _physicalAnchorOk;
     private int _physStartX;
     private int _physStartY;
+    private readonly int _gridCols;
+    private readonly int _gridRows;
 
     public ScreenRect? SelectedRegion { get; private set; }
 
-    public RegionPickerWindow()
+    /// <summary>Ячейки сетки после выделения (только если задана сетка X×Y).</summary>
+    public IReadOnlyList<ScreenRect>? SelectedCells { get; private set; }
+
+    public RegionPickerWindow(int gridColumns = 0, int gridRows = 0)
     {
+        _gridCols = gridColumns;
+        _gridRows = gridRows;
         InitializeComponent();
         Focusable = true;
         Loaded += OnLoaded;
+        if (_gridCols > 0 && _gridRows > 0)
+        {
+            HintText.Text =
+                $"Зажмите ЛКМ и выделите прямоугольник (сетка {_gridCols}×{_gridRows}). Линии показывают ячейки. Esc — отмена.";
+        }
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
@@ -33,12 +45,14 @@ public partial class RegionPickerWindow : Window
         Top = SystemParameters.VirtualScreenTop;
         Width = SystemParameters.VirtualScreenWidth;
         Height = SystemParameters.VirtualScreenHeight;
+        System.Windows.Controls.Panel.SetZIndex(GridLayer, 1);
         _ = Focus();
     }
 
     private void Surface_OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
         _dragging = true;
+        GridLayer.Children.Clear();
         _dragStart = e.GetPosition(Surface);
         _physicalAnchorOk = Win32Input.TryGetCursorPos(out _physStartX, out _physStartY);
         Surface.CaptureMouse();
@@ -49,7 +63,7 @@ public partial class RegionPickerWindow : Window
         Band.Height = 0;
     }
 
-    private void Surface_OnMouseMove(object sender, MouseEventArgs e)
+    private void Surface_OnMouseMove(object sender, System.Windows.Input.MouseEventArgs e)
     {
         if (!_dragging)
             return;
@@ -63,6 +77,48 @@ public partial class RegionPickerWindow : Window
         Canvas.SetTop(Band, y);
         Band.Width = w;
         Band.Height = h;
+        RedrawGridOverlay(x, y, w, h);
+    }
+
+    private void RedrawGridOverlay(double bandLeft, double bandTop, double bandW, double bandH)
+    {
+        GridLayer.Children.Clear();
+        if (_gridCols < 2 && _gridRows < 2)
+            return;
+        if (bandW < 2 || bandH < 2)
+            return;
+
+        const double stroke = 1;
+        var brush = System.Windows.Media.Brushes.White;
+        for (var c = 1; c < _gridCols; c++)
+        {
+            var lx = bandLeft + c * bandW / _gridCols;
+            GridLayer.Children.Add(new System.Windows.Shapes.Line
+            {
+                X1 = lx,
+                Y1 = bandTop,
+                X2 = lx,
+                Y2 = bandTop + bandH,
+                Stroke = brush,
+                StrokeThickness = stroke,
+                IsHitTestVisible = false,
+            });
+        }
+
+        for (var r = 1; r < _gridRows; r++)
+        {
+            var ly = bandTop + r * bandH / _gridRows;
+            GridLayer.Children.Add(new System.Windows.Shapes.Line
+            {
+                X1 = bandLeft,
+                Y1 = ly,
+                X2 = bandLeft + bandW,
+                Y2 = ly,
+                Stroke = brush,
+                StrokeThickness = stroke,
+                IsHitTestVisible = false,
+            });
+        }
     }
 
     private void Surface_OnMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -82,6 +138,8 @@ public partial class RegionPickerWindow : Window
             var w = Math.Max(1, maxX - minX);
             var h = Math.Max(1, maxY - minY);
             SelectedRegion = new ScreenRect(minX, minY, w, h);
+            if (_gridCols > 0 && _gridRows > 0)
+                SelectedCells = ScreenRect.SplitIntoGrid(SelectedRegion.Value, _gridCols, _gridRows);
         }
         else
         {
@@ -96,18 +154,27 @@ public partial class RegionPickerWindow : Window
             var screenW = (int)Math.Round(w);
             var screenH = (int)Math.Round(h);
             SelectedRegion = new ScreenRect(screenX, screenY, screenW, screenH);
+            if (_gridCols > 0 && _gridRows > 0)
+                SelectedCells = ScreenRect.SplitIntoGrid(SelectedRegion.Value, _gridCols, _gridRows);
         }
 
         DialogResult = true;
         Close();
     }
 
-    private void Window_KeyDown(object sender, KeyEventArgs e)
+    private void Window_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
     {
-        if (e.Key == Key.Escape)
+        if (e.Key != Key.Escape)
+            return;
+        e.Handled = true;
+        if (_dragging)
         {
-            SelectedRegion = null;
-            DialogResult = false;
+            _dragging = false;
+            Surface.ReleaseMouseCapture();
         }
+
+        SelectedRegion = null;
+        SelectedCells = null;
+        DialogResult = false;
     }
 }

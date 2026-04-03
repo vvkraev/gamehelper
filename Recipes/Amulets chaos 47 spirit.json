@@ -1,0 +1,29 @@
+{
+  "name": "Amulets chaos 47 spirit",
+  "savedAt": "2026-04-02T00:19:49.6321945+03:00",
+  "craftMode": "\u0425\u0430\u043E\u0441",
+  "plan": {
+    "expectedItemClass": "Amulets",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "single",
+            "single": {
+              "affixType": "Prefix Modifier",
+              "affixName": "",
+              "affixTier": 0,
+              "statTemplate": "\u002B to Spirit",
+              "minRoll": 47,
+              "minRolls": [
+                47
+              ]
+            },
+            "sum": null,
+            "count": null
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,3515 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Brimming",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Map has % increased number of Rare Monsters"
+      ],
+      "affixRanges": [
+        "25-40"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Teeming",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Map has % increased Magic Monsters"
+      ],
+      "affixRanges": [
+        "50-70"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Summoning",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Map has % increased chance to contain a Summoning Circle"
+      ],
+      "affixRanges": [
+        "35-50"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Omens",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Ritual Favours in Map have % increased chance to be Omens"
+      ],
+      "affixRanges": [
+        "35-70"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Sceptres"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Empowering",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Allies in your Presence deal % increased Damage"
+      ],
+      "affixRanges": [
+        "105-119"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Sceptres"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Razor-sharp",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Allies in your Presence deal X to Y added Attack Physical Damage"
+      ],
+      "affixRanges": [
+        "X(7-11); Y(14-20)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Sceptres"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Incinerating",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Allies in your Presence deal X to Y added Attack Fire Damage"
+      ],
+      "affixRanges": [
+        "X(17-19); Y(27-30)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Sceptres"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Destruction",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Allies in your Presence have % increased Critical Damage Bonus"
+      ],
+      "affixRanges": [
+        "35-39"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Sceptres"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Rector",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Minions have % increased maximum Life"
+      ],
+      "affixRanges": [
+        "46-50"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Hale",
+      "affixTier": 8,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "10-19"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Striking",
+      "affixTier": 2,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Lightning Damage"
+      ],
+      "affixRanges": [
+        "23-26"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Body Armours",
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Lightning",
+      "affixTier": 2,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "36-40"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Wrestler",
+      "affixTier": 7,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "\u002B to Strength"
+      ],
+      "affixRanges": [
+        "9-12"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Variegation",
+      "affixTier": 2,
+      "affixTierLevel": 63,
+      "affixStats": [
+        "% to all Elemental Resistances"
+      ],
+      "affixRanges": [
+        "12-14"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Crystalline",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased Cold Damage"
+      ],
+      "affixRanges": [
+        "27-30"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Polar Bear",
+      "affixTier": 3,
+      "affixTierLevel": 70,
+      "affixStats": [
+        "% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "31-35"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Leopard",
+      "affixTier": 3,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "25-27"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Vaporous",
+      "affixTier": 3,
+      "affixTierLevel": 63,
+      "affixStats": [
+        "\u002B to Evasion Rating"
+      ],
+      "affixRanges": [
+        "124-151"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Ice",
+      "affixTier": 2,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "36-40"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Siphoning",
+      "affixTier": 1,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "Gain Mana per enemy killed"
+      ],
+      "affixRanges": [
+        "21-27"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Consistent",
+      "affixTier": 4,
+      "affixTierLevel": 50,
+      "affixStats": [
+        "\u002B to Accuracy Rating"
+      ],
+      "affixRanges": [
+        "124-167"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Healthy",
+      "affixTier": 7,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "20-29"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Buzzing",
+      "affixTier": 8,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Adds 1 to Lightning damage to Attacks"
+      ],
+      "affixRanges": [
+        "10-15"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Troll",
+      "affixTier": 2,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Life Regeneration per second"
+      ],
+      "affixRanges": [
+        "9.1-13"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Body Armours",
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Whelpling",
+      "affixTier": 8,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "6-10"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Hunter\u0027s",
+      "affixTier": 2,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Accuracy Rating"
+      ],
+      "affixRanges": [
+        "237-346"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Volcano",
+      "affixTier": 3,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "31-35"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Warmth",
+      "affixTier": 3,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Mana Regeneration Rate",
+        "% increased Light Radius"
+      ],
+      "affixRanges": [
+        "8-12",
+        "5"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Pupil",
+      "affixTier": 8,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "5-8"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Shocking",
+      "affixTier": 3,
+      "affixTierLevel": 63,
+      "affixStats": [
+        "Adds X to Y Lightning damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(1-2); Y(41-47)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Frozen",
+      "affixTier": 4,
+      "affixTierLevel": 63,
+      "affixStats": [
+        "Adds X to Y Cold damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(11-13); Y(18-21)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Hailing",
+      "affixTier": 2,
+      "affixTierLevel": 70,
+      "affixStats": [
+        "% increased Cold Damage"
+      ],
+      "affixRanges": [
+        "23-26"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Deliberate",
+      "affixTier": 5,
+      "affixTierLevel": 70,
+      "affixStats": [
+        "\u002B to Accuracy Rating"
+      ],
+      "affixRanges": [
+        "85-123"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Sage",
+      "affixTier": 3,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "25-27"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Talent",
+      "affixTier": 4,
+      "affixTierLevel": 70,
+      "affixStats": [
+        "% increased Cast Speed"
+      ],
+      "affixRanges": [
+        "9-12"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Agile",
+      "affixTier": 9,
+      "affixTierLevel": 43,
+      "affixStats": [
+        "\u002B to Evasion Rating"
+      ],
+      "affixRanges": [
+        "8-15"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Seal",
+      "affixTier": 8,
+      "affixTierLevel": 50,
+      "affixStats": [
+        "% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "6-10"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Success",
+      "affixTier": 6,
+      "affixTierLevel": 50,
+      "affixStats": [
+        "Gain Life per enemy killed"
+      ],
+      "affixRanges": [
+        "4-6"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Gorilla",
+      "affixTier": 4,
+      "affixTierLevel": 50,
+      "affixStats": [
+        "\u002B to Strength"
+      ],
+      "affixRanges": [
+        "21-24"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Gentian",
+      "affixTier": 5,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "90-104"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Parasite",
+      "affixTier": 3,
+      "affixTierLevel": 63,
+      "affixStats": [
+        "Leech % of Physical Attack Damage as Life"
+      ],
+      "affixRanges": [
+        "5-5.9"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Leviathan",
+      "affixTier": 2,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Strength"
+      ],
+      "affixRanges": [
+        "28-30"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Zaffre",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "165-179"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Collector\u0027s",
+      "affixTier": 2,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Rarity of Items found"
+      ],
+      "affixRanges": [
+        "12-15"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Vile",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased Chaos Damage"
+      ],
+      "affixRanges": [
+        "27-30"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Flaming",
+      "affixTier": 5,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "Adds X to Y Fire damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(12-13); Y(18-20)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Discharging",
+      "affixTier": 2,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "Adds X to Y Lightning damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(1-3); Y(48-59)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Biting",
+      "affixTier": 5,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "% increased Cold Damage"
+      ],
+      "affixRanges": [
+        "8-12"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Crackling",
+      "affixTier": 6,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Adds 1 to Lightning damage to Attacks"
+      ],
+      "affixRanges": [
+        "23-27"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Yeti",
+      "affixTier": 5,
+      "affixTierLevel": 63,
+      "affixStats": [
+        "% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "21-25"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Beryl",
+      "affixTier": 12,
+      "affixTierLevel": 43,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "10-14"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Sanguine",
+      "affixTier": 6,
+      "affixTierLevel": 43,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "30-39"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Body Armours",
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Penguin",
+      "affixTier": 7,
+      "affixTierLevel": 43,
+      "affixStats": [
+        "% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "11-15"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Storm",
+      "affixTier": 6,
+      "affixTierLevel": 43,
+      "affixStats": [
+        "% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "16-20"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Locust",
+      "affixTier": 2,
+      "affixTierLevel": 43,
+      "affixStats": [
+        "Leech % of Physical Attack Damage as Life"
+      ],
+      "affixRanges": [
+        "6-6.9"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Dancer\u0027s",
+      "affixTier": 8,
+      "affixTierLevel": 70,
+      "affixStats": [
+        "\u002B to Evasion Rating"
+      ],
+      "affixRanges": [
+        "16-33"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Magpie\u0027s",
+      "affixTier": 3,
+      "affixTierLevel": 50,
+      "affixStats": [
+        "% increased Rarity of Items found"
+      ],
+      "affixRanges": [
+        "8-11"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Stout",
+      "affixTier": 4,
+      "affixTierLevel": 50,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "60-69"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Gleaming",
+      "affixTier": 5,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Adds X to Y Physical Damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(5-7); Y(9-13)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Falcon",
+      "affixTier": 5,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "17-20"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Excitement",
+      "affixTier": 6,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Mana Regeneration Rate"
+      ],
+      "affixRanges": [
+        "10-19"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Sparking",
+      "affixTier": 5,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Adds 1 to Lightning damage to Attacks"
+      ],
+      "affixRanges": [
+        "28-32"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Hoarder\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Rarity of Items found"
+      ],
+      "affixRanges": [
+        "16-19"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Azure",
+      "affixTier": 10,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "25-34"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Kindling",
+      "affixTier": 2,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Mana Regeneration Rate",
+        "% increased Light Radius"
+      ],
+      "affixRanges": [
+        "13-17",
+        "10"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Arid",
+      "affixTier": 1,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Leech % of Physical Attack Damage as Mana"
+      ],
+      "affixRanges": [
+        "6-6.9"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Walrus",
+      "affixTier": 4,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "26-30"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Smoking",
+      "affixTier": 7,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Adds X to Y Fire damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(6-8); Y(10-13)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Alpine",
+      "affixTier": 4,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Cold Damage"
+      ],
+      "affixRanges": [
+        "13-17"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Enveloping",
+      "affixTier": 3,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Gain Mana per enemy killed"
+      ],
+      "affixRanges": [
+        "10-14"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Cerulean",
+      "affixTier": 8,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "55-64"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Absorption",
+      "affixTier": 6,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Gain Mana per enemy killed"
+      ],
+      "affixRanges": [
+        "2-3"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Phased",
+      "affixTier": 4,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Evasion Rating"
+      ],
+      "affixRanges": [
+        "94-123"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Hissing",
+      "affixTier": 5,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Lightning Damage"
+      ],
+      "affixRanges": [
+        "8-12"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Infusion",
+      "affixTier": 4,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Gain Mana per enemy killed"
+      ],
+      "affixRanges": [
+        "6-9"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Robust",
+      "affixTier": 3,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "70-84"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Opalescent",
+      "affixTier": 6,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "80-89"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Burnished",
+      "affixTier": 8,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Adds X to Y Physical Damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(2-3); Y(4-6)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Charged",
+      "affixTier": 6,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Lightning Damage"
+      ],
+      "affixRanges": [
+        "3-7"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Fox",
+      "affixTier": 6,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "13-16"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Maelstrom",
+      "affixTier": 3,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "31-35"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Ranger\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Accuracy Rating"
+      ],
+      "affixRanges": [
+        "347-450"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Archaeology",
+      "affixTier": 1,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Rarity of Items found"
+      ],
+      "affixRanges": [
+        "15-18"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Blurred",
+      "affixTier": 5,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Evasion Rating"
+      ],
+      "affixRanges": [
+        "70-93"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Steady",
+      "affixTier": 3,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Accuracy Rating"
+      ],
+      "affixRanges": [
+        "168-236"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Fleet",
+      "affixTier": 6,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Evasion Rating"
+      ],
+      "affixRanges": [
+        "45-69"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Newt",
+      "affixTier": 7,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Life Regeneration per second"
+      ],
+      "affixRanges": [
+        "1-2"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Jaguar",
+      "affixTier": 2,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "28-30"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Valour",
+      "affixTier": 1,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Gain Life per enemy killed"
+      ],
+      "affixRanges": [
+        "41-53"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Thunderhead",
+      "affixTier": 5,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "21-25"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Starfish",
+      "affixTier": 4,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Life Regeneration per second"
+      ],
+      "affixRanges": [
+        "4.1-6"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Squall",
+      "affixTier": 7,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "11-15"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Osmosis",
+      "affixTier": 5,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Gain Mana per enemy killed"
+      ],
+      "affixRanges": [
+        "4-5"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Razor-sharp",
+      "affixTier": 3,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "Adds X to Y Physical Damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(7-11); Y(14-20)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Darkened",
+      "affixTier": 3,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Chaos Damage"
+      ],
+      "affixRanges": [
+        "18-22"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings",
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Salamander",
+      "affixTier": 7,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "11-15"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Sortilege",
+      "affixTier": 1,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "% increased Cast Speed"
+      ],
+      "affixRanges": [
+        "21-24"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Panther",
+      "affixTier": 4,
+      "affixTierLevel": 67,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "21-24"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Challenger\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Monsters have % increased Effectiveness"
+      ],
+      "affixRanges": [
+        "7-11"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Bountiful",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "% increased Gold found in Map"
+      ],
+      "affixRanges": [
+        "25-40"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Dogma",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Rerolling Favours at Ritual Altars in Map costs % reduced Tribute"
+      ],
+      "affixRanges": [
+        "30-20"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Prayers",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Ritual Altars in Map allow rerolling Favours additional times"
+      ],
+      "affixRanges": [
+        "1-3"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Elevated",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "% increased Experience gain in Map"
+      ],
+      "affixRanges": [
+        "10-20"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Devotion",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Deferring Favours at Ritual Altars in Map costs % reduced Tribute"
+      ],
+      "affixRanges": [
+        "30-20"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Breeding",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "% increased Pack Size in Map"
+      ],
+      "affixRanges": [
+        "6-10"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Shrines",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Map has % increased chance to contain Shrines"
+      ],
+      "affixRanges": [
+        "70-100"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Treasurer\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Map contains additional Rare Chests"
+      ],
+      "affixRanges": [
+        "2-3"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Essence",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Map has % increased chance to contain Essences"
+      ],
+      "affixRanges": [
+        "70-100"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Strongboxes",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Map has % increased chance to contain Strongboxes"
+      ],
+      "affixRanges": [
+        "70-100"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Sacrifice",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Monsters Sacrificed at Ritual Altars in Map grant % increased Tribute"
+      ],
+      "affixRanges": [
+        "18-30"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Foundling",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Revived Monsters from Ritual Altars in Map have % increased chance to be Magic"
+      ],
+      "affixRanges": [
+        "35-70"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Collector\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "% increased Rarity of Items found in Map"
+      ],
+      "affixRanges": [
+        "18-30"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Exiled",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Map is inhabited by 1 additional Rogue Exile"
+      ],
+      "affixRanges": [
+        null
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Appeal",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Favours Deferred at Ritual Altars in Map reappear % sooner"
+      ],
+      "affixRanges": [
+        "25-40"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Antiquarian",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Map contains an additional Strongbox"
+      ],
+      "affixRanges": [
+        null
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Cult",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Revived Monsters from Ritual Altars in Map have % increased chance to be Rare"
+      ],
+      "affixRanges": [
+        "25-40"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Summoner\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Map contains an additional Summoning Circle"
+      ],
+      "affixRanges": [
+        null
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Crystallised",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Map contains an additional Essence \u2014 Unscalable Value"
+      ],
+      "affixRanges": [
+        null
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Cartographer",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        "30-50"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Devoted",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Map contains an additional Shrine"
+      ],
+      "affixRanges": [
+        null
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Occult",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Favours Rerolled at Ritual Altars in Map have % chance to cost no Tribute"
+      ],
+      "affixRanges": [
+        "3-6"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Azmeri\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Map contains 1 additional Azmeri Spirit"
+      ],
+      "affixRanges": [
+        null
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Spirits",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Map has % increased chance to contain Azmeri Spirits"
+      ],
+      "affixRanges": [
+        "70-100"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Exile",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Map has % increased chance to contain Rogue Exiles"
+      ],
+      "affixRanges": [
+        "35-50"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Contest",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Unique Monsters have 1 additional Rare Modifier"
+      ],
+      "affixRanges": [
+        null
+      ]
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Undertaking",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Map has additional random Modifier"
+      ],
+      "affixRanges": [
+        "1-2"
+      ]
+    },
+    {
+      "itemClasses": [
+        "One Hand Maces"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Overpowering",
+      "affixTier": 2,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased Elemental Damage with Attacks"
+      ],
+      "affixRanges": [
+        "73-86"
+      ]
+    },
+    {
+      "itemClasses": [
+        "One Hand Maces"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Lamprey",
+      "affixTier": 2,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Leeches % of Physical Damage as Life"
+      ],
+      "affixRanges": [
+        "8-8.9"
+      ]
+    },
+    {
+      "itemClasses": [
+        "One Hand Maces"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Frigid",
+      "affixTier": 7,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "Adds X to Y Cold Damage"
+      ],
+      "affixRanges": [
+        "X(11-15); Y(17-24)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "One Hand Maces"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Scorching",
+      "affixTier": 5,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "Adds X to Y Fire Damage"
+      ],
+      "affixRanges": [
+        "X(25-33); Y(38-54)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "One Hand Maces"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Infamy",
+      "affixTier": 2,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "% increased Attack Speed"
+      ],
+      "affixRanges": [
+        "23-25"
+      ]
+    },
+    {
+      "itemClasses": [
+        "One Hand Maces"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Stunning",
+      "affixTier": 4,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "% increased Stun Duration"
+      ],
+      "affixRanges": [
+        "17-19"
+      ]
+    },
+    {
+      "itemClasses": [
+        "One Hand Maces"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Radiance",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "\u002B to Accuracy Rating",
+        "% increased Light Radius"
+      ],
+      "affixRanges": [
+        "41-60",
+        "15"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Queen\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Spirit"
+      ],
+      "affixRanges": [
+        "57-61"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Incandescent",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "81-90"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Jagged",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "X to Y Physical Thorns damage"
+      ],
+      "affixRanges": [
+        "X(101-151); Y(146-220)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "",
+      "affixName": "of the Maelstrom",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "31-35"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Bameth",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% to Chaos Resistance"
+      ],
+      "affixRanges": [
+        "24-27"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Salamander",
+      "affixTier": 7,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "11-15"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Durable",
+      "affixTier": 5,
+      "affixTierLevel": 73,
+      "affixStats": [
+        "\u002B to Armour",
+        "\u002B to Evasion Rating"
+      ],
+      "affixRanges": [
+        "54-65",
+        "47-57"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Athlete\u0027s",
+      "affixTier": 5,
+      "affixTierLevel": 73,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "120-149"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Blazing",
+      "affixTier": 5,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "48-60"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Cloud",
+      "affixTier": 8,
+      "affixTierLevel": 72,
+      "affixStats": [
+        "% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "6-10"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "",
+      "affixName": "Queen\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Spirit"
+      ],
+      "affixRanges": [
+        "57-61"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Resplendent",
+      "affixTier": 1,
+      "affixTierLevel": 84,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "91-96"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Unfaltering",
+      "affixTier": 1,
+      "affixTierLevel": 84,
+      "affixStats": [
+        "% increased Energy Shield"
+      ],
+      "affixRanges": [
+        "101-110"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Ephij",
+      "affixTier": 1,
+      "affixTierLevel": 84,
+      "affixStats": [
+        "% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "41-45"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Tzteosh",
+      "affixTier": 1,
+      "affixTierLevel": 84,
+      "affixStats": [
+        "% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "41-45"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of Amanamu",
+      "affixTier": 1,
+      "affixTierLevel": 84,
+      "affixStats": [
+        "% increased Spirit Reservation Efficiency of Skills"
+      ],
+      "affixRanges": [
+        "6-12"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Rapturous",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "190-199"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Edged",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "X to Y Physical Thorns damage"
+      ],
+      "affixRanges": [
+        "X(64-97); Y(97-145)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Scintillating",
+      "affixTier": 2,
+      "affixTierLevel": 83,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "71-79"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Perceptive",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased maximum Mana"
+      ],
+      "affixRanges": [
+        "5-6"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Sorcerer",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Level of all Spell Skills"
+      ],
+      "affixRanges": [
+        "3"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of the Infinite",
+      "affixTier": 1,
+      "affixTierLevel": 83,
+      "affixStats": [
+        "\u002B to all Attributes"
+      ],
+      "affixRanges": [
+        "23-24"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Marchioness\u0027",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Spirit"
+      ],
+      "affixRanges": [
+        "43-46"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Fearless",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "27-32"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Desecrated Prefix Modifier",
+      "affixName": "Kurgal\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield from Equipped Body Armour"
+      ],
+      "affixRanges": [
+        "35-50"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Rainbow",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% to all Elemental Resistances"
+      ],
+      "affixRanges": [
+        "15-16"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Quivers"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Impaling",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Damage with Bow Skills"
+      ],
+      "affixRanges": [
+        "51-59"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Quivers"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Cremating",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "Adds X to Y Fire damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(25-29); Y(37-45)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Quivers"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Electrocuting",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "Adds X to Y Lightning damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(1-4); Y(60-71)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Quivers"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Fletcher",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Level of all Projectile Skills"
+      ],
+      "affixRanges": [
+        "2"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Quivers"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Renown",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Attack Speed"
+      ],
+      "affixRanges": [
+        "14-16"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Quivers"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of Destruction",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Critical Damage Bonus for Attack Damage"
+      ],
+      "affixRanges": [
+        "35-39"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Ultramarine",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "180-189"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Unassailable",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "45-50"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Desecrated Prefix Modifier",
+      "affixName": "Countess\u0027",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Spirit"
+      ],
+      "affixRanges": [
+        "47-50"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Unmaking",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Critical Hit Chance"
+      ],
+      "affixRanges": [
+        "35-38"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Countess\u0027",
+      "affixTier": 1,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Spirit"
+      ],
+      "affixRanges": [
+        "47-50"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Ruin",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Critical Hit Chance"
+      ],
+      "affixRanges": [
+        "30-34"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of Ferocity",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Critical Damage Bonus"
+      ],
+      "affixRanges": [
+        "30-34"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Mnemonic",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased maximum Mana"
+      ],
+      "affixRanges": [
+        "7-8"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Zaffre",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "165-179"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of the Sorcerer",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B (3) to Level of all Spell Skills"
+      ],
+      "affixRanges": [
+        "4"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Destruction",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Critical Damage Bonus"
+      ],
+      "affixRanges": [
+        "35-39"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Heavens",
+      "affixTier": 5,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to all Attributes"
+      ],
+      "affixRanges": [
+        "14-16"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Scholar\u0027s",
+      "affixTier": 4,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Spell Damage"
+      ],
+      "affixRanges": [
+        "13-17"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Euphoria",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Mana Regeneration Rate"
+      ],
+      "affixRanges": [
+        "50-59"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Spectre\u0027s",
+      "affixTier": 5,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Evasion Rating"
+      ],
+      "affixRanges": [
+        "21-26"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Girded",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Armour"
+      ],
+      "affixRanges": [
+        "39-44"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Indomitable",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "39-44"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Nightmare\u0027s",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Evasion Rating"
+      ],
+      "affixRanges": [
+        "39-44"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Sharpshooter",
+      "affixTier": 1,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Level of all Projectile Skills"
+      ],
+      "affixRanges": [
+        "3"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Layered",
+      "affixTier": 6,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Armour"
+      ],
+      "affixRanges": [
+        "15-20"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Sortilege",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Cast Speed"
+      ],
+      "affixRanges": [
+        "21-24"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Kiln",
+      "affixTier": 5,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "21-25"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Lobstered",
+      "affixTier": 5,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Armour"
+      ],
+      "affixRanges": [
+        "21-26"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Sanguine",
+      "affixTier": 7,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "30-39"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Menace",
+      "affixTier": 6,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Critical Hit Chance"
+      ],
+      "affixRanges": [
+        "10-14"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Taskmaster",
+      "affixTier": 3,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Level of all Minion Skills"
+      ],
+      "affixRanges": [
+        "1"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Sky",
+      "affixTier": 8,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to all Attributes"
+      ],
+      "affixRanges": [
+        "5-7"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Hydra",
+      "affixTier": 6,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "Life Regeneration per second"
+      ],
+      "affixRanges": [
+        "6.1-9"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Dauntless",
+      "affixTier": 3,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "33-38"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Beryl",
+      "affixTier": 13,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "10-14"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Optimistic",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased maximum Life"
+      ],
+      "affixRanges": [
+        "5-6"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Azure",
+      "affixTier": 11,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "25-34"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Strong-Willed",
+      "affixTier": 6,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "15-20"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Incanter\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Spell Damage"
+      ],
+      "affixRanges": [
+        "27-30"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Viscountess\u0027",
+      "affixTier": 3,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Spirit"
+      ],
+      "affixRanges": [
+        "38-42"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Enchanter",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Level of all Spell Skills"
+      ],
+      "affixRanges": [
+        "2"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Kaleidoscope",
+      "affixTier": 4,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% to all Elemental Resistances"
+      ],
+      "affixRanges": [
+        "9-11"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Serenity",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% of Damage taken Recouped as Mana"
+      ],
+      "affixRanges": [
+        "19-21"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Suturing",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% of Damage taken Recouped as Life"
+      ],
+      "affixRanges": [
+        "19-21"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Apprentice\u0027s",
+      "affixTier": 6,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Spell Damage"
+      ],
+      "affixRanges": [
+        "3-7"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Multiverse",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to all Attributes"
+      ],
+      "affixRanges": [
+        "21-22"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Lady\u0027s",
+      "affixTier": 5,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Spirit"
+      ],
+      "affixRanges": [
+        "30-33"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Radiating",
+      "affixTier": 6,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "34-41"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Pulsing",
+      "affixTier": 5,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "42-51"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Augur",
+      "affixTier": 5,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "17-20"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Glimmering",
+      "affixTier": 9,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "15-20"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Healthy",
+      "affixTier": 8,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "20-29"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Phantasm\u0027s",
+      "affixTier": 3,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Evasion Rating"
+      ],
+      "affixRanges": [
+        "33-38"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Havoc",
+      "affixTier": 5,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Critical Hit Chance"
+      ],
+      "affixRanges": [
+        "15-19"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Gentian",
+      "affixTier": 6,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "90-104"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Merciless",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Physical Damage"
+      ],
+      "affixRanges": [
+        "170-179"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Desecrated Prefix Modifier",
+      "affixName": "Kurgal\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Empowered Attacks deal % increased Damage"
+      ],
+      "affixRanges": [
+        "86-99"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Polar",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Adds X to Y Cold Damage"
+      ],
+      "affixRanges": [
+        "X(60-80); Y(92-121)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Unmaking",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% to Critical Hit Chance"
+      ],
+      "affixRanges": [
+        "4.41-5"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Essence",
+      "affixTier": 0,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% chance to gain Onslaught on Killing Hits with this Weapon"
+      ],
+      "affixRanges": [
+        "20-25"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Essence",
+      "affixTier": 0,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Level of all Attack Skills"
+      ],
+      "affixRanges": [
+        "5"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Flaring",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Adds X to Y Physical Damage"
+      ],
+      "affixRanges": [
+        "X(37-55); Y(63-94)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Desecrated Prefix Modifier",
+      "affixName": "Dictator\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Physical Damage",
+        "\u002B to Accuracy Rating"
+      ],
+      "affixRanges": [
+        "75-79",
+        "175-200"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of War",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B (7) to Level of all Melee Skills"
+      ],
+      "affixRanges": [
+        "8"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Celebration",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Attack Speed"
+      ],
+      "affixRanges": [
+        "26-28"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Dictator\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Physical Damage",
+        "\u002B to Accuracy Rating"
+      ],
+      "affixRanges": [
+        "75-79",
+        "175-200"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of Unmaking",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% to Critical Hit Chance"
+      ],
+      "affixRanges": [
+        "4.41-5"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of War",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Level of all Melee Skills"
+      ],
+      "affixRanges": [
+        "7"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of Celebration",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Attack Speed"
+      ],
+      "affixRanges": [
+        "26-28"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Vapourising",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "Adds X to Y Lightning Damage"
+      ],
+      "affixRanges": [
+        "X(1-19); Y(310-358)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Crystalising",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "Adds X to Y Cold Damage"
+      ],
+      "affixRanges": [
+        "X(112-124); Y(168-189)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Talismans"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Carbonising",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "Adds X to Y Fire Damage"
+      ],
+      "affixRanges": [
+        "X(135-156); Y(205-236)"
+      ]
+    }
+  ]
+}

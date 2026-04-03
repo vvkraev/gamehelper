@@ -12,13 +12,18 @@ public sealed class CraftRunFileLog : IDisposable
     private ChaosCraftResult _result = ChaosCraftResult.Error;
     private string? _note;
     private bool _disposed;
+    private int _cellIndex;
+    private int _cellTotal;
 
     public static CraftRunFileLog Begin(
+        string orbLabel,
         ScreenRect orb,
+        ScreenRect? orb2,
+        string? orb2Label,
         ScreenRect item,
         int maxOps,
-        string affixPattern,
-        int minRoll)
+        string conditionSummary,
+        IReadOnlyList<ScreenRect>? allItemCells = null)
     {
         var logDir = GameHelper.ProjectPaths.GetLogDirectory();
         var start = DateTime.Now;
@@ -27,19 +32,37 @@ public sealed class CraftRunFileLog : IDisposable
         var w = new StreamWriter(stream, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)) { AutoFlush = true };
 
         w.WriteLine($"=== Запуск крафта {start:yyyy-MM-dd HH:mm:ss} ===");
-        w.WriteLine($"Максимум операций (N): {maxOps}");
-        w.WriteLine($"Область Chaos Orb: X={orb.X}, Y={orb.Y}, W={orb.Width}, H={orb.Height}");
-        w.WriteLine($"Область предмета: X={item.X}, Y={item.Y}, W={item.Width}, H={item.Height}");
-        w.WriteLine($"Шаблон аффикса: {QuoteMultiline(affixPattern)}");
-        w.WriteLine(affixPattern.Contains('n', StringComparison.Ordinal)
-            ? $"Минимальное значение числа на месте «n»: {minRoll}"
-            : "Режим без «n»: проверка вхождения подстроки (порог min не используется).");
+        w.WriteLine($"Общий лимит операций (N) на всю сессию (все ячейки): {maxOps}");
+        w.WriteLine($"Область {orbLabel}: X={orb.X}, Y={orb.Y}, W={orb.Width}, H={orb.Height}");
+        if (orb2 is { } o2)
+            w.WriteLine($"Область {orb2Label ?? "Orb2"}: X={o2.X}, Y={o2.Y}, W={o2.Width}, H={o2.Height}");
+        w.WriteLine($"Область предмета (первая ячейка): X={item.X}, Y={item.Y}, W={item.Width}, H={item.Height}");
+        if (allItemCells is { Count: > 1 })
+        {
+            w.WriteLine($"Ячеек предмета (по порядку обхода): {allItemCells.Count}");
+            for (var i = 0; i < allItemCells.Count; i++)
+            {
+                var c = allItemCells[i];
+                w.WriteLine($"  #{i + 1}: X={c.X}, Y={c.Y}, W={c.Width}, H={c.Height}");
+            }
+        }
+
+        w.WriteLine("Условие остановки (разбор предмета, ItemParser):");
+        w.WriteLine(string.IsNullOrWhiteSpace(conditionSummary) ? "(не задано)" : QuoteMultiline(conditionSummary));
         w.WriteLine();
         w.WriteLine("--- Сравнения по попыткам ---");
         w.WriteLine();
 
         return new CraftRunFileLog(wip, start, w);
     }
+
+    public static CraftRunFileLog Begin(
+        ScreenRect orb,
+        ScreenRect item,
+        int maxOps,
+        string conditionSummary,
+        IReadOnlyList<ScreenRect>? allItemCells = null) =>
+        Begin("Chaos Orb", orb, null, null, item, maxOps, conditionSummary, allItemCells);
 
     private CraftRunFileLog(string wipPath, DateTime runStart, StreamWriter writer)
     {
@@ -48,32 +71,34 @@ public sealed class CraftRunFileLog : IDisposable
         _writer = writer;
     }
 
+    public void SetCurrentCell(int cellIndex1Based, int cellTotal)
+    {
+        _cellIndex = Math.Max(0, cellIndex1Based);
+        _cellTotal = Math.Max(0, cellTotal);
+    }
+
     /// <summary>Запись одной итерации: буфер, шаблон, порог, пояснение, успех.</summary>
     public void WriteComparison(
         int attempt,
         int maxOps,
         string clipboardRaw,
-        string affixPattern,
-        int minRoll,
+        string conditionSummary,
         bool success,
         string explanation)
     {
         _writer.WriteLine($"========== Попытка {attempt} / {maxOps} | {DateTime.Now:yyyy-MM-dd HH:mm:ss} ==========");
-        _writer.WriteLine("Шаблон аффикса:");
-        _writer.WriteLine(string.IsNullOrWhiteSpace(affixPattern) ? "(пусто)" : affixPattern);
-        _writer.WriteLine(affixPattern.Contains('n', StringComparison.Ordinal)
-            ? $"Минимальный порог числа (min): {minRoll}"
-            : "Режим подстроки (без n).");
+        if (_cellIndex > 0 && _cellTotal > 0)
+            _writer.WriteLine($"Ячейка: {_cellIndex} / {_cellTotal}");
+        _writer.WriteLine("Условие:");
+        _writer.WriteLine(string.IsNullOrWhiteSpace(conditionSummary) ? "(пусто)" : conditionSummary);
         _writer.WriteLine();
-        _writer.WriteLine("Содержимое буфера обмена после Ctrl+C:");
+        _writer.WriteLine("Содержимое буфера обмена после Ctrl+Alt+C:");
         _writer.WriteLine(clipboardRaw.Length == 0 ? "(пусто — текста нет или не текстовый формат)" : clipboardRaw);
         _writer.WriteLine();
         _writer.WriteLine("Пояснение проверки:");
         _writer.WriteLine(explanation);
         _writer.WriteLine();
-        _writer.WriteLine(success
-            ? "Итог попытки: УСПЕХ — условие остановки выполнено."
-            : "Итог попытки: условие не выполнено — крафт продолжается.");
+        _writer.WriteLine(success ? "true" : "false");
         _writer.WriteLine();
     }
 

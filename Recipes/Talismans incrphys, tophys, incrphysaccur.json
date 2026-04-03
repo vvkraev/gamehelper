@@ -1,0 +1,94 @@
+{
+  "name": "Talismans incrphys, tophys, incrphysaccur",
+  "savedAt": "2026-04-02T19:58:11.6507292+03:00",
+  "craftMode": "\u042D\u043A\u0437\u0430\u043B\u044C\u0442",
+  "plan": {
+    "expectedItemClass": "Talismans",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "single",
+            "single": {
+              "affixType": "Prefix Modifier",
+              "affixName": "",
+              "affixTier": 0,
+              "statTemplate": "% increased Physical Damage",
+              "minRoll": 170,
+              "minRolls": [
+                170
+              ]
+            },
+            "sum": null,
+            "count": null,
+            "whole": null
+          },
+          {
+            "kind": "single",
+            "single": {
+              "affixType": "Prefix Modifier",
+              "affixName": "",
+              "affixTier": 0,
+              "statTemplate": "Adds X to Y Physical Damage",
+              "minRoll": 0,
+              "minRolls": [
+                37,
+                63
+              ]
+            },
+            "sum": null,
+            "count": null,
+            "whole": null
+          }
+        ]
+      },
+      {
+        "clauses": [
+          {
+            "kind": "single",
+            "single": {
+              "affixType": "Prefix Modifier",
+              "affixName": "",
+              "affixTier": 0,
+              "statTemplate": "% increased Physical Damage",
+              "minRoll": 170,
+              "minRolls": [
+                170
+              ]
+            },
+            "sum": null,
+            "count": null,
+            "whole": null
+          },
+          {
+            "kind": "wholeModifier",
+            "single": null,
+            "sum": null,
+            "count": null,
+            "whole": {
+              "affixType": "Desecrated Prefix Modifier",
+              "affixName": "Dictator\u0027s",
+              "affixTier": 1,
+              "lines": [
+                {
+                  "statTemplate": "% increased Physical Damage",
+                  "minRoll": 75,
+                  "minRolls": [
+                    75
+                  ]
+                },
+                {
+                  "statTemplate": "\u002B to Accuracy Rating",
+                  "minRoll": 170,
+                  "minRolls": [
+                    170
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

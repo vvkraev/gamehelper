@@ -1,0 +1,186 @@
+{
+  "name": "\u0420\u0438\u0442\u0443\u0430\u043B\u044C\u043D\u044B\u0435 \u0442\u0430\u0431\u043B\u0438\u0447\u043A\u0438 \u043F\u043E\u0434 \u0445\u0430\u043E\u0441",
+  "savedAt": "2026-03-31T19:21:30.009677+03:00",
+  "plan": {
+    "expectedItemClass": "Tablet",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "single",
+            "single": {
+              "affixType": "Suffix Modifier",
+              "affixName": "",
+              "affixTier": 0,
+              "statTemplate": "Ritual Altars in Map allow rerolling Favours additional times",
+              "minRoll": 1,
+              "minRolls": [
+                1
+              ]
+            },
+            "sum": null,
+            "count": null
+          }
+        ]
+      },
+      {
+        "clauses": [
+          {
+            "kind": "single",
+            "single": {
+              "affixType": "Suffix Modifier",
+              "affixName": "",
+              "affixTier": 0,
+              "statTemplate": "Rerolling Favours at Ritual Altars in Map costs % reduced Tribute",
+              "minRoll": 1,
+              "minRolls": [
+                1
+              ]
+            },
+            "sum": null,
+            "count": null
+          },
+          {
+            "kind": "single",
+            "single": {
+              "affixType": "Suffix Modifier",
+              "affixName": "",
+              "affixTier": 0,
+              "statTemplate": "Deferring Favours at Ritual Altars in Map costs % reduced Tribute",
+              "minRoll": 1,
+              "minRolls": [
+                1
+              ]
+            },
+            "sum": null,
+            "count": null
+          }
+        ]
+      },
+      {
+        "clauses": [
+          {
+            "kind": "count",
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 4,
+              "members": [
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "Monsters have % increased Effectiveness",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "% increased Pack Size in Map",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "Map has % increased Magic Monsters",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "Map has % increased number of Rare Monsters",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "Deferring Favours at Ritual Altars in Map costs % reduced Tribute",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "Monsters Sacrificed at Ritual Altars in Map grant % increased Tribute",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "Rerolling Favours at Ritual Altars in Map costs % reduced Tribute",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "Revived Monsters from Ritual Altars in Map have % increased chance to be Magic",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "Revived Monsters from Ritual Altars in Map have % increased chance to be Rare",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "Ritual Altars in Map allow rerolling Favours additional times",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "",
+                  "affixTier": 0,
+                  "statTemplate": "Ritual Favours in Map have % increased chance to be Omens",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  }
+}

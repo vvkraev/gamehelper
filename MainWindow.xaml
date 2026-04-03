@@ -5,80 +5,284 @@
         Height="620"
         Width="520"
         MinHeight="440"
-        MinWidth="480">
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="16" HorizontalAlignment="Stretch">
+        MinWidth="480"
+        Topmost="True"
+        ShowActivated="False"
+        PreviewKeyDown="MainWindow_OnPreviewKeyDown">
+    <TabControl x:Name="MainTabs" Margin="12">
+        <TabItem x:Name="TabRegionSettings" Header="Настройки областей">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="16" HorizontalAlignment="Stretch">
+                    <Expander x:Name="CurrencyExpander" Header="Currency" IsExpanded="True" Margin="0,0,0,14">
+                        <StackPanel Margin="0,0,0,6">
+                            <TextBlock Text="Клик по маркеру на карте откроет выбор области (при выключенном «режиме разметки»)." Margin="0,0,0,8" Foreground="#444"/>
 
-            <TextBlock Text="Область Chaos Orb" FontWeight="SemiBold" Margin="0,0,0,4"/>
-            <TextBlock x:Name="OrbInfo"
-                       Text="не задана — нажмите кнопку ниже"
-                       TextWrapping="Wrap"
-                       Margin="0,0,0,6"
-                       Foreground="#555"/>
-            <Button x:Name="PickOrbBtn"
-                    Content="Задать область (Chaos Orb)…"
-                    HorizontalAlignment="Left"
-                    Padding="12,6"
-                    Margin="0,0,0,12"
-                    Click="PickOrbBtn_OnClick"/>
+                            <CheckBox x:Name="CurrencyMapEditModeCheckBox"
+                                      Content="Режим разметки: выбери маркер ниже → кликни по карте, чтобы поставить его." Margin="0,0,0,10"/>
 
-            <TextBlock Text="Область предмета" FontWeight="SemiBold" Margin="0,0,0,4"/>
-            <TextBlock x:Name="ItemInfo"
-                       Text="не задана — нажмите кнопку ниже"
-                       TextWrapping="Wrap"
-                       Margin="0,0,0,6"
-                       Foreground="#555"/>
-            <Button x:Name="PickItemBtn"
-                    Content="Задать область (предмет)…"
-                    HorizontalAlignment="Left"
-                    Padding="12,6"
-                    Margin="0,0,0,12"
-                    Click="PickItemBtn_OnClick"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <TextBlock Text="Активный маркер:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <ComboBox x:Name="CurrencyActiveMarkerComboBox" Width="260" SelectedIndex="0"/>
+                            </StackPanel>
 
-            <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4"
-                       Text="Шаблон аффикса (в буфере после Ctrl+C). Символ n — место для цифр, например «+n to all skill gem»"/>
-            <TextBox x:Name="AffixPattern" Margin="0,0,0,6" AcceptsReturn="False"/>
+                            <TextBlock x:Name="CurrencyMapClickCoordsText"
+                                       Text="Координаты клика: —"
+                                       Foreground="#555"
+                                       Margin="0,0,0,10"
+                                       TextWrapping="Wrap"/>
 
-            <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4"
-                       Text="Минимальное число на месте n (если в шаблоне есть n; иначе не используется)"/>
-            <TextBox x:Name="MinRoll" Margin="0,0,0,12" Text="0"/>
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="0,0,0,10">
+                                <Grid>
+                                    <Image x:Name="CurrencyMapImage" Stretch="None"/>
+                                    <Canvas x:Name="CurrencyMapCanvas" Background="Transparent"/>
+                                </Grid>
+                            </ScrollViewer>
 
-            <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4"
-                       Text="Задержка после перемещения мыши и после клика, мс (одно значение для всех шагов Move, ЛКМ, ПКМ)"/>
-            <TextBox x:Name="MouseActionDelayMs" Margin="0,0,0,12" Text="80"/>
+                            <TextBlock Text="Сохранённые области (ScreenRect):" FontWeight="SemiBold" Margin="0,10,0,6"/>
 
-            <TextBlock Text="Задержка после Ctrl+C перед чтением буфера, мс" FontWeight="SemiBold" Margin="0,0,0,4"/>
-            <TextBox x:Name="ClipboardDelayMs" Margin="0,0,0,12" Text="220"/>
+                            <TextBlock Text="Область Chaos Orb" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="OrbInfo"
+                                       Text="не задана — кликни по маркеру"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,12"
+                                       Foreground="#555"/>
 
-            <TextBlock Text="Максимум операций (N)" FontWeight="SemiBold" Margin="0,0,0,4"/>
-            <TextBox x:Name="MaxOps" Margin="0,0,0,12" Text="20"/>
+                            <TextBlock Text="Область Orb of Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="ExaltInfo"
+                                       Text="не задана — кликни по маркеру"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,12"
+                                       Foreground="#555"/>
 
-            <CheckBox x:Name="TraceInputCheckBox"
-                      Margin="0,0,0,8"
-                      Content="Подробный лог ввода (отладка: шаги мыши/клавиш и позиция курсора)"
-                      ToolTip="Включите и смотрите окно лога или файл Log/session_… после закрытия приложения. Рекомендуется запуск отладки F5 из Cursor."/>
+                            <TextBlock Text="Область Orb of Augmentation" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="AugInfo"
+                                       Text="не задана — кликни по маркеру"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,12"
+                                       Foreground="#555"/>
 
-            <CheckBox x:Name="StepConfirmCheckBox"
-                      Margin="0,0,0,8"
-                      Content="Пошаговое подтверждение: окно после каждого действия (Enter = Продолжить)"
-                      ToolTip="Для отладки. Закрытие окна крестиком отменяет цикл (Стоп). В бою с игрой обычно выключено."/>
+                            <TextBlock Text="Область Orb of Annulment" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="AnnulInfo"
+                                       Text="не задана — кликни по маркеру"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,12"
+                                       Foreground="#555"/>
 
-            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                <Button x:Name="StartBtn" Content="Старт" Width="100" Margin="0,0,8,0" Click="StartBtn_OnClick"/>
-                <Button x:Name="StopBtn" Content="Стоп" Width="100" IsEnabled="False" Click="StopBtn_OnClick"/>
-            </StackPanel>
+                            <TextBlock Text="Заточка" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="SharpenInfo"
+                                       Text="не задана — кликни по маркеру"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,2"
+                                       Foreground="#555"/>
+                        </StackPanel>
+                    </Expander>
 
-            <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4">
-                Лог в окне; полный лог крафта (буфер vs строка пользователя) — файл в папке Log проекта после каждого «Старт». Сессионный лог — при закрытии приложения.
-            </TextBlock>
-            <TextBox x:Name="LogBox"
-                     MinHeight="160"
-                     IsReadOnly="True"
-                     VerticalScrollBarVisibility="Auto"
-                     HorizontalScrollBarVisibility="Auto"
-                     TextWrapping="Wrap"
-                     FontFamily="Consolas"
-                     SnapsToDevicePixels="True"/>
-        </StackPanel>
-    </ScrollViewer>
+                    <Expander x:Name="RitualExpander" Header="Ritual" IsExpanded="True">
+                        <StackPanel Margin="0,0,0,6">
+                            <TextBlock Text="Клик по маркеру на карте откроет выбор области (при выключенном «режиме разметки»)." Margin="0,0,0,8" Foreground="#444"/>
+
+                            <CheckBox x:Name="RitualMapEditModeCheckBox"
+                                      Content="Режим разметки: выбери маркер ниже → кликни по карте, чтобы поставить его." Margin="0,0,0,10"/>
+
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <TextBlock Text="Активный маркер:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <ComboBox x:Name="RitualActiveMarkerComboBox" Width="260" SelectedIndex="0"/>
+                            </StackPanel>
+
+                            <TextBlock x:Name="RitualMapClickCoordsText"
+                                       Text="Координаты клика: —"
+                                       Foreground="#555"
+                                       Margin="0,0,0,10"
+                                       TextWrapping="Wrap"/>
+
+                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="0,0,0,10">
+                                <Grid>
+                                    <Image x:Name="RitualMapImage" Stretch="None"/>
+                                    <Canvas x:Name="RitualMapCanvas" Background="Transparent"/>
+                                </Grid>
+                            </ScrollViewer>
+
+                            <TextBlock Text="Сохранённые области (ScreenRect/ячейки):" FontWeight="SemiBold" Margin="0,10,0,6"/>
+
+                            <TextBlock Text="Omen of Sinistral Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="OmenSinistralInfo"
+                                       Text="не задана — кликни по маркеру"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,12"
+                                       Foreground="#555"/>
+
+                            <TextBlock Text="Omen of Dextral Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="OmenDextralInfo"
+                                       Text="не задана — кликни по маркеру"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,12"
+                                       Foreground="#555"/>
+
+                            <TextBlock Text="Omen of Greater Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="OmenGreaterInfo"
+                                       Text="не задана — кликни по маркеру"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,2"
+                                       Foreground="#555"/>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <TabItem x:Name="TabCraft" Header="Крафт">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="16" HorizontalAlignment="Stretch">
+                    <TextBlock Text="Область предмета" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBlock x:Name="ItemInfo"
+                               Text="не задана — сначала X×Y сетки, затем выделение области"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,6"
+                               Foreground="#555"/>
+                    <Button x:Name="PickItemBtn"
+                            Content="Задать область (предмет)…"
+                            HorizontalAlignment="Left"
+                            Padding="12,6"
+                            Margin="0,0,0,12"
+                            Click="PickItemBtn_OnClick"/>
+                    <Button x:Name="ItemParsingBtn"
+                            Content="Распарсить предмет"
+                            HorizontalAlignment="Left"
+                            Padding="12,6"
+                            Margin="0,0,0,6"
+                            Click="ItemParsing_OnClick"/>
+
+                    <Button x:Name="ReloadAffixLibraryBtn"
+                            Content="Перезагрузить библиотеку аффиксов из файла…"
+                            HorizontalAlignment="Left"
+                            Padding="12,6"
+                            Margin="0,0,0,12"
+                            Click="ReloadAffixLibrary_OnClick"
+                            ToolTip="Файл affix_library.json в папке проекта (рядом с .csproj). Можно править в блокноте."/>
+
+                    <TextBlock Text="Режим крафта" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <ComboBox x:Name="CraftModeCombo"
+                              Margin="0,0,0,12"
+                              SelectedIndex="0">
+                        <ComboBoxItem Content="Хаос"/>
+                        <ComboBoxItem Content="Экзальт"/>
+                        <ComboBoxItem Content="Ауг+Аннул"/>
+                        <ComboBoxItem Content="Заточка"/>
+                    </ComboBox>
+
+                    <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4"
+                               Text="Условие остановки крафта (affix_library.json, класс предмета внутри условия)"/>
+                    <TextBlock x:Name="CraftConditionSummary"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,8"
+                               Foreground="#333"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button x:Name="CraftConditionBtn"
+                                Content="Настроить условие…"
+                                Padding="12,6"
+                                Click="CraftConditionBtn_OnClick"/>
+                        <Button x:Name="ClearCraftConditionBtn" Content="Очистить условие"
+                                Padding="12,6"
+                                Margin="12,0,0,0"
+                                Click="ClearCraftCondition_OnClick"
+                                ToolTip="Сбросить текущее условие остановки крафта (класс + все И/ИЛИ-ветки)."/>
+                        <Button x:Name="CopyCraftConditionForReportBtn" Content="Копировать для отчёта…"
+                                Padding="12,6"
+                                Margin="12,0,0,0"
+                                Click="CopyCraftConditionForReport_OnClick"
+                                ToolTip="Краткий текст и JSON условия в буфер обмена — можно вставить в сообщение об ошибке или в чат."/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button x:Name="SaveRecipeBtn" Content="Сохранить рецепт…"
+                                Padding="12,6"
+                                Click="SaveRecipe_OnClick"
+                                ToolTip="Сохранить текущее условие крафта в отдельный файл (папка Recipes рядом с проектом)."/>
+                        <Button x:Name="LoadRecipeBtn" Content="Загрузить рецепт…"
+                                Padding="12,6"
+                                Margin="12,0,0,0"
+                                Click="LoadRecipe_OnClick"
+                                ToolTip="Загрузить условие крафта из файла рецепта (заменит текущее условие в программе)."/>
+                    </StackPanel>
+
+                    <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4"
+                               Text="Максимум операций (N) — общий на всю сессию (все ячейки сетки)"/>
+                    <TextBox x:Name="MaxOps" Margin="0,0,0,12" Text="20"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button x:Name="StartBtn" Content="Старт" Width="100" Margin="0,0,8,0" Click="StartBtn_OnClick"/>
+                        <Button x:Name="StopBtn"
+                                Content="Стоп"
+                                Width="100"
+                                IsEnabled="False"
+                                Click="StopBtn_OnClick"
+                                ToolTip="Прервать крафт. Во время сессии крафта Esc зарегистрирован глобально (работает без фокуса на этом окне и в трее)."/>
+                    </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <TabItem x:Name="TabAppSettings" Header="Настройки приложения">
+            <Grid Margin="16">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+
+                <TextBlock Grid.Row="0"
+                           TextWrapping="Wrap"
+                           FontWeight="SemiBold"
+                           Margin="0,0,0,4"
+                           Text="Задержка после перемещения мыши и после клика, мс (одно значение для всех шагов Move, ЛКМ, ПКМ)"/>
+                <TextBox Grid.Row="1" x:Name="MouseActionDelayMs" Margin="0,0,0,12" Text="80"/>
+
+                <TextBlock Grid.Row="2" Text="Задержка после Ctrl+Alt+C перед чтением буфера, мс" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <TextBox Grid.Row="3" x:Name="ClipboardDelayMs" Margin="0,0,0,12" Text="220"/>
+
+                <StackPanel Grid.Row="4" Margin="0,0,0,12">
+                    <CheckBox x:Name="TraceInputCheckBox"
+                              Margin="0,0,0,8"
+                              Content="Подробный лог ввода (отладка: шаги мыши/клавиш и позиция курсора)"
+                              ToolTip="Включите и смотрите окно лога или файл Log/session_… после закрытия приложения. Рекомендуется запуск отладки F5 из Cursor."/>
+
+                    <CheckBox x:Name="StepConfirmCheckBox"
+                              Margin="0,0,0,0"
+                              Content="Пошаговое подтверждение: окно после каждого действия (Enter = Продолжить)"
+                              ToolTip="Для отладки. Закрытие окна крестиком отменяет цикл (Стоп). В бою с игрой обычно выключено."/>
+
+                    <CheckBox x:Name="KillPoeAfterCraftCheckBox"
+                              Margin="0,8,0,0"
+                              Content="Завершить процесс PathOfExileSteam.exe после завершения крафта"
+                              ToolTip="Не сохраняется. Если включено — после завершения крафта по любой причине будет выполнено завершение процесса игры."/>
+                </StackPanel>
+
+                <StackPanel Grid.Row="5">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button x:Name="MinimizeToTrayBtn"
+                                Content="В трей"
+                                Width="90"
+                                Margin="0,0,0,0"
+                                Click="MinimizeToTray_OnClick"
+                                ToolTip="Скрыть окно в область уведомлений (иконка у часов). ПКМ по иконке — меню."/>
+                    </StackPanel>
+
+                    <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4">
+                        Лог в окне; полный лог крафта (буфер vs строка пользователя) — файл в папке Log проекта после каждого «Старт». Сессионный лог — при закрытии приложения.
+                    </TextBlock>
+                    <TextBox x:Name="LogBox"
+                             MinHeight="160"
+                             IsReadOnly="True"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto"
+                             TextWrapping="Wrap"
+                             FontFamily="Consolas"
+                             SnapsToDevicePixels="True"/>
+                </StackPanel>
+            </Grid>
+        </TabItem>
+    </TabControl>
 </Window>
