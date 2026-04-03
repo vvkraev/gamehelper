@@ -11,6 +11,9 @@ public sealed class AppSettings
     public ScreenRect AnnulRect { get; set; }
     public ScreenRect SharpenRect { get; set; }
 
+    public ScreenRect CurrencyInventoryRect { get; set; }
+    public ScreenRect RitualInventoryRect { get; set; }
+
     public ScreenRect OmenSinistralRect { get; set; }
     public List<ScreenRect>? OmenSinistralCells { get; set; }
 
@@ -19,6 +22,11 @@ public sealed class AppSettings
 
     public ScreenRect OmenGreaterRect { get; set; }
     public List<ScreenRect>? OmenGreaterCells { get; set; }
+
+    /// <summary>Область в инвентаре для кликов по Stash у соответствующего омена (прямоугольник).</summary>
+    public ScreenRect OmenSinistralStashRect { get; set; }
+    public ScreenRect OmenDextralStashRect { get; set; }
+    public ScreenRect OmenGreaterStashRect { get; set; }
 
     public ScreenRect ItemRect { get; set; }
 

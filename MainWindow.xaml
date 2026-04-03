@@ -14,118 +14,187 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="16" HorizontalAlignment="Stretch">
                     <Expander x:Name="CurrencyExpander" Header="Currency" IsExpanded="True" Margin="0,0,0,14">
-                        <StackPanel Margin="0,0,0,6">
-                            <TextBlock Text="Клик по маркеру на карте откроет выбор области (при выключенном «режиме разметки»)." Margin="0,0,0,8" Foreground="#444"/>
-
-                            <CheckBox x:Name="CurrencyMapEditModeCheckBox"
-                                      Content="Режим разметки: выбери маркер ниже → кликни по карте, чтобы поставить его." Margin="0,0,0,10"/>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                <TextBlock Text="Активный маркер:" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                <ComboBox x:Name="CurrencyActiveMarkerComboBox" Width="260" SelectedIndex="0"/>
-                            </StackPanel>
-
-                            <TextBlock x:Name="CurrencyMapClickCoordsText"
-                                       Text="Координаты клика: —"
-                                       Foreground="#555"
-                                       Margin="0,0,0,10"
-                                       TextWrapping="Wrap"/>
-
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="0,0,0,10">
-                                <Grid>
-                                    <Image x:Name="CurrencyMapImage" Stretch="None"/>
-                                    <Canvas x:Name="CurrencyMapCanvas" Background="Transparent"/>
-                                </Grid>
-                            </ScrollViewer>
-
-                            <TextBlock Text="Сохранённые области (ScreenRect):" FontWeight="SemiBold" Margin="0,10,0,6"/>
+                        <StackPanel x:Name="CurrencyExpanderContent" Margin="0,0,0,0">
+                            <TextBlock Text="Вкладка инвентаря Currency" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="CurrencyInventoryInfo"
+                                       Text="не задана — нажмите кнопку ниже"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,6"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickCurrencyInventoryBtn"
+                                    Content="Задать область (вкладка инвентаря Currency)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,12"
+                                    Click="PickCurrencyInventoryBtn_OnClick"/>
 
                             <TextBlock Text="Область Chaos Orb" FontWeight="SemiBold" Margin="0,0,0,4"/>
                             <TextBlock x:Name="OrbInfo"
-                                       Text="не задана — кликни по маркеру"
+                                       Text="не задана — нажмите кнопку ниже"
                                        TextWrapping="Wrap"
-                                       Margin="0,0,0,12"
+                                       Margin="0,0,0,6"
                                        Foreground="#555"/>
+                            <Button x:Name="PickOrbBtn"
+                                    Content="Задать область (Chaos Orb)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,12"
+                                    Click="PickOrbBtn_OnClick"/>
 
                             <TextBlock Text="Область Orb of Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
                             <TextBlock x:Name="ExaltInfo"
-                                       Text="не задана — кликни по маркеру"
+                                       Text="не задана — нажмите кнопку ниже"
                                        TextWrapping="Wrap"
-                                       Margin="0,0,0,12"
+                                       Margin="0,0,0,6"
                                        Foreground="#555"/>
-
-                            <TextBlock Text="Область Orb of Augmentation" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <TextBlock x:Name="AugInfo"
-                                       Text="не задана — кликни по маркеру"
-                                       TextWrapping="Wrap"
-                                       Margin="0,0,0,12"
-                                       Foreground="#555"/>
+                            <Button x:Name="PickExaltBtn"
+                                    Content="Задать область (Orb of Exaltation)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,12"
+                                    Click="PickExaltBtn_OnClick"/>
 
                             <TextBlock Text="Область Orb of Annulment" FontWeight="SemiBold" Margin="0,0,0,4"/>
                             <TextBlock x:Name="AnnulInfo"
-                                       Text="не задана — кликни по маркеру"
+                                       Text="не задана — нажмите кнопку ниже"
                                        TextWrapping="Wrap"
-                                       Margin="0,0,0,12"
+                                       Margin="0,0,0,6"
                                        Foreground="#555"/>
+                            <Button x:Name="PickAnnulBtn"
+                                    Content="Задать область (Orb of Annulment)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,12"
+                                    Click="PickAnnulBtn_OnClick"/>
+
+                            <TextBlock Text="Область Orb of Augmentation" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="AugInfo"
+                                       Text="не задана — нажмите кнопку ниже"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,6"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickAugBtn"
+                                    Content="Задать область (Orb of Augmentation)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,12"
+                                    Click="PickAugBtn_OnClick"/>
 
                             <TextBlock Text="Заточка" FontWeight="SemiBold" Margin="0,0,0,4"/>
                             <TextBlock x:Name="SharpenInfo"
-                                       Text="не задана — кликни по маркеру"
+                                       Text="не задана — нажмите кнопку ниже"
                                        TextWrapping="Wrap"
-                                       Margin="0,0,0,2"
+                                       Margin="0,0,0,6"
                                        Foreground="#555"/>
+                            <Button x:Name="PickSharpenBtn"
+                                    Content="Задать область (заточка)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,12"
+                                    Click="PickSharpenBtn_OnClick"/>
                         </StackPanel>
                     </Expander>
 
                     <Expander x:Name="RitualExpander" Header="Ritual" IsExpanded="True">
-                        <StackPanel Margin="0,0,0,6">
-                            <TextBlock Text="Клик по маркеру на карте откроет выбор области (при выключенном «режиме разметки»)." Margin="0,0,0,8" Foreground="#444"/>
-
-                            <CheckBox x:Name="RitualMapEditModeCheckBox"
-                                      Content="Режим разметки: выбери маркер ниже → кликни по карте, чтобы поставить его." Margin="0,0,0,10"/>
-
-                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                <TextBlock Text="Активный маркер:" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                <ComboBox x:Name="RitualActiveMarkerComboBox" Width="260" SelectedIndex="0"/>
-                            </StackPanel>
-
-                            <TextBlock x:Name="RitualMapClickCoordsText"
-                                       Text="Координаты клика: —"
-                                       Foreground="#555"
-                                       Margin="0,0,0,10"
-                                       TextWrapping="Wrap"/>
-
-                            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled" Margin="0,0,0,10">
-                                <Grid>
-                                    <Image x:Name="RitualMapImage" Stretch="None"/>
-                                    <Canvas x:Name="RitualMapCanvas" Background="Transparent"/>
-                                </Grid>
-                            </ScrollViewer>
-
-                            <TextBlock Text="Сохранённые области (ScreenRect/ячейки):" FontWeight="SemiBold" Margin="0,10,0,6"/>
-
-                            <TextBlock Text="Omen of Sinistral Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <TextBlock x:Name="OmenSinistralInfo"
-                                       Text="не задана — кликни по маркеру"
+                        <StackPanel x:Name="RitualExpanderContent">
+                            <TextBlock Text="Вкладка инвентаря Ritual" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="RitualInventoryInfo"
+                                       Text="не задана — нажмите кнопку ниже"
                                        TextWrapping="Wrap"
-                                       Margin="0,0,0,12"
+                                       Margin="0,0,0,6"
                                        Foreground="#555"/>
+                            <Button x:Name="PickRitualInventoryBtn"
+                                    Content="Задать область (вкладка инвентаря Ritual)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,12"
+                                    Click="PickRitualInventoryBtn_OnClick"/>
 
-                            <TextBlock Text="Omen of Dextral Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <TextBlock x:Name="OmenDextralInfo"
-                                       Text="не задана — кликни по маркеру"
+                            <TextBlock Text="Omen of Sinistral Exaltation Stash" FontWeight="SemiBold" Margin="0,10,0,4"/>
+                            <TextBlock x:Name="OmenSinistralStashInfo"
+                                       Text="не задана — нажмите кнопку ниже"
                                        TextWrapping="Wrap"
-                                       Margin="0,0,0,12"
+                                       Margin="0,0,0,6"
                                        Foreground="#555"/>
+                            <Button x:Name="PickOmenSinistralStashBtn"
+                                    Content="Задать область (Omen of Sinistral Exaltation Stash)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,12"
+                                    Click="PickOmenSinistralStashBtn_OnClick"/>
 
-                            <TextBlock Text="Omen of Greater Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <TextBlock x:Name="OmenGreaterInfo"
-                                       Text="не задана — кликни по маркеру"
+                            <TextBlock Text="Omen of Dextral Exaltation Stash" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="OmenDextralStashInfo"
+                                       Text="не задана — нажмите кнопку ниже"
                                        TextWrapping="Wrap"
-                                       Margin="0,0,0,2"
+                                       Margin="0,0,0,6"
                                        Foreground="#555"/>
+                            <Button x:Name="PickOmenDextralStashBtn"
+                                    Content="Задать область (Omen of Dextral Exaltation Stash)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,12"
+                                    Click="PickOmenDextralStashBtn_OnClick"/>
+
+                            <TextBlock Text="Omen of Greater Exaltation Stash" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="OmenGreaterStashInfo"
+                                       Text="не задана — нажмите кнопку ниже"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,6"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickOmenGreaterStashBtn"
+                                    Content="Задать область (Omen of Greater Exaltation Stash)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,12"
+                                    Click="PickOmenGreaterStashBtn_OnClick"/>
                         </StackPanel>
                     </Expander>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <TabItem x:Name="TabInventoryLayout" Header="Разметка инвентаря">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="16" HorizontalAlignment="Stretch">
+                    <TextBlock Text="Область в инвентаре для Omen of Sinistral Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBlock x:Name="OmenSinistralInfo"
+                               Text="не задана — сначала X×Y сетки, затем выделение области"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,6"
+                               Foreground="#555"/>
+                    <Button x:Name="PickOmenSinistralBtn"
+                            Content="Задать область в инвентаре (Omen of Sinistral Exaltation)…"
+                            HorizontalAlignment="Left"
+                            Padding="12,6"
+                            Margin="0,0,0,12"
+                            Click="PickOmenSinistralBtn_OnClick"/>
+
+                    <TextBlock Text="Область в инвентаре для Omen of Dextral Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBlock x:Name="OmenDextralInfo"
+                               Text="не задана — сначала X×Y сетки, затем выделение области"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,6"
+                               Foreground="#555"/>
+                    <Button x:Name="PickOmenDextralBtn"
+                            Content="Задать область в инвентаре (Omen of Dextral Exaltation)…"
+                            HorizontalAlignment="Left"
+                            Padding="12,6"
+                            Margin="0,0,0,12"
+                            Click="PickOmenDextralBtn_OnClick"/>
+
+                    <TextBlock Text="Область в инвентаре для Omen of Greater Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBlock x:Name="OmenGreaterInfo"
+                               Text="не задана — сначала X×Y сетки, затем выделение области"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,6"
+                               Foreground="#555"/>
+                    <Button x:Name="PickOmenGreaterBtn"
+                            Content="Задать область в инвентаре (Omen of Greater Exaltation)…"
+                            HorizontalAlignment="Left"
+                            Padding="12,6"
+                            Margin="0,0,0,12"
+                            Click="PickOmenGreaterBtn_OnClick"/>
                 </StackPanel>
             </ScrollViewer>
         </TabItem>

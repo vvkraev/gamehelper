@@ -3,10 +3,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using GameHelper.Native;
 using GameHelper.Services;
 using MessageBox = System.Windows.MessageBox;
@@ -27,6 +24,11 @@ public partial class MainWindow : Window
     private ScreenRect? _augRegion;
     private ScreenRect? _annulRegion;
     private ScreenRect? _sharpenRegion;
+    private ScreenRect? _currencyInventoryRegion;
+    private ScreenRect? _ritualInventoryRegion;
+    private ScreenRect? _omenSinistralStashRegion;
+    private ScreenRect? _omenDextralStashRegion;
+    private ScreenRect? _omenGreaterStashRegion;
     private List<ScreenRect> _itemCellRegions = new();
     private List<ScreenRect> _omenSinistralCells = new();
     private List<ScreenRect> _omenDextralCells = new();
@@ -37,30 +39,6 @@ public partial class MainWindow : Window
     private CraftConditionPlan _craftPlan = new();
     private HwndSource? _hwndSource;
     private bool _craftCancelHotkeyRegistered;
-
-    private enum CurrencyMarkerKey
-    {
-        ChaosOrb,
-        ExaltOrb,
-        AugmentationOrb,
-        AnnulmentOrb,
-        Sharpen,
-    }
-
-    private enum RitualMarkerKey
-    {
-        OmenSinistral,
-        OmenDextral,
-        OmenGreater,
-    }
-
-    private readonly Dictionary<CurrencyMarkerKey, System.Windows.Controls.Button> _currencyMarkers = new();
-    private readonly Dictionary<RitualMarkerKey, System.Windows.Controls.Button> _ritualMarkers = new();
-    private CurrencyMarkerKey _activeCurrencyMarker = CurrencyMarkerKey.ChaosOrb;
-    private RitualMarkerKey _activeRitualMarker = RitualMarkerKey.OmenSinistral;
-
-    private const double CurrencyMarkerSize = 90;
-    private const double RitualMarkerSize = 90;
 
     private static (bool WantPrefix, bool WantSuffix) GetWantedAffixTypes(CraftConditionPlan plan)
     {
@@ -166,8 +144,6 @@ public partial class MainWindow : Window
         ApplySettings();
         KillPoeAfterCraftCheckBox.IsChecked = false; // не сохраняется между запусками
 
-        InitRegionMapOverlays();
-
         foreach (var line in SessionLogger.GetSnapshot())
             WriteUiOnly(line);
 
@@ -175,248 +151,6 @@ public partial class MainWindow : Window
         SessionLogger.Info("Главное окно открыто.");
         RefreshAffixLibraryIntoCombos();
     }
-
-    private void InitRegionMapOverlays()
-    {
-        try
-        {
-            InitCurrencyMap();
-            InitRitualMap();
-        }
-        catch (Exception ex)
-        {
-            SessionLogger.Info("InitRegionMapOverlays error: " + ex.Message);
-        }
-    }
-
-    private void InitCurrencyMap()
-    {
-        CurrencyActiveMarkerComboBox.ItemsSource = new[]
-        {
-            "Chaos Orb",
-            "Orb of Exaltation",
-            "Orb of Augmentation",
-            "Orb of Annulment",
-            "Sharpen",
-        };
-        CurrencyActiveMarkerComboBox.SelectedIndex = 0;
-
-        CurrencyMapEditModeCheckBox.Checked += (_, _) => UpdateCurrencyMarkerVisuals();
-        CurrencyMapEditModeCheckBox.Unchecked += (_, _) => UpdateCurrencyMarkerVisuals();
-        CurrencyActiveMarkerComboBox.SelectionChanged += (_, _) =>
-        {
-            if (CurrencyActiveMarkerComboBox.SelectedIndex < 0)
-                return;
-            _activeCurrencyMarker = (CurrencyMarkerKey)CurrencyActiveMarkerComboBox.SelectedIndex;
-            UpdateCurrencyMarkerVisuals();
-        };
-
-        CurrencyMapCanvas.MouseLeftButtonDown += (_, args) =>
-        {
-            if (CurrencyMapEditModeCheckBox.IsChecked != true)
-                return;
-            if (!_currencyMarkers.TryGetValue(_activeCurrencyMarker, out var marker))
-                return;
-
-            var p = args.GetPosition(CurrencyMapCanvas);
-            var maxLeft = Math.Max(0, CurrencyMapCanvas.ActualWidth - marker.Width);
-            var maxTop = Math.Max(0, CurrencyMapCanvas.ActualHeight - marker.Height);
-            Canvas.SetLeft(marker, Clamp(p.X - marker.Width / 2, 0, maxLeft));
-            Canvas.SetTop(marker, Clamp(p.Y - marker.Height / 2, 0, maxTop));
-            CurrencyMapClickCoordsText.Text = $"Координаты клика: x={FormatCoord(p.X)}, y={FormatCoord(p.Y)}";
-        };
-
-        LoadImageInto(CurrencyMapImage, CurrencyMapCanvas, "RegionMapCurrency.png");
-
-        if (_currencyMarkers.Count == 0)
-        {
-            CreateCurrencyMarker(CurrencyMarkerKey.ChaosOrb, "Chaos", PickOrbBtn_OnClick);
-            CreateCurrencyMarker(CurrencyMarkerKey.ExaltOrb, "Exalt", PickExaltBtn_OnClick);
-            CreateCurrencyMarker(CurrencyMarkerKey.AugmentationOrb, "Aug", PickAugBtn_OnClick);
-            CreateCurrencyMarker(CurrencyMarkerKey.AnnulmentOrb, "Annul", PickAnnulBtn_OnClick);
-            CreateCurrencyMarker(CurrencyMarkerKey.Sharpen, "Sharpen", PickSharpenBtn_OnClick);
-        }
-
-        UpdateCurrencyMarkerVisuals();
-    }
-
-    private void InitRitualMap()
-    {
-        RitualActiveMarkerComboBox.ItemsSource = new[]
-        {
-            "Omen of Sinistral Exaltation",
-            "Omen of Dextral Exaltation",
-            "Omen of Greater Exaltation",
-        };
-        RitualActiveMarkerComboBox.SelectedIndex = 0;
-
-        RitualMapEditModeCheckBox.Checked += (_, _) => UpdateRitualMarkerVisuals();
-        RitualMapEditModeCheckBox.Unchecked += (_, _) => UpdateRitualMarkerVisuals();
-        RitualActiveMarkerComboBox.SelectionChanged += (_, _) =>
-        {
-            if (RitualActiveMarkerComboBox.SelectedIndex < 0)
-                return;
-            _activeRitualMarker = (RitualMarkerKey)RitualActiveMarkerComboBox.SelectedIndex;
-            UpdateRitualMarkerVisuals();
-        };
-
-        RitualMapCanvas.MouseLeftButtonDown += (_, args) =>
-        {
-            if (RitualMapEditModeCheckBox.IsChecked != true)
-                return;
-            if (!_ritualMarkers.TryGetValue(_activeRitualMarker, out var marker))
-                return;
-
-            var p = args.GetPosition(RitualMapCanvas);
-            var maxLeft = Math.Max(0, RitualMapCanvas.ActualWidth - marker.Width);
-            var maxTop = Math.Max(0, RitualMapCanvas.ActualHeight - marker.Height);
-            Canvas.SetLeft(marker, Clamp(p.X - marker.Width / 2, 0, maxLeft));
-            Canvas.SetTop(marker, Clamp(p.Y - marker.Height / 2, 0, maxTop));
-            RitualMapClickCoordsText.Text = $"Координаты клика: x={FormatCoord(p.X)}, y={FormatCoord(p.Y)}";
-        };
-
-        LoadImageInto(RitualMapImage, RitualMapCanvas, "RegionMapRitual.png");
-
-        if (_ritualMarkers.Count == 0)
-        {
-            CreateRitualMarker(RitualMarkerKey.OmenSinistral, "Sin", PickOmenSinistralBtn_OnClick);
-            CreateRitualMarker(RitualMarkerKey.OmenDextral, "Dex", PickOmenDextralBtn_OnClick);
-            CreateRitualMarker(RitualMarkerKey.OmenGreater, "Gtr", PickOmenGreaterBtn_OnClick);
-        }
-
-        UpdateRitualMarkerVisuals();
-    }
-
-    private void LoadImageInto(System.Windows.Controls.Image img, Canvas canvas, string fileName)
-    {
-        var pixelW = 0.0;
-        var pixelH = 0.0;
-        try
-        {
-            var root = ProjectPaths.GetProjectRoot();
-            var path = Path.Combine(root, "Assets", fileName);
-            if (!File.Exists(path))
-                return;
-
-            var bi = new BitmapImage();
-            bi.BeginInit();
-            bi.UriSource = new Uri(path);
-            bi.CacheOption = BitmapCacheOption.OnLoad;
-            bi.EndInit();
-
-            img.Source = bi;
-            pixelW = bi.PixelWidth;
-            pixelH = bi.PixelHeight;
-        }
-        catch (Exception ex)
-        {
-            SessionLogger.Info("Map load error " + fileName + ": " + ex.Message);
-        }
-
-        if (pixelW > 0 && pixelH > 0)
-        {
-            img.Width = pixelW;
-            img.Height = pixelH;
-            canvas.Width = pixelW;
-            canvas.Height = pixelH;
-        }
-    }
-
-    private void CreateCurrencyMarker(CurrencyMarkerKey key, string label, RoutedEventHandler pickHandler)
-    {
-        var marker = new System.Windows.Controls.Button
-        {
-            Content = label,
-            Width = CurrencyMarkerSize,
-            Height = CurrencyMarkerSize,
-            Background = System.Windows.Media.Brushes.Transparent,
-            BorderThickness = new Thickness(2),
-            BorderBrush = System.Windows.Media.Brushes.Red,
-            Opacity = 0.55,
-            Padding = new Thickness(0),
-            Tag = key,
-        };
-
-        marker.Click += (_, e) =>
-        {
-            if (CurrencyMapEditModeCheckBox.IsChecked == true)
-            {
-                _activeCurrencyMarker = key;
-                CurrencyActiveMarkerComboBox.SelectedIndex = (int)key;
-                UpdateCurrencyMarkerVisuals();
-                return;
-            }
-
-            pickHandler(marker, e);
-        };
-
-        _currencyMarkers[key] = marker;
-        CurrencyMapCanvas.Children.Add(marker);
-        Canvas.SetLeft(marker, 10);
-        Canvas.SetTop(marker, 10 + ((int)key * (CurrencyMarkerSize + 6)));
-    }
-
-    private void CreateRitualMarker(RitualMarkerKey key, string label, RoutedEventHandler pickHandler)
-    {
-        var marker = new System.Windows.Controls.Button
-        {
-            Content = label,
-            Width = RitualMarkerSize,
-            Height = RitualMarkerSize,
-            Background = System.Windows.Media.Brushes.Transparent,
-            BorderThickness = new Thickness(2),
-            BorderBrush = System.Windows.Media.Brushes.Red,
-            Opacity = 0.55,
-            Padding = new Thickness(0),
-            Tag = key,
-        };
-
-        marker.Click += (_, e) =>
-        {
-            if (RitualMapEditModeCheckBox.IsChecked == true)
-            {
-                _activeRitualMarker = key;
-                RitualActiveMarkerComboBox.SelectedIndex = (int)key;
-                UpdateRitualMarkerVisuals();
-                return;
-            }
-
-            pickHandler(marker, e);
-        };
-
-        _ritualMarkers[key] = marker;
-        RitualMapCanvas.Children.Add(marker);
-        Canvas.SetLeft(marker, 10);
-        Canvas.SetTop(marker, 10 + ((int)key * (RitualMarkerSize + 6)));
-    }
-
-    private void UpdateCurrencyMarkerVisuals()
-    {
-        var edit = CurrencyMapEditModeCheckBox.IsChecked == true;
-        foreach (var kv in _currencyMarkers)
-        {
-            kv.Value.BorderThickness = kv.Key == _activeCurrencyMarker ? new Thickness(3) : new Thickness(2);
-            kv.Value.Opacity = edit ? 0.85 : 0.35;
-            kv.Value.BorderBrush = edit ? System.Windows.Media.Brushes.Red : System.Windows.Media.Brushes.Firebrick;
-        }
-    }
-
-    private void UpdateRitualMarkerVisuals()
-    {
-        var edit = RitualMapEditModeCheckBox.IsChecked == true;
-        foreach (var kv in _ritualMarkers)
-        {
-            kv.Value.BorderThickness = kv.Key == _activeRitualMarker ? new Thickness(3) : new Thickness(2);
-            kv.Value.Opacity = edit ? 0.85 : 0.35;
-            kv.Value.BorderBrush = edit ? System.Windows.Media.Brushes.Red : System.Windows.Media.Brushes.Firebrick;
-        }
-    }
-
-    private static double Clamp(double v, double min, double max) =>
-        v < min ? min : v > max ? max : v;
-
-    private static string FormatCoord(double v) =>
-        Math.Abs(v) < 100000 ? ((int)Math.Round(v)).ToString() : v.ToString();
 
     private void SetupTrayIcon()
     {
@@ -491,6 +225,36 @@ public partial class MainWindow : Window
             SharpenInfo.Text = FormatRect(s.SharpenRect);
         }
 
+        if (s.OmenSinistralStashRect is { Width: > 0, Height: > 0 })
+        {
+            _omenSinistralStashRegion = s.OmenSinistralStashRect;
+            OmenSinistralStashInfo.Text = FormatRect(s.OmenSinistralStashRect);
+        }
+
+        if (s.OmenDextralStashRect is { Width: > 0, Height: > 0 })
+        {
+            _omenDextralStashRegion = s.OmenDextralStashRect;
+            OmenDextralStashInfo.Text = FormatRect(s.OmenDextralStashRect);
+        }
+
+        if (s.OmenGreaterStashRect is { Width: > 0, Height: > 0 })
+        {
+            _omenGreaterStashRegion = s.OmenGreaterStashRect;
+            OmenGreaterStashInfo.Text = FormatRect(s.OmenGreaterStashRect);
+        }
+
+        if (s.CurrencyInventoryRect is { Width: > 0, Height: > 0 })
+        {
+            _currencyInventoryRegion = s.CurrencyInventoryRect;
+            CurrencyInventoryInfo.Text = FormatRect(s.CurrencyInventoryRect);
+        }
+
+        if (s.RitualInventoryRect is { Width: > 0, Height: > 0 })
+        {
+            _ritualInventoryRegion = s.RitualInventoryRect;
+            RitualInventoryInfo.Text = FormatRect(s.RitualInventoryRect);
+        }
+
         if (s.OmenSinistralCells is { Count: > 0 })
             _omenSinistralCells = s.OmenSinistralCells.ToList();
         else if (s.OmenSinistralRect is { Width: > 0, Height: > 0 })
@@ -548,6 +312,11 @@ public partial class MainWindow : Window
             AugRect = _augRegion ?? default,
             AnnulRect = _annulRegion ?? default,
             SharpenRect = _sharpenRegion ?? default,
+            CurrencyInventoryRect = _currencyInventoryRegion ?? default,
+            RitualInventoryRect = _ritualInventoryRegion ?? default,
+            OmenSinistralStashRect = _omenSinistralStashRegion ?? default,
+            OmenDextralStashRect = _omenDextralStashRegion ?? default,
+            OmenGreaterStashRect = _omenGreaterStashRegion ?? default,
 
             OmenSinistralRect = _omenSinistralCells.Count > 0 ? _omenSinistralCells[0] : default,
             OmenSinistralCells = _omenSinistralCells.Count > 0 ? _omenSinistralCells : null,
@@ -812,6 +581,86 @@ public partial class MainWindow : Window
         SharpenInfo.Text = FormatRect(region);
         SessionLogger.Info($"Область заточки задана: {FormatRect(region)}");
         SaveSettings();
+    }
+
+    private void PickCurrencyInventoryBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области вкладки инвентаря Currency отменён.");
+            return;
+        }
+
+        _currencyInventoryRegion = region;
+        CurrencyInventoryInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Вкладка инвентаря Currency задана: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private void PickRitualInventoryBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области вкладки инвентаря Ritual отменён.");
+            return;
+        }
+
+        _ritualInventoryRegion = region;
+        RitualInventoryInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Вкладка инвентаря Ritual задана: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private void PickOmenSinistralStashBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области Omen of Sinistral Exaltation Stash отменён.");
+            return;
+        }
+
+        _omenSinistralStashRegion = region;
+        OmenSinistralStashInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Omen of Sinistral Exaltation Stash задана: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private void PickOmenDextralStashBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области Omen of Dextral Exaltation Stash отменён.");
+            return;
+        }
+
+        _omenDextralStashRegion = region;
+        OmenDextralStashInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Omen of Dextral Exaltation Stash задана: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private void PickOmenGreaterStashBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области Omen of Greater Exaltation Stash отменён.");
+            return;
+        }
+
+        _omenGreaterStashRegion = region;
+        OmenGreaterStashInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Omen of Greater Exaltation Stash задана: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
     }
 
     private void PickOmenSinistralBtn_OnClick(object sender, RoutedEventArgs e)
