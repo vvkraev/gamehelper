@@ -22,6 +22,7 @@ public partial class CraftConditionWindow : Window
 {
     private readonly CraftConditionPlan _plan;
     private readonly List<AffixLibraryEntry> _entries;
+    private readonly Services.AffixStatsData? _stats;
 
     /// <summary>Выбранный подтип планшета; null = без фильтра.</summary>
     private string? _tabletSubClass;
@@ -33,12 +34,14 @@ public partial class CraftConditionWindow : Window
     private IReadOnlyList<AffixLibraryEntry> EffectiveEntries =>
         CraftAffixCascadeHelper.FilterBySubClass(_entries, _tabletSubClass);
 
-    public CraftConditionWindow(CraftConditionPlan plan, List<AffixLibraryEntry> entries)
+    public CraftConditionWindow(CraftConditionPlan plan, List<AffixLibraryEntry> entries,
+        Services.AffixStatsData? stats = null)
     {
         InitializeComponent();
         WindowGeometryStore.Attach(this, "CraftConditionWindow");
         _plan = plan;
         _entries = entries;
+        _stats = stats;
         CraftConditionPlanNormalizer.NormalizeInPlace(_plan, _entries);
         LoadItemClasses();
         if (!string.IsNullOrEmpty(_plan.ExpectedItemClass) &&
@@ -920,6 +923,44 @@ public partial class CraftConditionWindow : Window
         sliderRow.Children.Add(slider);
         sliderRow.Children.Add(lblVal);
 
+        var lblStats = new WpfTextBlock
+        {
+            Margin = new Thickness(0, 0, 0, 6),
+            FontSize = 11,
+            Foreground = System.Windows.Media.Brushes.CornflowerBlue,
+        };
+
+        void UpdateStatsLabel()
+        {
+            if (_stats == null || string.IsNullOrEmpty(ic) ||
+                !_stats.PerClass.TryGetValue(ic, out var cs) || cs.TotalSnapshots == 0)
+            {
+                lblStats.Text = _stats == null ? "" : "Статистика: нет данных по этому классу";
+                return;
+            }
+
+            var selected = data.SelectedAffixNames;
+            if (selected.Count == 0)
+            {
+                lblStats.Text = "";
+                return;
+            }
+
+            var total = cs.TotalSnapshots;
+            if (selected.Count == 1)
+            {
+                cs.AffixCounts.TryGetValue(selected[0], out var c);
+                var pct = (double)c / total * 100;
+                lblStats.Text = $"Статистика: {c} / {total} ({pct:F1}%)";
+            }
+            else
+            {
+                var combined = selected.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
+                var pct = (double)combined / total * 100;
+                lblStats.Text = $"Статистика: {combined} / {total} ({pct:F1}%), {selected.Count} вариантов";
+            }
+        }
+
         void ApplySliderValueToData(double v)
         {
             var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(ic, data.AffixType, data.StatTemplate, EffectiveEntries);
@@ -969,6 +1010,7 @@ public partial class CraftConditionWindow : Window
             lblVal.Text = fixedRoll
                 ? $"Порог остановки: {FormatNum(v)} (совпадает с перекатом в библиотеке)"
                 : $"Минимум переката: {FormatNum(v)}";
+            UpdateStatsLabel();
             gate[0] = false;
         }
 
@@ -1007,6 +1049,7 @@ public partial class CraftConditionWindow : Window
         };
 
         col.Children.Add(lb);
+        col.Children.Add(lblStats);
         col.Children.Add(sliderRow);
 
         RefillNamesAndSlider();

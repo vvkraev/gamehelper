@@ -198,6 +198,7 @@ public partial class MainWindow : Window
         SessionLogger.Info("Главное окно открыто.");
         RefreshAffixLibraryIntoCombos();
         RefreshGoldFeeLibraryPathHints();
+        _ = Services.AffixStatsScanner.InitializeAsync();
     }
 
     private void SetupTrayIcon()
@@ -697,7 +698,7 @@ public partial class MainWindow : Window
         AffixLibrary.ReloadFromDisk();
         _affixEntries = AffixLibrary.GetEntries().ToList();
         var editCopy = SettingsStore.CloneCraftConditionPlan(_craftPlan);
-        var dlg = new CraftConditionWindow(editCopy, _affixEntries) { Owner = this };
+        var dlg = new CraftConditionWindow(editCopy, _affixEntries, Services.AffixStatsScanner.Current) { Owner = this };
         if (dlg.ShowDialog() != true)
             return;
         _craftPlan = editCopy;
@@ -2035,6 +2036,7 @@ public partial class MainWindow : Window
             _craft.StepConfirmAsync = null;
             _exaltCraft.StepConfirmAsync = null;
             craftFile?.Dispose();
+            _ = Services.AffixStatsScanner.ScanNewLogsAsync();
             _activeCraftLogPath = null;
             StartBtn.IsEnabled = true;
             StopBtn.IsEnabled = false;
