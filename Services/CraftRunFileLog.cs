@@ -71,6 +71,8 @@ public sealed class CraftRunFileLog : IDisposable
         _writer = writer;
     }
 
+    public string WipPath => _wipPath;
+
     public void SetCurrentCell(int cellIndex1Based, int cellTotal)
     {
         _cellIndex = Math.Max(0, cellIndex1Based);

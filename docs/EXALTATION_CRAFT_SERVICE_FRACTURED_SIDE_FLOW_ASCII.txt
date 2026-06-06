@@ -215,6 +215,10 @@
 # Greater по правилу resolveCraftExaltationAreas **всегда** в наборе — RemainingGreater всегда
 # участвует в проверке.
 #
+# Примечание реализации: **ЛКМ по _ritualInventoryRegion** выполняется **только** в блоке **RefillOmen**
+# (его шаг 1). EnsureInitial **не** делает отдельного ЛКМ по ritual и **не** выполняет контрольного
+# пересчёта Remaining* после RefillOmen — остатки берутся из последнего Refresh внутри **RefillOmen** (его шаг 3).
+#
 # 1) Remaining* ← RefreshRemainingExaltationOmenStacks (пересчёт по нужным сеткам; см. примечание выше).
 #
 # 2) Если для **любой используемой** области соответствующий счётчик **== 0**:
@@ -224,12 +228,10 @@
 #    то **немедленно** вызвать **RefillOmen** (как в середине крафта; при необходимости перед этим
 #    допускается тот же препроцесс, что в HandleRemainingExaltationUsesDepletion — на усмотрение кода).
 #
-# 3) Снова **Remaining* ← RefreshRemainingExaltationOmenStacks** (контрольный пересчёт **после**
-#    полного **RefillOmen**, включая его шаги 3–4: Refresh и ПКМ по ячейкам используемых областей).
-#
-# 4) Если после шага 3 для **любой используемой** области по-прежнему **Remaining* == 0**:
+# 3) Если для **любой используемой** области **Remaining* == 0** (после шага 1 без вызова RefillOmen,
+#    либо сразу после завершения **RefillOmen** из шага 2 — без дополнительного Refresh в EnsureInitial):
 #      **остановить крафт**, ошибка: **невозможно пополнить область омнами** (в сообщении указать,
-#      какая область / какой счётчик остался нулевым).
+#      какая область / какой счётчик нулевой).
 #
 #
 # Вспомогательные сервисы (схема, не отдельные классы обязательно)
@@ -282,6 +284,7 @@
 #
 #   2) После выполнения **одной** из веток 1.1 / 1.2 / 1.3 (согласно CraftExaltationAreas):
 #        - **ЛКМ** по области **_currencyInventoryRegion**.
+#      Между шагом 2 и шагом 3 **нет** второго ЛКМ по **_ritualInventoryRegion** — сразу Refresh.
 #
 #   3) **RefreshRemainingExaltationOmenStacks** — обновить **Remaining*** по всем нужным сеткам
 #      (как в обычном описании функции).
@@ -290,9 +293,9 @@
 #      область **Greater** всегда; **Sinistral** / **Dextral** — только если входят в набор).
 #      В **каждой** такой ячейке выполнить **ПКМ** (одиночный клик по ячейке сетки, без Ctrl).
 #
-#   Успех для целей схемы: шаги 1–4 выполнены без прерывания. Шаги A4 / B5 и стартовая проверка
-#   после RefillOmen опираются на **Remaining***, полученные на шаге **3** (и при необходимости
-#   контрольный пересчёт после шага 4 — на усмотрение кода, если ПКМ меняет стеки).
+#   Успех для целей схемы: шаги 1–4 выполнены без прерывания. **Remaining*** для A4 / B5 и для
+#   **EnsureInitial** (проверка после RefillOmen) — с шага **3** RefillOmen; отдельного Refresh
+#   в EnsureInitial после RefillOmen нет. (Полный Refresh после шага 4 RefillOmen — на усмотрение кода.)
 #
 #   Шаг A: exhausted **используемая** side ((Sinistral в CraftExaltationAreas и RemainingSinistral == 0)
 #          ИЛИ (Dextral в CraftExaltationAreas и RemainingDextral == 0))
@@ -336,7 +339,8 @@
 #
 #   AddTwoAffixes  (ветка A, после A1 «yes»)
 #   -------------
-#   0) Если **PreviousCraftBranch == B**: вызвать **RefreshGreaterExaltationOmenCellStates** с флагом **Activate**
+#   0) Если **PreviousCraftBranch == B**: сначала **RefreshGreaterExaltationOmenCellStates** с флагом **Full**
+#      (снимок по ячейкам; счётчик RemainingGreater этого не заменяет), затем с флагом **Activate**
 #      (см. раздел выше: выровнять Greater-омны после ветки B).
 #   1) Применить Orb of Exaltation на области предмета (ячейка предмета на экране).
 #      Сразу после этого: **PreviousCraftBranch := A**.
@@ -351,7 +355,7 @@
 #
 #   AddOneAffix  (ветка B, после B2 «yes»)
 #   ------------
-#   0) Если **PreviousCraftBranch == A**: вызвать **RefreshGreaterExaltationOmenCellStates** с флагом **Deactivate**
+#   0) Если **PreviousCraftBranch == A**: сначала **Full**, затем **Deactivate**
 #      (см. раздел выше: выровнять Greater-омны после ветки A).
 #   1) Применить Orb of Exaltation на области предмета (ячейка предмета на экране).
 #      Сразу после этого: **PreviousCraftBranch := B**.
@@ -380,9 +384,8 @@
 #   | - PreviousCraftBranch := A (см. п. 4 «Переменные»);          |
 #   | - CraftExaltationAreas ← resolveCraftExaltationAreas;        |
 #   | - EnsureInitialExaltationOmenSupply (см. раздел выше):     |
-#   |   Refresh → при 0 у используемых областей RefillOmen         |
-#   |   (вкл. внутренний Refresh + ПКМ по ячейкам) → контрольный    |
-#   |   Refresh; если снова 0 — STOP, ошибка пополнения;           |
+#   |   Refresh → при 0 RefillOmen (внутри — Refresh + ПКМ);      |
+#   |   проверка остатков; если 0 — STOP, ошибка пополнения;      |
 #   | - 1) Precheck rarity: item MUST be Rare                     |
 #   | Инвариант: в ходе крафта Rarity предмета не меняется.       |
 #   +-------------------------------------------------------------+
@@ -460,4 +463,14 @@
 #   in the configured area => STOP craft loop.
 # - If craft condition becomes complete at any point => STOP craft loop (success).
 #
+#
+# Отладка в приложении (привязка лога к этой схеме)
+# -------------------------------------------------
+# В настройках (вкладка с логом): включите «Трассировка схемы экзальт-крафта».
+# В окне лога и в сессионном логе появятся строки с префиксом **[ExaltSchema]** — каждая
+# соответствует узлу или подшагу этого документа (EnsureInitial, RefillOmen §1–§4, HandleRemaining,
+# AddTwoAffixes / AddOneAffix, Decision flow LOOP, RefreshRemaining…, RefreshGreater…).
+# Рядом выводится краткое состояние **Rem Sin/Dex/Gr** (локальные остатки по схеме).
+# Подробный лог мыши/клавиш — отдельный чекбокс «Подробный лог ввода».
+# Пошаговое окно подтверждения — «Пошаговое подтверждение» (можно совмещать со [ExaltSchema]).
 

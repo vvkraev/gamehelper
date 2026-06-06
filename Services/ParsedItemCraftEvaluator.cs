@@ -13,6 +13,15 @@ public static class ParsedItemCraftEvaluator
         @"\b([A-Za-z]\w*)\s*:\s*([\d.]+)",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
+    /// <summary>Убирает ведущий перекат в нормализованной строке: «+180(175-200) to …» → «+ to …», «77(75-79)% …» → «% …».</summary>
+    private static readonly Regex LeadingPlusRollPrefix = new(
+        @"^\+\d+(?:\([^)]*\))?\s+",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
+    private static readonly Regex LeadingPercentRollPrefix = new(
+        @"^\d+(?:\([^)]*\))?\s*(?=%)",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
     public static bool ItemClassMatches(ParsedItem item, string expectedItemClass) =>
         string.Equals(item.ItemClass.Trim(), expectedItemClass.Trim(), StringComparison.OrdinalIgnoreCase);
 
@@ -42,6 +51,17 @@ public static class ParsedItemCraftEvaluator
         return false;
     }
 
+    private static string StripLeadingRollFromNormalizedStat(string normalized)
+    {
+        var t = normalized.Trim();
+        if (t.Length == 0)
+            return t;
+        var afterPlus = LeadingPlusRollPrefix.Replace(t, "+ ");
+        if (!string.Equals(afterPlus, t, StringComparison.Ordinal))
+            return afterPlus.TrimStart();
+        return LeadingPercentRollPrefix.Replace(t, "").TrimStart();
+    }
+
     /// <summary>
     /// Строка стата из парсера совпадает с шаблоном из библиотеки (нормализация, затем точное совпадение или вхождение длинной подстроки).
     /// Короткие общие фрагменты вроде «ritual altars in map» намеренно не считаются совпадением — иначе разные статы путаются.
@@ -54,6 +74,17 @@ public static class ParsedItemCraftEvaluator
             return false;
         if (string.Equals(a, b, StringComparison.Ordinal))
             return true;
+
+        var aNoRoll = StripLeadingRollFromNormalizedStat(a);
+        if (aNoRoll.Length > 0)
+        {
+            if (string.Equals(aNoRoll, b, StringComparison.Ordinal))
+                return true;
+            // Короткий шаблон целиком в строке предмета (в т.ч. суффикс вроде «(rune)»), без общих 2–3 слов.
+            const int minTemplateLenForContains = 14;
+            if (b.Length >= minTemplateLenForContains && aNoRoll.Contains(b, StringComparison.Ordinal))
+                return true;
+        }
 
         // Только короткая сторона достаточно длинная — иначе Contains даёт ложные совпадения между разными аффиксами.
         const int minLenForSubstringMatch = 44;
@@ -268,8 +299,41 @@ public static class ParsedItemCraftEvaluator
     }
 
     /// <summary>
+    /// Все наборы перекатов для пары (тип в плане / семейство префикса·суффикса, шаблон стата): по одному на каждую подходящую строку.
+    /// Нужно для клозов Single без имени аффикса — на предмете может быть несколько префиксов с одним и тем же статом (напр. Dictator + Merciless).
+    /// </summary>
+    public static IEnumerable<List<double>> EnumerateRollValuesForTypeAndStatNoLibrary(
+        ParsedItem? item,
+        string expectedItemClass,
+        string affixType,
+        string statTemplate)
+    {
+        if (item is not { IsValid: true })
+            yield break;
+        if (!ItemClassMatches(item, expectedItemClass))
+            yield break;
+
+        foreach (var affix in item.Affixes)
+        {
+            if (!AffixTypesCompatibleForNamedMatch(affixType, affix.Type))
+                continue;
+
+            foreach (var line in affix.EffectDetails)
+            {
+                if (!StatLineMatchesTemplate(line.StatText, statTemplate))
+                    continue;
+                if (!TryGetOrderedRollValues(line, out var vals, out _))
+                    continue;
+                if (vals.Count > 0)
+                    yield return vals;
+            }
+        }
+    }
+
+    /// <summary>
     /// Перекаты по типу модификатора и строке стата без привязки к <c>affix_library.json</c>.
     /// Используется как fallback, когда библиотека не содержит нужного имени/тира, но на предмете строка явно есть.
+    /// Возвращает первое найденное вхождение; для порогов по «любому» аффиксу используется перебор (клоз Single в CraftConditionEvaluator).
     /// </summary>
     public static bool TryGetRollValuesForTypeAndStatNoLibrary(
         ParsedItem? item,
@@ -295,24 +359,10 @@ public static class ParsedItemCraftEvaluator
             return false;
         }
 
-        foreach (var affix in item.Affixes)
+        foreach (var vals in EnumerateRollValuesForTypeAndStatNoLibrary(item, expectedItemClass, affixType, statTemplate))
         {
-            if (!string.Equals(affix.Type, affixType.Trim(), StringComparison.Ordinal))
-                continue;
-
-            foreach (var line in affix.EffectDetails)
-            {
-                if (!StatLineMatchesTemplate(line.StatText, statTemplate))
-                    continue;
-                if (!TryGetOrderedRollValues(line, out var vals, out var note))
-                {
-                    explanation = $"Строка стата найдена, но не удалось извлечь числа. {note}";
-                    return false;
-                }
-
-                values = vals;
-                return true;
-            }
+            values = vals;
+            return true;
         }
 
         explanation =
@@ -400,13 +450,14 @@ public static class ParsedItemCraftEvaluator
     private static string FormatMin(double v) =>
         v == Math.Truncate(v) ? ((long)v).ToString(CultureInfo.InvariantCulture) : v.ToString(CultureInfo.InvariantCulture);
 
-    /// <summary>Все строки целого модификатора на одном аффиксе (имя+тир из плана) удовлетворяют порогам.</summary>
+    /// <summary>Все строки целого модификатора на одном аффиксе удовлетворяют порогам. Имя: <paramref name="affixNameOverride"/> или <see cref="CraftWholeModifierAffixData.AffixName"/>.</summary>
     public static bool TryEvaluateWholeModifierAffix(
         CraftWholeModifierAffixData whole,
         ParsedItem item,
         string expectedItemClass,
         IReadOnlyList<AffixLibraryEntry> lib,
-        out string detail)
+        out string detail,
+        string? affixNameOverride = null)
     {
         detail = "";
         if (whole.Lines.Count == 0)
@@ -415,16 +466,23 @@ public static class ParsedItemCraftEvaluator
             return false;
         }
 
+        var useName = (affixNameOverride ?? whole.AffixName).Trim();
+        if (useName.Length == 0)
+        {
+            detail = "целый модификатор: не задано имя.";
+            return false;
+        }
+
         var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
             lib,
             expectedItemClass,
             whole.AffixType,
-            whole.AffixName,
+            useName,
             whole.AffixTier);
         if (entry is null)
         {
             detail =
-                $"В библиотеке нет записи «{whole.AffixName}» ({whole.AffixType}, T{whole.AffixTier}) для класса «{expectedItemClass}».";
+                $"В библиотеке нет записи «{useName}» ({whole.AffixType}, T{whole.AffixTier}) для класса «{expectedItemClass}».";
             return false;
         }
 
@@ -433,7 +491,7 @@ public static class ParsedItemCraftEvaluator
             var idx = ResolveStatIndexInEntry(entry, line.StatTemplate);
             if (idx < 0)
             {
-                detail = $"Строка «{line.StatTemplate}» не входит в выбранную запись библиотеки «{whole.AffixName}».";
+                detail = $"Строка «{line.StatTemplate}» не входит в выбранную запись библиотеки «{useName}».";
                 return false;
             }
 
@@ -443,14 +501,14 @@ public static class ParsedItemCraftEvaluator
                     item,
                     expectedItemClass,
                     whole.AffixType,
-                    whole.AffixName,
+                    useName,
                     whole.AffixTier,
                     line.StatTemplate,
                     slots,
                     out var actual,
                     out var expl))
             {
-                detail = string.IsNullOrEmpty(expl) ? $"Нет модификатора «{whole.AffixName}» со строкой «{line.StatTemplate}»." : expl;
+                detail = string.IsNullOrEmpty(expl) ? $"Нет модификатора «{useName}» со строкой «{line.StatTemplate}»." : expl;
                 return false;
             }
 
@@ -458,7 +516,7 @@ public static class ParsedItemCraftEvaluator
             if (!RollVectorMeetsMins(actual, mins, out var failIdx))
             {
                 detail =
-                    $"«{whole.AffixName}», «{line.StatTemplate}»: слот {failIdx + 1} — ниже порога (есть [{string.Join(", ", actual.Select(FormatMin))}], нужно ≥ [{string.Join(", ", mins.Select(FormatMin))}]).";
+                    $"«{useName}», «{line.StatTemplate}»: слот {failIdx + 1} — ниже порога (есть [{string.Join(", ", actual.Select(FormatMin))}], нужно ≥ [{string.Join(", ", mins.Select(FormatMin))}]).";
                 return false;
             }
         }
@@ -473,36 +531,39 @@ public static class ParsedItemCraftEvaluator
         string expectedItemClass,
         IReadOnlyList<AffixLibraryEntry> lib)
     {
-        var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
-            lib,
-            expectedItemClass,
-            whole.AffixType,
-            whole.AffixName,
-            whole.AffixTier);
-        if (entry is null)
-            return false;
-
-        foreach (var line in whole.Lines)
+        foreach (var nm in whole.EffectiveWholeAffixNames())
         {
-            var idx = ResolveStatIndexInEntry(entry, line.StatTemplate);
-            if (idx < 0)
+            var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
+                lib,
+                expectedItemClass,
+                whole.AffixType,
+                nm,
+                whole.AffixTier);
+            if (entry is null)
                 continue;
-            var slots = CraftAffixCascadeHelper.GetRollSlotCountForEntryStat(entry, idx);
-            line.EnsureMinRollsSize(slots);
-            if (!TryGetRollValuesForNamedAffix(
-                    item,
-                    expectedItemClass,
-                    whole.AffixType,
-                    whole.AffixName,
-                    whole.AffixTier,
-                    line.StatTemplate,
-                    slots,
-                    out var actual,
-                    out _))
-                continue;
-            var mins = line.GetEffectiveMinRolls(slots).ToList();
-            if (RollVectorMeetsMins(actual, mins, out _))
-                return true;
+
+            foreach (var line in whole.Lines)
+            {
+                var idx = ResolveStatIndexInEntry(entry, line.StatTemplate);
+                if (idx < 0)
+                    continue;
+                var slots = CraftAffixCascadeHelper.GetRollSlotCountForEntryStat(entry, idx);
+                line.EnsureMinRollsSize(slots);
+                if (!TryGetRollValuesForNamedAffix(
+                        item,
+                        expectedItemClass,
+                        whole.AffixType,
+                        nm,
+                        whole.AffixTier,
+                        line.StatTemplate,
+                        slots,
+                        out var actual,
+                        out _))
+                    continue;
+                var mins = line.GetEffectiveMinRolls(slots).ToList();
+                if (RollVectorMeetsMins(actual, mins, out _))
+                    return true;
+            }
         }
 
         return false;

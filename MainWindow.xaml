@@ -3,13 +3,14 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="GameHelper — PoE2 Chaos craft (MVP)"
         Height="620"
-        Width="520"
+        Width="600"
         MinHeight="440"
-        MinWidth="480"
+        MinWidth="500"
         Topmost="True"
         ShowActivated="False"
         PreviewKeyDown="MainWindow_OnPreviewKeyDown">
-    <TabControl x:Name="MainTabs" Margin="12">
+    <!-- Вкладки слева: длинные русские заголовки не исчезают из-за нехватки ширины одной строки -->
+    <TabControl x:Name="MainTabs" Margin="12" TabStripPlacement="Left">
         <TabItem x:Name="TabRegionSettings" Header="Настройки областей">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="16" HorizontalAlignment="Stretch">
@@ -148,6 +149,38 @@
                                     Padding="12,6"
                                     Margin="0,0,0,12"
                                     Click="PickOmenGreaterStashBtn_OnClick"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander x:Name="TraderNpcOcrExpander" Header="Торговец (OCR имени)" IsExpanded="False" Margin="0,14,0,0">
+                        <StackPanel x:Name="TraderNpcOcrExpanderContent">
+                            <TextBlock x:Name="TraderNpcOcrHintTextBlock"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,8"
+                                       Foreground="#444"
+                                       Text="Выделите область, где видна чёрная плашка с именем NPC (например ANGE). Затем — кнопка ниже: OCR найдёт текст, курсор встанет в центр подписи, выполнится Ctrl+ЛКМ (открытие торговли в PoE2). Окно GameHelper не должно перекрывать игру — сверните его или снимите «поверх всех»."/>
+                            <TextBlock x:Name="TraderNameOcrRegionLabel" Text="Область поиска имени" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="TraderNameOcrRegionInfo"
+                                       Text="не задана — нажмите кнопку ниже"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,6"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickTraderNameOcrRegionBtn"
+                                    Content="Задать область (имя NPC над торговцем)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,12"
+                                    Click="PickTraderNameOcrRegionBtn_OnClick"/>
+                            <TextBlock x:Name="TraderNpcNameLabel" Text="Имя для поиска (как на экране)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBox x:Name="TraderNpcNameTextBox"
+                                     Margin="0,0,0,12"
+                                     Text="ANGE"/>
+                            <Button x:Name="TraderNpcOpenTradeOcrBtn"
+                                    Content="Найти имя (OCR) и Ctrl+ЛКМ — открыть торговлю"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,0"
+                                    Click="TraderNpcOpenTradeOcrBtn_OnClick"/>
                         </StackPanel>
                     </Expander>
                 </StackPanel>
@@ -291,6 +324,207 @@
             </ScrollViewer>
         </TabItem>
 
+        <TabItem x:Name="TabInfoCollection" Header="Сбор информации">
+            <ScrollViewer x:Name="InfoCollectionScrollViewer" VerticalScrollBarVisibility="Auto">
+                <StackPanel x:Name="InfoCollectionRootPanel" Margin="16" HorizontalAlignment="Stretch">
+                    <TextBlock x:Name="InfoCollectionIntroTextBlock"
+                               TextWrapping="Wrap"
+                               Margin="0,0,0,12"
+                               Foreground="#444"
+                               Text="Окно свернётся в трей; сценарий: фокус на игру, открытие торговли (OCR имени — «Настройки областей»), затем Market Ratio: I HAVE = продаём (Exalted Orb), I WANT = покупаем (Divine Orb). Шаги — в сессионном логе."/>
+                    <Expander x:Name="MarketRatioExaltedDivineExpander" Header="Market Ratio: Exalted Orb → Divine Orb" IsExpanded="True" Margin="0,0,0,12">
+                        <StackPanel x:Name="MarketRatioExaltedDivinePanel">
+                            <TextBlock x:Name="MarketRatioHelpTextBlock"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,10"
+                                       Foreground="#444"
+                                       Text="Задайте области при открытом Market Ratio. I HAVE / I WANT / список валют — для выбора пары. Дополнительно: область текста курса (например 1 : 1) и область золота под ним — для записи в Log/currency_exchange_rates.csv при успешном выставлении пары."/>
+                            <TextBlock x:Name="MarketRatioIHaveLabel" Text="I HAVE (продаём — Exalted Orb)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="MarketRatioIHaveInfo"
+                                       Text="не задана"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,6"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickMarketRatioIHaveBtn"
+                                    Content="Задать область (I HAVE)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,10"
+                                    Click="PickMarketRatioIHaveBtn_OnClick"/>
+                            <TextBlock x:Name="MarketRatioIWantLabel" Text="I WANT (покупаем — Divine Orb)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="MarketRatioIWantInfo"
+                                       Text="не задана"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,6"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickMarketRatioIWantBtn"
+                                    Content="Задать область (I WANT)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,10"
+                                    Click="PickMarketRatioIWantBtn_OnClick"/>
+                            <TextBlock x:Name="MarketRatioPickerListLabel" Text="Список валют (при открытом выборе)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="MarketRatioPickerListInfo"
+                                       Text="не задана"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,6"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickMarketRatioPickerListBtn"
+                                    Content="Задать область (список названий валют)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,10"
+                                    Click="PickMarketRatioPickerListBtn_OnClick"/>
+                            <TextBlock x:Name="MarketRatioRateReadoutLabel" Text="Текст курса (центр, например 1 : 1)" FontWeight="SemiBold" Margin="0,4,0,4"/>
+                            <TextBlock x:Name="MarketRatioRateReadoutInfo"
+                                       Text="не задана"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,6"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickMarketRatioRateReadoutBtn"
+                                    Content="Задать область (курс обмена)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,10"
+                                    Click="PickMarketRatioRateReadoutBtn_OnClick"/>
+                            <TextBlock x:Name="MarketRatioGoldFeeReadoutLabel" Text="Комиссия в золоте (под курсом)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="MarketRatioGoldFeeReadoutInfo"
+                                       Text="не задана"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,6"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickMarketRatioGoldFeeReadoutBtn"
+                                    Content="Задать область (золото)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,10"
+                                    Click="PickMarketRatioGoldFeeReadoutBtn_OnClick"/>
+                            <TextBlock x:Name="MarketRatioDepthHoverLabel" Text="Стакан: наведение на панель Market Ratio (до Alt)" FontWeight="SemiBold" Margin="0,8,0,4"/>
+                            <TextBlock x:Name="MarketRatioDepthHoverInfo"
+                                       Text="не задана"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,6"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickMarketRatioDepthHoverBtn"
+                                    Content="Задать область (наведение для стакана)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,10"
+                                    Click="PickMarketRatioDepthHoverBtn_OnClick"/>
+                            <TextBlock x:Name="MarketRatioOrderBookOcrLabel" Text="Стакан: область OCR всего окна (Available + Competing)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBlock x:Name="MarketRatioOrderBookOcrInfo"
+                                       Text="не задана"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,6"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickMarketRatioOrderBookOcrBtn"
+                                    Content="Задать область (OCR стакана при открытом Alt)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,8"
+                                    Click="PickMarketRatioOrderBookOcrBtn_OnClick"/>
+                            <TextBlock Text="Ручные сетки 6×2 (разметка областей; OCR только по ячейкам)" FontWeight="SemiBold" Margin="0,6,0,4"/>
+
+                            <TextBlock x:Name="MarketRatioBothAvailableGridInfo"
+                                       Text="не задана"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,4"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickMarketRatioBothAvailableGridBtn"
+                                    Content="Задать сетку BOTH → AVAILABLE (один прямоугольник)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,6"
+                                    Click="PickMarketRatioBothAvailableGridBtn_OnClick"/>
+
+                            <TextBlock x:Name="MarketRatioBothCompetingGridInfo"
+                                       Text="не задана"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,4"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickMarketRatioBothCompetingGridBtn"
+                                    Content="Задать сетку BOTH → COMPETING (один прямоугольник)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,6"
+                                    Click="PickMarketRatioBothCompetingGridBtn_OnClick"/>
+
+                            <TextBlock x:Name="MarketRatioAvailableOnlyGridInfo"
+                                       Text="не задана"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,4"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickMarketRatioAvailableOnlyGridBtn"
+                                    Content="Задать сетку AVAILABLE ONLY (один прямоугольник)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,6"
+                                    Click="PickMarketRatioAvailableOnlyGridBtn_OnClick"/>
+
+                            <TextBlock x:Name="MarketRatioCompetingOnlyGridInfo"
+                                       Text="не задана"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,4"
+                                       Foreground="#555"/>
+                            <Button x:Name="PickMarketRatioCompetingOnlyGridBtn"
+                                    Content="Задать сетку COMPETING ONLY (один прямоугольник)…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,8"
+                                    Click="PickMarketRatioCompetingOnlyGridBtn_OnClick"/>
+                            <TextBlock x:Name="MarketRatioDepthOffsetLabel" Text="Сдвиг курсора вправо после Alt (px)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <TextBox x:Name="MarketRatioDepthOffsetXPxTextBox"
+                                     Width="80"
+                                     HorizontalAlignment="Left"
+                                     Margin="0,0,0,10"
+                                     Text="200"/>
+                            <Button x:Name="TestMarketRatioExaltedDivineBtn"
+                                    Content="Только выставить пару (без трея)"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,0"
+                                    Click="TestMarketRatioExaltedDivineBtn_OnClick"
+                                    ToolTip="Не сворачивает окно: откройте Market Ratio в игре, затем нажмите — для проверки областей."/>
+                        </StackPanel>
+                    </Expander>
+                    <Expander x:Name="GoldFeeIWantLibraryExpander" Header="Библиотека золота (I WANT)" IsExpanded="False" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap"
+                                       Margin="0,0,0,8"
+                                       Foreground="#444"
+                                       Text="Стоимость в золоте привязана к валюте I WANT (фикс патча). Перед запуском откройте Market Ratio и выставьте I HAVE вручную; сценарий только переключает I WANT по списку и OCR области золота. Файл списка — в корне проекта, одна валюта на строку (# — комментарий). В Log/currency_iwant_gold_fee_library.csv столбцы: валюта, золото, дата; новая строка добавляется, только если такой пары (валюта+стоимость) ещё не было — при смене стоимости после патча появится новая строка. Для расчётов берите последнюю по дате запись для валюты: золото_за_единицу × количество I WANT."/>
+                            <TextBlock x:Name="GoldFeeScanListPathTextBlock"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,4"
+                                       Foreground="#555"/>
+                            <TextBlock x:Name="GoldFeeLibraryPathTextBlock"
+                                       TextWrapping="Wrap"
+                                       Margin="0,0,0,10"
+                                       Foreground="#555"/>
+                            <Button x:Name="CollectIWantGoldFeeLibraryBtn"
+                                    Content="Собрать золото по списку I WANT…"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,0"
+                                    Click="CollectIWantGoldFeeLibraryBtn_OnClick"
+                                    ToolTip="Фокус на игру: по очереди выбирает каждую валюту из списка в I WANT и дописывает библиотеку золота."/>
+                        </StackPanel>
+                    </Expander>
+                    <Button x:Name="StartExchangeRateScanBtn"
+                            Content="Запустить сканирование"
+                            HorizontalAlignment="Left"
+                            Padding="12,6"
+                            Margin="0,0,0,10"
+                            Click="StartExchangeRateScanBtn_OnClick"
+                            ToolTip="Свернуть в трей и запустить сценарий: фокус на PoE2, при настроенной области — OCR имени и Ctrl+ЛКМ для окна торговли."/>
+                    <TextBlock x:Name="InfoCollectionStatusTextBlock"
+                               TextWrapping="Wrap"
+                               Foreground="#555"
+                               Text="Готово к запуску."/>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
         <TabItem x:Name="TabAppSettings" Header="Настройки приложения">
             <Grid Margin="16">
                 <Grid.RowDefinitions>
@@ -323,6 +557,11 @@
                               Content="Пошаговое подтверждение: окно после каждого действия (Enter = Продолжить)"
                               ToolTip="Для отладки. Закрытие окна крестиком отменяет цикл (Стоп). В бою с игрой обычно выключено."/>
 
+                    <CheckBox x:Name="TraceExaltationSchemaCheckBox"
+                              Margin="0,8,0,0"
+                              Content="Трассировка схемы экзальт-крафта ([ExaltSchema] в логе — узел ASCII-флоу)"
+                              ToolTip="Только для режима Orb of Exaltation (Fractured). В лог пишутся строки [ExaltSchema] … с якорем на docs/EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt. Сочетайте с F5 и подробным логом ввода при необходимости."/>
+
                     <CheckBox x:Name="KillPoeAfterCraftCheckBox"
                               Margin="0,8,0,0"
                               Content="Завершить процесс PathOfExileSteam.exe после завершения крафта"
@@ -330,6 +569,36 @@
                 </StackPanel>
 
                 <StackPanel Grid.Row="5">
+                    <TextBlock FontWeight="SemiBold" Margin="0,0,0,4"
+                               Text="Горячая клавиша «Свернуть / развернуть в трей» (кликните в поле и нажмите комбинацию; Esc — сбросить):"/>
+                    <TextBox x:Name="TrayHotkeyBox"
+                             IsReadOnly="True"
+                             Cursor="Arrow"
+                             Margin="0,0,0,12"
+                             Text="(не задано)"
+                             PreviewKeyDown="TrayHotkeyBox_PreviewKeyDown"
+                             ToolTip="Работает глобально — сворачивает и разворачивает окно без фокуса на приложении."/>
+
+                    <TextBlock FontWeight="SemiBold" Margin="0,0,0,4"
+                               Text="Горячая клавиша «Открыть лог крафта» (кликните в поле и нажмите комбинацию; Esc — сбросить):"/>
+                    <TextBox x:Name="OpenLogHotkeyBox"
+                             IsReadOnly="True"
+                             Cursor="Arrow"
+                             Margin="0,0,0,12"
+                             Text="(не задано)"
+                             PreviewKeyDown="OpenLogHotkeyBox_PreviewKeyDown"
+                             ToolTip="Работает глобально — открывает файл текущего или последнего крафта."/>
+
+                    <TextBlock FontWeight="SemiBold" Margin="0,0,0,4"
+                               Text="Горячая клавиша «Старт / Стоп крафта» (кликните в поле и нажмите комбинацию; Esc — сбросить):"/>
+                    <TextBox x:Name="CraftStartStopHotkeyBox"
+                             IsReadOnly="True"
+                             Cursor="Arrow"
+                             Margin="0,0,0,12"
+                             Text="(не задано)"
+                             PreviewKeyDown="CraftStartStopHotkeyBox_PreviewKeyDown"
+                             ToolTip="Работает глобально — запускает крафт если он не идёт, или останавливает если идёт."/>
+
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                         <Button x:Name="MinimizeToTrayBtn"
                                 Content="В трей"
@@ -337,6 +606,11 @@
                                 Margin="0,0,0,0"
                                 Click="MinimizeToTray_OnClick"
                                 ToolTip="Скрыть окно в область уведомлений (иконка у часов). ПКМ по иконке — меню."/>
+                        <Button x:Name="OpenLogBtn"
+                                Content="Открыть лог крафта"
+                                Margin="8,0,0,0"
+                                Click="OpenLogBtn_OnClick"
+                                ToolTip="Открыть файл текущего крафта (если запущен) или последнего завершённого крафта."/>
                     </StackPanel>
 
                     <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4">

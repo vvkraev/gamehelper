@@ -25,7 +25,7 @@ public partial class RecipeNameDialog : Window
         var safe = RecipeStore.SanitizeRecipeName(raw);
         if (safe.Length == 0)
         {
-            MessageBox.Show("Введите имя рецепта.", "Рецепт", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,"Введите имя рецепта.", "Рецепт", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 

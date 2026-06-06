@@ -14,6 +14,7 @@ public partial class ItemParsingWindow : Window
     public ItemParsingWindow(ParsedItem item)
     {
         InitializeComponent();
+        WindowGeometryStore.Attach(this, "ItemParsingWindow");
         _parsedItem = item ?? throw new ArgumentNullException(nameof(item));
         DisplayItem();
     }

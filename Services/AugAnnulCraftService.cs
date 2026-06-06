@@ -5,7 +5,7 @@ using GameHelper.Native;
 namespace GameHelper.Services;
 
 /// <summary>Крафт по Magic-предмету: Orb of Augmentation / Orb of Annulment с проверкой условия через ItemParser.</summary>
-public sealed class AugAnnulCraftService
+public sealed class AugAnnulCraftService : IAugAnnulCraftService
 {
     private const double DelayJitterFraction = 0.30;
 
@@ -211,7 +211,7 @@ public sealed class AugAnnulCraftService
         await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
     }
 
-    public async Task<(ChaosCraftResult Result, int AttemptsConsumed)> RunAsync(
+    public async Task<CraftResult> RunAsync(
         ScreenRect augOrbArea,
         ScreenRect annulOrbArea,
         ScreenRect itemArea,
@@ -227,7 +227,7 @@ public sealed class AugAnnulCraftService
         CraftRunFileLog? craftLog = null)
     {
         if (segmentMaxOperations < 1 || globalTotal < 1)
-            return (ChaosCraftResult.Error, 0);
+            return CraftResult.Failed();
 
         var pattern = conditionSummary.Trim();
         if (pattern.Length == 0)
@@ -271,7 +271,7 @@ public sealed class AugAnnulCraftService
                 if (preMatch)
                 {
                     log?.Report("Условие уже выполнено — орбы не применяются, переходим к следующей ячейке.");
-                    return (ChaosCraftResult.AffixFound, 0);
+                    return CraftResult.Found(0, currentClipboard);
                 }
 
                 var prefixCount = current.Affixes.Count(a => string.Equals(a.Type, "Prefix Modifier", StringComparison.OrdinalIgnoreCase));
@@ -304,7 +304,7 @@ public sealed class AugAnnulCraftService
                         if (annulOnlySafety > 10)
                         {
                             craftLog?.WriteValidationError("Слишком много Annul подряд без Aug (защита от бесконечного цикла).");
-                            return (ChaosCraftResult.Error, augStepsConsumed);
+                            return CraftResult.Failed(augStepsConsumed);
                         }
                     }
                 }
@@ -327,13 +327,13 @@ public sealed class AugAnnulCraftService
                     ct,
                     $"Ауг+Аннул: after, попытка {displayAttempt}/{globalTotal}" + (didAugThisCycle ? " (после Aug)" : " (после Annul)")).ConfigureAwait(false);
                 if (string.IsNullOrWhiteSpace(clip))
-                    return (ChaosCraftResult.EmptyCell, augStepsConsumed);
+                    return CraftResult.Empty(augStepsConsumed);
 
                 var parsed = ItemParser.Parse(clip);
                 if (parsed is not { IsValid: true })
                 {
                     craftLog?.WriteValidationError("ItemParser: не удалось разобрать текст после применения сфер.");
-                    return (ChaosCraftResult.Error, augStepsConsumed);
+                    return CraftResult.Failed(augStepsConsumed);
                 }
 
                 currentClipboard = clip;
@@ -351,21 +351,21 @@ public sealed class AugAnnulCraftService
                         true,
                         "[проверка после орбов] " + postExplanation);
                     log?.Report("Условие выполнено после применения сфер — переходим к следующей ячейке.");
-                    return (ChaosCraftResult.AffixFound, augStepsConsumed);
+                    return CraftResult.Found(augStepsConsumed, currentClipboard);
                 }
             }
             catch (OperationCanceledException)
             {
                 Win32Input.ReleaseCtrlAlt();
                 log?.Report("Остановлено пользователем.");
-                return (ChaosCraftResult.Cancelled, augStepsConsumed);
+                return CraftResult.Stopped(augStepsConsumed);
             }
             catch (Exception ex)
             {
                 Win32Input.ReleaseCtrlAlt();
                 craftLog?.WriteValidationError("Исключение: " + ex.Message);
                 log?.Report("Ошибка: " + ex.Message);
-                return (ChaosCraftResult.Error, augStepsConsumed);
+                return CraftResult.Failed(augStepsConsumed);
             }
             finally
             {
@@ -373,7 +373,7 @@ public sealed class AugAnnulCraftService
             }
         }
 
-        return (ChaosCraftResult.MaxAttemptsReached, augStepsConsumed);
+        return CraftResult.LimitReached(augStepsConsumed);
     }
 }
 

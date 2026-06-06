@@ -48,8 +48,9 @@ public static class CraftConditionMigration
                     Single = new CraftSingleAffixData
                     {
                         AffixType = entry.AffixType,
-                        AffixName = "",
-                        AffixTier = 0,
+                        AffixName = entry.AffixName,
+                        SelectedAffixNames = new List<string> { entry.AffixName },
+                        AffixTier = entry.AffixTier,
                         StatTemplate = s.CraftAffixStat,
                         MinRoll = min,
                         MinRolls = minRolls,

@@ -2,6 +2,12 @@
 
 Этот документ объясняет, что находится в каждом файле проекта и как всё работает вместе.
 
+## Документация (`docs/`)
+
+- **[CRAFT_CONDITION_AFFIX_MATCH_ASCII.txt](CRAFT_CONDITION_AFFIX_MATCH_ASCII.txt)** — сопоставление условия остановки крафта с `affix_library.json` и распарсенным предметом (`ParsedItem`): клозы Single / Sum / Count / WholeModifier, семейства типа модификатора (Prefix ↔ Desecrated Prefix и т.д.), цепочка `StatLineMatchesTemplate`, связь с `CraftConditionEvaluator` и `ParsedItemCraftEvaluator`.
+
+См. также ASCII-потоки сервисов: [CHAOS_CRAFT_SERVICE_FLOW_ASCII.txt](CHAOS_CRAFT_SERVICE_FLOW_ASCII.txt), [AUG_ANNUL_DECISION_FLOW_ASCII.txt](AUG_ANNUL_DECISION_FLOW_ASCII.txt), [EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt](EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt).
+
 ## 🗂️ СТРУКТУРА ПРОЕКТА
 
 ### Корневая папка (Main folder)

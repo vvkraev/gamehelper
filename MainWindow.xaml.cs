@@ -3,6 +3,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Input;
 using System.Windows.Interop;
 using GameHelper.Native;
 using GameHelper.Services;
@@ -33,12 +34,36 @@ public partial class MainWindow : Window
     private List<ScreenRect> _omenSinistralCells = new();
     private List<ScreenRect> _omenDextralCells = new();
     private List<ScreenRect> _omenGreaterCells = new();
+    private ScreenRect? _traderNameOcrRegion;
+    private ScreenRect? _marketRatioIHaveRect;
+    private ScreenRect? _marketRatioIWantRect;
+    private ScreenRect? _marketRatioPickerListRect;
+    private ScreenRect? _marketRatioRateReadoutRect;
+    private ScreenRect? _marketRatioGoldFeeReadoutRect;
+    private ScreenRect? _marketRatioDepthHoverRect;
+    private ScreenRect? _marketRatioOrderBookOcrRect;
+    private List<ScreenRect> _marketRatioBothAvailableCells = new();
+    private List<ScreenRect> _marketRatioBothCompetingCells = new();
+    private List<ScreenRect> _marketRatioAvailableOnlyCells = new();
+    private List<ScreenRect> _marketRatioCompetingOnlyCells = new();
+    private bool _exchangeRateScanBusy;
+    private bool _goldFeeLibraryScanBusy;
     private System.Windows.Forms.NotifyIcon? _trayIcon;
 
     private List<AffixLibraryEntry> _affixEntries = new();
     private CraftConditionPlan _craftPlan = new();
     private HwndSource? _hwndSource;
     private bool _craftCancelHotkeyRegistered;
+    private bool _trayToggleHotkeyRegistered;
+    private int _trayToggleVirtualKey;
+    private int _trayToggleModifiers;
+    private bool _openLogHotkeyRegistered;
+    private int _openLogVirtualKey;
+    private int _openLogModifiers;
+    private bool _craftStartStopHotkeyRegistered;
+    private int _craftStartStopVirtualKey;
+    private int _craftStartStopModifiers;
+    private string? _activeCraftLogPath;
 
     private static (bool WantPrefix, bool WantSuffix) GetWantedAffixTypes(CraftConditionPlan plan)
     {
@@ -88,6 +113,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         _exaltCraft = new ExaltationCraftServiceFracturedSide(_omen);
+        WindowGeometryStore.Attach(this, "MainWindow");
         Loaded += MainWindow_OnLoaded;
         Closing += MainWindow_OnClosing;
         Closed += MainWindow_OnClosed;
@@ -119,6 +145,24 @@ public partial class MainWindow : Window
                         RequestCraftCancel();
                 });
             }
+
+            if (id >= GlobalHotkey.TrayToggleHotkeyIdBase && id < GlobalHotkey.TrayToggleHotkeyIdBase + 8)
+            {
+                handled = true;
+                Dispatcher.BeginInvoke(ToggleTray);
+            }
+
+            if (id >= GlobalHotkey.OpenLogHotkeyIdBase && id < GlobalHotkey.OpenLogHotkeyIdBase + 8)
+            {
+                handled = true;
+                Dispatcher.BeginInvoke(OpenCraftLog);
+            }
+
+            if (id >= GlobalHotkey.CraftStartStopHotkeyIdBase && id < GlobalHotkey.CraftStartStopHotkeyIdBase + 8)
+            {
+                handled = true;
+                Dispatcher.BeginInvoke(ToggleCraftStartStop);
+            }
         }
 
         return IntPtr.Zero;
@@ -127,6 +171,9 @@ public partial class MainWindow : Window
     private void MainWindow_OnClosing(object? sender, System.ComponentModel.CancelEventArgs e)
     {
         UnregisterCraftCancelHotkey();
+        UnregisterTrayToggleHotkey();
+        UnregisterOpenLogHotkey();
+        UnregisterCraftStartStopHotkey();
         SaveSettings();
         DisposeTrayIcon();
     }
@@ -150,6 +197,7 @@ public partial class MainWindow : Window
         SessionLogger.NewLine += OnSessionNewLine;
         SessionLogger.Info("Главное окно открыто.");
         RefreshAffixLibraryIntoCombos();
+        RefreshGoldFeeLibraryPathHints();
     }
 
     private void SetupTrayIcon()
@@ -190,6 +238,185 @@ public partial class MainWindow : Window
         SetupTrayIcon();
         _trayIcon!.Visible = true;
         Hide();
+    }
+
+    private async void StartExchangeRateScanBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (_exchangeRateScanBusy)
+        {
+            MessageBox.Show(this,
+                "Сканирование уже выполняется. Дождитесь завершения (уведомление в трее) или разверните окно и проверьте лог.",
+                "Сбор информации",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+            return;
+        }
+
+        SaveSettings();
+
+        if (!int.TryParse(MouseActionDelayMs.Text.Trim(), out var mouseMs) || mouseMs < 0)
+            mouseMs = 80;
+
+        if (!int.TryParse(MarketRatioDepthOffsetXPxTextBox.Text.Trim(), out var depthOffPx))
+            depthOffPx = 200;
+
+        var traderRect = _traderNameOcrRegion;
+        var npcName = string.IsNullOrWhiteSpace(TraderNpcNameTextBox.Text)
+            ? "ANGE"
+            : TraderNpcNameTextBox.Text.Trim();
+
+        _exchangeRateScanBusy = true;
+        StartExchangeRateScanBtn.IsEnabled = false;
+        InfoCollectionStatusTextBlock.Text = "Сканирование выполняется… окно в трее.";
+
+        SetupTrayIcon();
+        _trayIcon!.Visible = true;
+        Hide();
+
+        try
+        {
+            await ExchangeRateInfoCollectionScan.RunAsync(
+                    traderRect,
+                    npcName,
+                    _marketRatioIHaveRect,
+                    _marketRatioIWantRect,
+                    _marketRatioPickerListRect,
+                    _marketRatioRateReadoutRect,
+                    _marketRatioGoldFeeReadoutRect,
+                    _marketRatioDepthHoverRect,
+                    _marketRatioOrderBookOcrRect,
+                    depthOffPx,
+                    mouseMs,
+                    new Progress<string>(SessionLogger.Info),
+                    CancellationToken.None)
+                .ConfigureAwait(true);
+
+            InfoCollectionStatusTextBlock.Text = $"Сканирование завершено ({DateTime.Now:HH:mm:ss}). См. сессионный лог.";
+            try
+            {
+                _trayIcon?.ShowBalloonTip(
+                    5000,
+                    "GameHelper",
+                    "Сбор информации (курс обмена) завершён. Разверните окно из трея при необходимости.",
+                    System.Windows.Forms.ToolTipIcon.Info);
+            }
+            catch
+            {
+                // уведомления из трея могут быть отключены в системе
+            }
+        }
+        catch (Exception ex)
+        {
+            SessionLogger.Info($"[Сбор курса] Ошибка: {ex.Message}");
+            InfoCollectionStatusTextBlock.Text = "Ошибка — см. лог.";
+            try
+            {
+                _trayIcon?.ShowBalloonTip(6000, "GameHelper", "Ошибка сканирования. См. лог.", System.Windows.Forms.ToolTipIcon.Error);
+            }
+            catch
+            {
+                // tray-уведомление может быть недоступно; основная ошибка уже залогирована выше
+            }
+        }
+        finally
+        {
+            _exchangeRateScanBusy = false;
+            StartExchangeRateScanBtn.IsEnabled = true;
+        }
+    }
+
+    private void RefreshGoldFeeLibraryPathHints()
+    {
+        GoldFeeScanListPathTextBlock.Text = $"Список валют: {CurrencyIWantGoldScanList.GetDefaultPath()}";
+        GoldFeeLibraryPathTextBlock.Text = $"Библиотека CSV: {GoldFeeLibraryStore.GetFilePath()}";
+    }
+
+    private async void CollectIWantGoldFeeLibraryBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (_goldFeeLibraryScanBusy)
+        {
+            MessageBox.Show(this,
+                "Сбор библиотеки золота уже выполняется.",
+                "Библиотека золота I WANT",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+            return;
+        }
+
+        SaveSettings();
+        RefreshGoldFeeLibraryPathHints();
+
+        if (_marketRatioIWantRect is not { Width: > 0, Height: > 0 } iw ||
+            _marketRatioPickerListRect is not { Width: > 0, Height: > 0 } pl ||
+            _marketRatioGoldFeeReadoutRect is not { Width: > 0, Height: > 0 } goldRect)
+        {
+            MessageBox.Show(this,
+                "Задайте области I WANT, список валют и область золота (комиссия под курсом).",
+                "Библиотека золота I WANT",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+            return;
+        }
+
+        var listPath = CurrencyIWantGoldScanList.GetDefaultPath();
+        var labels = CurrencyIWantGoldScanList.ReadLabels(listPath);
+        if (labels.Count == 0)
+        {
+            MessageBox.Show(this,
+                $"Добавьте валюты в файл (по одной на строку):\n{listPath}",
+                "Библиотека золота I WANT",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+            return;
+        }
+
+        if (!int.TryParse(MouseActionDelayMs.Text.Trim(), out var mouseMs) || mouseMs < 0)
+            mouseMs = 80;
+
+        _goldFeeLibraryScanBusy = true;
+        CollectIWantGoldFeeLibraryBtn.IsEnabled = false;
+        InfoCollectionStatusTextBlock.Text = "Сбор библиотеки золота I WANT…";
+
+        try
+        {
+            _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+            await Task.Delay(280, CancellationToken.None).ConfigureAwait(true);
+
+            var result = await GoldFeeLibraryScanRunner.RunAsync(
+                    iw,
+                    pl,
+                    goldRect,
+                    labels,
+                    mouseMs,
+                    new Progress<string>(SessionLogger.Info),
+                    CancellationToken.None)
+                .ConfigureAwait(true);
+
+            SessionLogger.Info(
+                $"[Золото I WANT] Итог: всего={result.Total}, добавлено строк={result.Appended}, " +
+                $"пропуск (пара уже есть)={result.SkippedDuplicatePair}, OCR золота не разобрал={result.OcrGoldFailed}, список/OCR валюты={result.PickerFailed}.");
+
+            InfoCollectionStatusTextBlock.Text =
+                $"Библиотека золота: добавлено {result.Appended}, пропуск дубликата {result.SkippedDuplicatePair} ({DateTime.Now:HH:mm:ss}).";
+
+            MessageBox.Show(this,
+                $"Готово.\nДобавлено новых строк: {result.Appended}\nПропущено (та же валюта+золото): {result.SkippedDuplicatePair}\n" +
+                $"Не разобрано золото: {result.OcrGoldFailed}\nСбой выбора валюты: {result.PickerFailed}\n\n{GoldFeeLibraryStore.GetFilePath()}",
+                "Библиотека золота I WANT",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            SessionLogger.Info($"[Золото I WANT] Ошибка: {ex.Message}");
+            InfoCollectionStatusTextBlock.Text = "Ошибка сбора библиотеки золота — см. лог.";
+            MessageBox.Show(this,ex.Message, "Библиотека золота I WANT", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        finally
+        {
+            _goldFeeLibraryScanBusy = false;
+            CollectIWantGoldFeeLibraryBtn.IsEnabled = true;
+        }
     }
 
     private void ApplySettings()
@@ -255,6 +482,77 @@ public partial class MainWindow : Window
             RitualInventoryInfo.Text = FormatRect(s.RitualInventoryRect);
         }
 
+        if (s.TraderNameOcrSearchRect is { Width: > 0, Height: > 0 })
+        {
+            _traderNameOcrRegion = s.TraderNameOcrSearchRect;
+            TraderNameOcrRegionInfo.Text = FormatRect(s.TraderNameOcrSearchRect);
+        }
+
+        var traderNpcName = (s.TraderNpcNameForOcr ?? "").Trim();
+        if (!string.IsNullOrEmpty(traderNpcName))
+            TraderNpcNameTextBox.Text = traderNpcName;
+
+        if (s.MarketRatioIHaveClickRect is { Width: > 0, Height: > 0 })
+        {
+            _marketRatioIHaveRect = s.MarketRatioIHaveClickRect;
+            MarketRatioIHaveInfo.Text = FormatRect(s.MarketRatioIHaveClickRect);
+        }
+
+        if (s.MarketRatioIWantClickRect is { Width: > 0, Height: > 0 })
+        {
+            _marketRatioIWantRect = s.MarketRatioIWantClickRect;
+            MarketRatioIWantInfo.Text = FormatRect(s.MarketRatioIWantClickRect);
+        }
+
+        if (s.MarketRatioCurrencyPickerListRect is { Width: > 0, Height: > 0 })
+        {
+            _marketRatioPickerListRect = s.MarketRatioCurrencyPickerListRect;
+            MarketRatioPickerListInfo.Text = FormatRect(s.MarketRatioCurrencyPickerListRect);
+        }
+
+        if (s.MarketRatioRateReadoutRect is { Width: > 0, Height: > 0 })
+        {
+            _marketRatioRateReadoutRect = s.MarketRatioRateReadoutRect;
+            MarketRatioRateReadoutInfo.Text = FormatRect(s.MarketRatioRateReadoutRect);
+        }
+
+        if (s.MarketRatioGoldFeeReadoutRect is { Width: > 0, Height: > 0 })
+        {
+            _marketRatioGoldFeeReadoutRect = s.MarketRatioGoldFeeReadoutRect;
+            MarketRatioGoldFeeReadoutInfo.Text = FormatRect(s.MarketRatioGoldFeeReadoutRect);
+        }
+
+        if (s.MarketRatioDepthHoverRect is { Width: > 0, Height: > 0 })
+        {
+            _marketRatioDepthHoverRect = s.MarketRatioDepthHoverRect;
+            MarketRatioDepthHoverInfo.Text = FormatRect(s.MarketRatioDepthHoverRect);
+        }
+
+        if (s.MarketRatioOrderBookOcrRect is { Width: > 0, Height: > 0 })
+        {
+            _marketRatioOrderBookOcrRect = s.MarketRatioOrderBookOcrRect;
+            MarketRatioOrderBookOcrInfo.Text = FormatRect(s.MarketRatioOrderBookOcrRect);
+        }
+
+        _marketRatioBothAvailableCells = s.MarketRatioOrderBookBothAvailableCells is { Count: 12 }
+            ? s.MarketRatioOrderBookBothAvailableCells.ToList()
+            : new List<ScreenRect>();
+        _marketRatioBothCompetingCells = s.MarketRatioOrderBookBothCompetingCells is { Count: 12 }
+            ? s.MarketRatioOrderBookBothCompetingCells.ToList()
+            : new List<ScreenRect>();
+        _marketRatioAvailableOnlyCells = s.MarketRatioOrderBookAvailableOnlyCells is { Count: 12 }
+            ? s.MarketRatioOrderBookAvailableOnlyCells.ToList()
+            : new List<ScreenRect>();
+        _marketRatioCompetingOnlyCells = s.MarketRatioOrderBookCompetingOnlyCells is { Count: 12 }
+            ? s.MarketRatioOrderBookCompetingOnlyCells.ToList()
+            : new List<ScreenRect>();
+        MarketRatioBothAvailableGridInfo.Text = FormatOrderBookGridSummary(_marketRatioBothAvailableCells);
+        MarketRatioBothCompetingGridInfo.Text = FormatOrderBookGridSummary(_marketRatioBothCompetingCells);
+        MarketRatioAvailableOnlyGridInfo.Text = FormatOrderBookGridSummary(_marketRatioAvailableOnlyCells);
+        MarketRatioCompetingOnlyGridInfo.Text = FormatOrderBookGridSummary(_marketRatioCompetingOnlyCells);
+
+        MarketRatioDepthOffsetXPxTextBox.Text = s.MarketRatioDepthHoverOffsetXPx.ToString();
+
         if (s.OmenSinistralCells is { Count: > 0 })
             _omenSinistralCells = s.OmenSinistralCells.ToList();
         else if (s.OmenSinistralRect is { Width: > 0, Height: > 0 })
@@ -289,6 +587,7 @@ public partial class MainWindow : Window
         MaxOps.Text = s.MaxOps.ToString();
         TraceInputCheckBox.IsChecked = s.TraceInput;
         StepConfirmCheckBox.IsChecked = s.StepConfirm;
+        TraceExaltationSchemaCheckBox.IsChecked = s.TraceExaltationSchema;
         _craft.ClipboardDelayMs = s.ClipboardDelayMs;
 
         var mode = (s.CraftMode ?? "").Trim();
@@ -300,6 +599,21 @@ public partial class MainWindow : Window
             CraftModeCombo.SelectedIndex = 3;
         else
             CraftModeCombo.SelectedIndex = 0;
+
+        _trayToggleVirtualKey = s.TrayToggleVirtualKey;
+        _trayToggleModifiers = s.TrayToggleModifiers;
+        UpdateTrayHotkeyDisplay();
+        RegisterTrayToggleHotkey();
+
+        _openLogVirtualKey = s.OpenLogVirtualKey;
+        _openLogModifiers = s.OpenLogModifiers;
+        UpdateOpenLogHotkeyDisplay();
+        RegisterOpenLogHotkey();
+
+        _craftStartStopVirtualKey = s.CraftStartStopVirtualKey;
+        _craftStartStopModifiers = s.CraftStartStopModifiers;
+        UpdateCraftStartStopHotkeyDisplay();
+        RegisterCraftStartStopHotkey();
     }
 
     private void SaveSettings()
@@ -317,6 +631,22 @@ public partial class MainWindow : Window
             OmenSinistralStashRect = _omenSinistralStashRegion ?? default,
             OmenDextralStashRect = _omenDextralStashRegion ?? default,
             OmenGreaterStashRect = _omenGreaterStashRegion ?? default,
+            TraderNameOcrSearchRect = _traderNameOcrRegion ?? default,
+            TraderNpcNameForOcr = string.IsNullOrWhiteSpace(TraderNpcNameTextBox.Text)
+                ? "ANGE"
+                : TraderNpcNameTextBox.Text.Trim(),
+            MarketRatioIHaveClickRect = _marketRatioIHaveRect ?? default,
+            MarketRatioIWantClickRect = _marketRatioIWantRect ?? default,
+            MarketRatioCurrencyPickerListRect = _marketRatioPickerListRect ?? default,
+            MarketRatioRateReadoutRect = _marketRatioRateReadoutRect ?? default,
+            MarketRatioGoldFeeReadoutRect = _marketRatioGoldFeeReadoutRect ?? default,
+            MarketRatioDepthHoverRect = _marketRatioDepthHoverRect ?? default,
+            MarketRatioOrderBookOcrRect = _marketRatioOrderBookOcrRect ?? default,
+            MarketRatioDepthHoverOffsetXPx = int.TryParse(MarketRatioDepthOffsetXPxTextBox.Text.Trim(), out var dox) ? dox : 200,
+            MarketRatioOrderBookBothAvailableCells = _marketRatioBothAvailableCells.Count == 12 ? _marketRatioBothAvailableCells : null,
+            MarketRatioOrderBookBothCompetingCells = _marketRatioBothCompetingCells.Count == 12 ? _marketRatioBothCompetingCells : null,
+            MarketRatioOrderBookAvailableOnlyCells = _marketRatioAvailableOnlyCells.Count == 12 ? _marketRatioAvailableOnlyCells : null,
+            MarketRatioOrderBookCompetingOnlyCells = _marketRatioCompetingOnlyCells.Count == 12 ? _marketRatioCompetingOnlyCells : null,
 
             OmenSinistralRect = _omenSinistralCells.Count > 0 ? _omenSinistralCells[0] : default,
             OmenSinistralCells = _omenSinistralCells.Count > 0 ? _omenSinistralCells : null,
@@ -341,6 +671,13 @@ public partial class MainWindow : Window
             CraftMode = uiMode,
             TraceInput = TraceInputCheckBox.IsChecked == true,
             StepConfirm = StepConfirmCheckBox.IsChecked == true,
+            TraceExaltationSchema = TraceExaltationSchemaCheckBox.IsChecked == true,
+            TrayToggleVirtualKey = _trayToggleVirtualKey,
+            TrayToggleModifiers = _trayToggleModifiers,
+            OpenLogVirtualKey = _openLogVirtualKey,
+            OpenLogModifiers = _openLogModifiers,
+            CraftStartStopVirtualKey = _craftStartStopVirtualKey,
+            CraftStartStopModifiers = _craftStartStopModifiers,
         };
         SettingsStore.Save(s);
     }
@@ -372,7 +709,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBox.Show(
+            MessageBox.Show(this,
                 "Не удалось скопировать в буфер обмена: " + ex.Message,
                 "Копирование",
                 MessageBoxButton.OK,
@@ -382,7 +719,7 @@ public partial class MainWindow : Window
 
     private void ClearCraftCondition_OnClick(object sender, RoutedEventArgs e)
     {
-        var res = MessageBox.Show(
+        var res = MessageBox.Show(this,
             "Сбросить текущее условие остановки крафта?\n\nБудут очищены: класс предмета, все OR-варианты и все условия внутри них.",
             "Очистка условия",
             MessageBoxButton.YesNo,
@@ -430,7 +767,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBox.Show("Не удалось сохранить рецепт: " + ex.Message, "Рецепт", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,"Не удалось сохранить рецепт: " + ex.Message, "Рецепт", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 
@@ -469,7 +806,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBox.Show("Не удалось загрузить рецепт: " + ex.Message, "Рецепт", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,"Не удалось загрузить рецепт: " + ex.Message, "Рецепт", MessageBoxButton.OK, MessageBoxImage.Warning);
         }
     }
 
@@ -506,6 +843,35 @@ public partial class MainWindow : Window
         if (cells.Count == 1)
             return FormatRect(cells[0]);
         return $"{cells.Count} ячеек; первая: {FormatRect(cells[0])}";
+    }
+
+    private static string FormatOrderBookGridSummary(IReadOnlyList<ScreenRect> cells)
+    {
+        if (cells.Count != 12)
+            return "не задана";
+        return $"12 ячеек (6×2); первая: {FormatRect(cells[0])}";
+    }
+
+    private static List<ScreenRect> SplitRegionToOrderBookGrid(ScreenRect region)
+    {
+        const int rows = 6;
+        const int cols = 2;
+        var cells = new List<ScreenRect>(rows * cols);
+        var colW = region.Width / cols;
+        var rowH = region.Height / rows;
+        for (var r = 0; r < rows; r++)
+        {
+            var y = region.Y + r * rowH;
+            var h = r == rows - 1 ? region.Height - rowH * (rows - 1) : rowH;
+            for (var c = 0; c < cols; c++)
+            {
+                var x = region.X + c * colW;
+                var w = c == cols - 1 ? region.Width - colW * (cols - 1) : colW;
+                cells.Add(new ScreenRect(x, y, Math.Max(1, w), Math.Max(1, h)));
+            }
+        }
+
+        return cells;
     }
 
     private void PickOrbBtn_OnClick(object sender, RoutedEventArgs e)
@@ -663,6 +1029,309 @@ public partial class MainWindow : Window
         _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
     }
 
+    private void PickTraderNameOcrRegionBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области имени NPC (OCR) отменён.");
+            return;
+        }
+
+        _traderNameOcrRegion = region;
+        TraderNameOcrRegionInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Область OCR имени NPC задана: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private async void TraderNpcOpenTradeOcrBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        SaveSettings();
+        if (_traderNameOcrRegion is not { Width: > 0, Height: > 0 } region)
+        {
+            MessageBox.Show(this,
+                "Сначала задайте область поиска имени NPC (кнопка выше).",
+                "Торговец OCR",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+            return;
+        }
+
+        var npcName = string.IsNullOrWhiteSpace(TraderNpcNameTextBox.Text)
+            ? "ANGE"
+            : TraderNpcNameTextBox.Text.Trim();
+
+        if (!int.TryParse(MouseActionDelayMs.Text.Trim(), out var mouseMs) || mouseMs < 0)
+            mouseMs = 80;
+
+        TraderNpcOpenTradeOcrBtn.IsEnabled = false;
+        try
+        {
+            var progress = new Progress<string>(msg => SessionLogger.Info(msg));
+            var ok = await TraderNpcNameOpenTradeAction.RunAsync(region, npcName, mouseMs, progress, CancellationToken.None)
+                .ConfigureAwait(true);
+            if (!ok)
+            {
+                MessageBox.Show(this,
+                    "Имя не найдено в области или ошибка ввода. Проверьте область, текст имени, язык OCR в Windows и что игра не перекрыта окном GameHelper.",
+                    "Торговец OCR",
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Warning);
+            }
+        }
+        catch (OperationCanceledException)
+        {
+            SessionLogger.Info("Торговец OCR: отмена.");
+        }
+        catch (Exception ex)
+        {
+            SessionLogger.Info($"Торговец OCR: ошибка — {ex.Message}");
+            MessageBox.Show(this,ex.Message, "Торговец OCR", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        finally
+        {
+            TraderNpcOpenTradeOcrBtn.IsEnabled = true;
+        }
+    }
+
+    private void PickMarketRatioIHaveBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области Market Ratio I HAVE отменён.");
+            return;
+        }
+
+        _marketRatioIHaveRect = region;
+        MarketRatioIHaveInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Market Ratio I HAVE: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private void PickMarketRatioIWantBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области Market Ratio I WANT отменён.");
+            return;
+        }
+
+        _marketRatioIWantRect = region;
+        MarketRatioIWantInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Market Ratio I WANT: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private void PickMarketRatioPickerListBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области списка валют Market Ratio отменён.");
+            return;
+        }
+
+        _marketRatioPickerListRect = region;
+        MarketRatioPickerListInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Market Ratio список валют: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private void PickMarketRatioRateReadoutBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области курса Market Ratio отменён.");
+            return;
+        }
+
+        _marketRatioRateReadoutRect = region;
+        MarketRatioRateReadoutInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Market Ratio курс: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private void PickMarketRatioGoldFeeReadoutBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области золота Market Ratio отменён.");
+            return;
+        }
+
+        _marketRatioGoldFeeReadoutRect = region;
+        MarketRatioGoldFeeReadoutInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Market Ratio золото: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private void PickMarketRatioDepthHoverBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области наведения Market Ratio (стакан) отменён.");
+            return;
+        }
+
+        _marketRatioDepthHoverRect = region;
+        MarketRatioDepthHoverInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Market Ratio наведение для стакана: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private void PickMarketRatioOrderBookOcrBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info("Выбор области OCR стакана отменён.");
+            return;
+        }
+
+        _marketRatioOrderBookOcrRect = region;
+        MarketRatioOrderBookOcrInfo.Text = FormatRect(region);
+        SessionLogger.Info($"Market Ratio OCR стакана: {FormatRect(region)}");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private void PickMarketRatioBothAvailableGridBtn_OnClick(object sender, RoutedEventArgs e) =>
+        PickOrderBookGrid(
+            "сетка BOTH → AVAILABLE",
+            "Выбор сетки стакана (both/available) отменён.",
+            cells =>
+            {
+                _marketRatioBothAvailableCells = cells;
+                MarketRatioBothAvailableGridInfo.Text = FormatOrderBookGridSummary(cells);
+            });
+
+    private void PickMarketRatioBothCompetingGridBtn_OnClick(object sender, RoutedEventArgs e) =>
+        PickOrderBookGrid(
+            "сетка BOTH → COMPETING",
+            "Выбор сетки стакана (both/competing) отменён.",
+            cells =>
+            {
+                _marketRatioBothCompetingCells = cells;
+                MarketRatioBothCompetingGridInfo.Text = FormatOrderBookGridSummary(cells);
+            });
+
+    private void PickMarketRatioAvailableOnlyGridBtn_OnClick(object sender, RoutedEventArgs e) =>
+        PickOrderBookGrid(
+            "сетка AVAILABLE ONLY",
+            "Выбор сетки стакана (available only) отменён.",
+            cells =>
+            {
+                _marketRatioAvailableOnlyCells = cells;
+                MarketRatioAvailableOnlyGridInfo.Text = FormatOrderBookGridSummary(cells);
+            });
+
+    private void PickMarketRatioCompetingOnlyGridBtn_OnClick(object sender, RoutedEventArgs e) =>
+        PickOrderBookGrid(
+            "сетка COMPETING ONLY",
+            "Выбор сетки стакана (competing only) отменён.",
+            cells =>
+            {
+                _marketRatioCompetingOnlyCells = cells;
+                MarketRatioCompetingOnlyGridInfo.Text = FormatOrderBookGridSummary(cells);
+            });
+
+    private void PickOrderBookGrid(string caption, string cancelMessage, Action<List<ScreenRect>> apply)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
+        {
+            SessionLogger.Info(cancelMessage);
+            return;
+        }
+
+        var cells = SplitRegionToOrderBookGrid(region);
+        apply(cells);
+        SessionLogger.Info($"Market Ratio {caption}: {FormatRect(region)} → разбиение 6×2.");
+        SaveSettings();
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+    }
+
+    private async void TestMarketRatioExaltedDivineBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        SaveSettings();
+        if (_marketRatioIHaveRect is not { Width: > 0, Height: > 0 } ih ||
+            _marketRatioIWantRect is not { Width: > 0, Height: > 0 } iw ||
+            _marketRatioPickerListRect is not { Width: > 0, Height: > 0 } pl)
+        {
+            MessageBox.Show(this,
+                "Задайте все три области: I HAVE, I WANT и список валют (см. подсказки на вкладке).",
+                "Market Ratio",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+            return;
+        }
+
+        if (!int.TryParse(MouseActionDelayMs.Text.Trim(), out var mouseMs) || mouseMs < 0)
+            mouseMs = 80;
+
+        if (!int.TryParse(MarketRatioDepthOffsetXPxTextBox.Text.Trim(), out var depthOffPx))
+            depthOffPx = 200;
+
+        var scanStartedUtc = DateTime.UtcNow;
+        SessionLogger.Info($"Market Ratio тест: время запуска (UTC) {scanStartedUtc:O}");
+
+        TestMarketRatioExaltedDivineBtn.IsEnabled = false;
+        try
+        {
+            _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+            await Task.Delay(280, CancellationToken.None).ConfigureAwait(true);
+            var ok = await MarketRatioExaltedDivineAutomation.RunAsync(
+                    ih,
+                    iw,
+                    pl,
+                    mouseMs,
+                    scanStartedUtc,
+                    _marketRatioRateReadoutRect,
+                    _marketRatioGoldFeeReadoutRect,
+                    _marketRatioDepthHoverRect,
+                    _marketRatioOrderBookOcrRect,
+                    depthOffPx,
+                    new Progress<string>(SessionLogger.Info),
+                    CancellationToken.None)
+                .ConfigureAwait(true);
+            var csvNote = _marketRatioRateReadoutRect is { Width: > 0, Height: > 0 }
+                          && _marketRatioGoldFeeReadoutRect is { Width: > 0, Height: > 0 }
+                ? $"\n\nКурсы: {ExchangeRateCsvLog.GetFilePath()}"
+                : "\n\nОбласти курса и золота не заданы — строка в CSV не записывалась.";
+            if (_marketRatioDepthHoverRect is { Width: > 0, Height: > 0 }
+                && _marketRatioOrderBookOcrRect is { Width: > 0, Height: > 0 })
+                csvNote += $"\nСтакан: {OrderBookSnapshotCsvLog.GetSummaryPath()}";
+            MessageBox.Show(this,
+                ok
+                    ? "Сценарий завершён. Проверьте в игре курс и золото." + csvNote
+                    : "Сбой — см. сессионный лог (OCR или клики)." + csvNote,
+                "Market Ratio",
+                MessageBoxButton.OK,
+                ok ? MessageBoxImage.Information : MessageBoxImage.Warning);
+        }
+        catch (Exception ex)
+        {
+            SessionLogger.Info($"Market Ratio тест: {ex.Message}");
+            MessageBox.Show(this,ex.Message, "Market Ratio", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+        finally
+        {
+            TestMarketRatioExaltedDivineBtn.IsEnabled = true;
+        }
+    }
+
     private void PickOmenSinistralBtn_OnClick(object sender, RoutedEventArgs e)
     {
         var dimDlg = new ItemGridDimensionsDialog { Owner = this };
@@ -772,7 +1441,7 @@ public partial class MainWindow : Window
     {
         if (_itemCellRegions.Count == 0)
         {
-            MessageBox.Show(
+            MessageBox.Show(this,
                 "Сначала задайте область предмета кнопкой «Задать область».",
                 "Область предмета",
                 MessageBoxButton.OK,
@@ -811,7 +1480,7 @@ public partial class MainWindow : Window
             }
             catch (COMException)
             {
-                MessageBox.Show("Не удалось прочитать буфер обмена.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(this,"Не удалось прочитать буфер обмена.", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -819,7 +1488,7 @@ public partial class MainWindow : Window
 
             if (string.IsNullOrWhiteSpace(clipboardContent))
             {
-                MessageBox.Show(
+                MessageBox.Show(this,
                     "Буфер обмена пуст. Убедитесь, что область предмета на экране совпадает с предметом в игре (копирование Ctrl+Alt+C).",
                     "Ошибка",
                     MessageBoxButton.OK,
@@ -848,7 +1517,7 @@ public partial class MainWindow : Window
             }
             else
             {
-                MessageBox.Show(
+                MessageBox.Show(this,
                     "Ошибка парсинга текста из буфера после Ctrl+Alt+C.",
                     "Ошибка",
                     MessageBoxButton.OK,
@@ -859,7 +1528,7 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBox.Show(
+            MessageBox.Show(this,
                 $"Произошла ошибка при парсинге: {ex.Message}",
                 "Ошибка",
                 MessageBoxButton.OK,
@@ -895,13 +1564,13 @@ public partial class MainWindow : Window
         {
             if (_sharpenRegion is null)
             {
-                MessageBox.Show("Задайте область «заточка» во вкладке «Настройки областей».", "Заточка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(this,"Задайте область «заточка» во вкладке «Настройки областей».", "Заточка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             if (_itemCellRegions.Count == 0)
             {
-                MessageBox.Show("Задайте область предмета (ячейки) во вкладке «Крафт».", "Область предмета", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(this,"Задайте область предмета (ячейки) во вкладке «Крафт».", "Область предмета", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -949,13 +1618,13 @@ public partial class MainWindow : Window
 
         if (!isAugAnnul && !isExalt && _orbRegion is null)
         {
-            MessageBox.Show("Задайте область Chaos Orb во вкладке «Настройки областей».", "Область орба", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,"Задайте область Chaos Orb во вкладке «Настройки областей».", "Область орба", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
         if (isExalt && (_exaltRegion is null || _annulRegion is null))
         {
-            MessageBox.Show(
+            MessageBox.Show(this,
                 "Задайте области Orb of Exaltation и Orb of Annulment во вкладке «Настройки областей».",
                 "Области сфер",
                 MessageBoxButton.OK,
@@ -965,7 +1634,7 @@ public partial class MainWindow : Window
 
         if (isExalt && _omenGreaterCells.Count == 0)
         {
-            MessageBox.Show(
+            MessageBox.Show(this,
                 "Задайте область омена Greater во вкладке «Настройки областей» (сетка X×Y).",
                 "Омены",
                 MessageBoxButton.OK,
@@ -975,7 +1644,7 @@ public partial class MainWindow : Window
 
         if (isExalt && (_ritualInventoryRegion is null || _currencyInventoryRegion is null || _omenGreaterStashRegion is null))
         {
-            MessageBox.Show(
+            MessageBox.Show(this,
                 "Для крафта Orb of Exaltation задайте области: Ritual inventory, Currency inventory и Omen of Greater Exaltation Stash (для автопополнения омнов).",
                 "Области RefillOmen",
                 MessageBoxButton.OK,
@@ -991,7 +1660,7 @@ public partial class MainWindow : Window
 
             if (prefixOnly && _omenSinistralStashRegion is null)
             {
-                MessageBox.Show(
+                MessageBox.Show(this,
                     "Для условия только с префиксами задайте область Omen of Sinistral Exaltation Stash.",
                     "Области RefillOmen",
                     MessageBoxButton.OK,
@@ -1001,7 +1670,7 @@ public partial class MainWindow : Window
 
             if (suffixOnly && _omenDextralStashRegion is null)
             {
-                MessageBox.Show(
+                MessageBox.Show(this,
                     "Для условия только с суффиксами задайте область Omen of Dextral Exaltation Stash.",
                     "Области RefillOmen",
                     MessageBoxButton.OK,
@@ -1011,7 +1680,7 @@ public partial class MainWindow : Window
 
             if (prefixOnly && _omenSinistralCells.Count == 0)
             {
-                MessageBox.Show(
+                MessageBox.Show(this,
                     "В условии крафта используются только Prefix Modifier — задайте область омена Sinistral во вкладке «Настройки областей».",
                     "Омены",
                     MessageBoxButton.OK,
@@ -1021,7 +1690,7 @@ public partial class MainWindow : Window
 
             if (suffixOnly && _omenDextralCells.Count == 0)
             {
-                MessageBox.Show(
+                MessageBox.Show(this,
                     "В условии крафта используются только Suffix Modifier — задайте область омена Dextral во вкладке «Настройки областей».",
                     "Омены",
                     MessageBoxButton.OK,
@@ -1032,7 +1701,7 @@ public partial class MainWindow : Window
 
         if (isAugAnnul && (_augRegion is null || _annulRegion is null))
         {
-            MessageBox.Show(
+            MessageBox.Show(this,
                 "Задайте области Orb of Augmentation и Orb of Annulment во вкладке «Настройки областей».",
                 "Области сфер",
                 MessageBoxButton.OK,
@@ -1042,31 +1711,32 @@ public partial class MainWindow : Window
 
         if (_itemCellRegions.Count == 0)
         {
-            MessageBox.Show("Задайте область предмета кнопкой «Задать область».", "Область предмета", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,"Задайте область предмета кнопкой «Задать область».", "Область предмета", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
         if (!int.TryParse(MaxOps.Text.Trim(), out var maxOps) || maxOps < 1)
         {
-            MessageBox.Show("Укажите целое N ≥ 1.", "N", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,"Укажите целое N ≥ 1.", "N", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
         if (!int.TryParse(MouseActionDelayMs.Text.Trim(), out var mouseDelay) || mouseDelay < 0)
         {
-            MessageBox.Show("Укажите задержку мыши (мс) — целое число ≥ 0.", "Задержка мыши", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,"Укажите задержку мыши (мс) — целое число ≥ 0.", "Задержка мыши", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
         if (!int.TryParse(ClipboardDelayMs.Text.Trim(), out var clipboardDelay) || clipboardDelay < 0)
         {
-            MessageBox.Show("Укажите задержку после Ctrl+Alt+C (мс) — целое число ≥ 0.", "Буфер обмена", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,"Укажите задержку после Ctrl+Alt+C (мс) — целое число ≥ 0.", "Буфер обмена", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
+        CraftConditionPlanNormalizer.NormalizeInPlace(_craftPlan, _affixEntries);
         if (!CraftConditionEvaluator.TryValidate(_craftPlan, out var planErr))
         {
-            MessageBox.Show(planErr, "Условие крафта", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,planErr, "Условие крафта", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
@@ -1091,6 +1761,7 @@ public partial class MainWindow : Window
         _exaltCraft.ClipboardDelayMs = clipboardDelay;
         _exaltCraft.HoverSettleBeforeClipboardMs = hoverSettle;
         _exaltCraft.TraceInputToLog = trace;
+        _exaltCraft.SchemaTraceToLog = TraceExaltationSchemaCheckBox.IsChecked == true;
         _exaltCraft.StepConfirmAsync = null;
 
         _omen.MouseActionDelayMs = mouseDelay;
@@ -1188,7 +1859,7 @@ public partial class MainWindow : Window
                     {
                         precheckFailed = true;
                         result = ChaosCraftResult.Error;
-                        MessageBox.Show(
+                        MessageBox.Show(this,
                             pre.Message,
                             string.IsNullOrEmpty(pre.Title) ? "Крафт" : pre.Title,
                             MessageBoxButton.OK,
@@ -1200,7 +1871,7 @@ public partial class MainWindow : Window
                     {
                         precheckFailed = true;
                         result = ChaosCraftResult.Error;
-                        MessageBox.Show(
+                        MessageBox.Show(this,
                             "Внутренняя ошибка: предпроверка не вернула ParsedItem.",
                             "Крафт",
                             MessageBoxButton.OK,
@@ -1219,9 +1890,10 @@ public partial class MainWindow : Window
                             maxOps,
                             conditionSummary,
                             cells);
+                        _activeCraftLogPath = craftFile.WipPath;
                         craftFile.SetCurrentCell(ci + 1, cells.Count);
 
-                        var (r, consumed) = await _exaltCraft.RunAsync(
+                        var cr = await _exaltCraft.RunAsync(
                             exalt,
                             annul,
                             _ritualInventoryRegion ?? default,
@@ -1244,15 +1916,16 @@ public partial class MainWindow : Window
                             _cts.Token,
                             craftFile);
 
-                        offset += consumed;
-                        remaining -= consumed;
-                        result = r;
+                        offset += cr.Attempts;
+                        remaining -= cr.Attempts;
+                        result = cr.StopReason;
                     }
                     else if (!isAugAnnul)
                     {
                         craftFile ??= CraftRunFileLog.Begin(orb, cells[0], maxOps, conditionSummary, cells);
+                        _activeCraftLogPath = craftFile.WipPath;
                         craftFile.SetCurrentCell(ci + 1, cells.Count);
-                        var (r, consumed) = await _craft.RunAsync(
+                        var cr = await _craft.RunAsync(
                             orb,
                             item,
                             _craftPlan,
@@ -1264,9 +1937,9 @@ public partial class MainWindow : Window
                             _cts.Token,
                             craftFile);
 
-                        offset += consumed;
-                        remaining -= consumed;
-                        result = r;
+                        offset += cr.Attempts;
+                        remaining -= cr.Attempts;
+                        result = cr.StopReason;
                     }
                     else
                     {
@@ -1279,9 +1952,10 @@ public partial class MainWindow : Window
                             maxOps,
                             conditionSummary,
                             cells);
+                        _activeCraftLogPath = craftFile.WipPath;
                         craftFile.SetCurrentCell(ci + 1, cells.Count);
 
-                        var (r, consumed) = await _augAnnulCraft.RunAsync(
+                        var cr = await _augAnnulCraft.RunAsync(
                             aug,
                             annul,
                             item,
@@ -1296,9 +1970,9 @@ public partial class MainWindow : Window
                             _cts.Token,
                             craftFile);
 
-                        offset += consumed;
-                        remaining -= consumed;
-                        result = r;
+                        offset += cr.Attempts;
+                        remaining -= cr.Attempts;
+                        result = cr.StopReason;
                     }
 
                     if (result == ChaosCraftResult.Cancelled || result == ChaosCraftResult.Error)
@@ -1328,7 +2002,7 @@ public partial class MainWindow : Window
 
             if (craftFile == null && !precheckFailed && result is not ChaosCraftResult.Cancelled)
             {
-                MessageBox.Show(
+                MessageBox.Show(this,
                     "Во всех выбранных ячейках условие остановки уже выполнено. Попытки (N) не расходовались.",
                     "Крафт",
                     MessageBoxButton.OK,
@@ -1356,6 +2030,7 @@ public partial class MainWindow : Window
             _craft.StepConfirmAsync = null;
             _exaltCraft.StepConfirmAsync = null;
             craftFile?.Dispose();
+            _activeCraftLogPath = null;
             StartBtn.IsEnabled = true;
             StopBtn.IsEnabled = false;
             MaybeKillPoeProcessAfterCraft();
@@ -1424,6 +2099,256 @@ public partial class MainWindow : Window
         if (delta <= 0)
             return baseMs;
         return Math.Max(0, baseMs + Random.Shared.Next(-delta, delta + 1));
+    }
+
+    private void ToggleTray()
+    {
+        if (IsVisible)
+        {
+            SetupTrayIcon();
+            _trayIcon!.Visible = true;
+            Hide();
+        }
+        else
+        {
+            RestoreFromTray();
+        }
+    }
+
+    private void RegisterTrayToggleHotkey()
+    {
+        UnregisterTrayToggleHotkey();
+        if (_trayToggleVirtualKey == 0)
+            return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        if (hwnd == IntPtr.Zero)
+            return;
+        if (!GlobalHotkey.TryRegisterTrayToggle(hwnd, (uint)_trayToggleVirtualKey, (uint)_trayToggleModifiers))
+            SessionLogger.Info("Горячая клавиша «Трей» не зарегистрирована — возможно, занята другим процессом.");
+        else
+            _trayToggleHotkeyRegistered = true;
+    }
+
+    private void UnregisterTrayToggleHotkey()
+    {
+        if (!_trayToggleHotkeyRegistered)
+            return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        GlobalHotkey.UnregisterTrayToggle(hwnd);
+        _trayToggleHotkeyRegistered = false;
+    }
+
+    private void UpdateTrayHotkeyDisplay()
+    {
+        TrayHotkeyBox.Text = FormatHotkey(_trayToggleVirtualKey, _trayToggleModifiers);
+    }
+
+    private static string FormatHotkey(int vk, int modifiers)
+    {
+        if (vk == 0)
+            return "(не задано)";
+        var parts = new List<string>();
+        if ((modifiers & 2) != 0) parts.Add("Ctrl");
+        if ((modifiers & 1) != 0) parts.Add("Alt");
+        if ((modifiers & 4) != 0) parts.Add("Shift");
+        parts.Add(KeyInterop.KeyFromVirtualKey(vk).ToString());
+        return string.Join("+", parts);
+    }
+
+    private void TrayHotkeyBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        e.Handled = true;
+        var key = e.Key == Key.System ? e.SystemKey : e.Key;
+
+        if (key is Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt
+                 or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin)
+            return;
+
+        if (key == Key.Escape)
+        {
+            _trayToggleVirtualKey = 0;
+            _trayToggleModifiers = 0;
+        }
+        else
+        {
+            var mods = Keyboard.Modifiers;
+            _trayToggleVirtualKey = KeyInterop.VirtualKeyFromKey(key);
+            _trayToggleModifiers = ((mods & ModifierKeys.Alt) != 0 ? 1 : 0)
+                                 | ((mods & ModifierKeys.Control) != 0 ? 2 : 0)
+                                 | ((mods & ModifierKeys.Shift) != 0 ? 4 : 0);
+        }
+
+        UpdateTrayHotkeyDisplay();
+        RegisterTrayToggleHotkey();
+        SaveSettings();
+    }
+
+    private CraftLogWindow? _craftLogWindow;
+
+    private void OpenLogBtn_OnClick(object sender, RoutedEventArgs e) => OpenCraftLog();
+
+    private void OpenCraftLog()
+    {
+        // Уже открыто — закрываем (toggle)
+        if (_craftLogWindow != null)
+        {
+            _craftLogWindow.Close();
+            _craftLogWindow = null;
+            return;
+        }
+
+        var filePath = ResolveCraftLogPath();
+        if (filePath == null)
+        {
+            MessageBox.Show(this,
+                "Файл лога крафта не найден. Запустите крафт хотя бы один раз.",
+                "Лог крафта",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+            return;
+        }
+
+        _craftLogWindow = new CraftLogWindow { Owner = this, ShowActivated = false };
+        _craftLogWindow.Closed += (_, _) => _craftLogWindow = null;
+        _craftLogWindow.LoadFile(filePath);
+        _craftLogWindow.Show();
+    }
+
+    private string? ResolveCraftLogPath()
+    {
+        if (_activeCraftLogPath != null && File.Exists(_activeCraftLogPath))
+            return _activeCraftLogPath;
+
+        var logDir = ProjectPaths.GetLogDirectory();
+        // Сначала ищем активный WIP-файл (крафт запущен, но _activeCraftLogPath ещё не выставлен)
+        var wip = Directory.EnumerateFiles(logDir, "craft_*_wip.tmp")
+            .OrderByDescending(File.GetLastWriteTime)
+            .FirstOrDefault();
+        if (wip != null) return wip;
+
+        return Directory.EnumerateFiles(logDir, "craft_*.txt")
+            .OrderByDescending(File.GetLastWriteTime)
+            .FirstOrDefault();
+    }
+
+    private void RegisterOpenLogHotkey()
+    {
+        UnregisterOpenLogHotkey();
+        if (_openLogVirtualKey == 0)
+            return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        if (hwnd == IntPtr.Zero)
+            return;
+        if (!GlobalHotkey.TryRegisterOpenLog(hwnd, (uint)_openLogVirtualKey, (uint)_openLogModifiers))
+            SessionLogger.Info("Горячая клавиша «Открыть лог» не зарегистрирована — возможно, занята другим процессом.");
+        else
+            _openLogHotkeyRegistered = true;
+    }
+
+    private void UnregisterOpenLogHotkey()
+    {
+        if (!_openLogHotkeyRegistered)
+            return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        GlobalHotkey.UnregisterOpenLog(hwnd);
+        _openLogHotkeyRegistered = false;
+    }
+
+    private void UpdateOpenLogHotkeyDisplay()
+    {
+        OpenLogHotkeyBox.Text = FormatHotkey(_openLogVirtualKey, _openLogModifiers);
+    }
+
+    private void OpenLogHotkeyBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        e.Handled = true;
+        var key = e.Key == Key.System ? e.SystemKey : e.Key;
+
+        if (key is Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt
+                 or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin)
+            return;
+
+        if (key == Key.Escape)
+        {
+            _openLogVirtualKey = 0;
+            _openLogModifiers = 0;
+        }
+        else
+        {
+            var mods = Keyboard.Modifiers;
+            _openLogVirtualKey = KeyInterop.VirtualKeyFromKey(key);
+            _openLogModifiers = ((mods & ModifierKeys.Alt) != 0 ? 1 : 0)
+                              | ((mods & ModifierKeys.Control) != 0 ? 2 : 0)
+                              | ((mods & ModifierKeys.Shift) != 0 ? 4 : 0);
+        }
+
+        UpdateOpenLogHotkeyDisplay();
+        RegisterOpenLogHotkey();
+        SaveSettings();
+    }
+
+    private void ToggleCraftStartStop()
+    {
+        if (StopBtn.IsEnabled)
+            RequestCraftCancel();
+        else if (StartBtn.IsEnabled)
+            StartBtn_OnClick(StartBtn, new RoutedEventArgs());
+    }
+
+    private void RegisterCraftStartStopHotkey()
+    {
+        UnregisterCraftStartStopHotkey();
+        if (_craftStartStopVirtualKey == 0)
+            return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        if (hwnd == IntPtr.Zero)
+            return;
+        if (!GlobalHotkey.TryRegisterCraftStartStop(hwnd, (uint)_craftStartStopVirtualKey, (uint)_craftStartStopModifiers))
+            SessionLogger.Info("Горячая клавиша «Старт/Стоп» не зарегистрирована — возможно, занята другим процессом.");
+        else
+            _craftStartStopHotkeyRegistered = true;
+    }
+
+    private void UnregisterCraftStartStopHotkey()
+    {
+        if (!_craftStartStopHotkeyRegistered)
+            return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        GlobalHotkey.UnregisterCraftStartStop(hwnd);
+        _craftStartStopHotkeyRegistered = false;
+    }
+
+    private void UpdateCraftStartStopHotkeyDisplay()
+    {
+        CraftStartStopHotkeyBox.Text = FormatHotkey(_craftStartStopVirtualKey, _craftStartStopModifiers);
+    }
+
+    private void CraftStartStopHotkeyBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        e.Handled = true;
+        var key = e.Key == Key.System ? e.SystemKey : e.Key;
+
+        if (key is Key.LeftCtrl or Key.RightCtrl or Key.LeftAlt or Key.RightAlt
+                 or Key.LeftShift or Key.RightShift or Key.LWin or Key.RWin)
+            return;
+
+        if (key == Key.Escape)
+        {
+            _craftStartStopVirtualKey = 0;
+            _craftStartStopModifiers = 0;
+        }
+        else
+        {
+            var mods = Keyboard.Modifiers;
+            _craftStartStopVirtualKey = KeyInterop.VirtualKeyFromKey(key);
+            _craftStartStopModifiers = ((mods & ModifierKeys.Alt) != 0 ? 1 : 0)
+                                     | ((mods & ModifierKeys.Control) != 0 ? 2 : 0)
+                                     | ((mods & ModifierKeys.Shift) != 0 ? 4 : 0);
+        }
+
+        UpdateCraftStartStopHotkeyDisplay();
+        RegisterCraftStartStopHotkey();
+        SaveSettings();
     }
 
     private void TryRegisterCraftCancelHotkey()

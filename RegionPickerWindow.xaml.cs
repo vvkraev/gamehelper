@@ -2,6 +2,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using GameHelper.Native;
+using GameHelper.Services;
 
 namespace GameHelper;
 
@@ -30,6 +31,7 @@ public partial class RegionPickerWindow : Window
         _gridCols = gridColumns;
         _gridRows = gridRows;
         InitializeComponent();
+        WindowGeometryStore.Attach(this, "RegionPickerWindow");
         Focusable = true;
         Loaded += OnLoaded;
         if (_gridCols > 0 && _gridRows > 0)

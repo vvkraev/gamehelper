@@ -1,0 +1,232 @@
+# CraftConditionPlan + affix_library.json + ParsedItem — сравнение и поиск аффиксов (ASCII)
+#
+# Назначение: единая схема того, как условие остановки крафта сопоставляется с предметом
+# и с библиотекой аффиксов. От неё потом выравниваем код (ParsedItemCraftEvaluator,
+# CraftConditionEvaluator, CraftAffixCascadeHelper, AffixCraftPatternBuilder).
+#
+# Связанные сервисы: ChaosCraftService, AugAnnulCraftService, ExaltationCraftServiceFracturedSide
+# (везде после парса вызывается CraftConditionEvaluator.TryEvaluate).
+#
+# Код (текущая реализация)
+# ------------------------
+#   CraftConditionPlan, CraftAndGroup, CraftClause  — Services/CraftConditionModels.cs
+#   TryValidate / TryEvaluate                         — Services/CraftConditionEvaluator.cs
+#   StatLineMatchesTemplate, EnumerateRollValues…    — Services/ParsedItemCraftEvaluator.cs
+#   FindEntryByNameAndTierTypeCompatible             — Services/AffixCraftPatternBuilder.cs
+#   GetCandidateNameTiers, GetRollSlotCount…         — Services/CraftAffixCascadeHelper.cs
+#
+###############################################################################
+# 0. Три источника данных
+###############################################################################
+
+    +------------------+     +------------------------+     +------------------+
+    | CraftCondition   |     | affix_library.json     |     | ParsedItem       |
+    | Plan (JSON/UI)   |     | (AffixLibraryEntry[])  |     | (Ctrl+Alt+C)     |
+    +------------------+     +------------------------+     +------------------+
+    | expectedItemClass|     | itemClasses[]          |     | ItemClass        |
+    | orAlternatives[] |     | affixType, affixName   |     | Affixes[]        |
+    |   └ AND clauses  |     | affixTier, affixStats  |     |   Type, Name     |
+    |                  |     | affixRanges (слоты n)  |     |   Tier, lines    |
+    +------------------+     +------------------------+     +------------------+
+
+    Связь «план ↔ библиотека»:
+      - WholeModifier + валидация плана: запись по (class, affixType*, name, tier)
+        *тип в плане может быть Desecrated*; в библиотеке ищется совместимый тип (см. §3).
+      - Single / Sum / Count без имени: библиотека нужна в UI и для числа слотов переката
+        (GetRollSlotCountForStat); сопоставление с предметом часто идёт «по тексту» (NoLibrary).
+
+###############################################################################
+# 1. Верхний уровень: TryEvaluate(plan, item)
+###############################################################################
+
+                        +-----------------------------+
+                        | item.IsValid && class match |
+                        |  ItemClass == expectedClass |
+                        +-----------------------------+
+                                      |
+                    +-----------------+------------------+
+                    | NO                              YES
+                    v                                   v
+             вернуть false                    +----------------------+
+             (пояснение)                      | Для каждого варианта |
+                                            |   OR (CraftAndGroup) |
+                                            +----------------------+
+                                                      |
+                              +------------------------+------------------------+
+                              |                                               |
+                              v                                               v
+                    +-------------------+                         +-------------------+
+                    | TryEvaluateAndGroup|                         | все варианты       |
+                    |  все клозы AND     |                         | провалились → false|
+                    +-------------------+                         +-------------------+
+                              |
+                    хотя бы один OR-вариант полностью AND-true
+                              |
+                              v
+                         return true
+
+
+###############################################################################
+# 2. Один вариант ИЛИ: все клозы (AND) по очереди
+###############################################################################
+
+    Для каждого CraftClause:
+
+        +---------------+  +---------------+  +---------------+  +------------------+
+        | Single        |  | Sum           |  | Count         |  | WholeModifier    |
+        +---------------+  +---------------+  +---------------+  +------------------+
+        | тип+шаблон    |  | части с       |  | набор Single- |  | имя+тир+тип*     |
+        | статов, порог |  | типом+статом  |  | подобных      |  | несколько строк  |
+        | (без affixName)|  | MinSum        |  | MinMatchCount |  | на ОДНОМ аффиксе |
+        +---------------+  +---------------+  +---------------+  +------------------+
+
+###############################################################################
+# 3. Семейство типа модификатора (plan / item / library)
+###############################################################################
+#
+#   AffixTypesCompatibleForNamedMatch(planType, onItemOrLibType):
+#
+#        Prefix Modifier  <--compatible-->  Desecrated Prefix Modifier
+#        Suffix Modifier  <--compatible-->  Desecrated Suffix Modifier
+#
+#   Где используется:
+#     - поиск именованного аффикса на предмете (TryGetRollValuesForNamedAffix)
+#     - перебор строк для Single без имени: EnumerateRollValuesForTypeAndStatNoLibrary
+#     - FindEntryByNameAndTierTypeCompatible: план ↔ запись в JSON
+#
+#   Где ещё НЕ везде unified (точка для будущего рефакторинга):
+#     - TryGetRollValuesForTypeAndStat (с кандидатами из библиотеки) сравнивает
+#       affix.Type с affixType через точное string.Equals — без семейства.
+
+###############################################################################
+# 4. Сопоставление ТЕКСТА стата: шаблон плана ↔ строка на предмете
+###############################################################################
+#
+#   StatLineMatchesTemplate(parsedLine, libraryTemplate):
+#
+#        +------------------+
+#        | normalize lower  |
+#        +------------------+
+#                 |
+#        +--------+------------------+
+#        | exact a == b ?            |--YES--> match
+#        +--------+------------------+
+#                 | NO
+#        v
+#        +------------------+
+#        | StripLeadingRoll  |  +n(min-max) …  /  n(min-max)% …
+#        | (нормализованная) |
+#        +------------------+
+#                 |
+#        +--------+---------------------------+
+#        | stripped == b ?                     |--YES--> match
+#        +--------+---------------------------+
+#                 | NO
+#        +--------+---------------------------+
+#        | len(b)>=14 && aStripped.Contains(b)?|  (короткий шаблон в длинной строке)
+#        +--------+---------------------------+
+#                 | NO
+#        +--------+---------------------------+
+#        | длинная подстрока (min len 44,      |  (старый путь для длинных шаблонов)
+#        |  ограничение на delta длин)        |
+#        +-------------------------------------+
+#
+#   Извлечение чисел: TryGetOrderedRollValues(AffixEffectLine) ← RolledValue парсера.
+
+###############################################################################
+# 5. Клоз Single (без имени аффикса)
+###############################################################################
+
+    Цель: «на предмете существует хотя бы один аффикс типа T (семейство),
+           где есть строка статов S, и перекаты ≥ min».
+
+    +-------------------------------------------------------------+
+    | EnumerateRollValuesForTypeAndStatNoLibrary(item, class, T, S)|
+    |   foreach affix in item.Affixes:                            |
+    |     if !Compatible(T, affix.Type) -> next                 |
+    |     foreach line in affix.EffectDetails:                  |
+    |       if !StatLineMatchesTemplate(line, S) -> next         |
+    |       if TryGetOrderedRollValues -> yield values            |
+    +-------------------------------------------------------------+
+                              |
+                              v
+    +-------------------------------------------------------------+
+    | Для каждого набора values:                                   |
+    |   slots = values.Count; mins = clause.GetEffectiveMinRolls  |
+    |   RollVectorMeetsMins(values, mins)?                         |
+    |   -> достаточно ОДНОГО успеха (несколько префиксов с %phys) |
+    +-------------------------------------------------------------+
+
+    Примечание: TryGetRollValuesForTypeAndStatNoLibrary = «первое вхождение»
+    из того же перечисления — для обратной совместимости и Sum-частей.
+
+###############################################################################
+# 6. Клоз WholeModifier (имя + тир + тип*)
+###############################################################################
+
+    +-------------------------------------------------------------+
+    | entry = FindEntryByNameAndTierTypeCompatible(lib, class,    |
+    |           whole.AffixType, whole.AffixName, whole.Tier)    |
+    +-------------------------------------------------------------+
+                              |
+                    entry == null -> fail
+                              |
+                              v
+    +-------------------------------------------------------------+
+    | Для КАЖДОЙ строки line в whole.Lines:                        |
+    |   индекс стата в entry (GetStatIndex / fuzzy по шаблону)     |
+    |   slots = GetRollSlotCountForEntryStat(entry, idx)          |
+    |   TryGetRollValuesForNamedAffix(item, class,                |
+    |       whole.AffixType, Name, Tier, line.StatTemplate, slots) |
+    |     внутри: Compatible(тип) + имя + тир + StatLineMatches    |
+    |   RollVectorMeetsMins(actual, line mins)                     |
+    | Все строки должны пройти на ОДНОМ и том же именованном       |
+    | аффиксе (поиск по списку affix на предмете).                 |
+    +-------------------------------------------------------------+
+
+###############################################################################
+# 7. Клоз Sum
+###############################################################################
+
+    Для каждой части part:
+        TryGetRollValuesForTypeAndStatNoLibrary → вклад sum += values.Sum()
+        (если не найдено -> вклад 0)
+
+    sum >= MinSum ?
+
+    Замечание: каждая часть берёт ПЕРВОЕ вхождение (NoLibrary first match),
+    не «лучшее» и не сумма по всем аффиксам с тем же статом — узкое место логики.
+
+###############################################################################
+# 8. Клоз Count
+###############################################################################
+
+    Считается, сколько members удовлетворены как Single (с перебором всех
+    вхождений через Enumerate… в CraftConditionEvaluator / ветвлении Exaltation).
+
+    matched >= MinMatchCount ?
+
+###############################################################################
+# 9. Ветвление в Exaltation (упрощённо)
+###############################################################################
+
+    HasAnySatisfiedElementForBranching(plan, item):
+      обход OR × клозов; для Single/Count — тот же перебор, что в §5;
+      для Whole — TryWholeModifierAnyLineFullySatisfied (достаточно одной строки
+      целого модификатора для «есть зацепка»).
+
+###############################################################################
+# 10. Цели переработки кода (следующий шаг — после согласования схемы)
+###############################################################################
+#
+#   [ ] Один явный «движок» сопоставления: (clause kind) -> стратегия,
+#       без дублирования переборов в Exaltation vs CraftConditionEvaluator.
+#   [ ] Единое правило типа: везде Compatible-семейство или везде strict —
+#       сейчас смесь (см. §3).
+#   [ ] Single vs Sum: для Sum уточнить семантику при нескольких аффиксах
+#       с одной и той же строкой стата (суммировать все? max? первый?).
+#   [ ] Документировать в этой схеме ответ и привести код.
+#   [ ] StatLineMatchesTemplate: возможно вынести в таблицу правил (exact /
+#       strip-roll / contains / long-substring) с тестами на золотых строках.
+#
+# (Отредактируйте список выше — затем правим код под согласованную схему.)

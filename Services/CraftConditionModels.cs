@@ -53,8 +53,22 @@ public sealed class CraftSingleAffixData
 {
     public string AffixType { get; set; } = "";
     public string AffixName { get; set; } = "";
+
+    /// <summary>Имена из библиотеки для выбранной строки стата; при пустом списке используется <see cref="AffixName"/>.</summary>
+    public List<string> SelectedAffixNames { get; set; } = new();
+
     public int AffixTier { get; set; }
     public string StatTemplate { get; set; } = "";
+
+    /// <summary>Имена для сопоставления с предметом (мультивыбор ИЛИ одно устаревшее поле).</summary>
+    public IReadOnlyList<string> EffectiveAffixNames()
+    {
+        if (SelectedAffixNames.Count > 0)
+            return SelectedAffixNames;
+        if (!string.IsNullOrWhiteSpace(AffixName))
+            return new[] { AffixName.Trim() };
+        return Array.Empty<string>();
+    }
 
     /// <summary>Устаревшее одно поле; если <see cref="MinRolls"/> пусто, порог дублируется на каждый слот переката.</summary>
     public double MinRoll { get; set; }
@@ -105,9 +119,22 @@ public sealed class CraftWholeModifierAffixData
 {
     public string AffixType { get; set; } = "";
     public string AffixName { get; set; } = "";
+
+    /// <summary>Несколько имён целого модификатора (ИЛИ): одинаковый набор строк стата у всех в библиотеке.</summary>
+    public List<string> SelectedAffixNames { get; set; } = new();
+
     public int AffixTier { get; set; }
 
     public List<CraftWholeModifierLine> Lines { get; set; } = new();
+
+    public IReadOnlyList<string> EffectiveWholeAffixNames()
+    {
+        if (SelectedAffixNames.Count > 0)
+            return SelectedAffixNames;
+        if (!string.IsNullOrWhiteSpace(AffixName))
+            return new[] { AffixName.Trim() };
+        return Array.Empty<string>();
+    }
 }
 
 /// <summary>Одна строка эффекта внутри целого модификатора (как <see cref="CraftSingleAffixData"/>, но без типа/имени).</summary>

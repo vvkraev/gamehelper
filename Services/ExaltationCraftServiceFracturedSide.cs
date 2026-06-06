@@ -8,7 +8,7 @@ namespace GameHelper.Services;
 /// Крафт Rare через Orb of Exaltation + омeны + Orb of Annulment по
 /// docs/EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt (ветка Fractured / inventory grids).
 /// </summary>
-public sealed class ExaltationCraftServiceFracturedSide
+public sealed class ExaltationCraftServiceFracturedSide : IExaltationCraftService
 {
     private const double DelayJitterFraction = 0.30;
 
@@ -21,7 +21,26 @@ public sealed class ExaltationCraftServiceFracturedSide
     public int HoverSettleBeforeClipboardMs { get; set; } = 120;
 
     public bool TraceInputToLog { get; set; }
+
+    /// <summary>
+    /// Лог с префиксом <c>[ExaltSchema]</c>: якорь на схеме в
+    /// <c>docs/EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt</c> (вкладка настроек «Трассировка схемы экзальт»).
+    /// </summary>
+    public bool SchemaTraceToLog { get; set; }
+
     public Func<string, Task>? StepConfirmAsync { get; set; }
+
+    private void SchemaTrace(IProgress<string>? log, string anchor, string? state = null)
+    {
+        if (!SchemaTraceToLog || log is null)
+            return;
+        log.Report(string.IsNullOrEmpty(state)
+            ? $"[ExaltSchema] {anchor}"
+            : $"[ExaltSchema] {anchor} — {state}");
+    }
+
+    private static string FormatRem(RemainingExaltationState r) =>
+        $"Rem Sin={r.Sinistral} Dex={r.Dextral} Gr={r.Greater}";
 
     private enum CraftBranchKind { A, B }
 
@@ -78,6 +97,13 @@ public sealed class ExaltationCraftServiceFracturedSide
             var err = Marshal.GetLastWin32Error();
             log?.Report($"[Ввод] ОШИБКА SetCursorPos ({x},{y}): Win32 код {err}");
         }
+    }
+
+    /// <summary>MoveTo в (x,y) только если курсор ещё не внутри <paramref name="region"/> (без лишних движений).</summary>
+    private void MoveToRandomInteriorIfOutside(ScreenRect region, IProgress<string>? log, string traceLabel, int x, int y)
+    {
+        if (!Win32Input.TryGetCursorPos(out var cx, out var cy) || !region.ContainsPoint(cx, cy, inset: 1))
+            LogMove(log, traceLabel, x, y);
     }
 
     private void LogMouse(IProgress<string>? log, string label)
@@ -139,8 +165,7 @@ public sealed class ExaltationCraftServiceFracturedSide
         await ClearClipboardAsync().ConfigureAwait(false);
 
         var (x, y) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-        if (!Win32Input.TryGetCursorPos(out var curX, out var curY) || !cell.ContainsPoint(curX, curY, inset: 1))
-            LogMove(log, $"{tag}: MoveTo omen cell", x, y);
+        MoveToRandomInteriorIfOutside(cell, log, $"{tag}: MoveTo omen cell", x, y);
         await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
 
         LogKey(log, $"{tag}: Ctrl+C");
@@ -178,6 +203,7 @@ public sealed class ExaltationCraftServiceFracturedSide
         CancellationToken ct)
     {
         target.Sinistral = target.Dextral = target.Greater = 0;
+        SchemaTrace(log, "RefreshRemainingExaltationOmenStacks", "старт (ASCII: переменные §2, сумма N по ячейкам)");
 
         if (areas.UseSinistral)
         {
@@ -248,6 +274,7 @@ public sealed class ExaltationCraftServiceFracturedSide
             target.Greater += n;
         }
 
+        SchemaTrace(log, "RefreshRemainingExaltationOmenStacks → OK", FormatRem(target));
         return (true, null);
     }
 
@@ -258,6 +285,15 @@ public sealed class ExaltationCraftServiceFracturedSide
         IProgress<string>? log,
         CancellationToken ct)
     {
+        var modeNote = mode switch
+        {
+            GreaterRefreshMode.Full => "полный снимок (ASCII §3 GreaterExaltationOmenCellStates)",
+            GreaterRefreshMode.Activate => "Activate (AddTwoAffixes шаг 0, после PreviousBranch B)",
+            GreaterRefreshMode.Deactivate => "Deactivate (AddOneAffix шаг 0, после PreviousBranch A)",
+            _ => mode.ToString()
+        };
+        SchemaTrace(log, "RefreshGreaterExaltationOmenCellStates", modeNote);
+
         if (mode == GreaterRefreshMode.Full)
         {
             for (var i = 0; i < omenGreaterCells.Count; i++)
@@ -286,7 +322,7 @@ public sealed class ExaltationCraftServiceFracturedSide
                     return false;
                 }
 
-                var activated = _omen.IsOmenCellVisuallyActivated(omenGreaterCells[i]);
+                var activated = _omen.IsOmenCellVisuallyActivated(omenGreaterCells[i], omenGreaterCells, i);
                 states[i] = new GreaterCellSnap(n, activated);
             }
 
@@ -329,32 +365,61 @@ public sealed class ExaltationCraftServiceFracturedSide
 
             if (needToggle)
             {
-                var (px, py) = omenGreaterCells[i].GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-                if (!Win32Input.TryGetCursorPos(out var cx, out var cy) ||
-                    !omenGreaterCells[i].ContainsPoint(cx, cy, inset: 1))
-                    LogMove(log, $"RefreshGreater {mode}: MoveTo cell", px, py);
-                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
-                LogMouse(log, $"RefreshGreater {mode}: ПКМ");
-                Win32Input.ClickRight();
-                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
-                await Task.Delay(150, ct).ConfigureAwait(false);
+                var cell = omenGreaterCells[i];
+                var expectedVis = mode == GreaterRefreshMode.Activate;
 
-                clip = await ReadOmenCellClipboardWithRetryAsync(
-                    omenGreaterCells[i],
-                    log,
-                    ct,
-                    $"RefreshGreater {mode} после ПКМ {i + 1}").ConfigureAwait(false);
-                if (string.IsNullOrWhiteSpace(clip) || !ClipboardHasOmenHeader(clip))
+                for (var attempt = 1; attempt <= 2; attempt++)
                 {
-                    states[i] = new GreaterCellSnap(0, false);
-                    continue;
+                    var (px, py) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
+                    MoveToRandomInteriorIfOutside(cell, log, $"RefreshGreater {mode}: MoveTo cell", px, py);
+                    await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+                    LogMouse(log, attempt == 1
+                        ? $"RefreshGreater {mode}: ПКМ"
+                        : $"RefreshGreater {mode}: повторный ПКМ (проверка визуального состояния)");
+                    Win32Input.ClickRight();
+                    await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+                    await Task.Delay(150, ct).ConfigureAwait(false);
+                    await Task.Delay(200, ct).ConfigureAwait(false);
+
+                    clip = await ReadOmenCellClipboardWithRetryAsync(
+                            cell,
+                            log,
+                            ct,
+                            $"RefreshGreater {mode} после ПКМ {i + 1} попытка {attempt}")
+                        .ConfigureAwait(false);
+                    if (string.IsNullOrWhiteSpace(clip) || !ClipboardHasOmenHeader(clip))
+                    {
+                        states[i] = new GreaterCellSnap(0, false);
+                        break;
+                    }
+
+                    if (!TryParseStackSizeN(clip, out n))
+                        return false;
+
+                    var visAfter = _omen.IsOmenCellVisuallyActivated(cell, omenGreaterCells, i);
+                    if (visAfter == expectedVis)
+                    {
+                        states[i] = new GreaterCellSnap(n, visAfter);
+                        break;
+                    }
+
+                    if (attempt == 2)
+                    {
+                        log?.Report(
+                            $"Экзальт RefreshGreater {mode}: ячейка Greater {i + 1}/{omenGreaterCells.Count} — после двух ПКМ визуальное состояние не совпадает с ожидаемым " +
+                            $"(ожидалось Activated={expectedVis}, фактически {visAfter}). Остановка крафта.");
+                        SchemaTrace(
+                            log,
+                            "RefreshGreater → STOP",
+                            $"{mode} ячейка {i + 1}: визуальная проверка после ПКМ не прошла");
+                        return false;
+                    }
                 }
 
-                if (!TryParseStackSizeN(clip, out n))
-                    return false;
+                continue;
             }
 
-            var vis = _omen.IsOmenCellVisuallyActivated(omenGreaterCells[i]);
+            var vis = _omen.IsOmenCellVisuallyActivated(omenGreaterCells[i], omenGreaterCells, i);
             states[i] = new GreaterCellSnap(n, vis);
         }
 
@@ -364,8 +429,7 @@ public sealed class ExaltationCraftServiceFracturedSide
     private async Task ClickLeftInRegionAsync(ScreenRect region, IProgress<string>? log, CancellationToken ct, string label)
     {
         var (x, y) = region.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-        if (!Win32Input.TryGetCursorPos(out var cx, out var cy) || !region.ContainsPoint(cx, cy, inset: 1))
-            LogMove(log, $"{label}: ЛКМ область", x, y);
+        MoveToRandomInteriorIfOutside(region, log, $"{label}: ЛКМ область", x, y);
         await StepPauseIfNeeded($"Курсор к области {label} ({x}, {y}).", ct).ConfigureAwait(false);
         await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
         LogMouse(log, $"{label}: ЛКМ");
@@ -384,8 +448,7 @@ public sealed class ExaltationCraftServiceFracturedSide
         {
             ct.ThrowIfCancellationRequested();
             var (x, y) = region.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-            if (!Win32Input.TryGetCursorPos(out var cx, out var cy) || !region.ContainsPoint(cx, cy, inset: 1))
-                LogMove(log, $"{label} {t + 1}/{times}", x, y);
+            MoveToRandomInteriorIfOutside(region, log, $"{label} {t + 1}/{times}", x, y);
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             LogKey(log, $"{label}: Ctrl+ЛКМ");
             Win32Input.SendCtrlLeftClick();
@@ -408,8 +471,7 @@ public sealed class ExaltationCraftServiceFracturedSide
                 ct.ThrowIfCancellationRequested();
                 var cell = cells[i];
                 var (x, y) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-                if (!Win32Input.TryGetCursorPos(out var cx, out var cy) || !cell.ContainsPoint(cx, cy, inset: 1))
-                    LogMove(log, $"RefillOmen ПКМ {name} {i + 1}/{cells.Count}", x, y);
+                MoveToRandomInteriorIfOutside(cell, log, $"RefillOmen ПКМ {name} {i + 1}/{cells.Count}", x, y);
                 await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
                 LogMouse(log, $"RefillOmen ПКМ {name}");
                 Win32Input.ClickRight();
@@ -442,7 +504,9 @@ public sealed class ExaltationCraftServiceFracturedSide
         _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
         await Task.Delay(120, ct).ConfigureAwait(false);
 
+        SchemaTrace(log, "RefillOmen", "вход (ASCII: блок RefillOmen, шаги 1–4)");
         log?.Report("RefillOmen: шаг 1 — фокус ritual inventory (ЛКМ).");
+        SchemaTrace(log, "RefillOmen §1", "ЛКМ _ritualInventoryRegion");
         await ClickLeftInRegionAsync(ritualInventoryRegion, log, ct, "ritual inventory").ConfigureAwait(false);
 
         if (areas.UseSinistral && !areas.UseDextral)
@@ -450,10 +514,12 @@ public sealed class ExaltationCraftServiceFracturedSide
             if (!IsValidRegion(omenSinistralStashRegion) || !IsValidRegion(omenGreaterStashRegion))
             {
                 log?.Report("RefillOmen: не заданы области stash Sinistral / Greater.");
+                SchemaTrace(log, "RefillOmen → FAIL", "нет областей Sinistral/Greater stash");
                 return false;
             }
 
             log?.Report("RefillOmen: ветка 1.1 Sinistral — 35× Ctrl+ЛКМ Sinistral stash, 25× Greater stash.");
+            SchemaTrace(log, "RefillOmen §1.1", "prefix_only: 35× Ctrl+ЛКМ Sinistral stash, 25× Greater stash");
             await RepeatCtrlLeftOnRegionAsync(omenSinistralStashRegion, 35, log, ct, "Sinistral stash").ConfigureAwait(false);
             await RepeatCtrlLeftOnRegionAsync(omenGreaterStashRegion, 25, log, ct, "Greater stash").ConfigureAwait(false);
         }
@@ -462,10 +528,12 @@ public sealed class ExaltationCraftServiceFracturedSide
             if (!IsValidRegion(omenDextralStashRegion) || !IsValidRegion(omenGreaterStashRegion))
             {
                 log?.Report("RefillOmen: не заданы области stash Dextral / Greater.");
+                SchemaTrace(log, "RefillOmen → FAIL", "нет областей Dextral/Greater stash");
                 return false;
             }
 
             log?.Report("RefillOmen: ветка 1.2 Dextral — 35× Ctrl+ЛКМ Dextral stash, 25× Greater stash.");
+            SchemaTrace(log, "RefillOmen §1.2", "suffix_only: 35× Ctrl+ЛКМ Dextral stash, 25× Greater stash");
             await RepeatCtrlLeftOnRegionAsync(omenDextralStashRegion, 35, log, ct, "Dextral stash").ConfigureAwait(false);
             await RepeatCtrlLeftOnRegionAsync(omenGreaterStashRegion, 25, log, ct, "Greater stash").ConfigureAwait(false);
         }
@@ -474,14 +542,14 @@ public sealed class ExaltationCraftServiceFracturedSide
             if (!IsValidRegion(omenGreaterStashRegion))
             {
                 log?.Report("RefillOmen: не задана область Greater stash (ветка mixed).");
+                SchemaTrace(log, "RefillOmen → FAIL", "нет области Greater stash (mixed)");
                 return false;
             }
 
             log?.Report("RefillOmen: ветка 1.3 mixed — 1× Ctrl+ПКМ Greater stash.");
+            SchemaTrace(log, "RefillOmen §1.3", "mixed: 1× Ctrl+ПКМ Greater stash");
             var (gx, gy) = omenGreaterStashRegion.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-            if (!Win32Input.TryGetCursorPos(out var cx, out var cy) ||
-                !omenGreaterStashRegion.ContainsPoint(cx, cy, inset: 1))
-                LogMove(log, "RefillOmen Greater stash Ctrl+ПКМ", gx, gy);
+            MoveToRandomInteriorIfOutside(omenGreaterStashRegion, log, "RefillOmen Greater stash Ctrl+ПКМ", gx, gy);
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             LogKey(log, "RefillOmen: Ctrl+ПКМ Greater stash");
             Win32Input.SendCtrlRightClick();
@@ -489,9 +557,11 @@ public sealed class ExaltationCraftServiceFracturedSide
         }
 
         log?.Report("RefillOmen: шаг 2 — ЛКМ currency inventory.");
+        SchemaTrace(log, "RefillOmen §2", "ЛКМ _currencyInventoryRegion");
         await ClickLeftInRegionAsync(currencyInventoryRegion, log, ct, "currency inventory").ConfigureAwait(false);
 
         log?.Report("RefillOmen: шаг 3 — RefreshRemainingExaltationOmenStacks.");
+        SchemaTrace(log, "RefillOmen §3", "RefreshRemaining → обновить Remaining*");
         var refresh = await TryRefreshRemainingExaltationOmenStacksAsync(
             areas,
             omenSinistralCells,
@@ -503,10 +573,12 @@ public sealed class ExaltationCraftServiceFracturedSide
         if (!refresh.Ok)
         {
             log?.Report("RefillOmen: ошибка RefreshRemaining: " + refresh.Error);
+            SchemaTrace(log, "RefillOmen §3 → FAIL", refresh.Error ?? "");
             return false;
         }
 
         log?.Report("RefillOmen: шаг 4 — ПКМ по всем ячейкам используемых сеток омнов.");
+        SchemaTrace(log, "RefillOmen §4", "ПКМ по каждой ячейке используемых сеток; " + FormatRem(rem));
         await RightClickAllUsedOmenInventoryCellsAsync(
             areas,
             omenSinistralCells,
@@ -515,6 +587,7 @@ public sealed class ExaltationCraftServiceFracturedSide
             log,
             ct).ConfigureAwait(false);
 
+        SchemaTrace(log, "RefillOmen → OK", "шаги 1–4 завершены; " + FormatRem(rem));
         return true;
     }
 
@@ -532,7 +605,12 @@ public sealed class ExaltationCraftServiceFracturedSide
         IProgress<string>? log,
         CancellationToken ct)
     {
+        SchemaTrace(
+            log,
+            "EnsureInitialExaltationOmenSupply",
+            "вход (ASCII EnsureInitial): §1 RefreshRemaining → §2 при нуле RefillOmen → §3 проверка остатков (без отдельного Refresh)");
         log?.Report("EnsureInitialExaltationOmenSupply: шаг 1 — RefreshRemaining.");
+        SchemaTrace(log, "EnsureInitial §1", "RefreshRemainingExaltationOmenStacks (док шаг 1)");
         var r1 = await TryRefreshRemainingExaltationOmenStacksAsync(
             areas,
             omenSinistralCells,
@@ -544,17 +622,26 @@ public sealed class ExaltationCraftServiceFracturedSide
         if (!r1.Ok)
         {
             log?.Report(r1.Error ?? "RefreshRemaining ошибка");
+            SchemaTrace(log, "EnsureInitial §1 → FAIL", r1.Error ?? "");
             return false;
         }
+
+        SchemaTrace(log, "EnsureInitial после §1", FormatRem(rem));
 
         var needRefill =
             rem.Greater <= 0
             || (areas.UseSinistral && rem.Sinistral <= 0)
             || (areas.UseDextral && rem.Dextral <= 0);
 
+        SchemaTrace(
+            log,
+            "EnsureInitial §2?",
+            $"док шаг 2: при нуле у любой используемой области вызвать RefillOmen → needRefill={needRefill}");
+
         if (needRefill)
         {
-            log?.Report("EnsureInitial: обнаружен ноль у используемой области — RefillOmen.");
+            log?.Report("EnsureInitial: шаг 2 — ноль у используемой области, вызов RefillOmen.");
+            SchemaTrace(log, "EnsureInitial §2 → RefillOmen", "полный блок RefillOmen (ASCII)");
             if (!await RefillOmenAsync(
                     areas,
                     ritualInventoryRegion,
@@ -568,32 +655,24 @@ public sealed class ExaltationCraftServiceFracturedSide
                     rem,
                     log,
                     ct).ConfigureAwait(false))
+            {
+                SchemaTrace(log, "EnsureInitial §2 → RefillOmen FAIL", "");
                 return false;
+            }
         }
 
-        log?.Report("EnsureInitial: контрольный RefreshRemaining после RefillOmen.");
-        var r2 = await TryRefreshRemainingExaltationOmenStacksAsync(
-            areas,
-            omenSinistralCells,
-            omenDextralCells,
-            omenGreaterCells,
-            rem,
-            log,
-            ct).ConfigureAwait(false);
-        if (!r2.Ok)
-        {
-            log?.Report(r2.Error ?? "RefreshRemaining ошибка");
-            return false;
-        }
+        SchemaTrace(log, "EnsureInitial §3", "проверка остатков (док шаг 3, без контрольного Refresh); " + FormatRem(rem));
 
         if (rem.Greater <= 0
             || (areas.UseSinistral && rem.Sinistral <= 0)
             || (areas.UseDextral && rem.Dextral <= 0))
         {
-            log?.Report("Невозможно пополнить область омнами: после RefillOmen остаток по используемой области всё ещё ноль.");
+            log?.Report("Невозможно пополнить область омнами: остаток по используемой области ноль.");
+            SchemaTrace(log, "EnsureInitial §3 → STOP", "STOP: остаток 0");
             return false;
         }
 
+        SchemaTrace(log, "EnsureInitial → OK", FormatRem(rem));
         return true;
     }
 
@@ -608,8 +687,7 @@ public sealed class ExaltationCraftServiceFracturedSide
 
         await ClearClipboardAsync().ConfigureAwait(false);
         var (x, y) = stashRegion.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-        if (!Win32Input.TryGetCursorPos(out var cx, out var cy) || !stashRegion.ContainsPoint(cx, cy, inset: 1))
-            LogMove(log, "Stash: MoveTo", x, y);
+        MoveToRandomInteriorIfOutside(stashRegion, log, "Stash: MoveTo", x, y);
         await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
         Win32Input.SendCtrlC();
         await DelayJitterAsync(ClipboardDelayMs, ct).ConfigureAwait(false);
@@ -639,14 +717,21 @@ public sealed class ExaltationCraftServiceFracturedSide
         IProgress<string>? log,
         CancellationToken ct)
     {
+        SchemaTrace(log, "HandleRemainingExaltationUsesDepletion", "вход (ASCII: HandleRemaining… + RefillOmen)");
         var greaterDepleted = rem.Greater <= 0;
         var sideDepleted =
             (areas.UseSinistral && rem.Sinistral <= 0)
             || (areas.UseDextral && rem.Dextral <= 0);
 
+        SchemaTrace(
+            log,
+            "HandleRemaining ветка",
+            $"Greater<=0 → {greaterDepleted}; side исчерпана → {sideDepleted}; {FormatRem(rem)}");
+
         if (greaterDepleted)
         {
             log?.Report("HandleRemaining: ветка B (исчерпан Greater) — снятие side-стака из stash.");
+            SchemaTrace(log, "Шаг B (ASCII)", "B1–B2: Ctrl+ПКМ по side stash (Sin или Dex), затем B3 обнуление");
             if (areas.UseSinistral)
             {
                 if (!await TryStashCtrlRightFirstMatchingAsync(
@@ -669,6 +754,7 @@ public sealed class ExaltationCraftServiceFracturedSide
         else if (sideDepleted)
         {
             log?.Report("HandleRemaining: ветка A (исчерпана side-область) — снятие Greater из stash.");
+            SchemaTrace(log, "Шаг A (ASCII)", "A1: Ctrl+ПКМ Greater stash, затем A2 обнуление");
             if (!await TryStashCtrlRightFirstMatchingAsync(
                     omenGreaterStashRegion,
                     OmenActivationService.OmenGreaterExaltationName,
@@ -679,6 +765,7 @@ public sealed class ExaltationCraftServiceFracturedSide
         else
         {
             log?.Report("HandleRemaining: внутренняя ошибка — нет исчерпания Greater/side.");
+            SchemaTrace(log, "HandleRemaining → FAIL", "не Greater и не side depleted");
             return false;
         }
 
@@ -686,6 +773,7 @@ public sealed class ExaltationCraftServiceFracturedSide
         for (var i = 0; i < greaterStates.Length; i++)
             greaterStates[i] = default;
 
+        SchemaTrace(log, "HandleRemaining → RefillOmen", "A3/B4: вызов RefillOmen после обнуления локальных Rem");
         if (!await RefillOmenAsync(
                 areas,
                 ritualInventoryRegion,
@@ -699,7 +787,12 @@ public sealed class ExaltationCraftServiceFracturedSide
                 rem,
                 log,
                 ct).ConfigureAwait(false))
+        {
+            SchemaTrace(log, "HandleRemaining RefillOmen → FAIL", "");
             return false;
+        }
+
+        SchemaTrace(log, "HandleRemaining после RefillOmen", "RefreshRemaining + RefreshGreater Full (A4/B5), без ЛКМ ritual перед Refresh");
 
         var r = await TryRefreshRemainingExaltationOmenStacksAsync(
             areas,
@@ -712,6 +805,7 @@ public sealed class ExaltationCraftServiceFracturedSide
         if (!r.Ok)
         {
             log?.Report(r.Error ?? "Refresh после RefillOmen");
+            SchemaTrace(log, "HandleRemaining RefreshRemaining → FAIL", r.Error ?? "");
             return false;
         }
 
@@ -721,8 +815,12 @@ public sealed class ExaltationCraftServiceFracturedSide
                 omenGreaterCells,
                 log,
                 ct).ConfigureAwait(false))
+        {
+            SchemaTrace(log, "HandleRemaining RefreshGreater Full → FAIL", "");
             return false;
+        }
 
+        SchemaTrace(log, "HandleRemaining → OK", "LOOP с §1.1 без повторного Init; " + FormatRem(rem));
         return true;
     }
 
@@ -783,21 +881,8 @@ public sealed class ExaltationCraftServiceFracturedSide
         {
             if (c.Kind == CraftClauseKind.Single && c.Single != null)
             {
-                var s = c.Single;
-                if (ParsedItemCraftEvaluator.TryGetRollValuesForTypeAndStatNoLibrary(
-                        item,
-                        plan.ExpectedItemClass,
-                        s.AffixType,
-                        s.StatTemplate,
-                        out var actual,
-                        out _))
-                {
-                    var slots = Math.Max(1, actual.Count);
-                    s.EnsureMinRollsSize(slots);
-                    var mins = s.GetEffectiveMinRolls(slots).ToList();
-                    if (ParsedItemCraftEvaluator.RollVectorMeetsMins(actual, mins, out _))
-                        return true;
-                }
+                if (CraftConditionEvaluator.TryEvaluateSingleAffixClause(c.Single, item, plan.ExpectedItemClass, out _))
+                    return true;
             }
             else if (c.Kind == CraftClauseKind.Sum && c.Sum is { } sum)
             {
@@ -820,20 +905,8 @@ public sealed class ExaltationCraftServiceFracturedSide
             {
                 foreach (var m in cnt.Members)
                 {
-                    if (ParsedItemCraftEvaluator.TryGetRollValuesForTypeAndStatNoLibrary(
-                            item,
-                            plan.ExpectedItemClass,
-                            m.AffixType,
-                            m.StatTemplate,
-                            out var actual,
-                            out _))
-                    {
-                        var slots = Math.Max(1, actual.Count);
-                        m.EnsureMinRollsSize(slots);
-                        var mins = m.GetEffectiveMinRolls(slots).ToList();
-                        if (ParsedItemCraftEvaluator.RollVectorMeetsMins(actual, mins, out _))
-                            return true;
-                    }
+                    if (CraftConditionEvaluator.TryEvaluateSingleAffixClause(m, item, plan.ExpectedItemClass, out _))
+                        return true;
                 }
             }
             else if (c.Kind == CraftClauseKind.WholeModifier && c.Whole is { } wholeBranch)
@@ -991,6 +1064,7 @@ public sealed class ExaltationCraftServiceFracturedSide
         _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
         await Task.Delay(120, ct).ConfigureAwait(false);
 
+        SchemaTrace(log, "PrecheckAsync", "выполняется в MainWindow до RunAsync; в доке Init craft идёт после EnsureInitial внутри RunAsync");
         var clip = await ReadClipboardAfterCtrlAltCAsync(itemArea, log, ct, "экзальт: предпроверка Ctrl+Alt+C").ConfigureAwait(false);
         if (string.IsNullOrWhiteSpace(clip))
             return new CraftPrecheckResult(
@@ -1026,7 +1100,7 @@ public sealed class ExaltationCraftServiceFracturedSide
             clip);
     }
 
-    public async Task<(ChaosCraftResult Result, int AttemptsConsumed)> RunAsync(
+    public async Task<CraftResult> RunAsync(
         ScreenRect exaltArea,
         ScreenRect annulArea,
         ScreenRect ritualInventoryRegion,
@@ -1052,16 +1126,21 @@ public sealed class ExaltationCraftServiceFracturedSide
         _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
         await Task.Delay(120, ct).ConfigureAwait(false);
 
+        SchemaTrace(
+            log,
+            "START RunAsync",
+            "схема: docs/EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt; строки с префиксом [ExaltSchema] — текущий узел");
+
         if (!IsValidRegion(ritualInventoryRegion) || !IsValidRegion(currencyInventoryRegion))
         {
             log?.Report("Экзальт: задайте области Ritual inventory и Currency inventory для RefillOmen.");
-            return (ChaosCraftResult.Error, 0);
+            return CraftResult.Failed();
         }
 
         if (!IsValidRegion(omenGreaterStashRegion))
         {
             log?.Report("Экзальт: задайте область Greater omen stash.");
-            return (ChaosCraftResult.Error, 0);
+            return CraftResult.Failed();
         }
 
         var (wantPrefix, wantSuffix) = GetWantedTypes(plan);
@@ -1072,14 +1151,23 @@ public sealed class ExaltationCraftServiceFracturedSide
         if (areas.UseSinistral && !IsValidRegion(omenSinistralStashRegion))
         {
             log?.Report("Экзальт: для prefix-only задайте область Sinistral omen stash.");
-            return (ChaosCraftResult.Error, 0);
+            return CraftResult.Failed();
         }
 
         if (areas.UseDextral && !IsValidRegion(omenDextralStashRegion))
         {
             log?.Report("Экзальт: для suffix-only задайте область Dextral omen stash.");
-            return (ChaosCraftResult.Error, 0);
+            return CraftResult.Failed();
         }
+
+        SchemaTrace(
+            log,
+            "RunAsync Init | resolveCraftExaltationAreas",
+            $"prefixOnly={prefixOnly} suffixOnly={suffixOnly} → UseSinistral={areas.UseSinistral} UseDextral={areas.UseDextral}; см. ASCII «CraftExaltationAreas»");
+        SchemaTrace(
+            log,
+            "RunAsync Init | PreviousCraftBranch",
+            ":= A (ASCII переменные §4); затем EnsureInitialExaltationOmenSupply");
 
         var rem = new RemainingExaltationState();
         var greaterStates = new GreaterCellSnap[omenGreaterCells.Count];
@@ -1097,15 +1185,12 @@ public sealed class ExaltationCraftServiceFracturedSide
                 rem,
                 log,
                 ct).ConfigureAwait(false))
-            return (ChaosCraftResult.Error, 0);
+        {
+            SchemaTrace(log, "RunAsync → STOP", "EnsureInitial не прошёл");
+            return CraftResult.Failed();
+        }
 
-        if (!await RefreshGreaterExaltationOmenCellStatesAsync(
-                greaterStates,
-                GreaterRefreshMode.Full,
-                omenGreaterCells,
-                log,
-                ct).ConfigureAwait(false))
-            return (ChaosCraftResult.Error, 0);
+        SchemaTrace(log, "Decision flow", "вход в LOOP (ASCII: §1.1–1.2 … без повторного Init craft)");
 
         var previousBranch = CraftBranchKind.A;
         var current = initialParsedItem;
@@ -1121,11 +1206,18 @@ public sealed class ExaltationCraftServiceFracturedSide
                 ct.ThrowIfCancellationRequested();
 
                 var displayAttempt = globalAttemptOffset + used + 1;
+                SchemaTrace(
+                    log,
+                    "LOOP §1.1–1.2 | итерация",
+                    $"попытка #{displayAttempt}, exalt used={used}, PreviousBranch={previousBranch}, {FormatRem(rem)}");
                 var satisfied = CraftConditionEvaluator.TryEvaluate(plan, current, out var expl);
                 craftLog?.WriteComparison(displayAttempt, globalTotal, currentClip, conditionSummary, satisfied, "[проверка перед действием] " + expl);
                 log?.Report($"Проверка (попытка {displayAttempt}): {expl}");
                 if (satisfied)
-                    return (ChaosCraftResult.AffixFound, 0);
+                {
+                    SchemaTrace(log, "Decision flow §7", "условие выполнено → STOP success");
+                    return CraftResult.Found(0, currentClip);
+                }
 
                 var pCur = CountPrefixLikeAffixes(current);
                 var sCur = CountSuffixLikeAffixes(current);
@@ -1158,19 +1250,40 @@ public sealed class ExaltationCraftServiceFracturedSide
 
                 var anyMatch = HasAnySatisfiedElementForBranching(plan, current);
 
+                SchemaTrace(
+                    log,
+                    "LOOP §2 | ветвление match_count",
+                    $"anyMatch={anyMatch} → {(anyMatch ? "ветка B (есть элементы условия)" : "ветка A (0 совпадений)")}; canAdd1={canAdd1} canAdd2={canAdd2}");
+
                 if (!anyMatch)
                 {
                     if (canAdd2)
                     {
+                        SchemaTrace(log, "AddTwoAffixes", "ветка A: can_add_2 (ASCII AddTwoAffixes)");
                         if (previousBranch == CraftBranchKind.B)
                         {
+                            SchemaTrace(log, "AddTwoAffixes §0", "PreviousBranch==B → RefreshGreater Full, затем Activate");
+                            if (!await RefreshGreaterExaltationOmenCellStatesAsync(
+                                    greaterStates,
+                                    GreaterRefreshMode.Full,
+                                    omenGreaterCells,
+                                    log,
+                                    ct).ConfigureAwait(false))
+                            {
+                                SchemaTrace(log, "AddTwoAffixes §0 Full → FAIL", "");
+                                return CraftResult.Failed(used);
+                            }
+
                             if (!await RefreshGreaterExaltationOmenCellStatesAsync(
                                     greaterStates,
                                     GreaterRefreshMode.Activate,
                                     omenGreaterCells,
                                     log,
                                     ct).ConfigureAwait(false))
-                                return (ChaosCraftResult.Error, used);
+                            {
+                                SchemaTrace(log, "AddTwoAffixes §0 Activate → FAIL", "");
+                                return CraftResult.Failed(used);
+                            }
                         }
 
                         var gCell = await _omen.ActivateFirstAsync(
@@ -1181,7 +1294,7 @@ public sealed class ExaltationCraftServiceFracturedSide
                         if (gCell is null)
                         {
                             log?.Report("Экзальт (ветка A): Omen Greater не найден — остановка.");
-                            return (ChaosCraftResult.Error, used);
+                            return CraftResult.Failed(used);
                         }
 
                         ScreenRect? sdCell = null;
@@ -1195,7 +1308,7 @@ public sealed class ExaltationCraftServiceFracturedSide
                             if (sdCell is null)
                             {
                                 log?.Report("Экзальт (ветка A): OSinistral не найден — остановка.");
-                                return (ChaosCraftResult.Error, used);
+                                return CraftResult.Failed(used);
                             }
                         }
                         else if (suffixOnly)
@@ -1208,14 +1321,16 @@ public sealed class ExaltationCraftServiceFracturedSide
                             if (sdCell is null)
                             {
                                 log?.Report("Экзальт (ветка A): Omen Dextral не найден — остановка.");
-                                return (ChaosCraftResult.Error, used);
+                                return CraftResult.Failed(used);
                             }
                         }
 
+                        SchemaTrace(log, "AddTwoAffixes §1", "Orb of Exaltation → предмет");
                         await ApplyCurrencyAsync(exaltArea, itemArea, log, ct, "Orb of Exaltation").ConfigureAwait(false);
                         used += 1;
                         annulsSinceLastExalt = 0;
                         previousBranch = CraftBranchKind.A;
+                        SchemaTrace(log, "AddTwoAffixes", "PreviousCraftBranch := A");
 
                         ApplyExaltConsumptionToRemaining(
                             areas,
@@ -1224,8 +1339,11 @@ public sealed class ExaltationCraftServiceFracturedSide
                             consumedSinistral: prefixOnly,
                             consumedDextral: suffixOnly);
 
+                        SchemaTrace(log, "AddTwoAffixes §2", "локальное уменьшение Remaining* — " + FormatRem(rem));
+
                         if (AnyUsedDepleted(areas, rem))
                         {
+                            SchemaTrace(log, "AddTwoAffixes §3", "деплет → HandleRemainingExaltationUsesDepletion");
                             if (!await HandleRemainingExaltationUsesDepletionAsync(
                                     areas,
                                     rem,
@@ -1240,15 +1358,19 @@ public sealed class ExaltationCraftServiceFracturedSide
                                     omenGreaterCells,
                                     log,
                                     ct).ConfigureAwait(false))
-                                return (ChaosCraftResult.Error, used);
+                            {
+                                SchemaTrace(log, "AddTwoAffixes §3 → FAIL", "HandleRemaining");
+                                return CraftResult.Failed(used);
+                            }
                         }
                     }
                     else
                     {
+                        SchemaTrace(log, "Decision flow | A5", "Annulment ×2 (нет места для 2 аффиксов)");
                         if (annulsSinceLastExalt + 2 > 6)
                         {
                             log?.Report("Экзальт: слишком много Orb of Annulment подряд без Orb of Exaltation — остановка во избежание лишних удалений.");
-                            return (ChaosCraftResult.Error, used);
+                            return CraftResult.Failed(used);
                         }
 
                         var (ox, oy) = annulArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
@@ -1287,15 +1409,31 @@ public sealed class ExaltationCraftServiceFracturedSide
                 {
                     if (canAdd1)
                     {
+                        SchemaTrace(log, "AddOneAffix", "ветка B: can_add_1 (ASCII AddOneAffix)");
                         if (previousBranch == CraftBranchKind.A)
                         {
+                            SchemaTrace(log, "AddOneAffix §0", "PreviousBranch==A → RefreshGreater Full, затем Deactivate");
+                            if (!await RefreshGreaterExaltationOmenCellStatesAsync(
+                                    greaterStates,
+                                    GreaterRefreshMode.Full,
+                                    omenGreaterCells,
+                                    log,
+                                    ct).ConfigureAwait(false))
+                            {
+                                SchemaTrace(log, "AddOneAffix §0 Full → FAIL", "");
+                                return CraftResult.Failed(used);
+                            }
+
                             if (!await RefreshGreaterExaltationOmenCellStatesAsync(
                                     greaterStates,
                                     GreaterRefreshMode.Deactivate,
                                     omenGreaterCells,
                                     log,
                                     ct).ConfigureAwait(false))
-                                return (ChaosCraftResult.Error, used);
+                            {
+                                SchemaTrace(log, "AddOneAffix §0 Deactivate → FAIL", "");
+                                return CraftResult.Failed(used);
+                            }
                         }
 
                         ScreenRect? bCell = null;
@@ -1309,7 +1447,7 @@ public sealed class ExaltationCraftServiceFracturedSide
                             if (bCell is null)
                             {
                                 log?.Report("Экзальт (ветка B): Omen Sinistral не найден — остановка.");
-                                return (ChaosCraftResult.Error, used);
+                                return CraftResult.Failed(used);
                             }
                         }
                         else if (suffixOnly)
@@ -1322,14 +1460,16 @@ public sealed class ExaltationCraftServiceFracturedSide
                             if (bCell is null)
                             {
                                 log?.Report("Экзальт (ветка B): Omen Dextral не найден — остановка.");
-                                return (ChaosCraftResult.Error, used);
+                                return CraftResult.Failed(used);
                             }
                         }
 
+                        SchemaTrace(log, "AddOneAffix §1", "Orb of Exaltation → предмет");
                         await ApplyCurrencyAsync(exaltArea, itemArea, log, ct, "Orb of Exaltation").ConfigureAwait(false);
                         used += 1;
                         annulsSinceLastExalt = 0;
                         previousBranch = CraftBranchKind.B;
+                        SchemaTrace(log, "AddOneAffix", "PreviousCraftBranch := B");
 
                         ApplyExaltConsumptionToRemaining(
                             areas,
@@ -1338,8 +1478,11 @@ public sealed class ExaltationCraftServiceFracturedSide
                             consumedSinistral: prefixOnly,
                             consumedDextral: suffixOnly);
 
+                        SchemaTrace(log, "AddOneAffix §2", "локальное уменьшение side Rem* — " + FormatRem(rem));
+
                         if (AnyUsedDepleted(areas, rem))
                         {
+                            SchemaTrace(log, "AddOneAffix §3", "деплет → HandleRemainingExaltationUsesDepletion");
                             if (!await HandleRemainingExaltationUsesDepletionAsync(
                                     areas,
                                     rem,
@@ -1354,11 +1497,15 @@ public sealed class ExaltationCraftServiceFracturedSide
                                     omenGreaterCells,
                                     log,
                                     ct).ConfigureAwait(false))
-                                return (ChaosCraftResult.Error, used);
+                            {
+                                SchemaTrace(log, "AddOneAffix §3 → FAIL", "HandleRemaining");
+                                return CraftResult.Failed(used);
+                            }
                         }
                     }
                     else
                     {
+                        SchemaTrace(log, "Decision flow | B5", "Annulment ×1 (нет места для 1 аффикса)");
                         await ApplyCurrencyAsync(annulArea, itemArea, log, ct, "Orb of Annulment").ConfigureAwait(false);
                         annulsSinceLastExalt++;
                     }
@@ -1370,11 +1517,13 @@ public sealed class ExaltationCraftServiceFracturedSide
                     ct,
                     $"экзальт: Ctrl+Alt+C после действий (попытка {globalAttemptOffset + Math.Max(1, used)} / {globalTotal})").ConfigureAwait(false);
                 if (string.IsNullOrWhiteSpace(currentClip))
-                    return (ChaosCraftResult.EmptyCell, used);
+                    return CraftResult.Empty(used);
 
                 current = ItemParser.Parse(currentClip) ?? new ParsedItem { IsValid = false };
                 if (!IsRare(current))
-                    return (ChaosCraftResult.Error, used);
+                    return CraftResult.Failed(used);
+
+                SchemaTrace(log, "LOOP → следующая итерация", "предмет обновлён (Ctrl+Alt+C); к Decision flow §1.1");
             }
         }
         catch (OperationCanceledException)
@@ -1388,6 +1537,6 @@ public sealed class ExaltationCraftServiceFracturedSide
             throw;
         }
 
-        return (ChaosCraftResult.MaxAttemptsReached, used);
+        return CraftResult.LimitReached(used);
     }
 }

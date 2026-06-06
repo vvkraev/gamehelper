@@ -22,7 +22,9 @@ public static class SettingsStore
         if (p == null)
             return new CraftConditionPlan();
         var json = JsonSerializer.Serialize(p, JsonOptions);
-        return JsonSerializer.Deserialize<CraftConditionPlan>(json, JsonOptions) ?? new CraftConditionPlan();
+        var plan = JsonSerializer.Deserialize<CraftConditionPlan>(json, JsonOptions) ?? new CraftConditionPlan();
+        CraftConditionPlanNormalizer.NormalizeInPlace(plan, AffixLibrary.GetEntries());
+        return plan;
     }
 
     /// <summary>
@@ -51,8 +53,9 @@ public static class SettingsStore
             var s = JsonSerializer.Deserialize<AppSettings>(json, JsonOptions);
             return s ?? new AppSettings();
         }
-        catch
+        catch (Exception ex)
         {
+            SessionLogger.Info($"[Настройки] Не удалось загрузить settings.json: {ex.Message} — используются значения по умолчанию.");
             return new AppSettings();
         }
     }
@@ -64,9 +67,9 @@ public static class SettingsStore
             var json = JsonSerializer.Serialize(settings, JsonOptions);
             File.WriteAllText(FilePath, json);
         }
-        catch
+        catch (Exception ex)
         {
-            // игнорируем ошибки записи (нет прав и т.д.)
+            SessionLogger.Info($"[Настройки] Не удалось сохранить settings.json: {ex.Message}");
         }
     }
 }

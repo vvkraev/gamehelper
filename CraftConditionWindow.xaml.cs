@@ -7,7 +7,9 @@ using WpfBorder = System.Windows.Controls.Border;
 using WpfButton = System.Windows.Controls.Button;
 using WpfComboBox = System.Windows.Controls.ComboBox;
 using WpfGroupBox = System.Windows.Controls.GroupBox;
+using WpfListBox = System.Windows.Controls.ListBox;
 using WpfOrientation = System.Windows.Controls.Orientation;
+using WpfSlider = System.Windows.Controls.Slider;
 using WpfStackPanel = System.Windows.Controls.StackPanel;
 using WpfTextBlock = System.Windows.Controls.TextBlock;
 using WpfTextBox = System.Windows.Controls.TextBox;
@@ -24,8 +26,10 @@ public partial class CraftConditionWindow : Window
     public CraftConditionWindow(CraftConditionPlan plan, List<AffixLibraryEntry> entries)
     {
         InitializeComponent();
+        WindowGeometryStore.Attach(this, "CraftConditionWindow");
         _plan = plan;
         _entries = entries;
+        CraftConditionPlanNormalizer.NormalizeInPlace(_plan, _entries);
         LoadItemClasses();
         if (!string.IsNullOrEmpty(_plan.ExpectedItemClass) &&
             ItemClassCombo.Items.Cast<string>().Contains(_plan.ExpectedItemClass, StringComparer.Ordinal))
@@ -58,7 +62,7 @@ public partial class CraftConditionWindow : Window
     {
         if (string.IsNullOrEmpty(SelectedItemClass))
         {
-            MessageBox.Show("Сначала выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,"Сначала выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
@@ -72,19 +76,30 @@ public partial class CraftConditionWindow : Window
     {
         var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(itemClass, _entries);
         if (types.Count == 0)
-            return new CraftSingleAffixData { MinRoll = 0 };
+            return new CraftSingleAffixData { MinRoll = 0, AffixTier = 1 };
         var t = types[0];
         var stats = CraftAffixCascadeHelper.GetStatTemplatesForClassAndType(itemClass, t, _entries);
         var st = stats.Count > 0 ? stats[0] : "";
+        var tiers = CraftAffixCascadeHelper.GetDistinctTiersForClassTypeStat(itemClass, t, st, _entries);
+        var tier = tiers.Count > 0 ? tiers[0] : 1;
+        var names = CraftAffixCascadeHelper.GetAffixNamesForClassTypeStatTier(itemClass, t, st, tier, _entries);
         var fp = new CraftSingleAffixData
         {
             AffixType = t,
             AffixName = "",
-            AffixTier = 0,
             StatTemplate = st,
+            AffixTier = tier,
             MinRoll = 0,
         };
-        fp.EnsureMinRollsSize(CraftAffixCascadeHelper.GetRollSlotCountForStat(itemClass, t, st, _entries));
+        if (names.Count > 0)
+            fp.SelectedAffixNames.Add(names[0]);
+        var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(itemClass, t, st, _entries);
+        fp.EnsureMinRollsSize(slots);
+        var (lo, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForSingleStat(
+            itemClass, t, st, fp.SelectedAffixNames, fp.AffixTier, _entries);
+        fp.MinRoll = ResolveSliderThreshold(lo, hi, fp.MinRoll);
+        for (var i = 0; i < fp.MinRolls.Count; i++)
+            fp.MinRolls[i] = fp.MinRoll;
         return fp;
     }
 
@@ -93,6 +108,8 @@ public partial class CraftConditionWindow : Window
         data.AffixType = e.AffixType;
         data.AffixName = e.AffixName;
         data.AffixTier = e.AffixTier;
+        data.SelectedAffixNames.Clear();
+        data.SelectedAffixNames.Add(e.AffixName);
         data.Lines.Clear();
         for (var i = 0; i < e.AffixStats.Count; i++)
         {
@@ -145,7 +162,7 @@ public partial class CraftConditionWindow : Window
         {
             if (string.IsNullOrEmpty(SelectedItemClass))
             {
-                MessageBox.Show("Выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(this,"Выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -161,7 +178,7 @@ public partial class CraftConditionWindow : Window
         {
             if (string.IsNullOrEmpty(SelectedItemClass))
             {
-                MessageBox.Show("Выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(this,"Выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -191,7 +208,7 @@ public partial class CraftConditionWindow : Window
         {
             if (string.IsNullOrEmpty(SelectedItemClass))
             {
-                MessageBox.Show("Выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(this,"Выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -217,14 +234,14 @@ public partial class CraftConditionWindow : Window
         {
             if (string.IsNullOrEmpty(SelectedItemClass))
             {
-                MessageBox.Show("Выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(this,"Выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
             var cl = TryCreateFirstWholeModifierClause(SelectedItemClass!);
             if (cl is null)
             {
-                MessageBox.Show(
+                MessageBox.Show(this,
                     "Для этого класса в библиотеке нет модификаторов с двумя и более строками стата (см. affix_library.json).",
                     "Условие",
                     MessageBoxButton.OK,
@@ -257,10 +274,23 @@ public partial class CraftConditionWindow : Window
 
         if (clause.Kind == CraftClauseKind.Single && clause.Single is { } s)
         {
-            var header = new WpfTextBlock { Text = "Одиночный аффикс (≥ порог)", FontWeight = FontWeights.SemiBold, Margin = new Thickness(0, 0, 0, 4) };
+            var header = new WpfTextBlock
+            {
+                Text = "Одиночный аффикс: тир, имя(имена) из библиотеки, минимальный перекат (ползунок).",
+                FontWeight = FontWeights.SemiBold,
+                Margin = new Thickness(0, 0, 0, 4),
+                TextWrapping = TextWrapping.Wrap,
+            };
             panel.Children.Add(header);
             panel.Children.Add(BuildTypeStatRowForSingle(s));
-            panel.Children.Add(BuildMinRollRowForSingle(s, clause, group));
+            panel.Children.Add(BuildTierAffixNamesSliderForSingle(
+                s,
+                () =>
+                {
+                    group.Clauses.Remove(clause);
+                    RefreshOrAlternativesUi();
+                },
+                "Удалить строку"));
         }
         else if (clause.Kind == CraftClauseKind.WholeModifier && clause.Whole is { } whole)
         {
@@ -358,7 +388,7 @@ public partial class CraftConditionWindow : Window
             {
                 var inner = new WpfStackPanel();
                 inner.Children.Add(BuildTypeStatRowForSingle(mem));
-                inner.Children.Add(BuildMinRollRowCore(mem, () =>
+                inner.Children.Add(BuildTierAffixNamesSliderForSingle(mem, () =>
                 {
                     cnt.Members.Remove(mem);
                     if (cnt.Members.Count == 0)
@@ -422,7 +452,8 @@ public partial class CraftConditionWindow : Window
 
         root.Children.Add(new WpfTextBlock
         {
-            Text = "Целый модификатор: один аффикс с выбранным именем и тиром; все строки стата должны удовлетворять порогам (И).",
+            Text =
+                "Целый модификатор: шаблон из библиотеки, затем один или несколько имён (ИЛИ) с тем же набором строк стата; по каждой строке — ползунок минимума.",
             FontWeight = FontWeights.SemiBold,
             Margin = new Thickness(0, 0, 0, 8),
             TextWrapping = TextWrapping.Wrap,
@@ -502,7 +533,83 @@ public partial class CraftConditionWindow : Window
         row1.Children.Add(cbEntry);
         root.Children.Add(row1);
 
-        var entry = AffixCraftPatternBuilder.FindEntryByNameAndTier(_entries, ic, data.AffixType, data.AffixName, data.AffixTier);
+        var gateW = new[] { false };
+        root.Children.Add(new WpfTextBlock
+        {
+            Text = "Имена (ИЛИ), тот же набор строк стата и тир:",
+            Margin = new Thickness(0, 0, 0, 4),
+            Foreground = System.Windows.Media.Brushes.DimGray,
+        });
+        var lbWhole = new WpfListBox
+        {
+            SelectionMode = System.Windows.Controls.SelectionMode.Extended,
+            MaxHeight = 120,
+            Margin = new Thickness(0, 0, 0, 8),
+        };
+
+        void RefillWholeNameList()
+        {
+            var refE = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
+                _entries,
+                ic,
+                data.AffixType,
+                data.AffixName,
+                data.AffixTier);
+            if (refE is null)
+            {
+                lbWhole.ItemsSource = null;
+                return;
+            }
+
+            var compat = CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(ic, data.AffixType, _entries)
+                .Where(e => e.AffixTier == data.AffixTier && CraftAffixCascadeHelper.EntriesShareSameAffixStats(refE, e))
+                .ToList();
+            lbWhole.ItemsSource = compat;
+            lbWhole.DisplayMemberPath = nameof(AffixLibraryEntry.AffixName);
+            gateW[0] = true;
+            lbWhole.SelectedItems.Clear();
+            foreach (var nm in data.SelectedAffixNames)
+            {
+                var m = compat.FirstOrDefault(x => string.Equals(x.AffixName, nm, StringComparison.Ordinal));
+                if (m != null)
+                    lbWhole.SelectedItems.Add(m);
+            }
+
+            if (lbWhole.SelectedItems.Count == 0 && compat.Count > 0)
+            {
+                lbWhole.SelectedItems.Add(compat[0]);
+                data.SelectedAffixNames.Clear();
+                data.SelectedAffixNames.Add(compat[0].AffixName);
+                data.AffixName = compat[0].AffixName;
+            }
+
+            gateW[0] = false;
+        }
+
+        lbWhole.SelectionChanged += (_, _) =>
+        {
+            if (gateW[0])
+                return;
+            data.SelectedAffixNames.Clear();
+            foreach (var o in lbWhole.SelectedItems)
+            {
+                if (o is AffixLibraryEntry we)
+                    data.SelectedAffixNames.Add(we.AffixName);
+            }
+
+            data.AffixName = data.SelectedAffixNames.Count > 0 ? data.SelectedAffixNames[0] : "";
+            RefreshOrAlternativesUi();
+        };
+
+        root.Children.Add(lbWhole);
+        RefillWholeNameList();
+
+        var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
+            _entries,
+            ic,
+            data.AffixType,
+            data.AffixName,
+            data.AffixTier);
         foreach (var line in data.Lines)
         {
             var wrap = new WpfStackPanel { Margin = new Thickness(0, 0, 0, 8) };
@@ -518,8 +625,10 @@ public partial class CraftConditionWindow : Window
             if (entry is not null)
             {
                 var si = AffixCraftPatternBuilder.GetStatIndex(entry, line.StatTemplate);
+                if (si < 0)
+                    si = CraftAffixCascadeHelper.FindStatIndexInEntry(entry, line.StatTemplate);
                 if (si >= 0)
-                    wrap.Children.Add(BuildMinRollRowForWholeLine(line, entry, si));
+                    wrap.Children.Add(BuildWholeLineSliderRow(data, line, entry, si));
                 else
                 {
                     wrap.Children.Add(new WpfTextBlock
@@ -558,43 +667,72 @@ public partial class CraftConditionWindow : Window
         return root;
     }
 
-    private UIElement BuildMinRollRowForWholeLine(CraftWholeModifierLine line, AffixLibraryEntry entry, int statIndex)
+    private UIElement BuildWholeLineSliderRow(
+        CraftWholeModifierAffixData whole,
+        CraftWholeModifierLine line,
+        AffixLibraryEntry refEntry,
+        int statIndex)
     {
-        var slots = CraftAffixCascadeHelper.GetRollSlotCountForEntryStat(entry, statIndex);
+        var ic = SelectedItemClass ?? _plan.ExpectedItemClass ?? "";
+        var slots = CraftAffixCascadeHelper.GetRollSlotCountForEntryStat(refEntry, statIndex);
         line.EnsureMinRollsSize(slots);
-        var rangeStr = statIndex >= 0 && statIndex < entry.AffixRanges.Count ? entry.AffixRanges[statIndex] : null;
-        var labels = CraftAffixCascadeHelper.GetRollSlotLabels(rangeStr, slots).ToList();
+        var names = whole.SelectedAffixNames.Count > 0
+            ? whole.SelectedAffixNames
+            : whole.EffectiveWholeAffixNames().ToList();
+        var (lo, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForWholeLine(
+            ic,
+            whole.AffixType,
+            refEntry,
+            statIndex,
+            names,
+            whole.AffixTier,
+            _entries);
+        var fixedRoll = hi <= lo;
 
-        var row = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 2, 0, 0) };
-        for (var i = 0; i < slots; i++)
+        var col = new WpfStackPanel { Margin = new Thickness(0, 2, 0, 0) };
+        var lblBounds = new WpfTextBlock
         {
-            var labelText = slots > 1 && i < labels.Count && labels[i].Length > 0
-                ? $"Мин. {labels[i]}:"
-                : slots > 1
-                    ? $"Мин. {i + 1}:"
-                    : "Мин. перекат:";
-            row.Children.Add(new WpfTextBlock
-            {
-                Text = labelText,
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(i == 0 ? 0 : 12, 0, 6, 0),
-            });
-            var idx = i;
-            var tb = new WpfTextBox { Width = 72, Text = FormatNum(line.MinRolls[idx]) };
-            tb.LostFocus += (_, _) =>
-            {
-                if (!double.TryParse(tb.Text.Trim().Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out var v))
-                    return;
-                while (line.MinRolls.Count <= idx)
-                    line.MinRolls.Add(0);
-                line.MinRolls[idx] = v;
-                if (line.MinRolls.Count == 1)
-                    line.MinRoll = v;
-            };
-            row.Children.Add(tb);
-        }
+            Text = fixedRoll
+                ? $"Перекат по библиотеке (фикс.): {FormatNum(lo)}"
+                : $"Диапазон по выбранным именам: [{FormatNum(lo)} … {FormatNum(hi)}]",
+            Foreground = System.Windows.Media.Brushes.Gray,
+            Margin = new Thickness(0, 0, 0, 4),
+        };
+        var slider = new WpfSlider { MinWidth = 280, Margin = new Thickness(0, 0, 0, 4) };
+        var lblVal = new WpfTextBlock();
+        var span = hi - lo;
+        var allInt = lo == Math.Truncate(lo) && hi == Math.Truncate(hi);
+        slider.Minimum = lo;
+        slider.Maximum = hi;
+        slider.TickFrequency = allInt && span <= 500 ? 1 : Math.Max(span / 20.0, 0.01);
+        slider.IsSnapToTickEnabled = allInt && span <= 500;
+        slider.IsEnabled = !fixedRoll;
+        var current = line.MinRolls.Count > 0 ? line.MinRolls[0] : line.MinRoll;
+        var v = ResolveSliderThreshold(lo, hi, current);
+        slider.Value = v;
+        for (var i = 0; i < line.MinRolls.Count; i++)
+            line.MinRolls[i] = v;
+        line.MinRoll = v;
+        lblVal.Text = fixedRoll
+            ? $"Порог остановки: {FormatNum(v)} (совпадает с перекатом в библиотеке)"
+            : $"Минимум переката: {FormatNum(v)}";
 
-        return row;
+        slider.ValueChanged += (_, _) =>
+        {
+            if (fixedRoll)
+                return;
+            var nv = slider.Value;
+            line.EnsureMinRollsSize(slots);
+            for (var i = 0; i < line.MinRolls.Count; i++)
+                line.MinRolls[i] = nv;
+            line.MinRoll = nv;
+            lblVal.Text = $"Минимум переката: {FormatNum(nv)}";
+        };
+
+        col.Children.Add(lblBounds);
+        col.Children.Add(slider);
+        col.Children.Add(lblVal);
+        return col;
     }
 
     private UIElement BuildTypeStatRowForSingle(CraftSingleAffixData data)
@@ -633,6 +771,7 @@ public partial class CraftConditionWindow : Window
         {
             data.AffixType = tSync;
             data.AffixName = "";
+            data.SelectedAffixNames.Clear();
             data.AffixTier = 0;
         }
 
@@ -645,6 +784,7 @@ public partial class CraftConditionWindow : Window
                 return;
             data.AffixType = nt;
             data.AffixName = "";
+            data.SelectedAffixNames.Clear();
             data.AffixTier = 0;
             RefillStatForType(nt);
             if (cbStat.SelectedItem is string st)
@@ -657,6 +797,7 @@ public partial class CraftConditionWindow : Window
             {
                 data.StatTemplate = st;
                 data.AffixName = "";
+                data.SelectedAffixNames.Clear();
                 data.AffixTier = 0;
             }
 
@@ -670,62 +811,169 @@ public partial class CraftConditionWindow : Window
         return row;
     }
 
-    private UIElement BuildMinRollRowForSingle(CraftSingleAffixData data, CraftClause clause, CraftAndGroup group) =>
-        BuildMinRollRowCore(
-            data,
-            () =>
-            {
-                group.Clauses.Remove(clause);
-                RefreshOrAlternativesUi();
-            },
-            "Удалить строку");
-
-    /// <summary>Поля минимального переката; <paramref name="removeAction"/> — кнопка справа (если null — без кнопки).</summary>
-    private UIElement BuildMinRollRowCore(CraftSingleAffixData data, Action? removeAction, string removeButtonLabel)
+    private UIElement BuildTierAffixNamesSliderForSingle(CraftSingleAffixData data, Action? removeAction, string removeButtonLabel)
     {
         var ic = SelectedItemClass ?? _plan.ExpectedItemClass ?? "";
-        var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(ic, data.AffixType, data.StatTemplate, _entries);
-        data.EnsureMinRollsSize(slots);
-        var rangeStr = CraftAffixCascadeHelper.GetTierRangeStringForStat(ic, data.AffixType, data.StatTemplate, _entries);
-        var labels = CraftAffixCascadeHelper.GetRollSlotLabels(rangeStr, slots).ToList();
+        var col = new WpfStackPanel { Margin = new Thickness(0, 6, 0, 0) };
 
-        var row = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 6, 0, 0) };
-        for (var i = 0; i < slots; i++)
+        var tierRow = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 6) };
+        tierRow.Children.Add(new WpfTextBlock { Text = "Тир:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 0) });
+        var cbTier = new WpfComboBox { MinWidth = 72, VerticalAlignment = VerticalAlignment.Center };
+        var gate = new[] { false };
+
+        void RefillTiers()
         {
-            var labelText = slots > 1 && i < labels.Count && labels[i].Length > 0
-                ? $"Мин. {labels[i]}:"
-                : slots > 1
-                    ? $"Мин. {i + 1}:"
-                    : "Мин. перекат:";
-            row.Children.Add(new WpfTextBlock
+            gate[0] = true;
+            var tiers = CraftAffixCascadeHelper.GetDistinctTiersForClassTypeStat(ic, data.AffixType, data.StatTemplate, _entries);
+            cbTier.ItemsSource = tiers;
+            if (tiers.Count == 0)
             {
-                Text = labelText,
-                VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(i == 0 ? 0 : 12, 0, 6, 0),
-            });
-            var idx = i;
-            var tb = new WpfTextBox { Width = 72, Text = FormatNum(data.MinRolls[idx]) };
-            tb.LostFocus += (_, _) =>
+                data.AffixTier = Math.Max(1, data.AffixTier);
+                cbTier.SelectedItem = null;
+            }
+            else if (tiers.Contains(data.AffixTier))
+                cbTier.SelectedItem = data.AffixTier;
+            else
             {
-                if (!double.TryParse(tb.Text.Trim().Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out var v))
-                    return;
-                while (data.MinRolls.Count <= idx)
-                    data.MinRolls.Add(0);
-                data.MinRolls[idx] = v;
-                if (data.MinRolls.Count == 1)
-                    data.MinRoll = v;
-            };
-            row.Children.Add(tb);
+                data.AffixTier = tiers[0];
+                cbTier.SelectedItem = tiers[0];
+            }
+
+            gate[0] = false;
         }
+
+        RefillTiers();
+
+        tierRow.Children.Add(cbTier);
+        col.Children.Add(tierRow);
+
+        col.Children.Add(new WpfTextBlock
+        {
+            Text = "Имя аффикса (можно несколько, Ctrl/Shift):",
+            Margin = new Thickness(0, 0, 0, 4),
+            Foreground = System.Windows.Media.Brushes.DimGray,
+        });
+        var lb = new WpfListBox
+        {
+            MinHeight = 72,
+            MaxHeight = 160,
+            SelectionMode = System.Windows.Controls.SelectionMode.Extended,
+            Margin = new Thickness(0, 0, 0, 8),
+        };
+
+        var sliderRow = new WpfStackPanel { Orientation = WpfOrientation.Vertical, Margin = new Thickness(0, 0, 0, 4) };
+        var lblBounds = new WpfTextBlock { Foreground = System.Windows.Media.Brushes.Gray, Margin = new Thickness(0, 0, 0, 4) };
+        var slider = new WpfSlider { MinWidth = 280, Margin = new Thickness(0, 0, 0, 4) };
+        var lblVal = new WpfTextBlock { Margin = new Thickness(0, 0, 0, 0) };
+        sliderRow.Children.Add(lblBounds);
+        sliderRow.Children.Add(slider);
+        sliderRow.Children.Add(lblVal);
+
+        void ApplySliderValueToData(double v)
+        {
+            var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(ic, data.AffixType, data.StatTemplate, _entries);
+            data.EnsureMinRollsSize(slots);
+            data.MinRoll = v;
+            for (var i = 0; i < data.MinRolls.Count; i++)
+                data.MinRolls[i] = v;
+        }
+
+        void RefillNamesAndSlider()
+        {
+            gate[0] = true;
+            var names = CraftAffixCascadeHelper.GetAffixNamesForClassTypeStatTier(
+                ic, data.AffixType, data.StatTemplate, data.AffixTier, _entries);
+            lb.ItemsSource = names;
+            lb.SelectedItems.Clear();
+            foreach (var n in data.SelectedAffixNames)
+            {
+                if (names.Contains(n, StringComparer.Ordinal))
+                    lb.SelectedItems.Add(n);
+            }
+
+            if (lb.SelectedItems.Count == 0 && names.Count > 0)
+            {
+                lb.SelectedItems.Add(names[0]);
+                data.SelectedAffixNames.Clear();
+                data.SelectedAffixNames.Add(names[0]);
+                data.AffixName = names[0];
+            }
+
+            var (lo, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForSingleStat(
+                ic, data.AffixType, data.StatTemplate, data.SelectedAffixNames, data.AffixTier, _entries);
+            var fixedRoll = hi <= lo;
+            slider.Minimum = lo;
+            slider.Maximum = hi;
+            var span = hi - lo;
+            var allInt = lo == Math.Truncate(lo) && hi == Math.Truncate(hi);
+            slider.TickFrequency = allInt && span <= 500 ? 1 : Math.Max(span / 20.0, 0.01);
+            slider.IsSnapToTickEnabled = allInt && span <= 500;
+            slider.IsEnabled = !fixedRoll;
+            var v = ResolveSliderThreshold(lo, hi, data.MinRoll);
+            slider.Value = v;
+            ApplySliderValueToData(v);
+            lblBounds.Text = fixedRoll
+                ? $"Перекат по библиотеке (фикс.): {FormatNum(lo)}"
+                : $"Диапазон порога по библиотеке: [{FormatNum(lo)} … {FormatNum(hi)}]";
+            lblVal.Text = fixedRoll
+                ? $"Порог остановки: {FormatNum(v)} (совпадает с перекатом в библиотеке)"
+                : $"Минимум переката: {FormatNum(v)}";
+            gate[0] = false;
+        }
+
+        lb.SelectionChanged += (_, _) =>
+        {
+            if (gate[0])
+                return;
+            data.SelectedAffixNames.Clear();
+            foreach (var o in lb.SelectedItems)
+            {
+                if (o is string sn && !string.IsNullOrWhiteSpace(sn))
+                    data.SelectedAffixNames.Add(sn);
+            }
+
+            data.AffixName = data.SelectedAffixNames.Count > 0 ? data.SelectedAffixNames[0] : "";
+            RefillNamesAndSlider();
+        };
+
+        slider.ValueChanged += (_, _) =>
+        {
+            if (gate[0] || !slider.IsEnabled)
+                return;
+            var v = slider.Value;
+            ApplySliderValueToData(v);
+            lblVal.Text = $"Минимум переката: {FormatNum(v)}";
+        };
+
+        cbTier.SelectionChanged += (_, _) =>
+        {
+            if (gate[0] || cbTier.SelectedItem is not int ti)
+                return;
+            data.AffixTier = ti;
+            data.SelectedAffixNames.Clear();
+            data.AffixName = "";
+            RefillNamesAndSlider();
+        };
+
+        col.Children.Add(lb);
+        col.Children.Add(sliderRow);
+
+        RefillNamesAndSlider();
 
         if (removeAction is not null)
         {
-            var remove = new WpfButton { Content = removeButtonLabel, Margin = new Thickness(12, 0, 0, 0), Padding = new Thickness(8, 2, 8, 2) };
+            var remove = new WpfButton
+            {
+                Content = removeButtonLabel,
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                Margin = new Thickness(0, 8, 0, 0),
+                Padding = new Thickness(8, 2, 8, 2),
+            };
             remove.Click += (_, _) => removeAction();
-            row.Children.Add(remove);
+            col.Children.Add(remove);
         }
 
-        return row;
+        return col;
     }
 
     private UIElement BuildTypeStatRowForRef(CraftAffixRef part)
@@ -801,6 +1049,16 @@ public partial class CraftConditionWindow : Window
         return row;
     }
 
+    /// <summary>
+    /// Фикс. перекат (lo==hi) → lo. Диапазон → lo по умолчанию; сохранённый порог, если он в [lo..hi].
+    /// </summary>
+    private static double ResolveSliderThreshold(double lo, double hi, double current)
+    {
+        if (hi <= lo)
+            return lo;
+        return current >= lo && current <= hi ? current : lo;
+    }
+
     private static string FormatNum(double v) =>
         v == Math.Truncate(v) ? ((long)v).ToString(CultureInfo.InvariantCulture) : v.ToString(CultureInfo.InvariantCulture);
 
@@ -813,7 +1071,7 @@ public partial class CraftConditionWindow : Window
         }
         catch (Exception ex)
         {
-            MessageBox.Show(
+            MessageBox.Show(this,
                 "Не удалось скопировать в буфер обмена: " + ex.Message,
                 "Копирование",
                 MessageBoxButton.OK,
@@ -825,13 +1083,13 @@ public partial class CraftConditionWindow : Window
     {
         if (string.IsNullOrWhiteSpace(_plan.ExpectedItemClass))
         {
-            MessageBox.Show("Выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,"Выберите класс предмета.", "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
         if (!CraftConditionEvaluator.TryValidate(_plan, out var err))
         {
-            MessageBox.Show(err, "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,err, "Условие", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 

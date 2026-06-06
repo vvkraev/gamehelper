@@ -35,7 +35,7 @@ public readonly record struct CraftPrecheckResult(
 }
 
 /// <summary>Цикл крафта по SRS: Shift+ПКМ орб, ЛКМ предмет, Ctrl+Alt+C, проверка буфера.</summary>
-public sealed class ChaosCraftService
+public sealed class ChaosCraftService : IChaosCraftService
 {
     private const double DelayJitterFraction = 0.30;
 
@@ -229,7 +229,7 @@ public sealed class ChaosCraftService
     /// <param name="globalTotal">Общий N сессии — для подписей «попытка k / N».</param>
     /// <param name="globalAttemptOffset">Сколько полных попыток уже сделано ранее в этой сессии (по всем предыдущим ячейкам).</param>
     /// <returns>Итог и число израсходованных в этом вызове попыток (для вычитания из общего N).</returns>
-    public async Task<(ChaosCraftResult Result, int AttemptsConsumed)> RunAsync(
+    public async Task<CraftResult> RunAsync(
         ScreenRect orbArea,
         ScreenRect itemArea,
         CraftConditionPlan plan,
@@ -251,7 +251,7 @@ public sealed class ChaosCraftService
             craftLog?.WriteValidationError("Остаток попыток (N) для ячейки должен быть не меньше 1.");
             log?.Report("Остаток попыток (N) для ячейки должен быть не меньше 1.");
             Win32Input.InputTrace = prevTrace;
-            return (ChaosCraftResult.Error, 0);
+            return CraftResult.Failed();
         }
 
         if (globalTotal < 1)
@@ -259,7 +259,7 @@ public sealed class ChaosCraftService
             craftLog?.WriteValidationError("Общий лимит N должен быть не меньше 1.");
             log?.Report("Общий лимит N должен быть не меньше 1.");
             Win32Input.InputTrace = prevTrace;
-            return (ChaosCraftResult.Error, 0);
+            return CraftResult.Failed();
         }
 
         var pattern = conditionSummary.Trim();
@@ -296,7 +296,7 @@ public sealed class ChaosCraftService
                         log?.Report("Буфер пуст после Ctrl+Alt+C — ячейка, вероятно, пустая. Переходим к следующей ячейке.");
                         if (shiftHeld)
                             Win32Input.ReleaseShift();
-                        return (ChaosCraftResult.EmptyCell, 0);
+                        return CraftResult.Empty(0);
                     }
 
                     var preParsed = ItemParser.Parse(preClip);
@@ -308,7 +308,7 @@ public sealed class ChaosCraftService
                         log?.Report("Условие уже выполнено — орб не применяется, переходим к следующей ячейке.");
                         if (shiftHeld)
                             Win32Input.ReleaseShift();
-                        return (ChaosCraftResult.AffixFound, 0);
+                        return CraftResult.Found(0, preClip);
                     }
 
                     // 2) Условие не выполнено — применяем Chaos Orb (расход попытки), удерживая Shift между попытками.
@@ -375,7 +375,7 @@ public sealed class ChaosCraftService
                     LogAltState(log, "ReleaseCtrlAlt() after cancel");
                     orbSelected = false;
                     log?.Report("Остановлено пользователем.");
-                    return (ChaosCraftResult.Cancelled, attempt - 1);
+                    return CraftResult.Stopped(attempt - 1);
                 }
                 catch (Exception ex)
                 {
@@ -387,7 +387,7 @@ public sealed class ChaosCraftService
                     orbSelected = false;
                     craftLog?.WriteValidationError("Исключение: " + ex.Message);
                     log?.Report("Ошибка: " + ex.Message);
-                    return (ChaosCraftResult.Error, attempt - 1);
+                    return CraftResult.Failed(attempt - 1);
                 }
                 finally
                 {
@@ -410,7 +410,7 @@ public sealed class ChaosCraftService
             Win32Input.ReleaseShift();
         log?.Report(
             $"Достигнут лимит попыток для текущей ячейки ({segmentMaxOperations} в блоке, всего в сессии не более {globalTotal}), аффикс не найден.");
-        return (ChaosCraftResult.MaxAttemptsReached, segmentMaxOperations);
+        return CraftResult.LimitReached(segmentMaxOperations);
     }
 
     private async Task StepPauseIfNeeded(string description, CancellationToken cancellationToken)

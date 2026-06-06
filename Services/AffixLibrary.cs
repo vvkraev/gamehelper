@@ -23,21 +23,25 @@ public static class AffixLibrary
     public static string FilePath => Path.Combine(ProjectPaths.GetProjectRoot(), "affix_library.json");
 
     /// <summary>Перечитать файл с диска (в т.ч. после правок в блокноте).</summary>
-    public static void ReloadFromDisk()
+    public static void ReloadFromDisk() => ReloadFromDisk(FilePath);
+
+    /// <summary>Перечитать указанный JSON (для тестов и внешних путей).</summary>
+    public static void ReloadFromDisk(string filePath)
     {
         lock (Gate)
         {
             try
             {
-                if (!File.Exists(FilePath))
+                if (!File.Exists(filePath))
                 {
                     _entries = new List<AffixLibraryEntry>();
                     return;
                 }
 
-                var json = File.ReadAllText(FilePath);
+                var json = File.ReadAllText(filePath);
                 var root = JsonSerializer.Deserialize<AffixLibraryFile>(json, JsonOptions);
                 _entries = root?.Entries ?? new List<AffixLibraryEntry>();
+                MigrateMultiClassEntries(_entries);
             }
             catch
             {
@@ -107,12 +111,13 @@ public static class AffixLibrary
                 var ranges = new List<string?>();
                 FillStatsAndRanges(affix, stats, ranges);
 
-                var ix = FindEntryIndexUnlocked(affix.Type, affix.Name, affix.Tier, stats);
+                var ic = item.ItemClass.Trim();
+                var ix = FindEntryIndexUnlocked(ic, affix.Type, affix.Name, affix.Tier, stats);
                 if (ix < 0)
                 {
                     _entries.Add(new AffixLibraryEntry
                     {
-                        ItemClasses = new List<string> { item.ItemClass.Trim() },
+                        ItemClasses = new List<string> { ic },
                         AffixType = affix.Type.Trim(),
                         AffixName = affix.Name.Trim(),
                         AffixTier = affix.Tier,
@@ -125,10 +130,6 @@ public static class AffixLibrary
                 else
                 {
                     var e = _entries[ix];
-                    var ic = item.ItemClass.Trim();
-                    if (e.ItemClasses.All(c => !string.Equals(c, ic, StringComparison.Ordinal)))
-                        e.ItemClasses.Add(ic);
-
                     if (e.AffixTierLevel == null)
                         e.AffixTierLevel = ilvl;
                     else if (ilvl < e.AffixTierLevel.Value)
@@ -155,11 +156,51 @@ public static class AffixLibrary
             var json = File.ReadAllText(FilePath);
             var root = JsonSerializer.Deserialize<AffixLibraryFile>(json, JsonOptions);
             _entries = root?.Entries ?? new List<AffixLibraryEntry>();
+            MigrateMultiClassEntries(_entries);
         }
         catch
         {
             _entries = new List<AffixLibraryEntry>();
         }
+    }
+
+    /// <summary>
+    /// Разбивает записи с несколькими классами предметов на отдельные записи — по одной на класс.
+    /// Нужна потому что одинаковый аффикс может иметь разные диапазоны на разных типах предметов.
+    /// Диапазоны в дублированных записях могут быть приблизительными до следующего сканирования.
+    /// </summary>
+    private static void MigrateMultiClassEntries(List<AffixLibraryEntry> entries)
+    {
+        var toAdd = new List<AffixLibraryEntry>();
+        var toRemoveAt = new List<int>();
+
+        for (var i = 0; i < entries.Count; i++)
+        {
+            var e = entries[i];
+            if (e.ItemClasses.Count <= 1)
+                continue;
+
+            foreach (var cls in e.ItemClasses)
+            {
+                toAdd.Add(new AffixLibraryEntry
+                {
+                    ItemClasses = new List<string> { cls },
+                    AffixType = e.AffixType,
+                    AffixName = e.AffixName,
+                    AffixTier = e.AffixTier,
+                    AffixTierLevel = e.AffixTierLevel,
+                    AffixStats = new List<string>(e.AffixStats),
+                    AffixRanges = new List<string?>(e.AffixRanges),
+                });
+            }
+
+            toRemoveAt.Add(i);
+        }
+
+        for (var i = toRemoveAt.Count - 1; i >= 0; i--)
+            entries.RemoveAt(toRemoveAt[i]);
+
+        entries.AddRange(toAdd);
     }
 
     private static void SaveToDiskUnlocked()
@@ -176,12 +217,20 @@ public static class AffixLibrary
         }
     }
 
-    private static int FindEntryIndexUnlocked(string type, string name, int tier, IReadOnlyList<string> stats)
+    private static int FindEntryIndexUnlocked(
+        string itemClass, string type, string name, int tier, IReadOnlyList<string> stats)
     {
         var normStats = NormalizeStats(stats);
         for (var i = 0; i < _entries.Count; i++)
         {
             var e = _entries[i];
+            // После миграции каждая запись содержит ровно один класс предмета.
+            // Записи с несколькими классами (старый формат) намеренно не совпадают —
+            // они будут заменены новыми при следующем сканировании.
+            if (e.ItemClasses.Count != 1)
+                continue;
+            if (!string.Equals(e.ItemClasses[0], itemClass, StringComparison.Ordinal))
+                continue;
             if (e.AffixTier != tier)
                 continue;
             if (!string.Equals(e.AffixName, name.Trim(), StringComparison.Ordinal))
