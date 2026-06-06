@@ -134,6 +134,16 @@ public static class AffixLibrary
                         e.AffixTierLevel = ilvl;
                     else if (ilvl < e.AffixTierLevel.Value)
                         e.AffixTierLevel = ilvl;
+
+                    // Parsed item data is more accurate than scraped data — update empty ranges.
+                    if (ranges.Count == e.AffixRanges.Count)
+                    {
+                        for (var ri = 0; ri < ranges.Count; ri++)
+                        {
+                            if (!string.IsNullOrEmpty(ranges[ri]) && string.IsNullOrEmpty(e.AffixRanges[ri]))
+                                e.AffixRanges[ri] = ranges[ri];
+                        }
+                    }
                 }
             }
 

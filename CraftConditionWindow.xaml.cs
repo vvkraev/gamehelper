@@ -23,6 +23,16 @@ public partial class CraftConditionWindow : Window
     private readonly CraftConditionPlan _plan;
     private readonly List<AffixLibraryEntry> _entries;
 
+    /// <summary>Выбранный подтип планшета; null = без фильтра.</summary>
+    private string? _tabletSubClass;
+
+    /// <summary>
+    /// Записи для каскадных дропдаунов: если выбран подтип планшета — фильтруются по подклассу
+    /// (специфичные + универсальные); иначе — все записи.
+    /// </summary>
+    private IReadOnlyList<AffixLibraryEntry> EffectiveEntries =>
+        CraftAffixCascadeHelper.FilterBySubClass(_entries, _tabletSubClass);
+
     public CraftConditionWindow(CraftConditionPlan plan, List<AffixLibraryEntry> entries)
     {
         InitializeComponent();
@@ -55,6 +65,47 @@ public partial class CraftConditionWindow : Window
     {
         if (SelectedItemClass is { } ic)
             _plan.ExpectedItemClass = ic;
+
+        _tabletSubClass = null;
+        RefreshSubClassRow();
+        RefreshOrAlternativesUi();
+    }
+
+    private void RefreshSubClassRow()
+    {
+        var ic = SelectedItemClass;
+        var subClasses = ic is not null
+            ? CraftAffixCascadeHelper.GetSubClassesForItemClass(ic, _entries)
+            : new List<string>();
+
+        if (subClasses.Count == 0)
+        {
+            SubClassRow.Visibility = System.Windows.Visibility.Collapsed;
+            return;
+        }
+
+        SubClassRow.Visibility = System.Windows.Visibility.Visible;
+        var items = new List<string?> { null };
+        items.AddRange(subClasses);
+        TabletSubClassCombo.ItemsSource = items.Select(s => s ?? "Все типы").ToList();
+        TabletSubClassCombo.SelectedIndex = 0;
+    }
+
+    private void TabletSubClassCombo_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var idx = TabletSubClassCombo.SelectedIndex;
+        if (idx < 0)
+        {
+            _tabletSubClass = null;
+            return;
+        }
+
+        var subClasses = SelectedItemClass is not null
+            ? CraftAffixCascadeHelper.GetSubClassesForItemClass(SelectedItemClass, _entries)
+            : new List<string>();
+
+        // idx 0 = "Все типы" (null), idx 1+ = subClasses[idx-1]
+        _tabletSubClass = idx == 0 ? null : (idx - 1 < subClasses.Count ? subClasses[idx - 1] : null);
         RefreshOrAlternativesUi();
     }
 
@@ -74,15 +125,15 @@ public partial class CraftConditionWindow : Window
 
     private CraftSingleAffixData FirstPickForClass(string itemClass)
     {
-        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(itemClass, _entries);
+        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(itemClass, EffectiveEntries);
         if (types.Count == 0)
             return new CraftSingleAffixData { MinRoll = 0, AffixTier = 1 };
         var t = types[0];
-        var stats = CraftAffixCascadeHelper.GetStatTemplatesForClassAndType(itemClass, t, _entries);
+        var stats = CraftAffixCascadeHelper.GetStatTemplatesForClassAndType(itemClass, t, EffectiveEntries);
         var st = stats.Count > 0 ? stats[0] : "";
-        var tiers = CraftAffixCascadeHelper.GetDistinctTiersForClassTypeStat(itemClass, t, st, _entries);
+        var tiers = CraftAffixCascadeHelper.GetDistinctTiersForClassTypeStat(itemClass, t, st, EffectiveEntries);
         var tier = tiers.Count > 0 ? tiers[0] : 1;
-        var names = CraftAffixCascadeHelper.GetAffixNamesForClassTypeStatTier(itemClass, t, st, tier, _entries);
+        var names = CraftAffixCascadeHelper.GetAffixNamesForClassTypeStatTier(itemClass, t, st, tier, EffectiveEntries);
         var fp = new CraftSingleAffixData
         {
             AffixType = t,
@@ -93,10 +144,10 @@ public partial class CraftConditionWindow : Window
         };
         if (names.Count > 0)
             fp.SelectedAffixNames.Add(names[0]);
-        var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(itemClass, t, st, _entries);
+        var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(itemClass, t, st, EffectiveEntries);
         fp.EnsureMinRollsSize(slots);
         var (lo, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForSingleStat(
-            itemClass, t, st, fp.SelectedAffixNames, fp.AffixTier, _entries);
+            itemClass, t, st, fp.SelectedAffixNames, fp.AffixTier, EffectiveEntries);
         fp.MinRoll = ResolveSliderThreshold(lo, hi, fp.MinRoll);
         for (var i = 0; i < fp.MinRolls.Count; i++)
             fp.MinRolls[i] = fp.MinRoll;
@@ -123,10 +174,10 @@ public partial class CraftConditionWindow : Window
 
     private CraftClause? TryCreateFirstWholeModifierClause(string itemClass)
     {
-        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(itemClass, _entries);
+        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(itemClass, EffectiveEntries);
         foreach (var t in types)
         {
-            var list = CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(itemClass, t, _entries);
+            var list = CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(itemClass, t, EffectiveEntries);
             if (list.Count == 0)
                 continue;
             var whole = new CraftWholeModifierAffixData();
@@ -472,7 +523,7 @@ public partial class CraftConditionWindow : Window
 
         void RefillEntries(string affixType)
         {
-            var list = CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(ic, affixType, _entries);
+            var list = CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(ic, affixType, EffectiveEntries);
             var items = list
                 .Select(e => new AffixComboItem(
                     $"{e.AffixName} (T{e.AffixTier}, {e.AffixStats.Count} стр.)",
@@ -488,8 +539,8 @@ public partial class CraftConditionWindow : Window
             gate[0] = false;
         }
 
-        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(ic, _entries)
-            .Where(t => CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(ic, t, _entries).Count > 0)
+        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(ic, EffectiveEntries)
+            .Where(t => CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(ic, t, EffectiveEntries).Count > 0)
             .ToList();
         if (!string.IsNullOrEmpty(data.AffixType) && !types.Contains(data.AffixType))
             types.Insert(0, data.AffixType);
@@ -550,7 +601,7 @@ public partial class CraftConditionWindow : Window
         void RefillWholeNameList()
         {
             var refE = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
-                _entries,
+                EffectiveEntries,
                 ic,
                 data.AffixType,
                 data.AffixName,
@@ -561,7 +612,7 @@ public partial class CraftConditionWindow : Window
                 return;
             }
 
-            var compat = CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(ic, data.AffixType, _entries)
+            var compat = CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(ic, data.AffixType, EffectiveEntries)
                 .Where(e => e.AffixTier == data.AffixTier && CraftAffixCascadeHelper.EntriesShareSameAffixStats(refE, e))
                 .ToList();
             lbWhole.ItemsSource = compat;
@@ -744,7 +795,7 @@ public partial class CraftConditionWindow : Window
 
         void RefillStatForType(string affixType)
         {
-            var stats = CraftAffixCascadeHelper.GetStatTemplatesForClassAndType(ic, affixType, _entries);
+            var stats = CraftAffixCascadeHelper.GetStatTemplatesForClassAndType(ic, affixType, EffectiveEntries);
             cbStat.ItemsSource = stats;
             if (stats.Count == 0)
                 return;
@@ -755,7 +806,7 @@ public partial class CraftConditionWindow : Window
                 cbStat.SelectedIndex = 0;
         }
 
-        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(ic, _entries);
+        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(ic, EffectiveEntries);
         cbType.ItemsSource = types;
         if (types.Count > 0)
         {
@@ -824,7 +875,7 @@ public partial class CraftConditionWindow : Window
         void RefillTiers()
         {
             gate[0] = true;
-            var tiers = CraftAffixCascadeHelper.GetDistinctTiersForClassTypeStat(ic, data.AffixType, data.StatTemplate, _entries);
+            var tiers = CraftAffixCascadeHelper.GetDistinctTiersForClassTypeStat(ic, data.AffixType, data.StatTemplate, EffectiveEntries);
             cbTier.ItemsSource = tiers;
             if (tiers.Count == 0)
             {
@@ -871,7 +922,7 @@ public partial class CraftConditionWindow : Window
 
         void ApplySliderValueToData(double v)
         {
-            var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(ic, data.AffixType, data.StatTemplate, _entries);
+            var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(ic, data.AffixType, data.StatTemplate, EffectiveEntries);
             data.EnsureMinRollsSize(slots);
             data.MinRoll = v;
             for (var i = 0; i < data.MinRolls.Count; i++)
@@ -882,7 +933,7 @@ public partial class CraftConditionWindow : Window
         {
             gate[0] = true;
             var names = CraftAffixCascadeHelper.GetAffixNamesForClassTypeStatTier(
-                ic, data.AffixType, data.StatTemplate, data.AffixTier, _entries);
+                ic, data.AffixType, data.StatTemplate, data.AffixTier, EffectiveEntries);
             lb.ItemsSource = names;
             lb.SelectedItems.Clear();
             foreach (var n in data.SelectedAffixNames)
@@ -900,7 +951,7 @@ public partial class CraftConditionWindow : Window
             }
 
             var (lo, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForSingleStat(
-                ic, data.AffixType, data.StatTemplate, data.SelectedAffixNames, data.AffixTier, _entries);
+                ic, data.AffixType, data.StatTemplate, data.SelectedAffixNames, data.AffixTier, EffectiveEntries);
             var fixedRoll = hi <= lo;
             slider.Minimum = lo;
             slider.Maximum = hi;
@@ -985,7 +1036,7 @@ public partial class CraftConditionWindow : Window
 
         void RefillStatForType(string affixType)
         {
-            var stats = CraftAffixCascadeHelper.GetStatTemplatesForClassAndType(ic, affixType, _entries);
+            var stats = CraftAffixCascadeHelper.GetStatTemplatesForClassAndType(ic, affixType, EffectiveEntries);
             cbStat.ItemsSource = stats;
             if (stats.Count == 0)
                 return;
@@ -996,7 +1047,7 @@ public partial class CraftConditionWindow : Window
                 cbStat.SelectedIndex = 0;
         }
 
-        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(ic, _entries);
+        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(ic, EffectiveEntries);
         cbType.ItemsSource = types;
         if (types.Count > 0)
         {

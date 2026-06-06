@@ -54,7 +54,8 @@ public static class CraftAffixCascadeHelper
             {
                 var st = e.AffixStats[i];
                 if (string.Equals(st.Trim(), statTemplate.Trim(), StringComparison.Ordinal) ||
-                    ParsedItemCraftEvaluator.StatLineMatchesTemplate(st, statTemplate))
+                    ParsedItemCraftEvaluator.StatLineMatchesTemplate(st, statTemplate) ||
+                    StatMatchesNormalizedTemplate(st, statTemplate))
                 {
                     return i < e.AffixRanges.Count ? e.AffixRanges[i] : null;
                 }
@@ -70,6 +71,42 @@ public static class CraftAffixCascadeHelper
         string statTemplate,
         IReadOnlyList<AffixLibraryEntry> entries) =>
         CountSlotsFromRangeString(GetTierRangeStringForStat(itemClass, affixType, statTemplate, entries));
+
+    /// <summary>
+    /// Все уникальные значения <see cref="AffixLibraryEntry.AffixSubClass"/> для данного класса предмета.
+    /// Возвращает непустые подклассы в алфавитном порядке.
+    /// </summary>
+    public static List<string> GetSubClassesForItemClass(string itemClass, IReadOnlyList<AffixLibraryEntry> entries)
+    {
+        if (string.IsNullOrEmpty(itemClass))
+            return new List<string>();
+
+        return entries
+            .Where(e => e.ItemClasses.Any(c => string.Equals(c, itemClass, StringComparison.Ordinal)) &&
+                        !string.IsNullOrEmpty(e.AffixSubClass))
+            .Select(e => e.AffixSubClass!)
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(x => x, StringComparer.Ordinal)
+            .ToList();
+    }
+
+    /// <summary>
+    /// Фильтрует записи по подклассу: если <paramref name="subClass"/> задан — только записи с совпадающим
+    /// <see cref="AffixLibraryEntry.AffixSubClass"/> или с null-подклассом (универсальные для всех подтипов).
+    /// При <paramref name="subClass"/> = null возвращает исходный список без изменений.
+    /// </summary>
+    public static IReadOnlyList<AffixLibraryEntry> FilterBySubClass(
+        IReadOnlyList<AffixLibraryEntry> entries,
+        string? subClass)
+    {
+        if (string.IsNullOrEmpty(subClass))
+            return entries;
+
+        return entries
+            .Where(e => string.IsNullOrEmpty(e.AffixSubClass) ||
+                        string.Equals(e.AffixSubClass, subClass, StringComparison.Ordinal))
+            .ToList();
+    }
 
     public static List<string> GetAffixTypesForItemClass(string itemClass, IReadOnlyList<AffixLibraryEntry> entries)
     {
@@ -99,7 +136,7 @@ public static class CraftAffixCascadeHelper
                      string.Equals(en.AffixType, affixType, StringComparison.Ordinal)))
         {
             foreach (var st in e.AffixStats)
-                set.Add(st);
+                set.Add(NormalizeStatToTemplate(st));
         }
 
         return set.OrderBy(x => x, StringComparer.Ordinal).ToList();
@@ -154,7 +191,8 @@ public static class CraftAffixCascadeHelper
 
             var match = e.AffixStats.Any(st =>
                 string.Equals(st.Trim(), statTemplate.Trim(), StringComparison.Ordinal) ||
-                ParsedItemCraftEvaluator.StatLineMatchesTemplate(st, statTemplate));
+                ParsedItemCraftEvaluator.StatLineMatchesTemplate(st, statTemplate) ||
+                StatMatchesNormalizedTemplate(st, statTemplate));
             if (match)
                 set.Add((e.AffixName.Trim(), e.AffixTier));
         }
@@ -163,6 +201,27 @@ public static class CraftAffixCascadeHelper
     }
 
     private static readonly Regex NumericTokensInRange = new(@"[\d.]+", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+    private static readonly Regex NumericInStat       = new(@"\d[\d,.]*", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+    // Matches parenthesised ranges like (5–6), (3–4), (150–164) — separator is en-dash, hyphen, or any non-digit
+    private static readonly Regex ParenRange          = new(@"\(\d[\d,.]*[^0-9)]+\d[\d,.]*\)", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
+    /// <summary>
+    /// Нормализует строку стата в шаблон семейства — (MIN–MAX) → #, затем одиночные числа → #.
+    /// Например: "+(5–6) to Level of all Chaos Spell Skills" и "+7 to Level of all Chaos Spell Skills"
+    /// оба становятся "+# to Level of all Chaos Spell Skills".
+    /// </summary>
+    public static string NormalizeStatToTemplate(string stat)
+    {
+        // Step 1: collapse (MIN–MAX) parenthesised ranges to a single #
+        var s = ParenRange.Replace(stat, "#");
+        // Step 2: replace any remaining bare numbers
+        s = NumericInStat.Replace(s, "#");
+        return s.Trim();
+    }
+
+    /// <summary>Строка стата совпадает с нормализованным шаблоном (с # вместо чисел).</summary>
+    public static bool StatMatchesNormalizedTemplate(string rawStat, string normalizedTemplate) =>
+        string.Equals(NormalizeStatToTemplate(rawStat), normalizedTemplate, StringComparison.OrdinalIgnoreCase);
 
     /// <summary>Все числа из строки affixRanges (включая X(37-55); Y(63-94)) — для объединения границ ползунка.</summary>
     public static void AccumulateNumericBoundsFromRangeString(string? range, ref bool any, ref double globalMin, ref double globalMax)
@@ -192,7 +251,8 @@ public static class CraftAffixCascadeHelper
         {
             var st = e.AffixStats[i];
             if (string.Equals(st.Trim(), statTemplate.Trim(), StringComparison.Ordinal) ||
-                ParsedItemCraftEvaluator.StatLineMatchesTemplate(st, statTemplate))
+                ParsedItemCraftEvaluator.StatLineMatchesTemplate(st, statTemplate) ||
+                StatMatchesNormalizedTemplate(st, statTemplate))
                 return i;
         }
 
@@ -211,6 +271,7 @@ public static class CraftAffixCascadeHelper
         var any = false;
         var gMin = 0.0;
         var gMax = 0.0;
+        var foundMatch = false;
         foreach (var rawName in affixNames)
         {
             var name = (rawName ?? "").Trim();
@@ -229,13 +290,20 @@ public static class CraftAffixCascadeHelper
                 var si = FindStatIndexInEntry(e, statTemplate);
                 if (si < 0)
                     continue;
+                foundMatch = true;
                 var r = si < e.AffixRanges.Count ? e.AffixRanges[si] : null;
+                // Fallback for fixed-value stats (e.g. "+5 to Level of all Fire Spell Skills"):
+                // affixRanges is null, but the number is in the stat text itself.
+                if (string.IsNullOrEmpty(r) && si < e.AffixStats.Count)
+                    r = e.AffixStats[si];
                 AccumulateNumericBoundsFromRangeString(r, ref any, ref gMin, ref gMax);
             }
         }
 
+        // foundMatch but no numeric value → boolean/flag stat, treat as fixed presence value of 1.
+        // No match at all → unknown, use wide fallback.
         if (!any)
-            return (0, 100);
+            return foundMatch ? (1.0, 1.0) : (0.0, 100.0);
         if (gMin > gMax)
             (gMin, gMax) = (gMax, gMin);
         return (gMin, gMax);
@@ -326,6 +394,7 @@ public static class CraftAffixCascadeHelper
         var any = false;
         var gMin = 0.0;
         var gMax = 0.0;
+        var foundMatch = false;
         if (statIndex < 0 || statIndex >= referenceEntry.AffixStats.Count)
             return (0, 100);
         var refStat = referenceEntry.AffixStats[statIndex].Trim();
@@ -337,12 +406,15 @@ public static class CraftAffixCascadeHelper
             var e = FindMultiStatEntryByNameTierType(itemClass, affixType, name, affixTier, entries);
             if (e is null || !EntriesShareSameAffixStats(referenceEntry, e))
                 continue;
+            foundMatch = true;
             var r = statIndex < e.AffixRanges.Count ? e.AffixRanges[statIndex] : null;
+            if (string.IsNullOrEmpty(r) && statIndex < e.AffixStats.Count)
+                r = e.AffixStats[statIndex];
             AccumulateNumericBoundsFromRangeString(r, ref any, ref gMin, ref gMax);
         }
 
         if (!any)
-            return (0, 100);
+            return foundMatch ? (1.0, 1.0) : (0.0, 100.0);
         if (gMin > gMax)
             (gMin, gMax) = (gMax, gMin);
         return (gMin, gMax);

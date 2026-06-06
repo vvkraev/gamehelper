@@ -42,6 +42,11 @@
                 <ComboBox x:Name="ItemClassCombo"
                           Margin="0,0,0,10"
                           SelectionChanged="ItemClassCombo_OnSelectionChanged"/>
+                <StackPanel x:Name="SubClassRow" Visibility="Collapsed" Margin="0,0,0,10">
+                    <TextBlock Text="Тип планшета" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <ComboBox x:Name="TabletSubClassCombo"
+                              SelectionChanged="TabletSubClassCombo_OnSelectionChanged"/>
+                </StackPanel>
                 <TextBlock TextWrapping="Wrap"
                            Foreground="#555"
                            Margin="0,0,0,10"

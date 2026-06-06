@@ -6,10 +6,11 @@
       "type": "coreclr",
       "request": "launch",
       "preLaunchTask": "build",
-      "program": "${workspaceFolder}/bin/Debug/net10.0-windows10.0.17763.0/GameHelper.dll",
-      "cwd": "${workspaceFolder}/bin/Debug/net10.0-windows10.0.17763.0",
+      "program": "${workspaceFolder}/bin/Debug/net10.0-windows10.0.17763.0/GameHelper.exe",
+      "cwd": "${workspaceFolder}",
       "args": [],
-      "stopAtEntry": false
+      "stopAtEntry": false,
+      "console": "internalConsole"
     }
   ]
 }

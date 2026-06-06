@@ -22,4 +22,10 @@ public sealed class AffixLibraryEntry
 
     /// <summary>Диапазоны тира для каждого стата (тот же порядок, что у <see cref="AffixStats"/>).</summary>
     public List<string?> AffixRanges { get; set; } = new();
+
+    /// <summary>
+    /// Подкласс для предметов, где один Item Class объединяет несколько механик.
+    /// Например, все планшеты имеют класс "Tablet", но подклассы: "Ritual", "Breach", "Abyss" и т.д.
+    /// </summary>
+    public string? AffixSubClass { get; set; }
 }
