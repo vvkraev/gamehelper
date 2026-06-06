@@ -1216,7 +1216,7 @@ public sealed class ExaltationCraftServiceFracturedSide : IExaltationCraftServic
                 if (satisfied)
                 {
                     SchemaTrace(log, "Decision flow §7", "условие выполнено → STOP success");
-                    return CraftResult.Found(0, currentClip);
+                    return CraftResult.Found(used, currentClip);
                 }
 
                 var pCur = CountPrefixLikeAffixes(current);

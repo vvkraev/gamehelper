@@ -308,7 +308,7 @@ public sealed class ChaosCraftService : IChaosCraftService
                         log?.Report("Условие уже выполнено — орб не применяется, переходим к следующей ячейке.");
                         if (shiftHeld)
                             Win32Input.ReleaseShift();
-                        return CraftResult.Found(0, preClip);
+                        return CraftResult.Found(attempt - 1, preClip);
                     }
 
                     // 2) Условие не выполнено — применяем Chaos Orb (расход попытки), удерживая Shift между попытками.

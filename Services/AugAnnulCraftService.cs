@@ -271,7 +271,7 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
                 if (preMatch)
                 {
                     log?.Report("Условие уже выполнено — орбы не применяются, переходим к следующей ячейке.");
-                    return CraftResult.Found(0, currentClipboard);
+                    return CraftResult.Found(augStepsConsumed, currentClipboard);
                 }
 
                 var prefixCount = current.Affixes.Count(a => string.Equals(a.Type, "Prefix Modifier", StringComparison.OrdinalIgnoreCase));
