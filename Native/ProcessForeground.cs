@@ -15,6 +15,9 @@ public static class ProcessForeground
     private static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
 
     [DllImport("user32.dll")]
+    private static extern bool IsIconic(IntPtr hWnd);
+
+    [DllImport("user32.dll")]
     private static extern bool IsWindowVisible(IntPtr hWnd);
 
     [DllImport("user32.dll")]
@@ -42,15 +45,15 @@ public static class ProcessForeground
             {
                 if (p.MainWindowHandle != IntPtr.Zero && IsWindowVisible(p.MainWindowHandle))
                 {
-                    ShowWindow(p.MainWindowHandle, SwRestore);
-                    return SetForegroundWindow(p.MainWindowHandle);
+                    BringWindowToForeground(p.MainWindowHandle);
+                    return true;
                 }
 
                 var hwnd = FindVisibleWindowForProcessId(p.Id);
                 if (hwnd != IntPtr.Zero)
                 {
-                    ShowWindow(hwnd, SwRestore);
-                    return SetForegroundWindow(hwnd);
+                    BringWindowToForeground(hwnd);
+                    return true;
                 }
             }
             catch
@@ -60,6 +63,17 @@ public static class ProcessForeground
         }
 
         return false;
+    }
+
+    /// <summary>
+    /// SW_RESTORE только для свёрнутого окна. Для уже видимого окна повторный SW_RESTORE
+    /// может сдвинуть позицию (сохранённый placement ≠ текущий кадр, рамка/DPI).
+    /// </summary>
+    private static void BringWindowToForeground(IntPtr hwnd)
+    {
+        if (IsIconic(hwnd))
+            ShowWindow(hwnd, SwRestore);
+        SetForegroundWindow(hwnd);
     }
 
     private static IntPtr FindVisibleWindowForProcessId(int processId)

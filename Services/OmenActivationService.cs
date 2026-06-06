@@ -16,9 +16,169 @@ public sealed class OmenActivationService
     public bool TraceInputToLog { get; set; }
 
     // CV параметры (можно будет вынести в UI, если понадобится)
-    public int BorderThicknessPx { get; set; } = 3;
-    public int BorderInsetPx { get; set; } = 1;
-    public double RedPixelRatioThreshold { get; set; } = 0.18; // доля "красных" пикселей на границе
+    /// <summary>Толщина полос, по которым ищем красную рамку активации (внутри области после <see cref="BorderInsetPx"/>).</summary>
+    public int BorderThicknessPx { get; set; } = 2;
+    /// <summary>Отступ от краёв прямоугольника ячейки внутрь — сначала ужимаем область, затем по её периметру снимаем рамку.</summary>
+    public int BorderInsetPx { get; set; } = 2;
+    /// <summary>Доля пикселей рамки, попадающих под <see cref="LooksLikeExaltationOmenBorderPixel"/>.</summary>
+    public double RedPixelRatioThreshold { get; set; } = 0.16;
+
+    /// <summary>
+    /// Дополнительный захват пикселей за пределами внутреннего прямоугольника ячейки (расплыв рамки за слот).
+    /// </summary>
+    public int BorderBleedOutPx { get; set; } = 3;
+
+    /// <summary>
+    /// «Полый» центр: со всех сторон соседи дают меньше свечения на общую грань, чем на внешние рёбра.
+    /// Если mean(к соседу)/mean(наружу) &lt; этого коэффициента — ячейка считается выключенной (только при 4 соседях).
+    /// </summary>
+    public double NeighborFacingHighlightRatioMax { get; set; } = 0.72;
+
+    private enum BorderStripEdge { Top, Bottom, Left, Right }
+
+    private static int HorizontalOverlap(ScreenRect a, ScreenRect b)
+    {
+        var lo = Math.Max(a.X, b.X);
+        var hi = Math.Min(a.X + a.Width, b.X + b.Width);
+        return Math.Max(0, hi - lo);
+    }
+
+    private static int VerticalOverlap(ScreenRect a, ScreenRect b)
+    {
+        var lo = Math.Max(a.Y, b.Y);
+        var hi = Math.Min(a.Y + a.Height, b.Y + b.Height);
+        return Math.Max(0, hi - lo);
+    }
+
+    private static int? FindNeighborUp(IReadOnlyList<ScreenRect> cells, int i)
+    {
+        var c = cells[i];
+        int? best = null;
+        var bestAbs = int.MaxValue;
+        var minOv = (int)(Math.Max(1, Math.Min(c.Width, c.Height)) * 0.42);
+        for (var j = 0; j < cells.Count; j++)
+        {
+            if (j == i)
+                continue;
+            var o = cells[j];
+            if (HorizontalOverlap(c, o) < minOv)
+                continue;
+            var gap = c.Y - (o.Y + o.Height);
+            if (gap < -10 || gap > c.Height + 12)
+                continue;
+            var a = Math.Abs(gap);
+            if (a < bestAbs)
+            {
+                bestAbs = a;
+                best = j;
+            }
+        }
+
+        return best;
+    }
+
+    private static int? FindNeighborDown(IReadOnlyList<ScreenRect> cells, int i)
+    {
+        var c = cells[i];
+        int? best = null;
+        var bestAbs = int.MaxValue;
+        var minOv = (int)(Math.Max(1, Math.Min(c.Width, c.Height)) * 0.42);
+        for (var j = 0; j < cells.Count; j++)
+        {
+            if (j == i)
+                continue;
+            var o = cells[j];
+            if (HorizontalOverlap(c, o) < minOv)
+                continue;
+            var gap = o.Y - (c.Y + c.Height);
+            if (gap < -10 || gap > c.Height + 12)
+                continue;
+            var a = Math.Abs(gap);
+            if (a < bestAbs)
+            {
+                bestAbs = a;
+                best = j;
+            }
+        }
+
+        return best;
+    }
+
+    private static int? FindNeighborLeft(IReadOnlyList<ScreenRect> cells, int i)
+    {
+        var c = cells[i];
+        int? best = null;
+        var bestAbs = int.MaxValue;
+        var minOv = (int)(Math.Max(1, Math.Min(c.Width, c.Height)) * 0.42);
+        for (var j = 0; j < cells.Count; j++)
+        {
+            if (j == i)
+                continue;
+            var o = cells[j];
+            if (VerticalOverlap(c, o) < minOv)
+                continue;
+            var gap = c.X - (o.X + o.Width);
+            if (gap < -10 || gap > c.Width + 12)
+                continue;
+            var a = Math.Abs(gap);
+            if (a < bestAbs)
+            {
+                bestAbs = a;
+                best = j;
+            }
+        }
+
+        return best;
+    }
+
+    private static int? FindNeighborRight(IReadOnlyList<ScreenRect> cells, int i)
+    {
+        var c = cells[i];
+        int? best = null;
+        var bestAbs = int.MaxValue;
+        var minOv = (int)(Math.Max(1, Math.Min(c.Width, c.Height)) * 0.42);
+        for (var j = 0; j < cells.Count; j++)
+        {
+            if (j == i)
+                continue;
+            var o = cells[j];
+            if (VerticalOverlap(c, o) < minOv)
+                continue;
+            var gap = o.X - (c.X + c.Width);
+            if (gap < -10 || gap > c.Width + 12)
+                continue;
+            var a = Math.Abs(gap);
+            if (a < bestAbs)
+            {
+                bestAbs = a;
+                best = j;
+            }
+        }
+
+        return best;
+    }
+
+    private static bool TryGetFourOrthogonalNeighbors(
+        IReadOnlyList<ScreenRect> cells,
+        int i,
+        out int up,
+        out int down,
+        out int left,
+        out int right)
+    {
+        up = down = left = right = -1;
+        var u = FindNeighborUp(cells, i);
+        var d = FindNeighborDown(cells, i);
+        var l = FindNeighborLeft(cells, i);
+        var r = FindNeighborRight(cells, i);
+        if (u is null || d is null || l is null || r is null)
+            return false;
+        up = u.Value;
+        down = d.Value;
+        left = l.Value;
+        right = r.Value;
+        return true;
+    }
 
     private static int WithJitter(int baseMs)
     {
@@ -38,6 +198,13 @@ public sealed class OmenActivationService
         if (TraceInputToLog)
             log?.Report($"[Ввод] {label}: SetCursorPos({x},{y})");
         Win32Input.MoveTo(x, y);
+    }
+
+    /// <summary>MoveTo в (x,y) только если курсор ещё не внутри <paramref name="region"/>.</summary>
+    private void MoveToRandomInteriorIfOutside(ScreenRect region, IProgress<string>? log, string traceLabel, int x, int y)
+    {
+        if (!Win32Input.TryGetCursorPos(out var cx, out var cy) || !region.ContainsPoint(cx, cy, inset: 1))
+            LogMove(log, traceLabel, x, y);
     }
 
     private void LogMouse(IProgress<string>? log, string label)
@@ -74,8 +241,7 @@ public sealed class OmenActivationService
             await ClearClipboardAsync().ConfigureAwait(false);
 
             var (x, y) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-            if (!Win32Input.TryGetCursorPos(out var curX, out var curY) || !cell.ContainsPoint(curX, curY, inset: 1))
-                LogMove(log, $"{tag}: MoveTo omen cell", x, y);
+            MoveToRandomInteriorIfOutside(cell, log, $"{tag}: MoveTo omen cell", x, y);
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
 
             Win32Input.SendCtrlC();
@@ -111,65 +277,264 @@ public sealed class OmenActivationService
     }
 
     /// <summary>Красная рамка вокруг ячейки — омен считается визуально активированным (см. ASCII-флоу).</summary>
-    public bool IsOmenCellVisuallyActivated(ScreenRect cell) => CellHasRedBorder(cell);
+    public bool IsOmenCellVisuallyActivated(ScreenRect cell) =>
+        IsOmenCellVisuallyActivated(cell, null, -1);
 
-    private bool CellHasRedBorder(ScreenRect cell)
+    /// <summary>
+    /// То же с контекстом сетки: при 4 ортогональных соседях отсекается «полый» центр (только bleed соседей).
+    /// </summary>
+    public bool IsOmenCellVisuallyActivated(
+        ScreenRect cell,
+        IReadOnlyList<ScreenRect>? gridCells,
+        int gridIndex)
     {
-        // Берём узкие полосы вдоль границы ячейки и считаем долю "красных" пикселей.
-        var inset = Math.Max(0, BorderInsetPx);
-        var th = Math.Max(1, BorderThicknessPx);
-
-        var x = cell.X + inset;
-        var y = cell.Y + inset;
-        var w = Math.Max(1, cell.Width - 2 * inset);
-        var h = Math.Max(1, cell.Height - 2 * inset);
-
-        // если ячейка слишком маленькая — fallback: считаем, что рамки нет
-        if (w < 6 || h < 6)
+        var ratio = ComputeBorderHighlightRatio(cell);
+        if (ratio < RedPixelRatioThreshold)
             return false;
+        if (gridCells is null || gridIndex < 0 || gridIndex >= gridCells.Count)
+            return true;
+        if (LooksLikeDeactivatedHollowCenter(gridCells, gridIndex))
+            return false;
+        return true;
+    }
 
-        // Верх + низ + лево + право
-        var regions = new List<Rectangle>
+    /// <summary>
+    /// Пиксель похож на подсветку рамки экзальт-омена: чистый красный, оранжево-жёлтое «пламя»
+    /// (важно для золотистой иконки рядом с рамкой, см. ячейка ~20 на тренировочных скринах).
+    /// </summary>
+    private static bool LooksLikeExaltationOmenBorderPixel(Color c)
+    {
+        var r = c.R;
+        var g = c.G;
+        var b = c.B;
+        if (r <= 90 && g <= 90 && b <= 90)
+            return false;
+        // яркая золотая заливка иконки, не рамка
+        if (r > 215 && g > 200 && b > 95)
+            return false;
+        // насыщенная «кровавая» рамка без сильного жёлтого (часть тренировочных скринов)
+        if (r > 172 && g < 128 && b < 132 && r - Math.Max(g, b) > 48)
+            return true;
+        if (r > 160 && r - Math.Max(g, b) > 60)
+            return true;
+        if (r > 145 && r - Math.Max(g, b) > 42)
+            return true;
+        if (r > 155 && g > 52 && g < 215 && r >= g - 38 && r > b + 15)
+            return true;
+        if (r > 168 && g > 58 && g < 208 && r + g > 238 && r > b + 18)
+            return true;
+        if (r > 188 && g > 82 && g < 232 && r + g > 268 && r > b + 26)
+            return true;
+        return false;
+    }
+
+    private double SampleScreenRectHighlightRatio(int sx, int sy, int sw, int sh)
+    {
+        if (sw < 1 || sh < 1)
+            return 0;
+        using var bmp = new Bitmap(sw, sh);
+        using (var g = Graphics.FromImage(bmp))
         {
-            new(x, y, w, Math.Min(th, h)),
-            new(x, y + Math.Max(0, h - th), w, Math.Min(th, h)),
-            new(x, y, Math.Min(th, w), h),
-            new(x + Math.Max(0, w - th), y, Math.Min(th, w), h),
+            g.CopyFromScreen(sx, sy, 0, 0, new Size(sw, sh), CopyPixelOperation.SourceCopy);
+        }
+
+        long red = 0;
+        var tot = (long)sw * sh;
+        for (var yy = 0; yy < sh; yy++)
+        for (var xx = 0; xx < sw; xx++)
+        {
+            if (LooksLikeExaltationOmenBorderPixel(bmp.GetPixel(xx, yy)))
+                red++;
+        }
+
+        return tot > 0 ? red / (double)tot : 0;
+    }
+
+    /// <summary>Полоса по внутреннему прямоугольнику ячейки (без bleed), для сравнения соседей.</summary>
+    private double ComputeInnerStripHighlightRatio(ScreenRect cell, BorderStripEdge edge)
+    {
+        var edgeInset = Math.Max(0, BorderInsetPx);
+        var frameTh = Math.Max(1, BorderThicknessPx);
+        var ix = cell.X + edgeInset;
+        var iy = cell.Y + edgeInset;
+        var iw = cell.Width - 2 * edgeInset;
+        var ih = cell.Height - 2 * edgeInset;
+        if (iw < 6 || ih < 6)
+            return 0;
+        var th = Math.Min(frameTh, Math.Min(iw, ih) / 2);
+        if (th < 1)
+            return 0;
+        var midH = ih - 2 * th;
+        if (midH < 1)
+            return 0;
+
+        return edge switch
+        {
+            BorderStripEdge.Top => SampleScreenRectHighlightRatio(ix, iy, iw, th),
+            BorderStripEdge.Bottom => SampleScreenRectHighlightRatio(ix, iy + ih - th, iw, th),
+            BorderStripEdge.Left => SampleScreenRectHighlightRatio(ix, iy + th, th, midH),
+            BorderStripEdge.Right => SampleScreenRectHighlightRatio(ix + iw - th, iy + th, th, midH),
+            _ => 0
         };
+    }
+
+    /// <summary>Средняя доля по трём внутренним полосам, исключая грань, обращённую к центру 3×3 (на кропе «наружу» не уходит в пустой край картинки).</summary>
+    private double AverageInnerStripHighlightRatioExcludingFacing(ScreenRect cell, BorderStripEdge facingTowardCenter)
+    {
+        double a, b, c;
+        switch (facingTowardCenter)
+        {
+            case BorderStripEdge.Bottom:
+                a = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Top);
+                b = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Left);
+                c = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Right);
+                break;
+            case BorderStripEdge.Top:
+                a = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Bottom);
+                b = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Left);
+                c = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Right);
+                break;
+            case BorderStripEdge.Right:
+                a = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Top);
+                b = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Bottom);
+                c = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Left);
+                break;
+            case BorderStripEdge.Left:
+                a = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Top);
+                b = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Bottom);
+                c = ComputeInnerStripHighlightRatio(cell, BorderStripEdge.Right);
+                break;
+            default:
+                return 0;
+        }
+
+        return (a + b + c) / 3.0;
+    }
+
+    /// <summary>
+    /// Доля подсветки по периметру: внутренний прямоугольник + расширение полос на <see cref="BorderBleedOutPx"/> (расплыв за слот).
+    /// </summary>
+    private double ComputeBorderHighlightRatio(ScreenRect cell)
+    {
+        var edgeInset = Math.Max(0, BorderInsetPx);
+        var bleed = Math.Max(0, BorderBleedOutPx);
+        var frameTh = Math.Max(1, BorderThicknessPx);
+
+        var ix = cell.X + edgeInset;
+        var iy = cell.Y + edgeInset;
+        var iw = cell.Width - 2 * edgeInset;
+        var ih = cell.Height - 2 * edgeInset;
+        if (iw < 6 || ih < 6)
+            return 0;
+
+        var th = Math.Min(frameTh, Math.Min(iw, ih) / 2);
+        if (th < 1)
+            return 0;
+        var midH = ih - 2 * th;
+        if (midH < 1)
+            return 0;
+
+        var capX = ix - bleed;
+        var capY = iy - bleed;
+        var capW = iw + 2 * bleed;
+        var capH = ih + 2 * bleed;
+
+        var srcX = capX;
+        var srcY = capY;
+        var skipX = 0;
+        var skipY = 0;
+        var copyW = capW;
+        var copyH = capH;
+        if (srcX < 0)
+        {
+            skipX = -srcX;
+            copyW -= skipX;
+            srcX = 0;
+        }
+
+        if (srcY < 0)
+        {
+            skipY = -srcY;
+            copyH -= skipY;
+            srcY = 0;
+        }
+
+        if (copyW < 1 || copyH < 1)
+            return 0;
+
+        var innerBmpX = ix - srcX;
+        var innerBmpY = iy - srcY;
 
         long red = 0;
         long total = 0;
 
-        using var bmp = new Bitmap(Math.Max(w, 1), Math.Max(h, 1));
+        using var bmp = new Bitmap(copyW, copyH);
         using (var g = Graphics.FromImage(bmp))
         {
-            g.CopyFromScreen(x, y, 0, 0, new Size(w, h), CopyPixelOperation.SourceCopy);
+            g.CopyFromScreen(srcX, srcY, 0, 0, new Size(copyW, copyH), CopyPixelOperation.SourceCopy);
         }
 
-        foreach (var r in regions)
+        void AccumRect(int rx, int ry, int rw, int rh)
         {
-            // переводим в координаты bmp
-            var rr = new Rectangle(
-                Math.Clamp(r.X - x, 0, w - 1),
-                Math.Clamp(r.Y - y, 0, h - 1),
-                Math.Clamp(r.Width, 1, w),
-                Math.Clamp(r.Height, 1, h));
-
-            for (var yy = rr.Y; yy < rr.Y + rr.Height; yy++)
-            for (var xx = rr.X; xx < rr.X + rr.Width; xx++)
+            if (rw < 1 || rh < 1)
+                return;
+            rx = Math.Clamp(rx, 0, copyW - 1);
+            ry = Math.Clamp(ry, 0, copyH - 1);
+            rw = Math.Min(rw, copyW - rx);
+            rh = Math.Min(rh, copyH - ry);
+            if (rw < 1 || rh < 1)
+                return;
+            for (var yy = ry; yy < ry + rh; yy++)
+            for (var xx = rx; xx < rx + rw; xx++)
             {
-                var c = bmp.GetPixel(xx, yy);
                 total++;
-                // "красный": R сильно больше G/B
-                if (c.R > 160 && c.R - Math.Max(c.G, c.B) > 60)
+                if (LooksLikeExaltationOmenBorderPixel(bmp.GetPixel(xx, yy)))
                     red++;
             }
         }
 
-        if (total == 0)
+        var topY = Math.Max(0, innerBmpY - bleed);
+        var topH = innerBmpY + th - topY;
+        AccumRect(innerBmpX, topY, iw, topH);
+
+        var botY = innerBmpY + ih - th;
+        var botH = Math.Min(copyH - botY, th + bleed);
+        AccumRect(innerBmpX, botY, iw, botH);
+
+        var leftX = Math.Max(0, innerBmpX - bleed);
+        var leftW = innerBmpX + th - leftX;
+        AccumRect(leftX, innerBmpY + th, leftW, midH);
+
+        var rightX = innerBmpX + iw - th;
+        var rightW = Math.Min(copyW - rightX, th + bleed);
+        AccumRect(rightX, innerBmpY + th, rightW, midH);
+
+        return total > 0 ? red / (double)total : 0;
+    }
+
+    /// <summary>
+    /// Центр без собственной рамки, но края красные от соседей: у соседей на грани к нам слабее, чем наружу.
+    /// </summary>
+    private bool LooksLikeDeactivatedHollowCenter(IReadOnlyList<ScreenRect> cells, int i)
+    {
+        if (!TryGetFourOrthogonalNeighbors(cells, i, out var up, out var down, out var left, out var right))
             return false;
-        var ratio = red / (double)total;
-        return ratio >= RedPixelRatioThreshold;
+
+        var inward = (
+            ComputeInnerStripHighlightRatio(cells[up], BorderStripEdge.Bottom)
+            + ComputeInnerStripHighlightRatio(cells[down], BorderStripEdge.Top)
+            + ComputeInnerStripHighlightRatio(cells[left], BorderStripEdge.Right)
+            + ComputeInnerStripHighlightRatio(cells[right], BorderStripEdge.Left)) / 4.0;
+
+        var outward = (
+            AverageInnerStripHighlightRatioExcludingFacing(cells[up], BorderStripEdge.Bottom)
+            + AverageInnerStripHighlightRatioExcludingFacing(cells[down], BorderStripEdge.Top)
+            + AverageInnerStripHighlightRatioExcludingFacing(cells[left], BorderStripEdge.Right)
+            + AverageInnerStripHighlightRatioExcludingFacing(cells[right], BorderStripEdge.Left)) / 4.0;
+
+        if (outward < 0.028)
+            return false;
+        return inward < outward * NeighborFacingHighlightRatioMax;
     }
 
     public sealed record OmenBulkResult(
@@ -224,19 +589,18 @@ public sealed class OmenActivationService
 
             // Нужный омен найден
             found.Add(cell);
-            if (CellHasRedBorder(cell))
+            if (IsOmenCellVisuallyActivated(cell, omenCells, i))
                 continue; // уже активен
 
             var (x, y) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-            if (!Win32Input.TryGetCursorPos(out var curX, out var curY) || !cell.ContainsPoint(curX, curY, inset: 1))
-                LogMove(log, "Омен: MoveTo ячейка перед bulk-активацией", x, y);
+            MoveToRandomInteriorIfOutside(cell, log, "Омен: MoveTo ячейка перед bulk-активацией", x, y);
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             LogMouse(log, "Омен: ПКМ (bulk-активация)");
             Win32Input.ClickRight();
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             await Task.Delay(150, ct).ConfigureAwait(false);
 
-            if (CellHasRedBorder(cell))
+            if (IsOmenCellVisuallyActivated(cell, omenCells, i))
                 newly++;
         }
 
@@ -260,19 +624,18 @@ public sealed class OmenActivationService
         {
             ct.ThrowIfCancellationRequested();
             var cell = omenCells[i];
-            if (!CellHasRedBorder(cell))
+            if (!IsOmenCellVisuallyActivated(cell, omenCells, i))
                 continue;
 
             var (x, y) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-            if (!Win32Input.TryGetCursorPos(out var curX, out var curY) || !cell.ContainsPoint(curX, curY, inset: 1))
-                LogMove(log, "Омен: MoveTo ячейка перед bulk-деактивацией", x, y);
+            MoveToRandomInteriorIfOutside(cell, log, "Омен: MoveTo ячейка перед bulk-деактивацией", x, y);
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             LogMouse(log, "Омен: ПКМ (bulk-деактивация)");
             Win32Input.ClickRight();
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             await Task.Delay(150, ct).ConfigureAwait(false);
 
-            if (!CellHasRedBorder(cell))
+            if (!IsOmenCellVisuallyActivated(cell, omenCells, i))
                 deactivated++;
         }
 
@@ -313,22 +676,21 @@ public sealed class OmenActivationService
             if (!ClipboardLooksLikeOmen(clip, omenName))
                 continue;
 
-            if (CellHasRedBorder(cell))
+            if (IsOmenCellVisuallyActivated(cell, omenCells, i))
             {
                 log?.Report("Омен уже активирован (красная рамка).");
                 return cell;
             }
 
             var (x, y) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-            if (!Win32Input.TryGetCursorPos(out var curX, out var curY) || !cell.ContainsPoint(curX, curY, inset: 1))
-                LogMove(log, "Омен: MoveTo ячейка перед активацией", x, y);
+            MoveToRandomInteriorIfOutside(cell, log, "Омен: MoveTo ячейка перед активацией", x, y);
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             LogMouse(log, "Омен: ПКМ (активация)");
             Win32Input.ClickRight();
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             await Task.Delay(150, ct).ConfigureAwait(false);
 
-            if (CellHasRedBorder(cell))
+            if (IsOmenCellVisuallyActivated(cell, omenCells, i))
             {
                 log?.Report("Омен активирован (красная рамка появилась).");
                 return cell;
@@ -345,12 +707,17 @@ public sealed class OmenActivationService
     /// <summary>
     /// Пытается деактивировать омен в указанной ячейке (toggle по ПКМ), проверяя красную рамку.
     /// </summary>
-    public async Task<bool> DeactivateAsync(ScreenRect cell, IProgress<string>? log, CancellationToken ct)
+    public async Task<bool> DeactivateAsync(
+        ScreenRect cell,
+        IProgress<string>? log,
+        CancellationToken ct,
+        IReadOnlyList<ScreenRect>? gridCells = null,
+        int gridIndex = -1)
     {
         _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
         await Task.Delay(80, ct).ConfigureAwait(false);
 
-        if (!CellHasRedBorder(cell))
+        if (!IsOmenCellVisuallyActivated(cell, gridCells, gridIndex))
         {
             log?.Report("Омен: деактивация не требуется (красной рамки нет).");
             return true;
@@ -360,15 +727,14 @@ public sealed class OmenActivationService
         {
             ct.ThrowIfCancellationRequested();
             var (x, y) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-            if (!Win32Input.TryGetCursorPos(out var curX, out var curY) || !cell.ContainsPoint(curX, curY, inset: 1))
-                LogMove(log, "Омен: MoveTo ячейка перед деактивацией", x, y);
+            MoveToRandomInteriorIfOutside(cell, log, "Омен: MoveTo ячейка перед деактивацией", x, y);
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             LogMouse(log, "Омен: ПКМ (деактивация)");
             Win32Input.ClickRight();
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             await Task.Delay(150, ct).ConfigureAwait(false);
 
-            if (!CellHasRedBorder(cell))
+            if (!IsOmenCellVisuallyActivated(cell, gridCells, gridIndex))
             {
                 log?.Report("Омен деактивирован (красная рамка пропала).");
                 return true;
@@ -399,7 +765,7 @@ public sealed class OmenActivationService
                 continue;
 
             // Есть нужный омен. Проверяем рамку.
-            if (CellHasRedBorder(cell))
+            if (IsOmenCellVisuallyActivated(cell, omenCells, i))
             {
                 log?.Report("Омен уже активирован (красная рамка).");
                 return true;
@@ -407,14 +773,14 @@ public sealed class OmenActivationService
 
             // Активируем (ПКМ по ячейке) и проверяем снова.
             var (x, y) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
-            LogMove(log, "Омен: MoveTo ячейка перед активацией", x, y);
+            MoveToRandomInteriorIfOutside(cell, log, "Омен: MoveTo ячейка перед активацией", x, y);
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             LogMouse(log, "Омен: ПКМ (активация)");
             Win32Input.ClickRight();
             await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
             await Task.Delay(150, ct).ConfigureAwait(false);
 
-            if (CellHasRedBorder(cell))
+            if (IsOmenCellVisuallyActivated(cell, omenCells, i))
             {
                 log?.Report("Омен активирован (красная рамка появилась).");
                 return true;

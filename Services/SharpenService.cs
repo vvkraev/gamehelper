@@ -3,7 +3,7 @@ using GameHelper.Native;
 
 namespace GameHelper.Services;
 
-public sealed class SharpenService
+public sealed class SharpenService : ISharpenService
 {
     private const double DelayJitterFraction = 0.30;
 

@@ -32,3 +32,8 @@ settings.json
 
 ## Others
 *.DotSettings.user
+
+## Runtime window state (regenerated each session)
+window_geometry.json
+__pycache__/
+*.pyc

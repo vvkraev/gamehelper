@@ -416,7 +416,8 @@
     },
     {
       "itemClasses": [
-        "Rings"
+        "Rings",
+        "Staves"
       ],
       "affixType": "Suffix Modifier",
       "affixName": "of Warmth",
@@ -508,7 +509,8 @@
     },
     {
       "itemClasses": [
-        "Rings"
+        "Rings",
+        "Staves"
       ],
       "affixType": "Suffix Modifier",
       "affixName": "of the Sage",
@@ -979,7 +981,8 @@
     },
     {
       "itemClasses": [
-        "Rings"
+        "Rings",
+        "Staves"
       ],
       "affixType": "Suffix Modifier",
       "affixName": "of Kindling",
@@ -2324,12 +2327,13 @@
     },
     {
       "itemClasses": [
-        "Amulets"
+        "Amulets",
+        "Staves"
       ],
       "affixType": "Suffix Modifier",
       "affixName": "of the Sorcerer",
       "affixTier": 1,
-      "affixTierLevel": 82,
+      "affixTierLevel": 81,
       "affixStats": [
         "\u002B to Level of all Spell Skills"
       ],
@@ -3164,7 +3168,8 @@
     },
     {
       "itemClasses": [
-        "Amulets"
+        "Amulets",
+        "Staves"
       ],
       "affixType": "Suffix Modifier",
       "affixName": "of the Augur",
@@ -3509,6 +3514,1022 @@
       ],
       "affixRanges": [
         "X(135-156); Y(205-236)"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Runic",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Spell Damage"
+      ],
+      "affixRanges": [
+        "105-119"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Desecrated Prefix Modifier",
+      "affixName": "Ardent",
+      "affixTier": 5,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "Gain % of Damage as Extra Fire Damage"
+      ],
+      "affixRanges": [
+        "16-18"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Mage\u0027s",
+      "affixTier": 3,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Spell Damage",
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "35-39",
+        "34-37"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Chalybeous",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "105-124"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Occultist\u0027s",
+      "affixTier": 4,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Spell Damage"
+      ],
+      "affixRanges": [
+        "65-74"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Glacier",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Freeze Buildup"
+      ],
+      "affixRanges": [
+        "51-60"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Grief",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Level of all Physical Spell Skills"
+      ],
+      "affixRanges": [
+        "5"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Vanquishing",
+      "affixTier": 4,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "Gain Life per enemy killed"
+      ],
+      "affixRanges": [
+        "29-40"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Smoldering",
+      "affixTier": 4,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Fire Damage"
+      ],
+      "affixRanges": [
+        "65-74"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Rage",
+      "affixTier": 4,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Critical Spell Damage Bonus"
+      ],
+      "affixRanges": [
+        "20-24"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Proficient",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% reduced Attribute Requirements"
+      ],
+      "affixRanges": [
+        "35"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Wizard",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Level of all Spell Skills"
+      ],
+      "affixRanges": [
+        "4"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Ice",
+      "affixTier": 3,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Level of all Cold Spell Skills"
+      ],
+      "affixRanges": [
+        "3"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Elation",
+      "affixTier": 4,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Mana Regeneration Rate"
+      ],
+      "affixRanges": [
+        "30-39"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Aqua",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "65-79"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Frostbite",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Level of all Cold Spell Skills"
+      ],
+      "affixRanges": [
+        "5"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Expertise",
+      "affixTier": 5,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Cast Speed"
+      ],
+      "affixRanges": [
+        "17-20"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Philosopher",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "21-24"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Blue",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "150-164"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Conjuror\u0027s",
+      "affixTier": 6,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Spell Damage",
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "20-24",
+        "21-24"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Inferno",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Level of all Fire Spell Skills"
+      ],
+      "affixRanges": [
+        "5"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Nirvana",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Mana Regeneration Rate"
+      ],
+      "affixRanges": [
+        "60-69"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Absorption",
+      "affixTier": 8,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "Gain Mana per enemy killed"
+      ],
+      "affixRanges": [
+        "2-3"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Mazarine",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "125-149"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Warlock\u0027s",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Spell Damage",
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "30-34",
+        "29-33"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "",
+      "affixName": "Incanter\u0027s",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Spell Damage"
+      ],
+      "affixRanges": [
+        "75-89"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Thunder",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Level of all Lightning Spell Skills"
+      ],
+      "affixRanges": [
+        "5"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of Ire",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Critical Spell Damage Bonus"
+      ],
+      "affixRanges": [
+        "10-14"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Assimilation",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Gain Mana per enemy killed"
+      ],
+      "affixRanges": [
+        "36-45"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Teal",
+      "affixTier": 8,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "35-54"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Talented",
+      "affixTier": 3,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% reduced Attribute Requirements"
+      ],
+      "affixRanges": [
+        "25"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Gentian",
+      "affixTier": 4,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "179-208"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Professor\u0027s",
+      "affixTier": 5,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Spell Damage"
+      ],
+      "affixRanges": [
+        "109-128"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Savant",
+      "affixTier": 2,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "28-30"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Scholar\u0027s",
+      "affixTier": 6,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Spell Damage"
+      ],
+      "affixRanges": [
+        "89-108"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves",
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Armageddon",
+      "affixTier": 1,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Level of all Chaos Spell Skills"
+      ],
+      "affixRanges": [
+        "7"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Opalescent",
+      "affixTier": 5,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "159-178"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Glory",
+      "affixTier": 2,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "Gain Life per enemy killed"
+      ],
+      "affixRanges": [
+        "54-68"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Talent",
+      "affixTier": 7,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Cast Speed"
+      ],
+      "affixRanges": [
+        "14-19"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Apprentice\u0027s",
+      "affixTier": 8,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Spell Damage"
+      ],
+      "affixRanges": [
+        "50-68"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Flamebound",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Gain % of Damage as Extra Fire Damage"
+      ],
+      "affixRanges": [
+        "28-30"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Wizard\u0027s",
+      "affixTier": 5,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Spell Damage",
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "25-29",
+        "25-28"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Glyphic",
+      "affixTier": 2,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "% increased Spell Damage"
+      ],
+      "affixRanges": [
+        "90-104"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Infusion",
+      "affixTier": 6,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "Gain Mana per enemy killed"
+      ],
+      "affixRanges": [
+        "6-9"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands",
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Electrifying",
+      "affixTier": 2,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "Gain % of Damage as Extra Lightning Damage"
+      ],
+      "affixRanges": [
+        "25-27"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Rime",
+      "affixTier": 2,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Level of all Cold Spell Skills"
+      ],
+      "affixRanges": [
+        "4"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Sleet",
+      "affixTier": 4,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Level of all Cold Spell Skills"
+      ],
+      "affixRanges": [
+        "2"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Deadly",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Gain % of Damage as Extra Lightning Damage"
+      ],
+      "affixRanges": [
+        "13-15"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Desecrated Prefix Modifier",
+      "affixName": "Warlock\u0027s",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Spell Damage",
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "59-68",
+        "57-66"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Zapping",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased chance to Shock"
+      ],
+      "affixRanges": [
+        "61-70"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Virtuoso",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "31-33"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Devouring",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Gain Mana per enemy killed"
+      ],
+      "affixRanges": [
+        "28-35"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Siphoning",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Gain Mana per enemy killed"
+      ],
+      "affixRanges": [
+        "21-27"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Fervent",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Gain % of Damage as Extra Fire Damage"
+      ],
+      "affixRanges": [
+        "26-30"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Cobalt",
+      "affixTier": 10,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "29-48"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Sapphire",
+      "affixTier": 8,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "69-108"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Nimbleness",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Cast Speed"
+      ],
+      "affixRanges": [
+        "20-25"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Caster\u0027s",
+      "affixTier": 7,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Spell Damage",
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "30-38",
+        "34-40"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Striking",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Lightning Damage"
+      ],
+      "affixRanges": [
+        "129-148"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Disaster",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Critical Hit Chance for Spells"
+      ],
+      "affixRanges": [
+        "60-69"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Beryl",
+      "affixTier": 11,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "20-28"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Electrocution",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased chance to Shock"
+      ],
+      "affixRanges": [
+        "71-80"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Bliss",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Mana Regeneration Rate"
+      ],
+      "affixRanges": [
+        "60-74"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Havoc",
+      "affixTier": 5,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Critical Hit Chance for Spells"
+      ],
+      "affixRanges": [
+        "50-59"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Coursing",
+      "affixTier": 5,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Lightning Damage"
+      ],
+      "affixRanges": [
+        "109-128"
+      ]
+    },
+    {
+      "itemClasses": [
+        "Staves"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Student",
+      "affixTier": 7,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "9-12"
       ]
     }
   ]

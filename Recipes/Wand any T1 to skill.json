@@ -1,0 +1,103 @@
+{
+  "name": "Wand any T1 to skill",
+  "savedAt": "2026-06-06T00:51:02.1521984+03:00",
+  "craftMode": "\u0425\u0430\u043E\u0441",
+  "plan": {
+    "expectedItemClass": "Wands",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "count",
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 1,
+              "members": [
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Frostbite",
+                  "selectedAffixNames": [
+                    "of Frostbite"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "\u002B to Level of all Cold Spell Skills",
+                  "minRoll": 5,
+                  "minRolls": [
+                    5
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Inferno",
+                  "selectedAffixNames": [
+                    "of Inferno"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "\u002B to Level of all Fire Spell Skills",
+                  "minRoll": 5,
+                  "minRolls": [
+                    5
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Thunder",
+                  "selectedAffixNames": [
+                    "of Thunder"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "\u002B to Level of all Lightning Spell Skills",
+                  "minRoll": 5,
+                  "minRolls": [
+                    5
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Grief",
+                  "selectedAffixNames": [
+                    "of Grief"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "\u002B to Level of all Physical Spell Skills",
+                  "minRoll": 5,
+                  "minRolls": [
+                    5
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of the Wizard",
+                  "selectedAffixNames": [
+                    "of the Wizard"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "\u002B to Level of all Spell Skills",
+                  "minRoll": 4,
+                  "minRolls": [
+                    4
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Armageddon",
+                  "selectedAffixNames": [
+                    "of Armageddon"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "\u002B to Level of all Chaos Spell Skills",
+                  "minRoll": 7,
+                  "minRolls": [
+                    7
+                  ]
+                }
+              ]
+            },
+            "whole": null
+          }
+        ]
+      }
+    ]
+  }
+}
