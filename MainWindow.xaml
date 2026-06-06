@@ -1,6 +1,7 @@
 <Window x:Class="GameHelper.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Icon="pack://application:,,,/app.ico"
         Title="GameHelper — PoE2 Chaos craft (MVP)"
         Height="620"
         Width="600"

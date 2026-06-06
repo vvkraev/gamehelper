@@ -205,9 +205,14 @@ public partial class MainWindow : Window
         if (_trayIcon != null)
             return;
 
+        var icoPath = System.IO.Path.Combine(GameHelper.ProjectPaths.GetProjectRoot(), "app.ico");
+        var trayIconImage = System.IO.File.Exists(icoPath)
+            ? new System.Drawing.Icon(icoPath, 16, 16)
+            : System.Drawing.SystemIcons.Application;
+
         _trayIcon = new System.Windows.Forms.NotifyIcon
         {
-            Icon = System.Drawing.SystemIcons.Application,
+            Icon = trayIconImage,
             Visible = false,
             Text = "GameHelper — PoE2",
         };
