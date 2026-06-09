@@ -95704,7 +95704,7 @@
       "affixType": "Prefix Modifier",
       "affixName": "Brimming",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 79,
       "affixStats": [
         "Map has % increased number of Rare Monsters"
       ],
@@ -95720,7 +95720,7 @@
       "affixType": "Prefix Modifier",
       "affixName": "Abounding",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 69,
       "affixStats": [
         "Map has % increased Monster Rarity"
       ],
@@ -95736,7 +95736,7 @@
       "affixType": "Prefix Modifier",
       "affixName": "Collector\u0027s",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 69,
       "affixStats": [
         "% increased Rarity of Items found in Map"
       ],
@@ -95752,7 +95752,7 @@
       "affixType": "Suffix Modifier",
       "affixName": "of Shrines",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 79,
       "affixStats": [
         "Map has % increased chance to contain Shrines"
       ],
@@ -95784,7 +95784,7 @@
       "affixType": "Prefix Modifier",
       "affixName": "Challenger\u0027s",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 69,
       "affixStats": [
         "Monsters have % increased Effectiveness"
       ],
@@ -95848,7 +95848,7 @@
       "affixType": "Prefix Modifier",
       "affixName": "Bountiful",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 69,
       "affixStats": [
         "% increased Gold found in Map"
       ],
@@ -95880,7 +95880,7 @@
       "affixType": "Suffix Modifier",
       "affixName": "of the Appeal",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 69,
       "affixStats": [
         "Favours Deferred at Ritual Altars in Map reappear % sooner"
       ],
@@ -95896,7 +95896,7 @@
       "affixType": "Suffix Modifier",
       "affixName": "of Devotion",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 79,
       "affixStats": [
         "Deferring Favours at Ritual Altars in Map costs % reduced Tribute"
       ],
@@ -95912,7 +95912,7 @@
       "affixType": "Suffix Modifier",
       "affixName": "of the Foundling",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 79,
       "affixStats": [
         "Revived Monsters from Ritual Altars in Map have % increased chance to be Magic"
       ],
@@ -95944,7 +95944,7 @@
       "affixType": "Prefix Modifier",
       "affixName": "Treasurer\u0027s",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 79,
       "affixStats": [
         "Map contains additional Rare Chests"
       ],
@@ -95976,7 +95976,7 @@
       "affixType": "Suffix Modifier",
       "affixName": "of the Cult",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 78,
       "affixStats": [
         "Revived Monsters from Ritual Altars in Map have % increased chance to be Rare"
       ],
@@ -96008,12 +96008,572 @@
       "affixType": "Suffix Modifier",
       "affixName": "of the Antiquarian",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 69,
       "affixStats": [
         "Map contains an additional Strongbox"
       ],
       "affixRanges": [
         null
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Omens",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Ritual Favours in Map have % increased chance to be Omens"
+      ],
+      "affixRanges": [
+        "35-70"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Spirits",
+      "affixTier": 1,
+      "affixTierLevel": 69,
+      "affixStats": [
+        "Map has % increased chance to contain Azmeri Spirits"
+      ],
+      "affixRanges": [
+        "70-100"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Occult",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Favours Rerolled at Ritual Altars in Map have % chance to cost no Tribute"
+      ],
+      "affixRanges": [
+        "3-6"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Azmeri\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Map contains 1 additional Azmeri Spirit"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Summoning",
+      "affixTier": 1,
+      "affixTierLevel": 69,
+      "affixStats": [
+        "Map has % increased chance to contain a Summoning Circle"
+      ],
+      "affixRanges": [
+        "70-100"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Devoted",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Map contains an additional Shrine"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Undertaking",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Map has additional random Modifier"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "",
+      "affixName": "Essences",
+      "affixTier": 0,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Global Armour, Evasion and Energy Shield"
+      ],
+      "affixRanges": [
+        "20-30"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of Rage",
+      "affixTier": 4,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Critical Damage Bonus"
+      ],
+      "affixRanges": [
+        "20-24"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Unmaking",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased Critical Hit Chance"
+      ],
+      "affixRanges": [
+        "35-38"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Wraith\u0027s",
+      "affixTier": 4,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased Evasion Rating"
+      ],
+      "affixRanges": [
+        "27-32"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Rage",
+      "affixTier": 4,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased Critical Damage Bonus"
+      ],
+      "affixRanges": [
+        "20-24"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Indomitable",
+      "affixTier": 2,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "39-44"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Furnace",
+      "affixTier": 4,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "26-30"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Radiating",
+      "affixTier": 6,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "34-41"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Ghost\u0027s",
+      "affixTier": 6,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Evasion Rating"
+      ],
+      "affixRanges": [
+        "15-20"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Unassailable",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "45-50"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Phantom",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "31-33"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Zaffre",
+      "affixTier": 2,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "165-179"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Countess\u0027",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "\u002B to Spirit"
+      ],
+      "affixRanges": [
+        "47-50"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Seal",
+      "affixTier": 8,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "6-10"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Thunderhead",
+      "affixTier": 5,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "21-25"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Reliable",
+      "affixTier": 7,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "\u002B to Accuracy Rating"
+      ],
+      "affixRanges": [
+        "33-60"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Fox",
+      "affixTier": 6,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "13-16"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Occultist\u0027s",
+      "affixTier": 2,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased Spell Damage"
+      ],
+      "affixRanges": [
+        "23-26"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Heavens",
+      "affixTier": 5,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "\u002B to all Attributes"
+      ],
+      "affixRanges": [
+        "14-16"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Immortality",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Life Regeneration per second"
+      ],
+      "affixRanges": [
+        "29.1-33"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Confident",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased maximum Life"
+      ],
+      "affixRanges": [
+        "7-8"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Fleshbinding",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% of Damage taken Recouped as Life"
+      ],
+      "affixRanges": [
+        "22-24"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Cerulean",
+      "affixTier": 9,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "55-64"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Virtuoso",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "31-33"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Excitement",
+      "affixTier": 6,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased Mana Regeneration Rate"
+      ],
+      "affixRanges": [
+        "10-19"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Mending",
+      "affixTier": 5,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% of Damage taken Recouped as Life"
+      ],
+      "affixRanges": [
+        "10-12"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Deliberate",
+      "affixTier": 5,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "\u002B to Accuracy Rating"
+      ],
+      "affixRanges": [
+        "85-123"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Lynx",
+      "affixTier": 7,
+      "affixTierLevel": 81,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "9-12"
       ],
       "affixSubClass": null
     }

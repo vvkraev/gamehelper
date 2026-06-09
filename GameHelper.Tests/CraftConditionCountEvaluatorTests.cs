@@ -120,4 +120,148 @@ public sealed class CraftConditionCountEvaluatorTests
         Assert.True(CraftConditionEvaluator.TryEvaluate(plan, item, out var expl));
         Assert.Contains("COUNT", expl, StringComparison.Ordinal);
     }
+
+    // ── Тесты на матчинг шаблонов с '#'-плейсхолдером ──────────────────────────────
+
+    /// <summary>
+    /// Парсер для «+3 to Level…» кладёт число в RolledValue, в StatText остаётся «+ to Level…».
+    /// StatLineMatchesTemplate должен матчить «+ to Level…» с шаблоном «+# to Level…».
+    /// Регрессия: до фикса возвращал false → условие крафта не срабатывало.
+    /// </summary>
+    [Theory]
+    [InlineData("+ to Level of all Spell Skills",     "+# to Level of all Spell Skills")]
+    [InlineData("+ to Level of all Melee Skills",     "+# to Level of all Melee Skills")]
+    [InlineData("+ to Level of all Projectile Skills","+# to Level of all Projectile Skills")]
+    [InlineData("+ to Spirit",                        "+# to Spirit")]
+    [InlineData("+ to Intelligence",                  "+# to Intelligence")]
+    [InlineData("% increased Critical Hit Chance",    "#% increased Critical Hit Chance")]
+    public void StatLineMatchesTemplate_HashPlaceholder_MatchesParsedStat(string parsedStat, string template)
+    {
+        Assert.True(
+            ParsedItemCraftEvaluator.StatLineMatchesTemplate(parsedStat, template),
+            $"Ожидали совпадение: parsedStat='{parsedStat}' template='{template}'");
+    }
+
+    [Theory]
+    [InlineData("+ to Level of all Spell Skills",  "+# to Level of all Melee Skills")]
+    [InlineData("+ to maximum Life",               "+# to maximum Mana")]
+    public void StatLineMatchesTemplate_HashPlaceholder_DoesNotMatchDifferentStat(string parsedStat, string template)
+    {
+        Assert.False(
+            ParsedItemCraftEvaluator.StatLineMatchesTemplate(parsedStat, template),
+            $"Ожидали НЕ совпадение: parsedStat='{parsedStat}' template='{template}'");
+    }
+
+    // Точный сценарий из лога: амулет с «+3 to Level of all Spell Skills», условие COUNT с шаблоном «+# to…»
+    private const string SorcererAmuletClipboard = """
+        Item Class: Amulets
+        Rarity: Rare
+        Carrion Pendant
+        Absent Amulet
+        --------
+        Item Level: 79
+        --------
+        { Suffix Modifier "of the Sorcerer" (Tier: 1) — Caster, Gem }
+        +3 to Level of all Spell Skills
+        """;
+
+    [Fact]
+    public void Count_HashTemplate_AmuletSpellLevel3_MinRoll3_Matches()
+    {
+        var item = ItemParser.Parse(SorcererAmuletClipboard);
+
+        CraftSingleAffixData Member(string name, string stat, double minRoll) => new()
+        {
+            AffixType = "Suffix Modifier",
+            AffixName = name,
+            SelectedAffixNames = new List<string> { name },
+            AffixTier = 1,
+            StatTemplate = stat,
+            MinRoll = minRoll,
+            MinRolls = new List<double> { minRoll },
+        };
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Amulets",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                Members =
+                                {
+                                    Member("of Battle",         "+# to Level of all Melee Skills",      3),
+                                    Member("of the Overseer",   "+# to Level of all Minion Skills",     3),
+                                    Member("of the Sharpshooter","+# to Level of all Projectile Skills",3),
+                                    Member("of the Sorcerer",   "+# to Level of all Spell Skills",      3),
+                                    Member("of Unmaking",       "#% increased Critical Hit Chance",    35),
+                                    Member("Countess'",         "+# to Spirit",                        47),
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.True(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"Условие должно сработать, но не сработало. Объяснение: {expl}");
+        Assert.Contains("COUNT", expl, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void Count_HashTemplate_AmuletSpellLevel3_MinRoll4_DoesNotMatch()
+    {
+        var item = ItemParser.Parse(SorcererAmuletClipboard);
+
+        CraftSingleAffixData Member(string name, string stat, double minRoll) => new()
+        {
+            AffixType = "Suffix Modifier",
+            AffixName = name,
+            SelectedAffixNames = new List<string> { name },
+            AffixTier = 1,
+            StatTemplate = stat,
+            MinRoll = minRoll,
+            MinRolls = new List<double> { minRoll },
+        };
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Amulets",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                Members =
+                                {
+                                    Member("of the Sorcerer", "+# to Level of all Spell Skills", 4),
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.False(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out _),
+            "+3 не должен удовлетворять порогу ≥4");
+    }
 }

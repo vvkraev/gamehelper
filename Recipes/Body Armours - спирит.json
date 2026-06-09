@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Body Armours - \u0441\u043F\u0438\u0440\u0438\u0442",
   "savedAt": "2026-04-01T01:00:44.1592691+03:00",
   "craftMode": "\u0410\u0443\u0433\u002B\u0410\u043D\u043D\u0443\u043B",
@@ -13,7 +13,7 @@
               "affixType": "Prefix Modifier",
               "affixName": "",
               "affixTier": 0,
-              "statTemplate": "\u002B to Spirit",
+              "statTemplate": "\u002B# to Spirit",
               "minRoll": 57,
               "minRolls": [
                 57

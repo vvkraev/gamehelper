@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Amulets critchance, critbonus, 3allspell",
   "savedAt": "2026-04-02T00:18:42.5497083+03:00",
   "craftMode": "\u042D\u043A\u0437\u0430\u043B\u044C\u0442",
@@ -38,7 +38,7 @@
                   "affixType": "Suffix Modifier",
                   "affixName": "",
                   "affixTier": 0,
-                  "statTemplate": "\u002B to Level of all Spell Skills",
+                  "statTemplate": "\u002B# to Level of all Spell Skills",
                   "minRoll": 3,
                   "minRolls": [
                     3

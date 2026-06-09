@@ -1,4 +1,4 @@
-{
+﻿{
   "name": "Wands all or phys",
   "savedAt": "2026-06-04T13:56:06.0973837+03:00",
   "craftMode": "\u0425\u0430\u043E\u0441",
@@ -16,7 +16,7 @@
                 "of the Wizard"
               ],
               "affixTier": 1,
-              "statTemplate": "\u002B to Level of all Spell Skills",
+              "statTemplate": "\u002B# to Level of all Spell Skills",
               "minRoll": 4,
               "minRolls": [
                 4
@@ -39,7 +39,7 @@
                 "of Grief"
               ],
               "affixTier": 1,
-              "statTemplate": "\u002B to Level of all Physical Spell Skills",
+              "statTemplate": "\u002B# to Level of all Physical Spell Skills",
               "minRoll": 6,
               "minRolls": [
                 6

@@ -951,13 +951,15 @@ public partial class CraftConditionWindow : Window
             {
                 cs.AffixCounts.TryGetValue(selected[0], out var c);
                 var pct = (double)c / total * 100;
-                lblStats.Text = $"Статистика: {c} / {total} ({pct:F1}%)";
+                var avg = c > 0 ? $"~{total / c} орбов" : "∞";
+                lblStats.Text = $"Статистика: {c} / {total} ({pct:F1}%) — {avg}";
             }
             else
             {
                 var combined = selected.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
                 var pct = (double)combined / total * 100;
-                lblStats.Text = $"Статистика: {combined} / {total} ({pct:F1}%), {selected.Count} вариантов";
+                var avg = combined > 0 ? $"~{total / combined} орбов" : "∞";
+                lblStats.Text = $"Статистика: {combined} / {total} ({pct:F1}%) — {avg}, {selected.Count} вариантов";
             }
         }
 

@@ -13,9 +13,12 @@ public static class ParsedItemCraftEvaluator
         @"\b([A-Za-z]\w*)\s*:\s*([\d.]+)",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
-    /// <summary>Убирает ведущий перекат в нормализованной строке: «+180(175-200) to …» → «+ to …», «77(75-79)% …» → «% …».</summary>
+    /// <summary>
+    /// Убирает ведущий перекат в нормализованной строке:
+    /// «+180(175-200) to …» → «+ to …», «+(47–50) to …» → «+ to …», «77(75-79)% …» → «% …».
+    /// </summary>
     private static readonly Regex LeadingPlusRollPrefix = new(
-        @"^\+\d+(?:\([^)]*\))?\s+",
+        @"^\+(?:\d+(?:\.\d+)?(?:\([^)]*\))?|\([^)]*\))\s+",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
     private static readonly Regex LeadingPercentRollPrefix = new(
@@ -80,6 +83,22 @@ public static class ParsedItemCraftEvaluator
         {
             if (string.Equals(aNoRoll, b, StringComparison.Ordinal))
                 return true;
+
+            // Стрипуем ведущий перекат и из шаблона (напр. "+(47–50) to Spirit" → "+ to Spirit"),
+            // чтобы сравнить обе стороны без числовой части.
+            var bNoRoll = StripLeadingRollFromNormalizedStat(b);
+            if (bNoRoll.Length > 0 && string.Equals(aNoRoll, bNoRoll, StringComparison.Ordinal))
+                return true;
+
+            // Шаблон может содержать '#' как плейсхолдер числа (напр. "+# to Level of all Spell Skills").
+            // Парсер уже извлёк число в RolledValue, оставив в StatText "+ to Level…".
+            // Сравниваем aNoRoll с шаблоном без '#'.
+            var bNoHash = b.Replace("#", "", StringComparison.Ordinal).Trim();
+            while (bNoHash.Contains("  ", StringComparison.Ordinal))
+                bNoHash = bNoHash.Replace("  ", " ", StringComparison.Ordinal);
+            if (bNoHash.Length > 0 && string.Equals(aNoRoll, bNoHash, StringComparison.Ordinal))
+                return true;
+
             // Короткий шаблон целиком в строке предмета (в т.ч. суффикс вроде «(rune)»), без общих 2–3 слов.
             const int minTemplateLenForContains = 14;
             if (b.Length >= minTemplateLenForContains && aNoRoll.Contains(b, StringComparison.Ordinal))
