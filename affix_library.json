@@ -96576,6 +96576,552 @@
         "9-12"
       ],
       "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Flesh",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Wombgifts have % chance to drop one Level higher in Map"
+      ],
+      "affixRanges": [
+        "10-30"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Consistent",
+      "affixTier": 4,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Accuracy Rating"
+      ],
+      "affixRanges": [
+        "124-167"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Conquest",
+      "affixTier": 3,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "Gain Life per enemy killed"
+      ],
+      "affixRanges": [
+        "19-28"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Walrus",
+      "affixTier": 4,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "26-30"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Jaguar",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "28-30"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Sortilege",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Cast Speed"
+      ],
+      "affixRanges": [
+        "19-21"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Joy",
+      "affixTier": 5,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Mana Regeneration Rate"
+      ],
+      "affixRanges": [
+        "20-29"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Cobalt",
+      "affixTier": 11,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "15-24"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Enveloping",
+      "affixTier": 3,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "Gain Mana per enemy killed"
+      ],
+      "affixRanges": [
+        "10-14"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Prodigy",
+      "affixTier": 6,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "13-16"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Cremating",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Adds X to Y Fire damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(25-29); Y(37-45)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Electrocuting",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Adds X to Y Lightning damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(1-4); Y(60-71)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Desecrated Prefix Modifier",
+      "affixName": "Flaring",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Adds X to Y Physical Damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(12-19); Y(22-32)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Exile",
+      "affixTier": 2,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% to Chaos Resistance"
+      ],
+      "affixRanges": [
+        "20-23"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Rainbow",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% to all Elemental Resistances"
+      ],
+      "affixRanges": [
+        "15-16"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Entombing",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Adds X to Y Cold damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(21-24); Y(32-37)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Razor-sharp",
+      "affixTier": 3,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Adds X to Y Physical Damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(7-11); Y(14-20)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Leopard",
+      "affixTier": 3,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "25-27"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Virtuoso",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "31-33"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Archaeology",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "% increased Rarity of Items found"
+      ],
+      "affixRanges": [
+        "15-18"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Flaring",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Adds X to Y Physical Damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(12-19); Y(22-32)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Glaciated",
+      "affixTier": 3,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Adds X to Y Cold damage to Attacks"
+      ],
+      "affixRanges": [
+        "X(14-15); Y(22-24)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Ice",
+      "affixTier": 2,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "36-40"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of Magma",
+      "affixTier": 2,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "36-40"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Desecrated Prefix Modifier",
+      "affixName": "Phantasm\u0027s",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Evasion Rating"
+      ],
+      "affixRanges": [
+        "33-38"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Sharpshooter",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Level of all Projectile Skills"
+      ],
+      "affixRanges": [
+        "3"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Volcano",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "31-35"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Amulets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Ice",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "36-40"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Antelope\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Evasion Rating",
+        "% increased Evasion Rating"
+      ],
+      "affixRanges": [
+        "71-90",
+        "39-42"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Fugitive",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Evasion Rating"
+      ],
+      "affixRanges": [
+        "262-300"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Desecrated Prefix Modifier",
+      "affixName": "Illusion\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Evasion Rating"
+      ],
+      "affixRanges": [
+        "101-110"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Ephij",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "41-45"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Warping",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Gain Deflection Rating equal to % of Evasion Rating"
+      ],
+      "affixRanges": [
+        "24-26"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Haast",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "41-45"
+      ],
+      "affixSubClass": null
     }
   ]
 }
