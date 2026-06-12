@@ -152,6 +152,141 @@ public sealed class CraftConditionCountEvaluatorTests
             $"Ожидали НЕ совпадение: parsedStat='{parsedStat}' template='{template}'");
     }
 
+    // ── Тест на мультиролл-стат «Adds X to Y …» ──────────────────────────────────────────────────────
+
+    [Theory]
+    [InlineData("Adds X to Y Cold damage to Attacks", "Adds # to # Cold damage to Attacks")]
+    [InlineData("Adds X to Y fire Damage to Attacks", "Adds # to # fire Damage to Attacks")]
+    [InlineData("X to Y Added Cold Damage",           "# to # Added Cold Damage")]
+    public void StatLineMatchesTemplate_MultiRoll_LetterPlaceholders_MatchHashTemplate(string parsed, string template)
+    {
+        Assert.True(
+            ParsedItemCraftEvaluator.StatLineMatchesTemplate(parsed, template),
+            $"parsedStat='{parsed}' template='{template}'");
+    }
+
+    [Theory]
+    [InlineData("Adds X to Y Cold damage to Attacks", "Adds # to # Fire damage to Attacks")]
+    public void StatLineMatchesTemplate_MultiRoll_LetterPlaceholders_DoesNotMatchDifferentStat(string parsed, string template)
+    {
+        Assert.False(
+            ParsedItemCraftEvaluator.StatLineMatchesTemplate(parsed, template),
+            $"parsedStat='{parsed}' template='{template}'");
+    }
+
+    // Точный сценарий Попытки 125: кольцо с Entombing T1 «Adds 22(21-24) to 34(32-37) Cold damage to Attacks»,
+    // условие COUNT≥1 с шаблоном «Adds # to # Cold damage to Attacks», minRoll=21.
+    private const string EntombingRingClipboard = """
+        Item Class: Rings
+        Rarity: Rare
+        Entropy Knot
+        Refined Breach Ring
+        --------
+        Requires: Level 60
+        --------
+        Item Level: 75
+        --------
+        { Implicit Modifier }
+        +25% to Maximum Quality — Unscalable Value
+        --------
+        { Prefix Modifier "Entombing" (Tier: 1) — Damage, Elemental, Cold, Attack }
+        Adds 22(21-24) to 34(32-37) Cold damage to Attacks
+        """;
+
+    [Fact]
+    public void Count_MultiRoll_EntombingRingT1_MinRoll21_Matches()
+    {
+        var item = ItemParser.Parse(EntombingRingClipboard);
+
+        CraftSingleAffixData Member(string name, string stat, double minRoll) => new()
+        {
+            AffixType = "Prefix Modifier",
+            AffixName = name,
+            SelectedAffixNames = new List<string> { name },
+            AffixTier = 1,
+            StatTemplate = stat,
+            MinRoll = minRoll,
+            MinRolls = new List<double> { minRoll },
+        };
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Rings",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                Members =
+                                {
+                                    Member("Entombing", "Adds # to # Cold damage to Attacks", 21),
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.True(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"Должно сработать: Entombing T1 roll=22 ≥ 21. Объяснение: {expl}");
+    }
+
+    [Fact]
+    public void Count_MultiRoll_EntombingRingT1_MinRoll23_DoesNotMatch()
+    {
+        var item = ItemParser.Parse(EntombingRingClipboard);
+
+        CraftSingleAffixData Member(string name, string stat, double minRoll) => new()
+        {
+            AffixType = "Prefix Modifier",
+            AffixName = name,
+            SelectedAffixNames = new List<string> { name },
+            AffixTier = 1,
+            StatTemplate = stat,
+            MinRoll = minRoll,
+            MinRolls = new List<double> { minRoll },
+        };
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Rings",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                Members =
+                                {
+                                    Member("Entombing", "Adds # to # Cold damage to Attacks", 23),
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.False(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out _),
+            "roll=22 < 23, не должно совпасть");
+    }
+
     // Точный сценарий из лога: амулет с «+3 to Level of all Spell Skills», условие COUNT с шаблоном «+# to…»
     private const string SorcererAmuletClipboard = """
         Item Class: Amulets

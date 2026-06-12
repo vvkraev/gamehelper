@@ -9,13 +9,13 @@ public partial class CraftLogWindow : Window
 {
     private string? _filePath;
     private readonly DispatcherTimer _refreshTimer;
-    private long _lastFileSize;
+    private long _lastFileBytes;
 
     public CraftLogWindow()
     {
         InitializeComponent();
         WindowGeometryStore.Attach(this, "CraftLogWindow");
-        _refreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(1) };
+        _refreshTimer = new DispatcherTimer { Interval = TimeSpan.FromMilliseconds(250) };
         _refreshTimer.Tick += (_, _) => RefreshIfChanged();
         Closed += (_, _) => _refreshTimer.Stop();
     }
@@ -24,7 +24,7 @@ public partial class CraftLogWindow : Window
     public void LoadFile(string filePath)
     {
         _filePath = filePath;
-        _lastFileSize = 0;
+        _lastFileBytes = 0;
         FilePathText.Text = Path.GetFileName(filePath);
         FilePathText.ToolTip = filePath;
         LoadContent(scrollToEnd: false);
@@ -79,7 +79,7 @@ public partial class CraftLogWindow : Window
         try
         {
             var size = new FileInfo(_filePath).Length;
-            if (size == _lastFileSize)
+            if (size == _lastFileBytes)
                 return;
             LoadContent(scrollToEnd: true);
         }
@@ -103,7 +103,7 @@ public partial class CraftLogWindow : Window
             text = $"(не удалось прочитать файл: {ex.Message})";
         }
 
-        _lastFileSize = text.Length;
+        _lastFileBytes = new FileInfo(_filePath!).Length;
         var atBottom = IsScrolledToBottom();
         LogContentBox.Text = text;
 

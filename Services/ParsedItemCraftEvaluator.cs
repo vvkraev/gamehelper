@@ -25,6 +25,14 @@ public static class ParsedItemCraftEvaluator
         @"^\d+(?:\([^)]*\))?\s*(?=%)",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
+    /// <summary>
+    /// Одиночные буквенные плейсхолдеры, которые ItemParser подставляет вместо перекатов в мультиролл-строках:
+    /// «Adds X to Y Cold damage» — X и Y заменяют числа 22 и 34. Плейсхолдеры: X Y Z W V U T S R Q P O N M L K.
+    /// </summary>
+    private static readonly Regex LetterRollPlaceholder = new(
+        @"\b[xyzwvutsrqponmlk]\b",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
     public static bool ItemClassMatches(ParsedItem item, string expectedItemClass) =>
         string.Equals(item.ItemClass.Trim(), expectedItemClass.Trim(), StringComparison.OrdinalIgnoreCase);
 
@@ -97,6 +105,15 @@ public static class ParsedItemCraftEvaluator
             while (bNoHash.Contains("  ", StringComparison.Ordinal))
                 bNoHash = bNoHash.Replace("  ", " ", StringComparison.Ordinal);
             if (bNoHash.Length > 0 && string.Equals(aNoRoll, bNoHash, StringComparison.Ordinal))
+                return true;
+
+            // Мультиролл-стат: ItemParser ставит буквенные плейсхолдеры x/y/z (после нормализации),
+            // рецепт хранит '#'. Убираем буквы-плейсхолдеры из a и сравниваем с bNoHash.
+            var aNoLetters = LetterRollPlaceholder.Replace(a, "").Trim();
+            while (aNoLetters.Contains("  ", StringComparison.Ordinal))
+                aNoLetters = aNoLetters.Replace("  ", " ", StringComparison.Ordinal);
+            if (aNoLetters.Length > 0 && bNoHash.Length > 0 &&
+                string.Equals(aNoLetters, bNoHash, StringComparison.Ordinal))
                 return true;
 
             // Короткий шаблон целиком в строке предмета (в т.ч. суффикс вроде «(rune)»), без общих 2–3 слов.
@@ -228,14 +245,16 @@ public static class ParsedItemCraftEvaluator
                     return false;
                 }
 
-                if (vals.Count != expectedSlotCount)
+                if (vals.Count < expectedSlotCount)
                 {
                     explanation =
                         $"Ожидалось {expectedSlotCount} перекат(ов), в строке предмета — {vals.Count} ({string.Join(", ", vals)}).";
                     return false;
                 }
 
-                values = vals;
+                // Для мультиролл-статов (Adds X to Y…) библиотека может хранить только первый диапазон;
+                // берём первые expectedSlotCount значений.
+                values = vals.Count == expectedSlotCount ? vals : vals.Take(expectedSlotCount).ToList();
                 return true;
             }
 
@@ -305,9 +324,9 @@ public static class ParsedItemCraftEvaluator
                     continue;
                 if (!TryGetOrderedRollValues(line, out var vals, out _))
                     continue;
-                if (vals.Count != expectedSlotCount)
+                if (vals.Count < expectedSlotCount)
                     continue;
-                values = vals;
+                values = vals.Count == expectedSlotCount ? vals : vals.Take(expectedSlotCount).ToList();
                 return true;
             }
         }
