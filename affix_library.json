@@ -42501,22 +42501,6 @@
       "itemClasses": [
         "Rings"
       ],
-      "affixType": "Prefix Modifier",
-      "affixName": "Flaring",
-      "affixTier": 1,
-      "affixTierLevel": 75,
-      "affixStats": [
-        "Adds (12\u201319) to (22\u201332) Physical Damage to Attacks"
-      ],
-      "affixRanges": [
-        "12-19"
-      ],
-      "affixSubClass": null
-    },
-    {
-      "itemClasses": [
-        "Rings"
-      ],
       "affixType": "Suffix Modifier",
       "affixName": "of the Seal",
       "affixTier": 8,
@@ -43525,22 +43509,6 @@
       "itemClasses": [
         "Rings"
       ],
-      "affixType": "Prefix Modifier",
-      "affixName": "Cremating",
-      "affixTier": 1,
-      "affixTierLevel": 75,
-      "affixStats": [
-        "Adds (25\u201329) to (37\u201345) Fire damage to Attacks"
-      ],
-      "affixRanges": [
-        "25-29"
-      ],
-      "affixSubClass": null
-    },
-    {
-      "itemClasses": [
-        "Rings"
-      ],
       "affixType": "Suffix Modifier",
       "affixName": "of Talent",
       "affixTier": 5,
@@ -44374,22 +44342,6 @@
         "Rings"
       ],
       "affixType": "Prefix Modifier",
-      "affixName": "Electrocuting",
-      "affixTier": 1,
-      "affixTierLevel": 75,
-      "affixStats": [
-        "Adds (1\u20134) to (60\u201371) Lightning damage to Attacks"
-      ],
-      "affixRanges": [
-        "1-4"
-      ],
-      "affixSubClass": null
-    },
-    {
-      "itemClasses": [
-        "Rings"
-      ],
-      "affixType": "Prefix Modifier",
       "affixName": "Hale",
       "affixTier": 8,
       "affixTierLevel": 1,
@@ -45182,22 +45134,6 @@
       ],
       "affixRanges": [
         "16-20"
-      ],
-      "affixSubClass": null
-    },
-    {
-      "itemClasses": [
-        "Rings"
-      ],
-      "affixType": "Prefix Modifier",
-      "affixName": "Entombing",
-      "affixTier": 1,
-      "affixTierLevel": 75,
-      "affixStats": [
-        "Adds (21\u201324) to (32\u201337) Cold damage to Attacks"
-      ],
-      "affixRanges": [
-        "21-24"
       ],
       "affixSubClass": null
     },
