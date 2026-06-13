@@ -128,9 +128,32 @@
                     Padding="8,6" Click="CloseBtn_Click"/>
         </Grid>
 
+        <Separator Margin="0,0,0,12"/>
+
+        <!-- Реестр катализаторов -->
+        <TextBlock Text="Реестр катализаторов / ядер душ" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
+        <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,8"
+                   Text="Разложите катализаторы в сетку (ItemRect), затем нажмите «Сканировать». Используется существующая область предмета."/>
+
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+            <Button x:Name="ScanGridBtn" Content="▶ Сканировать сетку" Padding="10,6"
+                    Margin="0,0,8,0" Click="ScanGridBtn_Click"/>
+            <Button Content="Очистить реестр" Padding="10,6"
+                    Click="ClearRegistryBtn_Click"/>
+            <TextBlock x:Name="RegistryScanStatus" VerticalAlignment="Center"
+                       Margin="12,0,0,0" FontSize="11" Foreground="#555"/>
+        </StackPanel>
+
+        <ListBox x:Name="RegistryListBox" Height="140"
+                 FontFamily="Consolas" FontSize="11"
+                 BorderBrush="#CCC" BorderThickness="1"
+                 Margin="0,0,0,12"/>
+
+        <Separator Margin="0,0,0,12"/>
+
         <!-- Лог -->
         <TextBlock Text="Лог" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
-        <ScrollViewer Height="200" VerticalScrollBarVisibility="Auto">
+        <ScrollViewer Height="160" VerticalScrollBarVisibility="Auto">
             <TextBox x:Name="LogBox" IsReadOnly="True" TextWrapping="Wrap"
                      FontFamily="Consolas" FontSize="11"
                      Background="#F5F5F5" BorderThickness="1" BorderBrush="#CCC"

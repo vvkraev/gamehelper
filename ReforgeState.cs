@@ -11,6 +11,9 @@ public sealed class ReforgeState
     public ScreenRect ResultRect           { get; set; }
     public int PostAnimationDelayMs        { get; set; } = 800;
 
+    /// <summary>Ячейки сетки предмета (из ItemRect/ItemCells) — для сканирования реестра.</summary>
+    public List<ScreenRect> ItemCells      { get; set; } = new();
+
     public static ReforgeState FromSettings(AppSettings s) => new()
     {
         CatalystInventoryRect = s.ReforgeCatalystInventoryRect,

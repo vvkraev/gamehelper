@@ -9,6 +9,7 @@ public partial class ReforgeWindow : Window
     private readonly Action _saveSettings;
 
     private CancellationTokenSource? _cts;
+    private CancellationTokenSource? _scanCts;
     private readonly ReforgeService _service = new();
 
     public ReforgeWindow(ReforgeState state, Action saveSettings)
@@ -16,7 +17,9 @@ public partial class ReforgeWindow : Window
         InitializeComponent();
         _state = state;
         _saveSettings = saveSettings;
+        StackableItemRegistry.Load();
         LoadFromState();
+        RefreshRegistryList();
     }
 
     // ── Загрузка из состояния ────────────────────────────────────────────────
@@ -155,7 +158,141 @@ public partial class ReforgeWindow : Window
     protected override void OnClosed(EventArgs e)
     {
         _cts?.Cancel();
+        _scanCts?.Cancel();
         base.OnClosed(e);
+    }
+
+    // ── Реестр / сканирование ────────────────────────────────────────────────
+
+    private async void ScanGridBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var cells = _state.ItemCells;
+        if (cells.Count == 0)
+        {
+            System.Windows.MessageBox.Show(this,
+                "Сетка предмета не задана. Задайте её в главном окне (вкладка «Крафт» → «Задать область»).",
+                "Сканирование", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Warning);
+            return;
+        }
+
+        _scanCts?.Cancel();
+        _scanCts = new CancellationTokenSource();
+        var ct = _scanCts.Token;
+
+        ScanGridBtn.IsEnabled = false;
+        RegistryScanStatus.Text = "Сканирование…";
+
+        var mouseMs = ParseInt(MouseDelayBox.Text, 80);
+        var clipMs  = ParseInt(ClipDelayBox.Text, 220);
+        var added   = 0;
+        var skipped = 0;
+        var empty   = 0;
+
+        try
+        {
+            Native.ProcessForeground.TryBringProcessToForeground(
+                Native.ProcessForeground.PathOfExile2SteamProcessName);
+            await Task.Delay(150, ct);
+
+            foreach (var cell in cells)
+            {
+                ct.ThrowIfCancellationRequested();
+
+                var (x, y) = cell.GetRandomInteriorPoint(inset: 2);
+                Native.Win32Input.MoveTo(x, y);
+                await Task.Delay(WithJitter(mouseMs), ct);
+                await Task.Delay(Math.Clamp(mouseMs / 2, 60, 180), ct); // hover settle
+
+                await ClearClipboardAsync();
+                Native.Win32Input.SendCtrlAltC();
+                await Task.Delay(WithJitter(clipMs), ct);
+
+                var text = await Dispatcher.InvokeAsync(GetClipboardTextSafe);
+                if (string.IsNullOrWhiteSpace(text)) { empty++; continue; }
+
+                var parsed = ItemParser.Parse(text);
+                if (parsed == null || !parsed.IsValid) { skipped++; continue; }
+
+                var (wasAdded, entry) = StackableItemRegistry.TryRegister(parsed);
+                if (wasAdded)
+                {
+                    added++;
+                    Log($"  + {entry!.DisplayName} ({entry.Kind})");
+                }
+                else if (entry != null)
+                {
+                    skipped++;
+                }
+                else
+                {
+                    // не каталог и не soul core
+                    Log($"  ? пропущено: {parsed.Name} [{parsed.ItemClass}]");
+                    skipped++;
+                }
+            }
+
+            StackableItemRegistry.Save();
+            RefreshRegistryList();
+            RegistryScanStatus.Text = $"Готово: +{added} новых, {skipped} пропущено, {empty} пустых";
+            Log($"[Scan] Сканирование завершено: +{added} новых записей");
+        }
+        catch (OperationCanceledException)
+        {
+            RegistryScanStatus.Text = "Отменено";
+        }
+        catch (Exception ex)
+        {
+            RegistryScanStatus.Text = $"Ошибка: {ex.Message}";
+            Log($"[Scan] Ошибка: {ex.Message}");
+        }
+        finally
+        {
+            Native.Win32Input.ReleaseCtrlAlt();
+            ScanGridBtn.IsEnabled = true;
+        }
+    }
+
+    private void ClearRegistryBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var r = System.Windows.MessageBox.Show(this,
+            "Очистить реестр катализаторов? Это действие нельзя отменить.",
+            "Очистить реестр",
+            System.Windows.MessageBoxButton.YesNo,
+            System.Windows.MessageBoxImage.Warning);
+        if (r != System.Windows.MessageBoxResult.Yes) return;
+        StackableItemRegistry.Clear();
+        RefreshRegistryList();
+        Log("[Registry] Реестр очищен");
+    }
+
+    private void RefreshRegistryList()
+    {
+        RegistryListBox.Items.Clear();
+        foreach (var item in StackableItemRegistry.Items)
+            RegistryListBox.Items.Add($"{item.DisplayName}  [{item.Kind}]");
+        RegistryScanStatus.Text = $"{StackableItemRegistry.Items.Count} записей";
+    }
+
+    private static int WithJitter(int baseMs)
+    {
+        if (baseMs <= 0) return 0;
+        var delta = (int)Math.Round(baseMs * 0.30);
+        if (delta <= 0) return baseMs;
+        return Math.Max(0, baseMs + Random.Shared.Next(-delta, delta + 1));
+    }
+
+    private static string GetClipboardTextSafe()
+    {
+        try { return System.Windows.Clipboard.GetText(); }
+        catch { return ""; }
+    }
+
+    private static async Task ClearClipboardAsync()
+    {
+        await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
+        {
+            try { System.Windows.Clipboard.Clear(); } catch { }
+        });
     }
 
     // ── Вспомогательные ──────────────────────────────────────────────────────
