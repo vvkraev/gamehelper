@@ -120,11 +120,6 @@ public partial class ReforgeWindow : Window
         CatalystSelectionStatus.Text = $"Выбрано: {selected} / {total}";
     }
 
-    private void SelectAllCatalysts_Click(object sender, RoutedEventArgs e)
-    {
-        foreach (System.Windows.Controls.CheckBox cb in CatalystCheckList.Items) cb.IsChecked = true;
-    }
-
     private void DeselectAllCatalysts_Click(object sender, RoutedEventArgs e)
     {
         foreach (System.Windows.Controls.CheckBox cb in CatalystCheckList.Items) cb.IsChecked = false;

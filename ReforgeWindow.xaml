@@ -89,12 +89,9 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="Auto"/>
-                <ColumnDefinition Width="Auto"/>
             </Grid.ColumnDefinitions>
             <TextBlock x:Name="CatalystSelectionStatus" VerticalAlignment="Center" FontSize="11" Foreground="#555"/>
-            <Button Grid.Column="1" Content="Выбрать все" Padding="8,3" Margin="0,0,6,0"
-                    Click="SelectAllCatalysts_Click"/>
-            <Button Grid.Column="2" Content="Снять все" Padding="8,3"
+            <Button Grid.Column="1" Content="Снять все" Padding="8,3"
                     Click="DeselectAllCatalysts_Click"/>
         </Grid>
         <ListBox x:Name="CatalystCheckList" Height="130" BorderBrush="#CCC" BorderThickness="1" Margin="0,0,0,12"/>
