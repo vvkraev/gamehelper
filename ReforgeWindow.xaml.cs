@@ -33,6 +33,9 @@ public partial class ReforgeWindow : Window
         ConfirmInfo.Text           = FormatRect(_state.ConfirmRect);
         ResultInfo.Text            = FormatRect(_state.ResultRect);
         PostAnimDelayBox.Text      = _state.PostAnimationDelayMs.ToString();
+        ScanGridInfo.Text = _state.ItemCells.Count > 0
+            ? $"{_state.ItemCells.Count} ячеек"
+            : "(не задана)";
     }
 
     private static string FormatRect(ScreenRect r) =>
@@ -163,6 +166,23 @@ public partial class ReforgeWindow : Window
     }
 
     // ── Реестр / сканирование ────────────────────────────────────────────────
+
+    private void PickScanGrid_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var dimDlg = new ItemGridDimensionsDialog { Owner = this };
+        if (dimDlg.ShowDialog() != true) return;
+
+        var picker = new RegionPickerWindow(dimDlg.GridColumns, dimDlg.GridRows) { Owner = this };
+        if (picker.ShowDialog() != true || picker.SelectedRegion is not { } region) return;
+
+        _state.ItemCells = picker.SelectedCells is { Count: > 0 } cells
+            ? cells.ToList()
+            : new List<ScreenRect> { region };
+
+        _saveSettings();
+        ScanGridInfo.Text = $"Сетка {dimDlg.GridColumns}×{dimDlg.GridRows}, {_state.ItemCells.Count} ячеек";
+        Log($"Сетка для сканирования задана: {_state.ItemCells.Count} ячеек");
+    }
 
     private async void ScanGridBtn_Click(object sender, System.Windows.RoutedEventArgs e)
     {

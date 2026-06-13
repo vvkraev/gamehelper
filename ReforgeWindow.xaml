@@ -136,6 +136,12 @@
                    Text="Разложите катализаторы в сетку (ItemRect), затем нажмите «Сканировать». Используется существующая область предмета."/>
 
         <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+            <Button Content="Задать сетку…" Padding="10,6"
+                    Margin="0,0,8,0" Click="PickScanGrid_Click"/>
+            <TextBlock x:Name="ScanGridInfo" VerticalAlignment="Center"
+                       Foreground="#555" FontSize="11" Margin="0,0,16,0"/>
+        </StackPanel>
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
             <Button x:Name="ScanGridBtn" Content="▶ Сканировать сетку" Padding="10,6"
                     Margin="0,0,8,0" Click="ScanGridBtn_Click"/>
             <Button Content="Очистить реестр" Padding="10,6"
