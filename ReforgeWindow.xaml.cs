@@ -220,9 +220,11 @@ public partial class ReforgeWindow : Window
     {
         if (!ValidateForRun()) return;
 
-        _service.MouseActionDelayMs  = ParseInt(MouseDelayBox.Text, 80);
-        _service.ClipboardDelayMs    = ParseInt(ClipDelayBox.Text, 220);
-        _service.PostReforgeSettleMs = ParseInt(PostAnimDelayBox.Text, 800);
+        _service.MouseActionDelayMs           = ParseInt(MouseDelayBox.Text, 80);
+        _service.ClipboardDelayMs             = ParseInt(ClipDelayBox.Text, 220);
+        _service.PostReforgeSettleMs          = ParseInt(PostAnimDelayBox.Text, 800);
+        _service.HoverSettleBeforeClipboardMs = ParseInt(HoverSettleBox.Text, 150);
+        _service.ResultRetryDelayMs           = ParseInt(RetryDelayBox.Text, 400);
 
         _state.PostAnimationDelayMs = _service.PostReforgeSettleMs;
         _state.MaxOps = ParseInt(MaxOpsBox.Text, 0, allowZero: true);

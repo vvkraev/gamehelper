@@ -12,9 +12,15 @@ public sealed class ReforgeService
 {
     private const double DelayJitterFraction = 0.30;
 
-    public int MouseActionDelayMs { get; set; } = 80;
-    public int ClipboardDelayMs   { get; set; } = 220;
-    public int PostReforgeSettleMs { get; set; } = 800;
+    public int MouseActionDelayMs           { get; set; } = 80;
+    public int ClipboardDelayMs             { get; set; } = 220;
+    public int PostReforgeSettleMs          { get; set; } = 800;
+    /// <summary>Пауза после наведения на слот результата перед Ctrl+Alt+C — игра должна обновить тултип.</summary>
+    public int HoverSettleBeforeClipboardMs { get; set; } = 150;
+    /// <summary>Дополнительная задержка между retry-попытками чтения пустого результата.</summary>
+    public int ResultRetryDelayMs           { get; set; } = 400;
+    /// <summary>Сколько раз повторять чтение результата прежде чем признать попытку неудачной.</summary>
+    public int ResultReadRetries            { get; set; } = 3;
 
     // ── Основной цикл ────────────────────────────────────────────────────────
 
@@ -82,36 +88,47 @@ public sealed class ReforgeService
                 }
 
                 // Перековываем
+                var successCount = 0;
                 for (var i = 0; i < nReforges; i++)
                 {
                     ct.ThrowIfCancellationRequested();
 
-                    // Кнопка Reforge
+                    // 1. Кнопка Reforge
                     await MoveAndClickAsync(confirmRect, ct);
                     await Task.Delay(WithJitter(PostReforgeSettleMs), ct);
 
-                    // Ctrl+ЛКМ результат → в инвентарь
-                    await CtrlClickAsync(resultRect, ct);
-                    await Task.Delay(WithJitter(MouseActionDelayMs), ct);
+                    // 2. Читаем результат ДО перемещения — с retry если слот ещё пуст
+                    var text = await ReadWithRetryAsync(resultRect, ct);
 
-                    // Ctrl+Alt+C — читаем что получили
-                    var text = await ReadClipboardAtAsync(resultRect, ct);
-                    var parsed = string.IsNullOrWhiteSpace(text) ? null : ItemParser.Parse(text);
+                    if (string.IsNullOrWhiteSpace(text))
+                    {
+                        // Результат не появился — не считаем операцию, но извлекаем всё из станка
+                        log?.Report($"    [{i + 1}/{nReforges}] Результат не прочитан после {ResultReadRetries} попыток — прерываем пакет");
+                        await RetrieveFromBenchAsync(benchSlots, resultRect, ct);
+                        goto nextBatch;
+                    }
+
+                    // 3. Ctrl+ЛКМ результат → в инвентарь (только после успешного чтения)
+                    await CtrlClickAsync(resultRect, ct);
+
+                    var parsed = ItemParser.Parse(text);
                     var result = new ReforgeAttemptResult(typeCells[0].DisplayName, parsed?.Name, text);
                     onAttempt?.Invoke(result);
-                    log?.Report($"    [{i + 1}/{nReforges}] → {result.OutputItemName ?? "?"}");
+                    successCount++;
+                    log?.Report($"    [{successCount}/{nReforges}] → {result.OutputItemName ?? "?"}");
 
                     opsRemaining--;
                     if (opsRemaining == 0)
                     {
                         log?.Report("[Reforge] Достигнут лимит операций. Извлекаем остатки...");
-                        await RetrieveFromBenchAsync(benchSlots, ct);
+                        await RetrieveFromBenchAsync(benchSlots, resultRect, ct);
                         return ReforgeStopReason.MaxOpsReached;
                     }
                 }
 
                 // Извлекаем остатки из станка (total % 3 могут остаться)
-                await RetrieveFromBenchAsync(benchSlots, ct);
+                await RetrieveFromBenchAsync(benchSlots, resultRect, ct);
+                nextBatch:;
             }
         }
 
@@ -154,12 +171,37 @@ public sealed class ReforgeService
 
     // ── Низкоуровневые операции ──────────────────────────────────────────────
 
+    /// <summary>
+    /// Читает буфер с retry: наводим курсор, ждём hover, Ctrl+Alt+C.
+    /// Если буфер пуст — ждём <see cref="ResultRetryDelayMs"/> и повторяем до <see cref="ResultReadRetries"/> раз.
+    /// </summary>
+    private async Task<string> ReadWithRetryAsync(ScreenRect rect, CancellationToken ct)
+    {
+        var (x, y) = rect.GetRandomInteriorPoint(inset: 2);
+        Win32Input.MoveTo(x, y);
+        await Task.Delay(WithJitter(MouseActionDelayMs), ct);
+        await Task.Delay(HoverSettleBeforeClipboardMs, ct);
+
+        for (var attempt = 0; attempt < ResultReadRetries; attempt++)
+        {
+            await ClearClipboardAsync();
+            Win32Input.SendCtrlAltC();
+            await Task.Delay(WithJitter(ClipboardDelayMs), ct);
+            var text = await System.Windows.Application.Current.Dispatcher.InvokeAsync(GetClipboardTextSafe);
+            if (!string.IsNullOrWhiteSpace(text)) return text;
+
+            if (attempt < ResultReadRetries - 1)
+                await Task.Delay(ResultRetryDelayMs, ct);
+        }
+        return "";
+    }
+
     private async Task<string> ReadClipboardAtAsync(ScreenRect rect, CancellationToken ct)
     {
         var (x, y) = rect.GetRandomInteriorPoint(inset: 2);
         Win32Input.MoveTo(x, y);
         await Task.Delay(WithJitter(MouseActionDelayMs), ct);
-        await Task.Delay(Math.Clamp(MouseActionDelayMs / 2, 50, 150), ct); // hover settle
+        await Task.Delay(HoverSettleBeforeClipboardMs, ct);
 
         await ClearClipboardAsync();
         Win32Input.SendCtrlAltC();
@@ -187,13 +229,16 @@ public sealed class ReforgeService
         await Task.Delay(WithJitter(MouseActionDelayMs), ct);
     }
 
-    private async Task RetrieveFromBenchAsync(ScreenRect[] slots, CancellationToken ct)
+    private async Task RetrieveFromBenchAsync(ScreenRect[] inputSlots, ScreenRect resultRect, CancellationToken ct)
     {
-        foreach (var slot in slots)
+        foreach (var slot in inputSlots)
         {
             ct.ThrowIfCancellationRequested();
             await CtrlClickAsync(slot, ct);
         }
+        // Забираем и слот результата — на случай если результат не был прочитан/перемещён
+        ct.ThrowIfCancellationRequested();
+        await CtrlClickAsync(resultRect, ct);
     }
 
     private static int WithJitter(int baseMs)
