@@ -431,13 +431,14 @@ public partial class MainWindow : Window
     {
         var s = SettingsStore.Load();
         var loaded = ReforgeState.FromSettings(s);
-        _reforgeState.CatalystInventoryRect = loaded.CatalystInventoryRect;
         _reforgeState.Slot1Rect             = loaded.Slot1Rect;
         _reforgeState.Slot2Rect             = loaded.Slot2Rect;
         _reforgeState.Slot3Rect             = loaded.Slot3Rect;
         _reforgeState.ConfirmRect           = loaded.ConfirmRect;
         _reforgeState.ResultRect            = loaded.ResultRect;
         _reforgeState.PostAnimationDelayMs  = loaded.PostAnimationDelayMs;
+        _reforgeState.MaxOps                = loaded.MaxOps;
+        _reforgeState.SelectedCatalystIds   = loaded.SelectedCatalystIds;
 
         if (s.OrbRect is { Width: > 0, Height: > 0 })
         {

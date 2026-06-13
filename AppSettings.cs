@@ -122,8 +122,6 @@ public sealed class AppSettings
     public int CraftStartStopModifiers { get; set; }
 
     // ── Reforge (Перековка) ──────────────────────────────────────────────────
-    /// <summary>Стак катализаторов в инвентаре (источник).</summary>
-    public ScreenRect ReforgeCatalystInventoryRect { get; set; }
     /// <summary>Слот 1 входа в станке перековки.</summary>
     public ScreenRect ReforgeSlot1Rect { get; set; }
     /// <summary>Слот 2 входа в станке перековки.</summary>
@@ -136,4 +134,8 @@ public sealed class AppSettings
     public ScreenRect ReforgeConfirmRect { get; set; }
     /// <summary>Ожидание после нажатия кнопки Reforge (анимация станка), мс.</summary>
     public int ReforgePostAnimationDelayMs { get; set; } = 800;
+    /// <summary>Максимум операций перековки за сессию (0 = без ограничений).</summary>
+    public int ReforgeMaxOps { get; set; } = 0;
+    /// <summary>Id катализаторов, выбранных для перековки.</summary>
+    public List<string>? ReforgeSelectedCatalystIds { get; set; }
 }

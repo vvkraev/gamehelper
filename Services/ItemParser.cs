@@ -48,6 +48,8 @@ public class ParsedItem
     public List<string> InsertedItems { get; set; } = new();
     public List<AffixInfo> Affixes { get; set; } = new();
     public string State { get; set; } = ""; // Corrupted, Sanctified, etc.
+    /// <summary>Текущий размер стака (из «Stack Size: X/Y»). 0 — не стакующийся предмет.</summary>
+    public int StackSize { get; set; }
 }
 
 /// <summary>
@@ -150,6 +152,14 @@ public static class ItemParser
                 else if (item.Sockets.Length == 0 && line.StartsWith("Sockets:", StringComparison.Ordinal))
                 {
                     item.Sockets = line["Sockets:".Length..].Trim();
+                }
+                else if (item.StackSize == 0 && line.StartsWith("Stack Size:", StringComparison.Ordinal))
+                {
+                    var val = line["Stack Size:".Length..].Trim();
+                    var slash = val.IndexOf('/');
+                    var numStr = slash >= 0 ? val[..slash] : val;
+                    if (int.TryParse(numStr.Trim(), out var sz))
+                        item.StackSize = sz;
                 }
             }
         }
