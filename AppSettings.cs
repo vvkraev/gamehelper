@@ -138,4 +138,6 @@ public sealed class AppSettings
     public int ReforgeMaxOps { get; set; } = 0;
     /// <summary>Id катализаторов, выбранных для перековки.</summary>
     public List<string>? ReforgeSelectedCatalystIds { get; set; }
+    /// <summary>Ячейки сетки инвентаря для перековки (независимы от ItemCells крафта).</summary>
+    public List<ScreenRect>? ReforgeItemCells { get; set; }
 }

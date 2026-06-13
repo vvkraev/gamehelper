@@ -439,6 +439,7 @@ public partial class MainWindow : Window
         _reforgeState.PostAnimationDelayMs  = loaded.PostAnimationDelayMs;
         _reforgeState.MaxOps                = loaded.MaxOps;
         _reforgeState.SelectedCatalystIds   = loaded.SelectedCatalystIds;
+        _reforgeState.ItemCells             = loaded.ItemCells;
 
         if (s.OrbRect is { Width: > 0, Height: > 0 })
         {
@@ -708,7 +709,6 @@ public partial class MainWindow : Window
 
     private void ReforgeBtn_OnClick(object sender, RoutedEventArgs e)
     {
-        _reforgeState.ItemCells = _itemCellRegions.ToList();
         var wnd = new ReforgeWindow(_reforgeState, SaveSettings) { Owner = this };
         wnd.Show();
     }

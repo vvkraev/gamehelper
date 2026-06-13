@@ -27,6 +27,7 @@ public sealed class ReforgeState
         PostAnimationDelayMs  = s.ReforgePostAnimationDelayMs,
         MaxOps                = s.ReforgeMaxOps,
         SelectedCatalystIds   = s.ReforgeSelectedCatalystIds?.ToList() ?? new(),
+        ItemCells             = s.ReforgeItemCells?.ToList() ?? new(),
     };
 
     public void ApplyToSettings(AppSettings s)
@@ -38,7 +39,7 @@ public sealed class ReforgeState
         s.ReforgeResultRect            = ResultRect;
         s.ReforgePostAnimationDelayMs  = PostAnimationDelayMs;
         s.ReforgeMaxOps                = MaxOps;
-        s.ReforgeSelectedCatalystIds   = SelectedCatalystIds.Count > 0
-            ? SelectedCatalystIds.ToList() : null;
+        s.ReforgeSelectedCatalystIds   = SelectedCatalystIds.Count > 0 ? SelectedCatalystIds.ToList() : null;
+        s.ReforgeItemCells             = ItemCells.Count > 0 ? ItemCells.ToList() : null;
     }
 }
