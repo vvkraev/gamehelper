@@ -97058,6 +97058,70 @@
         "41-45"
       ],
       "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Locust",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "Leech % of Physical Attack Damage as Life"
+      ],
+      "affixRanges": [
+        "6-6.9"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Mongoose",
+      "affixTier": 8,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "5-8"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Volcanic",
+      "affixTier": 2,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "% increased Fire Damage"
+      ],
+      "affixRanges": [
+        "23-26"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Rings"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Brute",
+      "affixTier": 8,
+      "affixTierLevel": 75,
+      "affixStats": [
+        "\u002B to Strength"
+      ],
+      "affixRanges": [
+        "5-8"
+      ],
+      "affixSubClass": null
     }
   ]
 }

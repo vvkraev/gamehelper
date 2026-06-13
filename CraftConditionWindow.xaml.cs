@@ -196,6 +196,7 @@ public partial class CraftConditionWindow : Window
         OrAlternativesHost.Children.Clear();
         for (var i = 0; i < _plan.OrAlternatives.Count; i++)
             OrAlternativesHost.Children.Add(BuildOrGroupUi(_plan.OrAlternatives[i], i));
+        UpdateCombinedChanceLabel();
     }
 
     private UIElement BuildOrGroupUi(CraftAndGroup group, int orIndex)
@@ -1197,5 +1198,135 @@ public partial class CraftConditionWindow : Window
     {
         DialogResult = false;
         Close();
+    }
+
+    // ── Суммарный шанс ───────────────────────────────────────────────────────────────
+
+    private void UpdateCombinedChanceLabel()
+    {
+        var ic = _plan.ExpectedItemClass;
+        if (_stats == null || string.IsNullOrEmpty(ic) || _plan.OrAlternatives.Count == 0)
+        {
+            CombinedChanceLabel.Text = "";
+            return;
+        }
+
+        if (!_stats.PerClass.TryGetValue(ic, out var cs) || cs.TotalSnapshots < 10)
+        {
+            CombinedChanceLabel.Text = cs?.TotalSnapshots > 0
+                ? $"Суммарный шанс: мало данных ({cs.TotalSnapshots} предметов)"
+                : "Суммарный шанс: нет данных по этому классу";
+            return;
+        }
+
+        var hasPartialData = false;
+        var pNone = 1.0;
+        foreach (var alt in _plan.OrAlternatives)
+            pNone *= 1.0 - CalcAndGroupProbability(alt, ic, cs, ref hasPartialData);
+
+        var p = Math.Max(0.0, Math.Min(1.0, 1.0 - pNone));
+        var pct = p * 100;
+        var avgOrbs = p > 0 ? (int)Math.Round(1.0 / p) : -1;
+        var avgStr = avgOrbs > 0 ? $" (~{avgOrbs} орбов)" : " (∞)";
+        var dataNote = hasPartialData ? " ⚠ нет данных по части аффиксов" : "";
+
+        CombinedChanceLabel.Text = $"Суммарный шанс: ~{pct:F1}%{avgStr}{dataNote}";
+    }
+
+    private double CalcAndGroupProbability(CraftAndGroup group, string ic, ClassStats cs, ref bool hasPartialData)
+    {
+        var p = 1.0;
+        foreach (var clause in group.Clauses)
+        {
+            if (clause.Kind == CraftClauseKind.Single && clause.Single is { } s)
+                p *= CalcSingleMemberProbability(s, ic, cs, ref hasPartialData);
+            else if (clause.Kind == CraftClauseKind.Count && clause.Count is { } cnt)
+                p *= CalcCountClauseProbability(cnt, ic, cs, ref hasPartialData);
+            else if (clause.Kind == CraftClauseKind.WholeModifier && clause.Whole is { } w)
+                p *= CalcWholeModifierProbability(w, ic, cs, ref hasPartialData);
+            // Sum clause: no frequency-based estimate possible, treat as p=1
+        }
+        return Math.Max(0.0, Math.Min(1.0, p));
+    }
+
+    private double CalcSingleMemberProbability(CraftSingleAffixData s, string ic, ClassStats cs, ref bool hasPartialData)
+    {
+        var names = s.EffectiveAffixNames();
+        if (names.Count == 0) return 0.0;
+
+        var count = names.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
+        if (count == 0) { hasPartialData = true; return 0.0; }
+
+        var freq = (double)count / cs.TotalSnapshots;
+        var (lo, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForSingleStat(
+            ic, s.AffixType, s.StatTemplate, names, s.AffixTier, EffectiveEntries);
+        return Math.Max(0.0, Math.Min(1.0, freq * CalcRollFraction(lo, hi, s.MinRoll)));
+    }
+
+    private double CalcCountClauseProbability(CraftCountAffixData cnt, string ic, ClassStats cs, ref bool hasPartialData)
+    {
+        var n = Math.Min(cnt.Members.Count, 20); // safety cap for bitmask
+        if (n == 0) return 0.0;
+
+        var probs = new double[n];
+        for (var j = 0; j < n; j++)
+            probs[j] = CalcSingleMemberProbability(cnt.Members[j], ic, cs, ref hasPartialData);
+        var k = cnt.MinMatchCount;
+        if (k <= 0) return 1.0;
+        if (k > n) return 0.0;
+
+        var pAtLeastK = 0.0;
+        for (var mask = 0; mask < (1 << n); mask++)
+        {
+            if (BitCount(mask) < k) continue;
+            var p = 1.0;
+            for (var i = 0; i < n; i++)
+                p *= (mask & (1 << i)) != 0 ? probs[i] : (1.0 - probs[i]);
+            pAtLeastK += p;
+        }
+        return Math.Max(0.0, Math.Min(1.0, pAtLeastK));
+    }
+
+    private double CalcWholeModifierProbability(CraftWholeModifierAffixData whole, string ic, ClassStats cs, ref bool hasPartialData)
+    {
+        var names = whole.EffectiveWholeAffixNames();
+        if (names.Count == 0) return 0.0;
+
+        var count = names.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
+        if (count == 0) { hasPartialData = true; return 0.0; }
+
+        var freq = (double)count / cs.TotalSnapshots;
+        var rollFrac = 1.0;
+        var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
+            EffectiveEntries, ic, whole.AffixType, names[0], whole.AffixTier);
+        if (entry != null)
+        {
+            var namesList = names.ToList();
+            foreach (var line in whole.Lines)
+            {
+                var si = CraftAffixCascadeHelper.FindStatIndexInEntry(entry, line.StatTemplate);
+                if (si < 0) continue;
+                var (lo, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForWholeLine(
+                    ic, whole.AffixType, entry, si, namesList, whole.AffixTier, _entries);
+                var minRoll = line.MinRolls.Count > 0 ? line.MinRolls[0] : line.MinRoll;
+                rollFrac *= CalcRollFraction(lo, hi, minRoll);
+            }
+        }
+        return Math.Max(0.0, Math.Min(1.0, freq * rollFrac));
+    }
+
+    private static double CalcRollFraction(double lo, double hi, double minRoll)
+    {
+        if (hi <= lo) return minRoll <= lo ? 1.0 : 0.0;
+        if (minRoll <= lo) return 1.0;
+        if (minRoll > hi) return 0.0;
+        return (hi - minRoll + 1.0) / (hi - lo + 1.0);
+    }
+
+    private static int BitCount(int x)
+    {
+        var c = 0;
+        while (x != 0) { c += x & 1; x >>= 1; }
+        return c;
     }
 }
