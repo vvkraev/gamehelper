@@ -320,6 +320,8 @@
                                 IsEnabled="False"
                                 Click="StopBtn_OnClick"
                                 ToolTip="Прервать крафт. Во время сессии крафта Esc зарегистрирован глобально (работает без фокуса на этом окне и в трее)."/>
+                        <Button Content="🔨 Перековка…" Margin="16,0,0,0" Padding="10,0"
+                                Click="ReforgeBtn_OnClick"/>
                     </StackPanel>
                 </StackPanel>
             </ScrollViewer>

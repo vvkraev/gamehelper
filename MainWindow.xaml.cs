@@ -20,6 +20,8 @@ public partial class MainWindow : Window
     private readonly SharpenService _sharpen = new();
     private readonly OmenActivationService _omen = new();
     private CancellationTokenSource? _cts;
+    private readonly ReforgeState _reforgeState = new();
+
     private ScreenRect? _orbRegion;
     private ScreenRect? _exaltRegion;
     private ScreenRect? _augRegion;
@@ -428,6 +430,15 @@ public partial class MainWindow : Window
     private void ApplySettings()
     {
         var s = SettingsStore.Load();
+        var loaded = ReforgeState.FromSettings(s);
+        _reforgeState.CatalystInventoryRect = loaded.CatalystInventoryRect;
+        _reforgeState.Slot1Rect             = loaded.Slot1Rect;
+        _reforgeState.Slot2Rect             = loaded.Slot2Rect;
+        _reforgeState.Slot3Rect             = loaded.Slot3Rect;
+        _reforgeState.ConfirmRect           = loaded.ConfirmRect;
+        _reforgeState.ResultRect            = loaded.ResultRect;
+        _reforgeState.PostAnimationDelayMs  = loaded.PostAnimationDelayMs;
+
         if (s.OrbRect is { Width: > 0, Height: > 0 })
         {
             _orbRegion = s.OrbRect;
@@ -685,12 +696,19 @@ public partial class MainWindow : Window
             CraftStartStopVirtualKey = _craftStartStopVirtualKey,
             CraftStartStopModifiers = _craftStartStopModifiers,
         };
+        _reforgeState.ApplyToSettings(s);
         SettingsStore.Save(s);
     }
 
     private void UpdateCraftConditionSummary()
     {
         CraftConditionSummary.Text = CraftConditionEvaluator.FormatSummary(_craftPlan);
+    }
+
+    private void ReforgeBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        var wnd = new ReforgeWindow(_reforgeState, SaveSettings) { Owner = this };
+        wnd.Show();
     }
 
     private void CraftConditionBtn_OnClick(object sender, RoutedEventArgs e)
