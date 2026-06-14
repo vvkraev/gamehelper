@@ -1,0 +1,67 @@
+[
+  {
+    "Id": "adaptive_catalyst",
+    "DisplayName": "Adaptive Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "carapace_catalyst",
+    "DisplayName": "Carapace Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "chayulas_catalyst",
+    "DisplayName": "Chayula's Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "eshs_catalyst",
+    "DisplayName": "Esh's Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "flesh_catalyst",
+    "DisplayName": "Flesh Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "necrotic_catalyst",
+    "DisplayName": "Necrotic Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "neural_catalyst",
+    "DisplayName": "Neural Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "reaver_catalyst",
+    "DisplayName": "Reaver Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "sibilant_catalyst",
+    "DisplayName": "Sibilant Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "skittering_catalyst",
+    "DisplayName": "Skittering Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "tuls_catalyst",
+    "DisplayName": "Tul's Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "uul_netols_catalyst",
+    "DisplayName": "Uul-Netol's Catalyst",
+    "Kind": "Catalyst"
+  },
+  {
+    "Id": "xophs_catalyst",
+    "DisplayName": "Xoph's Catalyst",
+    "Kind": "Catalyst"
+  }
+]
