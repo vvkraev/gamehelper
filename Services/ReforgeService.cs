@@ -21,6 +21,10 @@ public sealed class ReforgeService
     public int ResultRetryDelayMs           { get; set; } = 400;
     /// <summary>Сколько раз повторять чтение результата прежде чем признать попытку неудачной.</summary>
     public int ResultReadRetries            { get; set; } = 3;
+    /// <summary>Сколько раз повторять ВСЮ попытку перековки (клик + ожидание + чтение) при неудаче.</summary>
+    public int ReforgeAttemptRetries        { get; set; } = 1;
+    /// <summary>Задержка после Ctrl+ЛКМ при загрузке предмета в слот станка (игра должна обработать перенос), мс.</summary>
+    public int ItemTransferDelayMs          { get; set; } = 400;
 
     // ── Основной цикл ────────────────────────────────────────────────────────
 
@@ -43,6 +47,15 @@ public sealed class ReforgeService
     {
         var benchSlots = new[] { slot1, slot2, slot3 };
         var opsRemaining = maxOps > 0 ? maxOps : int.MaxValue;
+        var totalPerformed = 0;
+
+        try
+        {
+
+        // Очищаем станок перед началом — предотвращает проблему «грязного станка»
+        log?.Report("[Reforge] Очищаем станок...");
+        await RetrieveFromBenchAsync(benchSlots, ct);
+        await CtrlClickAsync(resultRect, ct); // также очищаем слот результата
 
         // ── Фаза сканирования ─────────────────────────────────────────────
         log?.Report("[Reforge] Сканируем инвентарь...");
@@ -51,7 +64,7 @@ public sealed class ReforgeService
         if (scanned.Count == 0)
         {
             log?.Report("[Reforge] Не найдено выбранных катализаторов.");
-            return ReforgeStopReason.NoCatalystsFound;
+            return ReforgeStopReason.NoCatalystsFound; // finally выполнится
         }
 
         // ── Фаза перековки: по одному типу, пакетами по ≤3 ячейки ─────────
@@ -86,6 +99,8 @@ public sealed class ReforgeService
                     ct.ThrowIfCancellationRequested();
                     await CtrlClickAsync(inventoryCells[cell.Index], ct);
                 }
+                // Ждём, пока игра зарегистрирует все предметы в слотах станка
+                await Task.Delay(WithJitter(ItemTransferDelayMs), ct);
 
                 // Перековываем
                 var successCount = 0;
@@ -94,49 +109,77 @@ public sealed class ReforgeService
                     ct.ThrowIfCancellationRequested();
 
                     // 1. Кнопка Reforge
+                    Win32Input.ReleaseCtrlAlt();
                     await MoveAndClickAsync(confirmRect, ct);
-                    await Task.Delay(WithJitter(PostReforgeSettleMs), ct);
+                    await Task.Delay(PostReforgeSettleMs, ct);
 
-                    // 2. Читаем результат ДО перемещения — с retry если слот ещё пуст
+                    // 2. Первая попытка чтения
                     var text = await ReadWithRetryAsync(resultRect, ct);
 
                     if (string.IsNullOrWhiteSpace(text))
                     {
-                        // Результат не появился — не считаем операцию, но извлекаем всё из станка
-                        log?.Report($"    [{i + 1}/{nReforges}] Результат не прочитан после {ResultReadRetries} попыток — прерываем пакет");
-                        await RetrieveFromBenchAsync(benchSlots, resultRect, ct);
-                        goto nextBatch;
+                        // Реже: результат появился, но clipboard не успел — ждём ещё и перечитываем.
+                        // НЕ кликаем Reforge снова (это потратило бы ещё 3 катализатора).
+                        for (var readRetry = 0; readRetry < ReforgeAttemptRetries && string.IsNullOrWhiteSpace(text); readRetry++)
+                        {
+                            log?.Report($"    [{i + 1}/{nReforges}] Повтор чтения ({readRetry + 1}/{ReforgeAttemptRetries})...");
+                            await Task.Delay(PostReforgeSettleMs, ct);
+                            text = await ReadWithRetryAsync(resultRect, ct);
+                        }
                     }
 
-                    // 3. Ctrl+ЛКМ результат → в инвентарь (только после успешного чтения)
+                    if (string.IsNullOrWhiteSpace(text))
+                    {
+                        // Всё равно не прочитали — забираем что есть в слоте и продолжаем пакет.
+                        log?.Report($"    [{i + 1}/{nReforges}] Результат не прочитан — забираем и продолжаем");
+                        await CtrlClickAsync(resultRect, ct);
+                        totalPerformed++;
+                        opsRemaining--;
+                        onAttempt?.Invoke(new ReforgeAttemptResult(typeCells[0].DisplayName, null, null));
+                        if (opsRemaining == 0)
+                        {
+                            await RetrieveFromBenchAsync(benchSlots, ct);
+                            return ReforgeStopReason.MaxOpsReached; // finally выполнится
+                        }
+                        continue;
+                    }
+
+                    // 3. Успешное чтение: Ctrl+ЛКМ результат → в инвентарь
                     await CtrlClickAsync(resultRect, ct);
 
                     var parsed = ItemParser.Parse(text);
                     var result = new ReforgeAttemptResult(typeCells[0].DisplayName, parsed?.Name, text);
                     onAttempt?.Invoke(result);
                     successCount++;
+                    totalPerformed++;
                     log?.Report($"    [{successCount}/{nReforges}] → {result.OutputItemName ?? "?"}");
 
                     opsRemaining--;
                     if (opsRemaining == 0)
                     {
                         log?.Report("[Reforge] Достигнут лимит операций. Извлекаем остатки...");
-                        await RetrieveFromBenchAsync(benchSlots, resultRect, ct);
-                        return ReforgeStopReason.MaxOpsReached;
+                        await RetrieveFromBenchAsync(benchSlots, ct);
+                        return ReforgeStopReason.MaxOpsReached; // finally выполнится
                     }
                 }
 
                 // Извлекаем остатки из станка (total % 3 могут остаться)
-                await RetrieveFromBenchAsync(benchSlots, resultRect, ct);
-                nextBatch:;
+                await RetrieveFromBenchAsync(benchSlots, ct);
             }
         }
 
         if (ct.IsCancellationRequested)
             return ReforgeStopReason.Cancelled;
 
-        log?.Report($"[Reforge] Готово. Выполнено перековок: {(maxOps > 0 ? maxOps - opsRemaining : maxOps == 0 ? scanned.Sum(c => c.StackSize) / 3 : 0)}");
+        log?.Report($"[Reforge] Готово. Выполнено перековок: {totalPerformed}");
         return ReforgeStopReason.NoCatalystsFound;
+
+        } // end try
+        finally
+        {
+            // Защитный сброс: гарантируем, что Alt/Ctrl не остаются зажатыми
+            Win32Input.ReleaseCtrlAlt();
+        }
     }
 
     // ── Сканирование инвентаря ───────────────────────────────────────────────
@@ -177,15 +220,21 @@ public sealed class ReforgeService
     /// </summary>
     private async Task<string> ReadWithRetryAsync(ScreenRect rect, CancellationToken ct)
     {
-        var (x, y) = rect.GetRandomInteriorPoint(inset: 2);
-        Win32Input.MoveTo(x, y);
-        await Task.Delay(WithJitter(MouseActionDelayMs), ct);
-        await Task.Delay(HoverSettleBeforeClipboardMs, ct);
-
         for (var attempt = 0; attempt < ResultReadRetries; attempt++)
         {
+            // Уходим за пределы rect — PoE2 сбрасывает тултип только при выходе курсора за границу
+            Win32Input.MoveTo(Math.Max(0, rect.X - 20), Math.Max(0, rect.Y - 20));
+            await Task.Delay(60, ct);
+
+            // Возвращаемся внутрь — тултип обновляется заново
+            var (x, y) = rect.GetRandomInteriorPoint(inset: 2);
+            Win32Input.MoveTo(x, y);
+            await Task.Delay(WithJitter(MouseActionDelayMs), ct);
+            await Task.Delay(HoverSettleBeforeClipboardMs, ct);
+
             await ClearClipboardAsync();
             Win32Input.SendCtrlAltC();
+            Win32Input.ReleaseCtrlAlt(); // снять залипание Ctrl/Alt после копирования
             await Task.Delay(WithJitter(ClipboardDelayMs), ct);
             var text = await System.Windows.Application.Current.Dispatcher.InvokeAsync(GetClipboardTextSafe);
             if (!string.IsNullOrWhiteSpace(text)) return text;
@@ -205,6 +254,7 @@ public sealed class ReforgeService
 
         await ClearClipboardAsync();
         Win32Input.SendCtrlAltC();
+        Win32Input.ReleaseCtrlAlt();
         await Task.Delay(WithJitter(ClipboardDelayMs), ct);
 
         return await System.Windows.Application.Current.Dispatcher.InvokeAsync(GetClipboardTextSafe);
@@ -229,16 +279,14 @@ public sealed class ReforgeService
         await Task.Delay(WithJitter(MouseActionDelayMs), ct);
     }
 
-    private async Task RetrieveFromBenchAsync(ScreenRect[] inputSlots, ScreenRect resultRect, CancellationToken ct)
+    private async Task RetrieveFromBenchAsync(ScreenRect[] inputSlots, CancellationToken ct)
     {
         foreach (var slot in inputSlots)
         {
             ct.ThrowIfCancellationRequested();
             await CtrlClickAsync(slot, ct);
         }
-        // Забираем и слот результата — на случай если результат не был прочитан/перемещён
-        ct.ThrowIfCancellationRequested();
-        await CtrlClickAsync(resultRect, ct);
+        // resultRect не трогаем — вызывающий код всегда явно забирает результат перед этим вызовом
     }
 
     private static int WithJitter(int baseMs)

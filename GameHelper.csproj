@@ -2,6 +2,9 @@
 
   <ItemGroup>
     <Compile Remove="GameHelper.Tests\**\*" />
+    <Compile Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
+    <Page Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
+    <None Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -13,6 +16,7 @@
   </ItemGroup>
 
   <PropertyGroup>
+    <Version>0.3.0</Version>
     <OutputType>WinExe</OutputType>
     <ApplicationIcon>app.ico</ApplicationIcon>
     <!-- 10.0.17763+ нужен для Windows.Media.Ocr (WinRT) без лишних NuGet -->

@@ -153,6 +153,87 @@
                         </StackPanel>
                     </Expander>
 
+                    <Expander x:Name="BreachExpander" Header="Breach (катализаторы)" IsExpanded="False" Margin="0,14,0,0">
+                        <StackPanel Margin="0,8,0,0">
+                            <!-- Область вкладки Breach Stash -->
+                            <TextBlock Text="Вкладка Breach Stash" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Область вкладки:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="BreachInventoryInfo" Grid.Column="1"
+                                           Text="не задана" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="PickBreachInventoryBtn_Click"/>
+                            </Grid>
+                            <Separator Margin="0,0,0,10"/>
+                            <!-- Области отдельных катализаторов — заполняется динамически -->
+                            <TextBlock Text="Области катализаторов" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <StackPanel x:Name="BreachCatalystRegionsPanel"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander x:Name="AutoReforgeNavExpander" Header="Навигация (авто-перековка)" IsExpanded="False" Margin="0,14,0,0">
+                        <StackPanel Margin="0,8,0,0">
+                            <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,8"
+                                       Text="OCR ищет текст метки в заданной области. Область поиска — прямоугольник где эта надпись появляется на экране (например над объектом или в UI подсказке)."/>
+
+                            <!-- STASH -->
+                            <TextBlock Text="STASH" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Текст для поиска:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="StashOcrTextBox" Text="STASH" Grid.Column="1" Padding="4,2"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Область поиска:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="StashOcrSearchInfo" Grid.Column="1"
+                                           Text="не задана" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="PickStashOcrSearchBtn_Click"/>
+                            </Grid>
+
+                            <Separator Margin="0,0,0,10"/>
+
+                            <!-- Reforging Bench -->
+                            <TextBlock Text="Reforging Bench" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Текст для поиска:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="ReforgingBenchOcrTextBox" Text="Reforging" Grid.Column="1" Padding="4,2"/>
+                            </Grid>
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="140"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Область поиска:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="ReforgingBenchOcrSearchInfo" Grid.Column="1"
+                                           Text="не задана" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="PickReforgingBenchOcrSearchBtn_Click"/>
+                            </Grid>
+                        </StackPanel>
+                    </Expander>
+
                     <Expander x:Name="TraderNpcOcrExpander" Header="Торговец (OCR имени)" IsExpanded="False" Margin="0,14,0,0">
                         <StackPanel x:Name="TraderNpcOcrExpanderContent">
                             <TextBlock x:Name="TraderNpcOcrHintTextBlock"
@@ -191,6 +272,24 @@
         <TabItem x:Name="TabInventoryLayout" Header="Разметка инвентаря">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="16" HorizontalAlignment="Stretch">
+
+                    <!-- Полный инвентарь 12×5 -->
+                    <TextBlock Text="Полный инвентарь (12×5)" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
+                    <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,8"
+                               Text="Все 60 ячеек инвентаря персонажа (12 столбцов × 5 строк). Используется в авто-режиме перековки: сканирование катализаторов и сброс в стэш (Ctrl+ПКМ). Выберите правый нижний угол инвентаря при открытом стэше или станке."/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="FullInventoryGridInfo"
+                                   Text="не задана" VerticalAlignment="Center"
+                                   Foreground="#555" FontSize="11" Margin="0,0,8,0"/>
+                        <Button Grid.Column="1" Content="Задать сетку 12×5…" Padding="12,6"
+                                Click="PickFullInventoryGridBtn_Click"/>
+                    </Grid>
+                    <Separator Margin="0,12,0,12"/>
+
                     <TextBlock Text="Область в инвентаре для Omen of Sinistral Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
                     <TextBlock x:Name="OmenSinistralInfo"
                                Text="не задана — сначала X×Y сетки, затем выделение области"
@@ -320,9 +419,253 @@
                                 IsEnabled="False"
                                 Click="StopBtn_OnClick"
                                 ToolTip="Прервать крафт. Во время сессии крафта Esc зарегистрирован глобально (работает без фокуса на этом окне и в трее)."/>
-                        <Button Content="🔨 Перековка…" Margin="16,0,0,0" Padding="10,0"
-                                Click="ReforgeBtn_OnClick"/>
                     </StackPanel>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <!-- ═══ ВКЛАДКА ПЕРЕКОВКА ════════════════════════════════════════════ -->
+        <TabItem x:Name="TabReforge" Header="Перековка">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="14">
+
+                    <!-- Сетка инвентаря -->
+                    <TextBlock Text="Сетка инвентаря" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+                    <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,6"
+                               Text="Область ячеек с катализаторами в инвентаре. Используется и для сканирования реестра, и для перековки."/>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Сетка:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBlock x:Name="RfScanGridInfo" Grid.Column="1" VerticalAlignment="Center"
+                                   Foreground="#555" FontSize="11"/>
+                        <Button Grid.Column="2" Content="Задать сетку…" Padding="8,4" Click="RfPickScanGrid_Click"/>
+                    </Grid>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Области станка -->
+                    <TextBlock Text="Области станка" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Слот 1 входа:" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="RfSlot1Info" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
+                        <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="RfPickSlot1_Click"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Слот 2 входа:" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="RfSlot2Info" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
+                        <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="RfPickSlot2_Click"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Слот 3 входа:" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="RfSlot3Info" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
+                        <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="RfPickSlot3_Click"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Кнопка Reforge:" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="RfConfirmInfo" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
+                        <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="RfPickConfirm_Click"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="180"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Область результата:" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="RfResultInfo" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
+                        <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="RfPickResult_Click"/>
+                    </Grid>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Катализаторы -->
+                    <TextBlock Text="Катализаторы для перековки" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
+                    <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,6"
+                               Text="Отметьте типы, которые нужно перековывать. Реестр пополняется кнопкой «Сканировать реестр»."/>
+                    <Grid Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock x:Name="RfCatalystSelectionStatus" VerticalAlignment="Center" FontSize="11" Foreground="#555"/>
+                        <Button Grid.Column="1" Content="Снять все" Padding="8,3" Click="RfDeselectAllCatalysts_Click"/>
+                    </Grid>
+                    <ListBox x:Name="RfCatalystCheckList" Height="130" BorderBrush="#CCC" BorderThickness="1" Margin="0,0,0,12"/>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Параметры -->
+                    <TextBlock Text="Параметры" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Клик мыши (мс):" VerticalAlignment="Center"/>
+                        <TextBox x:Name="RfMouseDelayBox" Text="80" Width="70" HorizontalAlignment="Left" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Буфер обмена (мс):" VerticalAlignment="Center"/>
+                        <TextBox x:Name="RfClipDelayBox" Text="220" Width="70" HorizontalAlignment="Left" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Анимация станка (мс):" VerticalAlignment="Center"/>
+                        <TextBox x:Name="RfPostAnimDelayBox" Text="800" Width="70" HorizontalAlignment="Left" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Hover перед Ctrl+Alt+C (мс):" VerticalAlignment="Center"/>
+                        <TextBox x:Name="RfHoverSettleBox" Text="150" Width="70" HorizontalAlignment="Left" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Retry-задержка результата (мс):" VerticalAlignment="Center"/>
+                        <TextBox x:Name="RfRetryDelayBox" Text="400" Width="70" HorizontalAlignment="Left" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Ретраев на попытку перековки:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="RfAttemptRetriesBox" Text="1" Width="70" HorizontalAlignment="Left" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Макс. перековок (0 = без огр.):" VerticalAlignment="Center"/>
+                        <TextBox x:Name="RfMaxOpsBox" Text="0" Width="70" HorizontalAlignment="Left" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Реестр -->
+                    <TextBlock Text="Реестр катализаторов" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Button x:Name="RfScanGridBtn" Content="▶ Сканировать реестр" Padding="10,6"
+                                Margin="0,0,8,0" Click="RfScanGridBtn_Click"/>
+                        <Button Content="Очистить реестр" Padding="10,6" Click="RfClearRegistryBtn_Click"/>
+                        <TextBlock x:Name="RfRegistryScanStatus" VerticalAlignment="Center"
+                                   Margin="12,0,0,0" FontSize="11" Foreground="#555"/>
+                    </StackPanel>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Цены poe.ninja -->
+                    <TextBlock Text="Цены poe.ninja" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="130"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Лига:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="PoeNinjaLeagueBox" Grid.Column="1" Padding="4,2" Margin="0,0,8,0" Text="Standard"/>
+                        <Button Grid.Column="2" Content="Загрузить цены" Padding="6,4" Click="PoeNinjaFetchBtn_Click"/>
+                    </Grid>
+                    <TextBlock x:Name="PoeNinjaStatusText" FontSize="11" Foreground="#555" Margin="0,0,0,4" Text="Цены не загружены."/>
+                    <TextBlock Text="Прибыльность на 100 000 золота" FontWeight="SemiBold" FontSize="12" Margin="0,4,0,4"/>
+                    <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,6"
+                               Text="Покупка за золото → продажа за экзальты на рынке (комиссия: 240 зол./экзальт). Отсортировано по убыванию прибыльности."/>
+                    <StackPanel x:Name="ProfitTablePanel" Margin="0,0,0,12"/>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Авто-режим -->
+                    <TextBlock Text="Авто-режим (Стэш → Перековка → Стэш)" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
+                    <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,8"
+                               Text="Открывает стэш, берёт катализаторы из Breach-вкладки, перековывает, возвращает катализаторы обратно. Области STASH и Reforging Bench задаются в «Настройки областей → Навигация»."/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Задержка открытия стэша (мс):" VerticalAlignment="Center"/>
+                        <TextBox x:Name="RfStashOpenDelayBox" Text="3000" Width="70" HorizontalAlignment="Left" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Задержка открытия станка (мс):" VerticalAlignment="Center"/>
+                        <TextBox x:Name="RfBenchOpenDelayBox" Text="3000" Width="70" HorizontalAlignment="Left" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Штук на клик из стэша (Breach):" VerticalAlignment="Center"
+                                   ToolTip="Сколько катализаторов переносит один Ctrl+ЛКМ из Breach-вкладки. Используется для расчёта числа кликов при заполнении инвентаря."/>
+                        <TextBox x:Name="RfStashItemsPerClickBox" Text="10" Width="70" HorizontalAlignment="Left" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="220"/><ColumnDefinition Width="80"/></Grid.ColumnDefinitions>
+                        <TextBlock Text="Задержка переноса предмета (мс):" VerticalAlignment="Center"
+                                   ToolTip="Ожидание после каждого Ctrl+ЛКМ/ПКМ при заполнении инвентаря и возврате в стэш."/>
+                        <TextBox x:Name="RfItemTransferDelayBox" Text="400" Width="70" HorizontalAlignment="Left" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+
+                    <!-- Каскадный рефордж -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <CheckBox x:Name="RfCascadeCheckBox" VerticalAlignment="Center" Margin="0,0,8,0"
+                                  ToolTip="После перековки основных катализаторов — повторно перековывать дешёвые выходы прямо на станке, пока они не закончатся."/>
+                        <TextBlock Text="Каскад — порог цены (ex/шт.):" VerticalAlignment="Center" Margin="0,0,8,0"
+                                   ToolTip="Катализаторы дороже этой цены не перековываются повторно и уходят в стэш."/>
+                        <TextBox x:Name="RfCascadeThresholdBox" Text="2.0" Width="55" Padding="4,2" VerticalAlignment="Center" Margin="0,0,16,0"/>
+                        <TextBlock Text="Мин. кол-во в стэше (шт.):" VerticalAlignment="Center" Margin="0,0,8,0"
+                                   ToolTip="Если в стэше меньше этого количества катализаторов данного типа — пропустить, не перековывать."/>
+                        <TextBox x:Name="RfCascadeMinStashBox" Text="30" Width="55" Padding="4,2" VerticalAlignment="Center"/>
+                    </StackPanel>
+                    <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,12"
+                               Text="Дешёвые выходы (≤ порога цены) перековываются без затрат золота. Мин. кол-во — минимум в стэше для начала перековки (пропускаем остатки &lt; порога). Оптимальный порог ≈ 1.64 ex."/>
+
+                    <TextBlock FontWeight="SemiBold" Margin="0,0,0,4"
+                               Text="Горячая клавиша «Авто Старт / Стоп» (кликните в поле и нажмите; Esc — сбросить):"/>
+                    <TextBox x:Name="AutoReforgeStartStopHotkeyBox"
+                             IsReadOnly="True"
+                             Cursor="Arrow"
+                             Margin="0,0,0,10"
+                             Text="(не задано)"
+                             PreviewKeyDown="AutoReforgeStartStopHotkeyBox_PreviewKeyDown"
+                             ToolTip="Работает глобально — запускает авто-перековку или останавливает её."/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button x:Name="RfAutoStartBtn" Content="▶ Авто Старт" Width="130"
+                                Margin="0,0,8,0" Padding="8,6" Click="RfAutoStartBtn_Click"
+                                Background="#2196F3" Foreground="White" FontWeight="Bold"/>
+                        <Button x:Name="RfAutoStopBtn" Content="⏹ Авто Стоп" Width="130"
+                                Padding="8,6" Click="RfAutoStopBtn_Click" IsEnabled="False"/>
+                    </StackPanel>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Управление -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button x:Name="RfStartBtn" Content="▶ Старт" Width="100"
+                                Margin="0,0,8,0" Padding="8,6" Click="RfStartBtn_Click"
+                                Background="#4CAF50" Foreground="White" FontWeight="Bold"/>
+                        <Button x:Name="RfStopBtn" Content="⏹ Стоп" Width="100"
+                                Padding="8,6" Click="RfStopBtn_Click" IsEnabled="False"/>
+                    </StackPanel>
+
+                    <!-- Лог -->
+                    <TextBlock Text="Лог" FontWeight="Bold" FontSize="14" Margin="0,0,0,6"/>
+                    <TextBox x:Name="RfLogBox" Height="160" IsReadOnly="True" TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"
+                             FontFamily="Consolas" FontSize="11"
+                             Background="#F5F5F5" BorderThickness="1" BorderBrush="#CCC" Padding="4"/>
+
                 </StackPanel>
             </ScrollViewer>
         </TabItem>
@@ -601,6 +944,16 @@
                              Text="(не задано)"
                              PreviewKeyDown="CraftStartStopHotkeyBox_PreviewKeyDown"
                              ToolTip="Работает глобально — запускает крафт если он не идёт, или останавливает если идёт."/>
+
+                    <TextBlock FontWeight="SemiBold" Margin="0,0,0,4"
+                               Text="Горячая клавиша «Старт / Стоп перековки» (кликните в поле и нажмите комбинацию; Esc — сбросить):"/>
+                    <TextBox x:Name="ReforgeStartStopHotkeyBox"
+                             IsReadOnly="True"
+                             Cursor="Arrow"
+                             Margin="0,0,0,12"
+                             Text="(не задано)"
+                             PreviewKeyDown="ReforgeStartStopHotkeyBox_PreviewKeyDown"
+                             ToolTip="Работает глобально — запускает перековку если она не идёт, или останавливает если идёт."/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                         <Button x:Name="MinimizeToTrayBtn"

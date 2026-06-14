@@ -66,20 +66,22 @@ public readonly record struct ScreenRect(int X, int Y, int Width, int Height)
     {
         var w = Math.Max(Width, 1);
         var h = Math.Max(Height, 1);
+        var insetX = Math.Max(inset, w / 10);
+        var insetY = Math.Max(inset, h / 10);
         var minX = X;
         var maxX = X + w - 1;
         var minY = Y;
         var maxY = Y + h - 1;
-        if (w > 2 * inset)
+        if (w > 2 * insetX)
         {
-            minX = X + inset;
-            maxX = X + w - 1 - inset;
+            minX = X + insetX;
+            maxX = X + w - 1 - insetX;
         }
 
-        if (h > 2 * inset)
+        if (h > 2 * insetY)
         {
-            minY = Y + inset;
-            maxY = Y + h - 1 - inset;
+            minY = Y + insetY;
+            maxY = Y + h - 1 - insetY;
         }
 
         return (minX, maxX, minY, maxY);
@@ -92,14 +94,14 @@ public readonly record struct ScreenRect(int X, int Y, int Width, int Height)
             throw new ArgumentOutOfRangeException();
 
         var list = new List<ScreenRect>(cols * rows);
-        for (var r = 0; r < rows; r++)
+        for (var c = 0; c < cols; c++)
         {
-            var y0 = region.Y + r * region.Height / rows;
-            var y1 = region.Y + (r + 1) * region.Height / rows;
-            for (var c = 0; c < cols; c++)
+            var x0 = region.X + c * region.Width / cols;
+            var x1 = region.X + (c + 1) * region.Width / cols;
+            for (var r = 0; r < rows; r++)
             {
-                var x0 = region.X + c * region.Width / cols;
-                var x1 = region.X + (c + 1) * region.Width / cols;
+                var y0 = region.Y + r * region.Height / rows;
+                var y1 = region.Y + (r + 1) * region.Height / rows;
                 list.Add(new ScreenRect(x0, y0, Math.Max(1, x1 - x0), Math.Max(1, y1 - y0)));
             }
         }

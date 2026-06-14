@@ -65,6 +65,23 @@ public partial class MainWindow : Window
     private bool _craftStartStopHotkeyRegistered;
     private int _craftStartStopVirtualKey;
     private int _craftStartStopModifiers;
+    private bool _reforgeStartStopHotkeyRegistered;
+    private int _reforgeStartStopVirtualKey;
+    private int _reforgeStartStopModifiers;
+    private bool _autoReforgeStartStopHotkeyRegistered;
+    private int _autoReforgeStartStopVirtualKey;
+    private int _autoReforgeStartStopModifiers;
+    private CancellationTokenSource? _rfCts;
+    private CancellationTokenSource? _rfScanCts;
+    private CancellationTokenSource? _autoRfCts;
+    private readonly Services.ReforgeService _rfService = new();
+    private readonly Services.AutoReforgeService _autoRfService;
+    private Dictionary<string, ScreenRect> _breachCatalystRegions = new();
+    private ScreenRect _breachInventoryRect;
+    private ScreenRect _stashOcrSearchRect;
+    private ScreenRect _reforgingBenchOcrSearchRect;
+    private List<ScreenRect> _fullInventoryCells = new();
+    private Dictionary<string, int> _catalystGoldPrices = new();
     private string? _activeCraftLogPath;
 
     private static (bool WantPrefix, bool WantSuffix) GetWantedAffixTypes(CraftConditionPlan plan)
@@ -114,6 +131,7 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        _autoRfService = new Services.AutoReforgeService(_rfService);
         _exaltCraft = new ExaltationCraftServiceFracturedSide(_omen);
         WindowGeometryStore.Attach(this, "MainWindow");
         Loaded += MainWindow_OnLoaded;
@@ -165,6 +183,18 @@ public partial class MainWindow : Window
                 handled = true;
                 Dispatcher.BeginInvoke(ToggleCraftStartStop);
             }
+
+            if (id >= GlobalHotkey.ReforgeStartStopHotkeyIdBase && id < GlobalHotkey.ReforgeStartStopHotkeyIdBase + 8)
+            {
+                handled = true;
+                Dispatcher.BeginInvoke(RfToggleStartStop);
+            }
+
+            if (id >= GlobalHotkey.AutoReforgeStartStopHotkeyIdBase && id < GlobalHotkey.AutoReforgeStartStopHotkeyIdBase + 8)
+            {
+                handled = true;
+                Dispatcher.BeginInvoke(RfAutoToggleStartStop);
+            }
         }
 
         return IntPtr.Zero;
@@ -176,6 +206,11 @@ public partial class MainWindow : Window
         UnregisterTrayToggleHotkey();
         UnregisterOpenLogHotkey();
         UnregisterCraftStartStopHotkey();
+        UnregisterReforgeStartStopHotkey();
+        UnregisterAutoReforgeStartStopHotkey();
+        _rfCts?.Cancel();
+        _rfScanCts?.Cancel();
+        _autoRfCts?.Cancel();
         SaveSettings();
         DisposeTrayIcon();
     }
@@ -201,6 +236,9 @@ public partial class MainWindow : Window
         RefreshAffixLibraryIntoCombos();
         RefreshGoldFeeLibraryPathHints();
         _ = Services.AffixStatsScanner.InitializeAsync();
+        _ = Services.CatalystReforgeStatsScanner.InitializeAsync();
+        Services.PoeNinjaPriceService.PricesUpdated += OnPoeNinjaPricesUpdated;
+        Services.PoeNinjaPriceService.LoadFromFile();
     }
 
     private void SetupTrayIcon()
@@ -241,8 +279,11 @@ public partial class MainWindow : Window
         WindowTopHelper.ShowTopmostWithoutActivation(this);
     }
 
-    private void MinimizeToTray_OnClick(object sender, RoutedEventArgs e)
+    private void MinimizeToTray_OnClick(object sender, RoutedEventArgs e) => MinimizeToTrayOnStart();
+
+    private void MinimizeToTrayOnStart()
     {
+        if (!IsVisible) return;
         SetupTrayIcon();
         _trayIcon!.Visible = true;
         Hide();
@@ -633,6 +674,53 @@ public partial class MainWindow : Window
         _craftStartStopModifiers = s.CraftStartStopModifiers;
         UpdateCraftStartStopHotkeyDisplay();
         RegisterCraftStartStopHotkey();
+
+        _reforgeStartStopVirtualKey = s.ReforgeStartStopVirtualKey;
+        _reforgeStartStopModifiers = s.ReforgeStartStopModifiers;
+        UpdateReforgeStartStopHotkeyDisplay();
+        RegisterReforgeStartStopHotkey();
+
+        _autoReforgeStartStopVirtualKey = s.AutoReforgeStartStopVirtualKey;
+        _autoReforgeStartStopModifiers = s.AutoReforgeStartStopModifiers;
+        UpdateAutoReforgeStartStopHotkeyDisplay();
+        RegisterAutoReforgeStartStopHotkey();
+
+        // Загружаем реестр и обновляем UI перековки и Breach-панели
+        Services.StackableItemRegistry.Load();
+        _breachInventoryRect = s.BreachInventoryRect;
+        BreachInventoryInfo.Text = FormatRect(_breachInventoryRect);
+        _breachCatalystRegions = s.BreachCatalystRegions != null
+            ? new Dictionary<string, ScreenRect>(s.BreachCatalystRegions)
+            : new();
+
+        _fullInventoryCells = s.FullInventoryCells is { Count: > 0 } fic ? fic.ToList() : new();
+        FullInventoryGridInfo.Text = _fullInventoryCells.Count > 0 ? $"{_fullInventoryCells.Count} ячеек" : "не задана";
+
+        _stashOcrSearchRect = s.StashOcrSearchRect;
+        StashOcrSearchInfo.Text = FormatRect(_stashOcrSearchRect);
+        StashOcrTextBox.Text = string.IsNullOrWhiteSpace(s.StashOcrText) ? "STASH" : s.StashOcrText;
+        _reforgingBenchOcrSearchRect = s.ReforgingBenchOcrSearchRect;
+        ReforgingBenchOcrSearchInfo.Text = FormatRect(_reforgingBenchOcrSearchRect);
+        // Миграция: старое "Reforging Bench" → "Reforging" (OCR читает "Bench" как кириллицу)
+        var benchOcrSetting = s.ReforgingBenchOcrText;
+        if (string.IsNullOrWhiteSpace(benchOcrSetting) || benchOcrSetting.Equals("Reforging Bench", StringComparison.OrdinalIgnoreCase))
+            benchOcrSetting = "Reforging";
+        ReforgingBenchOcrTextBox.Text = benchOcrSetting;
+        RfStashOpenDelayBox.Text       = s.StashOpenDelayMs.ToString();
+        RfBenchOpenDelayBox.Text       = s.ReforgingBenchOpenDelayMs.ToString();
+        RfStashItemsPerClickBox.Text   = s.AutoReforgeStashItemsPerClick.ToString();
+        RfItemTransferDelayBox.Text    = s.AutoReforgeItemTransferDelayMs.ToString();
+        RfCascadeCheckBox.IsChecked    = s.ReforgeCascadeEnabled;
+        RfCascadeThresholdBox.Text     = s.ReforgeCascadeThresholdEx.ToString("G", System.Globalization.CultureInfo.InvariantCulture);
+        RfCascadeMinStashBox.Text      = s.ReforgeCascadeMinStashCount.ToString();
+        PoeNinjaLeagueBox.Text = string.IsNullOrWhiteSpace(s.PoeNinjaLeague) ? "Standard" : s.PoeNinjaLeague;
+
+        RfLoadFromState();
+        RebuildBreachPanel();
+        _catalystGoldPrices = s.CatalystGoldPrices != null
+            ? new Dictionary<string, int>(s.CatalystGoldPrices)
+            : new Dictionary<string, int>();
+        RebuildProfitTable();
     }
 
     private void SaveSettings()
@@ -697,6 +785,30 @@ public partial class MainWindow : Window
             OpenLogModifiers = _openLogModifiers,
             CraftStartStopVirtualKey = _craftStartStopVirtualKey,
             CraftStartStopModifiers = _craftStartStopModifiers,
+            ReforgeStartStopVirtualKey = _reforgeStartStopVirtualKey,
+            ReforgeStartStopModifiers = _reforgeStartStopModifiers,
+            AutoReforgeStartStopVirtualKey = _autoReforgeStartStopVirtualKey,
+            AutoReforgeStartStopModifiers = _autoReforgeStartStopModifiers,
+            BreachInventoryRect = _breachInventoryRect,
+            BreachCatalystRegions = _breachCatalystRegions.Count > 0
+                ? new Dictionary<string, ScreenRect>(_breachCatalystRegions)
+                : null,
+            FullInventoryCells = _fullInventoryCells.Count > 0 ? _fullInventoryCells : null,
+            StashOcrSearchRect = _stashOcrSearchRect,
+            StashOcrText = StashOcrTextBox.Text.Trim(),
+            ReforgingBenchOcrSearchRect = _reforgingBenchOcrSearchRect,
+            ReforgingBenchOcrText = ReforgingBenchOcrTextBox.Text.Trim(),
+            StashOpenDelayMs = RfParseInt(RfStashOpenDelayBox.Text, 3000),
+            ReforgingBenchOpenDelayMs = RfParseInt(RfBenchOpenDelayBox.Text, 3000),
+            AutoReforgeStashItemsPerClick = RfParseInt(RfStashItemsPerClickBox.Text, 10),
+            AutoReforgeItemTransferDelayMs = RfParseInt(RfItemTransferDelayBox.Text, 400),
+            ReforgeCascadeEnabled = RfCascadeCheckBox.IsChecked == true,
+            ReforgeCascadeThresholdEx = RfParseDecimal(RfCascadeThresholdBox.Text, 2.0m),
+            ReforgeCascadeMinStashCount = RfParseInt(RfCascadeMinStashBox.Text, 30),
+            PoeNinjaLeague = PoeNinjaLeagueBox.Text.Trim(),
+            CatalystGoldPrices = _catalystGoldPrices.Count > 0
+                ? new Dictionary<string, int>(_catalystGoldPrices)
+                : null,
         };
         _reforgeState.ApplyToSettings(s);
         SettingsStore.Save(s);
@@ -707,11 +819,6 @@ public partial class MainWindow : Window
         CraftConditionSummary.Text = CraftConditionEvaluator.FormatSummary(_craftPlan);
     }
 
-    private void ReforgeBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-        var wnd = new ReforgeWindow(_reforgeState, SaveSettings) { Owner = this };
-        wnd.Show();
-    }
 
     private void CraftConditionBtn_OnClick(object sender, RoutedEventArgs e)
     {
@@ -2407,5 +2514,920 @@ public partial class MainWindow : Window
         var hwnd = new WindowInteropHelper(this).Handle;
         GlobalHotkey.UnregisterCraftCancel(hwnd);
         _craftCancelHotkeyRegistered = false;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // ПЕРЕКОВКА (вкладка)
+    // ═══════════════════════════════════════════════════════════════════════
+
+    private void RfLoadFromState()
+    {
+        RfScanGridInfo.Text    = _reforgeState.ItemCells.Count > 0 ? $"{_reforgeState.ItemCells.Count} ячеек" : "(не задана)";
+        RfSlot1Info.Text       = FormatRect(_reforgeState.Slot1Rect);
+        RfSlot2Info.Text       = FormatRect(_reforgeState.Slot2Rect);
+        RfSlot3Info.Text       = FormatRect(_reforgeState.Slot3Rect);
+        RfConfirmInfo.Text     = FormatRect(_reforgeState.ConfirmRect);
+        RfResultInfo.Text      = FormatRect(_reforgeState.ResultRect);
+        RfPostAnimDelayBox.Text = _reforgeState.PostAnimationDelayMs.ToString();
+        RfMaxOpsBox.Text        = _reforgeState.MaxOps.ToString();
+        RfRefreshCatalystList();
+    }
+
+    // ── Pick-кнопки ──────────────────────────────────────────────────────
+
+    private void RfPickScanGrid_Click(object sender, RoutedEventArgs e)
+    {
+        var dimDlg = new ItemGridDimensionsDialog { Owner = this };
+        if (dimDlg.ShowDialog() != true) return;
+        var picker = new RegionPickerWindow(dimDlg.GridColumns, dimDlg.GridRows) { Owner = this };
+        if (picker.ShowDialog() != true || picker.SelectedRegion is not { } region) return;
+        _reforgeState.ItemCells = picker.SelectedCells is { Count: > 0 } c ? c.ToList() : new List<ScreenRect> { region };
+        SaveSettings();
+        RfScanGridInfo.Text = $"{_reforgeState.ItemCells.Count} ячеек";
+        RfLog($"Сетка задана: {_reforgeState.ItemCells.Count} ячеек");
+    }
+
+    private void RfPickSlot1_Click(object sender, RoutedEventArgs e) =>
+        RfPick("Слот 1 станка", r => { _reforgeState.Slot1Rect = r; RfSlot1Info.Text = FormatRect(r); });
+
+    private void RfPickSlot2_Click(object sender, RoutedEventArgs e) =>
+        RfPick("Слот 2 станка", r => { _reforgeState.Slot2Rect = r; RfSlot2Info.Text = FormatRect(r); });
+
+    private void RfPickSlot3_Click(object sender, RoutedEventArgs e) =>
+        RfPick("Слот 3 станка", r => { _reforgeState.Slot3Rect = r; RfSlot3Info.Text = FormatRect(r); });
+
+    private void RfPickConfirm_Click(object sender, RoutedEventArgs e) =>
+        RfPick("Кнопка Reforge", r => { _reforgeState.ConfirmRect = r; RfConfirmInfo.Text = FormatRect(r); });
+
+    private void RfPickResult_Click(object sender, RoutedEventArgs e) =>
+        RfPick("Область результата", r => { _reforgeState.ResultRect = r; RfResultInfo.Text = FormatRect(r); });
+
+    private void RfPick(string hint, Action<ScreenRect> apply)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        apply(region);
+        SaveSettings();
+        RfLog($"Область «{hint}» задана: {FormatRect(region)}");
+    }
+
+    // ── Список катализаторов ──────────────────────────────────────────────
+
+    private void RfRefreshCatalystList()
+    {
+        RfCatalystCheckList.Items.Clear();
+        foreach (var item in Services.StackableItemRegistry.Items)
+        {
+            var cb = new System.Windows.Controls.CheckBox
+            {
+                Content   = $"{item.DisplayName}  [{item.Kind}]",
+                Tag       = item.Id,
+                IsChecked = _reforgeState.SelectedCatalystIds.Contains(item.Id),
+            };
+            cb.Checked   += RfCatalystCheck_Changed;
+            cb.Unchecked += RfCatalystCheck_Changed;
+            RfCatalystCheckList.Items.Add(cb);
+        }
+        RfUpdateSelectionStatus();
+    }
+
+    private void RfCatalystCheck_Changed(object sender, RoutedEventArgs e)
+    {
+        RfSyncSelectedIds();
+        SaveSettings();
+        RfUpdateSelectionStatus();
+        RfUpdatePriceDisplay();
+    }
+
+    private void RfSyncSelectedIds()
+    {
+        _reforgeState.SelectedCatalystIds.Clear();
+        foreach (System.Windows.Controls.CheckBox cb in RfCatalystCheckList.Items)
+            if (cb.IsChecked == true && cb.Tag is string id)
+                _reforgeState.SelectedCatalystIds.Add(id);
+    }
+
+    private void RfUpdateSelectionStatus()
+    {
+        var total    = RfCatalystCheckList.Items.Count;
+        var selected = RfCatalystCheckList.Items.Cast<System.Windows.Controls.CheckBox>().Count(cb => cb.IsChecked == true);
+        RfCatalystSelectionStatus.Text = $"Выбрано: {selected} / {total}";
+    }
+
+    private void RfDeselectAllCatalysts_Click(object sender, RoutedEventArgs e)
+    {
+        foreach (System.Windows.Controls.CheckBox cb in RfCatalystCheckList.Items) cb.IsChecked = false;
+    }
+
+    // ── Сканирование реестра ──────────────────────────────────────────────
+
+    private async void RfScanGridBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (_reforgeState.ItemCells.Count == 0)
+        {
+            System.Windows.MessageBox.Show(this,
+                "Задайте сетку инвентаря кнопкой «Задать сетку…».",
+                "Сканирование", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        _rfScanCts?.Cancel();
+        _rfScanCts = new CancellationTokenSource();
+        var ct = _rfScanCts.Token;
+
+        RfScanGridBtn.IsEnabled = false;
+        RfRegistryScanStatus.Text = "Сканирование…";
+
+        var added = 0; var skipped = 0; var empty = 0;
+        var mouseMs = RfParseInt(RfMouseDelayBox.Text, 80);
+        var clipMs  = RfParseInt(RfClipDelayBox.Text, 220);
+
+        _rfService.MouseActionDelayMs = mouseMs;
+        _rfService.ClipboardDelayMs   = clipMs;
+
+        try
+        {
+            Native.ProcessForeground.TryBringProcessToForeground(
+                Native.ProcessForeground.PathOfExile2SteamProcessName);
+            await Task.Delay(150, ct);
+
+            foreach (var cell in _reforgeState.ItemCells)
+            {
+                ct.ThrowIfCancellationRequested();
+                var (x, y) = cell.GetRandomInteriorPoint(inset: 2);
+                Native.Win32Input.MoveTo(x, y);
+                await Task.Delay(RfWithJitter(mouseMs), ct);
+                await Task.Delay(Math.Clamp(mouseMs / 2, 50, 150), ct);
+                await RfClearClipboardAsync();
+                Native.Win32Input.SendCtrlAltC();
+                Native.Win32Input.ReleaseCtrlAlt();
+                await Task.Delay(RfWithJitter(clipMs), ct);
+                var text = await Dispatcher.InvokeAsync(RfGetClipboardTextSafe);
+                if (string.IsNullOrWhiteSpace(text)) { empty++; continue; }
+                var parsed = Services.ItemParser.Parse(text);
+                if (parsed == null || !parsed.IsValid) { skipped++; continue; }
+                var (wasAdded, entry) = Services.StackableItemRegistry.TryRegister(parsed);
+                if (wasAdded) { added++; RfLog($"  + {entry!.DisplayName} ({entry.Kind})"); }
+                else if (entry != null) skipped++;
+                else { RfLog($"  ? пропущено: {parsed.Name}"); skipped++; }
+            }
+
+            Services.StackableItemRegistry.Save();
+            RfRefreshCatalystList();
+            RebuildBreachPanel();
+            RebuildProfitTable();
+            RfRegistryScanStatus.Text = $"+{added} новых, {skipped} пропущено, {empty} пустых";
+        }
+        catch (OperationCanceledException)
+        {
+            RfRegistryScanStatus.Text = "Отменено";
+        }
+        catch (Exception ex)
+        {
+            RfRegistryScanStatus.Text = $"Ошибка: {ex.Message}";
+            RfLog($"[Scan] {ex.Message}");
+        }
+        finally
+        {
+            Native.Win32Input.ReleaseCtrlAlt();
+            RfScanGridBtn.IsEnabled = true;
+        }
+    }
+
+    private void RfClearRegistryBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var r = System.Windows.MessageBox.Show(this,
+            "Очистить реестр катализаторов?",
+            "Очистить реестр", MessageBoxButton.YesNo, MessageBoxImage.Warning);
+        if (r != MessageBoxResult.Yes) return;
+        Services.StackableItemRegistry.Clear();
+        RfRefreshCatalystList();
+        RebuildBreachPanel();
+        RebuildProfitTable();
+        RfLog("[Registry] Реестр очищен");
+    }
+
+    // ── poe.ninja цены ───────────────────────────────────────────────────
+
+    private async void PoeNinjaFetchBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var league = PoeNinjaLeagueBox.Text.Trim();
+        if (string.IsNullOrWhiteSpace(league)) league = "Standard";
+        SaveSettings();
+
+        PoeNinjaStatusText.Text = "Загрузка цен…";
+        try
+        {
+            await Services.PoeNinjaPriceService.FetchAsync(league);
+        }
+        catch (Exception ex)
+        {
+            PoeNinjaStatusText.Text = $"Ошибка: {ex.Message}";
+        }
+    }
+
+    private void OnPoeNinjaPricesUpdated() =>
+        Dispatcher.InvokeAsync(RfUpdatePriceDisplay);
+
+    private void RfUpdatePriceDisplay()
+    {
+        var at = Services.PoeNinjaPriceService.LastFetchedAt;
+        PoeNinjaStatusText.Text = at.HasValue
+            ? $"Актуально на {at.Value:dd.MM HH:mm} · {Services.PoeNinjaPriceService.ItemCount} предметов · {Services.PoeNinjaPriceService.SnapshotCount} снэпшотов"
+            : "Цены не загружены.";
+        RebuildProfitTable();
+    }
+
+    // Комиссия рынка при продаже за экзальты: 240 зол. за каждый полученный экзальт
+    private const int ExaltGoldRate = 240;
+
+    private void RebuildProfitTable()
+    {
+        ProfitTablePanel.Children.Clear();
+
+        var catalysts = Services.StackableItemRegistry.Items
+            .Where(i => i.Kind == Services.StackableItemKind.Catalyst)
+            .ToList();
+
+        if (catalysts.Count == 0) return;
+
+        const decimal budget = 100_000m;
+
+        var rfDist = ComputeReforgeDistribution();
+        decimal sell300kEx = ComputeSell300kEx(rfDist);
+
+        var rows = new System.Collections.Generic.List<(string Name, decimal ExPrice, int GoldPrice, decimal Units, decimal ProfitPer100k, decimal Buy900kEx, decimal Sell300kEx)>();
+
+        foreach (var cat in catalysts)
+        {
+            var ninja = Services.PoeNinjaPriceService.GetPrice(cat.DisplayName);
+            if (ninja == null) continue;
+
+            _catalystGoldPrices.TryGetValue(cat.Id, out var goldPrice);
+            if (goldPrice <= 0) continue;
+
+            var exPrice = ninja.ExaltedValue;
+            if (exPrice <= 0) continue;
+
+            // Покупаем N катализаторов за золото, продаём за экзальты.
+            // Продажа за экзальты сама стоит золото: earnExalts * ExaltGoldRate.
+            // Итоговое золото = покупка + стоимость продажи.
+            // Прибыль/100к = earnExalts * budget / totalGold
+            decimal n = budget / goldPrice;
+            decimal earnExalts = n * exPrice;
+            decimal totalGold = budget + earnExalts * ExaltGoldRate;
+            decimal profitPer100k = Math.Round(earnExalts * budget / totalGold);
+
+            decimal buy900kEx = Math.Round(900_000m * exPrice);
+
+            rows.Add((cat.DisplayName, exPrice, goldPrice, Math.Round(n), profitPer100k, buy900kEx, sell300kEx));
+        }
+
+        if (rows.Count == 0)
+        {
+            ProfitTablePanel.Children.Add(new System.Windows.Controls.TextBlock
+            {
+                Text = "Нет данных — загрузите цены poe.ninja.",
+                FontSize = 11,
+                Foreground = System.Windows.Media.Brushes.Gray,
+                Margin = new System.Windows.Thickness(0, 0, 0, 4),
+            });
+            return;
+        }
+
+        rows = [.. rows.OrderByDescending(r => r.ProfitPer100k)];
+
+        int rfTotal = rfDist.Values.Sum();
+        string sell300kHeader = rfTotal > 0 ? $"→300к ex ({rfTotal})" : "→300к ex";
+        ProfitTablePanel.Children.Add(CreateProfitRow("Катализатор", "ex/шт.", "зол./шт.", "шт./100к", "ex/100к ↑", "×900к", sell300kHeader, isHeader: true));
+        foreach (var row in rows)
+            ProfitTablePanel.Children.Add(CreateProfitRow(
+                row.Name,
+                $"{row.ExPrice:0.##}",
+                $"{row.GoldPrice:N0}",
+                $"{row.Units:N0}",
+                $"{row.ProfitPer100k:N0}",
+                $"{row.Buy900kEx:N0}",
+                $"{row.Sell300kEx:N0}",
+                isHeader: false));
+    }
+
+    private static Dictionary<string, int> ComputeReforgeDistribution()
+    {
+        var counts = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        var logDir = ProjectPaths.GetLogDirectory();
+        if (!Directory.Exists(logDir)) return counts;
+
+        var rx = new System.Text.RegularExpressions.Regex(@"\[(\d+)/(\d+)\] → (.+ Catalyst)");
+        foreach (var file in Directory.GetFiles(logDir, "session_*.txt"))
+        {
+            foreach (var line in File.ReadLines(file))
+            {
+                var m = rx.Match(line);
+                if (!m.Success) continue;
+                var name = m.Groups[3].Value.Trim();
+                counts.TryGetValue(name, out var cnt);
+                counts[name] = cnt + 1;
+            }
+        }
+        return counts;
+    }
+
+    private static decimal ComputeSell300kEx(Dictionary<string, int> dist)
+    {
+        int total = dist.Values.Sum();
+        if (total == 0) return 0;
+        decimal sell = 0;
+        foreach (var (name, cnt) in dist)
+        {
+            var ninja = Services.PoeNinjaPriceService.GetPrice(name);
+            if (ninja == null) continue;
+            sell += 300_000m * cnt / total * ninja.ExaltedValue;
+        }
+        return Math.Round(sell);
+    }
+
+    private static System.Windows.UIElement CreateProfitRow(
+        string name, string exPrice, string goldPrice, string units, string profit,
+        string buy900k, string sell300k, bool isHeader)
+    {
+        var grid = new System.Windows.Controls.Grid
+        {
+            Margin = new System.Windows.Thickness(0, 0, 0, isHeader ? 4 : 1),
+        };
+        int[] widths = [145, 50, 60, 60, 75, 75, 80];
+        foreach (var w in widths)
+            grid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition
+                { Width = new System.Windows.GridLength(w) });
+
+        string[] texts = [name, exPrice, goldPrice, units, profit, buy900k, sell300k];
+        for (var i = 0; i < texts.Length; i++)
+        {
+            System.Windows.Media.Brush? fg = isHeader
+                ? System.Windows.Media.Brushes.Gray
+                : i == 4 ? System.Windows.Media.Brushes.DarkGreen
+                : i == 6 ? System.Windows.Media.Brushes.SteelBlue
+                : null;
+            var tb = new System.Windows.Controls.TextBlock
+            {
+                Text        = texts[i],
+                FontSize    = 11,
+                FontWeight  = isHeader ? System.Windows.FontWeights.SemiBold : System.Windows.FontWeights.Normal,
+                TextAlignment = i > 0 ? System.Windows.TextAlignment.Right : System.Windows.TextAlignment.Left,
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                Padding     = new System.Windows.Thickness(i > 0 ? 8 : 0, 0, 0, 0),
+            };
+            if (fg != null) tb.Foreground = fg;
+            System.Windows.Controls.Grid.SetColumn(tb, i);
+            grid.Children.Add(tb);
+        }
+        return grid;
+    }
+
+    // ── Старт / Стоп ─────────────────────────────────────────────────────
+
+    private void RfStartBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (!RfValidateForRun()) return;
+
+        _rfService.MouseActionDelayMs           = RfParseInt(RfMouseDelayBox.Text, 80);
+        _rfService.ClipboardDelayMs             = RfParseInt(RfClipDelayBox.Text, 220);
+        _rfService.PostReforgeSettleMs          = RfParseInt(RfPostAnimDelayBox.Text, 800);
+        _rfService.HoverSettleBeforeClipboardMs = RfParseInt(RfHoverSettleBox.Text, 150);
+        _rfService.ResultRetryDelayMs           = RfParseInt(RfRetryDelayBox.Text, 400);
+        _rfService.ReforgeAttemptRetries        = RfParseInt(RfAttemptRetriesBox.Text, 1, allowZero: true);
+        _rfService.ItemTransferDelayMs          = RfParseInt(RfItemTransferDelayBox.Text, 400);
+
+        _reforgeState.PostAnimationDelayMs = _rfService.PostReforgeSettleMs;
+        _reforgeState.MaxOps = RfParseInt(RfMaxOpsBox.Text, 0, allowZero: true);
+        RfSyncSelectedIds();
+        SaveSettings();
+        MinimizeToTrayOnStart();
+
+        _rfCts = new CancellationTokenSource();
+        RfStartBtn.IsEnabled = false;
+        RfStopBtn.IsEnabled  = true;
+
+        var selectedIds = _reforgeState.SelectedCatalystIds.ToList();
+        var maxOps      = _reforgeState.MaxOps;
+        var progress    = new Progress<string>(RfLog);
+        var ct          = _rfCts.Token;
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                Native.ProcessForeground.TryBringProcessToForeground(
+                    Native.ProcessForeground.PathOfExile2SteamProcessName);
+                await Task.Delay(200, ct);
+
+                var reason = await _rfService.RunAsync(
+                    _reforgeState.ItemCells, selectedIds,
+                    _reforgeState.Slot1Rect, _reforgeState.Slot2Rect, _reforgeState.Slot3Rect,
+                    _reforgeState.ConfirmRect, _reforgeState.ResultRect,
+                    maxOps, progress,
+                    r => Dispatcher.InvokeAsync(() => RfLog($"  → {r.InputTypeName} → {r.OutputItemName ?? "?"}")),
+                    ct);
+
+                ((IProgress<string>)progress).Report($"[Reforge] Стоп: {reason}");
+            }
+            catch (OperationCanceledException)
+            {
+                ((IProgress<string>)progress).Report("[Reforge] Отменено.");
+            }
+            catch (Exception ex)
+            {
+                ((IProgress<string>)progress).Report($"[Reforge] Ошибка: {ex.Message}");
+            }
+            finally
+            {
+                Native.Win32Input.ReleaseCtrlAlt();
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    RfStartBtn.IsEnabled = true;
+                    RfStopBtn.IsEnabled  = false;
+                    MaybeKillPoeProcessAfterCraft();
+                });
+            }
+        }, CancellationToken.None);
+    }
+
+    private void RfStopBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _rfCts?.Cancel();
+        RfStopBtn.IsEnabled = false;
+    }
+
+    private void RfToggleStartStop()
+    {
+        if (RfStopBtn.IsEnabled)
+            RfStopBtn_Click(RfStopBtn, new RoutedEventArgs());
+        else
+            RfStartBtn_Click(RfStartBtn, new RoutedEventArgs());
+    }
+
+    private void RfAutoToggleStartStop()
+    {
+        if (RfAutoStopBtn.IsEnabled)
+            RfAutoStopBtn_Click(RfAutoStopBtn, new RoutedEventArgs());
+        else
+            RfAutoStartBtn_Click(RfAutoStartBtn, new RoutedEventArgs());
+    }
+
+    // ── Горячая клавиша перековки ─────────────────────────────────────────
+
+    private void RegisterReforgeStartStopHotkey()
+    {
+        UnregisterReforgeStartStopHotkey();
+        if (_reforgeStartStopVirtualKey == 0) return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        if (hwnd == IntPtr.Zero) return;
+        if (!GlobalHotkey.TryRegisterReforgeStartStop(hwnd, (uint)_reforgeStartStopVirtualKey, (uint)_reforgeStartStopModifiers))
+            SessionLogger.Info("Горячая клавиша «Старт/Стоп перековки» не зарегистрирована — возможно, занята другим процессом.");
+        else
+            _reforgeStartStopHotkeyRegistered = true;
+    }
+
+    private void UnregisterReforgeStartStopHotkey()
+    {
+        if (!_reforgeStartStopHotkeyRegistered) return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        GlobalHotkey.UnregisterReforgeStartStop(hwnd);
+        _reforgeStartStopHotkeyRegistered = false;
+    }
+
+    private void UpdateReforgeStartStopHotkeyDisplay()
+    {
+        ReforgeStartStopHotkeyBox.Text = FormatHotkey(_reforgeStartStopVirtualKey, _reforgeStartStopModifiers);
+    }
+
+    private void ReforgeStartStopHotkeyBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        e.Handled = true;
+        var key = e.Key == Key.System ? e.SystemKey : e.Key;
+        if (key is Key.LeftAlt or Key.RightAlt or Key.LeftCtrl or Key.RightCtrl or Key.LeftShift or Key.RightShift)
+            return;
+
+        if (key == Key.Escape)
+        {
+            _reforgeStartStopVirtualKey = 0;
+            _reforgeStartStopModifiers  = 0;
+        }
+        else
+        {
+            var mods = Keyboard.Modifiers;
+            _reforgeStartStopVirtualKey = KeyInterop.VirtualKeyFromKey(key);
+            _reforgeStartStopModifiers  = ((mods & ModifierKeys.Alt) != 0 ? 1 : 0)
+                                        | ((mods & ModifierKeys.Control) != 0 ? 2 : 0)
+                                        | ((mods & ModifierKeys.Shift) != 0 ? 4 : 0);
+        }
+
+        UpdateReforgeStartStopHotkeyDisplay();
+        RegisterReforgeStartStopHotkey();
+        SaveSettings();
+    }
+
+    // ── Горячая клавиша авто-перековки ───────────────────────────────────
+
+    private void RegisterAutoReforgeStartStopHotkey()
+    {
+        UnregisterAutoReforgeStartStopHotkey();
+        if (_autoReforgeStartStopVirtualKey == 0) return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        if (hwnd == IntPtr.Zero) return;
+        if (!GlobalHotkey.TryRegisterAutoReforgeStartStop(hwnd, (uint)_autoReforgeStartStopVirtualKey, (uint)_autoReforgeStartStopModifiers))
+            SessionLogger.Info("Горячая клавиша «Авто Старт/Стоп перековки» не зарегистрирована — возможно, занята другим процессом.");
+        else
+            _autoReforgeStartStopHotkeyRegistered = true;
+    }
+
+    private void UnregisterAutoReforgeStartStopHotkey()
+    {
+        if (!_autoReforgeStartStopHotkeyRegistered) return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        GlobalHotkey.UnregisterAutoReforgeStartStop(hwnd);
+        _autoReforgeStartStopHotkeyRegistered = false;
+    }
+
+    private void UpdateAutoReforgeStartStopHotkeyDisplay()
+    {
+        AutoReforgeStartStopHotkeyBox.Text = FormatHotkey(_autoReforgeStartStopVirtualKey, _autoReforgeStartStopModifiers);
+    }
+
+    private void AutoReforgeStartStopHotkeyBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        e.Handled = true;
+        var key = e.Key == Key.System ? e.SystemKey : e.Key;
+        if (key is Key.LeftAlt or Key.RightAlt or Key.LeftCtrl or Key.RightCtrl or Key.LeftShift or Key.RightShift)
+            return;
+
+        if (key == Key.Escape)
+        {
+            _autoReforgeStartStopVirtualKey = 0;
+            _autoReforgeStartStopModifiers  = 0;
+        }
+        else
+        {
+            var mods = Keyboard.Modifiers;
+            _autoReforgeStartStopVirtualKey = KeyInterop.VirtualKeyFromKey(key);
+            _autoReforgeStartStopModifiers  = ((mods & ModifierKeys.Alt) != 0 ? 1 : 0)
+                                            | ((mods & ModifierKeys.Control) != 0 ? 2 : 0)
+                                            | ((mods & ModifierKeys.Shift) != 0 ? 4 : 0);
+        }
+
+        UpdateAutoReforgeStartStopHotkeyDisplay();
+        RegisterAutoReforgeStartStopHotkey();
+        SaveSettings();
+    }
+
+    // ── Валидация ─────────────────────────────────────────────────────────
+
+    private bool RfValidateForRun(bool requireCatalystSelection = true)
+    {
+        var missing = new List<string>();
+        if (_reforgeState.ItemCells.Count == 0)          missing.Add("Сетка инвентаря");
+        if (_reforgeState.Slot1Rect is { Width: <= 0 })  missing.Add("Слот 1");
+        if (_reforgeState.Slot2Rect is { Width: <= 0 })  missing.Add("Слот 2");
+        if (_reforgeState.Slot3Rect is { Width: <= 0 })  missing.Add("Слот 3");
+        if (_reforgeState.ConfirmRect is { Width: <= 0 }) missing.Add("Кнопка Reforge");
+        if (_reforgeState.ResultRect  is { Width: <= 0 }) missing.Add("Область результата");
+
+        if (missing.Count > 0)
+        {
+            System.Windows.MessageBox.Show(this,
+                "Не заданы:\n• " + string.Join("\n• ", missing),
+                "Перековка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return false;
+        }
+
+        RfSyncSelectedIds();
+        if (requireCatalystSelection && _reforgeState.SelectedCatalystIds.Count == 0)
+        {
+            System.Windows.MessageBox.Show(this,
+                "Отметьте хотя бы один тип катализатора в списке.",
+                "Перековка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return false;
+        }
+        return true;
+    }
+
+    // ── Вспомогательные ──────────────────────────────────────────────────
+
+    private void RfLog(string msg)
+    {
+        if (!Dispatcher.CheckAccess()) { Dispatcher.InvokeAsync(() => RfLog(msg)); return; }
+        RfLogBox.AppendText(msg + "\n");
+        RfLogBox.ScrollToEnd();
+        Services.SessionLogger.Info($"[Reforge] {msg}");
+    }
+
+    private static int RfParseInt(string s, int fallback, bool allowZero = false)
+    {
+        if (!int.TryParse(s.Trim(), out var v)) return fallback;
+        return (allowZero && v == 0) || v > 0 ? v : fallback;
+    }
+
+    private static decimal RfParseDecimal(string s, decimal fallback)
+    {
+        var normalized = s.Trim().Replace(',', '.');
+        return decimal.TryParse(normalized, System.Globalization.NumberStyles.Any,
+            System.Globalization.CultureInfo.InvariantCulture, out var v) && v > 0 ? v : fallback;
+    }
+
+    private static int RfWithJitter(int baseMs)
+    {
+        if (baseMs <= 0) return 0;
+        var delta = (int)Math.Round(baseMs * 0.30);
+        return Math.Max(0, baseMs + Random.Shared.Next(-delta, delta + 1));
+    }
+
+    private static string RfGetClipboardTextSafe()
+    {
+        try { return System.Windows.Clipboard.GetText(); }
+        catch { return ""; }
+    }
+
+    private static async Task RfClearClipboardAsync() =>
+        await System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
+        {
+            try { System.Windows.Clipboard.Clear(); } catch { }
+        });
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // BREACH — панель областей катализаторов
+    // ═══════════════════════════════════════════════════════════════════════
+
+    private void PickBreachInventoryBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _breachInventoryRect = region;
+        BreachInventoryInfo.Text = FormatRect(region);
+        SaveSettings();
+    }
+
+    private void RebuildBreachPanel()
+    {
+        BreachCatalystRegionsPanel.Children.Clear();
+
+        var catalysts = Services.StackableItemRegistry.Items
+            .Where(i => i.Kind == Services.StackableItemKind.Catalyst)
+            .ToList();
+
+        if (catalysts.Count == 0)
+        {
+            BreachCatalystRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
+            {
+                Text = "Реестр катализаторов пуст. Сначала отсканируйте катализаторы на вкладке «Перековка».",
+                TextWrapping = System.Windows.TextWrapping.Wrap,
+                Foreground = System.Windows.Media.Brushes.Gray,
+                FontSize = 11,
+            });
+            return;
+        }
+
+        foreach (var item in catalysts)
+        {
+            _breachCatalystRegions.TryGetValue(item.Id, out var rect);
+            var infoText = new System.Windows.Controls.TextBlock
+            {
+                Text = FormatRect(rect),
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                Foreground = System.Windows.Media.Brushes.Gray,
+                FontSize = 11,
+            };
+
+            var btn = new System.Windows.Controls.Button
+            {
+                Content = "Задать…",
+                Padding = new System.Windows.Thickness(8, 4, 8, 4),
+                Tag = (item.Id, infoText),
+            };
+            btn.Click += BreachCatalystPickBtn_Click;
+
+            var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
+            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(200) });
+            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+
+            var label = new System.Windows.Controls.TextBlock
+            {
+                Text = item.DisplayName,
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+            };
+            System.Windows.Controls.Grid.SetColumn(label, 0);
+            System.Windows.Controls.Grid.SetColumn(infoText, 1);
+            System.Windows.Controls.Grid.SetColumn(btn, 2);
+
+            row.Children.Add(label);
+            row.Children.Add(infoText);
+            row.Children.Add(btn);
+            BreachCatalystRegionsPanel.Children.Add(row);
+        }
+    }
+
+    private void BreachCatalystPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Button btn) return;
+        if (btn.Tag is not (string id, System.Windows.Controls.TextBlock infoBlock)) return;
+
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+
+        _breachCatalystRegions[id] = region;
+        infoBlock.Text = FormatRect(region);
+        SaveSettings();
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // АВТО-ПЕРЕКОВКА — навигация (STASH / Reforging Bench)
+    // ═══════════════════════════════════════════════════════════════════════
+
+    private void PickFullInventoryGridBtn_Click(object sender, RoutedEventArgs e)
+    {
+        // Фиксированная сетка 12 столбцов × 5 строк = 60 ячеек инвентаря персонажа
+        var picker = new RegionPickerWindow(12, 5) { Owner = this };
+        if (picker.ShowDialog() != true || picker.SelectedRegion is not { }) return;
+        _fullInventoryCells = picker.SelectedCells is { Count: > 0 } c ? c.ToList() : new();
+        FullInventoryGridInfo.Text = _fullInventoryCells.Count > 0 ? $"{_fullInventoryCells.Count} ячеек" : "не задана";
+        SaveSettings();
+    }
+
+    private void PickStashOcrSearchBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _stashOcrSearchRect = region;
+        StashOcrSearchInfo.Text = FormatRect(region);
+        SaveSettings();
+    }
+
+    private void PickReforgingBenchOcrSearchBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _reforgingBenchOcrSearchRect = region;
+        ReforgingBenchOcrSearchInfo.Text = FormatRect(region);
+        SaveSettings();
+    }
+
+    // ── Авто Старт / Стоп ────────────────────────────────────────────────
+
+    private void RfAutoStartBtn_Click(object sender, RoutedEventArgs e)
+    {
+        // В режиме авто-каскада (нет выбранных типов + каскад включён) выбор типов не обязателен
+        var cascadeOnly = _reforgeState.SelectedCatalystIds.Count == 0
+                       && RfCascadeCheckBox.IsChecked == true;
+        if (!RfValidateForRun(requireCatalystSelection: !cascadeOnly)) return;
+
+        // Если нет выбранных типов и каскад не включён — блокируем с подсказкой
+        if (!cascadeOnly && _reforgeState.SelectedCatalystIds.Count == 0)
+        {
+            System.Windows.MessageBox.Show(this,
+                "Отметьте хотя бы один тип катализатора, или включите «Каскадный рефордж» " +
+                "для авто-режима без выбора (типы выбираются динамически по стэшу).",
+                "Авто-перековка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        // Дополнительная проверка областей авто-режима
+        var missing = new List<string>();
+        if (_stashOcrSearchRect is { Width: <= 0 })          missing.Add("Область поиска STASH");
+        if (_breachInventoryRect is { Width: <= 0 })         missing.Add("Вкладка Breach Stash");
+        if (_reforgingBenchOcrSearchRect is { Width: <= 0 }) missing.Add("Область поиска Reforging Bench");
+        if (_fullInventoryCells.Count == 0)                  missing.Add("Полный инвентарь 12×5 (Разметка инвентаря)");
+
+        if (!cascadeOnly)
+        {
+            var typesWithRegion = _reforgeState.SelectedCatalystIds
+                .Where(id => _breachCatalystRegions.TryGetValue(id, out var r) && r.Width > 0)
+                .ToList();
+            if (typesWithRegion.Count == 0)
+                missing.Add("Области катализаторов в Breach (хотя бы одна)");
+        }
+        else
+        {
+            if (!_breachCatalystRegions.Any(kv => kv.Value.Width > 0))
+                missing.Add("Области катализаторов в Breach (хотя бы одна, для каскад-режима)");
+        }
+
+        if (missing.Count > 0)
+        {
+            System.Windows.MessageBox.Show(this,
+                "Для авто-режима не заданы:\n• " + string.Join("\n• ", missing),
+                "Авто-перековка", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        _rfService.MouseActionDelayMs           = RfParseInt(RfMouseDelayBox.Text, 80);
+        _rfService.ClipboardDelayMs             = RfParseInt(RfClipDelayBox.Text, 220);
+        _rfService.PostReforgeSettleMs          = RfParseInt(RfPostAnimDelayBox.Text, 800);
+        _rfService.HoverSettleBeforeClipboardMs = RfParseInt(RfHoverSettleBox.Text, 150);
+        _rfService.ResultRetryDelayMs           = RfParseInt(RfRetryDelayBox.Text, 400);
+        _rfService.ReforgeAttemptRetries        = RfParseInt(RfAttemptRetriesBox.Text, 1, allowZero: true);
+        _rfService.ItemTransferDelayMs          = RfParseInt(RfItemTransferDelayBox.Text, 400);
+
+        _autoRfService.MouseActionDelayMs           = RfParseInt(RfMouseDelayBox.Text, 80);
+        _autoRfService.ClipboardDelayMs             = RfParseInt(RfClipDelayBox.Text, 220);
+        _autoRfService.HoverSettleBeforeClipboardMs = RfParseInt(RfHoverSettleBox.Text, 150);
+        _autoRfService.StashOpenDelayMs             = RfParseInt(RfStashOpenDelayBox.Text, 3000);
+        _autoRfService.ReforgingBenchOpenDelayMs    = RfParseInt(RfBenchOpenDelayBox.Text, 3000);
+        _autoRfService.StashItemsPerClick           = RfParseInt(RfStashItemsPerClickBox.Text, 10);
+        _autoRfService.ItemTransferDelayMs          = RfParseInt(RfItemTransferDelayBox.Text, 400);
+
+        var cascadeEnabled = RfCascadeCheckBox.IsChecked == true;
+        _autoRfService.CascadeThresholdEx = cascadeEnabled ? RfParseDecimal(RfCascadeThresholdBox.Text, 0m) : 0m;
+        _autoRfService.CascadePriceFunc = cascadeEnabled
+            ? name => Services.PoeNinjaPriceService.GetPrice(name)?.ExaltedValue
+            : null;
+        _autoRfService.MinStashCount = RfParseInt(RfCascadeMinStashBox.Text, 30);
+
+        _reforgeState.PostAnimationDelayMs = _rfService.PostReforgeSettleMs;
+        _reforgeState.MaxOps = RfParseInt(RfMaxOpsBox.Text, 0, allowZero: true);
+        RfSyncSelectedIds();
+        SaveSettings();
+        MinimizeToTrayOnStart();
+
+        _autoRfCts = new CancellationTokenSource();
+        RfAutoStartBtn.IsEnabled = false;
+        RfAutoStopBtn.IsEnabled  = true;
+        RfStartBtn.IsEnabled     = false;
+
+        var selectedIds = _reforgeState.SelectedCatalystIds.ToList();
+        var maxOps      = _reforgeState.MaxOps;
+        var progress    = new Progress<string>(RfLog);
+        var ct              = _autoRfCts.Token;
+        var stashOcrRect    = _stashOcrSearchRect;
+        var stashOcrText    = StashOcrTextBox.Text.Trim();
+        var breachRect      = _breachInventoryRect;
+        var benchOcrRect    = _reforgingBenchOcrSearchRect;
+        var benchOcrText    = ReforgingBenchOcrTextBox.Text.Trim();
+        var fullCells       = _fullInventoryCells.ToList();
+        var regions         = new Dictionary<string, ScreenRect>(_breachCatalystRegions);
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                Native.ProcessForeground.TryBringProcessToForeground(
+                    Native.ProcessForeground.PathOfExile2SteamProcessName);
+                await Task.Delay(200, ct);
+
+                if (selectedIds.Count == 0)
+                    ((IProgress<string>)progress).Report(
+                        $"[Каскад-стэш] Авто-каскад: типы выбираются динамически (порог ≤ {_autoRfService.CascadeThresholdEx} ex).");
+
+                var totalPerformed = 0;
+                while (!ct.IsCancellationRequested)
+                {
+                    var cycleBefore = totalPerformed;
+                    var cycleLimit  = maxOps > 0 ? maxOps - totalPerformed : 0;
+
+                    await _autoRfService.RunAsync(
+                        fullCells, selectedIds,
+                        stashOcrRect, stashOcrText,
+                        breachRect, regions,
+                        _reforgeState.ItemCells,   // Сетка перековки (8×5) — только для сканирования
+                        benchOcrRect, benchOcrText,
+                        _reforgeState.Slot1Rect, _reforgeState.Slot2Rect, _reforgeState.Slot3Rect,
+                        _reforgeState.ConfirmRect, _reforgeState.ResultRect,
+                        cycleLimit, progress,
+                        r => { totalPerformed++; Dispatcher.InvokeAsync(() => RfLog($"  → {r.InputTypeName} → {r.OutputItemName ?? "?"}")); },
+                        ct);
+
+                    if (ct.IsCancellationRequested) break;
+                    // Нет прогресса = стэш пуст, продолжать бессмысленно
+                    if (totalPerformed == cycleBefore) break;
+                    // Достигли лимита операций
+                    if (maxOps > 0 && totalPerformed >= maxOps) break;
+                }
+            }
+            catch (OperationCanceledException)
+            {
+                ((IProgress<string>)progress).Report("[Авто] Отменено.");
+            }
+            catch (Exception ex)
+            {
+                ((IProgress<string>)progress).Report($"[Авто] Ошибка: {ex.Message}");
+            }
+            finally
+            {
+                Native.Win32Input.ReleaseCtrlAlt();
+                _ = Services.CatalystReforgeStatsScanner.ScanNewLogsAsync();
+                await Dispatcher.InvokeAsync(() =>
+                {
+                    RfAutoStartBtn.IsEnabled = true;
+                    RfAutoStopBtn.IsEnabled  = false;
+                    RfStartBtn.IsEnabled     = true;
+                    MaybeKillPoeProcessAfterCraft();
+                });
+            }
+        }, CancellationToken.None);
+    }
+
+    private void RfAutoStopBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _autoRfCts?.Cancel();
+        RfAutoStopBtn.IsEnabled = false;
     }
 }

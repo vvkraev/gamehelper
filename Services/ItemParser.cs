@@ -158,7 +158,9 @@ public static class ItemParser
                     var val = line["Stack Size:".Length..].Trim();
                     var slash = val.IndexOf('/');
                     var numStr = slash >= 0 ? val[..slash] : val;
-                    if (int.TryParse(numStr.Trim(), out var sz))
+                    // PoE2 форматирует тысячи через запятую или пробел (1,700 / 1 700)
+                    var clean = numStr.Trim().Replace(",", "").Replace(" ", "").Replace(" ", "");
+                    if (int.TryParse(clean, out var sz))
                         item.StackSize = sz;
                 }
             }

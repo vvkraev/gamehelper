@@ -20,7 +20,9 @@ internal static class GlobalHotkey
     // чтобы горячая клавиша срабатывала даже когда крафт зажимает Shift/Ctrl через keybd_event.
     internal const int TrayToggleHotkeyIdBase   = 0x4800;
     internal const int OpenLogHotkeyIdBase      = 0x4810;
-    internal const int CraftStartStopHotkeyIdBase = 0x4820;
+    internal const int CraftStartStopHotkeyIdBase  = 0x4820;
+    internal const int ReforgeStartStopHotkeyIdBase     = 0x4830;
+    internal const int AutoReforgeStartStopHotkeyIdBase = 0x4840;
     private  const int VariantsPerHotkey = 8;
 
     private const uint VkEscape = 27;
@@ -80,6 +82,18 @@ internal static class GlobalHotkey
 
     internal static void UnregisterCraftStartStop(IntPtr hwnd) =>
         UnregisterAllVariants(hwnd, CraftStartStopHotkeyIdBase);
+
+    internal static bool TryRegisterReforgeStartStop(IntPtr hwnd, uint vk, uint modifiers) =>
+        RegisterAllVariants(hwnd, ReforgeStartStopHotkeyIdBase, vk, modifiers);
+
+    internal static void UnregisterReforgeStartStop(IntPtr hwnd) =>
+        UnregisterAllVariants(hwnd, ReforgeStartStopHotkeyIdBase);
+
+    internal static bool TryRegisterAutoReforgeStartStop(IntPtr hwnd, uint vk, uint modifiers) =>
+        RegisterAllVariants(hwnd, AutoReforgeStartStopHotkeyIdBase, vk, modifiers);
+
+    internal static void UnregisterAutoReforgeStartStop(IntPtr hwnd) =>
+        UnregisterAllVariants(hwnd, AutoReforgeStartStopHotkeyIdBase);
 
     // -----------------------------------------------------------------------
 

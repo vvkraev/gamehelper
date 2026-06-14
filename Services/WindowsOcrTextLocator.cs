@@ -31,23 +31,45 @@ public static class WindowsOcrTextLocator
         var sb = new StringBuilder(s.Length);
         foreach (var c in s)
         {
-            if (!char.IsWhiteSpace(c))
-                sb.Append(char.ToUpperInvariant(c));
+            if (char.IsWhiteSpace(c)) continue;
+            // OCR часто путает строчную 'l' (эль) с прописной 'I' в шрифтах PoE2 UI
+            if (c == 'l') { sb.Append('I'); continue; }
+            sb.Append(char.ToUpperInvariant(c));
         }
 
         return ApplyCommonWindowsOcrLetterFixes(sb.ToString());
     }
 
     /// <summary>
-    /// Windows OCR часто путает латинскую O с цифрой 0 в коротких словах вроде «Orb» (в логе «0rb» → EXALTED0RB вместо EXALTEDORB).
+    /// Windows OCR часто путает латинские и кириллические символы, а также «O» и «0».
+    /// Применяем замены после нормализации (без пробелов, в верхнем регистре).
     /// </summary>
     private static string ApplyCommonWindowsOcrLetterFixes(string normalizedUpperNoSpaces)
     {
         if (string.IsNullOrEmpty(normalizedUpperNoSpaces))
             return normalizedUpperNoSpaces;
 
-        // «Orb», «orb» после нормализации → …0RB; цель — совпадение с шаблоном …ORB
-        return normalizedUpperNoSpaces.Replace("0RB", "ORB", StringComparison.Ordinal);
+        // Латинская O vs цифра 0: «Orb» → «0rb» → после нормализации «0RB»
+        var s = normalizedUpperNoSpaces.Replace("0RB", "ORB", StringComparison.Ordinal);
+
+        // Кириллические lookalike → латинские (OCR путает при смешанном шрифте PoE2 UI):
+        // В→B, Е→E, С→C, А→A, О→O, Р→P, Н→H, Х→X, К→K, М→M, Т→T
+        s = s
+            .Replace('В', 'B')  // Cyrillic В → Latin B
+            .Replace('Е', 'E')  // Cyrillic Е → Latin E
+            .Replace('С', 'C')  // Cyrillic С → Latin C
+            .Replace('А', 'A')  // Cyrillic А → Latin A
+            .Replace('О', 'O')  // Cyrillic О → Latin O
+            .Replace('Р', 'P')  // Cyrillic Р → Latin P
+            .Replace('Н', 'H')  // Cyrillic Н → Latin H
+            .Replace('Х', 'X')  // Cyrillic Х → Latin X
+            .Replace('К', 'K')  // Cyrillic К → Latin K
+            .Replace('М', 'M')  // Cyrillic М → Latin M
+            .Replace('Т', 'T')  // Cyrillic Т → Latin T
+            .Replace('Г', 'N')  // Cyrillic Г → Latin N (OCR-замена в PoE2 UI)
+            .Replace('Ч', 'C'); // Cyrillic Ч → Latin C (OCR-замена в PoE2 UI)
+
+        return s;
     }
 
     private static OcrEngine? TryCreateOcrEngine(IProgress<string>? log)
@@ -353,6 +375,32 @@ public static class WindowsOcrTextLocator
                 var onScreen = RectToScreenRect(searchArea, inCapture);
                 log?.Report($"OCR: найдено (склейка {j - i + 1} соседних строк) «{mergedDisplay}» → экран {onScreen.X},{onScreen.Y} {onScreen.Width}×{onScreen.Height}");
                 return new OcrMatch(mergedDisplay, onScreen);
+            }
+        }
+
+        // Word-level fallback: проверяем отдельные слова OCR.
+        // Нужен когда таргет длиннее нормализованного line.Text (например, «REFORGINGBENCH»
+        // не содержится в «REFORGINGBEC», но слово «Reforging» → «REFORGING» содержит в себе
+        // любой короткий таргет типа «REFORGING»).
+        foreach (var line in lines)
+        {
+            if (line.Words == null || line.Words.Count == 0)
+                continue;
+            foreach (var word in line.Words)
+            {
+                var wNorm = NormalizeForMatch(word.Text);
+                if (string.IsNullOrEmpty(wNorm))
+                    continue;
+                // Слово содержит таргет ИЛИ таргет содержит слово (≥5 симв. — защита от коротких мусорных слов)
+                if (!wNorm.Contains(targetNormalized, StringComparison.Ordinal) &&
+                    !(targetNormalized.Contains(wNorm, StringComparison.Ordinal) && wNorm.Length >= 5))
+                    continue;
+
+                var wordRect = word.BoundingRect;
+                var inCapture = ScaleOcrRectToCaptureCoords(wordRect, coordinateScale);
+                var onScreen = RectToScreenRect(searchArea, inCapture);
+                log?.Report($"OCR: найдено (word-fallback) «{word.Text}» → экран {onScreen.X},{onScreen.Y} {onScreen.Width}×{onScreen.Height}");
+                return new OcrMatch(word.Text ?? "", onScreen);
             }
         }
 

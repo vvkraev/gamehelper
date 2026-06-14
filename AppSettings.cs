@@ -136,8 +136,58 @@ public sealed class AppSettings
     public int ReforgePostAnimationDelayMs { get; set; } = 800;
     /// <summary>Максимум операций перековки за сессию (0 = без ограничений).</summary>
     public int ReforgeMaxOps { get; set; } = 0;
+    /// <summary>Включить каскадный рефордж: дешёвые выходы перековываются повторно прямо на станке.</summary>
+    public bool ReforgeCascadeEnabled { get; set; } = false;
+    /// <summary>Порог отсечки каскадного рефорджа: катализаторы дороже этой цены (ex) не перековываются повторно.</summary>
+    public decimal ReforgeCascadeThresholdEx { get; set; } = 2.0m;
+    /// <summary>Минимальное количество катализаторов в стэше для участия в перековке. Типы с меньшим остатком пропускаются.</summary>
+    public int ReforgeCascadeMinStashCount { get; set; } = 30;
     /// <summary>Id катализаторов, выбранных для перековки.</summary>
     public List<string>? ReforgeSelectedCatalystIds { get; set; }
     /// <summary>Ячейки сетки инвентаря для перековки (независимы от ItemCells крафта).</summary>
     public List<ScreenRect>? ReforgeItemCells { get; set; }
+
+    /// <summary>Virtual key code для горячей клавиши «Старт/Стоп перековки» (0 = не задано).</summary>
+    public int ReforgeStartStopVirtualKey { get; set; }
+    /// <summary>Модификаторы для «Старт/Стоп перековки»: Alt=1, Ctrl=2, Shift=4.</summary>
+    public int ReforgeStartStopModifiers { get; set; }
+
+    /// <summary>Virtual key code для горячей клавиши «Авто Старт/Стоп перековки» (0 = не задано).</summary>
+    public int AutoReforgeStartStopVirtualKey { get; set; }
+    /// <summary>Модификаторы для «Авто Старт/Стоп перековки»: Alt=1, Ctrl=2, Shift=4.</summary>
+    public int AutoReforgeStartStopModifiers { get; set; }
+
+    /// <summary>Вкладка Breach Stash целиком (для навигации / скролла).</summary>
+    public ScreenRect BreachInventoryRect { get; set; }
+    /// <summary>Области катализаторов во вкладке Breach Stash. Ключ — Id из StackableItemRegistry.</summary>
+    public Dictionary<string, ScreenRect>? BreachCatalystRegions { get; set; }
+
+    /// <summary>Полный инвентарь персонажа (12×5 = 60 ячеек). Используется в авто-режиме: заполнение и сброс катализаторов.</summary>
+    public List<ScreenRect>? FullInventoryCells { get; set; }
+
+    // ── Цены в золоте ───────────────────────────────────────────────────────
+    /// <summary>Цена одного катализатора в золоте. Ключ — Id из StackableItemRegistry.</summary>
+    public Dictionary<string, int>? CatalystGoldPrices { get; set; }
+
+    // ── poe.ninja цены ──────────────────────────────────────────────────────
+    /// <summary>Название лиги для запроса цен с poe.ninja (например «Runes of Aldur» или «Standard»).</summary>
+    public string PoeNinjaLeague { get; set; } = "Runes of Aldur";
+
+    // ── Навигация (авто-перековка) ───────────────────────────────────────────
+    /// <summary>Область экрана для OCR-поиска метки STASH.</summary>
+    public ScreenRect StashOcrSearchRect { get; set; }
+    /// <summary>Текст для поиска метки STASH (сравнение без регистра/пробелов).</summary>
+    public string StashOcrText { get; set; } = "STASH";
+    /// <summary>Область экрана для OCR-поиска метки Reforging Bench.</summary>
+    public ScreenRect ReforgingBenchOcrSearchRect { get; set; }
+    /// <summary>Текст для поиска метки Reforging Bench (только «Reforging» — «Bench» OCR путает с кириллицей).</summary>
+    public string ReforgingBenchOcrText { get; set; } = "Reforging";
+    /// <summary>Задержка после клика по STASH (персонаж идёт к стэшу), мс.</summary>
+    public int StashOpenDelayMs { get; set; } = 3000;
+    /// <summary>Задержка после клика по Reforging Bench (персонаж идёт к станку), мс.</summary>
+    public int ReforgingBenchOpenDelayMs { get; set; } = 3000;
+    /// <summary>Сколько катализаторов перекладывает один Ctrl+ЛКМ из Breach-вкладки стэша.</summary>
+    public int AutoReforgeStashItemsPerClick { get; set; } = 10;
+    /// <summary>Задержка после каждого Ctrl+ЛКМ/ПКМ при переносе предмета (игра обрабатывает перенос), мс.</summary>
+    public int AutoReforgeItemTransferDelayMs { get; set; } = 400;
 }
