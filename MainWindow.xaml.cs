@@ -3344,7 +3344,8 @@ public partial class MainWindow : Window
 
         _reforgeState.PostAnimationDelayMs = _rfService.PostReforgeSettleMs;
         _reforgeState.MaxOps = RfParseInt(RfMaxOpsBox.Text, 0, allowZero: true);
-        RfSyncSelectedIds();
+        if (!cascadeOnly)
+            RfSyncSelectedIds();
         SaveSettings();
         MinimizeToTrayOnStart();
 
