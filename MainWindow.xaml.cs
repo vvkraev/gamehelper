@@ -24,9 +24,7 @@ public partial class MainWindow : Window
 
     private ScreenRect? _currencyInventoryRegion;
     private ScreenRect? _ritualInventoryRegion;
-    private ScreenRect? _omenSinistralStashRegion;
-    private ScreenRect? _omenDextralStashRegion;
-    private ScreenRect? _omenGreaterStashRegion;
+    private Dictionary<string, ScreenRect> _ritualItemRegions = new();
     private List<ScreenRect> _itemCellRegions = new();
     private List<ScreenRect> _omenSinistralCells = new();
     private List<ScreenRect> _omenDextralCells = new();
@@ -502,23 +500,20 @@ public partial class MainWindow : Window
         MigrateIfMissing("Orb of Annulment",           s.AnnulRect);
         MigrateIfMissing("Blacksmith's Whetstone",     s.SharpenRect);
 
-        if (s.OmenSinistralStashRect is { Width: > 0, Height: > 0 })
-        {
-            _omenSinistralStashRegion = s.OmenSinistralStashRect;
-            OmenSinistralStashInfo.Text = FormatRect(s.OmenSinistralStashRect);
-        }
+        _ritualItemRegions = s.RitualItemRegions != null
+            ? new Dictionary<string, ScreenRect>(s.RitualItemRegions)
+            : new();
 
-        if (s.OmenDextralStashRect is { Width: > 0, Height: > 0 })
+        void MigrateRitual(string key, ScreenRect rect)
         {
-            _omenDextralStashRegion = s.OmenDextralStashRect;
-            OmenDextralStashInfo.Text = FormatRect(s.OmenDextralStashRect);
+            if (rect.Width > 0 && !_ritualItemRegions.ContainsKey(key))
+                _ritualItemRegions[key] = rect;
         }
+        MigrateRitual("Omen of Sinistral Exaltation", s.OmenSinistralStashRect);
+        MigrateRitual("Omen of Dextral Exaltation",   s.OmenDextralStashRect);
+        MigrateRitual("Omen of Greater Exaltation",   s.OmenGreaterStashRect);
+        RebuildRitualItemPanel();
 
-        if (s.OmenGreaterStashRect is { Width: > 0, Height: > 0 })
-        {
-            _omenGreaterStashRegion = s.OmenGreaterStashRect;
-            OmenGreaterStashInfo.Text = FormatRect(s.OmenGreaterStashRect);
-        }
 
         if (s.CurrencyInventoryRect is { Width: > 0, Height: > 0 })
         {
@@ -738,9 +733,9 @@ public partial class MainWindow : Window
         {
             CurrencyInventoryRect = _currencyInventoryRegion ?? default,
             RitualInventoryRect = _ritualInventoryRegion ?? default,
-            OmenSinistralStashRect = _omenSinistralStashRegion ?? default,
-            OmenDextralStashRect = _omenDextralStashRegion ?? default,
-            OmenGreaterStashRect = _omenGreaterStashRegion ?? default,
+            RitualItemRegions = _ritualItemRegions.Count > 0
+                ? new Dictionary<string, ScreenRect>(_ritualItemRegions)
+                : null,
             TraderNameOcrSearchRect = _traderNameOcrRegion ?? default,
             TraderNpcNameForOcr = string.IsNullOrWhiteSpace(TraderNpcNameTextBox.Text)
                 ? "ANGE"
@@ -989,6 +984,14 @@ public partial class MainWindow : Window
         return null;
     }
 
+    private ScreenRect? GetRitualItemRect(params string[] names)
+    {
+        foreach (var name in names)
+            if (_ritualItemRegions.TryGetValue(name, out var r) && r.Width > 0)
+                return r;
+        return null;
+    }
+
     private static string FormatItemCellsSummary(IReadOnlyList<ScreenRect> cells)
     {
         if (cells.Count == 0)
@@ -1055,54 +1058,6 @@ public partial class MainWindow : Window
         _ritualInventoryRegion = region;
         RitualInventoryInfo.Text = FormatRect(region);
         SessionLogger.Info($"Вкладка инвентаря Ritual задана: {FormatRect(region)}");
-        SaveSettings();
-        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
-    }
-
-    private void PickOmenSinistralStashBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
-        {
-            SessionLogger.Info("Выбор области Omen of Sinistral Exaltation Stash отменён.");
-            return;
-        }
-
-        _omenSinistralStashRegion = region;
-        OmenSinistralStashInfo.Text = FormatRect(region);
-        SessionLogger.Info($"Omen of Sinistral Exaltation Stash задана: {FormatRect(region)}");
-        SaveSettings();
-        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
-    }
-
-    private void PickOmenDextralStashBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
-        {
-            SessionLogger.Info("Выбор области Omen of Dextral Exaltation Stash отменён.");
-            return;
-        }
-
-        _omenDextralStashRegion = region;
-        OmenDextralStashInfo.Text = FormatRect(region);
-        SessionLogger.Info($"Omen of Dextral Exaltation Stash задана: {FormatRect(region)}");
-        SaveSettings();
-        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
-    }
-
-    private void PickOmenGreaterStashBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
-        {
-            SessionLogger.Info("Выбор области Omen of Greater Exaltation Stash отменён.");
-            return;
-        }
-
-        _omenGreaterStashRegion = region;
-        OmenGreaterStashInfo.Text = FormatRect(region);
-        SessionLogger.Info($"Omen of Greater Exaltation Stash задана: {FormatRect(region)}");
         SaveSettings();
         _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
     }
@@ -1720,10 +1675,10 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (isExalt && (_ritualInventoryRegion is null || _currencyInventoryRegion is null || _omenGreaterStashRegion is null))
+        if (isExalt && (_ritualInventoryRegion is null || _currencyInventoryRegion is null || GetRitualItemRect("Omen of Greater Exaltation") is null))
         {
             MessageBox.Show(this,
-                "Для крафта Orb of Exaltation задайте области: Ritual inventory, Currency inventory и Omen of Greater Exaltation Stash (для автопополнения омнов).",
+                "Для крафта Orb of Exaltation задайте области: Ritual inventory, Currency inventory и Omen of Greater Exaltation (в «Настройки областей → Ritual») для автопополнения омнов.",
                 "Области RefillOmen",
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
@@ -1736,20 +1691,20 @@ public partial class MainWindow : Window
             var prefixOnly = wantPrefix && !wantSuffix;
             var suffixOnly = wantSuffix && !wantPrefix;
 
-            if (prefixOnly && _omenSinistralStashRegion is null)
+            if (prefixOnly && GetRitualItemRect("Omen of Sinistral Exaltation") is null)
             {
                 MessageBox.Show(this,
-                    "Для условия только с префиксами задайте область Omen of Sinistral Exaltation Stash.",
+                    "Для условия только с префиксами задайте область Omen of Sinistral Exaltation в «Настройки областей → Ritual».",
                     "Области RefillOmen",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
                 return;
             }
 
-            if (suffixOnly && _omenDextralStashRegion is null)
+            if (suffixOnly && GetRitualItemRect("Omen of Dextral Exaltation") is null)
             {
                 MessageBox.Show(this,
-                    "Для условия только с суффиксами задайте область Omen of Dextral Exaltation Stash.",
+                    "Для условия только с суффиксами задайте область Omen of Dextral Exaltation в «Настройки областей → Ritual».",
                     "Области RefillOmen",
                     MessageBoxButton.OK,
                     MessageBoxImage.Warning);
@@ -1976,9 +1931,9 @@ public partial class MainWindow : Window
                             annul,
                             _ritualInventoryRegion ?? default,
                             _currencyInventoryRegion ?? default,
-                            _omenSinistralStashRegion ?? default,
-                            _omenDextralStashRegion ?? default,
-                            _omenGreaterStashRegion ?? default,
+                            GetRitualItemRect("Omen of Sinistral Exaltation") ?? default,
+                            GetRitualItemRect("Omen of Dextral Exaltation") ?? default,
+                            GetRitualItemRect("Omen of Greater Exaltation") ?? default,
                             _omenSinistralCells,
                             _omenDextralCells,
                             _omenGreaterCells,
@@ -3259,6 +3214,86 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
+    // Статический список ритуальных предметов с точными именами poe.ninja, сгруппированный для UI.
+    private static readonly (string Header, string[] Items)[] RitualItemGroups =
+    [
+        ("Экзальтация", ["Omen of Sinistral Exaltation", "Omen of Dextral Exaltation", "Omen of Greater Exaltation"]),
+        ("Другое",      ["Hinekora's Lock", "Omen of Whittling", "Omen of Refreshment", "Omen of Amelioration",
+                         "Omen of Fortune", "Omen of Cleansing", "Omen of Annulment"]),
+    ];
+
+    private void RebuildRitualItemPanel()
+    {
+        RitualItemRegionsPanel.Children.Clear();
+        bool firstGroup = true;
+        foreach (var (header, items) in RitualItemGroups)
+        {
+            if (!firstGroup)
+                RitualItemRegionsPanel.Children.Add(new System.Windows.Controls.Separator
+                    { Margin = new System.Windows.Thickness(0, 6, 0, 6) });
+            firstGroup = false;
+
+            RitualItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
+            {
+                Text = header,
+                FontWeight = System.Windows.FontWeights.SemiBold,
+                Margin = new System.Windows.Thickness(0, 0, 0, 4),
+            });
+
+            foreach (var itemName in items)
+            {
+                _ritualItemRegions.TryGetValue(itemName, out var rect);
+                var infoText = new System.Windows.Controls.TextBlock
+                {
+                    Text = FormatRect(rect),
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                    Foreground = System.Windows.Media.Brushes.Gray,
+                    FontSize = 11,
+                };
+
+                var btn = new System.Windows.Controls.Button
+                {
+                    Content = "Задать…",
+                    Padding = new System.Windows.Thickness(8, 4, 8, 4),
+                    Tag = (itemName, infoText),
+                };
+                btn.Click += RitualItemPickBtn_Click;
+
+                var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(240) });
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+
+                var label = new System.Windows.Controls.TextBlock
+                {
+                    Text = itemName,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                };
+                System.Windows.Controls.Grid.SetColumn(label, 0);
+                System.Windows.Controls.Grid.SetColumn(infoText, 1);
+                System.Windows.Controls.Grid.SetColumn(btn, 2);
+
+                row.Children.Add(label);
+                row.Children.Add(infoText);
+                row.Children.Add(btn);
+                RitualItemRegionsPanel.Children.Add(row);
+            }
+        }
+    }
+
+    private void RitualItemPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Button btn) return;
+        if (btn.Tag is not (string itemName, System.Windows.Controls.TextBlock infoBlock)) return;
+
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+
+        _ritualItemRegions[itemName] = region;
+        infoBlock.Text = FormatRect(region);
+        SaveSettings();
+    }
+
     private void RebuildBreachPanel()
     {
         BreachCatalystRegionsPanel.Children.Clear();
@@ -3482,6 +3517,7 @@ public partial class MainWindow : Window
         var groups = new[]
         {
             MakeGroup("Currency", _currencyInventoryRegion ?? default, _currencyItemRegions),
+            MakeGroup("Ritual",   _ritualInventoryRegion   ?? default, _ritualItemRegions),
             MakeGroup("Breach",   _breachInventoryRect,   _breachCatalystRegions),
             MakeGroup("Delirium", _deliriumInventoryRect, _deliriumItemRegions),
         };

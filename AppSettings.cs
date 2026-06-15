@@ -30,9 +30,15 @@ public sealed class AppSettings
     public ScreenRect OmenGreaterRect { get; set; }
     public List<ScreenRect>? OmenGreaterCells { get; set; }
 
-    /// <summary>Область в инвентаре для кликов по Stash у соответствующего омена (прямоугольник).</summary>
+    /// <summary>Области предметов во вкладке Ritual Stash для Networth. Ключ — имя предмета точно как на poe.ninja.</summary>
+    public Dictionary<string, ScreenRect>? RitualItemRegions { get; set; }
+
+    // Устаревшие поля — читаются из старых settings.json для миграции в RitualItemRegions, не пишутся.
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ScreenRect OmenSinistralStashRect { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ScreenRect OmenDextralStashRect { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ScreenRect OmenGreaterStashRect { get; set; }
 
     public ScreenRect ItemRect { get; set; }
