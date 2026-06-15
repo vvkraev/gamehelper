@@ -5,6 +5,71 @@
     "Kind": "Catalyst"
   },
   {
+    "Id": "ancient_concentrated_liquid_fear",
+    "DisplayName": "Ancient Concentrated Liquid Fear",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_concentrated_liquid_isolation",
+    "DisplayName": "Ancient Concentrated Liquid Isolation",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_concentrated_liquid_suffering",
+    "DisplayName": "Ancient Concentrated Liquid Suffering",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_diluted_liquid_greed",
+    "DisplayName": "Ancient Diluted Liquid Greed",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_diluted_liquid_guilt",
+    "DisplayName": "Ancient Diluted Liquid Guilt",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_diluted_liquid_ire",
+    "DisplayName": "Ancient Diluted Liquid Ire",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_liquid_despair",
+    "DisplayName": "Ancient Liquid Despair",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_liquid_disgust",
+    "DisplayName": "Ancient Liquid Disgust",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_liquid_envy",
+    "DisplayName": "Ancient Liquid Envy",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_liquid_paranoia",
+    "DisplayName": "Ancient Liquid Paranoia",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_potent_liquid_contempt",
+    "DisplayName": "Ancient Potent Liquid Contempt",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_potent_liquid_ferocity",
+    "DisplayName": "Ancient Potent Liquid Ferocity",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "ancient_potent_liquid_melancholy",
+    "DisplayName": "Ancient Potent Liquid Melancholy",
+    "Kind": "Delirium"
+  },
+  {
     "Id": "carapace_catalyst",
     "DisplayName": "Carapace Catalyst",
     "Kind": "Catalyst"
@@ -13,6 +78,36 @@
     "Id": "chayulas_catalyst",
     "DisplayName": "Chayula's Catalyst",
     "Kind": "Catalyst"
+  },
+  {
+    "Id": "concentrated_liquid_fear",
+    "DisplayName": "Concentrated Liquid Fear",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "concentrated_liquid_isolation",
+    "DisplayName": "Concentrated Liquid Isolation",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "concentrated_liquid_suffering",
+    "DisplayName": "Concentrated Liquid Suffering",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "diluted_liquid_greed",
+    "DisplayName": "Diluted Liquid Greed",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "diluted_liquid_guilt",
+    "DisplayName": "Diluted Liquid Guilt",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "diluted_liquid_ire",
+    "DisplayName": "Diluted Liquid Ire",
+    "Kind": "Delirium"
   },
   {
     "Id": "eshs_catalyst",
@@ -25,6 +120,26 @@
     "Kind": "Catalyst"
   },
   {
+    "Id": "liquid_despair",
+    "DisplayName": "Liquid Despair",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "liquid_disgust",
+    "DisplayName": "Liquid Disgust",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "liquid_envy",
+    "DisplayName": "Liquid Envy",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "liquid_paranoia",
+    "DisplayName": "Liquid Paranoia",
+    "Kind": "Delirium"
+  },
+  {
     "Id": "necrotic_catalyst",
     "DisplayName": "Necrotic Catalyst",
     "Kind": "Catalyst"
@@ -33,6 +148,21 @@
     "Id": "neural_catalyst",
     "DisplayName": "Neural Catalyst",
     "Kind": "Catalyst"
+  },
+  {
+    "Id": "potent_liquid_contempt",
+    "DisplayName": "Potent Liquid Contempt",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "potent_liquid_ferocity",
+    "DisplayName": "Potent Liquid Ferocity",
+    "Kind": "Delirium"
+  },
+  {
+    "Id": "potent_liquid_melancholy",
+    "DisplayName": "Potent Liquid Melancholy",
+    "Kind": "Delirium"
   },
   {
     "Id": "reaver_catalyst",
