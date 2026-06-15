@@ -78,6 +78,12 @@ public partial class MainWindow : Window
     private Dictionary<string, ScreenRect> _deliriumItemRegions = new();
     private ScreenRect _deliriumInventoryRect;
     private CancellationTokenSource? _nwScanCts;
+    private List<ScreenRect> _repricingCells = new();
+    private CancellationTokenSource? _repricingCts;
+    private readonly Services.RepricingService _repricingService = new();
+    private bool _repricingStartStopHotkeyRegistered;
+    private int _repricingStartStopVirtualKey;
+    private int _repricingStartStopModifiers;
     private ScreenRect _stashOcrSearchRect;
     private ScreenRect _reforgingBenchOcrSearchRect;
     private List<ScreenRect> _fullInventoryCells = new();
@@ -200,6 +206,12 @@ public partial class MainWindow : Window
             {
                 handled = true;
                 Dispatcher.BeginInvoke(NetworthToggleStartStop);
+            }
+
+            if (id >= GlobalHotkey.RepricingStartStopHotkeyIdBase && id < GlobalHotkey.RepricingStartStopHotkeyIdBase + 8)
+            {
+                handled = true;
+                Dispatcher.BeginInvoke(RepricingToggleStartStop);
             }
         }
 
@@ -728,6 +740,16 @@ public partial class MainWindow : Window
             ? new Dictionary<string, int>(s.CatalystGoldPrices)
             : new Dictionary<string, int>();
         RebuildProfitTable();
+
+        _repricingCells = s.RepricingCells is { Count: > 0 } rc ? rc.ToList() : new();
+        RepricingGridInfo.Text          = FormatItemCellsSummary(_repricingCells);
+        RepricingPostClickDelayBox.Text = s.RepricingPostClickDelayMs.ToString();
+        RepricingHoverSettleBox.Text    = s.RepricingHoverSettleMs.ToString();
+
+        _repricingStartStopVirtualKey = s.RepricingStartStopVirtualKey;
+        _repricingStartStopModifiers  = s.RepricingStartStopModifiers;
+        UpdateRepricingStartStopHotkeyDisplay();
+        RegisterRepricingStartStopHotkey();
     }
 
     private void SaveSettings()
@@ -820,6 +842,11 @@ public partial class MainWindow : Window
             CatalystGoldPrices = _catalystGoldPrices.Count > 0
                 ? new Dictionary<string, int>(_catalystGoldPrices)
                 : null,
+            RepricingCells = _repricingCells.Count > 0 ? new List<ScreenRect>(_repricingCells) : null,
+            RepricingPostClickDelayMs    = RfParseInt(RepricingPostClickDelayBox.Text, 300),
+            RepricingHoverSettleMs       = RfParseInt(RepricingHoverSettleBox.Text, 120),
+            RepricingStartStopVirtualKey = _repricingStartStopVirtualKey,
+            RepricingStartStopModifiers  = _repricingStartStopModifiers,
         };
         _reforgeState.ApplyToSettings(s);
         SettingsStore.Save(s);
@@ -3905,5 +3932,146 @@ public partial class MainWindow : Window
     {
         _autoRfCts?.Cancel();
         RfAutoStopBtn.IsEnabled = false;
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // ПЕРЕОЦЕНКА
+    // ═══════════════════════════════════════════════════════════════════════
+
+    private void RegisterRepricingStartStopHotkey()
+    {
+        UnregisterRepricingStartStopHotkey();
+        if (_repricingStartStopVirtualKey == 0) return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        if (hwnd == IntPtr.Zero) return;
+        if (!GlobalHotkey.TryRegisterRepricingStartStop(hwnd, (uint)_repricingStartStopVirtualKey, (uint)_repricingStartStopModifiers))
+            SessionLogger.Info("Горячая клавиша «Переоценка Старт/Стоп» не зарегистрирована — возможно, занята.");
+        else
+            _repricingStartStopHotkeyRegistered = true;
+    }
+
+    private void UnregisterRepricingStartStopHotkey()
+    {
+        if (!_repricingStartStopHotkeyRegistered) return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        GlobalHotkey.UnregisterRepricingStartStop(hwnd);
+        _repricingStartStopHotkeyRegistered = false;
+    }
+
+    private void UpdateRepricingStartStopHotkeyDisplay()
+    {
+        RepricingStartStopHotkeyBox.Text = FormatHotkey(_repricingStartStopVirtualKey, _repricingStartStopModifiers);
+    }
+
+    private void RepricingToggleStartStop()
+    {
+        if (_repricingCts != null && !_repricingCts.IsCancellationRequested)
+        {
+            _repricingCts.Cancel();
+            RepricingStopBtn.IsEnabled = false;
+        }
+        else
+        {
+            RepricingStartBtn_Click(this, new RoutedEventArgs());
+        }
+    }
+
+    private void RepricingStartStopHotkeyBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        e.Handled = true;
+        var key = e.Key == Key.System ? e.SystemKey : e.Key;
+        if (key == Key.Escape)
+        {
+            _repricingStartStopVirtualKey = 0;
+            _repricingStartStopModifiers  = 0;
+        }
+        else
+        {
+            var mods = Keyboard.Modifiers;
+            _repricingStartStopVirtualKey = KeyInterop.VirtualKeyFromKey(key);
+            _repricingStartStopModifiers  = ((mods & ModifierKeys.Alt) != 0 ? 1 : 0)
+                                          | ((mods & ModifierKeys.Control) != 0 ? 2 : 0)
+                                          | ((mods & ModifierKeys.Shift) != 0 ? 4 : 0);
+        }
+        UpdateRepricingStartStopHotkeyDisplay();
+        RegisterRepricingStartStopHotkey();
+        SaveSettings();
+    }
+
+    private void RepricingPickGridBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dimDlg = new ItemGridDimensionsDialog { Owner = this };
+        if (dimDlg.ShowDialog() != true) return;
+        var picker = new RegionPickerWindow(dimDlg.GridColumns, dimDlg.GridRows) { Owner = this };
+        if (picker.ShowDialog() != true || picker.SelectedRegion is not { } region) return;
+        _repricingCells = picker.SelectedCells is { Count: > 0 } c ? c.ToList() : new List<ScreenRect> { region };
+        RepricingGridInfo.Text = FormatItemCellsSummary(_repricingCells);
+        SaveSettings();
+    }
+
+    private async void RepricingStartBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (_repricingCells.Count == 0)
+        {
+            MessageBox.Show(this, "Задайте сетку ячеек для переоценки.", "Переоценка",
+                MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        _repricingCts?.Cancel();
+        _repricingCts = new CancellationTokenSource();
+        var ct = _repricingCts.Token;
+
+        RepricingStartBtn.IsEnabled = false;
+        RepricingStopBtn.IsEnabled  = true;
+        RepricingStatusText.Text    = "Переоценка…";
+        RepricingLogBox.Clear();
+
+        _repricingService.MouseActionDelayMs = RfParseInt(MouseActionDelayMs.Text, 80);
+        _repricingService.ClipboardDelayMs   = RfParseInt(ClipboardDelayMs.Text, 220);
+        _repricingService.PostClickDelayMs   = RfParseInt(RepricingPostClickDelayBox.Text, 300);
+        _repricingService.HoverSettleMs      = RfParseInt(RepricingHoverSettleBox.Text, 120);
+        SaveSettings();
+        MinimizeToTrayOnStart();
+
+        var cells    = _repricingCells.ToList();
+        var progress = new Progress<string>(msg =>
+        {
+            RepricingLogBox.AppendText(msg + "\n");
+            RepricingLogBox.ScrollToEnd();
+        });
+
+        try
+        {
+            await Task.Run(async () =>
+            {
+                Native.ProcessForeground.TryBringProcessToForeground(
+                    Native.ProcessForeground.PathOfExile2SteamProcessName);
+                await Task.Delay(200, ct);
+                await _repricingService.RunAsync(cells, progress, ct);
+            }, CancellationToken.None);
+            RepricingStatusText.Text = "Готово.";
+        }
+        catch (OperationCanceledException)
+        {
+            RepricingStatusText.Text = "Отменено.";
+        }
+        catch (Exception ex)
+        {
+            RepricingStatusText.Text = $"Ошибка: {ex.Message}";
+        }
+        finally
+        {
+            Native.Win32Input.ReleaseCtrlAlt();
+            RepricingStartBtn.IsEnabled = true;
+            RepricingStopBtn.IsEnabled  = false;
+            Dispatcher.Invoke(RestoreFromTray);
+        }
+    }
+
+    private void RepricingStopBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _repricingCts?.Cancel();
+        RepricingStopBtn.IsEnabled = false;
     }
 }

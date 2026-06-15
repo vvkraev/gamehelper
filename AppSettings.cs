@@ -217,4 +217,16 @@ public sealed class AppSettings
     /// <summary>Задержка после каждого Ctrl+ЛКМ/ПКМ при переносе предмета (игра обрабатывает перенос), мс.</summary>
     public int AutoReforgeItemTransferDelayMs { get; set; } = 400;
 
+    // ── Переоценка (async trade) ─────────────────────────────────────────────
+    /// <summary>Сетка ячеек выставленных товаров для переоценки.</summary>
+    public List<ScreenRect>? RepricingCells { get; set; }
+    /// <summary>Задержка после ПКМ (открытие поля ввода цены), мс.</summary>
+    public int RepricingPostClickDelayMs { get; set; } = 300;
+    /// <summary>Пауза наведения перед Ctrl+Alt+C, мс.</summary>
+    public int RepricingHoverSettleMs { get; set; } = 120;
+    /// <summary>Virtual key code для горячей клавиши «Старт/Стоп переоценки» (0 = не задано).</summary>
+    public int RepricingStartStopVirtualKey { get; set; }
+    /// <summary>Модификаторы для «Старт/Стоп переоценки»: Alt=1, Ctrl=2, Shift=4.</summary>
+    public int RepricingStartStopModifiers { get; set; }
+
 }

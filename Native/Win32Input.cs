@@ -44,6 +44,47 @@ public static class Win32Input
     [DllImport("user32.dll")]
     private static extern short GetAsyncKeyState(int vKey);
 
+    // ── SendInput (для TypeText) ──────────────────────────────────────────
+
+    private const uint KEYEVENTF_UNICODE = 0x0004;
+    private const uint INPUT_KEYBOARD = 1u;
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct KEYBDINPUT_SI
+    {
+        public ushort wVk;
+        public ushort wScan;
+        public uint   dwFlags;
+        public uint   time;
+        public IntPtr dwExtraInfo;
+    }
+
+    // MOUSEINPUT_DUMMY нужен только для корректного размера INPUT_UNION
+    [StructLayout(LayoutKind.Sequential)]
+    private struct MOUSEINPUT_DUMMY
+    {
+        public int    dx, dy;
+        public uint   mouseData, dwFlags, time;
+        public IntPtr dwExtraInfo;
+    }
+
+    [StructLayout(LayoutKind.Explicit)]
+    private struct INPUT_UNION
+    {
+        [FieldOffset(0)] public KEYBDINPUT_SI   ki;
+        [FieldOffset(0)] public MOUSEINPUT_DUMMY mi;
+    }
+
+    [StructLayout(LayoutKind.Sequential)]
+    private struct SENDINPUT
+    {
+        public uint        type;
+        public INPUT_UNION u;
+    }
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern uint SendInput(uint nInputs, SENDINPUT[] pInputs, int cbSize);
+
     /// <summary>Возврат false, если SetCursorPos отклонён ОС (см. GetLastWin32Error).</summary>
     public static bool MoveTo(int x, int y) =>
         SetCursorPos(x, y);
@@ -183,4 +224,37 @@ public static class Win32Input
         keybd_event(vk, 0, 0, UIntPtr.Zero);
         keybd_event(vk, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
     }
+
+    /// <summary>Вводит строку через SendInput (Unicode events) — для полей ввода цены.</summary>
+    public static void TypeText(string text)
+    {
+        if (string.IsNullOrEmpty(text)) return;
+        var inputs = new SENDINPUT[text.Length * 2];
+        for (var i = 0; i < text.Length; i++)
+        {
+            inputs[2 * i] = new SENDINPUT
+            {
+                type = INPUT_KEYBOARD,
+                u    = new INPUT_UNION { ki = new KEYBDINPUT_SI { wScan = text[i], dwFlags = KEYEVENTF_UNICODE } }
+            };
+            inputs[2 * i + 1] = new SENDINPUT
+            {
+                type = INPUT_KEYBOARD,
+                u    = new INPUT_UNION { ki = new KEYBDINPUT_SI { wScan = text[i], dwFlags = KEYEVENTF_UNICODE | KEYEVENTF_KEYUP } }
+            };
+        }
+        SendInput((uint)inputs.Length, inputs, Marshal.SizeOf<SENDINPUT>());
+    }
+
+    /// <summary>Ctrl+A — выделить всё (для очистки поля ввода перед вводом цены).</summary>
+    public static void SendCtrlA()
+    {
+        keybd_event(VkControl, 0, 0, UIntPtr.Zero);
+        keybd_event(0x41, 0, 0, UIntPtr.Zero);
+        keybd_event(0x41, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+        keybd_event(VkControl, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+    }
+
+    /// <summary>Enter — подтверждение ввода (VK_RETURN = 0x0D).</summary>
+    public static void PressEnter() => PressKey(0x0D);
 }

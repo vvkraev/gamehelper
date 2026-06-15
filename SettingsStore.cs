@@ -64,8 +64,12 @@ public static class SettingsStore
     {
         try
         {
+            var path = FilePath;
+            if (File.Exists(path))
+                File.Copy(path, path + ".bak", overwrite: true);
+
             var json = JsonSerializer.Serialize(settings, JsonOptions);
-            File.WriteAllText(FilePath, json);
+            File.WriteAllText(path, json);
         }
         catch (Exception ex)
         {
