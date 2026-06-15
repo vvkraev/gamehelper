@@ -224,6 +224,10 @@ public sealed class AppSettings
     public int RepricingPostClickDelayMs { get; set; } = 300;
     /// <summary>Пауза наведения перед Ctrl+Alt+C, мс.</summary>
     public int RepricingHoverSettleMs { get; set; } = 120;
+    /// <summary>Количество повторений цикла переоценки (0 = бесконечно).</summary>
+    public int RepricingRepeatCount { get; set; } = 1;
+    /// <summary>Интервал между повторениями, минуты.</summary>
+    public int RepricingRepeatIntervalMinutes { get; set; } = 5;
     /// <summary>Virtual key code для горячей клавиши «Старт/Стоп переоценки» (0 = не задано).</summary>
     public int RepricingStartStopVirtualKey { get; set; }
     /// <summary>Модификаторы для «Старт/Стоп переоценки»: Alt=1, Ctrl=2, Shift=4.</summary>

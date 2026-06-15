@@ -849,7 +849,15 @@
 
                     <TextBlock Text="Пауза наведения перед Ctrl+Alt+C, мс"
                                FontWeight="SemiBold" Margin="0,0,0,4"/>
-                    <TextBox x:Name="RepricingHoverSettleBox" Text="120" Margin="0,0,0,16"/>
+                    <TextBox x:Name="RepricingHoverSettleBox" Text="120" Margin="0,0,0,12"/>
+
+                    <TextBlock Text="Количество повторений (0 — бесконечно)"
+                               FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBox x:Name="RepricingRepeatCountBox" Text="1" Margin="0,0,0,12"/>
+
+                    <TextBlock Text="Интервал между повторениями, мин"
+                               FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBox x:Name="RepricingRepeatIntervalBox" Text="5" Margin="0,0,0,16"/>
 
                     <TextBlock FontWeight="SemiBold" Margin="0,0,0,4"
                                Text="Горячая клавиша «Старт / Стоп переоценки» (кликните в поле и нажмите; Esc — сбросить):"/>

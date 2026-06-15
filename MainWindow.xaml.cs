@@ -743,8 +743,10 @@ public partial class MainWindow : Window
 
         _repricingCells = s.RepricingCells is { Count: > 0 } rc ? rc.ToList() : new();
         RepricingGridInfo.Text          = FormatItemCellsSummary(_repricingCells);
-        RepricingPostClickDelayBox.Text = s.RepricingPostClickDelayMs.ToString();
-        RepricingHoverSettleBox.Text    = s.RepricingHoverSettleMs.ToString();
+        RepricingPostClickDelayBox.Text    = s.RepricingPostClickDelayMs.ToString();
+        RepricingHoverSettleBox.Text       = s.RepricingHoverSettleMs.ToString();
+        RepricingRepeatCountBox.Text       = s.RepricingRepeatCount.ToString();
+        RepricingRepeatIntervalBox.Text    = s.RepricingRepeatIntervalMinutes.ToString();
 
         _repricingStartStopVirtualKey = s.RepricingStartStopVirtualKey;
         _repricingStartStopModifiers  = s.RepricingStartStopModifiers;
@@ -843,8 +845,10 @@ public partial class MainWindow : Window
                 ? new Dictionary<string, int>(_catalystGoldPrices)
                 : null,
             RepricingCells = _repricingCells.Count > 0 ? new List<ScreenRect>(_repricingCells) : null,
-            RepricingPostClickDelayMs    = RfParseInt(RepricingPostClickDelayBox.Text, 300),
-            RepricingHoverSettleMs       = RfParseInt(RepricingHoverSettleBox.Text, 120),
+            RepricingPostClickDelayMs      = RfParseInt(RepricingPostClickDelayBox.Text, 300),
+            RepricingHoverSettleMs         = RfParseInt(RepricingHoverSettleBox.Text, 120),
+            RepricingRepeatCount           = RfParseInt(RepricingRepeatCountBox.Text, 1),
+            RepricingRepeatIntervalMinutes = RfParseInt(RepricingRepeatIntervalBox.Text, 5),
             RepricingStartStopVirtualKey = _repricingStartStopVirtualKey,
             RepricingStartStopModifiers  = _repricingStartStopModifiers,
         };
@@ -4031,11 +4035,14 @@ public partial class MainWindow : Window
         _repricingService.ClipboardDelayMs   = RfParseInt(ClipboardDelayMs.Text, 220);
         _repricingService.PostClickDelayMs   = RfParseInt(RepricingPostClickDelayBox.Text, 300);
         _repricingService.HoverSettleMs      = RfParseInt(RepricingHoverSettleBox.Text, 120);
+        var repeatCount    = RfParseInt(RepricingRepeatCountBox.Text, 1);
+        var intervalMinutes = RfParseInt(RepricingRepeatIntervalBox.Text, 5);
         SaveSettings();
         MinimizeToTrayOnStart();
 
-        var cells    = _repricingCells.ToList();
-        var progress = new Progress<string>(msg =>
+        var cells      = _repricingCells.ToList();
+        var dispatcher = Dispatcher;
+        var progress   = new Progress<string>(msg =>
         {
             RepricingLogBox.AppendText(msg + "\n");
             RepricingLogBox.ScrollToEnd();
@@ -4045,10 +4052,27 @@ public partial class MainWindow : Window
         {
             await Task.Run(async () =>
             {
-                Native.ProcessForeground.TryBringProcessToForeground(
-                    Native.ProcessForeground.PathOfExile2SteamProcessName);
-                await Task.Delay(200, ct);
-                await _repricingService.RunAsync(cells, progress, ct);
+                for (var iter = 1; !ct.IsCancellationRequested; iter++)
+                {
+                    var label = repeatCount > 0 ? $"{iter}/{repeatCount}" : $"{iter}";
+                    ((IProgress<string>)progress).Report($"── Итерация {label} ──");
+                    await dispatcher.InvokeAsync(() => RepricingStatusText.Text = $"Итерация {label}…");
+
+                    Native.ProcessForeground.TryBringProcessToForeground(
+                        Native.ProcessForeground.PathOfExile2SteamProcessName);
+                    await Task.Delay(200, ct);
+                    await _repricingService.RunAsync(cells, progress, ct);
+
+                    if (repeatCount > 0 && iter >= repeatCount)
+                        break;
+
+                    var next = DateTime.Now.AddMinutes(intervalMinutes);
+                    ((IProgress<string>)progress).Report(
+                        $"Пауза {intervalMinutes} мин — следующая итерация в {next:HH:mm}");
+                    await dispatcher.InvokeAsync(() =>
+                        RepricingStatusText.Text = $"Ждём до {next:HH:mm}…");
+                    await Task.Delay(TimeSpan.FromMinutes(intervalMinutes), ct);
+                }
             }, CancellationToken.None);
             RepricingStatusText.Text = "Готово.";
         }
