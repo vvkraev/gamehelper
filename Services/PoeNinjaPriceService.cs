@@ -15,7 +15,7 @@ public sealed record PoeNinjaPrice(decimal DivineValue, decimal ExaltedValue);
 public static class PoeNinjaPriceService
 {
     public static readonly string FilePath =
-        Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "poe_ninja_prices.json");
+        Path.Combine(ProjectPaths.GetProjectRoot(), "poe_ninja_prices.json");
 
     private static readonly HttpClient _http = new();
 
