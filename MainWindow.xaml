@@ -177,6 +177,30 @@
                         </StackPanel>
                     </Expander>
 
+                    <Expander x:Name="DeliriumExpander" Header="Delirium (Liquid Orbs)" IsExpanded="False" Margin="0,14,0,0">
+                        <StackPanel Margin="0,8,0,0">
+                            <!-- Область вкладки Delirium Stash -->
+                            <TextBlock Text="Вкладка Delirium Stash" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Область вкладки:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="DeliriumInventoryInfo" Grid.Column="1"
+                                           Text="не задана" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="PickDeliriumInventoryBtn_Click"/>
+                            </Grid>
+                            <Separator Margin="0,0,0,10"/>
+                            <!-- Области отдельных предметов делирия — заполняется динамически -->
+                            <TextBlock Text="Области предметов" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <StackPanel x:Name="DeliriumItemRegionsPanel"/>
+                        </StackPanel>
+                    </Expander>
+
                     <Expander x:Name="AutoReforgeNavExpander" Header="Навигация (авто-перековка)" IsExpanded="False" Margin="0,14,0,0">
                         <StackPanel Margin="0,8,0,0">
                             <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,8"

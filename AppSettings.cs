@@ -162,6 +162,11 @@ public sealed class AppSettings
     /// <summary>Области катализаторов во вкладке Breach Stash. Ключ — Id из StackableItemRegistry.</summary>
     public Dictionary<string, ScreenRect>? BreachCatalystRegions { get; set; }
 
+    /// <summary>Вкладка Delirium Stash целиком (для навигации / скролла).</summary>
+    public ScreenRect DeliriumInventoryRect { get; set; }
+    /// <summary>Области предметов делирия во вкладке Delirium Stash. Ключ — Id из StackableItemRegistry.</summary>
+    public Dictionary<string, ScreenRect>? DeliriumItemRegions { get; set; }
+
     /// <summary>Полный инвентарь персонажа (12×5 = 60 ячеек). Используется в авто-режиме: заполнение и сброс катализаторов.</summary>
     public List<ScreenRect>? FullInventoryCells { get; set; }
 

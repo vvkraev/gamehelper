@@ -78,6 +78,8 @@ public partial class MainWindow : Window
     private readonly Services.AutoReforgeService _autoRfService;
     private Dictionary<string, ScreenRect> _breachCatalystRegions = new();
     private ScreenRect _breachInventoryRect;
+    private Dictionary<string, ScreenRect> _deliriumItemRegions = new();
+    private ScreenRect _deliriumInventoryRect;
     private ScreenRect _stashOcrSearchRect;
     private ScreenRect _reforgingBenchOcrSearchRect;
     private List<ScreenRect> _fullInventoryCells = new();
@@ -693,6 +695,12 @@ public partial class MainWindow : Window
             ? new Dictionary<string, ScreenRect>(s.BreachCatalystRegions)
             : new();
 
+        _deliriumInventoryRect = s.DeliriumInventoryRect;
+        DeliriumInventoryInfo.Text = FormatRect(_deliriumInventoryRect);
+        _deliriumItemRegions = s.DeliriumItemRegions != null
+            ? new Dictionary<string, ScreenRect>(s.DeliriumItemRegions)
+            : new();
+
         _fullInventoryCells = s.FullInventoryCells is { Count: > 0 } fic ? fic.ToList() : new();
         FullInventoryGridInfo.Text = _fullInventoryCells.Count > 0 ? $"{_fullInventoryCells.Count} ячеек" : "не задана";
 
@@ -717,6 +725,7 @@ public partial class MainWindow : Window
 
         RfLoadFromState();
         RebuildBreachPanel();
+        RebuildDeliriumPanel();
         _catalystGoldPrices = s.CatalystGoldPrices != null
             ? new Dictionary<string, int>(s.CatalystGoldPrices)
             : new Dictionary<string, int>();
@@ -792,6 +801,10 @@ public partial class MainWindow : Window
             BreachInventoryRect = _breachInventoryRect,
             BreachCatalystRegions = _breachCatalystRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_breachCatalystRegions)
+                : null,
+            DeliriumInventoryRect = _deliriumInventoryRect,
+            DeliriumItemRegions = _deliriumItemRegions.Count > 0
+                ? new Dictionary<string, ScreenRect>(_deliriumItemRegions)
                 : null,
             FullInventoryCells = _fullInventoryCells.Count > 0 ? _fullInventoryCells : null,
             StashOcrSearchRect = _stashOcrSearchRect,
@@ -2675,6 +2688,7 @@ public partial class MainWindow : Window
             Services.StackableItemRegistry.Save();
             RfRefreshCatalystList();
             RebuildBreachPanel();
+            RebuildDeliriumPanel();
             RebuildProfitTable();
             RfRegistryScanStatus.Text = $"+{added} новых, {skipped} пропущено, {empty} пустых";
         }
@@ -2703,6 +2717,7 @@ public partial class MainWindow : Window
         Services.StackableItemRegistry.Clear();
         RfRefreshCatalystList();
         RebuildBreachPanel();
+        RebuildDeliriumPanel();
         RebuildProfitTable();
         RfLog("[Registry] Реестр очищен");
     }
@@ -3235,6 +3250,90 @@ public partial class MainWindow : Window
         if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
 
         _breachCatalystRegions[id] = region;
+        infoBlock.Text = FormatRect(region);
+        SaveSettings();
+    }
+
+    // ── Delirium ──────────────────────────────────────────────────────────
+
+    private void PickDeliriumInventoryBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _deliriumInventoryRect = region;
+        DeliriumInventoryInfo.Text = FormatRect(region);
+        SaveSettings();
+    }
+
+    private void RebuildDeliriumPanel()
+    {
+        DeliriumItemRegionsPanel.Children.Clear();
+
+        var items = Services.StackableItemRegistry.Items
+            .Where(i => i.Kind == Services.StackableItemKind.Delirium)
+            .ToList();
+
+        if (items.Count == 0)
+        {
+            DeliriumItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
+            {
+                Text = "Реестр предметов делирия пуст. Сначала отсканируйте предметы на вкладке «Перековка».",
+                TextWrapping = System.Windows.TextWrapping.Wrap,
+                Foreground = System.Windows.Media.Brushes.Gray,
+                FontSize = 11,
+            });
+            return;
+        }
+
+        foreach (var item in items)
+        {
+            _deliriumItemRegions.TryGetValue(item.Id, out var rect);
+            var infoText = new System.Windows.Controls.TextBlock
+            {
+                Text = FormatRect(rect),
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                Foreground = System.Windows.Media.Brushes.Gray,
+                FontSize = 11,
+            };
+
+            var btn = new System.Windows.Controls.Button
+            {
+                Content = "Задать…",
+                Padding = new System.Windows.Thickness(8, 4, 8, 4),
+                Tag = (item.Id, infoText),
+            };
+            btn.Click += DeliriumItemPickBtn_Click;
+
+            var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
+            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(240) });
+            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+
+            var label = new System.Windows.Controls.TextBlock
+            {
+                Text = item.DisplayName,
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+            };
+            System.Windows.Controls.Grid.SetColumn(label, 0);
+            System.Windows.Controls.Grid.SetColumn(infoText, 1);
+            System.Windows.Controls.Grid.SetColumn(btn, 2);
+
+            row.Children.Add(label);
+            row.Children.Add(infoText);
+            row.Children.Add(btn);
+            DeliriumItemRegionsPanel.Children.Add(row);
+        }
+    }
+
+    private void DeliriumItemPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Button btn) return;
+        if (btn.Tag is not (string id, System.Windows.Controls.TextBlock infoBlock)) return;
+
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+
+        _deliriumItemRegions[id] = region;
         infoBlock.Text = FormatRect(region);
         SaveSettings();
     }
