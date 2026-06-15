@@ -195,4 +195,20 @@ public sealed class AppSettings
     public int AutoReforgeStashItemsPerClick { get; set; } = 10;
     /// <summary>Задержка после каждого Ctrl+ЛКМ/ПКМ при переносе предмета (игра обрабатывает перенос), мс.</summary>
     public int AutoReforgeItemTransferDelayMs { get; set; } = 400;
+
+    // ── Networth ─────────────────────────────────────────────────────────────
+    public ScreenRect NetworthBreachTabRect    { get; set; }
+    public ScreenRect NetworthBreachScanRect   { get; set; }
+    public int        NetworthBreachCols       { get; set; } = 12;
+    public int        NetworthBreachRows       { get; set; } = 4;
+
+    public ScreenRect NetworthDeliriumTabRect  { get; set; }
+    public ScreenRect NetworthDeliriumScanRect { get; set; }
+    public int        NetworthDeliriumCols     { get; set; } = 12;
+    public int        NetworthDeliriumRows     { get; set; } = 4;
+
+    public ScreenRect NetworthCurrencyTabRect  { get; set; }
+    public ScreenRect NetworthCurrencyScanRect { get; set; }
+    public int        NetworthCurrencyCols     { get; set; } = 12;
+    public int        NetworthCurrencyRows     { get; set; } = 4;
 }

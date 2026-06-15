@@ -80,6 +80,13 @@ public partial class MainWindow : Window
     private ScreenRect _breachInventoryRect;
     private Dictionary<string, ScreenRect> _deliriumItemRegions = new();
     private ScreenRect _deliriumInventoryRect;
+    private ScreenRect _nwBreachTabRect;
+    private ScreenRect _nwBreachScanRect;
+    private ScreenRect _nwDeliriumTabRect;
+    private ScreenRect _nwDeliriumScanRect;
+    private ScreenRect _nwCurrencyTabRect;
+    private ScreenRect _nwCurrencyScanRect;
+    private CancellationTokenSource? _nwScanCts;
     private ScreenRect _stashOcrSearchRect;
     private ScreenRect _reforgingBenchOcrSearchRect;
     private List<ScreenRect> _fullInventoryCells = new();
@@ -726,6 +733,24 @@ public partial class MainWindow : Window
         RfLoadFromState();
         RebuildBreachPanel();
         RebuildDeliriumPanel();
+        _nwBreachTabRect    = s.NetworthBreachTabRect;
+        _nwBreachScanRect   = s.NetworthBreachScanRect;
+        NwBreachTabInfo.Text    = FormatRect(_nwBreachTabRect);
+        NwBreachScanInfo.Text   = FormatRect(_nwBreachScanRect);
+        NwBreachColsBox.Text    = s.NetworthBreachCols.ToString();
+        NwBreachRowsBox.Text    = s.NetworthBreachRows.ToString();
+        _nwDeliriumTabRect  = s.NetworthDeliriumTabRect;
+        _nwDeliriumScanRect = s.NetworthDeliriumScanRect;
+        NwDeliriumTabInfo.Text  = FormatRect(_nwDeliriumTabRect);
+        NwDeliriumScanInfo.Text = FormatRect(_nwDeliriumScanRect);
+        NwDeliriumColsBox.Text  = s.NetworthDeliriumCols.ToString();
+        NwDeliriumRowsBox.Text  = s.NetworthDeliriumRows.ToString();
+        _nwCurrencyTabRect  = s.NetworthCurrencyTabRect;
+        _nwCurrencyScanRect = s.NetworthCurrencyScanRect;
+        NwCurrencyTabInfo.Text  = FormatRect(_nwCurrencyTabRect);
+        NwCurrencyScanInfo.Text = FormatRect(_nwCurrencyScanRect);
+        NwCurrencyColsBox.Text  = s.NetworthCurrencyCols.ToString();
+        NwCurrencyRowsBox.Text  = s.NetworthCurrencyRows.ToString();
         _catalystGoldPrices = s.CatalystGoldPrices != null
             ? new Dictionary<string, int>(s.CatalystGoldPrices)
             : new Dictionary<string, int>();
@@ -806,6 +831,18 @@ public partial class MainWindow : Window
             DeliriumItemRegions = _deliriumItemRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_deliriumItemRegions)
                 : null,
+            NetworthBreachTabRect    = _nwBreachTabRect,
+            NetworthBreachScanRect   = _nwBreachScanRect,
+            NetworthBreachCols       = RfParseInt(NwBreachColsBox.Text, 12),
+            NetworthBreachRows       = RfParseInt(NwBreachRowsBox.Text, 4),
+            NetworthDeliriumTabRect  = _nwDeliriumTabRect,
+            NetworthDeliriumScanRect = _nwDeliriumScanRect,
+            NetworthDeliriumCols     = RfParseInt(NwDeliriumColsBox.Text, 12),
+            NetworthDeliriumRows     = RfParseInt(NwDeliriumRowsBox.Text, 4),
+            NetworthCurrencyTabRect  = _nwCurrencyTabRect,
+            NetworthCurrencyScanRect = _nwCurrencyScanRect,
+            NetworthCurrencyCols     = RfParseInt(NwCurrencyColsBox.Text, 12),
+            NetworthCurrencyRows     = RfParseInt(NwCurrencyRowsBox.Text, 4),
             FullInventoryCells = _fullInventoryCells.Count > 0 ? _fullInventoryCells : null,
             StashOcrSearchRect = _stashOcrSearchRect,
             StashOcrText = StashOcrTextBox.Text.Trim(),
@@ -3367,6 +3404,227 @@ public partial class MainWindow : Window
         _deliriumItemRegions[id] = region;
         infoBlock.Text = FormatRect(region);
         SaveSettings();
+    }
+
+    // ═══════════════════════════════════════════════════════════════════════
+    // NETWORTH
+    // ═══════════════════════════════════════════════════════════════════════
+
+    private void NwBreachTabPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _nwBreachTabRect = r;
+        NwBreachTabInfo.Text = FormatRect(r);
+        SaveSettings();
+    }
+
+    private void NwBreachScanPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _nwBreachScanRect = r;
+        NwBreachScanInfo.Text = FormatRect(r);
+        SaveSettings();
+    }
+
+    private void NwDeliriumTabPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _nwDeliriumTabRect = r;
+        NwDeliriumTabInfo.Text = FormatRect(r);
+        SaveSettings();
+    }
+
+    private void NwDeliriumScanPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _nwDeliriumScanRect = r;
+        NwDeliriumScanInfo.Text = FormatRect(r);
+        SaveSettings();
+    }
+
+    private void NwCurrencyTabPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _nwCurrencyTabRect = r;
+        NwCurrencyTabInfo.Text = FormatRect(r);
+        SaveSettings();
+    }
+
+    private void NwCurrencyScanPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _nwCurrencyScanRect = r;
+        NwCurrencyScanInfo.Text = FormatRect(r);
+        SaveSettings();
+    }
+
+    private async void NetworthScanBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _nwScanCts?.Cancel();
+        _nwScanCts = new CancellationTokenSource();
+        var ct = _nwScanCts.Token;
+
+        NetworthScanBtn.IsEnabled = false;
+        NetworthStopBtn.IsEnabled = true;
+        NetworthStatusText.Text = "Сканирование…";
+        NetworthResultsPanel.Children.Clear();
+
+        SaveSettings();
+
+        var mouseMs     = RfParseInt(MouseActionDelayMs.Text, 80);
+        var clipMs      = RfParseInt(ClipboardDelayMs.Text, 220);
+
+        var groups = new List<(string, ScreenRect, ScreenRect, int, int)>
+        {
+            ("Breach",   _nwBreachTabRect,   _nwBreachScanRect,   RfParseInt(NwBreachColsBox.Text,   12), RfParseInt(NwBreachRowsBox.Text,   4)),
+            ("Delirium", _nwDeliriumTabRect, _nwDeliriumScanRect, RfParseInt(NwDeliriumColsBox.Text, 12), RfParseInt(NwDeliriumRowsBox.Text, 4)),
+            ("Currency", _nwCurrencyTabRect, _nwCurrencyScanRect, RfParseInt(NwCurrencyColsBox.Text, 12), RfParseInt(NwCurrencyRowsBox.Text, 4)),
+        };
+
+        var progress = new Progress<string>(msg => NetworthStatusText.Text = msg);
+
+        try
+        {
+            var results = await Task.Run(() =>
+                Services.NetworthService.ScanAsync(
+                    groups,
+                    mouseMs,
+                    clipMs,
+                    () => RfClearClipboardAsync(),
+                    () => Dispatcher.InvokeAsync(RfGetClipboardTextSafe).Task,
+                    progress,
+                    ct), ct);
+
+            NwDisplayResults(results);
+        }
+        catch (OperationCanceledException)
+        {
+            NetworthStatusText.Text = "Сканирование отменено.";
+        }
+        catch (Exception ex)
+        {
+            NetworthStatusText.Text = $"Ошибка: {ex.Message}";
+        }
+        finally
+        {
+            Native.Win32Input.ReleaseCtrlAlt();
+            NetworthScanBtn.IsEnabled = true;
+            NetworthStopBtn.IsEnabled = false;
+        }
+    }
+
+    private void NetworthStopBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _nwScanCts?.Cancel();
+    }
+
+    private void NwDisplayResults(List<Services.NetworthGroupResult> results)
+    {
+        NetworthResultsPanel.Children.Clear();
+
+        var grandTotal = results.Sum(g => g.TotalDiv);
+        var totalBlock = new System.Windows.Controls.TextBlock
+        {
+            Text = $"Итого: {grandTotal:F3} div",
+            FontWeight = FontWeights.Bold,
+            FontSize = 15,
+            Margin = new Thickness(0, 0, 0, 12),
+        };
+        NetworthResultsPanel.Children.Add(totalBlock);
+
+        foreach (var group in results)
+        {
+            var expander = new System.Windows.Controls.Expander
+            {
+                Header = $"{group.GroupName}  —  {group.TotalDiv:F3} div  ({group.Items.Count} поз.)",
+                IsExpanded = true,
+                Margin = new Thickness(0, 0, 0, 10),
+                FontWeight = FontWeights.SemiBold,
+            };
+
+            var grid = new System.Windows.Controls.Grid();
+            grid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) });
+            grid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new GridLength(80) });
+            grid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new GridLength(60) });
+            grid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new GridLength(90) });
+
+            var rows = group.Items.Count + 2; // header + items + total
+            for (var i = 0; i < rows; i++)
+                grid.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = GridLength.Auto });
+
+            // Header row
+            NwAddCell(grid, "Предмет",       0, 0, bold: true);
+            NwAddCell(grid, "Цена (div)",     1, 0, bold: true);
+            NwAddCell(grid, "Кол-во",         2, 0, bold: true);
+            NwAddCell(grid, "Сумма (div)",    3, 0, bold: true);
+
+            for (var i = 0; i < group.Items.Count; i++)
+            {
+                var item = group.Items[i];
+                var row = i + 1;
+                var bg = i % 2 == 0 ? "#F5F5F5" : null;
+                NwAddCell(grid, item.ItemName,              0, row, bg: bg);
+                NwAddCell(grid, item.PriceDiv.ToString("F3"),   1, row, bg: bg);
+                NwAddCell(grid, item.Quantity.ToString(),   2, row, bg: bg);
+                NwAddCell(grid, item.TotalDiv.ToString("F3"),   3, row, bg: bg);
+            }
+
+            // Total row
+            var totalRow = group.Items.Count + 1;
+            NwAddCell(grid, "ИТОГО",                          0, totalRow, bold: true);
+            NwAddCell(grid, "",                               1, totalRow);
+            NwAddCell(grid, "",                               2, totalRow);
+            NwAddCell(grid, group.TotalDiv.ToString("F3"),    3, totalRow, bold: true);
+
+            expander.Content = new System.Windows.Controls.Border
+            {
+                Margin = new Thickness(4, 4, 0, 0),
+                Child = grid,
+            };
+            expander.FontWeight = FontWeights.Normal;
+            expander.Header = $"{group.GroupName}  —  {group.TotalDiv:F3} div  ({group.Items.Count} поз.)";
+            NetworthResultsPanel.Children.Add(expander);
+        }
+
+        if (results.Count > 0)
+            NetworthStatusText.Text = $"Готово. Итого: {grandTotal:F3} div по {results.Count} группам.";
+        else
+            NetworthStatusText.Text = "Нет данных. Настройте области сканирования в «Настройки областей → Networth».";
+    }
+
+    private static void NwAddCell(System.Windows.Controls.Grid grid, string text, int col, int row, bool bold = false, string? bg = null)
+    {
+        var tb = new System.Windows.Controls.TextBlock
+        {
+            Text = text,
+            Padding = new Thickness(6, 3, 6, 3),
+            VerticalAlignment = VerticalAlignment.Center,
+            FontWeight = bold ? FontWeights.Bold : FontWeights.Normal,
+        };
+        if (bg != null)
+        {
+            var border = new System.Windows.Controls.Border
+            {
+                Background = new System.Windows.Media.SolidColorBrush(
+                    (System.Windows.Media.Color)System.Windows.Media.ColorConverter.ConvertFromString(bg)),
+                Child = tb,
+            };
+            System.Windows.Controls.Grid.SetColumn(border, col);
+            System.Windows.Controls.Grid.SetRow(border, row);
+            grid.Children.Add(border);
+        }
+        else
+        {
+            System.Windows.Controls.Grid.SetColumn(tb, col);
+            System.Windows.Controls.Grid.SetRow(tb, row);
+            grid.Children.Add(tb);
+        }
     }
 
     // ═══════════════════════════════════════════════════════════════════════

@@ -201,6 +201,119 @@
                         </StackPanel>
                     </Expander>
 
+                    <Expander x:Name="NetworthRegionExpander" Header="Networth (области стэша)" IsExpanded="False" Margin="0,14,0,0">
+                        <StackPanel Margin="0,8,0,0">
+                            <!-- Breach -->
+                            <TextBlock Text="Breach" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,6"/>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Клик по вкладке:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="NwBreachTabInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwBreachTabPickBtn_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Область сканирования:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="NwBreachScanInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwBreachScanPickBtn_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="60"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Сетка (колонки × строки):" VerticalAlignment="Center"/>
+                                <TextBox x:Name="NwBreachColsBox" Grid.Column="1" Text="12" Padding="4,2" Margin="0,0,8,0"/>
+                                <TextBlock Text="×" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBox x:Name="NwBreachRowsBox" Grid.Column="3" Text="4" Padding="4,2"/>
+                            </Grid>
+
+                            <Separator Margin="0,0,0,10"/>
+
+                            <!-- Delirium -->
+                            <TextBlock Text="Delirium" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,6"/>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Клик по вкладке:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="NwDeliriumTabInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwDeliriumTabPickBtn_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Область сканирования:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="NwDeliriumScanInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwDeliriumScanPickBtn_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="60"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Сетка (колонки × строки):" VerticalAlignment="Center"/>
+                                <TextBox x:Name="NwDeliriumColsBox" Grid.Column="1" Text="12" Padding="4,2" Margin="0,0,8,0"/>
+                                <TextBlock Text="×" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBox x:Name="NwDeliriumRowsBox" Grid.Column="3" Text="4" Padding="4,2"/>
+                            </Grid>
+
+                            <Separator Margin="0,0,0,10"/>
+
+                            <!-- Currency -->
+                            <TextBlock Text="Currency" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,6"/>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Клик по вкладке:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="NwCurrencyTabInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwCurrencyTabPickBtn_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Область сканирования:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="NwCurrencyScanInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwCurrencyScanPickBtn_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="160"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="60"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Сетка (колонки × строки):" VerticalAlignment="Center"/>
+                                <TextBox x:Name="NwCurrencyColsBox" Grid.Column="1" Text="12" Padding="4,2" Margin="0,0,8,0"/>
+                                <TextBlock Text="×" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                <TextBox x:Name="NwCurrencyRowsBox" Grid.Column="3" Text="4" Padding="4,2"/>
+                            </Grid>
+                        </StackPanel>
+                    </Expander>
+
                     <Expander x:Name="AutoReforgeNavExpander" Header="Навигация (авто-перековка)" IsExpanded="False" Margin="0,14,0,0">
                         <StackPanel Margin="0,8,0,0">
                             <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,8"
@@ -594,19 +707,7 @@
 
                     <Separator Margin="0,0,0,12"/>
 
-                    <!-- Цены poe.ninja -->
-                    <TextBlock Text="Цены poe.ninja" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
-                    <Grid Margin="0,0,0,4">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="80"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="130"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Лига:" VerticalAlignment="Center"/>
-                        <TextBox x:Name="PoeNinjaLeagueBox" Grid.Column="1" Padding="4,2" Margin="0,0,8,0" Text="Standard"/>
-                        <Button Grid.Column="2" Content="Загрузить цены" Padding="6,4" Click="PoeNinjaFetchBtn_Click"/>
-                    </Grid>
-                    <TextBlock x:Name="PoeNinjaStatusText" FontSize="11" Foreground="#555" Margin="0,0,0,4" Text="Цены не загружены."/>
+                    <!-- Прибыльность (цены загружаются из Настройки приложения) -->
                     <TextBlock Text="Прибыльность на 100 000 золота" FontWeight="SemiBold" FontSize="12" Margin="0,4,0,4"/>
                     <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,6"
                                Text="Покупка за золото → продажа за экзальты на рынке (комиссия: 240 зол./экзальт). Отсортировано по убыванию прибыльности."/>
@@ -895,50 +996,91 @@
             </ScrollViewer>
         </TabItem>
 
-        <TabItem x:Name="TabAppSettings" Header="Настройки приложения">
-            <Grid Margin="16">
+        <TabItem x:Name="TabNetworth" Header="Networth">
+            <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
 
-                <TextBlock Grid.Row="0"
-                           TextWrapping="Wrap"
-                           FontWeight="SemiBold"
-                           Margin="0,0,0,4"
-                           Text="Задержка после перемещения мыши и после клика, мс (одно значение для всех шагов Move, ЛКМ, ПКМ)"/>
-                <TextBox Grid.Row="1" x:Name="MouseActionDelayMs" Margin="0,0,0,12" Text="80"/>
-
-                <TextBlock Grid.Row="2" Text="Задержка после Ctrl+Alt+C перед чтением буфера, мс" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                <TextBox Grid.Row="3" x:Name="ClipboardDelayMs" Margin="0,0,0,12" Text="220"/>
-
-                <StackPanel Grid.Row="4" Margin="0,0,0,12">
-                    <CheckBox x:Name="TraceInputCheckBox"
-                              Margin="0,0,0,8"
-                              Content="Подробный лог ввода (отладка: шаги мыши/клавиш и позиция курсора)"
-                              ToolTip="Включите и смотрите окно лога или файл Log/session_… после закрытия приложения. Рекомендуется запуск отладки F5 из Cursor."/>
-
-                    <CheckBox x:Name="StepConfirmCheckBox"
-                              Margin="0,0,0,0"
-                              Content="Пошаговое подтверждение: окно после каждого действия (Enter = Продолжить)"
-                              ToolTip="Для отладки. Закрытие окна крестиком отменяет цикл (Стоп). В бою с игрой обычно выключено."/>
-
-                    <CheckBox x:Name="TraceExaltationSchemaCheckBox"
-                              Margin="0,8,0,0"
-                              Content="Трассировка схемы экзальт-крафта ([ExaltSchema] в логе — узел ASCII-флоу)"
-                              ToolTip="Только для режима Orb of Exaltation (Fractured). В лог пишутся строки [ExaltSchema] … с якорем на docs/EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt. Сочетайте с F5 и подробным логом ввода при необходимости."/>
-
-                    <CheckBox x:Name="KillPoeAfterCraftCheckBox"
-                              Margin="0,8,0,0"
-                              Content="Завершить процесс PathOfExileSteam.exe после завершения крафта"
-                              ToolTip="Не сохраняется. Если включено — после завершения крафта по любой причине будет выполнено завершение процесса игры."/>
+                <!-- Панель управления -->
+                <StackPanel Grid.Row="0" Margin="16,16,16,8">
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Button x:Name="NetworthScanBtn"
+                                Content="▶ Сканировать стэш"
+                                Padding="12,6"
+                                Margin="0,0,8,0"
+                                Click="NetworthScanBtn_Click"
+                                FontWeight="Bold"/>
+                        <Button x:Name="NetworthStopBtn"
+                                Content="■ Стоп"
+                                Padding="12,6"
+                                IsEnabled="False"
+                                Click="NetworthStopBtn_Click"/>
+                    </StackPanel>
+                    <TextBlock x:Name="NetworthStatusText"
+                               FontSize="11"
+                               Foreground="#555"
+                               Text="Не сканировалось."/>
                 </StackPanel>
 
-                <StackPanel Grid.Row="5">
+                <!-- Результаты -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Margin="16,0,16,16">
+                    <StackPanel x:Name="NetworthResultsPanel"/>
+                </ScrollViewer>
+            </Grid>
+        </TabItem>
+
+        <TabItem x:Name="TabAppSettings" Header="Настройки приложения">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="16">
+                    <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4"
+                               Text="Задержка после перемещения мыши и после клика, мс (одно значение для всех шагов Move, ЛКМ, ПКМ)"/>
+                    <TextBox x:Name="MouseActionDelayMs" Margin="0,0,0,12" Text="80"/>
+
+                    <TextBlock Text="Задержка после Ctrl+Alt+C перед чтением буфера, мс" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBox x:Name="ClipboardDelayMs" Margin="0,0,0,12" Text="220"/>
+
+                    <StackPanel Margin="0,0,0,12">
+                        <CheckBox x:Name="TraceInputCheckBox"
+                                  Margin="0,0,0,8"
+                                  Content="Подробный лог ввода (отладка: шаги мыши/клавиш и позиция курсора)"
+                                  ToolTip="Включите и смотрите окно лога или файл Log/session_… после закрытия приложения. Рекомендуется запуск отладки F5 из Cursor."/>
+
+                        <CheckBox x:Name="StepConfirmCheckBox"
+                                  Margin="0,0,0,0"
+                                  Content="Пошаговое подтверждение: окно после каждого действия (Enter = Продолжить)"
+                                  ToolTip="Для отладки. Закрытие окна крестиком отменяет цикл (Стоп). В бою с игрой обычно выключено."/>
+
+                        <CheckBox x:Name="TraceExaltationSchemaCheckBox"
+                                  Margin="0,8,0,0"
+                                  Content="Трассировка схемы экзальт-крафта ([ExaltSchema] в логе — узел ASCII-флоу)"
+                                  ToolTip="Только для режима Orb of Exaltation (Fractured). В лог пишутся строки [ExaltSchema] … с якорем на docs/EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt. Сочетайте с F5 и подробным логом ввода при необходимости."/>
+
+                        <CheckBox x:Name="KillPoeAfterCraftCheckBox"
+                                  Margin="0,8,0,0"
+                                  Content="Завершить процесс PathOfExileSteam.exe после завершения крафта"
+                                  ToolTip="Не сохраняется. Если включено — после завершения крафта по любой причине будет выполнено завершение процесса игры."/>
+                    </StackPanel>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Цены poe.ninja -->
+                    <TextBlock Text="Цены poe.ninja" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="80"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="130"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Лига:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="PoeNinjaLeagueBox" Grid.Column="1" Padding="4,2" Margin="0,0,8,0" Text="Standard"/>
+                        <Button Grid.Column="2" Content="Загрузить цены" Padding="6,4" Click="PoeNinjaFetchBtn_Click"/>
+                    </Grid>
+                    <TextBlock x:Name="PoeNinjaStatusText" FontSize="11" Foreground="#555" Margin="0,0,0,12" Text="Цены не загружены."/>
+
+                    <Separator Margin="0,0,0,12"/>
+
                     <TextBlock FontWeight="SemiBold" Margin="0,0,0,4"
                                Text="Горячая клавиша «Свернуть / развернуть в трей» (кликните в поле и нажмите комбинацию; Esc — сбросить):"/>
                     <TextBox x:Name="TrayHotkeyBox"
@@ -997,7 +1139,7 @@
                         Лог в окне; полный лог крафта (буфер vs строка пользователя) — файл в папке Log проекта после каждого «Старт». Сессионный лог — при закрытии приложения.
                     </TextBlock>
                     <TextBox x:Name="LogBox"
-                             MinHeight="160"
+                             MinHeight="200"
                              IsReadOnly="True"
                              VerticalScrollBarVisibility="Auto"
                              HorizontalScrollBarVisibility="Auto"
@@ -1005,7 +1147,7 @@
                              FontFamily="Consolas"
                              SnapsToDevicePixels="True"/>
                 </StackPanel>
-            </Grid>
+            </ScrollViewer>
         </TabItem>
     </TabControl>
 </Window>
