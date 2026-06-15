@@ -1,0 +1,51 @@
+{
+  "name": "Spears thrud or t1 speed",
+  "savedAt": "2026-06-15T00:44:23.6642528+03:00",
+  "craftMode": "\u0425\u0430\u043E\u0441",
+  "plan": {
+    "expectedItemClass": "Spears",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "count",
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 1,
+              "members": [
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Thrud\u0027s",
+                  "selectedAffixNames": [
+                    "Thrud\u0027s"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "% increased Explicit Speed Modifier magnitudes \u2014 Unscalable Value",
+                  "minRoll": 25,
+                  "minRolls": [
+                    25
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Celebration",
+                  "selectedAffixNames": [
+                    "of Celebration"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "#% increased Attack Speed",
+                  "minRoll": 26,
+                  "minRolls": [
+                    26
+                  ]
+                }
+              ]
+            },
+            "whole": null
+          }
+        ]
+      }
+    ]
+  }
+}

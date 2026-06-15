@@ -1,0 +1,33 @@
+{
+  "name": "Ritual Tablets additional reroll",
+  "savedAt": "2026-06-06T14:36:00.6296046+03:00",
+  "craftMode": "\u0425\u0430\u043E\u0441",
+  "plan": {
+    "expectedItemClass": "Ritual Tablets",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "single",
+            "single": {
+              "affixType": "Suffix Modifier",
+              "affixName": "of Prayers",
+              "selectedAffixNames": [
+                "of Prayers"
+              ],
+              "affixTier": 1,
+              "statTemplate": "Ritual Altars in Map allow rerolling Favours additional times",
+              "minRoll": 1,
+              "minRolls": [
+                1
+              ]
+            },
+            "sum": null,
+            "count": null,
+            "whole": null
+          }
+        ]
+      }
+    ]
+  }
+}

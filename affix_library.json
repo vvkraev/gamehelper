@@ -97122,6 +97122,426 @@
         "5-8"
       ],
       "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Thrud\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Explicit Speed Modifier magnitudes \u2014 Unscalable Value"
+      ],
+      "affixRanges": [
+        "25-30"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Catalysing",
+      "affixTier": 6,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Elemental Damage with Attacks"
+      ],
+      "affixRanges": [
+        "19-35"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "",
+      "affixName": "Verisium",
+      "affixTier": 0,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "\u002B to Accuracy Rating",
+        "% increased Attack Speed"
+      ],
+      "affixRanges": [
+        "327-427",
+        "5-8"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Celebration",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Attack Speed"
+      ],
+      "affixRanges": [
+        "26-28"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of Amanamu",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Spirit Reservation Efficiency of Skills"
+      ],
+      "affixRanges": [
+        "5-10"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "",
+      "affixName": "of the Stars",
+      "affixTier": 0,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased effect of Socketed Augment Items \u2014 Unscalable Value"
+      ],
+      "affixRanges": [
+        "20-30"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Bear",
+      "affixTier": 6,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "\u002B to Strength"
+      ],
+      "affixRanges": [
+        "13-16"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Champion\u0027s",
+      "affixTier": 4,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Physical Damage",
+        "\u002B to Accuracy Rating"
+      ],
+      "affixRanges": [
+        "45-54",
+        "98-123"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Crackling",
+      "affixTier": 7,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Adds X to Y Lightning Damage"
+      ],
+      "affixRanges": [
+        "X(1-2); Y(36-52)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Mastery",
+      "affixTier": 6,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Attack Speed"
+      ],
+      "affixRanges": [
+        "11-13"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Menace",
+      "affixTier": 6,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% to Critical Hit Chance"
+      ],
+      "affixRanges": [
+        "1.01-1.5"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Desperate",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Leeches % of Physical Damage as Mana"
+      ],
+      "affixRanges": [
+        "8-8.9"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Drought",
+      "affixTier": 2,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Leeches % of Physical Damage as Mana"
+      ],
+      "affixRanges": [
+        "7-7.9"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Snapping",
+      "affixTier": 8,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Adds X to Y Lightning Damage"
+      ],
+      "affixRanges": [
+        "X(1-2); Y(20-30)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Destruction",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Explicit Fire Modifier magnitudes \u2014 Unscalable Value"
+      ],
+      "affixRanges": [
+        "15-20"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Success",
+      "affixTier": 8,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Gain Life per enemy killed"
+      ],
+      "affixRanges": [
+        "4-6"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Impact",
+      "affixTier": 6,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Stun Duration"
+      ],
+      "affixRanges": [
+        "11-13"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Glory",
+      "affixTier": 2,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Gain Life per enemy killed"
+      ],
+      "affixRanges": [
+        "54-68"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Burning",
+      "affixTier": 7,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Adds X to Y Fire Damage"
+      ],
+      "affixRanges": [
+        "X(13-19); Y(21-29)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Serrated",
+      "affixTier": 7,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% increased Physical Damage"
+      ],
+      "affixRanges": [
+        "50-64"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Electrocuting",
+      "affixTier": 2,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Adds X to Y Lightning Damage"
+      ],
+      "affixRanges": [
+        "X(1-10); Y(157-196)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Rage",
+      "affixTier": 4,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "% to Critical Damage Bonus"
+      ],
+      "affixRanges": [
+        "14-16"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Mongoose",
+      "affixTier": 8,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "\u002B to Dexterity"
+      ],
+      "affixRanges": [
+        "5-8"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Polar",
+      "affixTier": 3,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Adds X to Y Cold Damage"
+      ],
+      "affixRanges": [
+        "X(40-53); Y(62-80)"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Fletcher",
+      "affixTier": 4,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "\u002B to Level of all Projectile Skills"
+      ],
+      "affixRanges": [
+        "1"
+      ],
+      "affixSubClass": null
+    },
+    {
+      "itemClasses": [
+        "Spears"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Renown",
+      "affixTier": 5,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "% increased Attack Speed"
+      ],
+      "affixRanges": [
+        "14-16"
+      ],
+      "affixSubClass": null
     }
   ]
 }

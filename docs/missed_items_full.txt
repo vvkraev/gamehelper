@@ -1,0 +1,1840 @@
+﻿ПРОПУЩЕННЫЕ ПРЕДМЕТЫ — ПОЛНЫЙ СПИСОК
+Итого: 219 предметов
+========================================================================
+
+1. 2026-04-01 21:49:12  |  Попытка 14
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Melee
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Melee Skills
+             T2 : +36(36-40)% to Fire Resistance
+
+2. 2026-04-01 22:08:26  |  Попытка 79
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : +36(36-40)% to Cold Resistance
+             T1 : 38(35-38)% increased Critical Hit Chance
+
+3. 2026-04-01 22:08:29  |  Попытка 80
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : +36(36-40)% to Cold Resistance
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T2 : +29(28-30) to Strength
+
+4. 2026-04-01 22:08:30  |  Попытка 80
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : +36(36-40)% to Cold Resistance
+             T1 : 38(35-38)% increased Critical Hit Chance
+
+5. 2026-04-01 22:08:33  |  Попытка 81
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : +36(36-40)% to Cold Resistance
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T1 : +31(31-33) to Dexterity
+
+6. 2026-04-01 22:08:34  |  Попытка 81
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T1 : +31(31-33) to Dexterity
+
+7. 2026-04-01 22:08:37  |  Попытка 82
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T1 : +31(31-33) to Dexterity
+             T3 : +27(25-27) to Intelligence
+
+8. 2026-04-01 22:08:38  |  Попытка 82
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T1 : +31(31-33) to Dexterity
+
+9. 2026-04-01 22:08:41  |  Попытка 83
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T1 : +31(31-33) to Dexterity
+             T2 : 24.6(23.1-29) Life Regeneration per second
+
+10. 2026-04-01 22:08:42  |  Попытка 83
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T2 : 24.6(23.1-29) Life Regeneration per second
+
+11. 2026-04-01 22:08:45  |  Попытка 84
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T2 : 24.6(23.1-29) Life Regeneration per second
+             T2 : +30(28-30) to Dexterity
+
+12. 2026-04-01 22:08:46  |  Попытка 84
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T2 : 24.6(23.1-29) Life Regeneration per second
+
+13. 2026-04-01 22:08:49  |  Попытка 85
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T2 : 24.6(23.1-29) Life Regeneration per second
+             T2 : +28(28-30) to Strength
+
+14. 2026-04-01 22:08:51  |  Попытка 85
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T2 : +28(28-30) to Strength
+
+15. 2026-04-01 22:08:53  |  Попытка 86
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T2 : +28(28-30) to Strength
+             T3 : +26(25-27) to Intelligence
+
+16. 2026-04-01 22:08:54  |  Попытка 86
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T2 : +28(28-30) to Strength
+
+17. 2026-04-01 22:08:57  |  Попытка 87
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T2 : +28(28-30) to Strength
+             T2 : 20(19-21)% of Damage taken Recouped as Mana
+
+18. 2026-04-01 22:15:24  |  Попытка 153
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Projectile
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : +38(36-40)% to Fire Resistance
+             T1 : +3 to Level of all Projectile Skills
+
+19. 2026-04-01 22:16:53  |  Попытка 169
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : 51(50-59)% increased Mana Regeneration Rate
+             T1 : 36(35-38)% increased Critical Hit Chance
+
+20. 2026-04-01 22:16:55  |  Попытка 170
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : 51(50-59)% increased Mana Regeneration Rate
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +13(12-14)% to all Elemental Resistances
+
+21. 2026-04-01 22:16:57  |  Попытка 170
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : 51(50-59)% increased Mana Regeneration Rate
+             T1 : 36(35-38)% increased Critical Hit Chance
+
+22. 2026-04-01 22:17:09  |  Попытка 1
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : 51(50-59)% increased Mana Regeneration Rate
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : +23(23-24) to all Attributes
+
+23. 2026-04-01 22:17:10  |  Попытка 1
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : +23(23-24) to all Attributes
+
+24. 2026-04-01 22:17:30  |  Попытка 2
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : +23(23-24) to all Attributes
+             T1 : +41(41-45)% to Fire Resistance
+
+25. 2026-04-01 22:18:45  |  Попытка 12
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : 17(16-18)% of Damage taken Recouped as Life
+             T1 : 35(35-38)% increased Critical Hit Chance
+
+26. 2026-04-01 22:18:47  |  Попытка 13
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : 17(16-18)% of Damage taken Recouped as Life
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T3 : 19.5(18.1-23) Life Regeneration per second
+
+27. 2026-04-01 22:18:48  |  Попытка 13
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : 17(16-18)% of Damage taken Recouped as Life
+             T1 : 35(35-38)% increased Critical Hit Chance
+
+28. 2026-04-01 22:18:50  |  Попытка 14
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : 17(16-18)% of Damage taken Recouped as Life
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T2 : +30(28-30) to Strength
+
+29. 2026-04-01 22:23:26  |  Попытка 33
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +32(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+
+30. 2026-04-01 22:23:29  |  Попытка 34
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +32(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+             T3 : +35(31-35)% to Lightning Resistance
+
+31. 2026-04-01 22:23:30  |  Попытка 34
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +32(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+
+32. 2026-04-01 22:23:33  |  Попытка 35
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +32(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+             T3 : +34(31-35)% to Lightning Resistance
+
+33. 2026-04-01 22:23:34  |  Попытка 35
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +32(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+
+34. 2026-04-01 22:23:37  |  Попытка 36
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +32(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+             T1 : 18(15-18)% increased Rarity of Items found
+
+35. 2026-04-01 22:23:38  |  Попытка 36
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T1 : 18(15-18)% increased Rarity of Items found
+
+36. 2026-04-01 22:23:41  |  Попытка 37
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T1 : 18(15-18)% increased Rarity of Items found
+             T2 : +30(28-30) to Strength
+
+37. 2026-04-01 22:23:42  |  Попытка 37
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T2 : +30(28-30) to Strength
+
+38. 2026-04-01 22:23:45  |  Попытка 38
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T2 : +30(28-30) to Strength
+             T2 : +30(28-30) to Intelligence
+
+39. 2026-04-01 22:25:48  |  Попытка 57
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T4 : +30(26-30)% to Cold Resistance
+             T1 : +3 to Level of all Spell Skills
+
+40. 2026-04-01 22:25:50  |  Попытка 58
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T4 : +30(26-30)% to Cold Resistance
+             T1 : +3 to Level of all Spell Skills
+             T4 : +17(17-18) to all Attributes
+
+41. 2026-04-01 22:27:05  |  Попытка 71
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Projectile
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Projectile Skills
+             T2 : +29(28-30) to Intelligence
+
+42. 2026-04-01 22:31:48  |  Попытка 116
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 29.8(29.1-33) Life Regeneration per second
+             T1 : +3 to Level of all Spell Skills
+
+43. 2026-04-01 22:31:51  |  Попытка 117
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 29.8(29.1-33) Life Regeneration per second
+             T1 : +3 to Level of all Spell Skills
+             T3 : +27(25-27) to Intelligence
+
+44. 2026-04-01 22:31:52  |  Попытка 117
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 29.8(29.1-33) Life Regeneration per second
+             T1 : +3 to Level of all Spell Skills
+
+45. 2026-04-01 22:31:55  |  Попытка 118
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 29.8(29.1-33) Life Regeneration per second
+             T1 : +3 to Level of all Spell Skills
+             T3 : +20(19-20) to all Attributes
+
+46. 2026-04-01 22:31:56  |  Попытка 118
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 29.8(29.1-33) Life Regeneration per second
+             T1 : +3 to Level of all Spell Skills
+
+47. 2026-04-01 22:31:59  |  Попытка 119
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 29.8(29.1-33) Life Regeneration per second
+             T1 : +3 to Level of all Spell Skills
+             T2 : +28(28-30) to Strength
+
+48. 2026-04-01 22:32:00  |  Попытка 119
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T2 : +28(28-30) to Strength
+
+49. 2026-04-01 22:32:03  |  Попытка 120
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T2 : +28(28-30) to Strength
+             T1 : +45(41-45)% to Cold Resistance
+
+50. 2026-04-01 22:36:18  |  Попытка 164
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +35(31-35)% to Lightning Resistance
+             T1 : +3 to Level of all Spell Skills
+
+51. 2026-04-01 22:36:21  |  Попытка 165
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +35(31-35)% to Lightning Resistance
+             T1 : +3 to Level of all Spell Skills
+             T3 : +19(19-20) to all Attributes
+
+52. 2026-04-01 22:36:22  |  Попытка 165
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +19(19-20) to all Attributes
+
+53. 2026-04-01 22:36:25  |  Попытка 166
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +19(19-20) to all Attributes
+             T2 : +38(36-40)% to Lightning Resistance
+
+54. 2026-04-01 22:36:26  |  Попытка 166
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +19(19-20) to all Attributes
+
+55. 2026-04-01 22:36:29  |  Попытка 167
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +19(19-20) to all Attributes
+             T1 : +31(31-33) to Strength
+
+56. 2026-04-01 22:36:30  |  Попытка 167
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +19(19-20) to all Attributes
+
+57. 2026-04-01 22:36:33  |  Попытка 168
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +19(19-20) to all Attributes
+             T2 : +28(28-30) to Dexterity
+
+58. 2026-04-01 22:40:30  |  Попытка 210
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Projectile
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Projectile Skills
+             T2 : +28(28-30) to Strength
+
+59. 2026-04-01 22:40:35  |  Попытка 211
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 27(25-28)% increased Cast Speed
+             T1 : 36(35-38)% increased Critical Hit Chance
+
+60. 2026-04-01 22:40:38  |  Попытка 212
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 27(25-28)% increased Cast Speed
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : 30(30-34)% increased Critical Damage Bonus
+
+61. 2026-04-01 22:40:40  |  Попытка 212
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 27(25-28)% increased Cast Speed
+             T1 : 36(35-38)% increased Critical Hit Chance
+
+62. 2026-04-01 22:40:43  |  Попытка 213
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 27(25-28)% increased Cast Speed
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : +28(28-30) to Intelligence
+
+63. 2026-04-01 22:40:44  |  Попытка 213
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 27(25-28)% increased Cast Speed
+             T1 : 36(35-38)% increased Critical Hit Chance
+
+64. 2026-04-01 22:40:46  |  Попытка 214
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 27(25-28)% increased Cast Speed
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +12(12-14)% to all Elemental Resistances
+
+65. 2026-04-01 22:40:48  |  Попытка 214
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +12(12-14)% to all Elemental Resistances
+
+66. 2026-04-01 22:40:51  |  Попытка 215
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +12(12-14)% to all Elemental Resistances
+             T2 : +39(36-40)% to Cold Resistance
+
+67. 2026-04-01 22:46:28  |  Попытка 272
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Melee
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +41(41-45)% to Lightning Resistance
+             T1 : +3 to Level of all Melee Skills
+
+68. 2026-04-01 22:46:33  |  Попытка 273
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : +41(41-45)% to Fire Resistance
+
+69. 2026-04-01 22:46:35  |  Попытка 274
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : +41(41-45)% to Fire Resistance
+             T3 : +25(25-27) to Dexterity
+
+70. 2026-04-01 22:46:36  |  Попытка 274
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +25(25-27) to Dexterity
+
+71. 2026-04-01 22:46:39  |  Попытка 275
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +25(25-27) to Dexterity
+             T1 : 15(15-18)% increased Rarity of Items found
+
+72. 2026-04-01 22:46:40  |  Попытка 275
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : 15(15-18)% increased Rarity of Items found
+
+73. 2026-04-01 22:46:43  |  Попытка 276
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : 15(15-18)% increased Rarity of Items found
+             T1 : +42(41-45)% to Fire Resistance
+
+74. 2026-04-01 22:46:44  |  Попытка 276
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : 15(15-18)% increased Rarity of Items found
+
+75. 2026-04-01 22:46:47  |  Попытка 277
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : 15(15-18)% increased Rarity of Items found
+             T4 : +27(26-30)% to Cold Resistance
+
+76. 2026-04-01 22:46:48  |  Попытка 277
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : 15(15-18)% increased Rarity of Items found
+
+77. 2026-04-01 22:46:51  |  Попытка 278
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : 15(15-18)% increased Rarity of Items found
+             T1 : +41(41-45)% to Lightning Resistance
+
+78. 2026-04-01 22:46:52  |  Попытка 278
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : 15(15-18)% increased Rarity of Items found
+
+79. 2026-04-01 22:46:55  |  Попытка 279
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : 15(15-18)% increased Rarity of Items found
+             T1 : +18(17-18)% to all Elemental Resistances
+
+80. 2026-04-01 22:46:56  |  Попытка 279
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : +18(17-18)% to all Elemental Resistances
+
+81. 2026-04-01 22:46:59  |  Попытка 280
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : +18(17-18)% to all Elemental Resistances
+             T2 : +29(28-30) to Intelligence
+
+82. 2026-04-01 22:47:00  |  Попытка 280
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : +29(28-30) to Intelligence
+
+83. 2026-04-01 22:47:02  |  Попытка 281
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : +29(28-30) to Intelligence
+             T3 : +31(31-35)% to Fire Resistance
+
+84. 2026-04-01 22:47:04  |  Попытка 281
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +31(31-35)% to Fire Resistance
+
+85. 2026-04-01 22:47:07  |  Попытка 282
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +31(31-35)% to Fire Resistance
+             T3 : +27(25-27) to Intelligence
+
+86. 2026-04-01 22:47:09  |  Попытка 282
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +27(25-27) to Intelligence
+
+87. 2026-04-01 22:47:11  |  Попытка 283
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +27(25-27) to Intelligence
+             T2 : +30(28-30) to Strength
+
+88. 2026-04-01 22:47:13  |  Попытка 283
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +27(25-27) to Intelligence
+
+89. 2026-04-01 22:47:15  |  Попытка 284
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +27(25-27) to Intelligence
+             T1 : 15(15-18)% increased Rarity of Items found
+
+90. 2026-04-01 22:47:17  |  Попытка 284
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +27(25-27) to Intelligence
+
+91. 2026-04-01 22:47:20  |  Попытка 285
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +27(25-27) to Intelligence
+             T2 : +30(28-30) to Dexterity
+
+92. 2026-04-01 22:47:21  |  Попытка 285
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +27(25-27) to Intelligence
+
+93. 2026-04-01 22:47:24  |  Попытка 286
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +27(25-27) to Intelligence
+             T2 : +29(28-30) to Dexterity
+
+94. 2026-04-01 22:47:25  |  Попытка 286
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : +29(28-30) to Dexterity
+
+95. 2026-04-01 22:47:28  |  Попытка 287
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : +29(28-30) to Dexterity
+             T2 : 19(19-21)% of Damage taken Recouped as Life
+
+96. 2026-04-01 22:54:31  |  Попытка 18
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : +16(15-16)% to all Elemental Resistances
+             T1 : +3 to Level of all Spell Skills
+
+97. 2026-04-01 22:54:34  |  Попытка 19
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : +16(15-16)% to all Elemental Resistances
+             T1 : +3 to Level of all Spell Skills
+             T3 : +31(31-35)% to Cold Resistance
+
+98. 2026-04-01 22:54:35  |  Попытка 19
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +31(31-35)% to Cold Resistance
+
+99. 2026-04-01 22:54:38  |  Попытка 20
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +31(31-35)% to Cold Resistance
+             T3 : +26(25-27) to Intelligence
+
+100. 2026-04-01 22:54:39  |  Попытка 20
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +26(25-27) to Intelligence
+
+101. 2026-04-01 22:54:41  |  Попытка 21
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +26(25-27) to Intelligence
+             T1 : +45(41-45)% to Lightning Resistance
+
+102. 2026-04-01 22:59:27  |  Попытка 66
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Melee
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : 52(50-59)% increased Mana Regeneration Rate
+             T1 : +3 to Level of all Melee Skills
+
+103. 2026-04-01 23:07:54  |  Попытка 149
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Minion
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : 21(19-21)% of Damage taken Recouped as Mana
+             T1 : +3 to Level of all Minion Skills
+
+104. 2026-04-01 23:12:34  |  Попытка 195
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T4 : +18(17-18) to all Attributes
+
+105. 2026-04-01 23:12:37  |  Попытка 196
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T4 : +18(17-18) to all Attributes
+             T1 : 29.5(29.1-33) Life Regeneration per second
+
+106. 2026-04-01 23:12:38  |  Попытка 196
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T4 : +18(17-18) to all Attributes
+
+107. 2026-04-01 23:12:41  |  Попытка 197
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 38%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 38(35-38)% increased Critical Hit Chance
+             T4 : +18(17-18) to all Attributes
+             T2 : +20(20-23)% to Chaos Resistance
+
+108. 2026-04-01 23:40:23  |  Попытка 54
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Projectile
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +44(41-45)% to Fire Resistance
+             T1 : +3 to Level of all Projectile Skills
+
+109. 2026-04-01 23:41:19  |  Попытка 70
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +25(25-27) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+
+110. 2026-04-01 23:41:33  |  Попытка 71
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +25(25-27) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+             T3 : +33(31-35)% to Fire Resistance
+
+111. 2026-04-01 23:41:34  |  Попытка 71
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +33(31-35)% to Fire Resistance
+
+112. 2026-04-01 23:41:35  |  Попытка 72
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +33(31-35)% to Fire Resistance
+             T2 : +39(36-40)% to Cold Resistance
+
+113. 2026-04-01 23:41:36  |  Попытка 72
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T2 : +39(36-40)% to Cold Resistance
+
+114. 2026-04-01 23:41:38  |  Попытка 73
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T2 : +39(36-40)% to Cold Resistance
+             T2 : +21(21-22) to all Attributes
+
+115. 2026-04-01 23:41:39  |  Попытка 73
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T2 : +21(21-22) to all Attributes
+
+116. 2026-04-01 23:41:40  |  Попытка 74
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T2 : +21(21-22) to all Attributes
+             T3 : +34(31-35)% to Lightning Resistance
+
+117. 2026-04-01 23:41:41  |  Попытка 74
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +34(31-35)% to Lightning Resistance
+
+118. 2026-04-01 23:41:43  |  Попытка 75
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +34(31-35)% to Lightning Resistance
+             T2 : +29(28-30) to Strength
+
+119. 2026-04-01 23:45:44  |  Попытка 138
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Minion
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +35(31-35)% to Fire Resistance
+             T1 : +3 to Level of all Minion Skills
+
+120. 2026-04-01 23:49:03  |  Попытка 195
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Projectile
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : 21.5(18.1-23) Life Regeneration per second
+             T1 : +3 to Level of all Projectile Skills
+
+121. 2026-04-02 00:08:45  |  Попытка 14
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +18(17-18)% to all Elemental Resistances
+             T1 : +3 to Level of all Spell Skills
+
+122. 2026-04-02 00:08:59  |  Попытка 15
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +18(17-18)% to all Elemental Resistances
+             T1 : +3 to Level of all Spell Skills
+             T4 : +17(17-18) to all Attributes
+
+123. 2026-04-02 00:09:00  |  Попытка 15
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T4 : +17(17-18) to all Attributes
+
+124. 2026-04-02 09:04:18  |  Попытка 5
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Melee
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +31(31-33) to Strength
+             T1 : +3 to Level of all Melee Skills
+
+125. 2026-04-02 09:05:10  |  Попытка 24
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +12(12-14)% to all Elemental Resistances
+
+126. 2026-04-02 09:05:23  |  Попытка 25
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T3 : +12(12-14)% to all Elemental Resistances
+             T1 : 25(25-28)% increased Cast Speed
+
+127. 2026-04-02 09:05:25  |  Попытка 25
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T1 : 25(25-28)% increased Cast Speed
+
+128. 2026-04-02 09:05:26  |  Попытка 26
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T1 : 25(25-28)% increased Cast Speed
+             T3 : 22.6(18.1-23) Life Regeneration per second
+
+129. 2026-04-02 09:06:27  |  Попытка 41
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Projectile
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : +15(15-16)% to all Elemental Resistances
+             T1 : +3 to Level of all Projectile Skills
+
+130. 2026-04-02 09:06:49  |  Попытка 49
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : 24(23.1-29) Life Regeneration per second
+
+131. 2026-04-02 09:07:02  |  Попытка 50
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : 24(23.1-29) Life Regeneration per second
+             T2 : +29(28-30) to Intelligence
+
+132. 2026-04-02 09:07:03  |  Попытка 50
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : 24(23.1-29) Life Regeneration per second
+
+133. 2026-04-02 09:07:04  |  Попытка 51
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : 24(23.1-29) Life Regeneration per second
+             T2 : +22(21-22) to all Attributes
+
+134. 2026-04-02 09:07:43  |  Попытка 58
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Melee
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Melee Skills
+             T3 : +32(31-35)% to Cold Resistance
+
+135. 2026-04-02 09:09:55  |  Попытка 106
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : 35(35-38)% increased Critical Hit Chance
+
+136. 2026-04-02 09:10:08  |  Попытка 107
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T2 : +28(28-30) to Intelligence
+
+137. 2026-04-02 09:10:10  |  Попытка 107
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T2 : +28(28-30) to Intelligence
+
+138. 2026-04-02 09:10:11  |  Попытка 108
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T2 : +28(28-30) to Intelligence
+             T3 : +12(12-14)% to all Elemental Resistances
+
+139. 2026-04-02 09:10:12  |  Попытка 108
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T2 : +28(28-30) to Intelligence
+
+140. 2026-04-02 09:10:13  |  Попытка 109
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T2 : +28(28-30) to Intelligence
+             T3 : 16(16-18)% of Damage taken Recouped as Mana
+
+141. 2026-04-02 09:10:15  |  Попытка 109
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T3 : 16(16-18)% of Damage taken Recouped as Mana
+
+142. 2026-04-02 09:10:16  |  Попытка 110
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T3 : 16(16-18)% of Damage taken Recouped as Mana
+             T1 : +31(31-33) to Intelligence
+
+143. 2026-04-02 09:10:17  |  Попытка 110
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T3 : 16(16-18)% of Damage taken Recouped as Mana
+
+144. 2026-04-02 09:10:18  |  Попытка 111
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T3 : 16(16-18)% of Damage taken Recouped as Mana
+             T1 : +31(31-33) to Dexterity
+
+145. 2026-04-02 09:10:20  |  Попытка 111
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T3 : 16(16-18)% of Damage taken Recouped as Mana
+
+146. 2026-04-02 09:10:21  |  Попытка 112
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T3 : 16(16-18)% of Damage taken Recouped as Mana
+             T2 : +30(28-30) to Strength
+
+147. 2026-04-02 09:11:00  |  Попытка 119
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Projectile
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : 28.6(23.1-29) Life Regeneration per second
+             T1 : +3 to Level of all Projectile Skills
+
+148. 2026-04-02 09:11:40  |  Попытка 134
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Melee
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Melee Skills
+             T3 : +33(31-35)% to Lightning Resistance
+
+149. 2026-04-02 09:14:00  |  Попытка 185
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : 50(50-59)% increased Mana Regeneration Rate
+             T1 : 36(35-38)% increased Critical Hit Chance
+
+150. 2026-04-02 09:14:13  |  Попытка 186
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : 50(50-59)% increased Mana Regeneration Rate
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +26(25-27) to Strength
+
+151. 2026-04-02 09:15:28  |  Попытка 206
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +13(12-14)% to all Elemental Resistances
+             T1 : +3 to Level of all Spell Skills
+
+152. 2026-04-02 09:15:41  |  Попытка 207
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +13(12-14)% to all Elemental Resistances
+             T1 : +3 to Level of all Spell Skills
+             T2 : 54(50-59)% increased Mana Regeneration Rate
+
+153. 2026-04-02 09:15:42  |  Попытка 207
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T2 : 54(50-59)% increased Mana Regeneration Rate
+
+154. 2026-04-02 09:15:43  |  Попытка 208
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Spell Skills
+             T2 : 54(50-59)% increased Mana Regeneration Rate
+             T2 : 33(30-34)% increased Critical Hit Chance
+
+155. 2026-04-02 09:19:26  |  Попытка 274
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Melee
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Melee Skills
+
+156. 2026-04-02 09:19:27  |  Попытка 275
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Melee
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Melee Skills
+             T1 : +32(31-33) to Intelligence
+
+157. 2026-04-02 09:27:42  |  Попытка 19
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +32(31-35)% to Lightning Resistance
+             T1 : 36(35-38)% increased Critical Hit Chance
+
+158. 2026-04-02 09:27:55  |  Попытка 20
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +32(31-35)% to Lightning Resistance
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : +37(36-40)% to Cold Resistance
+
+159. 2026-04-02 09:27:56  |  Попытка 20
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +32(31-35)% to Lightning Resistance
+             T1 : 36(35-38)% increased Critical Hit Chance
+
+160. 2026-04-02 09:27:57  |  Попытка 21
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +32(31-35)% to Lightning Resistance
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T3 : +19(19-20) to all Attributes
+
+161. 2026-04-02 09:27:59  |  Попытка 21
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +32(31-35)% to Lightning Resistance
+             T1 : 36(35-38)% increased Critical Hit Chance
+
+162. 2026-04-02 09:28:00  |  Попытка 22
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +32(31-35)% to Lightning Resistance
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T2 : +36(36-40)% to Cold Resistance
+
+163. 2026-04-02 09:28:01  |  Попытка 22
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +32(31-35)% to Lightning Resistance
+             T1 : 36(35-38)% increased Critical Hit Chance
+
+164. 2026-04-02 09:28:03  |  Попытка 23
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +32(31-35)% to Lightning Resistance
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T4 : +18(17-18) to all Attributes
+
+165. 2026-04-02 09:28:39  |  Попытка 29
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +34(31-35)% to Lightning Resistance
+             T1 : 37(35-38)% increased Critical Hit Chance
+
+166. 2026-04-02 09:28:52  |  Попытка 30
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +34(31-35)% to Lightning Resistance
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T1 : 18(15-18)% increased Rarity of Items found
+
+167. 2026-04-02 09:28:53  |  Попытка 30
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +34(31-35)% to Lightning Resistance
+             T1 : 37(35-38)% increased Critical Hit Chance
+
+168. 2026-04-02 09:28:54  |  Попытка 31
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +34(31-35)% to Lightning Resistance
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T3 : +32(31-35)% to Cold Resistance
+
+169. 2026-04-02 09:28:56  |  Попытка 31
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T3 : +32(31-35)% to Cold Resistance
+
+170. 2026-04-02 09:28:57  |  Попытка 32
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T3 : +32(31-35)% to Cold Resistance
+             T1 : +31(31-33) to Intelligence
+
+171. 2026-04-02 09:29:49  |  Попытка 44
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +33(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+
+172. 2026-04-02 09:30:03  |  Попытка 45
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +33(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+             T1 : 31.5(29.1-33) Life Regeneration per second
+
+173. 2026-04-02 09:30:04  |  Попытка 45
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +33(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+
+174. 2026-04-02 09:30:05  |  Попытка 46
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +33(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+             T1 : 27(25-28)% increased Cast Speed
+
+175. 2026-04-02 09:30:07  |  Попытка 46
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +33(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+
+176. 2026-04-02 09:30:08  |  Попытка 47
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +33(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+             T2 : 58(50-59)% increased Mana Regeneration Rate
+
+177. 2026-04-02 09:30:09  |  Попытка 47
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +33(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+
+178. 2026-04-02 09:30:11  |  Попытка 48
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +33(31-33) to Dexterity
+             T1 : +3 to Level of all Spell Skills
+             T2 : 25.8(23.1-29) Life Regeneration per second
+
+179. 2026-04-02 09:32:42  |  Попытка 85
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Minion
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Minion Skills
+             T2 : 21(19-21)% of Damage taken Recouped as Life
+
+180. 2026-04-02 09:33:26  |  Попытка 101
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : +29(28-30) to Intelligence
+             T1 : 36(35-38)% increased Critical Hit Chance
+
+181. 2026-04-02 09:33:39  |  Попытка 102
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : +29(28-30) to Intelligence
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : +32(31-33) to Dexterity
+
+182. 2026-04-02 09:33:40  |  Попытка 102
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : +32(31-33) to Dexterity
+
+183. 2026-04-02 09:33:42  |  Попытка 103
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 36%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 36(35-38)% increased Critical Hit Chance
+             T1 : +32(31-33) to Dexterity
+             T2 : +36(36-40)% to Cold Resistance
+
+184. 2026-04-02 09:34:50  |  Попытка 121
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T3 : 16(16-18)% of Damage taken Recouped as Mana
+
+185. 2026-04-02 09:35:04  |  Попытка 122
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T3 : 16(16-18)% of Damage taken Recouped as Mana
+             T3 : +19(19-20) to all Attributes
+
+186. 2026-04-02 09:35:05  |  Попытка 122
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T3 : 16(16-18)% of Damage taken Recouped as Mana
+
+187. 2026-04-02 09:35:07  |  Попытка 123
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T3 : 16(16-18)% of Damage taken Recouped as Mana
+             T2 : +22(21-22) to all Attributes
+
+188. 2026-04-02 09:35:08  |  Попытка 123
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T2 : +22(21-22) to all Attributes
+
+189. 2026-04-02 09:35:09  |  Попытка 124
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T2 : +22(21-22) to all Attributes
+             T2 : +30(28-30) to Strength
+
+190. 2026-04-02 09:35:11  |  Попытка 124
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T2 : +22(21-22) to all Attributes
+
+191. 2026-04-02 09:35:12  |  Попытка 125
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T2 : +22(21-22) to all Attributes
+             T3 : +27(25-27) to Strength
+
+192. 2026-04-02 09:35:13  |  Попытка 125
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T2 : +22(21-22) to all Attributes
+
+193. 2026-04-02 09:35:15  |  Попытка 126
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 37%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 37(35-38)% increased Critical Hit Chance
+             T2 : +22(21-22) to all Attributes
+             T2 : +30(28-30) to Dexterity
+
+194. 2026-04-02 09:38:57  |  Попытка 201
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Melee
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Melee Skills
+             T3 : +25(25-27) to Intelligence
+
+195. 2026-04-02 09:42:05  |  Попытка 12
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Minion
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : +3 to Level of all Minion Skills
+             T2 : 27.7(23.1-29) Life Regeneration per second
+
+196. 2026-04-02 09:42:57  |  Попытка 31
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Minion
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T2 : 23.9(23.1-29) Life Regeneration per second
+             T1 : +3 to Level of all Minion Skills
+
+197. 2026-04-02 09:43:38  |  Попытка 46
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T1 : 17(15-18)% increased Rarity of Items found
+
+198. 2026-04-02 09:43:51  |  Попытка 47
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T1 : 17(15-18)% increased Rarity of Items found
+             T2 : +36(36-40)% to Lightning Resistance
+
+199. 2026-04-02 09:43:53  |  Попытка 47
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T2 : +36(36-40)% to Lightning Resistance
+
+200. 2026-04-02 09:43:54  |  Попытка 48
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T2 : +36(36-40)% to Lightning Resistance
+             T1 : +32(31-33) to Strength
+
+201. 2026-04-02 09:43:55  |  Попытка 48
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T1 : +32(31-33) to Strength
+
+202. 2026-04-02 09:43:57  |  Попытка 49
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T1 : +32(31-33) to Strength
+             T2 : 19(19-21)% of Damage taken Recouped as Life
+
+203. 2026-04-02 09:43:58  |  Попытка 49
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T1 : +32(31-33) to Strength
+
+204. 2026-04-02 09:43:59  |  Попытка 50
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + Crit 35%
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T1 : 35(35-38)% increased Critical Hit Chance
+             T1 : +32(31-33) to Strength
+             T2 : +28(28-30) to Intelligence
+
+205. 2026-04-02 12:32:01  |  Попытка 1
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+206. 2026-04-02 12:32:02  |  Попытка 2
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+207. 2026-04-02 12:32:03  |  Попытка 3
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+208. 2026-04-02 12:32:05  |  Попытка 4
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+209. 2026-04-02 12:32:06  |  Попытка 5
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+210. 2026-04-02 12:32:07  |  Попытка 6
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+211. 2026-04-02 12:32:09  |  Попытка 7
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+212. 2026-04-02 12:32:10  |  Попытка 8
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+213. 2026-04-02 12:32:11  |  Попытка 9
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+214. 2026-04-02 12:32:12  |  Попытка 10
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+215. 2026-04-02 12:32:14  |  Попытка 11
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+216. 2026-04-02 12:32:15  |  Попытка 12
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥2/3стр.)
+   Найдено  : Spirit +50 + +3 Spell
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+             T3 : +26(25-27) to Strength
+             T1 : +3 to Level of all Spell Skills
+
+217. 2026-06-09 13:09:15  |  Попытка 186
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥1/6стр. [пороги ≥3/3/3/3/35/47])
+   Найдено  : Crit 37%
+   Аффиксы  :
+             T1 : 37(35-38)% increased Critical Hit Chance
+
+218. 2026-06-09 13:12:11  |  Попытка 431
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥1/6стр. [пороги ≥3/3/3/3/35/47])
+   Найдено  : +3 Spell
+   Аффиксы  :
+             T1 : +3 to Level of all Spell Skills
+
+219. 2026-06-09 13:29:39  |  Попытка 255
+   Условие  : Класс: Amulets. ИЛИ: (COUNT≥1/6стр. [пороги ≥3/3/3/3/35/47])
+   Найдено  : Spirit +50
+   Аффиксы  :
+             T1 : +50(47-50) to Spirit
+

@@ -1,0 +1,142 @@
+{
+  "name": "Amulets many t1",
+  "savedAt": "2026-06-09T13:59:50.4681396+03:00",
+  "craftMode": "\u0425\u0430\u043E\u0441",
+  "plan": {
+    "expectedItemClass": "Amulets",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "count",
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 1,
+              "members": [
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Battle",
+                  "selectedAffixNames": [
+                    "of Battle"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "\u002B# to Level of all Melee Skills",
+                  "minRoll": 3,
+                  "minRolls": [
+                    3
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of the Overseer",
+                  "selectedAffixNames": [
+                    "of the Overseer"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "\u002B# to Level of all Minion Skills",
+                  "minRoll": 3,
+                  "minRolls": [
+                    3
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of the Sharpshooter",
+                  "selectedAffixNames": [
+                    "of the Sharpshooter"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "\u002B# to Level of all Projectile Skills",
+                  "minRoll": 3,
+                  "minRolls": [
+                    3
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of the Sorcerer",
+                  "selectedAffixNames": [
+                    "of the Sorcerer"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "\u002B# to Level of all Spell Skills",
+                  "minRoll": 3,
+                  "minRolls": [
+                    3
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Unmaking",
+                  "selectedAffixNames": [
+                    "of Unmaking"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "#% increased Critical Hit Chance",
+                  "minRoll": 35,
+                  "minRolls": [
+                    35
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Countess\u0027",
+                  "selectedAffixNames": [
+                    "Countess\u0027"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "\u002B# to Spirit",
+                  "minRoll": 47,
+                  "minRolls": [
+                    47
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Mnemonic",
+                  "selectedAffixNames": [
+                    "Mnemonic"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "#% increased maximum Mana",
+                  "minRoll": 7,
+                  "minRolls": [
+                    7
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Destruction",
+                  "selectedAffixNames": [
+                    "of Destruction"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "% increased Critical Damage Bonus",
+                  "minRoll": 35,
+                  "minRolls": [
+                    35
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Confident",
+                  "selectedAffixNames": [
+                    "Confident"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "#% increased maximum Life",
+                  "minRoll": 7,
+                  "minRolls": [
+                    7
+                  ]
+                }
+              ]
+            },
+            "whole": null
+          }
+        ]
+      }
+    ]
+  }
+}

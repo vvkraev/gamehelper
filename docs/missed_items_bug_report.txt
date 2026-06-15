@@ -1,0 +1,455 @@
+════════════════════════════════════════════════════════════
+ ПОЛНЫЙ СПИСОК ПРОПУЩЕННЫХ ПРЕДМЕТОВ — итого: 219
+════════════════════════════════════════════════════════════
+
+  1. 2026-04-01 21:49:12  Попытка 14    [Spirit +50 + +3 Melee]
+      +50(47-50) to Spirit | +3 to Level of all Melee Skills
+  2. 2026-04-01 22:08:26  Попытка 79    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+  3. 2026-04-01 22:08:29  Попытка 80    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+  4. 2026-04-01 22:08:30  Попытка 80    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+  5. 2026-04-01 22:08:33  Попытка 81    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance | +31(31-33) to Dexterity
+  6. 2026-04-01 22:08:34  Попытка 81    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance | +31(31-33) to Dexterity
+  7. 2026-04-01 22:08:37  Попытка 82    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance | +31(31-33) to Dexterity
+  8. 2026-04-01 22:08:38  Попытка 82    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance | +31(31-33) to Dexterity
+  9. 2026-04-01 22:08:41  Попытка 83    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance | +31(31-33) to Dexterity
+ 10. 2026-04-01 22:08:42  Попытка 83    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+ 11. 2026-04-01 22:08:45  Попытка 84    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+ 12. 2026-04-01 22:08:46  Попытка 84    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+ 13. 2026-04-01 22:08:49  Попытка 85    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+ 14. 2026-04-01 22:08:51  Попытка 85    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+ 15. 2026-04-01 22:08:53  Попытка 86    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+ 16. 2026-04-01 22:08:54  Попытка 86    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+ 17. 2026-04-01 22:08:57  Попытка 87    [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+ 18. 2026-04-01 22:15:24  Попытка 153   [Spirit +50 + +3 Projectile]
+      +50(47-50) to Spirit | +3 to Level of all Projectile Skills
+ 19. 2026-04-01 22:16:53  Попытка 169   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 20. 2026-04-01 22:16:55  Попытка 170   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 21. 2026-04-01 22:16:57  Попытка 170   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 22. 2026-04-01 22:17:09  Попытка 1     [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | +23(23-24) to all Attributes
+ 23. 2026-04-01 22:17:10  Попытка 1     [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | +23(23-24) to all Attributes
+ 24. 2026-04-01 22:17:30  Попытка 2     [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | +23(23-24) to all Attributes | +41(41-45)% to Fire Resistance
+ 25. 2026-04-01 22:18:45  Попытка 12    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+ 26. 2026-04-01 22:18:47  Попытка 13    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+ 27. 2026-04-01 22:18:48  Попытка 13    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+ 28. 2026-04-01 22:18:50  Попытка 14    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+ 29. 2026-04-01 22:23:26  Попытка 33    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +32(31-33) to Dexterity | +3 to Level of all Spell Skills
+ 30. 2026-04-01 22:23:29  Попытка 34    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +32(31-33) to Dexterity | +3 to Level of all Spell Skills
+ 31. 2026-04-01 22:23:30  Попытка 34    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +32(31-33) to Dexterity | +3 to Level of all Spell Skills
+ 32. 2026-04-01 22:23:33  Попытка 35    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +32(31-33) to Dexterity | +3 to Level of all Spell Skills
+ 33. 2026-04-01 22:23:34  Попытка 35    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +32(31-33) to Dexterity | +3 to Level of all Spell Skills
+ 34. 2026-04-01 22:23:37  Попытка 36    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +32(31-33) to Dexterity | +3 to Level of all Spell Skills | 18(15-18)% increased Rarity of Items found
+ 35. 2026-04-01 22:23:38  Попытка 36    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills | 18(15-18)% increased Rarity of Items found
+ 36. 2026-04-01 22:23:41  Попытка 37    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills | 18(15-18)% increased Rarity of Items found
+ 37. 2026-04-01 22:23:42  Попытка 37    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 38. 2026-04-01 22:23:45  Попытка 38    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 39. 2026-04-01 22:25:48  Попытка 57    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 40. 2026-04-01 22:25:50  Попытка 58    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 41. 2026-04-01 22:27:05  Попытка 71    [Spirit +50 + +3 Projectile]
+      +50(47-50) to Spirit | +3 to Level of all Projectile Skills
+ 42. 2026-04-01 22:31:48  Попытка 116   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | 29.8(29.1-33) Life Regeneration per second | +3 to Level of all Spell Skills
+ 43. 2026-04-01 22:31:51  Попытка 117   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | 29.8(29.1-33) Life Regeneration per second | +3 to Level of all Spell Skills
+ 44. 2026-04-01 22:31:52  Попытка 117   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | 29.8(29.1-33) Life Regeneration per second | +3 to Level of all Spell Skills
+ 45. 2026-04-01 22:31:55  Попытка 118   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | 29.8(29.1-33) Life Regeneration per second | +3 to Level of all Spell Skills
+ 46. 2026-04-01 22:31:56  Попытка 118   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | 29.8(29.1-33) Life Regeneration per second | +3 to Level of all Spell Skills
+ 47. 2026-04-01 22:31:59  Попытка 119   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | 29.8(29.1-33) Life Regeneration per second | +3 to Level of all Spell Skills
+ 48. 2026-04-01 22:32:00  Попытка 119   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 49. 2026-04-01 22:32:03  Попытка 120   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills | +45(41-45)% to Cold Resistance
+ 50. 2026-04-01 22:36:18  Попытка 164   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 51. 2026-04-01 22:36:21  Попытка 165   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 52. 2026-04-01 22:36:22  Попытка 165   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 53. 2026-04-01 22:36:25  Попытка 166   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 54. 2026-04-01 22:36:26  Попытка 166   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 55. 2026-04-01 22:36:29  Попытка 167   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills | +31(31-33) to Strength
+ 56. 2026-04-01 22:36:30  Попытка 167   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 57. 2026-04-01 22:36:33  Попытка 168   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 58. 2026-04-01 22:40:30  Попытка 210   [Spirit +50 + +3 Projectile]
+      +50(47-50) to Spirit | +3 to Level of all Projectile Skills
+ 59. 2026-04-01 22:40:35  Попытка 211   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 27(25-28)% increased Cast Speed | 36(35-38)% increased Critical Hit Chance
+ 60. 2026-04-01 22:40:38  Попытка 212   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 27(25-28)% increased Cast Speed | 36(35-38)% increased Critical Hit Chance
+ 61. 2026-04-01 22:40:40  Попытка 212   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 27(25-28)% increased Cast Speed | 36(35-38)% increased Critical Hit Chance
+ 62. 2026-04-01 22:40:43  Попытка 213   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 27(25-28)% increased Cast Speed | 36(35-38)% increased Critical Hit Chance
+ 63. 2026-04-01 22:40:44  Попытка 213   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 27(25-28)% increased Cast Speed | 36(35-38)% increased Critical Hit Chance
+ 64. 2026-04-01 22:40:46  Попытка 214   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 27(25-28)% increased Cast Speed | 36(35-38)% increased Critical Hit Chance
+ 65. 2026-04-01 22:40:48  Попытка 214   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 66. 2026-04-01 22:40:51  Попытка 215   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 67. 2026-04-01 22:46:28  Попытка 272   [Spirit +50 + +3 Melee]
+      +50(47-50) to Spirit | +41(41-45)% to Lightning Resistance | +3 to Level of all Melee Skills
+ 68. 2026-04-01 22:46:33  Попытка 273   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | +41(41-45)% to Fire Resistance
+ 69. 2026-04-01 22:46:35  Попытка 274   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | +41(41-45)% to Fire Resistance
+ 70. 2026-04-01 22:46:36  Попытка 274   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 71. 2026-04-01 22:46:39  Попытка 275   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | 15(15-18)% increased Rarity of Items found
+ 72. 2026-04-01 22:46:40  Попытка 275   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | 15(15-18)% increased Rarity of Items found
+ 73. 2026-04-01 22:46:43  Попытка 276   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | 15(15-18)% increased Rarity of Items found | +42(41-45)% to Fire Resistance
+ 74. 2026-04-01 22:46:44  Попытка 276   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | 15(15-18)% increased Rarity of Items found
+ 75. 2026-04-01 22:46:47  Попытка 277   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | 15(15-18)% increased Rarity of Items found
+ 76. 2026-04-01 22:46:48  Попытка 277   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | 15(15-18)% increased Rarity of Items found
+ 77. 2026-04-01 22:46:51  Попытка 278   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | 15(15-18)% increased Rarity of Items found | +41(41-45)% to Lightning Resistance
+ 78. 2026-04-01 22:46:52  Попытка 278   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | 15(15-18)% increased Rarity of Items found
+ 79. 2026-04-01 22:46:55  Попытка 279   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | 15(15-18)% increased Rarity of Items found | +18(17-18)% to all Elemental Resistances
+ 80. 2026-04-01 22:46:56  Попытка 279   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | +18(17-18)% to all Elemental Resistances
+ 81. 2026-04-01 22:46:59  Попытка 280   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | +18(17-18)% to all Elemental Resistances
+ 82. 2026-04-01 22:47:00  Попытка 280   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 83. 2026-04-01 22:47:02  Попытка 281   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 84. 2026-04-01 22:47:04  Попытка 281   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 85. 2026-04-01 22:47:07  Попытка 282   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 86. 2026-04-01 22:47:09  Попытка 282   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 87. 2026-04-01 22:47:11  Попытка 283   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 88. 2026-04-01 22:47:13  Попытка 283   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 89. 2026-04-01 22:47:15  Попытка 284   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | 15(15-18)% increased Rarity of Items found
+ 90. 2026-04-01 22:47:17  Попытка 284   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 91. 2026-04-01 22:47:20  Попытка 285   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 92. 2026-04-01 22:47:21  Попытка 285   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 93. 2026-04-01 22:47:24  Попытка 286   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 94. 2026-04-01 22:47:25  Попытка 286   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 95. 2026-04-01 22:47:28  Попытка 287   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+ 96. 2026-04-01 22:54:31  Попытка 18    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 97. 2026-04-01 22:54:34  Попытка 19    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 98. 2026-04-01 22:54:35  Попытка 19    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+ 99. 2026-04-01 22:54:38  Попытка 20    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+100. 2026-04-01 22:54:39  Попытка 20    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+101. 2026-04-01 22:54:41  Попытка 21    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills | +45(41-45)% to Lightning Resistance
+102. 2026-04-01 22:59:27  Попытка 66    [Spirit +50 + +3 Melee]
+      +50(47-50) to Spirit | +3 to Level of all Melee Skills
+103. 2026-04-01 23:07:54  Попытка 149   [Spirit +50 + +3 Minion]
+      +50(47-50) to Spirit | +3 to Level of all Minion Skills
+104. 2026-04-01 23:12:34  Попытка 195   [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+105. 2026-04-01 23:12:37  Попытка 196   [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance | 29.5(29.1-33) Life Regeneration per second
+106. 2026-04-01 23:12:38  Попытка 196   [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+107. 2026-04-01 23:12:41  Попытка 197   [Spirit +50 + Crit 38%]
+      +50(47-50) to Spirit | 38(35-38)% increased Critical Hit Chance
+108. 2026-04-01 23:40:23  Попытка 54    [Spirit +50 + +3 Projectile]
+      +50(47-50) to Spirit | +44(41-45)% to Fire Resistance | +3 to Level of all Projectile Skills
+109. 2026-04-01 23:41:19  Попытка 70    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+110. 2026-04-01 23:41:33  Попытка 71    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+111. 2026-04-01 23:41:34  Попытка 71    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+112. 2026-04-01 23:41:35  Попытка 72    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+113. 2026-04-01 23:41:36  Попытка 72    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+114. 2026-04-01 23:41:38  Попытка 73    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+115. 2026-04-01 23:41:39  Попытка 73    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+116. 2026-04-01 23:41:40  Попытка 74    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+117. 2026-04-01 23:41:41  Попытка 74    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+118. 2026-04-01 23:41:43  Попытка 75    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+119. 2026-04-01 23:45:44  Попытка 138   [Spirit +50 + +3 Minion]
+      +50(47-50) to Spirit | +3 to Level of all Minion Skills
+120. 2026-04-01 23:49:03  Попытка 195   [Spirit +50 + +3 Projectile]
+      +50(47-50) to Spirit | +3 to Level of all Projectile Skills
+121. 2026-04-02 00:08:45  Попытка 14    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +18(17-18)% to all Elemental Resistances | +3 to Level of all Spell Skills
+122. 2026-04-02 00:08:59  Попытка 15    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +18(17-18)% to all Elemental Resistances | +3 to Level of all Spell Skills
+123. 2026-04-02 00:09:00  Попытка 15    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+124. 2026-04-02 09:04:18  Попытка 5     [Spirit +50 + +3 Melee]
+      +50(47-50) to Spirit | +31(31-33) to Strength | +3 to Level of all Melee Skills
+125. 2026-04-02 09:05:10  Попытка 24    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+126. 2026-04-02 09:05:23  Попытка 25    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills | 25(25-28)% increased Cast Speed
+127. 2026-04-02 09:05:25  Попытка 25    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills | 25(25-28)% increased Cast Speed
+128. 2026-04-02 09:05:26  Попытка 26    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills | 25(25-28)% increased Cast Speed
+129. 2026-04-02 09:06:27  Попытка 41    [Spirit +50 + +3 Projectile]
+      +50(47-50) to Spirit | +3 to Level of all Projectile Skills
+130. 2026-04-02 09:06:49  Попытка 49    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+131. 2026-04-02 09:07:02  Попытка 50    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+132. 2026-04-02 09:07:03  Попытка 50    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+133. 2026-04-02 09:07:04  Попытка 51    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+134. 2026-04-02 09:07:43  Попытка 58    [Spirit +50 + +3 Melee]
+      +50(47-50) to Spirit | +3 to Level of all Melee Skills
+135. 2026-04-02 09:09:55  Попытка 106   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+136. 2026-04-02 09:10:08  Попытка 107   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+137. 2026-04-02 09:10:10  Попытка 107   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+138. 2026-04-02 09:10:11  Попытка 108   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+139. 2026-04-02 09:10:12  Попытка 108   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+140. 2026-04-02 09:10:13  Попытка 109   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+141. 2026-04-02 09:10:15  Попытка 109   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+142. 2026-04-02 09:10:16  Попытка 110   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance | +31(31-33) to Intelligence
+143. 2026-04-02 09:10:17  Попытка 110   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+144. 2026-04-02 09:10:18  Попытка 111   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance | +31(31-33) to Dexterity
+145. 2026-04-02 09:10:20  Попытка 111   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+146. 2026-04-02 09:10:21  Попытка 112   [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+147. 2026-04-02 09:11:00  Попытка 119   [Spirit +50 + +3 Projectile]
+      +50(47-50) to Spirit | +3 to Level of all Projectile Skills
+148. 2026-04-02 09:11:40  Попытка 134   [Spirit +50 + +3 Melee]
+      +50(47-50) to Spirit | +3 to Level of all Melee Skills
+149. 2026-04-02 09:14:00  Попытка 185   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+150. 2026-04-02 09:14:13  Попытка 186   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+151. 2026-04-02 09:15:28  Попытка 206   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+152. 2026-04-02 09:15:41  Попытка 207   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+153. 2026-04-02 09:15:42  Попытка 207   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+154. 2026-04-02 09:15:43  Попытка 208   [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+155. 2026-04-02 09:19:26  Попытка 274   [Spirit +50 + +3 Melee]
+      +50(47-50) to Spirit | +3 to Level of all Melee Skills
+156. 2026-04-02 09:19:27  Попытка 275   [Spirit +50 + +3 Melee]
+      +50(47-50) to Spirit | +3 to Level of all Melee Skills | +32(31-33) to Intelligence
+157. 2026-04-02 09:27:42  Попытка 19    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+158. 2026-04-02 09:27:55  Попытка 20    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+159. 2026-04-02 09:27:56  Попытка 20    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+160. 2026-04-02 09:27:57  Попытка 21    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+161. 2026-04-02 09:27:59  Попытка 21    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+162. 2026-04-02 09:28:00  Попытка 22    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+163. 2026-04-02 09:28:01  Попытка 22    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+164. 2026-04-02 09:28:03  Попытка 23    [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+165. 2026-04-02 09:28:39  Попытка 29    [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+166. 2026-04-02 09:28:52  Попытка 30    [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance | 18(15-18)% increased Rarity of Items found
+167. 2026-04-02 09:28:53  Попытка 30    [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+168. 2026-04-02 09:28:54  Попытка 31    [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+169. 2026-04-02 09:28:56  Попытка 31    [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+170. 2026-04-02 09:28:57  Попытка 32    [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance | +31(31-33) to Intelligence
+171. 2026-04-02 09:29:49  Попытка 44    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +33(31-33) to Dexterity | +3 to Level of all Spell Skills
+172. 2026-04-02 09:30:03  Попытка 45    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +33(31-33) to Dexterity | +3 to Level of all Spell Skills | 31.5(29.1-33) Life Regeneration per second
+173. 2026-04-02 09:30:04  Попытка 45    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +33(31-33) to Dexterity | +3 to Level of all Spell Skills
+174. 2026-04-02 09:30:05  Попытка 46    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +33(31-33) to Dexterity | +3 to Level of all Spell Skills | 27(25-28)% increased Cast Speed
+175. 2026-04-02 09:30:07  Попытка 46    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +33(31-33) to Dexterity | +3 to Level of all Spell Skills
+176. 2026-04-02 09:30:08  Попытка 47    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +33(31-33) to Dexterity | +3 to Level of all Spell Skills
+177. 2026-04-02 09:30:09  Попытка 47    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +33(31-33) to Dexterity | +3 to Level of all Spell Skills
+178. 2026-04-02 09:30:11  Попытка 48    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +33(31-33) to Dexterity | +3 to Level of all Spell Skills
+179. 2026-04-02 09:32:42  Попытка 85    [Spirit +50 + +3 Minion]
+      +50(47-50) to Spirit | +3 to Level of all Minion Skills
+180. 2026-04-02 09:33:26  Попытка 101   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance
+181. 2026-04-02 09:33:39  Попытка 102   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | +32(31-33) to Dexterity
+182. 2026-04-02 09:33:40  Попытка 102   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | +32(31-33) to Dexterity
+183. 2026-04-02 09:33:42  Попытка 103   [Spirit +50 + Crit 36%]
+      +50(47-50) to Spirit | 36(35-38)% increased Critical Hit Chance | +32(31-33) to Dexterity
+184. 2026-04-02 09:34:50  Попытка 121   [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+185. 2026-04-02 09:35:04  Попытка 122   [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+186. 2026-04-02 09:35:05  Попытка 122   [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+187. 2026-04-02 09:35:07  Попытка 123   [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+188. 2026-04-02 09:35:08  Попытка 123   [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+189. 2026-04-02 09:35:09  Попытка 124   [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+190. 2026-04-02 09:35:11  Попытка 124   [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+191. 2026-04-02 09:35:12  Попытка 125   [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+192. 2026-04-02 09:35:13  Попытка 125   [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+193. 2026-04-02 09:35:15  Попытка 126   [Spirit +50 + Crit 37%]
+      +50(47-50) to Spirit | 37(35-38)% increased Critical Hit Chance
+194. 2026-04-02 09:38:57  Попытка 201   [Spirit +50 + +3 Melee]
+      +50(47-50) to Spirit | +3 to Level of all Melee Skills
+195. 2026-04-02 09:42:05  Попытка 12    [Spirit +50 + +3 Minion]
+      +50(47-50) to Spirit | +3 to Level of all Minion Skills
+196. 2026-04-02 09:42:57  Попытка 31    [Spirit +50 + +3 Minion]
+      +50(47-50) to Spirit | +3 to Level of all Minion Skills
+197. 2026-04-02 09:43:38  Попытка 46    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance | 17(15-18)% increased Rarity of Items found
+198. 2026-04-02 09:43:51  Попытка 47    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance | 17(15-18)% increased Rarity of Items found
+199. 2026-04-02 09:43:53  Попытка 47    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance
+200. 2026-04-02 09:43:54  Попытка 48    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance | +32(31-33) to Strength
+201. 2026-04-02 09:43:55  Попытка 48    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance | +32(31-33) to Strength
+202. 2026-04-02 09:43:57  Попытка 49    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance | +32(31-33) to Strength
+203. 2026-04-02 09:43:58  Попытка 49    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance | +32(31-33) to Strength
+204. 2026-04-02 09:43:59  Попытка 50    [Spirit +50 + Crit 35%]
+      +50(47-50) to Spirit | 35(35-38)% increased Critical Hit Chance | +32(31-33) to Strength
+205. 2026-04-02 12:32:01  Попытка 1     [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+206. 2026-04-02 12:32:02  Попытка 2     [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+207. 2026-04-02 12:32:03  Попытка 3     [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+208. 2026-04-02 12:32:05  Попытка 4     [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+209. 2026-04-02 12:32:06  Попытка 5     [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+210. 2026-04-02 12:32:07  Попытка 6     [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+211. 2026-04-02 12:32:09  Попытка 7     [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+212. 2026-04-02 12:32:10  Попытка 8     [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+213. 2026-04-02 12:32:11  Попытка 9     [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+214. 2026-04-02 12:32:12  Попытка 10    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+215. 2026-04-02 12:32:14  Попытка 11    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+216. 2026-04-02 12:32:15  Попытка 12    [Spirit +50 + +3 Spell]
+      +50(47-50) to Spirit | +3 to Level of all Spell Skills
+217. 2026-06-09 13:09:15  Попытка 186   [Crit 37%]
+      37(35-38)% increased Critical Hit Chance
+218. 2026-06-09 13:12:11  Попытка 431   [+3 Spell]
+      +3 to Level of all Spell Skills
+219. 2026-06-09 13:29:39  Попытка 255   [Spirit +50]
+      +50(47-50) to Spirit
+
+════════ Сводка ════════
+  Spirit +50 + +3 Spell               — 75
+  Spirit +50 + Crit 36%               — 60
+  Spirit +50 + Crit 35%               — 24
+  Spirit +50 + Crit 38%               — 20
+  Spirit +50 + Crit 37%               — 16
+  Spirit +50 + +3 Melee               — 9
+  Spirit +50 + +3 Projectile          — 7
+  Spirit +50 + +3 Minion              — 5
+  Crit 37%                            — 1  (09.06)
+  +3 Spell                            — 1  (09.06)
+  Spirit +50                          — 1  (09.06)
