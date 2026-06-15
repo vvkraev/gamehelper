@@ -3131,7 +3131,8 @@ public partial class MainWindow : Window
     private static readonly (string Header, string[] Items)[] CurrencyItemGroups =
     [
         ("Редкая валюта", ["Divine Orb", "Fracturing Orb", "Orb of Annulment", "Orb of Extraction",
-                           "Crystallised Corruption", "Architect's Orb", "Vaal Orb", "Orb of Chance", "Orb of Alchemy"]),
+                           "Crystallised Corruption", "Architect's Orb", "Vaal Orb", "Orb of Chance", "Orb of Alchemy",
+                           "Hinekora's Lock"]),
         ("Chaos Orb",        ["Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb"]),
         ("Exalted Orb",      ["Exalted Orb", "Greater Exalted Orb", "Perfect Exalted Orb"]),
         ("Orb of Augmentation", ["Orb of Augmentation", "Greater Orb of Augmentation", "Perfect Orb of Augmentation"]),
@@ -3217,9 +3218,30 @@ public partial class MainWindow : Window
     // Статический список ритуальных предметов с точными именами poe.ninja, сгруппированный для UI.
     private static readonly (string Header, string[] Items)[] RitualItemGroups =
     [
-        ("Экзальтация", ["Omen of Sinistral Exaltation", "Omen of Dextral Exaltation", "Omen of Greater Exaltation"]),
-        ("Другое",      ["Hinekora's Lock", "Omen of Whittling", "Omen of Refreshment", "Omen of Amelioration",
-                         "Omen of Fortune", "Omen of Cleansing", "Omen of Annulment"]),
+        ("Экзальтация",
+            ["Omen of Sinistral Exaltation", "Omen of Dextral Exaltation",
+             "Omen of Greater Exaltation",   "Omen of Catalysing Exaltation"]),
+        ("Аннулирование / Стирание",
+            ["Omen of Sinistral Annulment", "Omen of Dextral Annulment",
+             "Omen of Sinistral Erasure",   "Omen of Dextral Erasure",
+             "Omen of Whittling"]),
+        ("Некромантия / Кристаллизация",
+            ["Omen of Sinistral Necromancy", "Omen of Dextral Necromancy",
+             "Omen of Sinistral Crystallisation", "Omen of Dextral Crystallisation"]),
+        ("Хаос",
+            ["Omen of Chaotic Quantity", "Omen of Chaotic Effectiveness",
+             "Omen of Chaotic Monsters",  "Omen of Chaotic Rarity",
+             "Omen of Gambling",          "Omen of Chance"]),
+        ("Уникальные предметы",
+            ["An Audience with the King", "Head of the King", "Call of the Shadows",
+             "Raven-Touched Shard",       "Omen of Answered Prayers"]),
+        ("Другое",
+            ["Omen of Amelioration",       "Omen of Bartering",        "Omen of Refreshment",
+             "Omen of Reinforcements",     "Omen of Resurgence",       "Omen of Sanctification",
+             "Omen of Putrefaction",       "Omen of Abyssal Echoes",   "Omen of Light",
+             "Omen of the Hunt",           "Omen of the Liege",        "Omen of the Ancients",
+             "Omen of the Blackblooded",   "Omen of the Blessed",      "Omen of the Sovereign",
+             "Omen of Secret Compartments"]),
     ];
 
     private void RebuildRitualItemPanel()
