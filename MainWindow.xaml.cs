@@ -22,11 +22,6 @@ public partial class MainWindow : Window
     private CancellationTokenSource? _cts;
     private readonly ReforgeState _reforgeState = new();
 
-    private ScreenRect? _orbRegion;
-    private ScreenRect? _exaltRegion;
-    private ScreenRect? _augRegion;
-    private ScreenRect? _annulRegion;
-    private ScreenRect? _sharpenRegion;
     private ScreenRect? _currencyInventoryRegion;
     private ScreenRect? _ritualInventoryRegion;
     private ScreenRect? _omenSinistralStashRegion;
@@ -79,6 +74,7 @@ public partial class MainWindow : Window
     private CancellationTokenSource? _autoRfCts;
     private readonly Services.ReforgeService _rfService = new();
     private readonly Services.AutoReforgeService _autoRfService;
+    private Dictionary<string, ScreenRect> _currencyItemRegions = new();
     private Dictionary<string, ScreenRect> _breachCatalystRegions = new();
     private ScreenRect _breachInventoryRect;
     private Dictionary<string, ScreenRect> _deliriumItemRegions = new();
@@ -494,35 +490,17 @@ public partial class MainWindow : Window
         _reforgeState.SelectedCatalystIds   = loaded.SelectedCatalystIds;
         _reforgeState.ItemCells             = loaded.ItemCells;
 
-        if (s.OrbRect is { Width: > 0, Height: > 0 })
+        // Миграция из старых полей в CurrencyItemRegions
+        void MigrateIfMissing(string key, ScreenRect rect)
         {
-            _orbRegion = s.OrbRect;
-            OrbInfo.Text = FormatRect(s.OrbRect);
+            if (rect.Width > 0 && !_currencyItemRegions.ContainsKey(key))
+                _currencyItemRegions[key] = rect;
         }
-
-        if (s.ExaltRect is { Width: > 0, Height: > 0 })
-        {
-            _exaltRegion = s.ExaltRect;
-            ExaltInfo.Text = FormatRect(s.ExaltRect);
-        }
-
-        if (s.AugRect is { Width: > 0, Height: > 0 })
-        {
-            _augRegion = s.AugRect;
-            AugInfo.Text = FormatRect(s.AugRect);
-        }
-
-        if (s.AnnulRect is { Width: > 0, Height: > 0 })
-        {
-            _annulRegion = s.AnnulRect;
-            AnnulInfo.Text = FormatRect(s.AnnulRect);
-        }
-
-        if (s.SharpenRect is { Width: > 0, Height: > 0 })
-        {
-            _sharpenRegion = s.SharpenRect;
-            SharpenInfo.Text = FormatRect(s.SharpenRect);
-        }
+        MigrateIfMissing("Chaos Orb",                  s.OrbRect);
+        MigrateIfMissing("Exalted Orb",                s.ExaltRect);
+        MigrateIfMissing("Perfect Orb of Augmentation", s.AugRect);
+        MigrateIfMissing("Orb of Annulment",           s.AnnulRect);
+        MigrateIfMissing("Blacksmith's Whetstone",     s.SharpenRect);
 
         if (s.OmenSinistralStashRect is { Width: > 0, Height: > 0 })
         {
@@ -704,6 +682,12 @@ public partial class MainWindow : Window
 
         // Загружаем реестр и обновляем UI перековки и Breach-панели
         Services.StackableItemRegistry.Load();
+
+        _currencyItemRegions = s.CurrencyItemRegions != null
+            ? new Dictionary<string, ScreenRect>(s.CurrencyItemRegions)
+            : new();
+        RebuildCurrencyItemPanel();
+
         _breachInventoryRect = s.BreachInventoryRect;
         BreachInventoryInfo.Text = FormatRect(_breachInventoryRect);
         _breachCatalystRegions = s.BreachCatalystRegions != null
@@ -752,11 +736,6 @@ public partial class MainWindow : Window
         var uiMode = (CraftModeCombo.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "Хаос";
         var s = new AppSettings
         {
-            OrbRect = _orbRegion ?? default,
-            ExaltRect = _exaltRegion ?? default,
-            AugRect = _augRegion ?? default,
-            AnnulRect = _annulRegion ?? default,
-            SharpenRect = _sharpenRegion ?? default,
             CurrencyInventoryRect = _currencyInventoryRegion ?? default,
             RitualInventoryRect = _ritualInventoryRegion ?? default,
             OmenSinistralStashRect = _omenSinistralStashRegion ?? default,
@@ -815,6 +794,9 @@ public partial class MainWindow : Window
             AutoReforgeStartStopModifiers = _autoReforgeStartStopModifiers,
             NetworthStartStopVirtualKey = _networthStartStopVirtualKey,
             NetworthStartStopModifiers  = _networthStartStopModifiers,
+            CurrencyItemRegions = _currencyItemRegions.Count > 0
+                ? new Dictionary<string, ScreenRect>(_currencyItemRegions)
+                : null,
             BreachInventoryRect = _breachInventoryRect,
             BreachCatalystRegions = _breachCatalystRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_breachCatalystRegions)
@@ -999,6 +981,14 @@ public partial class MainWindow : Window
     private static string FormatRect(ScreenRect r) =>
         $"X={r.X}, Y={r.Y}, W={r.Width}, H={r.Height} (клик: случайная точка внутри)";
 
+    private ScreenRect? GetCurrencyRect(params string[] names)
+    {
+        foreach (var name in names)
+            if (_currencyItemRegions.TryGetValue(name, out var r) && r.Width > 0)
+                return r;
+        return null;
+    }
+
     private static string FormatItemCellsSummary(IReadOnlyList<ScreenRect> cells)
     {
         if (cells.Count == 0)
@@ -1035,81 +1025,6 @@ public partial class MainWindow : Window
         }
 
         return cells;
-    }
-
-    private void PickOrbBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
-        {
-            SessionLogger.Info("Выбор области Chaos Orb отменён.");
-            return;
-        }
-
-        _orbRegion = region;
-        OrbInfo.Text = FormatRect(region);
-        SessionLogger.Info($"Область Chaos Orb задана: {FormatRect(region)}");
-        SaveSettings();
-    }
-
-    private void PickExaltBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
-        {
-            SessionLogger.Info("Выбор области Orb of Exaltation отменён.");
-            return;
-        }
-
-        _exaltRegion = region;
-        ExaltInfo.Text = FormatRect(region);
-        SessionLogger.Info($"Область Orb of Exaltation задана: {FormatRect(region)}");
-        SaveSettings();
-    }
-
-    private void PickAugBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
-        {
-            SessionLogger.Info("Выбор области Orb of Augmentation отменён.");
-            return;
-        }
-
-        _augRegion = region;
-        AugInfo.Text = FormatRect(region);
-        SessionLogger.Info($"Область Orb of Augmentation задана: {FormatRect(region)}");
-        SaveSettings();
-    }
-
-    private void PickAnnulBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
-        {
-            SessionLogger.Info("Выбор области Orb of Annulment отменён.");
-            return;
-        }
-
-        _annulRegion = region;
-        AnnulInfo.Text = FormatRect(region);
-        SessionLogger.Info($"Область Orb of Annulment задана: {FormatRect(region)}");
-        SaveSettings();
-    }
-
-    private void PickSharpenBtn_OnClick(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region)
-        {
-            SessionLogger.Info("Выбор области заточки отменён.");
-            return;
-        }
-
-        _sharpenRegion = region;
-        SharpenInfo.Text = FormatRect(region);
-        SessionLogger.Info($"Область заточки задана: {FormatRect(region)}");
-        SaveSettings();
     }
 
     private void PickCurrencyInventoryBtn_OnClick(object sender, RoutedEventArgs e)
@@ -1725,9 +1640,9 @@ public partial class MainWindow : Window
 
         if (isSharpen)
         {
-            if (_sharpenRegion is null)
+            if (GetCurrencyRect("Blacksmith's Whetstone", "Armourer's Scrap", "Glassblower's Bauble") is null)
             {
-                MessageBox.Show(this,"Задайте область «заточка» во вкладке «Настройки областей».", "Заточка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                MessageBox.Show(this,"Задайте область предмета заточки (Blacksmith's Whetstone / Armourer's Scrap / Glassblower's Bauble) в «Настройки областей → Currency».", "Заточка", MessageBoxButton.OK, MessageBoxImage.Warning);
                 return;
             }
 
@@ -1755,7 +1670,7 @@ public partial class MainWindow : Window
             try
             {
                 SessionLogger.Info($"--- запуск: заточка, ячеек {_itemCellRegions.Count}, кликов на ячейку 20, задержка мыши {mouseDelayMs} мс ---");
-                await _sharpen.RunAsync(_sharpenRegion.Value, _itemCellRegions, 20, sharpenLog, _cts.Token);
+                await _sharpen.RunAsync(GetCurrencyRect("Blacksmith's Whetstone", "Armourer's Scrap", "Glassblower's Bauble")!.Value, _itemCellRegions, 20, sharpenLog, _cts.Token);
                 SessionLogger.Info("Заточка завершена.");
             }
             catch (OperationCanceledException)
@@ -1779,16 +1694,16 @@ public partial class MainWindow : Window
 
         // Омены не запускаются как отдельный режим — используются ExaltationCraftService как вспомогательный сервис.
 
-        if (!isAugAnnul && !isExalt && _orbRegion is null)
+        if (!isAugAnnul && !isExalt && GetCurrencyRect("Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb") is null)
         {
-            MessageBox.Show(this,"Задайте область Chaos Orb во вкладке «Настройки областей».", "Область орба", MessageBoxButton.OK, MessageBoxImage.Warning);
+            MessageBox.Show(this,"Задайте область Chaos Orb в «Настройки областей → Currency».", "Область орба", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
 
-        if (isExalt && (_exaltRegion is null || _annulRegion is null))
+        if (isExalt && (GetCurrencyRect("Exalted Orb", "Greater Exalted Orb", "Perfect Exalted Orb") is null || GetCurrencyRect("Orb of Annulment") is null))
         {
             MessageBox.Show(this,
-                "Задайте области Orb of Exaltation и Orb of Annulment во вкладке «Настройки областей».",
+                "Задайте области Exalted Orb и Orb of Annulment в «Настройки областей → Currency».",
                 "Области сфер",
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
@@ -1862,10 +1777,10 @@ public partial class MainWindow : Window
             }
         }
 
-        if (isAugAnnul && (_augRegion is null || _annulRegion is null))
+        if (isAugAnnul && (GetCurrencyRect("Perfect Orb of Augmentation", "Greater Orb of Augmentation", "Orb of Augmentation") is null || GetCurrencyRect("Orb of Annulment") is null))
         {
             MessageBox.Show(this,
-                "Задайте области Orb of Augmentation и Orb of Annulment во вкладке «Настройки областей».",
+                "Задайте области Orb of Augmentation и Orb of Annulment в «Настройки областей → Currency».",
                 "Области сфер",
                 MessageBoxButton.OK,
                 MessageBoxImage.Warning);
@@ -1961,10 +1876,10 @@ public partial class MainWindow : Window
         CraftRunFileLog? craftFile = null;
         try
         {
-            var orb = _orbRegion ?? default;
-            var exalt = _exaltRegion ?? default;
-            var aug = _augRegion ?? default;
-            var annul = _annulRegion ?? default;
+            var orb   = GetCurrencyRect("Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb") ?? default;
+            var exalt = GetCurrencyRect("Exalted Orb", "Greater Exalted Orb", "Perfect Exalted Orb") ?? default;
+            var aug   = GetCurrencyRect("Perfect Orb of Augmentation", "Greater Orb of Augmentation", "Orb of Augmentation") ?? default;
+            var annul = GetCurrencyRect("Orb of Annulment") ?? default;
             var cells = _itemCellRegions;
 
             SessionLogger.Info(
@@ -3257,6 +3172,93 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
+    // Статический список валюты с точными именами poe.ninja, сгруппированный для UI.
+    private static readonly (string Header, string[] Items)[] CurrencyItemGroups =
+    [
+        ("Редкая валюта", ["Divine Orb", "Fracturing Orb", "Orb of Annulment", "Orb of Extraction",
+                           "Crystallised Corruption", "Architect's Orb", "Vaal Orb", "Orb of Chance", "Orb of Alchemy"]),
+        ("Chaos Orb",        ["Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb"]),
+        ("Exalted Orb",      ["Exalted Orb", "Greater Exalted Orb", "Perfect Exalted Orb"]),
+        ("Orb of Augmentation", ["Orb of Augmentation", "Greater Orb of Augmentation", "Perfect Orb of Augmentation"]),
+        ("Orb of Transmutation", ["Orb of Transmutation", "Greater Orb of Transmutation", "Perfect Orb of Transmutation"]),
+        ("Regal Orb",        ["Regal Orb", "Greater Regal Orb", "Perfect Regal Orb"]),
+        ("Jeweller's Orb",   ["Lesser Jeweller's Orb", "Greater Jeweller's Orb", "Perfect Jeweller's Orb"]),
+        ("Другое",           ["Arcanist's Etcher", "Artificer's Orb", "Blacksmith's Whetstone",
+                               "Glassblower's Bauble", "Armourer's Scrap", "Gemcutter's Prism"]),
+    ];
+
+    private void RebuildCurrencyItemPanel()
+    {
+        CurrencyItemRegionsPanel.Children.Clear();
+        bool firstGroup = true;
+        foreach (var (header, items) in CurrencyItemGroups)
+        {
+            if (!firstGroup)
+                CurrencyItemRegionsPanel.Children.Add(new System.Windows.Controls.Separator
+                    { Margin = new System.Windows.Thickness(0, 6, 0, 6) });
+            firstGroup = false;
+
+            CurrencyItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
+            {
+                Text = header,
+                FontWeight = System.Windows.FontWeights.SemiBold,
+                Margin = new System.Windows.Thickness(0, 0, 0, 4),
+            });
+
+            foreach (var itemName in items)
+            {
+                _currencyItemRegions.TryGetValue(itemName, out var rect);
+                var infoText = new System.Windows.Controls.TextBlock
+                {
+                    Text = FormatRect(rect),
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                    Foreground = System.Windows.Media.Brushes.Gray,
+                    FontSize = 11,
+                };
+
+                var btn = new System.Windows.Controls.Button
+                {
+                    Content = "Задать…",
+                    Padding = new System.Windows.Thickness(8, 4, 8, 4),
+                    Tag = (itemName, infoText),
+                };
+                btn.Click += CurrencyItemPickBtn_Click;
+
+                var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(240) });
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+
+                var label = new System.Windows.Controls.TextBlock
+                {
+                    Text = itemName,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                };
+                System.Windows.Controls.Grid.SetColumn(label, 0);
+                System.Windows.Controls.Grid.SetColumn(infoText, 1);
+                System.Windows.Controls.Grid.SetColumn(btn, 2);
+
+                row.Children.Add(label);
+                row.Children.Add(infoText);
+                row.Children.Add(btn);
+                CurrencyItemRegionsPanel.Children.Add(row);
+            }
+        }
+    }
+
+    private void CurrencyItemPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Button btn) return;
+        if (btn.Tag is not (string itemName, System.Windows.Controls.TextBlock infoBlock)) return;
+
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+
+        _currencyItemRegions[itemName] = region;
+        infoBlock.Text = FormatRect(region);
+        SaveSettings();
+    }
+
     private void RebuildBreachPanel()
     {
         BreachCatalystRegionsPanel.Children.Clear();
@@ -3479,6 +3481,7 @@ public partial class MainWindow : Window
 
         var groups = new[]
         {
+            MakeGroup("Currency", _currencyInventoryRegion ?? default, _currencyItemRegions),
             MakeGroup("Breach",   _breachInventoryRect,   _breachCatalystRegions),
             MakeGroup("Delirium", _deliriumInventoryRect, _deliriumItemRegions),
         };

@@ -105,11 +105,11 @@ public static class NetworthService
                 var parsed = ItemParser.Parse(text);
                 if (parsed is not { IsValid: true }) continue;
 
-                // Используем распознанное имя; при неудаче — заранее известное itemName
-                var name = string.IsNullOrWhiteSpace(parsed.Name) ? itemName : parsed.Name;
+                // Для цены используем itemName из конфига (точное poe.ninja-имя),
+                // а не parsed.Name — они могут расходиться ("Orb of Exaltation" vs "Exalted Orb").
                 var qty = parsed.StackSize > 0 ? parsed.StackSize : 1;
-                itemCounts.TryGetValue(name, out var prev);
-                itemCounts[name] = prev + qty;
+                itemCounts.TryGetValue(itemName, out var prev);
+                itemCounts[itemName] = prev + qty;
             }
 
             var items = itemCounts

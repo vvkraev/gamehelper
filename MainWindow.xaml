@@ -30,70 +30,11 @@
                                     Margin="0,0,0,12"
                                     Click="PickCurrencyInventoryBtn_OnClick"/>
 
-                            <TextBlock Text="Область Chaos Orb" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <TextBlock x:Name="OrbInfo"
-                                       Text="не задана — нажмите кнопку ниже"
-                                       TextWrapping="Wrap"
-                                       Margin="0,0,0,6"
-                                       Foreground="#555"/>
-                            <Button x:Name="PickOrbBtn"
-                                    Content="Задать область (Chaos Orb)…"
-                                    HorizontalAlignment="Left"
-                                    Padding="12,6"
-                                    Margin="0,0,0,12"
-                                    Click="PickOrbBtn_OnClick"/>
-
-                            <TextBlock Text="Область Orb of Exaltation" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <TextBlock x:Name="ExaltInfo"
-                                       Text="не задана — нажмите кнопку ниже"
-                                       TextWrapping="Wrap"
-                                       Margin="0,0,0,6"
-                                       Foreground="#555"/>
-                            <Button x:Name="PickExaltBtn"
-                                    Content="Задать область (Orb of Exaltation)…"
-                                    HorizontalAlignment="Left"
-                                    Padding="12,6"
-                                    Margin="0,0,0,12"
-                                    Click="PickExaltBtn_OnClick"/>
-
-                            <TextBlock Text="Область Orb of Annulment" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <TextBlock x:Name="AnnulInfo"
-                                       Text="не задана — нажмите кнопку ниже"
-                                       TextWrapping="Wrap"
-                                       Margin="0,0,0,6"
-                                       Foreground="#555"/>
-                            <Button x:Name="PickAnnulBtn"
-                                    Content="Задать область (Orb of Annulment)…"
-                                    HorizontalAlignment="Left"
-                                    Padding="12,6"
-                                    Margin="0,0,0,12"
-                                    Click="PickAnnulBtn_OnClick"/>
-
-                            <TextBlock Text="Область Orb of Augmentation" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <TextBlock x:Name="AugInfo"
-                                       Text="не задана — нажмите кнопку ниже"
-                                       TextWrapping="Wrap"
-                                       Margin="0,0,0,6"
-                                       Foreground="#555"/>
-                            <Button x:Name="PickAugBtn"
-                                    Content="Задать область (Orb of Augmentation)…"
-                                    HorizontalAlignment="Left"
-                                    Padding="12,6"
-                                    Margin="0,0,0,12"
-                                    Click="PickAugBtn_OnClick"/>
-
-                            <TextBlock Text="Заточка" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <TextBlock x:Name="SharpenInfo"
-                                       Text="не задана — нажмите кнопку ниже"
-                                       TextWrapping="Wrap"
-                                       Margin="0,0,0,6"
-                                       Foreground="#555"/>
-                            <Button x:Name="PickSharpenBtn"
-                                    Content="Задать область (заточка)…"
-                                    HorizontalAlignment="Left"
-                                    Padding="12,6"
-                                    Margin="0,0,0,12"
-                                    Click="PickSharpenBtn_OnClick"/>
+                            <Separator Margin="0,4,0,10"/>
+                            <TextBlock Text="Области предметов Currency (Networth)" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <TextBlock Text="Задайте область для каждого предмета, который хотите учитывать в Networth."
+                                       TextWrapping="Wrap" Foreground="#666" FontSize="11" Margin="0,0,0,8"/>
+                            <StackPanel x:Name="CurrencyItemRegionsPanel"/>
                         </StackPanel>
                     </Expander>
 

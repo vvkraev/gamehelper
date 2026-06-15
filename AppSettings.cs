@@ -1,3 +1,4 @@
+using System.Text.Json.Serialization;
 using GameHelper.Services;
 
 namespace GameHelper;
@@ -5,10 +6,16 @@ namespace GameHelper;
 /// <summary>Настройки UI, сохраняемые в <c>settings.json</c> в корне проекта.</summary>
 public sealed class AppSettings
 {
+    // Устаревшие поля — читаются из старых settings.json для миграции в CurrencyItemRegions, не пишутся.
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ScreenRect OrbRect { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ScreenRect ExaltRect { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ScreenRect AugRect { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ScreenRect AnnulRect { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public ScreenRect SharpenRect { get; set; }
 
     public ScreenRect CurrencyInventoryRect { get; set; }
@@ -161,6 +168,9 @@ public sealed class AppSettings
     public int NetworthStartStopVirtualKey { get; set; }
     /// <summary>Модификаторы для «Networth Старт/Стоп»: Alt=1, Ctrl=2, Shift=4.</summary>
     public int NetworthStartStopModifiers { get; set; }
+
+    /// <summary>Области предметов в Currency Stash вкладке для Networth. Ключ — имя предмета точно как на poe.ninja.</summary>
+    public Dictionary<string, ScreenRect>? CurrencyItemRegions { get; set; }
 
     /// <summary>Вкладка Breach Stash целиком (для навигации / скролла).</summary>
     public ScreenRect BreachInventoryRect { get; set; }
