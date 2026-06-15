@@ -245,6 +245,10 @@ public partial class MainWindow : Window
         _ = Services.CatalystReforgeStatsScanner.InitializeAsync();
         Services.PoeNinjaPriceService.PricesUpdated += OnPoeNinjaPricesUpdated;
         Services.PoeNinjaPriceService.LoadFromFile();
+
+        var lastSnapshot = Services.NetworthSnapshotStore.LoadLatest();
+        if (lastSnapshot is { Groups.Count: > 0 })
+            NwDisplayResults(lastSnapshot.Groups, lastSnapshot.ScannedAt);
     }
 
     private void SetupTrayIcon()
@@ -3576,7 +3580,9 @@ public partial class MainWindow : Window
                     progress,
                     ct), ct);
 
-            NwDisplayResults(results);
+            var scannedAt = DateTime.Now;
+            Services.NetworthSnapshotStore.Save(results);
+            NwDisplayResults(results, scannedAt);
         }
         catch (OperationCanceledException)
         {
@@ -3601,18 +3607,28 @@ public partial class MainWindow : Window
         _nwScanCts?.Cancel();
     }
 
-    private void NwDisplayResults(List<Services.NetworthGroupResult> results)
+    private void NwDisplayResults(List<Services.NetworthGroupResult> results, DateTime? scannedAt = null)
     {
         NetworthResultsPanel.Children.Clear();
 
         var grandTotal = results.Sum(g => g.TotalDiv);
-        NetworthResultsPanel.Children.Add(new System.Windows.Controls.TextBlock
+
+        var headerPanel = new System.Windows.Controls.StackPanel { Orientation = System.Windows.Controls.Orientation.Horizontal, Margin = new Thickness(0, 0, 0, 12) };
+        headerPanel.Children.Add(new System.Windows.Controls.TextBlock
         {
             Text = $"Итого: {grandTotal:F3} div",
             FontWeight = FontWeights.Bold,
             FontSize = 15,
-            Margin = new Thickness(0, 0, 0, 12),
         });
+        if (scannedAt.HasValue)
+            headerPanel.Children.Add(new System.Windows.Controls.TextBlock
+            {
+                Text = $"  (снэпшот от {scannedAt.Value:dd.MM.yyyy HH:mm})",
+                VerticalAlignment = VerticalAlignment.Center,
+                Foreground = System.Windows.Media.Brushes.Gray,
+                FontSize = 12,
+            });
+        NetworthResultsPanel.Children.Add(headerPanel);
 
         foreach (var group in results)
         {
@@ -3659,7 +3675,10 @@ public partial class MainWindow : Window
         }
 
         if (results.Count > 0)
-            NetworthStatusText.Text = $"Готово. Итого: {grandTotal:F3} div по {results.Count} группам.";
+        {
+            var whenStr = scannedAt.HasValue ? $" (снэпшот от {scannedAt.Value:dd.MM.yyyy HH:mm})" : "";
+            NetworthStatusText.Text = $"Итого: {grandTotal:F3} div по {results.Count} группам.{whenStr}";
+        }
         else
             NetworthStatusText.Text = "Данных нет — пустые группы или ни одна Ctrl+Alt+C не вернула предмет.";
 
