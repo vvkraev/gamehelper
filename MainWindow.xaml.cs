@@ -3269,11 +3269,11 @@ public partial class MainWindow : Window
     {
         DeliriumItemRegionsPanel.Children.Clear();
 
-        var items = Services.StackableItemRegistry.Items
+        var all = Services.StackableItemRegistry.Items
             .Where(i => i.Kind == Services.StackableItemKind.Delirium)
             .ToList();
 
-        if (items.Count == 0)
+        if (all.Count == 0)
         {
             DeliriumItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
             {
@@ -3285,43 +3285,74 @@ public partial class MainWindow : Window
             return;
         }
 
-        foreach (var item in items)
+        static bool IsAncient(Services.StackableItemType i) =>
+            i.DisplayName.StartsWith("Ancient ", StringComparison.OrdinalIgnoreCase);
+        static bool IsPlain(Services.StackableItemType i) =>
+            i.DisplayName.StartsWith("Liquid ", StringComparison.OrdinalIgnoreCase);
+
+        var groups = new (string Header, IEnumerable<Services.StackableItemType> Items)[]
         {
-            _deliriumItemRegions.TryGetValue(item.Id, out var rect);
-            var infoText = new System.Windows.Controls.TextBlock
+            ("Liquid (просто эмоция)", all.Where(IsPlain)),
+            ("Ancient",               all.Where(IsAncient)),
+            ("Potent / Concentrated / Diluted", all.Where(i => !IsPlain(i) && !IsAncient(i))),
+        };
+
+        bool firstGroup = true;
+        foreach (var (header, items) in groups)
+        {
+            var list = items.OrderBy(i => i.DisplayName).ToList();
+            if (list.Count == 0) continue;
+
+            if (!firstGroup)
+                DeliriumItemRegionsPanel.Children.Add(new System.Windows.Controls.Separator
+                    { Margin = new System.Windows.Thickness(0, 6, 0, 6) });
+            firstGroup = false;
+
+            DeliriumItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
             {
-                Text = FormatRect(rect),
-                VerticalAlignment = System.Windows.VerticalAlignment.Center,
-                Foreground = System.Windows.Media.Brushes.Gray,
-                FontSize = 11,
-            };
+                Text = header,
+                FontWeight = System.Windows.FontWeights.SemiBold,
+                Margin = new System.Windows.Thickness(0, 0, 0, 4),
+            });
 
-            var btn = new System.Windows.Controls.Button
+            foreach (var item in list)
             {
-                Content = "Задать…",
-                Padding = new System.Windows.Thickness(8, 4, 8, 4),
-                Tag = (item.Id, infoText),
-            };
-            btn.Click += DeliriumItemPickBtn_Click;
+                _deliriumItemRegions.TryGetValue(item.Id, out var rect);
+                var infoText = new System.Windows.Controls.TextBlock
+                {
+                    Text = FormatRect(rect),
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                    Foreground = System.Windows.Media.Brushes.Gray,
+                    FontSize = 11,
+                };
 
-            var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
-            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(240) });
-            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
-            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+                var btn = new System.Windows.Controls.Button
+                {
+                    Content = "Задать…",
+                    Padding = new System.Windows.Thickness(8, 4, 8, 4),
+                    Tag = (item.Id, infoText),
+                };
+                btn.Click += DeliriumItemPickBtn_Click;
 
-            var label = new System.Windows.Controls.TextBlock
-            {
-                Text = item.DisplayName,
-                VerticalAlignment = System.Windows.VerticalAlignment.Center,
-            };
-            System.Windows.Controls.Grid.SetColumn(label, 0);
-            System.Windows.Controls.Grid.SetColumn(infoText, 1);
-            System.Windows.Controls.Grid.SetColumn(btn, 2);
+                var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(240) });
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
 
-            row.Children.Add(label);
-            row.Children.Add(infoText);
-            row.Children.Add(btn);
-            DeliriumItemRegionsPanel.Children.Add(row);
+                var label = new System.Windows.Controls.TextBlock
+                {
+                    Text = item.DisplayName,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                };
+                System.Windows.Controls.Grid.SetColumn(label, 0);
+                System.Windows.Controls.Grid.SetColumn(infoText, 1);
+                System.Windows.Controls.Grid.SetColumn(btn, 2);
+
+                row.Children.Add(label);
+                row.Children.Add(infoText);
+                row.Children.Add(btn);
+                DeliriumItemRegionsPanel.Children.Add(row);
+            }
         }
     }
 

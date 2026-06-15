@@ -15,7 +15,7 @@
         <TabItem x:Name="TabRegionSettings" Header="Настройки областей">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="16" HorizontalAlignment="Stretch">
-                    <Expander x:Name="CurrencyExpander" Header="Currency" IsExpanded="True" Margin="0,0,0,14">
+                    <Expander x:Name="CurrencyExpander" Header="Currency" IsExpanded="False" Margin="0,0,0,14">
                         <StackPanel x:Name="CurrencyExpanderContent" Margin="0,0,0,0">
                             <TextBlock Text="Вкладка инвентаря Currency" FontWeight="SemiBold" Margin="0,0,0,4"/>
                             <TextBlock x:Name="CurrencyInventoryInfo"
@@ -97,7 +97,7 @@
                         </StackPanel>
                     </Expander>
 
-                    <Expander x:Name="RitualExpander" Header="Ritual" IsExpanded="True">
+                    <Expander x:Name="RitualExpander" Header="Ritual" IsExpanded="False">
                         <StackPanel x:Name="RitualExpanderContent">
                             <TextBlock Text="Вкладка инвентаря Ritual" FontWeight="SemiBold" Margin="0,0,0,4"/>
                             <TextBlock x:Name="RitualInventoryInfo"
