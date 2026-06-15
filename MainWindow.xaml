@@ -201,119 +201,6 @@
                         </StackPanel>
                     </Expander>
 
-                    <Expander x:Name="NetworthRegionExpander" Header="Networth (области стэша)" IsExpanded="False" Margin="0,14,0,0">
-                        <StackPanel Margin="0,8,0,0">
-                            <!-- Breach -->
-                            <TextBlock Text="Breach" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,6"/>
-                            <Grid Margin="0,0,0,4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Клик по вкладке:" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="NwBreachTabInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
-                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwBreachTabPickBtn_Click"/>
-                            </Grid>
-                            <Grid Margin="0,0,0,4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Область сканирования:" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="NwBreachScanInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
-                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwBreachScanPickBtn_Click"/>
-                            </Grid>
-                            <Grid Margin="0,0,0,12">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition Width="60"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="60"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Сетка (колонки × строки):" VerticalAlignment="Center"/>
-                                <TextBox x:Name="NwBreachColsBox" Grid.Column="1" Text="12" Padding="4,2" Margin="0,0,8,0"/>
-                                <TextBlock Text="×" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                <TextBox x:Name="NwBreachRowsBox" Grid.Column="3" Text="4" Padding="4,2"/>
-                            </Grid>
-
-                            <Separator Margin="0,0,0,10"/>
-
-                            <!-- Delirium -->
-                            <TextBlock Text="Delirium" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,6"/>
-                            <Grid Margin="0,0,0,4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Клик по вкладке:" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="NwDeliriumTabInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
-                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwDeliriumTabPickBtn_Click"/>
-                            </Grid>
-                            <Grid Margin="0,0,0,4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Область сканирования:" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="NwDeliriumScanInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
-                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwDeliriumScanPickBtn_Click"/>
-                            </Grid>
-                            <Grid Margin="0,0,0,12">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition Width="60"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="60"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Сетка (колонки × строки):" VerticalAlignment="Center"/>
-                                <TextBox x:Name="NwDeliriumColsBox" Grid.Column="1" Text="12" Padding="4,2" Margin="0,0,8,0"/>
-                                <TextBlock Text="×" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                <TextBox x:Name="NwDeliriumRowsBox" Grid.Column="3" Text="4" Padding="4,2"/>
-                            </Grid>
-
-                            <Separator Margin="0,0,0,10"/>
-
-                            <!-- Currency -->
-                            <TextBlock Text="Currency" FontWeight="SemiBold" FontSize="13" Margin="0,0,0,6"/>
-                            <Grid Margin="0,0,0,4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Клик по вкладке:" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="NwCurrencyTabInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
-                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwCurrencyTabPickBtn_Click"/>
-                            </Grid>
-                            <Grid Margin="0,0,0,4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Область сканирования:" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="NwCurrencyScanInfo" Grid.Column="1" Text="не задана" VerticalAlignment="Center" Foreground="#555" FontSize="11"/>
-                                <Button Grid.Column="2" Content="Задать…" Padding="8,4" Click="NwCurrencyScanPickBtn_Click"/>
-                            </Grid>
-                            <Grid Margin="0,0,0,4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="160"/>
-                                    <ColumnDefinition Width="60"/>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="60"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Сетка (колонки × строки):" VerticalAlignment="Center"/>
-                                <TextBox x:Name="NwCurrencyColsBox" Grid.Column="1" Text="12" Padding="4,2" Margin="0,0,8,0"/>
-                                <TextBlock Text="×" Grid.Column="2" VerticalAlignment="Center" Margin="0,0,8,0"/>
-                                <TextBox x:Name="NwCurrencyRowsBox" Grid.Column="3" Text="4" Padding="4,2"/>
-                            </Grid>
-                        </StackPanel>
-                    </Expander>
-
                     <Expander x:Name="AutoReforgeNavExpander" Header="Навигация (авто-перековка)" IsExpanded="False" Margin="0,14,0,0">
                         <StackPanel Margin="0,8,0,0">
                             <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,8"
@@ -1120,6 +1007,16 @@
                              Text="(не задано)"
                              PreviewKeyDown="ReforgeStartStopHotkeyBox_PreviewKeyDown"
                              ToolTip="Работает глобально — запускает перековку если она не идёт, или останавливает если идёт."/>
+
+                    <TextBlock FontWeight="SemiBold" Margin="0,0,0,4"
+                               Text="Горячая клавиша «Старт / Стоп Networth» (кликните в поле и нажмите комбинацию; Esc — сбросить):"/>
+                    <TextBox x:Name="NetworthStartStopHotkeyBox"
+                             IsReadOnly="True"
+                             Cursor="Arrow"
+                             Margin="0,0,0,12"
+                             Text="(не задано)"
+                             PreviewKeyDown="NetworthStartStopHotkeyBox_PreviewKeyDown"
+                             ToolTip="Работает глобально — запускает Networth-сканирование (сворачивает окно) или останавливает его."/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                         <Button x:Name="MinimizeToTrayBtn"

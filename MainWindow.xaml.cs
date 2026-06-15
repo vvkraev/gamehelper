@@ -71,6 +71,9 @@ public partial class MainWindow : Window
     private bool _autoReforgeStartStopHotkeyRegistered;
     private int _autoReforgeStartStopVirtualKey;
     private int _autoReforgeStartStopModifiers;
+    private bool _networthStartStopHotkeyRegistered;
+    private int _networthStartStopVirtualKey;
+    private int _networthStartStopModifiers;
     private CancellationTokenSource? _rfCts;
     private CancellationTokenSource? _rfScanCts;
     private CancellationTokenSource? _autoRfCts;
@@ -80,12 +83,6 @@ public partial class MainWindow : Window
     private ScreenRect _breachInventoryRect;
     private Dictionary<string, ScreenRect> _deliriumItemRegions = new();
     private ScreenRect _deliriumInventoryRect;
-    private ScreenRect _nwBreachTabRect;
-    private ScreenRect _nwBreachScanRect;
-    private ScreenRect _nwDeliriumTabRect;
-    private ScreenRect _nwDeliriumScanRect;
-    private ScreenRect _nwCurrencyTabRect;
-    private ScreenRect _nwCurrencyScanRect;
     private CancellationTokenSource? _nwScanCts;
     private ScreenRect _stashOcrSearchRect;
     private ScreenRect _reforgingBenchOcrSearchRect;
@@ -203,6 +200,12 @@ public partial class MainWindow : Window
             {
                 handled = true;
                 Dispatcher.BeginInvoke(RfAutoToggleStartStop);
+            }
+
+            if (id >= GlobalHotkey.NetworthStartStopHotkeyIdBase && id < GlobalHotkey.NetworthStartStopHotkeyIdBase + 8)
+            {
+                handled = true;
+                Dispatcher.BeginInvoke(NetworthToggleStartStop);
             }
         }
 
@@ -694,6 +697,11 @@ public partial class MainWindow : Window
         UpdateAutoReforgeStartStopHotkeyDisplay();
         RegisterAutoReforgeStartStopHotkey();
 
+        _networthStartStopVirtualKey = s.NetworthStartStopVirtualKey;
+        _networthStartStopModifiers  = s.NetworthStartStopModifiers;
+        UpdateNetworthStartStopHotkeyDisplay();
+        RegisterNetworthStartStopHotkey();
+
         // Загружаем реестр и обновляем UI перековки и Breach-панели
         Services.StackableItemRegistry.Load();
         _breachInventoryRect = s.BreachInventoryRect;
@@ -733,24 +741,6 @@ public partial class MainWindow : Window
         RfLoadFromState();
         RebuildBreachPanel();
         RebuildDeliriumPanel();
-        _nwBreachTabRect    = s.NetworthBreachTabRect;
-        _nwBreachScanRect   = s.NetworthBreachScanRect;
-        NwBreachTabInfo.Text    = FormatRect(_nwBreachTabRect);
-        NwBreachScanInfo.Text   = FormatRect(_nwBreachScanRect);
-        NwBreachColsBox.Text    = s.NetworthBreachCols.ToString();
-        NwBreachRowsBox.Text    = s.NetworthBreachRows.ToString();
-        _nwDeliriumTabRect  = s.NetworthDeliriumTabRect;
-        _nwDeliriumScanRect = s.NetworthDeliriumScanRect;
-        NwDeliriumTabInfo.Text  = FormatRect(_nwDeliriumTabRect);
-        NwDeliriumScanInfo.Text = FormatRect(_nwDeliriumScanRect);
-        NwDeliriumColsBox.Text  = s.NetworthDeliriumCols.ToString();
-        NwDeliriumRowsBox.Text  = s.NetworthDeliriumRows.ToString();
-        _nwCurrencyTabRect  = s.NetworthCurrencyTabRect;
-        _nwCurrencyScanRect = s.NetworthCurrencyScanRect;
-        NwCurrencyTabInfo.Text  = FormatRect(_nwCurrencyTabRect);
-        NwCurrencyScanInfo.Text = FormatRect(_nwCurrencyScanRect);
-        NwCurrencyColsBox.Text  = s.NetworthCurrencyCols.ToString();
-        NwCurrencyRowsBox.Text  = s.NetworthCurrencyRows.ToString();
         _catalystGoldPrices = s.CatalystGoldPrices != null
             ? new Dictionary<string, int>(s.CatalystGoldPrices)
             : new Dictionary<string, int>();
@@ -823,6 +813,8 @@ public partial class MainWindow : Window
             ReforgeStartStopModifiers = _reforgeStartStopModifiers,
             AutoReforgeStartStopVirtualKey = _autoReforgeStartStopVirtualKey,
             AutoReforgeStartStopModifiers = _autoReforgeStartStopModifiers,
+            NetworthStartStopVirtualKey = _networthStartStopVirtualKey,
+            NetworthStartStopModifiers  = _networthStartStopModifiers,
             BreachInventoryRect = _breachInventoryRect,
             BreachCatalystRegions = _breachCatalystRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_breachCatalystRegions)
@@ -831,18 +823,6 @@ public partial class MainWindow : Window
             DeliriumItemRegions = _deliriumItemRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_deliriumItemRegions)
                 : null,
-            NetworthBreachTabRect    = _nwBreachTabRect,
-            NetworthBreachScanRect   = _nwBreachScanRect,
-            NetworthBreachCols       = RfParseInt(NwBreachColsBox.Text, 12),
-            NetworthBreachRows       = RfParseInt(NwBreachRowsBox.Text, 4),
-            NetworthDeliriumTabRect  = _nwDeliriumTabRect,
-            NetworthDeliriumScanRect = _nwDeliriumScanRect,
-            NetworthDeliriumCols     = RfParseInt(NwDeliriumColsBox.Text, 12),
-            NetworthDeliriumRows     = RfParseInt(NwDeliriumRowsBox.Text, 4),
-            NetworthCurrencyTabRect  = _nwCurrencyTabRect,
-            NetworthCurrencyScanRect = _nwCurrencyScanRect,
-            NetworthCurrencyCols     = RfParseInt(NwCurrencyColsBox.Text, 12),
-            NetworthCurrencyRows     = RfParseInt(NwCurrencyRowsBox.Text, 4),
             FullInventoryCells = _fullInventoryCells.Count > 0 ? _fullInventoryCells : null,
             StashOcrSearchRect = _stashOcrSearchRect,
             StashOcrText = StashOcrTextBox.Text.Trim(),
@@ -3132,6 +3112,65 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
+    private void RegisterNetworthStartStopHotkey()
+    {
+        UnregisterNetworthStartStopHotkey();
+        if (_networthStartStopVirtualKey == 0) return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        if (hwnd == IntPtr.Zero) return;
+        if (!GlobalHotkey.TryRegisterNetworthStartStop(hwnd, (uint)_networthStartStopVirtualKey, (uint)_networthStartStopModifiers))
+            SessionLogger.Info("Горячая клавиша «Networth Старт/Стоп» не зарегистрирована — возможно, занята другим процессом.");
+        else
+            _networthStartStopHotkeyRegistered = true;
+    }
+
+    private void UnregisterNetworthStartStopHotkey()
+    {
+        if (!_networthStartStopHotkeyRegistered) return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        GlobalHotkey.UnregisterNetworthStartStop(hwnd);
+        _networthStartStopHotkeyRegistered = false;
+    }
+
+    private void UpdateNetworthStartStopHotkeyDisplay()
+    {
+        NetworthStartStopHotkeyBox.Text = FormatHotkey(_networthStartStopVirtualKey, _networthStartStopModifiers);
+    }
+
+    private void NetworthStartStopHotkeyBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        e.Handled = true;
+        var key = e.Key == Key.System ? e.SystemKey : e.Key;
+        if (key is Key.LeftAlt or Key.RightAlt or Key.LeftCtrl or Key.RightCtrl or Key.LeftShift or Key.RightShift)
+            return;
+
+        if (key == Key.Escape)
+        {
+            _networthStartStopVirtualKey = 0;
+            _networthStartStopModifiers  = 0;
+        }
+        else
+        {
+            var mods = Keyboard.Modifiers;
+            _networthStartStopVirtualKey = KeyInterop.VirtualKeyFromKey(key);
+            _networthStartStopModifiers  = ((mods & ModifierKeys.Alt) != 0 ? 1 : 0)
+                                         | ((mods & ModifierKeys.Control) != 0 ? 2 : 0)
+                                         | ((mods & ModifierKeys.Shift) != 0 ? 4 : 0);
+        }
+
+        UpdateNetworthStartStopHotkeyDisplay();
+        RegisterNetworthStartStopHotkey();
+        SaveSettings();
+    }
+
+    private void NetworthToggleStartStop()
+    {
+        if (_nwScanCts != null && !_nwScanCts.IsCancellationRequested)
+            _nwScanCts.Cancel();
+        else
+            NetworthScanBtn_Click(this, new RoutedEventArgs());
+    }
+
     // ── Валидация ─────────────────────────────────────────────────────────
 
     private bool RfValidateForRun(bool requireCatalystSelection = true)
@@ -3410,60 +3449,6 @@ public partial class MainWindow : Window
     // NETWORTH
     // ═══════════════════════════════════════════════════════════════════════
 
-    private void NwBreachTabPickBtn_Click(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
-        _nwBreachTabRect = r;
-        NwBreachTabInfo.Text = FormatRect(r);
-        SaveSettings();
-    }
-
-    private void NwBreachScanPickBtn_Click(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
-        _nwBreachScanRect = r;
-        NwBreachScanInfo.Text = FormatRect(r);
-        SaveSettings();
-    }
-
-    private void NwDeliriumTabPickBtn_Click(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
-        _nwDeliriumTabRect = r;
-        NwDeliriumTabInfo.Text = FormatRect(r);
-        SaveSettings();
-    }
-
-    private void NwDeliriumScanPickBtn_Click(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
-        _nwDeliriumScanRect = r;
-        NwDeliriumScanInfo.Text = FormatRect(r);
-        SaveSettings();
-    }
-
-    private void NwCurrencyTabPickBtn_Click(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
-        _nwCurrencyTabRect = r;
-        NwCurrencyTabInfo.Text = FormatRect(r);
-        SaveSettings();
-    }
-
-    private void NwCurrencyScanPickBtn_Click(object sender, RoutedEventArgs e)
-    {
-        var dlg = new RegionPickerWindow { Owner = this };
-        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
-        _nwCurrencyScanRect = r;
-        NwCurrencyScanInfo.Text = FormatRect(r);
-        SaveSettings();
-    }
-
     private async void NetworthScanBtn_Click(object sender, RoutedEventArgs e)
     {
         _nwScanCts?.Cancel();
@@ -3475,24 +3460,53 @@ public partial class MainWindow : Window
         NetworthStatusText.Text = "Сканирование…";
         NetworthResultsPanel.Children.Clear();
 
-        SaveSettings();
+        var mouseMs = RfParseInt(MouseActionDelayMs.Text, 80);
+        var clipMs  = RfParseInt(ClipboardDelayMs.Text, 220);
+        var registry = Services.StackableItemRegistry.Items;
 
-        var mouseMs     = RfParseInt(MouseActionDelayMs.Text, 80);
-        var clipMs      = RfParseInt(ClipboardDelayMs.Text, 220);
-
-        var groups = new List<(string, ScreenRect, ScreenRect, int, int)>
+        // Строим список групп из уже заданных областей
+        Services.NwGroupDef MakeGroup(string name, ScreenRect tabRect, IReadOnlyDictionary<string, ScreenRect>? regions)
         {
-            ("Breach",   _nwBreachTabRect,   _nwBreachScanRect,   RfParseInt(NwBreachColsBox.Text,   12), RfParseInt(NwBreachRowsBox.Text,   4)),
-            ("Delirium", _nwDeliriumTabRect, _nwDeliriumScanRect, RfParseInt(NwDeliriumColsBox.Text, 12), RfParseInt(NwDeliriumRowsBox.Text, 4)),
-            ("Currency", _nwCurrencyTabRect, _nwCurrencyScanRect, RfParseInt(NwCurrencyColsBox.Text, 12), RfParseInt(NwCurrencyRowsBox.Text, 4)),
+            var items = regions?
+                .Where(kv => kv.Value.Width > 0 && kv.Value.Height > 0)
+                .Select(kv => (
+                    ItemName: registry.FirstOrDefault(r => r.Id == kv.Key)?.DisplayName ?? kv.Key,
+                    Area: kv.Value))
+                .ToList()
+                ?? new List<(string, ScreenRect)>();
+            return new Services.NwGroupDef(name, tabRect, items);
+        }
+
+        var groups = new[]
+        {
+            MakeGroup("Breach",   _breachInventoryRect,   _breachCatalystRegions),
+            MakeGroup("Delirium", _deliriumInventoryRect, _deliriumItemRegions),
         };
 
+        var totalItems = groups.Sum(g => g.Items.Count);
+        if (totalItems == 0)
+        {
+            NetworthStatusText.Text = "Нет заданных областей предметов. Задайте области в «Настройки областей → Breach» и «→ Delirium».";
+            Services.SessionLogger.Info("[Networth] Сканирование отменено: ни у одной группы нет заданных областей предметов.");
+            NetworthScanBtn.IsEnabled = true;
+            NetworthStopBtn.IsEnabled = false;
+            return;
+        }
+
+        var stashOcrText   = StashOcrTextBox.Text.Trim();
+        var stashOpenDelay = RfParseInt(RfStashOpenDelayBox.Text, 3000);
         var progress = new Progress<string>(msg => NetworthStatusText.Text = msg);
+        Services.SessionLogger.Info($"[Networth] Старт сканирования: {groups.Length} групп, {totalItems} предметов.");
+
+        MinimizeToTrayOnStart();
 
         try
         {
             var results = await Task.Run(() =>
                 Services.NetworthService.ScanAsync(
+                    _stashOcrSearchRect,
+                    stashOcrText,
+                    stashOpenDelay,
                     groups,
                     mouseMs,
                     clipMs,
@@ -3510,12 +3524,14 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             NetworthStatusText.Text = $"Ошибка: {ex.Message}";
+            Services.SessionLogger.Info($"[Networth] Ошибка: {ex.Message}");
         }
         finally
         {
             Native.Win32Input.ReleaseCtrlAlt();
             NetworthScanBtn.IsEnabled = true;
             NetworthStopBtn.IsEnabled = false;
+            Dispatcher.Invoke(RestoreFromTray);
         }
     }
 
@@ -3529,73 +3545,64 @@ public partial class MainWindow : Window
         NetworthResultsPanel.Children.Clear();
 
         var grandTotal = results.Sum(g => g.TotalDiv);
-        var totalBlock = new System.Windows.Controls.TextBlock
+        NetworthResultsPanel.Children.Add(new System.Windows.Controls.TextBlock
         {
             Text = $"Итого: {grandTotal:F3} div",
             FontWeight = FontWeights.Bold,
             FontSize = 15,
             Margin = new Thickness(0, 0, 0, 12),
-        };
-        NetworthResultsPanel.Children.Add(totalBlock);
+        });
 
         foreach (var group in results)
         {
-            var expander = new System.Windows.Controls.Expander
-            {
-                Header = $"{group.GroupName}  —  {group.TotalDiv:F3} div  ({group.Items.Count} поз.)",
-                IsExpanded = true,
-                Margin = new Thickness(0, 0, 0, 10),
-                FontWeight = FontWeights.SemiBold,
-            };
-
             var grid = new System.Windows.Controls.Grid();
             grid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new GridLength(2, GridUnitType.Star) });
             grid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new GridLength(80) });
             grid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new GridLength(60) });
             grid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new GridLength(90) });
 
-            var rows = group.Items.Count + 2; // header + items + total
-            for (var i = 0; i < rows; i++)
+            var rowCount = group.Items.Count + 2;
+            for (var i = 0; i < rowCount; i++)
                 grid.RowDefinitions.Add(new System.Windows.Controls.RowDefinition { Height = GridLength.Auto });
 
-            // Header row
-            NwAddCell(grid, "Предмет",       0, 0, bold: true);
-            NwAddCell(grid, "Цена (div)",     1, 0, bold: true);
-            NwAddCell(grid, "Кол-во",         2, 0, bold: true);
-            NwAddCell(grid, "Сумма (div)",    3, 0, bold: true);
+            NwAddCell(grid, "Предмет",    0, 0, bold: true);
+            NwAddCell(grid, "Цена (div)", 1, 0, bold: true);
+            NwAddCell(grid, "Кол-во",     2, 0, bold: true);
+            NwAddCell(grid, "Сумма (div)",3, 0, bold: true);
 
             for (var i = 0; i < group.Items.Count; i++)
             {
                 var item = group.Items[i];
                 var row = i + 1;
                 var bg = i % 2 == 0 ? "#F5F5F5" : null;
-                NwAddCell(grid, item.ItemName,              0, row, bg: bg);
-                NwAddCell(grid, item.PriceDiv.ToString("F3"),   1, row, bg: bg);
-                NwAddCell(grid, item.Quantity.ToString(),   2, row, bg: bg);
-                NwAddCell(grid, item.TotalDiv.ToString("F3"),   3, row, bg: bg);
+                NwAddCell(grid, item.ItemName,                 0, row, bg: bg);
+                NwAddCell(grid, item.PriceDiv.ToString("F3"),  1, row, bg: bg);
+                NwAddCell(grid, item.Quantity.ToString(),      2, row, bg: bg);
+                NwAddCell(grid, item.TotalDiv.ToString("F3"),  3, row, bg: bg);
             }
 
-            // Total row
             var totalRow = group.Items.Count + 1;
-            NwAddCell(grid, "ИТОГО",                          0, totalRow, bold: true);
-            NwAddCell(grid, "",                               1, totalRow);
-            NwAddCell(grid, "",                               2, totalRow);
-            NwAddCell(grid, group.TotalDiv.ToString("F3"),    3, totalRow, bold: true);
+            NwAddCell(grid, "ИТОГО",                        0, totalRow, bold: true);
+            NwAddCell(grid, "",                             1, totalRow);
+            NwAddCell(grid, "",                             2, totalRow);
+            NwAddCell(grid, group.TotalDiv.ToString("F3"),  3, totalRow, bold: true);
 
-            expander.Content = new System.Windows.Controls.Border
+            var expander = new System.Windows.Controls.Expander
             {
-                Margin = new Thickness(4, 4, 0, 0),
-                Child = grid,
+                Header = $"{group.GroupName}  —  {group.TotalDiv:F3} div  ({group.Items.Count} поз.)",
+                IsExpanded = true,
+                Margin = new Thickness(0, 0, 0, 10),
+                Content = new System.Windows.Controls.Border { Margin = new Thickness(4, 4, 0, 0), Child = grid },
             };
-            expander.FontWeight = FontWeights.Normal;
-            expander.Header = $"{group.GroupName}  —  {group.TotalDiv:F3} div  ({group.Items.Count} поз.)";
             NetworthResultsPanel.Children.Add(expander);
         }
 
         if (results.Count > 0)
             NetworthStatusText.Text = $"Готово. Итого: {grandTotal:F3} div по {results.Count} группам.";
         else
-            NetworthStatusText.Text = "Нет данных. Настройте области сканирования в «Настройки областей → Networth».";
+            NetworthStatusText.Text = "Данных нет — пустые группы или ни одна Ctrl+Alt+C не вернула предмет.";
+
+        Services.SessionLogger.Info($"[Networth] Готово. Итого: {grandTotal:F3} div.");
     }
 
     private static void NwAddCell(System.Windows.Controls.Grid grid, string text, int col, int row, bool bold = false, string? bg = null)

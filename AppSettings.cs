@@ -157,6 +157,11 @@ public sealed class AppSettings
     /// <summary>Модификаторы для «Авто Старт/Стоп перековки»: Alt=1, Ctrl=2, Shift=4.</summary>
     public int AutoReforgeStartStopModifiers { get; set; }
 
+    /// <summary>Virtual key code для горячей клавиши «Networth Старт/Стоп» (0 = не задано).</summary>
+    public int NetworthStartStopVirtualKey { get; set; }
+    /// <summary>Модификаторы для «Networth Старт/Стоп»: Alt=1, Ctrl=2, Shift=4.</summary>
+    public int NetworthStartStopModifiers { get; set; }
+
     /// <summary>Вкладка Breach Stash целиком (для навигации / скролла).</summary>
     public ScreenRect BreachInventoryRect { get; set; }
     /// <summary>Области катализаторов во вкладке Breach Stash. Ключ — Id из StackableItemRegistry.</summary>
@@ -196,19 +201,4 @@ public sealed class AppSettings
     /// <summary>Задержка после каждого Ctrl+ЛКМ/ПКМ при переносе предмета (игра обрабатывает перенос), мс.</summary>
     public int AutoReforgeItemTransferDelayMs { get; set; } = 400;
 
-    // ── Networth ─────────────────────────────────────────────────────────────
-    public ScreenRect NetworthBreachTabRect    { get; set; }
-    public ScreenRect NetworthBreachScanRect   { get; set; }
-    public int        NetworthBreachCols       { get; set; } = 12;
-    public int        NetworthBreachRows       { get; set; } = 4;
-
-    public ScreenRect NetworthDeliriumTabRect  { get; set; }
-    public ScreenRect NetworthDeliriumScanRect { get; set; }
-    public int        NetworthDeliriumCols     { get; set; } = 12;
-    public int        NetworthDeliriumRows     { get; set; } = 4;
-
-    public ScreenRect NetworthCurrencyTabRect  { get; set; }
-    public ScreenRect NetworthCurrencyScanRect { get; set; }
-    public int        NetworthCurrencyCols     { get; set; } = 12;
-    public int        NetworthCurrencyRows     { get; set; } = 4;
 }

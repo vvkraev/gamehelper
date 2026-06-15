@@ -23,6 +23,7 @@ internal static class GlobalHotkey
     internal const int CraftStartStopHotkeyIdBase  = 0x4820;
     internal const int ReforgeStartStopHotkeyIdBase     = 0x4830;
     internal const int AutoReforgeStartStopHotkeyIdBase = 0x4840;
+    internal const int NetworthStartStopHotkeyIdBase    = 0x4850;
     private  const int VariantsPerHotkey = 8;
 
     private const uint VkEscape = 27;
@@ -94,6 +95,12 @@ internal static class GlobalHotkey
 
     internal static void UnregisterAutoReforgeStartStop(IntPtr hwnd) =>
         UnregisterAllVariants(hwnd, AutoReforgeStartStopHotkeyIdBase);
+
+    internal static bool TryRegisterNetworthStartStop(IntPtr hwnd, uint vk, uint modifiers) =>
+        RegisterAllVariants(hwnd, NetworthStartStopHotkeyIdBase, vk, modifiers);
+
+    internal static void UnregisterNetworthStartStop(IntPtr hwnd) =>
+        UnregisterAllVariants(hwnd, NetworthStartStopHotkeyIdBase);
 
     // -----------------------------------------------------------------------
 
