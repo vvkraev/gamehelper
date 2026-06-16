@@ -79,6 +79,11 @@ public partial class MainWindow : Window
     private ScreenRect _deliriumInventoryRect;
     private Dictionary<string, ScreenRect> _socketableItemRegions = new();
     private ScreenRect _socketableInventoryRect;
+    private ScreenRect _sockSubRunesRect;
+    private ScreenRect _sockSubKulguuranRect;
+    private ScreenRect _sockSubSoulCoresRect;
+    private ScreenRect _sockSubIdolsRect;
+    private ScreenRect _sockSubAugmentsRect;
     private CancellationTokenSource? _nwScanCts;
     private List<ScreenRect> _repricingCells = new();
     private CancellationTokenSource? _repricingCts;
@@ -715,6 +720,11 @@ public partial class MainWindow : Window
 
         _socketableInventoryRect = s.SocketableInventoryRect;
         SocketableInventoryInfo.Text = FormatRect(_socketableInventoryRect);
+        _sockSubRunesRect    = s.SocketableSubTabRunesRect;    SockSubRunesInfo.Text    = FormatRect(_sockSubRunesRect);
+        _sockSubKulguuranRect = s.SocketableSubTabKulguuranRect; SockSubKulguuranInfo.Text = FormatRect(_sockSubKulguuranRect);
+        _sockSubSoulCoresRect = s.SocketableSubTabSoulCoresRect; SockSubSoulCoresInfo.Text = FormatRect(_sockSubSoulCoresRect);
+        _sockSubIdolsRect    = s.SocketableSubTabIdolsRect;    SockSubIdolsInfo.Text    = FormatRect(_sockSubIdolsRect);
+        _sockSubAugmentsRect = s.SocketableSubTabAugmentsRect; SockSubAugmentsInfo.Text = FormatRect(_sockSubAugmentsRect);
         _socketableItemRegions = s.SocketableItemRegions != null
             ? new Dictionary<string, ScreenRect>(s.SocketableItemRegions)
             : new();
@@ -838,6 +848,11 @@ public partial class MainWindow : Window
                 ? new Dictionary<string, ScreenRect>(_deliriumItemRegions)
                 : null,
             SocketableInventoryRect = _socketableInventoryRect,
+            SocketableSubTabRunesRect    = _sockSubRunesRect,
+            SocketableSubTabKulguuranRect = _sockSubKulguuranRect,
+            SocketableSubTabSoulCoresRect = _sockSubSoulCoresRect,
+            SocketableSubTabIdolsRect    = _sockSubIdolsRect,
+            SocketableSubTabAugmentsRect = _sockSubAugmentsRect,
             SocketableItemRegions = _socketableItemRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_socketableItemRegions)
                 : null,
@@ -3563,14 +3578,43 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
+    private void PickSockSubBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Button btn) return;
+        var tag = btn.Tag as string ?? "";
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        switch (tag)
+        {
+            case "Runes":     _sockSubRunesRect    = region; SockSubRunesInfo.Text    = FormatRect(region); break;
+            case "Kulguuran": _sockSubKulguuranRect = region; SockSubKulguuranInfo.Text = FormatRect(region); break;
+            case "SoulCores": _sockSubSoulCoresRect = region; SockSubSoulCoresInfo.Text = FormatRect(region); break;
+            case "Idols":     _sockSubIdolsRect    = region; SockSubIdolsInfo.Text    = FormatRect(region); break;
+            case "Augments":  _sockSubAugmentsRect = region; SockSubAugmentsInfo.Text = FormatRect(region); break;
+        }
+        SaveSettings();
+    }
+
+    /// <summary>Возвращает имя под-вкладки Socketable Stash для предмета.</summary>
+    private static string GetSocketableSubTab(Services.StackableItemType? item)
+    {
+        if (item == null) return "Runes";
+        if (item.Kind == Services.StackableItemKind.SoulCore) return "Soul Cores";
+        if (item.Kind == Services.StackableItemKind.Rune)
+            return item.DisplayName.StartsWith("Ancient Rune of", StringComparison.OrdinalIgnoreCase)
+                ? "Kulguuran Runes" : "Runes";
+        return "Other";
+    }
+
     private void RebuildSocketablePanel()
     {
         SocketableItemRegionsPanel.Children.Clear();
 
-        var runes     = Services.StackableItemRegistry.Items.Where(i => i.Kind == Services.StackableItemKind.Rune).ToList();
-        var soulCores = Services.StackableItemRegistry.Items.Where(i => i.Kind == Services.StackableItemKind.SoulCore).ToList();
+        var all = Services.StackableItemRegistry.Items
+            .Where(i => i.Kind == Services.StackableItemKind.Rune || i.Kind == Services.StackableItemKind.SoulCore)
+            .ToList();
 
-        if (runes.Count == 0 && soulCores.Count == 0)
+        if (all.Count == 0)
         {
             SocketableItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
             {
@@ -3584,110 +3628,88 @@ public partial class MainWindow : Window
         static bool StartsWithCI(Services.StackableItemType i, string prefix) =>
             i.DisplayName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase);
 
-        var runeGroups = new (string Header, IEnumerable<Services.StackableItemType> Items)[]
+        // Порядок секций соответствует под-вкладкам в игре
+        var sections = new (string Header, IEnumerable<Services.StackableItemType> Items)[]
         {
-            ("Perfect",          runes.Where(i => StartsWithCI(i, "Perfect "))),
-            ("Greater",          runes.Where(i => StartsWithCI(i, "Greater "))),
-            ("Base runes",       runes.Where(i => !StartsWithCI(i, "Perfect ") && !StartsWithCI(i, "Greater ") && !StartsWithCI(i, "Lesser ") && !StartsWithCI(i, "Ancient ") && !StartsWithCI(i, "Warding ") && i.DisplayName.EndsWith(" Rune", StringComparison.OrdinalIgnoreCase))),
-            ("Lesser",           runes.Where(i => StartsWithCI(i, "Lesser "))),
-            ("Ancient",          runes.Where(i => StartsWithCI(i, "Ancient "))),
-            ("Warding",          runes.Where(i => StartsWithCI(i, "Warding "))),
-            ("Named / Unique",   runes.Where(i => !StartsWithCI(i, "Perfect ") && !StartsWithCI(i, "Greater ") && !StartsWithCI(i, "Lesser ") && !StartsWithCI(i, "Ancient ") && !StartsWithCI(i, "Warding ") && !i.DisplayName.EndsWith(" Rune", StringComparison.OrdinalIgnoreCase))),
+            ("Runes — Perfect",        all.Where(i => i.Kind == Services.StackableItemKind.Rune && StartsWithCI(i, "Perfect "))),
+            ("Runes — Greater",        all.Where(i => i.Kind == Services.StackableItemKind.Rune && StartsWithCI(i, "Greater "))),
+            ("Runes — Base",           all.Where(i => i.Kind == Services.StackableItemKind.Rune
+                                                    && !StartsWithCI(i, "Perfect ") && !StartsWithCI(i, "Greater ")
+                                                    && !StartsWithCI(i, "Lesser ")  && !StartsWithCI(i, "Ancient ")
+                                                    && !StartsWithCI(i, "Warding ")
+                                                    && i.DisplayName.EndsWith(" Rune", StringComparison.OrdinalIgnoreCase))),
+            ("Runes — Lesser",         all.Where(i => i.Kind == Services.StackableItemKind.Rune && StartsWithCI(i, "Lesser "))),
+            ("Runes — Warding",        all.Where(i => i.Kind == Services.StackableItemKind.Rune && StartsWithCI(i, "Warding "))),
+            ("Runes — Named / Unique", all.Where(i => i.Kind == Services.StackableItemKind.Rune
+                                                    && !StartsWithCI(i, "Perfect ") && !StartsWithCI(i, "Greater ")
+                                                    && !StartsWithCI(i, "Lesser ")  && !StartsWithCI(i, "Ancient ")
+                                                    && !StartsWithCI(i, "Warding ")
+                                                    && !i.DisplayName.EndsWith(" Rune", StringComparison.OrdinalIgnoreCase))),
+            ("Kulguuran Runes",        all.Where(i => i.Kind == Services.StackableItemKind.Rune && StartsWithCI(i, "Ancient Rune of"))),
+            ("Soul Cores — Standard",  all.Where(i => i.Kind == Services.StackableItemKind.SoulCore && StartsWithCI(i, "Soul Core of "))),
+            ("Soul Cores — Named",     all.Where(i => i.Kind == Services.StackableItemKind.SoulCore
+                                                    && !StartsWithCI(i, "Soul Core of ")
+                                                    && i.DisplayName.Contains("Soul Core", StringComparison.OrdinalIgnoreCase))),
+            ("Soul Cores — Other",     all.Where(i => i.Kind == Services.StackableItemKind.SoulCore
+                                                    && !i.DisplayName.Contains("Soul Core", StringComparison.OrdinalIgnoreCase))),
         };
 
-        var scGroups = new (string Header, IEnumerable<Services.StackableItemType> Items)[]
+        bool first = true;
+        foreach (var (header, items) in sections)
         {
-            ("Soul Core of",               soulCores.Where(i => StartsWithCI(i, "Soul Core of "))),
-            ("Named Soul Cores",           soulCores.Where(i => !StartsWithCI(i, "Soul Core of ") && i.DisplayName.Contains("Soul Core", StringComparison.OrdinalIgnoreCase))),
-            ("Other (Carved / Emergent / Thesis)", soulCores.Where(i => !i.DisplayName.Contains("Soul Core", StringComparison.OrdinalIgnoreCase))),
-        };
+            var list = items.OrderBy(i => i.DisplayName).ToList();
+            if (list.Count == 0) continue;
 
-        void AddSectionHeader(string text)
-        {
+            if (!first)
+                SocketableItemRegionsPanel.Children.Add(new System.Windows.Controls.Separator
+                    { Margin = new System.Windows.Thickness(0, 4, 0, 4) });
+            first = false;
+
             SocketableItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
             {
-                Text = text,
-                FontWeight = System.Windows.FontWeights.Bold,
-                FontSize = 12,
-                Margin = new System.Windows.Thickness(0, 8, 0, 4),
+                Text = header,
+                FontWeight = System.Windows.FontWeights.SemiBold,
+                Margin = new System.Windows.Thickness(0, 0, 0, 4),
             });
-        }
 
-        bool firstGroup = true;
-        void RenderGroups((string Header, IEnumerable<Services.StackableItemType> Items)[] groups)
-        {
-            foreach (var (header, items) in groups)
+            foreach (var item in list)
             {
-                var list = items.OrderBy(i => i.DisplayName).ToList();
-                if (list.Count == 0) continue;
-
-                if (!firstGroup)
-                    SocketableItemRegionsPanel.Children.Add(new System.Windows.Controls.Separator
-                        { Margin = new System.Windows.Thickness(0, 4, 0, 4) });
-                firstGroup = false;
-
-                SocketableItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
+                _socketableItemRegions.TryGetValue(item.Id, out var rect);
+                var infoText = new System.Windows.Controls.TextBlock
                 {
-                    Text = header,
-                    FontWeight = System.Windows.FontWeights.SemiBold,
-                    Margin = new System.Windows.Thickness(0, 0, 0, 4),
-                });
+                    Text = FormatRect(rect),
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                    Foreground = System.Windows.Media.Brushes.Gray,
+                    FontSize = 11,
+                };
 
-                foreach (var item in list)
+                var btn = new System.Windows.Controls.Button
                 {
-                    _socketableItemRegions.TryGetValue(item.Id, out var rect);
-                    var infoText = new System.Windows.Controls.TextBlock
-                    {
-                        Text = FormatRect(rect),
-                        VerticalAlignment = System.Windows.VerticalAlignment.Center,
-                        Foreground = System.Windows.Media.Brushes.Gray,
-                        FontSize = 11,
-                    };
+                    Content = "Задать…",
+                    Padding = new System.Windows.Thickness(8, 4, 8, 4),
+                    Tag = (item.Id, infoText),
+                };
+                btn.Click += SocketableItemPickBtn_Click;
 
-                    var btn = new System.Windows.Controls.Button
-                    {
-                        Content = "Задать…",
-                        Padding = new System.Windows.Thickness(8, 4, 8, 4),
-                        Tag = (item.Id, infoText),
-                    };
-                    btn.Click += SocketableItemPickBtn_Click;
+                var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(240) });
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
 
-                    var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
-                    row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(240) });
-                    row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
-                    row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+                var label = new System.Windows.Controls.TextBlock
+                {
+                    Text = item.DisplayName,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                };
+                System.Windows.Controls.Grid.SetColumn(label, 0);
+                System.Windows.Controls.Grid.SetColumn(infoText, 1);
+                System.Windows.Controls.Grid.SetColumn(btn, 2);
 
-                    var label = new System.Windows.Controls.TextBlock
-                    {
-                        Text = item.DisplayName,
-                        VerticalAlignment = System.Windows.VerticalAlignment.Center,
-                    };
-                    System.Windows.Controls.Grid.SetColumn(label, 0);
-                    System.Windows.Controls.Grid.SetColumn(infoText, 1);
-                    System.Windows.Controls.Grid.SetColumn(btn, 2);
-
-                    row.Children.Add(label);
-                    row.Children.Add(infoText);
-                    row.Children.Add(btn);
-                    SocketableItemRegionsPanel.Children.Add(row);
-                }
+                row.Children.Add(label);
+                row.Children.Add(infoText);
+                row.Children.Add(btn);
+                SocketableItemRegionsPanel.Children.Add(row);
             }
-        }
-
-        if (runes.Count > 0)
-        {
-            AddSectionHeader("── Runes ──");
-            RenderGroups(runeGroups);
-        }
-
-        if (soulCores.Count > 0)
-        {
-            if (runes.Count > 0)
-                SocketableItemRegionsPanel.Children.Add(new System.Windows.Controls.Separator
-                    { Margin = new System.Windows.Thickness(0, 10, 0, 6) });
-            firstGroup = true;
-            AddSectionHeader("── Soul Cores ──");
-            RenderGroups(scGroups);
         }
     }
 
@@ -3736,13 +3758,36 @@ public partial class MainWindow : Window
             return new Services.NwGroupDef(name, tabRect, items);
         }
 
+        // Socketable: 5 под-вкладок, каждая сначала кликает основную вкладку (NavTabRect)
+        Services.NwGroupDef MakeSockGroup(string subTabName, ScreenRect subTabRect)
+        {
+            var items = _socketableItemRegions
+                .Where(kv => kv.Value.Width > 0 && kv.Value.Height > 0)
+                .Select(kv =>
+                {
+                    var entry = registry.FirstOrDefault(r => r.Id == kv.Key);
+                    return (entry, kv.Key, kv.Value);
+                })
+                .Where(t => GetSocketableSubTab(t.entry) == subTabName)
+                .Select(t => (
+                    ItemName: t.entry?.DisplayName ?? t.Key,
+                    Area: t.Value))
+                .ToList();
+            return new Services.NwGroupDef($"Socketable/{subTabName}", subTabRect, items)
+                { NavTabRect = _socketableInventoryRect };
+        }
+
         var groups = new[]
         {
             MakeGroup("Currency",   _currencyInventoryRegion ?? default, _currencyItemRegions),
             MakeGroup("Ritual",     _ritualInventoryRegion   ?? default, _ritualItemRegions),
             MakeGroup("Breach",     _breachInventoryRect,    _breachCatalystRegions),
             MakeGroup("Delirium",   _deliriumInventoryRect,  _deliriumItemRegions),
-            MakeGroup("Socketable", _socketableInventoryRect, _socketableItemRegions),
+            MakeSockGroup("Runes",           _sockSubRunesRect),
+            MakeSockGroup("Kulguuran Runes", _sockSubKulguuranRect),
+            MakeSockGroup("Soul Cores",      _sockSubSoulCoresRect),
+            MakeSockGroup("Idols",           _sockSubIdolsRect),
+            MakeSockGroup("Ancient Augments", _sockSubAugmentsRect),
         };
 
         var totalItems = groups.Sum(g => g.Items.Count);

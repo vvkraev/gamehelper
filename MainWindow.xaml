@@ -111,9 +111,9 @@
 
                     <Expander x:Name="SocketableExpander" Header="Socketable (Runes + Soul Cores)" IsExpanded="False" Margin="0,14,0,0">
                         <StackPanel Margin="0,8,0,0">
-                            <!-- Область вкладки Socketable Stash -->
-                            <TextBlock Text="Вкладка Socketable Stash" FontWeight="SemiBold" Margin="0,0,0,4"/>
-                            <Grid Margin="0,0,0,12">
+                            <!-- Основная вкладка -->
+                            <TextBlock Text="Основная вкладка Socketable" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <Grid Margin="0,0,0,8">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="200"/>
                                     <ColumnDefinition Width="*"/>
@@ -126,8 +126,76 @@
                                 <Button Grid.Column="2" Content="Задать…" Padding="8,4"
                                         Click="PickSocketableInventoryBtn_Click"/>
                             </Grid>
+                            <Separator Margin="0,0,0,8"/>
+                            <!-- Под-вкладки -->
+                            <TextBlock Text="Под-вкладки (клик для переключения)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Runes:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="SockSubRunesInfo" Grid.Column="1"
+                                           Text="не задана" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Tag="Runes" Click="PickSockSubBtn_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Kulguuran Runes:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="SockSubKulguuranInfo" Grid.Column="1"
+                                           Text="не задана" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Tag="Kulguuran" Click="PickSockSubBtn_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Soul Cores:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="SockSubSoulCoresInfo" Grid.Column="1"
+                                           Text="не задана" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Tag="SoulCores" Click="PickSockSubBtn_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Idols:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="SockSubIdolsInfo" Grid.Column="1"
+                                           Text="не задана" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Tag="Idols" Click="PickSockSubBtn_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Ancient Augments:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="SockSubAugmentsInfo" Grid.Column="1"
+                                           Text="не задана" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Tag="Augments" Click="PickSockSubBtn_Click"/>
+                            </Grid>
                             <Separator Margin="0,0,0,10"/>
-                            <!-- Области отдельных рун и ядер душ — заполняется динамически -->
+                            <!-- Области отдельных предметов — заполняется динамически, сгруппировано по под-вкладкам -->
                             <TextBlock Text="Области предметов" FontWeight="SemiBold" Margin="0,0,0,6"/>
                             <StackPanel x:Name="SocketableItemRegionsPanel"/>
                         </StackPanel>

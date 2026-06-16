@@ -3,7 +3,14 @@ namespace GameHelper.Services;
 public sealed record NwGroupDef(
     string Name,
     ScreenRect TabRect,
-    IReadOnlyList<(string ItemName, ScreenRect Area)> Items);
+    IReadOnlyList<(string ItemName, ScreenRect Area)> Items)
+{
+    /// <summary>
+    /// Если задана, кликается ПЕРЕД <see cref="TabRect"/> (нужно для под-вкладок:
+    /// сначала открываем основную вкладку, потом кликаем под-вкладку).
+    /// </summary>
+    public ScreenRect NavTabRect { get; init; }
+};
 
 public sealed record NetworthItemResult(string ItemName, decimal PriceDiv, int Quantity, decimal TotalDiv);
 
@@ -76,6 +83,15 @@ public static class NetworthService
             }
 
             log?.Report($"[Networth] Сканируем «{group.Name}» ({group.Items.Count} предм.)…");
+
+            if (group.NavTabRect.Width > 0 && group.NavTabRect.Height > 0)
+            {
+                var (nx, ny) = group.NavTabRect.GetRandomInteriorPoint();
+                Native.Win32Input.MoveTo(nx, ny);
+                await Task.Delay(Jitter(mouseDelayMs), ct);
+                Native.Win32Input.ClickLeft();
+                await Task.Delay(350, ct);
+            }
 
             if (group.TabRect.Width > 0 && group.TabRect.Height > 0)
             {

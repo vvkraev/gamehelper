@@ -188,8 +188,18 @@ public sealed class AppSettings
     /// <summary>Области предметов делирия во вкладке Delirium Stash. Ключ — Id из StackableItemRegistry.</summary>
     public Dictionary<string, ScreenRect>? DeliriumItemRegions { get; set; }
 
-    /// <summary>Вкладка Socketable Stash целиком (для навигации / скролла).</summary>
+    /// <summary>Вкладка Socketable Stash целиком (основная вкладка; кликается перед любой под-вкладкой).</summary>
     public ScreenRect SocketableInventoryRect { get; set; }
+    /// <summary>Под-вкладка «Runes» внутри Socketable Stash.</summary>
+    public ScreenRect SocketableSubTabRunesRect { get; set; }
+    /// <summary>Под-вкладка «Kulguuran Runes» внутри Socketable Stash.</summary>
+    public ScreenRect SocketableSubTabKulguuranRect { get; set; }
+    /// <summary>Под-вкладка «Soul Cores» внутри Socketable Stash.</summary>
+    public ScreenRect SocketableSubTabSoulCoresRect { get; set; }
+    /// <summary>Под-вкладка «Idols» внутри Socketable Stash.</summary>
+    public ScreenRect SocketableSubTabIdolsRect { get; set; }
+    /// <summary>Под-вкладка «Ancient Augments» внутри Socketable Stash.</summary>
+    public ScreenRect SocketableSubTabAugmentsRect { get; set; }
     /// <summary>Области рун и ядер душ во вкладке Socketable Stash. Ключ — Id из StackableItemRegistry.</summary>
     public Dictionary<string, ScreenRect>? SocketableItemRegions { get; set; }
 
