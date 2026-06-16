@@ -5,6 +5,16 @@
     "Kind": "Catalyst"
   },
   {
+    "Id": "adept_rune",
+    "DisplayName": "Adept Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "aldurs_legacy",
+    "DisplayName": "Aldur's Legacy",
+    "Kind": "Rune"
+  },
+  {
     "Id": "ancient_concentrated_liquid_fear",
     "DisplayName": "Ancient Concentrated Liquid Fear",
     "Kind": "Delirium"
@@ -70,14 +80,149 @@
     "Kind": "Delirium"
   },
   {
+    "Id": "ancient_rune_of_animosity",
+    "DisplayName": "Ancient Rune of Animosity",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_control",
+    "DisplayName": "Ancient Rune of Control",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_decay",
+    "DisplayName": "Ancient Rune of Decay",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_detonation",
+    "DisplayName": "Ancient Rune of Detonation",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_discovery",
+    "DisplayName": "Ancient Rune of Discovery",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_dueling",
+    "DisplayName": "Ancient Rune of Dueling",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_prowess",
+    "DisplayName": "Ancient Rune of Prowess",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_retaliation",
+    "DisplayName": "Ancient Rune of Retaliation",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_shattering",
+    "DisplayName": "Ancient Rune of Shattering",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_splinters",
+    "DisplayName": "Ancient Rune of Splinters",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_the_horde",
+    "DisplayName": "Ancient Rune of the Horde",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_the_titan",
+    "DisplayName": "Ancient Rune of the Titan",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ancient_rune_of_witchcraft",
+    "DisplayName": "Ancient Rune of Witchcraft",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "astrids_creativity",
+    "DisplayName": "Astrid's Creativity",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "atmohuas_soul_core_of_retreat",
+    "DisplayName": "Atmohua's Soul Core of Retreat",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "betrayal_of_aldur",
+    "DisplayName": "Betrayal of Aldur",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "body_rune",
+    "DisplayName": "Body Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "breath_of_aldur",
+    "DisplayName": "Breath of Aldur",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "cadigans_epiphany",
+    "DisplayName": "Cadigan's Epiphany",
+    "Kind": "Rune"
+  },
+  {
     "Id": "carapace_catalyst",
     "DisplayName": "Carapace Catalyst",
     "Kind": "Catalyst"
   },
   {
+    "Id": "carved_cunning",
+    "DisplayName": "Carved Cunning",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "carved_majesty",
+    "DisplayName": "Carved Majesty",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "carved_mischief",
+    "DisplayName": "Carved Mischief",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "carved_tenacity",
+    "DisplayName": "Carved Tenacity",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "charging_rune",
+    "DisplayName": "Charging Rune",
+    "Kind": "Rune"
+  },
+  {
     "Id": "chayulas_catalyst",
     "DisplayName": "Chayula's Catalyst",
     "Kind": "Catalyst"
+  },
+  {
+    "Id": "cholotls_soul_core_of_war",
+    "DisplayName": "Cholotl's Soul Core of War",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "citaqualotls_soul_core_of_foulness",
+    "DisplayName": "Citaqualotl's Soul Core of Foulness",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "citaqualotls_thesis",
+    "DisplayName": "Citaqualotl's Thesis",
+    "Kind": "SoulCore"
   },
   {
     "Id": "concentrated_liquid_fear",
@@ -95,6 +240,31 @@
     "Kind": "Delirium"
   },
   {
+    "Id": "countess_seskes_rune_of_archery",
+    "DisplayName": "Countess Seske's Rune of Archery",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "courtesan_mannans_rune_of_cruelty",
+    "DisplayName": "Courtesan Mannan's Rune of Cruelty",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "craiceanns_rune_of_recovery",
+    "DisplayName": "Craiceann's Rune of Recovery",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "craiceanns_rune_of_warding",
+    "DisplayName": "Craiceann's Rune of Warding",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "desert_rune",
+    "DisplayName": "Desert Rune",
+    "Kind": "Rune"
+  },
+  {
     "Id": "diluted_liquid_greed",
     "DisplayName": "Diluted Liquid Greed",
     "Kind": "Delirium"
@@ -110,14 +280,294 @@
     "Kind": "Delirium"
   },
   {
+    "Id": "emergent_instinct",
+    "DisplayName": "Emergent Instinct",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "emergent_possibility",
+    "DisplayName": "Emergent Possibility",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "emergent_protection",
+    "DisplayName": "Emergent Protection",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "emergent_vigour",
+    "DisplayName": "Emergent Vigour",
+    "Kind": "SoulCore"
+  },
+  {
     "Id": "eshs_catalyst",
     "DisplayName": "Esh's Catalyst",
     "Kind": "Catalyst"
   },
   {
+    "Id": "estazuntis_soul_core_of_convalescence",
+    "DisplayName": "Estazunti's Soul Core of Convalescence",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "farruls_rune_of_grace",
+    "DisplayName": "Farrul's Rune of Grace",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "farruls_rune_of_the_chase",
+    "DisplayName": "Farrul's Rune of the Chase",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "farruls_rune_of_the_hunt",
+    "DisplayName": "Farrul's Rune of the Hunt",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "fenumus_rune_of_agony",
+    "DisplayName": "Fenumus' Rune of Agony",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "fenumus_rune_of_draining",
+    "DisplayName": "Fenumus' Rune of Draining",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "fenumus_rune_of_spinning",
+    "DisplayName": "Fenumus' Rune of Spinning",
+    "Kind": "Rune"
+  },
+  {
     "Id": "flesh_catalyst",
     "DisplayName": "Flesh Catalyst",
     "Kind": "Catalyst"
+  },
+  {
+    "Id": "glacial_rune",
+    "DisplayName": "Glacial Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_adept_rune",
+    "DisplayName": "Greater Adept Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_body_rune",
+    "DisplayName": "Greater Body Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_charging_rune",
+    "DisplayName": "Greater Charging Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_desert_rune",
+    "DisplayName": "Greater Desert Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_glacial_rune",
+    "DisplayName": "Greater Glacial Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_inspiration_rune",
+    "DisplayName": "Greater Inspiration Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_iron_rune",
+    "DisplayName": "Greater Iron Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_mind_rune",
+    "DisplayName": "Greater Mind Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_rebirth_rune",
+    "DisplayName": "Greater Rebirth Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_resolve_rune",
+    "DisplayName": "Greater Resolve Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_robust_rune",
+    "DisplayName": "Greater Robust Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_rune_of_alacrity",
+    "DisplayName": "Greater Rune of Alacrity",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_rune_of_leadership",
+    "DisplayName": "Greater Rune of Leadership",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_rune_of_nobility",
+    "DisplayName": "Greater Rune of Nobility",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_rune_of_tithing",
+    "DisplayName": "Greater Rune of Tithing",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_stone_rune",
+    "DisplayName": "Greater Stone Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_storm_rune",
+    "DisplayName": "Greater Storm Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_vision_rune",
+    "DisplayName": "Greater Vision Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "greater_ward_rune",
+    "DisplayName": "Greater Ward Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "guatelitzis_soul_core_of_endurance",
+    "DisplayName": "Guatelitzi's Soul Core of Endurance",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "guatelitzis_thesis",
+    "DisplayName": "Guatelitzi's Thesis",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "hayoxis_soul_core_of_heatproofing",
+    "DisplayName": "Hayoxi's Soul Core of Heatproofing",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "hedgewitch_assandras_rune_of_wisdom",
+    "DisplayName": "Hedgewitch Assandra's Rune of Wisdom",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "inspiration_rune",
+    "DisplayName": "Inspiration Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ire_of_aldur",
+    "DisplayName": "Ire of Aldur",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "iron_rune",
+    "DisplayName": "Iron Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "jiquanis_thesis",
+    "DisplayName": "Jiquani's Thesis",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "katlas_gloom",
+    "DisplayName": "Katla's Gloom",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "kolrs_hunt",
+    "DisplayName": "Kolr's Hunt",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lady_hestras_rune_of_winter",
+    "DisplayName": "Lady Hestra's Rune of Winter",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_adept_rune",
+    "DisplayName": "Lesser Adept Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_body_rune",
+    "DisplayName": "Lesser Body Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_desert_rune",
+    "DisplayName": "Lesser Desert Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_glacial_rune",
+    "DisplayName": "Lesser Glacial Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_inspiration_rune",
+    "DisplayName": "Lesser Inspiration Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_iron_rune",
+    "DisplayName": "Lesser Iron Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_mind_rune",
+    "DisplayName": "Lesser Mind Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_rebirth_rune",
+    "DisplayName": "Lesser Rebirth Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_resolve_rune",
+    "DisplayName": "Lesser Resolve Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_robust_rune",
+    "DisplayName": "Lesser Robust Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_stone_rune",
+    "DisplayName": "Lesser Stone Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_storm_rune",
+    "DisplayName": "Lesser Storm Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_vision_rune",
+    "DisplayName": "Lesser Vision Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "lesser_ward_rune",
+    "DisplayName": "Lesser Ward Rune",
+    "Kind": "Rune"
   },
   {
     "Id": "liquid_despair",
@@ -140,6 +590,21 @@
     "Kind": "Delirium"
   },
   {
+    "Id": "masterwork_rune",
+    "DisplayName": "Masterwork Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "medveds_tending",
+    "DisplayName": "Medved's Tending",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "mind_rune",
+    "DisplayName": "Mind Rune",
+    "Kind": "Rune"
+  },
+  {
     "Id": "necrotic_catalyst",
     "DisplayName": "Necrotic Catalyst",
     "Kind": "Catalyst"
@@ -148,6 +613,66 @@
     "Id": "neural_catalyst",
     "DisplayName": "Neural Catalyst",
     "Kind": "Catalyst"
+  },
+  {
+    "Id": "opilotis_soul_core_of_assault",
+    "DisplayName": "Opiloti's Soul Core of Assault",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "passion_of_aldur",
+    "DisplayName": "Passion of Aldur",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "perfect_adept_rune",
+    "DisplayName": "Perfect Adept Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "perfect_body_rune",
+    "DisplayName": "Perfect Body Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "perfect_charging_rune",
+    "DisplayName": "Perfect Charging Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "perfect_desert_rune",
+    "DisplayName": "Perfect Desert Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "perfect_glacial_rune",
+    "DisplayName": "Perfect Glacial Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "perfect_inspiration_rune",
+    "DisplayName": "Perfect Inspiration Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "perfect_mind_rune",
+    "DisplayName": "Perfect Mind Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "perfect_stone_rune",
+    "DisplayName": "Perfect Stone Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "perfect_storm_rune",
+    "DisplayName": "Perfect Storm Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "perfect_vision_rune",
+    "DisplayName": "Perfect Vision Rune",
+    "Kind": "Rune"
   },
   {
     "Id": "potent_liquid_contempt",
@@ -165,9 +690,64 @@
     "Kind": "Delirium"
   },
   {
+    "Id": "quipolatls_soul_core_of_flow",
+    "DisplayName": "Quipolatl's Soul Core of Flow",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "quipolatls_thesis",
+    "DisplayName": "Quipolatl's Thesis",
+    "Kind": "SoulCore"
+  },
+  {
     "Id": "reaver_catalyst",
     "DisplayName": "Reaver Catalyst",
     "Kind": "Catalyst"
+  },
+  {
+    "Id": "resolve_rune",
+    "DisplayName": "Resolve Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "robust_rune",
+    "DisplayName": "Robust Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "rune_of_acrobatics",
+    "DisplayName": "Rune of Acrobatics",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "rune_of_confrontation",
+    "DisplayName": "Rune of Confrontation",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "rune_of_consistency",
+    "DisplayName": "Rune of Consistency",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "rune_of_foundations",
+    "DisplayName": "Rune of Foundations",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "rune_of_the_blossom",
+    "DisplayName": "Rune of the Blossom",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "saqawals_rune_of_the_sky",
+    "DisplayName": "Saqawal's Rune of the Sky",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "serles_triumph",
+    "DisplayName": "Serle's Triumph",
+    "Kind": "Rune"
   },
   {
     "Id": "sibilant_catalyst",
@@ -180,9 +760,139 @@
     "Kind": "Catalyst"
   },
   {
+    "Id": "soul_core_of_atmohua",
+    "DisplayName": "Soul Core of Atmohua",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_azcapa",
+    "DisplayName": "Soul Core of Azcapa",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_cholotl",
+    "DisplayName": "Soul Core of Cholotl",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_citaqualotl",
+    "DisplayName": "Soul Core of Citaqualotl",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_jiquani",
+    "DisplayName": "Soul Core of Jiquani",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_opiloti",
+    "DisplayName": "Soul Core of Opiloti",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_puhuarte",
+    "DisplayName": "Soul Core of Puhuarte",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_quipolatl",
+    "DisplayName": "Soul Core of Quipolatl",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_tacati",
+    "DisplayName": "Soul Core of Tacati",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_ticaba",
+    "DisplayName": "Soul Core of Ticaba",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_topotante",
+    "DisplayName": "Soul Core of Topotante",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_tzamoto",
+    "DisplayName": "Soul Core of Tzamoto",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_xopec",
+    "DisplayName": "Soul Core of Xopec",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_zalatl",
+    "DisplayName": "Soul Core of Zalatl",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "soul_core_of_zantipi",
+    "DisplayName": "Soul Core of Zantipi",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "storm_rune",
+    "DisplayName": "Storm Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "tacatis_soul_core_of_affliction",
+    "DisplayName": "Tacati's Soul Core of Affliction",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "thane_girts_rune_of_wildness",
+    "DisplayName": "Thane Girt's Rune of Wildness",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "thane_grannells_rune_of_mastery",
+    "DisplayName": "Thane Grannell's Rune of Mastery",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "thane_lelds_rune_of_spring",
+    "DisplayName": "Thane Leld's Rune of Spring",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "the_greatwolfs_rune_of_willpower",
+    "DisplayName": "The Greatwolf's Rune of Willpower",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "thruds_might",
+    "DisplayName": "Thrud's Might",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "topotantes_soul_core_of_dampening",
+    "DisplayName": "Topotante's Soul Core of Dampening",
+    "Kind": "SoulCore"
+  },
+  {
     "Id": "tuls_catalyst",
     "DisplayName": "Tul's Catalyst",
     "Kind": "Catalyst"
+  },
+  {
+    "Id": "tzamatos_soul_core_of_ferocity",
+    "DisplayName": "Tzamoto's Soul Core of Ferocity",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "uhtreds_sidereus",
+    "DisplayName": "Uhtred's Sidereus",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "uromotis_soul_core_of_attenuation",
+    "DisplayName": "Uromoti's Soul Core of Attenuation",
+    "Kind": "SoulCore"
   },
   {
     "Id": "uul_netols_catalyst",
@@ -190,8 +900,63 @@
     "Kind": "Catalyst"
   },
   {
+    "Id": "voranas_carnage",
+    "DisplayName": "Vorana's Carnage",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "ward_rune",
+    "DisplayName": "Ward Rune",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "warding_rune_of_equinox",
+    "DisplayName": "Warding Rune of Equinox",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "warding_rune_of_heart",
+    "DisplayName": "Warding Rune of Heart",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "warding_rune_of_hollowing",
+    "DisplayName": "Warding Rune of Hollowing",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "warding_rune_of_obsession",
+    "DisplayName": "Warding Rune of Obsession",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "warding_rune_of_reinforcement",
+    "DisplayName": "Warding Rune of Reinforcement",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "warding_rune_of_stability",
+    "DisplayName": "Warding Rune of Stability",
+    "Kind": "Rune"
+  },
+  {
+    "Id": "xipocados_soul_core_of_dominion",
+    "DisplayName": "Xipocado's Soul Core of Dominion",
+    "Kind": "SoulCore"
+  },
+  {
+    "Id": "xopecs_soul_core_of_power",
+    "DisplayName": "Xopec's Soul Core of Power",
+    "Kind": "SoulCore"
+  },
+  {
     "Id": "xophs_catalyst",
     "DisplayName": "Xoph's Catalyst",
     "Kind": "Catalyst"
+  },
+  {
+    "Id": "zalatls_soul_core_of_insulation",
+    "DisplayName": "Zalatl's Soul Core of Insulation",
+    "Kind": "SoulCore"
   }
 ]

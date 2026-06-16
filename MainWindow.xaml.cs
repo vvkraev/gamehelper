@@ -77,6 +77,8 @@ public partial class MainWindow : Window
     private ScreenRect _breachInventoryRect;
     private Dictionary<string, ScreenRect> _deliriumItemRegions = new();
     private ScreenRect _deliriumInventoryRect;
+    private Dictionary<string, ScreenRect> _socketableItemRegions = new();
+    private ScreenRect _socketableInventoryRect;
     private CancellationTokenSource? _nwScanCts;
     private List<ScreenRect> _repricingCells = new();
     private CancellationTokenSource? _repricingCts;
@@ -711,6 +713,12 @@ public partial class MainWindow : Window
             ? new Dictionary<string, ScreenRect>(s.DeliriumItemRegions)
             : new();
 
+        _socketableInventoryRect = s.SocketableInventoryRect;
+        SocketableInventoryInfo.Text = FormatRect(_socketableInventoryRect);
+        _socketableItemRegions = s.SocketableItemRegions != null
+            ? new Dictionary<string, ScreenRect>(s.SocketableItemRegions)
+            : new();
+
         _fullInventoryCells = s.FullInventoryCells is { Count: > 0 } fic ? fic.ToList() : new();
         FullInventoryGridInfo.Text = _fullInventoryCells.Count > 0 ? $"{_fullInventoryCells.Count} ячеек" : "не задана";
 
@@ -736,6 +744,7 @@ public partial class MainWindow : Window
         RfLoadFromState();
         RebuildBreachPanel();
         RebuildDeliriumPanel();
+        RebuildSocketablePanel();
         _catalystGoldPrices = s.CatalystGoldPrices != null
             ? new Dictionary<string, int>(s.CatalystGoldPrices)
             : new Dictionary<string, int>();
@@ -827,6 +836,10 @@ public partial class MainWindow : Window
             DeliriumInventoryRect = _deliriumInventoryRect,
             DeliriumItemRegions = _deliriumItemRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_deliriumItemRegions)
+                : null,
+            SocketableInventoryRect = _socketableInventoryRect,
+            SocketableItemRegions = _socketableItemRegions.Count > 0
+                ? new Dictionary<string, ScreenRect>(_socketableItemRegions)
                 : null,
             FullInventoryCells = _fullInventoryCells.Count > 0 ? _fullInventoryCells : null,
             StashOcrSearchRect = _stashOcrSearchRect,
@@ -2611,6 +2624,7 @@ public partial class MainWindow : Window
             RfRefreshCatalystList();
             RebuildBreachPanel();
             RebuildDeliriumPanel();
+            RebuildSocketablePanel();
             RebuildProfitTable();
             RfRegistryScanStatus.Text = $"+{added} новых, {skipped} пропущено, {empty} пустых";
         }
@@ -2640,6 +2654,7 @@ public partial class MainWindow : Window
         RfRefreshCatalystList();
         RebuildBreachPanel();
         RebuildDeliriumPanel();
+        RebuildSocketablePanel();
         RebuildProfitTable();
         RfLog("[Registry] Реестр очищен");
     }
@@ -3539,6 +3554,156 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
+    private void PickSocketableInventoryBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _socketableInventoryRect = region;
+        SocketableInventoryInfo.Text = FormatRect(region);
+        SaveSettings();
+    }
+
+    private void RebuildSocketablePanel()
+    {
+        SocketableItemRegionsPanel.Children.Clear();
+
+        var runes     = Services.StackableItemRegistry.Items.Where(i => i.Kind == Services.StackableItemKind.Rune).ToList();
+        var soulCores = Services.StackableItemRegistry.Items.Where(i => i.Kind == Services.StackableItemKind.SoulCore).ToList();
+
+        if (runes.Count == 0 && soulCores.Count == 0)
+        {
+            SocketableItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
+            {
+                Text = "Реестр Socketable-предметов пуст.",
+                Foreground = System.Windows.Media.Brushes.Gray,
+                FontSize = 11,
+            });
+            return;
+        }
+
+        static bool StartsWithCI(Services.StackableItemType i, string prefix) =>
+            i.DisplayName.StartsWith(prefix, StringComparison.OrdinalIgnoreCase);
+
+        var runeGroups = new (string Header, IEnumerable<Services.StackableItemType> Items)[]
+        {
+            ("Perfect",          runes.Where(i => StartsWithCI(i, "Perfect "))),
+            ("Greater",          runes.Where(i => StartsWithCI(i, "Greater "))),
+            ("Base runes",       runes.Where(i => !StartsWithCI(i, "Perfect ") && !StartsWithCI(i, "Greater ") && !StartsWithCI(i, "Lesser ") && !StartsWithCI(i, "Ancient ") && !StartsWithCI(i, "Warding ") && i.DisplayName.EndsWith(" Rune", StringComparison.OrdinalIgnoreCase))),
+            ("Lesser",           runes.Where(i => StartsWithCI(i, "Lesser "))),
+            ("Ancient",          runes.Where(i => StartsWithCI(i, "Ancient "))),
+            ("Warding",          runes.Where(i => StartsWithCI(i, "Warding "))),
+            ("Named / Unique",   runes.Where(i => !StartsWithCI(i, "Perfect ") && !StartsWithCI(i, "Greater ") && !StartsWithCI(i, "Lesser ") && !StartsWithCI(i, "Ancient ") && !StartsWithCI(i, "Warding ") && !i.DisplayName.EndsWith(" Rune", StringComparison.OrdinalIgnoreCase))),
+        };
+
+        var scGroups = new (string Header, IEnumerable<Services.StackableItemType> Items)[]
+        {
+            ("Soul Core of",               soulCores.Where(i => StartsWithCI(i, "Soul Core of "))),
+            ("Named Soul Cores",           soulCores.Where(i => !StartsWithCI(i, "Soul Core of ") && i.DisplayName.Contains("Soul Core", StringComparison.OrdinalIgnoreCase))),
+            ("Other (Carved / Emergent / Thesis)", soulCores.Where(i => !i.DisplayName.Contains("Soul Core", StringComparison.OrdinalIgnoreCase))),
+        };
+
+        void AddSectionHeader(string text)
+        {
+            SocketableItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
+            {
+                Text = text,
+                FontWeight = System.Windows.FontWeights.Bold,
+                FontSize = 12,
+                Margin = new System.Windows.Thickness(0, 8, 0, 4),
+            });
+        }
+
+        bool firstGroup = true;
+        void RenderGroups((string Header, IEnumerable<Services.StackableItemType> Items)[] groups)
+        {
+            foreach (var (header, items) in groups)
+            {
+                var list = items.OrderBy(i => i.DisplayName).ToList();
+                if (list.Count == 0) continue;
+
+                if (!firstGroup)
+                    SocketableItemRegionsPanel.Children.Add(new System.Windows.Controls.Separator
+                        { Margin = new System.Windows.Thickness(0, 4, 0, 4) });
+                firstGroup = false;
+
+                SocketableItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
+                {
+                    Text = header,
+                    FontWeight = System.Windows.FontWeights.SemiBold,
+                    Margin = new System.Windows.Thickness(0, 0, 0, 4),
+                });
+
+                foreach (var item in list)
+                {
+                    _socketableItemRegions.TryGetValue(item.Id, out var rect);
+                    var infoText = new System.Windows.Controls.TextBlock
+                    {
+                        Text = FormatRect(rect),
+                        VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                        Foreground = System.Windows.Media.Brushes.Gray,
+                        FontSize = 11,
+                    };
+
+                    var btn = new System.Windows.Controls.Button
+                    {
+                        Content = "Задать…",
+                        Padding = new System.Windows.Thickness(8, 4, 8, 4),
+                        Tag = (item.Id, infoText),
+                    };
+                    btn.Click += SocketableItemPickBtn_Click;
+
+                    var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
+                    row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(240) });
+                    row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+                    row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+
+                    var label = new System.Windows.Controls.TextBlock
+                    {
+                        Text = item.DisplayName,
+                        VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                    };
+                    System.Windows.Controls.Grid.SetColumn(label, 0);
+                    System.Windows.Controls.Grid.SetColumn(infoText, 1);
+                    System.Windows.Controls.Grid.SetColumn(btn, 2);
+
+                    row.Children.Add(label);
+                    row.Children.Add(infoText);
+                    row.Children.Add(btn);
+                    SocketableItemRegionsPanel.Children.Add(row);
+                }
+            }
+        }
+
+        if (runes.Count > 0)
+        {
+            AddSectionHeader("── Runes ──");
+            RenderGroups(runeGroups);
+        }
+
+        if (soulCores.Count > 0)
+        {
+            if (runes.Count > 0)
+                SocketableItemRegionsPanel.Children.Add(new System.Windows.Controls.Separator
+                    { Margin = new System.Windows.Thickness(0, 10, 0, 6) });
+            firstGroup = true;
+            AddSectionHeader("── Soul Cores ──");
+            RenderGroups(scGroups);
+        }
+    }
+
+    private void SocketableItemPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Button btn) return;
+        if (btn.Tag is not (string id, System.Windows.Controls.TextBlock infoBlock)) return;
+
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+
+        _socketableItemRegions[id] = region;
+        infoBlock.Text = FormatRect(region);
+        SaveSettings();
+    }
+
     // ═══════════════════════════════════════════════════════════════════════
     // NETWORTH
     // ═══════════════════════════════════════════════════════════════════════
@@ -3573,10 +3738,11 @@ public partial class MainWindow : Window
 
         var groups = new[]
         {
-            MakeGroup("Currency", _currencyInventoryRegion ?? default, _currencyItemRegions),
-            MakeGroup("Ritual",   _ritualInventoryRegion   ?? default, _ritualItemRegions),
-            MakeGroup("Breach",   _breachInventoryRect,   _breachCatalystRegions),
-            MakeGroup("Delirium", _deliriumInventoryRect, _deliriumItemRegions),
+            MakeGroup("Currency",   _currencyInventoryRegion ?? default, _currencyItemRegions),
+            MakeGroup("Ritual",     _ritualInventoryRegion   ?? default, _ritualItemRegions),
+            MakeGroup("Breach",     _breachInventoryRect,    _breachCatalystRegions),
+            MakeGroup("Delirium",   _deliriumInventoryRect,  _deliriumItemRegions),
+            MakeGroup("Socketable", _socketableInventoryRect, _socketableItemRegions),
         };
 
         var totalItems = groups.Sum(g => g.Items.Count);

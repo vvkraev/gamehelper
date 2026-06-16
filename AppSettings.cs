@@ -188,6 +188,11 @@ public sealed class AppSettings
     /// <summary>Области предметов делирия во вкладке Delirium Stash. Ключ — Id из StackableItemRegistry.</summary>
     public Dictionary<string, ScreenRect>? DeliriumItemRegions { get; set; }
 
+    /// <summary>Вкладка Socketable Stash целиком (для навигации / скролла).</summary>
+    public ScreenRect SocketableInventoryRect { get; set; }
+    /// <summary>Области рун и ядер душ во вкладке Socketable Stash. Ключ — Id из StackableItemRegistry.</summary>
+    public Dictionary<string, ScreenRect>? SocketableItemRegions { get; set; }
+
     /// <summary>Полный инвентарь персонажа (12×5 = 60 ячеек). Используется в авто-режиме: заполнение и сброс катализаторов.</summary>
     public List<ScreenRect>? FullInventoryCells { get; set; }
 
