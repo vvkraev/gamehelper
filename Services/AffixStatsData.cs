@@ -4,7 +4,7 @@ namespace GameHelper.Services;
 
 public sealed class AffixStatsData
 {
-    public int Version { get; set; } = 1;
+    public int Version { get; set; } = 3; // v3: fractured affixes excluded from counts
 
     [JsonPropertyName("processedLogFiles")]
     public HashSet<string> ProcessedLogFiles { get; set; } = new(StringComparer.Ordinal);
@@ -33,6 +33,35 @@ public sealed class ClassStats
     [JsonPropertyName("totalSnapshots")]
     public int TotalSnapshots { get; set; }
 
+    /// <summary>Количество предметов, на которых встречался аффикс с данным именем (любой вариант).</summary>
     [JsonPropertyName("affixCounts")]
     public Dictionary<string, int> AffixCounts { get; set; } = new(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Количество предметов, на которых встречался конкретный стат-шаблон аффикса.
+    /// Ключ: <c>"AffixName|normalizedStatText"</c> — позволяет различать, например,
+    /// «Thrud's — Speed» от «Thrud's — Critical» у одного и того же аффикса.
+    /// </summary>
+    [JsonPropertyName("statTemplateCounts")]
+    public Dictionary<string, int> StatTemplateCounts { get; set; } = new(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Точное количество для данного аффикса + шаблона стата.
+    /// Шаблон нормализуется так же, как при сохранении (lowercase, trim, без '#').
+    /// </summary>
+    public int GetStatCount(string affixName, string statTemplate)
+    {
+        StatTemplateCounts.TryGetValue(MakeStatKey(affixName, statTemplate), out var c);
+        return c;
+    }
+
+    /// <summary>Формирует ключ словаря из имени аффикса и шаблона стата.</summary>
+    public static string MakeStatKey(string affixName, string statTemplate)
+    {
+        var norm = statTemplate.Trim().ToLowerInvariant()
+            .Replace("#", "", StringComparison.Ordinal).Trim();
+        while (norm.Contains("  ", StringComparison.Ordinal))
+            norm = norm.Replace("  ", " ", StringComparison.Ordinal);
+        return affixName + "|" + norm;
+    }
 }

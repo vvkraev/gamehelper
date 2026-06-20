@@ -232,9 +232,46 @@ public sealed class AppSettings
     /// <summary>Задержка после каждого Ctrl+ЛКМ/ПКМ при переносе предмета (игра обрабатывает перенос), мс.</summary>
     public int AutoReforgeItemTransferDelayMs { get; set; } = 400;
 
+    // ── Шансинг (Orb of Chance) ──────────────────────────────────────────────
+    /// <summary>Ячейка стака Orb of Chance в инвентаре или сташе.</summary>
+    public ScreenRect ChancingOocRect { get; set; }
+    /// <summary>Ячейка Omen of the Ancients (Width==0 → не используется).</summary>
+    public ScreenRect ChancingOmenRect { get; set; }
+    /// <summary>Ячейки Normal tablet'ов для шансинга.</summary>
+    public List<ScreenRect>? ChancingTabletCells { get; set; }
+    /// <summary>Имя базы таблета (напр. "Delirium Tablet"). Используется для статистики.</summary>
+    public string ChancingInputBase { get; set; } = "Irradiated Tablet";
+    /// <summary>Использовать Omen of the Ancients: гарантирует unique и позволяет cross-base результат.</summary>
+    public bool ChancingUseOmen { get; set; } = false;
+    /// <summary>Задержка клика/перемещения мыши при шансинге, мс.</summary>
+    public int ChancingMouseDelayMs { get; set; } = 120;
+    /// <summary>Пауза после применения OoC к сетке перед сканированием результатов, мс.</summary>
+    public int ChancingPostApplyWaitMs { get; set; } = 600;
+    public int ChancingStartStopVirtualKey { get; set; }
+    public int ChancingStartStopModifiers  { get; set; }
+
     // ── Переоценка (async trade) ─────────────────────────────────────────────
-    /// <summary>Сетка ячеек выставленных товаров для переоценки.</summary>
+
+    /// <summary>Устаревшее поле — читается из старых settings.json для миграции в RepricingTabs, не пишется.</summary>
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public List<ScreenRect>? RepricingCells { get; set; }
+
+    /// <summary>Вкладки торговца для переоценки (по умолчанию одна).</summary>
+    public List<RepricingTabConfig>? RepricingTabs { get; set; }
+
+    /// <summary>Область экрана для OCR-поиска торговца (Width==0 → не кликать).</summary>
+    public ScreenRect RepricingTraderOcrSearchRect { get; set; }
+    /// <summary>Текст для OCR-поиска торговца (например «ANGE»); пустой → не кликать.</summary>
+    public string RepricingTraderOcrText { get; set; } = "";
+    /// <summary>Задержка после клика по торговцу (ждём появления меню), мс.</summary>
+    public int RepricingTraderOpenDelayMs { get; set; } = 1000;
+    /// <summary>Область экрана для OCR-поиска пункта меню «Manage Shop» (Width==0 → не кликать).</summary>
+    public ScreenRect RepricingManageShopOcrSearchRect { get; set; }
+    /// <summary>Текст для поиска «Manage Shop» в меню торговца; пустой → пропустить.</summary>
+    public string RepricingManageShopOcrText { get; set; } = "Manage Shop";
+    /// <summary>Область товаров внутри магазина — клик для активации панели (Width==0 → пропустить).</summary>
+    public ScreenRect RepricingGoodsRect { get; set; }
+
     /// <summary>Задержка после ПКМ (открытие поля ввода цены), мс.</summary>
     public int RepricingPostClickDelayMs { get; set; } = 300;
     /// <summary>Пауза наведения перед Ctrl+Alt+C, мс.</summary>
@@ -248,4 +285,34 @@ public sealed class AppSettings
     /// <summary>Модификаторы для «Старт/Стоп переоценки»: Alt=1, Ctrl=2, Shift=4.</summary>
     public int RepricingStartStopModifiers { get; set; }
 
+}
+
+/// <summary>Конфигурация одной вкладки торговца для переоценки.</summary>
+public sealed class RepricingTabConfig
+{
+    /// <summary>Отображаемое имя вкладки в интерфейсе.</summary>
+    public string Name { get; set; } = "";
+    /// <summary>Область клика по вкладке. Width==0 → клик не нужен (единственная вкладка).</summary>
+    public ScreenRect TabRect { get; set; }
+    /// <summary>Ячейки сетки выставленных товаров в этой вкладке.</summary>
+    public List<ScreenRect>? Cells { get; set; }
+    /// <summary>Количество повторений для этой вкладки. null = использовать глобальное значение.</summary>
+    public int? RepeatCount { get; set; }
+    /// <summary>Интервал между повторениями (мин) для этой вкладки. null = использовать глобальное значение.</summary>
+    public int? RepeatIntervalMinutes { get; set; }
+    /// <summary>Шаги алгоритма снижения цены. null = использовать шаги по умолчанию.</summary>
+    public List<RepricingPriceStep>? PriceSteps { get; set; }
+}
+
+/// <summary>Один шаг алгоритма снижения цены при переоценке.</summary>
+public sealed class RepricingPriceStep
+{
+    /// <summary>Нижняя граница диапазона (включительно, или строго больше если StrictlyGreater = true).</summary>
+    public decimal FromPrice { get; set; }
+    /// <summary>Величина снижения цены.</summary>
+    public decimal Step { get; set; }
+    /// <summary>true → условие «price > FromPrice»; false → «price >= FromPrice».</summary>
+    public bool StrictlyGreater { get; set; }
+    /// <summary>Если false: достигнув этого диапазона переоценка прекращается для данного предмета.</summary>
+    public bool Enabled { get; set; } = true;
 }

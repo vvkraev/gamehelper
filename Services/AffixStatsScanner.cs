@@ -73,8 +73,19 @@ public static class AffixStatsScanner
                 foreach (var affix in item.Affixes)
                 {
                     if (string.IsNullOrEmpty(affix.Name)) continue;
+                    if (affix.IsFractured) continue; // зафиксирован — не результат хаос-ролла
+
                     cs.AffixCounts.TryGetValue(affix.Name, out var n);
                     cs.AffixCounts[affix.Name] = n + 1;
+
+                    // Статистика по конкретному шаблону стата — позволяет различать варианты одного аффикса.
+                    foreach (var effect in affix.EffectDetails)
+                    {
+                        if (string.IsNullOrWhiteSpace(effect.StatText)) continue;
+                        var key = ClassStats.MakeStatKey(affix.Name, effect.StatText);
+                        cs.StatTemplateCounts.TryGetValue(key, out var sn);
+                        cs.StatTemplateCounts[key] = sn + 1;
+                    }
                 }
             }
         }
@@ -116,7 +127,11 @@ public static class AffixStatsScanner
         try
         {
             var json = await File.ReadAllTextAsync(_statsFile).ConfigureAwait(false);
-            return JsonSerializer.Deserialize<AffixStatsData>(json) ?? new AffixStatsData();
+            var data = JsonSerializer.Deserialize<AffixStatsData>(json);
+            // При смене версии сбрасываем все данные — полный пересчёт из лог-файлов.
+            if (data == null || data.Version != new AffixStatsData().Version)
+                return new AffixStatsData();
+            return data;
         }
         catch
         {

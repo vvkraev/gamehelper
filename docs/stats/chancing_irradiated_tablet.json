@@ -1,0 +1,17 @@
+{
+  "display_name": "Шансинг → Irradiated Tablet",
+  "category_path": "Шансинг/Irradiated Tablet",
+  "updated": "2026-06-20",
+  "total_samples": 150,
+  "entries": [
+    { "outcome": "Mastered Domain (Forest)",   "count": 14, "notes": "дорогой биом (~14 chaos)" },
+    { "outcome": "Mastered Domain (Mountain)", "count": 11, "notes": "дешёвый биом (~9-20 ex); ~11 — оценка из 55 по 5 биомам" },
+    { "outcome": "Mastered Domain (Grass)",    "count": 11, "notes": "дешёвый биом (~9-20 ex); ~11 — оценка" },
+    { "outcome": "Mastered Domain (Swamp)",    "count": 11, "notes": "дешёвый биом (~9-20 ex); ~11 — оценка" },
+    { "outcome": "Mastered Domain (Water)",    "count": 11, "notes": "дешёвый биом (~9-20 ex); ~11 — оценка" },
+    { "outcome": "Mastered Domain (Desert)",   "count": 11, "notes": "дешёвый биом (~9-20 ex); ~11 — оценка" },
+    { "outcome": "The Grand Project",          "count": 5,  "notes": "~856 ex (Precursor Tablet)" },
+    { "outcome": "Visions of Paradise",        "count": 3,  "notes": "~895 ex" },
+    { "outcome": "(destroyed)",                "count": 73, "notes": "OoC потрачен, таблет уничтожен" }
+  ]
+}

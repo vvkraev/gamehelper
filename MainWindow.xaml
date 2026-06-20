@@ -922,18 +922,79 @@
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="16">
 
+                    <!-- Навигация к торговцу -->
                     <TextBlock FontWeight="SemiBold" Margin="0,0,0,4"
-                               Text="Сетка ячеек выставленных товаров"/>
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                        <Button x:Name="RepricingPickGridBtn"
-                                Content="Задать область"
-                                Padding="8,4"
-                                Margin="0,0,8,0"
-                                Click="RepricingPickGridBtn_Click"/>
-                        <TextBlock x:Name="RepricingGridInfo"
-                                   VerticalAlignment="Center"
-                                   Text="не задана"/>
+                               Text="Торговец (OCR-навигация перед переоценкой, опционально)"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <Button Content="Задать область OCR"
+                                Padding="8,4" Margin="0,0,8,0"
+                                Click="RepricingTraderOcrPickBtn_Click"/>
+                        <TextBlock x:Name="RepricingTraderOcrInfo"
+                                   VerticalAlignment="Center" Text="не задана"/>
                     </StackPanel>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Текст OCR:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox x:Name="RepricingTraderOcrTextBox" Grid.Column="1" Text=""
+                                 ToolTip="Строка для поиска через OCR (имя NPC, например ANGE)"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Задержка после клика, мс:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox x:Name="RepricingTraderOpenDelayBox" Grid.Column="1" Text="1000"
+                                 ToolTip="Ожидание после клика по торговцу (пока появится меню)"/>
+                    </Grid>
+
+                    <TextBlock Margin="0,0,0,4"
+                               Text="Шаг 2 — Manage Shop (клик в меню торговца)"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                        <Button Content="Задать область OCR"
+                                Padding="8,4" Margin="0,0,8,0"
+                                Click="RepricingManageShopOcrPickBtn_Click"/>
+                        <TextBlock x:Name="RepricingManageShopOcrInfo"
+                                   VerticalAlignment="Center" Text="не задана"/>
+                    </StackPanel>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Текст OCR:" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                        <TextBox x:Name="RepricingManageShopOcrTextBox" Grid.Column="1" Text="Manage Shop"
+                                 ToolTip="Текст пункта меню для поиска через OCR (например Manage Shop)"/>
+                    </Grid>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Шаг 3 — область товаров -->
+                    <TextBlock FontWeight="SemiBold" Margin="0,0,0,8"
+                               Text="Шаг 3 — Область товаров (клик для активации панели)"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button Content="Задать область"
+                                Padding="8,4" Margin="0,0,8,0"
+                                Click="RepricingGoodsPickBtn_Click"/>
+                        <TextBlock x:Name="RepricingGoodsInfo"
+                                   VerticalAlignment="Center" Text="не задана"/>
+                    </StackPanel>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Вкладки торговца -->
+                    <TextBlock FontWeight="SemiBold" Margin="0,0,0,8"
+                               Text="Вкладки торговца"/>
+                    <StackPanel x:Name="RepricingTabsPanel"/>
+                    <Button Content="+ Добавить вкладку"
+                            HorizontalAlignment="Left"
+                            Padding="8,4" Margin="0,6,0,12"
+                            Click="AddRepricingTabBtn_Click"/>
+
+                    <Separator Margin="0,0,0,12"/>
 
                     <TextBlock Text="Задержка после ПКМ (открытие поля цены), мс"
                                FontWeight="SemiBold" Margin="0,0,0,4"/>
@@ -943,11 +1004,11 @@
                                FontWeight="SemiBold" Margin="0,0,0,4"/>
                     <TextBox x:Name="RepricingHoverSettleBox" Text="120" Margin="0,0,0,12"/>
 
-                    <TextBlock Text="Количество повторений (0 — бесконечно)"
+                    <TextBlock Text="Количество повторений по умолчанию (0 — бесконечно; можно переопределить для каждой вкладки)"
                                FontWeight="SemiBold" Margin="0,0,0,4"/>
                     <TextBox x:Name="RepricingRepeatCountBox" Text="1" Margin="0,0,0,12"/>
 
-                    <TextBlock Text="Интервал между повторениями, мин"
+                    <TextBlock Text="Интервал по умолчанию, мин (можно переопределить для каждой вкладки)"
                                FontWeight="SemiBold" Margin="0,0,0,4"/>
                     <TextBox x:Name="RepricingRepeatIntervalBox" Text="5" Margin="0,0,0,16"/>
 
@@ -992,6 +1053,235 @@
 
                 </StackPanel>
             </ScrollViewer>
+        </TabItem>
+
+        <TabItem x:Name="TabChancing" Header="Шансинг">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="16">
+
+                    <!-- Режим -->
+                    <TextBlock Text="Режим шансинга" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+                    <Grid Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="190"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Базовый тип таблета:" VerticalAlignment="Center"/>
+                        <ComboBox x:Name="ChancingInputBaseCombo" Grid.Column="1"
+                                  SelectionChanged="ChancingInputBaseCombo_SelectionChanged">
+                            <ComboBoxItem Content="Irradiated Tablet"/>
+                            <ComboBoxItem Content="Delirium Tablet"/>
+                            <ComboBoxItem Content="Temple Tablet"/>
+                            <ComboBoxItem Content="Ritual Tablet"/>
+                            <ComboBoxItem Content="Breach Tablet"/>
+                            <ComboBoxItem Content="Abyss Tablet"/>
+                        </ComboBox>
+                    </Grid>
+                    <CheckBox x:Name="ChancingUseOmenCheckBox"
+                              Content="Использовать Omen of the Ancients (гарантирует unique, cross-base результат)"
+                              Margin="0,0,0,10"
+                              Checked="ChancingUseOmenCheckBox_Changed"
+                              Unchecked="ChancingUseOmenCheckBox_Changed"/>
+
+                    <Separator Margin="0,0,0,10"/>
+
+                    <!-- Цены ресурсов -->
+                    <TextBlock Text="Цены ресурсов (Ex)" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="190"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Стоимость таблета, Ex:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="ChancingTabletCostBox" Grid.Column="1" Text="47" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="190"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Стоимость OoC, Ex:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="ChancingOocCostBox" Grid.Column="1" Text="9.9" Padding="4,2"/>
+                    </Grid>
+                    <Grid x:Name="ChancingOmenCostRow" Margin="0,0,0,4" Visibility="Collapsed">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="190"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Стоимость Omen, Ex:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="ChancingOmenCostBox" Grid.Column="1" Text="3.7" Padding="4,2"/>
+                    </Grid>
+
+                    <Separator Margin="0,8,0,10"/>
+
+                    <!-- Области экрана -->
+                    <TextBlock Text="Области экрана" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <Grid Margin="0,0,0,6">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Ячейка Orb of Chance:" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="ChancingOocRectInfo" Grid.Column="1" VerticalAlignment="Center"
+                                   Foreground="#555" FontSize="11" Text="не задана"/>
+                        <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                Click="ChancingPickOocRect_Click"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="120"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Ячейки таблетов (сетка):" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="ChancingTabletCellsInfo" Grid.Column="1" VerticalAlignment="Center"
+                                   Foreground="#555" FontSize="11" Text="не задана"/>
+                        <Button Grid.Column="2" Content="Задать сетку…" Padding="8,4"
+                                Click="ChancingPickTabletCells_Click"/>
+                    </Grid>
+
+                    <!-- Задержки -->
+                    <TextBlock Text="Задержки" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Задержка клика/перемещения, мс:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="ChancingMouseDelayBox" Grid.Column="1" Text="120" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="220"/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Пауза перед сканированием, мс:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="ChancingPostApplyWaitBox" Grid.Column="1" Text="600" Padding="4,2"/>
+                    </Grid>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Горячая клавиша -->
+                    <TextBlock FontWeight="SemiBold" Margin="0,0,0,4"
+                               Text="Горячая клавиша «Старт / Стоп шансинга» (кликните в поле и нажмите; Esc — сбросить):"/>
+                    <TextBox x:Name="ChancingStartStopHotkeyBox"
+                             IsReadOnly="True"
+                             Cursor="Arrow"
+                             Margin="0,0,0,12"
+                             Text="(не задано)"
+                             PreviewKeyDown="ChancingStartStopHotkeyBox_PreviewKeyDown"
+                             ToolTip="Работает глобально — запускает или останавливает шансинг."/>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Управление -->
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                        <Button x:Name="ChancingStartBtn"
+                                Content="▶ Старт шансинга"
+                                FontWeight="Bold"
+                                Padding="12,6"
+                                Margin="0,0,8,0"
+                                Click="ChancingStartBtn_Click"/>
+                        <Button x:Name="ChancingStopBtn"
+                                Content="■ Стоп"
+                                Padding="12,6"
+                                Margin="0,0,8,0"
+                                IsEnabled="False"
+                                Click="ChancingStopBtn_Click"/>
+                        <Button x:Name="ChancingClearStatsBtn"
+                                Content="Сбросить статистику"
+                                Padding="8,6"
+                                Click="ChancingClearStatsBtn_Click"/>
+                    </StackPanel>
+                    <TextBlock x:Name="ChancingStatusText"
+                               FontSize="11"
+                               Foreground="#555"
+                               Margin="0,0,0,10"
+                               Text="Не запускалось."/>
+
+                    <Separator Margin="0,0,0,10"/>
+
+                    <!-- Статистика -->
+                    <TextBlock Text="Статистика сессии" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                    <TextBox x:Name="ChancingStatsBox"
+                             IsReadOnly="True"
+                             FontFamily="Consolas"
+                             FontSize="11"
+                             Height="170"
+                             VerticalScrollBarVisibility="Auto"
+                             TextWrapping="NoWrap"
+                             Margin="0,0,0,10"/>
+
+                    <!-- Лог -->
+                    <TextBlock Text="Лог" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <TextBox x:Name="ChancingLogBox"
+                             IsReadOnly="True"
+                             FontFamily="Consolas"
+                             FontSize="11"
+                             Height="200"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto"
+                             TextWrapping="NoWrap"/>
+
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
+        <TabItem x:Name="TabReference" Header="Справочник">
+            <Grid Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="200" MinWidth="140"/>
+                    <ColumnDefinition Width="5"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- Левая панель: дерево категорий -->
+                <DockPanel Grid.Column="0">
+                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,4,0,6">
+                        <TextBlock Text="Категории" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                        <Button x:Name="RefReloadBtn" Content="⟳" Padding="6,2" Margin="8,0,0,0"
+                                Click="RefReloadBtn_Click" ToolTip="Перезагрузить из docs/stats/"/>
+                    </StackPanel>
+                    <TreeView x:Name="RefCategoryTree"
+                              SelectedItemChanged="RefCategoryTree_SelectedItemChanged"
+                              BorderBrush="#DDD" BorderThickness="1"/>
+                </DockPanel>
+
+                <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="Transparent"/>
+
+                <!-- Правая панель: заголовок + таблица -->
+                <Grid Grid.Column="2">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <StackPanel Grid.Row="0" Margin="8,4,0,8">
+                        <TextBlock x:Name="RefCategoryTitle" FontWeight="Bold" FontSize="14"
+                                   Text="Выберите категорию слева"/>
+                        <TextBlock x:Name="RefCategoryMeta" FontSize="11" Foreground="#666" Text=""/>
+                    </StackPanel>
+
+                    <DataGrid x:Name="RefDataGrid" Grid.Row="1"
+                              Margin="8,0,0,0"
+                              AutoGenerateColumns="False"
+                              IsReadOnly="True"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              GridLinesVisibility="Horizontal"
+                              HeadersVisibility="Column"
+                              SelectionMode="Single">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Исход"     Binding="{Binding Outcome}"        Width="*"  MinWidth="120"/>
+                            <DataGridTextColumn Header="Выпало"    Binding="{Binding Count}"           Width="65"/>
+                            <DataGridTextColumn Header="%"         Binding="{Binding ProbabilityPct}"  Width="55"/>
+                            <DataGridTextColumn Header="±95% CI"   Binding="{Binding Ci95}"            Width="75"/>
+                            <DataGridTextColumn Header="Заметки"   Binding="{Binding Notes}"           Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+            </Grid>
         </TabItem>
 
         <TabItem x:Name="TabAppSettings" Header="Настройки приложения">

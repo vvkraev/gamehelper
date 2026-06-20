@@ -67,7 +67,11 @@ public static class WindowsOcrTextLocator
             .Replace('М', 'M')  // Cyrillic М → Latin M
             .Replace('Т', 'T')  // Cyrillic Т → Latin T
             .Replace('Г', 'N')  // Cyrillic Г → Latin N (OCR-замена в PoE2 UI)
-            .Replace('Ч', 'C'); // Cyrillic Ч → Latin C (OCR-замена в PoE2 UI)
+            .Replace('Ч', 'C')  // Cyrillic Ч → Latin C (OCR-замена в PoE2 UI)
+            // Строчные кириллические lookalike в шрифте PoE2 (меню торговца и т.п.):
+            // lowercase 'n' → 'п' → П; lowercase 'g' → 'д' → Д
+            .Replace('П', 'N')  // Cyrillic П → Latin N (п читается как n)
+            .Replace('Д', 'G'); // Cyrillic Д → Latin G (д читается как g в шрифте PoE2)
 
         return s;
     }
@@ -244,11 +248,16 @@ public static class WindowsOcrTextLocator
     /// Ищет строку OCR, в которой после нормализации встречается <paramref name="targetNormalized"/>.
     /// Координаты — экранные (смещение области поиска учтено).
     /// </summary>
+    /// <param name="minScreenY">Минимальный Y на экране; совпадения выше этой координаты игнорируются.</param>
+    /// <param name="maxScreenY">Максимальный Y на экране; совпадения ниже этой координаты игнорируются.
+    /// Вместе с <paramref name="minScreenY"/> задаёт допустимый диапазон Y для фильтрации ложных срабатываний.</param>
     public static async Task<OcrMatch?> TryFindNormalizedSubstringAsync(
         ScreenRect searchArea,
         string targetNormalized,
         IProgress<string>? log,
-        CancellationToken cancellationToken)
+        CancellationToken cancellationToken,
+        int minScreenY = 0,
+        int maxScreenY = int.MaxValue)
     {
         if (string.IsNullOrEmpty(targetNormalized))
             throw new ArgumentException("Целевая подстрока не может быть пустой.", nameof(targetNormalized));
@@ -260,7 +269,7 @@ public static class WindowsOcrTextLocator
         cancellationToken.ThrowIfCancellationRequested();
         using var bitmap = ScreenCaptureHelper.CaptureRegion(searchArea);
 
-        var match = await TryRecognizeAndMatchAsync(engine, bitmap, searchArea, targetNormalized, coordinateScale: 1, log, cancellationToken)
+        var match = await TryRecognizeAndMatchAsync(engine, bitmap, searchArea, targetNormalized, coordinateScale: 1, minScreenY, maxScreenY, log, cancellationToken)
             .ConfigureAwait(false);
         if (match != null)
             return match;
@@ -268,7 +277,7 @@ public static class WindowsOcrTextLocator
         log?.Report("OCR: одна строка и склейка соседних не дали совпадения; повтор распознавания с масштабом ×2 (мелкий шрифт UI).");
         cancellationToken.ThrowIfCancellationRequested();
         using var scaled = ScreenCaptureHelper.ScaleByIntegerFactor(bitmap, 2);
-        match = await TryRecognizeAndMatchAsync(engine, scaled, searchArea, targetNormalized, coordinateScale: 2, log, cancellationToken)
+        match = await TryRecognizeAndMatchAsync(engine, scaled, searchArea, targetNormalized, coordinateScale: 2, minScreenY, maxScreenY, log, cancellationToken)
             .ConfigureAwait(false);
         if (match != null)
             return match;
@@ -331,6 +340,8 @@ public static class WindowsOcrTextLocator
         ScreenRect searchArea,
         string targetNormalized,
         int coordinateScale,
+        int minScreenY,
+        int maxScreenY,
         IProgress<string>? log)
     {
         var infos = BuildSortedLineInfos(lines);
@@ -347,10 +358,18 @@ public static class WindowsOcrTextLocator
             var mergedNorm = infos[i].NormText;
             var mergedDisplay = infos[i].RawText.Trim();
 
+            // Строки отсортированы по Y снизу вверх (меньший Y = выше на экране).
+            // Если текущая строка уже ниже maxScreenY — дальше только ещё ниже.
+            var lineScreenY = RectToScreenRect(searchArea, ScaleOcrRectToCaptureCoords(infos[i].Bounds, coordinateScale)).Y;
+            if (lineScreenY > maxScreenY)
+                return null;
+
             if (mergedNorm.Contains(targetNormalized, StringComparison.Ordinal))
             {
                 var inCapture = ScaleOcrRectToCaptureCoords(union, coordinateScale);
                 var onScreen = RectToScreenRect(searchArea, inCapture);
+                if (onScreen.Y < minScreenY)
+                    continue; // слишком высоко — ищем дальше вниз
                 log?.Report($"OCR: найдено (одна линия OCR) «{mergedDisplay}» → экран {onScreen.X},{onScreen.Y} {onScreen.Width}×{onScreen.Height}");
                 return new OcrMatch(mergedDisplay, onScreen);
             }
@@ -373,6 +392,10 @@ public static class WindowsOcrTextLocator
 
                 var inCapture = ScaleOcrRectToCaptureCoords(union, coordinateScale);
                 var onScreen = RectToScreenRect(searchArea, inCapture);
+                if (onScreen.Y < minScreenY)
+                    break; // слишком высоко — прерываем склейку, продолжаем с i+1
+                if (onScreen.Y > maxScreenY)
+                    return null; // слишком низко и дальше будет ещё ниже
                 log?.Report($"OCR: найдено (склейка {j - i + 1} соседних строк) «{mergedDisplay}» → экран {onScreen.X},{onScreen.Y} {onScreen.Width}×{onScreen.Height}");
                 return new OcrMatch(mergedDisplay, onScreen);
             }
@@ -399,6 +422,8 @@ public static class WindowsOcrTextLocator
                 var wordRect = word.BoundingRect;
                 var inCapture = ScaleOcrRectToCaptureCoords(wordRect, coordinateScale);
                 var onScreen = RectToScreenRect(searchArea, inCapture);
+                if (onScreen.Y < minScreenY || onScreen.Y > maxScreenY)
+                    continue;
                 log?.Report($"OCR: найдено (word-fallback) «{word.Text}» → экран {onScreen.X},{onScreen.Y} {onScreen.Width}×{onScreen.Height}");
                 return new OcrMatch(word.Text ?? "", onScreen);
             }
@@ -413,6 +438,8 @@ public static class WindowsOcrTextLocator
         ScreenRect searchArea,
         string targetNormalized,
         int coordinateScale,
+        int minScreenY,
+        int maxScreenY,
         IProgress<string>? log,
         CancellationToken cancellationToken)
     {
@@ -429,7 +456,7 @@ public static class WindowsOcrTextLocator
             return null;
         }
 
-        var match = TryMultilineAdjacentMatch(ocrResult.Lines, searchArea, targetNormalized, coordinateScale, log);
+        var match = TryMultilineAdjacentMatch(ocrResult.Lines, searchArea, targetNormalized, coordinateScale, minScreenY, maxScreenY, log);
         if (match != null)
             return match;
 

@@ -5,8 +5,9 @@ namespace GameHelper.Services;
 
 /// <summary>
 /// Переоценка выставленных товаров через асинхронный трейд:
-/// обходит сетку ячеек, считывает текущую цену через Ctrl+Alt+C,
-/// снижает по алгоритму и задаёт новую через ПКМ → Ctrl+A → Type → Enter.
+/// проходит по вкладкам торговца, внутри каждой — по сетке ячеек.
+/// Считывает текущую цену через Ctrl+Alt+C, снижает по алгоритму и
+/// задаёт новую через ПКМ → Ctrl+A → Type → Enter.
 /// </summary>
 public sealed class RepricingService
 {
@@ -61,22 +62,65 @@ public sealed class RepricingService
             out var v) ? v : null;
     }
 
-    /// <summary>
-    /// Снижает цену по алгоритму. Возвращает null если цена ≤5 (не снижаем).
-    /// </summary>
-    public static decimal? CalcNewPrice(decimal current) =>
-        current switch
-        {
-            >= 500 => current - 50m,
-            >= 200 => current - 25m,
-            >= 100 => current - 20m,
-            >= 50  => current - 10m,
-            > 5    => current - 5m,   // строго > 5: при цене ровно 5 не снижаем
-            _      => null,
-        };
+    /// <summary>Шаги снижения цены по умолчанию (применяются если вкладка не задала свои).</summary>
+    public static readonly RepricingPriceStep[] DefaultPriceSteps =
+    [
+        new() { FromPrice = 500, Step = 50, StrictlyGreater = false, Enabled = true },
+        new() { FromPrice = 200, Step = 25, StrictlyGreater = false, Enabled = true },
+        new() { FromPrice = 100, Step = 20, StrictlyGreater = false, Enabled = true },
+        new() { FromPrice = 50,  Step = 10, StrictlyGreater = false, Enabled = true },
+        new() { FromPrice = 5,   Step = 5,  StrictlyGreater = true,  Enabled = true },
+        new() { FromPrice = 1,   Step = 1,  StrictlyGreater = true,  Enabled = true },
+    ];
 
-    public async Task RunAsync(
+    /// <summary>
+    /// Снижает цену по алгоритму. Возвращает null если ни один активный шаг не применим
+    /// или достигнут отключённый шаг (переоценка останавливается).
+    /// </summary>
+    public static decimal? CalcNewPrice(decimal current, IReadOnlyList<RepricingPriceStep>? steps = null)
+    {
+        var effectiveSteps = steps is { Count: > 0 }
+            ? steps
+            : (IReadOnlyList<RepricingPriceStep>)DefaultPriceSteps;
+        foreach (var step in effectiveSteps)
+        {
+            var matches = step.StrictlyGreater ? current > step.FromPrice : current >= step.FromPrice;
+            if (!matches) continue;
+            return step.Enabled ? current - step.Step : null;
+        }
+        return null;
+    }
+
+    /// <summary>
+    /// Переоценивает одну вкладку: кликает по TabRect (если задана) и обходит все ячейки.
+    /// Используется в независимых per-tab задачах планировщика.
+    /// </summary>
+    public async Task RunSingleTabAsync(
+        RepricingTabConfig tab,
+        IProgress<string>? log,
+        CancellationToken ct)
+    {
+        ct.ThrowIfCancellationRequested();
+        var cells = tab.Cells;
+        if (cells == null || cells.Count == 0) return;
+
+        if (tab.TabRect.Width > 0 && tab.TabRect.Height > 0)
+        {
+            log?.Report($"[{tab.Name}] Переход на вкладку…");
+            var (tx, ty) = tab.TabRect.GetRandomInteriorPoint();
+            Win32Input.MoveTo(tx, ty);
+            await DelayAsync(MouseActionDelayMs, ct);
+            Win32Input.ClickLeft();
+            await Task.Delay(WithJitter(PostClickDelayMs), ct);
+        }
+
+        await RepriceCellsAsync(cells, tab.PriceSteps, $"[{tab.Name}] ", log, ct);
+    }
+
+    private async Task<(int Repriced, int Skipped)> RepriceCellsAsync(
         IReadOnlyList<ScreenRect> cells,
+        IReadOnlyList<RepricingPriceStep>? priceSteps,
+        string prefix,
         IProgress<string>? log,
         CancellationToken ct)
     {
@@ -101,7 +145,7 @@ public sealed class RepricingService
             var text = await ReadClipboardAsync();
             if (string.IsNullOrWhiteSpace(text))
             {
-                log?.Report($"[{i + 1}/{cells.Count}] пустой буфер — пропускаем");
+                log?.Report($"{prefix}[{i + 1}/{cells.Count}] пустой буфер — пропускаем");
                 skipped++;
                 continue;
             }
@@ -109,15 +153,15 @@ public sealed class RepricingService
             var current = ParseNotePrice(text);
             if (current is null)
             {
-                log?.Report($"[{i + 1}/{cells.Count}] цена не найдена — пропускаем");
+                log?.Report($"{prefix}[{i + 1}/{cells.Count}] цена не найдена — пропускаем");
                 skipped++;
                 continue;
             }
 
-            var newPrice = CalcNewPrice(current.Value);
+            var newPrice = CalcNewPrice(current.Value, priceSteps);
             if (newPrice is null)
             {
-                log?.Report($"[{i + 1}/{cells.Count}] {current} — не снижаем (≤5)");
+                log?.Report($"{prefix}[{i + 1}/{cells.Count}] {current} — не снижаем (≤5)");
                 skipped++;
                 continue;
             }
@@ -147,7 +191,7 @@ public sealed class RepricingService
                                  System.Globalization.CultureInfo.InvariantCulture, out _);
             if (isItemText)
             {
-                log?.Report($"[{i + 1}/{cells.Count}] заблокирован — диалог цены не открылся, пропускаем");
+                log?.Report($"{prefix}[{i + 1}/{cells.Count}] заблокирован — диалог цены не открылся, пропускаем");
                 skipped++;
                 continue;
             }
@@ -173,16 +217,17 @@ public sealed class RepricingService
 
             if (verifiedPrice == newPrice)
             {
-                log?.Report($"[{i + 1}/{cells.Count}] ✓ {current} → {newPrice}");
+                log?.Report($"{prefix}[{i + 1}/{cells.Count}] ✓ {current} → {newPrice}");
                 repriced++;
             }
             else
             {
-                log?.Report($"[{i + 1}/{cells.Count}] переоценка не применилась (цена: {verifiedPrice?.ToString() ?? "?"})");
+                log?.Report($"{prefix}[{i + 1}/{cells.Count}] переоценка не применилась (цена: {verifiedPrice?.ToString() ?? "?"})");
                 skipped++;
             }
         }
 
-        log?.Report($"Готово: переоценено {repriced}, пропущено {skipped}.");
+        log?.Report($"{prefix}Готово: переоценено {repriced}, пропущено {skipped}.");
+        return (repriced, skipped);
     }
 }

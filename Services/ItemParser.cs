@@ -13,6 +13,7 @@ public class AffixInfo
     public string Type { get; set; } = ""; // "Prefix Modifier" or "Suffix Modifier"
     public string Name { get; set; } = "";
     public int Tier { get; set; }
+    public bool IsFractured { get; set; }
     public List<string> Tags { get; set; } = new();
     public List<string> Effects { get; set; } = new();
     /// <summary>Разбор строк эффектов: значение, диапазон в скобках, текст стата.</summary>
@@ -337,13 +338,14 @@ public static class ItemParser
         }
         else if (content.StartsWith("Fractured Prefix Modifier", StringComparison.Ordinal))
         {
-            // Для условий крафта и подсчёта слотов считаем это обычным Prefix Modifier.
             affix.Type = "Prefix Modifier";
+            affix.IsFractured = true;
             content = content["Fractured Prefix Modifier".Length..].Trim();
         }
         else if (content.StartsWith("Fractured Suffix Modifier", StringComparison.Ordinal))
         {
             affix.Type = "Suffix Modifier";
+            affix.IsFractured = true;
             content = content["Fractured Suffix Modifier".Length..].Trim();
         }
         else if (content.StartsWith("Prefix Modifier", StringComparison.Ordinal))

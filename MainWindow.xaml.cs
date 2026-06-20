@@ -85,10 +85,22 @@ public partial class MainWindow : Window
     private ScreenRect _sockSubIdolsRect;
     private ScreenRect _sockSubAugmentsRect;
     private CancellationTokenSource? _nwScanCts;
-    private List<ScreenRect> _repricingCells = new();
+    private List<RepricingTabConfig> _repricingTabs = [new RepricingTabConfig { Name = "Вкладка 1" }];
+    private ScreenRect _repricingTraderOcrRect;
+    private ScreenRect _repricingManageShopOcrRect;
+    private ScreenRect _repricingGoodsRect;
     private CancellationTokenSource? _repricingCts;
     private readonly Services.RepricingService _repricingService = new();
     private bool _repricingStartStopHotkeyRegistered;
+    private ScreenRect _chancingOocRect;
+    private ScreenRect _chancingOmenRect;
+    private List<ScreenRect> _chancingTabletCells = new();
+    private CancellationTokenSource? _chancingCts;
+    private readonly Services.ChancingService _chancingService = new();
+    private bool _chancingStartStopHotkeyRegistered;
+    private int _chancingStartStopVirtualKey;
+    private int _chancingStartStopModifiers;
+    private List<Services.ReferenceCategory> _referenceCategories = new();
     private int _repricingStartStopVirtualKey;
     private int _repricingStartStopModifiers;
     private ScreenRect _stashOcrSearchRect;
@@ -220,6 +232,12 @@ public partial class MainWindow : Window
                 handled = true;
                 Dispatcher.BeginInvoke(RepricingToggleStartStop);
             }
+
+            if (id >= GlobalHotkey.ChancingStartStopHotkeyIdBase && id < GlobalHotkey.ChancingStartStopHotkeyIdBase + 8)
+            {
+                handled = true;
+                Dispatcher.BeginInvoke(ChancingToggleStartStop);
+            }
         }
 
         return IntPtr.Zero;
@@ -233,6 +251,7 @@ public partial class MainWindow : Window
         UnregisterCraftStartStopHotkey();
         UnregisterReforgeStartStopHotkey();
         UnregisterAutoReforgeStartStopHotkey();
+        UnregisterChancingStartStopHotkey();
         _rfCts?.Cancel();
         _rfScanCts?.Cancel();
         _autoRfCts?.Cancel();
@@ -760,8 +779,35 @@ public partial class MainWindow : Window
             : new Dictionary<string, int>();
         RebuildProfitTable();
 
-        _repricingCells = s.RepricingCells is { Count: > 0 } rc ? rc.ToList() : new();
-        RepricingGridInfo.Text          = FormatItemCellsSummary(_repricingCells);
+        if (s.RepricingTabs is { Count: > 0 } savedTabs)
+            _repricingTabs = savedTabs.Select(t => new RepricingTabConfig
+            {
+                Name = t.Name,
+                TabRect = t.TabRect,
+                Cells = t.Cells?.ToList(),
+                RepeatCount = t.RepeatCount,
+                RepeatIntervalMinutes = t.RepeatIntervalMinutes,
+                PriceSteps = t.PriceSteps?.Select(s => new RepricingPriceStep
+                {
+                    FromPrice = s.FromPrice, Step = s.Step,
+                    StrictlyGreater = s.StrictlyGreater, Enabled = s.Enabled
+                }).ToList()
+            }).ToList();
+        else if (s.RepricingCells is { Count: > 0 } legacyCells)
+            _repricingTabs = [new RepricingTabConfig { Name = "Вкладка 1", Cells = legacyCells.ToList() }];
+        else
+            _repricingTabs = [new RepricingTabConfig { Name = "Вкладка 1" }];
+        _repricingTraderOcrRect = s.RepricingTraderOcrSearchRect;
+        RepricingTraderOcrInfo.Text = _repricingTraderOcrRect.Width > 0 ? FormatRect(_repricingTraderOcrRect) : "не задана";
+        RepricingTraderOcrTextBox.Text = s.RepricingTraderOcrText;
+        RepricingTraderOpenDelayBox.Text = s.RepricingTraderOpenDelayMs.ToString();
+        _repricingManageShopOcrRect = s.RepricingManageShopOcrSearchRect;
+        RepricingManageShopOcrInfo.Text = _repricingManageShopOcrRect.Width > 0 ? FormatRect(_repricingManageShopOcrRect) : "не задана";
+        RepricingManageShopOcrTextBox.Text = s.RepricingManageShopOcrText;
+
+        _repricingGoodsRect = s.RepricingGoodsRect;
+        RepricingGoodsInfo.Text = _repricingGoodsRect.Width > 0 ? FormatRect(_repricingGoodsRect) : "не задана";
+        RebuildRepricingTabsPanel();
         RepricingPostClickDelayBox.Text    = s.RepricingPostClickDelayMs.ToString();
         RepricingHoverSettleBox.Text       = s.RepricingHoverSettleMs.ToString();
         RepricingRepeatCountBox.Text       = s.RepricingRepeatCount.ToString();
@@ -771,6 +817,28 @@ public partial class MainWindow : Window
         _repricingStartStopModifiers  = s.RepricingStartStopModifiers;
         UpdateRepricingStartStopHotkeyDisplay();
         RegisterRepricingStartStopHotkey();
+
+        _chancingOocRect = s.ChancingOocRect;
+        ChancingOocRectInfo.Text = _chancingOocRect.Width > 0 ? FormatRect(_chancingOocRect) : "не задана";
+        _chancingOmenRect = s.ChancingOmenRect;
+        _chancingTabletCells = s.ChancingTabletCells is { Count: > 0 } cc ? cc.ToList() : new List<ScreenRect>();
+        ChancingTabletCellsInfo.Text = _chancingTabletCells.Count > 0 ? $"{_chancingTabletCells.Count} ячеек" : "не задана";
+        var inputBase = s.ChancingInputBase ?? "Irradiated Tablet";
+        foreach (System.Windows.Controls.ComboBoxItem item in ChancingInputBaseCombo.Items)
+        {
+            if (item.Content?.ToString() == inputBase)
+            { ChancingInputBaseCombo.SelectedItem = item; break; }
+        }
+        ChancingUseOmenCheckBox.IsChecked = s.ChancingUseOmen;
+        ChancingUpdateOmenVisibility();
+        ChancingMouseDelayBox.Text       = s.ChancingMouseDelayMs.ToString();
+        ChancingPostApplyWaitBox.Text    = s.ChancingPostApplyWaitMs > 0 ? s.ChancingPostApplyWaitMs.ToString() : "600";
+        _chancingStartStopVirtualKey     = s.ChancingStartStopVirtualKey;
+        _chancingStartStopModifiers      = s.ChancingStartStopModifiers;
+        UpdateChancingStartStopHotkeyDisplay();
+        RegisterChancingStartStopHotkey();
+
+        RefLoadCategories();
     }
 
     private void SaveSettings()
@@ -872,7 +940,24 @@ public partial class MainWindow : Window
             CatalystGoldPrices = _catalystGoldPrices.Count > 0
                 ? new Dictionary<string, int>(_catalystGoldPrices)
                 : null,
-            RepricingCells = _repricingCells.Count > 0 ? new List<ScreenRect>(_repricingCells) : null,
+            RepricingTabs = _repricingTabs.Count > 0
+                ? _repricingTabs.Select(t => new RepricingTabConfig
+                {
+                    Name = t.Name, TabRect = t.TabRect, Cells = t.Cells?.ToList(),
+                    RepeatCount = t.RepeatCount, RepeatIntervalMinutes = t.RepeatIntervalMinutes,
+                    PriceSteps = t.PriceSteps?.Select(s => new RepricingPriceStep
+                    {
+                        FromPrice = s.FromPrice, Step = s.Step,
+                        StrictlyGreater = s.StrictlyGreater, Enabled = s.Enabled
+                    }).ToList()
+                }).ToList()
+                : null,
+            RepricingTraderOcrSearchRect        = _repricingTraderOcrRect,
+            RepricingTraderOcrText              = RepricingTraderOcrTextBox.Text.Trim(),
+            RepricingTraderOpenDelayMs          = RfParseInt(RepricingTraderOpenDelayBox.Text, 1000),
+            RepricingManageShopOcrSearchRect    = _repricingManageShopOcrRect,
+            RepricingManageShopOcrText          = RepricingManageShopOcrTextBox.Text.Trim(),
+            RepricingGoodsRect                  = _repricingGoodsRect,
             RepricingPostClickDelayMs      = RfParseInt(RepricingPostClickDelayBox.Text, 300),
             RepricingHoverSettleMs         = RfParseInt(RepricingHoverSettleBox.Text, 120),
             RepricingRepeatCount           = RfParseInt(RepricingRepeatCountBox.Text, 1),
@@ -880,6 +965,15 @@ public partial class MainWindow : Window
             RepricingStartStopVirtualKey = _repricingStartStopVirtualKey,
             RepricingStartStopModifiers  = _repricingStartStopModifiers,
         };
+        s.ChancingOocRect          = _chancingOocRect;
+        s.ChancingOmenRect         = _chancingOmenRect;
+        s.ChancingTabletCells      = _chancingTabletCells.Count > 0 ? _chancingTabletCells : null;
+        s.ChancingInputBase        = (ChancingInputBaseCombo.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "Irradiated Tablet";
+        s.ChancingUseOmen          = ChancingUseOmenCheckBox.IsChecked == true;
+        s.ChancingMouseDelayMs     = RfParseInt(ChancingMouseDelayBox.Text, 120);
+        s.ChancingPostApplyWaitMs  = RfParseInt(ChancingPostApplyWaitBox.Text, 600);
+        s.ChancingStartStopVirtualKey = _chancingStartStopVirtualKey;
+        s.ChancingStartStopModifiers  = _chancingStartStopModifiers;
         _reforgeState.ApplyToSettings(s);
         SettingsStore.Save(s);
     }
@@ -2126,7 +2220,8 @@ public partial class MainWindow : Window
             _craft.StepConfirmAsync = null;
             _exaltCraft.StepConfirmAsync = null;
             craftFile?.Dispose();
-            _ = Services.AffixStatsScanner.ScanNewLogsAsync();
+            _ = Services.AffixStatsScanner.ScanNewLogsAsync()
+                .ContinueWith(_ => Dispatcher.Invoke(RefLoadCategories), TaskScheduler.Default);
             _activeCraftLogPath = null;
             StartBtn.IsEnabled = true;
             StopBtn.IsEnabled = false;
@@ -4087,37 +4182,48 @@ public partial class MainWindow : Window
         {
             try
             {
-                Native.ProcessForeground.TryBringProcessToForeground(
-                    Native.ProcessForeground.PathOfExile2SteamProcessName);
-                await Task.Delay(200, ct);
-
-                if (selectedIds.Count == 0)
-                    ((IProgress<string>)progress).Report(
-                        $"[Каскад-стэш] Авто-каскад: типы выбираются динамически (порог ≤ {_autoRfService.CascadeThresholdEx} ex).");
-
-                var totalPerformed = 0;
-                while (!ct.IsCancellationRequested)
+                await Services.GameInputLock.WaitAsync(ct);
+                try
                 {
-                    var cycleBefore = totalPerformed;
-                    var cycleLimit  = maxOps > 0 ? maxOps - totalPerformed : 0;
+                    Native.ProcessForeground.TryBringProcessToForeground(
+                        Native.ProcessForeground.PathOfExile2SteamProcessName);
+                    await Task.Delay(200, ct);
 
-                    await _autoRfService.RunAsync(
-                        fullCells, selectedIds,
-                        stashOcrRect, stashOcrText,
-                        breachRect, regions,
-                        _reforgeState.ItemCells,   // Сетка перековки (8×5) — только для сканирования
-                        benchOcrRect, benchOcrText,
-                        _reforgeState.Slot1Rect, _reforgeState.Slot2Rect, _reforgeState.Slot3Rect,
-                        _reforgeState.ConfirmRect, _reforgeState.ResultRect,
-                        cycleLimit, progress,
-                        r => { totalPerformed++; Dispatcher.InvokeAsync(() => RfLog($"  → {r.InputTypeName} → {r.OutputItemName ?? "?"}")); },
-                        ct);
+                    if (selectedIds.Count == 0)
+                        ((IProgress<string>)progress).Report(
+                            $"[Каскад-стэш] Авто-каскад: типы выбираются динамически (порог ≤ {_autoRfService.CascadeThresholdEx} ex).");
 
-                    if (ct.IsCancellationRequested) break;
-                    // Нет прогресса = стэш пуст, продолжать бессмысленно
-                    if (totalPerformed == cycleBefore) break;
-                    // Достигли лимита операций
-                    if (maxOps > 0 && totalPerformed >= maxOps) break;
+                    var totalPerformed = 0;
+                    while (!ct.IsCancellationRequested)
+                    {
+                        var cycleBefore = totalPerformed;
+                        var cycleLimit  = maxOps > 0 ? maxOps - totalPerformed : 0;
+
+                        await _autoRfService.RunAsync(
+                            fullCells, selectedIds,
+                            stashOcrRect, stashOcrText,
+                            breachRect, regions,
+                            _reforgeState.ItemCells,   // Сетка перековки (8×5) — только для сканирования
+                            benchOcrRect, benchOcrText,
+                            _reforgeState.Slot1Rect, _reforgeState.Slot2Rect, _reforgeState.Slot3Rect,
+                            _reforgeState.ConfirmRect, _reforgeState.ResultRect,
+                            cycleLimit, progress,
+                            r => { totalPerformed++; Dispatcher.InvokeAsync(() => RfLog($"  → {r.InputTypeName} → {r.OutputItemName ?? "?"}")); },
+                            ct);
+
+                        if (ct.IsCancellationRequested) break;
+                        // Нет прогресса = стэш пуст, продолжать бессмысленно
+                        if (totalPerformed == cycleBefore) break;
+                        // Достигли лимита операций
+                        if (maxOps > 0 && totalPerformed >= maxOps) break;
+                    }
+                    // Закрываем открытые окна игры
+                    Native.Win32Input.PressKey(0x33);
+                    await Task.Delay(150, CancellationToken.None);
+                }
+                finally
+                {
+                    Services.GameInputLock.Release();
                 }
             }
             catch (OperationCanceledException)
@@ -4213,22 +4319,188 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
-    private void RepricingPickGridBtn_Click(object sender, RoutedEventArgs e)
+    private void RebuildRepricingTabsPanel()
     {
-        var dimDlg = new ItemGridDimensionsDialog { Owner = this };
-        if (dimDlg.ShowDialog() != true) return;
-        var picker = new RegionPickerWindow(dimDlg.GridColumns, dimDlg.GridRows) { Owner = this };
-        if (picker.ShowDialog() != true || picker.SelectedRegion is not { } region) return;
-        _repricingCells = picker.SelectedCells is { Count: > 0 } c ? c.ToList() : new List<ScreenRect> { region };
-        RepricingGridInfo.Text = FormatItemCellsSummary(_repricingCells);
+        RepricingTabsPanel.Children.Clear();
+
+        for (var i = 0; i < _repricingTabs.Count; i++)
+        {
+            var tab = _repricingTabs[i];
+            var idx = i;
+
+            var border = new System.Windows.Controls.Border
+            {
+                BorderBrush     = System.Windows.Media.Brushes.LightGray,
+                BorderThickness = new System.Windows.Thickness(1),
+                Margin  = new System.Windows.Thickness(0, 0, 0, 8),
+                Padding = new System.Windows.Thickness(8)
+            };
+
+            var panel = new System.Windows.Controls.StackPanel();
+
+            // Строка: имя + кнопка удаления
+            var headerGrid = new System.Windows.Controls.Grid();
+            headerGrid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition
+                { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            headerGrid.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition
+                { Width = System.Windows.GridLength.Auto });
+
+            var nameBox = new System.Windows.Controls.TextBox
+            {
+                Text   = tab.Name,
+                Margin = new System.Windows.Thickness(0, 0, 8, 0)
+            };
+            nameBox.TextChanged += (_, _) =>
+            {
+                if (idx < _repricingTabs.Count)
+                    _repricingTabs[idx].Name = nameBox.Text;
+            };
+            System.Windows.Controls.Grid.SetColumn(nameBox, 0);
+
+            var removeBtn = new System.Windows.Controls.Button
+            {
+                Content = "✕",
+                Padding = new System.Windows.Thickness(6, 2, 6, 2)
+            };
+            removeBtn.Click += (_, _) =>
+            {
+                _repricingTabs.RemoveAt(idx);
+                RebuildRepricingTabsPanel();
+                SaveSettings();
+            };
+            System.Windows.Controls.Grid.SetColumn(removeBtn, 1);
+            headerGrid.Children.Add(nameBox);
+            headerGrid.Children.Add(removeBtn);
+            panel.Children.Add(headerGrid);
+
+            // Строка: область вкладки
+            var tabAreaRow = new System.Windows.Controls.StackPanel
+            {
+                Orientation = System.Windows.Controls.Orientation.Horizontal,
+                Margin = new System.Windows.Thickness(0, 6, 0, 0)
+            };
+            var tabAreaInfo = new System.Windows.Controls.TextBlock
+            {
+                Text = "Вкладка: " + (tab.TabRect.Width > 0 ? $"({tab.TabRect.X},{tab.TabRect.Y})" : "не задана"),
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                MinWidth = 200
+            };
+            var tabAreaBtn = new System.Windows.Controls.Button
+            {
+                Content = "Задать…",
+                Padding = new System.Windows.Thickness(6, 2, 6, 2),
+                Margin  = new System.Windows.Thickness(8, 0, 0, 0)
+            };
+            tabAreaBtn.Click += (_, _) =>
+            {
+                var picker = new RegionPickerWindow(1, 1) { Owner = this };
+                if (picker.ShowDialog() != true || picker.SelectedRegion is not { } r) return;
+                _repricingTabs[idx].TabRect = r;
+                tabAreaInfo.Text = "Вкладка: " + $"({r.X},{r.Y})";
+                SaveSettings();
+            };
+            tabAreaRow.Children.Add(tabAreaInfo);
+            tabAreaRow.Children.Add(tabAreaBtn);
+            panel.Children.Add(tabAreaRow);
+
+            // Строка: сетка ячеек
+            var cellsRow = new System.Windows.Controls.StackPanel
+            {
+                Orientation = System.Windows.Controls.Orientation.Horizontal,
+                Margin = new System.Windows.Thickness(0, 4, 0, 0)
+            };
+            var cellsList = (IReadOnlyList<ScreenRect>)(tab.Cells ?? []);
+            var cellsInfo = new System.Windows.Controls.TextBlock
+            {
+                Text = "Сетка: " + FormatItemCellsSummary(cellsList),
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                MinWidth = 200
+            };
+            var cellsBtn = new System.Windows.Controls.Button
+            {
+                Content = "Задать…",
+                Padding = new System.Windows.Thickness(6, 2, 6, 2),
+                Margin  = new System.Windows.Thickness(8, 0, 0, 0)
+            };
+            cellsBtn.Click += (_, _) =>
+            {
+                var dimDlg = new ItemGridDimensionsDialog { Owner = this };
+                if (dimDlg.ShowDialog() != true) return;
+                var picker = new RegionPickerWindow(dimDlg.GridColumns, dimDlg.GridRows) { Owner = this };
+                if (picker.ShowDialog() != true || picker.SelectedRegion is not { } region) return;
+                _repricingTabs[idx].Cells = picker.SelectedCells is { Count: > 0 } c ? c.ToList() : [region];
+                cellsInfo.Text = "Сетка: " + FormatItemCellsSummary(_repricingTabs[idx].Cells!);
+                SaveSettings();
+            };
+            cellsRow.Children.Add(cellsInfo);
+            cellsRow.Children.Add(cellsBtn);
+            panel.Children.Add(cellsRow);
+
+            // Строка: кнопка индивидуальных настроек
+            var settingsBtn = new System.Windows.Controls.Button
+            {
+                Content = "Настройки повторений и цены…",
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                Padding = new System.Windows.Thickness(8, 3, 8, 3),
+                Margin  = new System.Windows.Thickness(0, 6, 0, 0)
+            };
+            settingsBtn.Click += (_, _) =>
+            {
+                var globalCount    = RfParseInt(RepricingRepeatCountBox.Text, 1);
+                var globalInterval = RfParseInt(RepricingRepeatIntervalBox.Text, 5);
+                var dlg = new RepricingTabSettingsWindow(_repricingTabs[idx], globalCount, globalInterval)
+                    { Owner = this };
+                if (dlg.ShowDialog() != true) return;
+                dlg.ApplyTo(_repricingTabs[idx]);
+                SaveSettings();
+            };
+            panel.Children.Add(settingsBtn);
+
+            border.Child = panel;
+            RepricingTabsPanel.Children.Add(border);
+        }
+    }
+
+    private void RepricingTraderOcrPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow(1, 1) { Owner = this };
+        if (picker.ShowDialog() != true || picker.SelectedRegion is not { } r) return;
+        _repricingTraderOcrRect = r;
+        RepricingTraderOcrInfo.Text = FormatRect(r);
+        SaveSettings();
+    }
+
+    private void RepricingGoodsPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow(1, 1) { Owner = this };
+        if (picker.ShowDialog() != true || picker.SelectedRegion is not { } r) return;
+        _repricingGoodsRect = r;
+        RepricingGoodsInfo.Text = FormatRect(r);
+        SaveSettings();
+    }
+
+    private void RepricingManageShopOcrPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow(1, 1) { Owner = this };
+        if (picker.ShowDialog() != true || picker.SelectedRegion is not { } r) return;
+        _repricingManageShopOcrRect = r;
+        RepricingManageShopOcrInfo.Text = FormatRect(r);
+        SaveSettings();
+    }
+
+    private void AddRepricingTabBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _repricingTabs.Add(new RepricingTabConfig { Name = $"Вкладка {_repricingTabs.Count + 1}" });
+        RebuildRepricingTabsPanel();
         SaveSettings();
     }
 
     private async void RepricingStartBtn_Click(object sender, RoutedEventArgs e)
     {
-        if (_repricingCells.Count == 0)
+        var hasAnyCells = _repricingTabs.Any(t => t.Cells is { Count: > 0 });
+        if (!hasAnyCells)
         {
-            MessageBox.Show(this, "Задайте сетку ячеек для переоценки.", "Переоценка",
+            MessageBox.Show(this, "Задайте сетку ячеек хотя бы для одной вкладки.", "Переоценка",
                 MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
         }
@@ -4246,45 +4518,136 @@ public partial class MainWindow : Window
         _repricingService.ClipboardDelayMs   = RfParseInt(ClipboardDelayMs.Text, 220);
         _repricingService.PostClickDelayMs   = RfParseInt(RepricingPostClickDelayBox.Text, 300);
         _repricingService.HoverSettleMs      = RfParseInt(RepricingHoverSettleBox.Text, 120);
-        var repeatCount    = RfParseInt(RepricingRepeatCountBox.Text, 1);
+        var repeatCount     = RfParseInt(RepricingRepeatCountBox.Text, 1);
         var intervalMinutes = RfParseInt(RepricingRepeatIntervalBox.Text, 5);
         SaveSettings();
         MinimizeToTrayOnStart();
 
-        var cells      = _repricingCells.ToList();
-        var dispatcher = Dispatcher;
-        var progress   = new Progress<string>(msg =>
+        var tabs = _repricingTabs
+            .Where(t => t.Cells is { Count: > 0 })
+            .Select(t => new RepricingTabConfig
+            {
+                Name = t.Name, TabRect = t.TabRect, Cells = t.Cells?.ToList(),
+                RepeatCount = t.RepeatCount, RepeatIntervalMinutes = t.RepeatIntervalMinutes,
+                PriceSteps = t.PriceSteps?.Select(s => new RepricingPriceStep
+                {
+                    FromPrice = s.FromPrice, Step = s.Step,
+                    StrictlyGreater = s.StrictlyGreater, Enabled = s.Enabled
+                }).ToList()
+            })
+            .ToList();
+        var traderOcrRect      = _repricingTraderOcrRect;
+        var traderOcrText      = RepricingTraderOcrTextBox.Text.Trim();
+        var traderOpenDelay    = RfParseInt(RepricingTraderOpenDelayBox.Text, 1000);
+        var manageShopOcrRect  = _repricingManageShopOcrRect;
+        var manageShopOcrText  = RepricingManageShopOcrTextBox.Text.Trim();
+        var goodsRect          = _repricingGoodsRect;
+        var mouseMs            = _repricingService.MouseActionDelayMs;
+        var postClickMs        = _repricingService.PostClickDelayMs;
+        var dispatcher         = Dispatcher;
+        var progress           = new Progress<string>(msg =>
         {
             RepricingLogBox.AppendText(msg + "\n");
             RepricingLogBox.ScrollToEnd();
+            Services.SessionLogger.Info($"[Repricing] {msg}");
         });
 
-        try
+        async Task RunTabScheduleAsync(RepricingTabConfig tab)
         {
-            await Task.Run(async () =>
-            {
-                for (var iter = 1; !ct.IsCancellationRequested; iter++)
-                {
-                    var label = repeatCount > 0 ? $"{iter}/{repeatCount}" : $"{iter}";
-                    ((IProgress<string>)progress).Report($"── Итерация {label} ──");
-                    await dispatcher.InvokeAsync(() => RepricingStatusText.Text = $"Итерация {label}…");
+            var tabRepeatCount    = tab.RepeatCount    ?? repeatCount;
+            var tabIntervalMin    = tab.RepeatIntervalMinutes ?? intervalMinutes;
 
+            for (var iter = 1; !ct.IsCancellationRequested; iter++)
+            {
+                var label = tabRepeatCount > 0 ? $"[{tab.Name}] {iter}/{tabRepeatCount}" : $"[{tab.Name}] {iter}";
+                ((IProgress<string>)progress).Report($"── {label} ──");
+                await dispatcher.InvokeAsync(() => RepricingStatusText.Text = $"{label}…");
+
+                await Services.GameInputLock.WaitAsync(ct);
+                try
+                {
                     Native.ProcessForeground.TryBringProcessToForeground(
                         Native.ProcessForeground.PathOfExile2SteamProcessName);
                     await Task.Delay(200, ct);
-                    await _repricingService.RunAsync(cells, progress, ct);
 
-                    if (repeatCount > 0 && iter >= repeatCount)
-                        break;
+                    if (traderOcrRect.Width > 0 && !string.IsNullOrWhiteSpace(traderOcrText))
+                    {
+                        ((IProgress<string>)progress).Report($"[{tab.Name}] OCR: ищем торговца…");
+                        var traderNorm = WindowsOcrTextLocator.NormalizeForMatch(traderOcrText);
+                        var traderMatch = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(
+                            traderOcrRect, traderNorm, progress, ct);
+                        if (traderMatch is { } traderFound)
+                        {
+                            var (tx, ty) = traderFound.BoundsOnScreen.GetInteriorPoint(inset: 1);
+                            Native.Win32Input.MoveTo(tx, ty);
+                            await Task.Delay(mouseMs, ct);
+                            Native.Win32Input.ClickLeft();
+                        }
+                        else
+                        {
+                            ((IProgress<string>)progress).Report($"[{tab.Name}] OCR: торговец не найден — продолжаем.");
+                        }
+                        await Task.Delay(traderOpenDelay, ct);
 
-                    var next = DateTime.Now.AddMinutes(intervalMinutes);
-                    ((IProgress<string>)progress).Report(
-                        $"Пауза {intervalMinutes} мин — следующая итерация в {next:HH:mm}");
-                    await dispatcher.InvokeAsync(() =>
-                        RepricingStatusText.Text = $"Ждём до {next:HH:mm}…");
-                    await Task.Delay(TimeSpan.FromMinutes(intervalMinutes), ct);
+                        if (manageShopOcrRect.Width > 0 && !string.IsNullOrWhiteSpace(manageShopOcrText))
+                        {
+                            ((IProgress<string>)progress).Report($"[{tab.Name}] OCR: ищем Manage Shop…");
+                            var shopNorm = WindowsOcrTextLocator.NormalizeForMatch(manageShopOcrText);
+                            // Manage Shop всегда на 500-540px ниже торговца; диапазон [+450, +600] отсекает ложные срабатывания
+                            var shopMinY = traderMatch?.BoundsOnScreen.Y + 450 ?? 0;
+                            var shopMaxY = traderMatch?.BoundsOnScreen.Y + 600 ?? int.MaxValue;
+                            var shopMatch = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(
+                                manageShopOcrRect, shopNorm, progress, ct, minScreenY: shopMinY, maxScreenY: shopMaxY);
+                            if (shopMatch is { } shopFound)
+                            {
+                                var r = shopFound.BoundsOnScreen;
+                                var mx = r.X + r.Width / 2;
+                                // При склейке строк «Currency Exchange» + «Manage Shop» блок высокий;
+                                // кликаем в 12px от нижней границы — гарантированно в Manage Shop.
+                                var my = r.Y + r.Height - 12;
+                                ((IProgress<string>)progress).Report($"[{tab.Name}] OCR: Manage Shop найден (блок {r.Width}×{r.Height} @ {r.X},{r.Y}) → клик ({mx},{my})");
+                                Native.Win32Input.MoveTo(mx, my);
+                                await Task.Delay(postClickMs, ct);
+                                Native.Win32Input.ClickLeft();
+                                await Task.Delay(traderOpenDelay, ct);
+                            }
+                            else
+                            {
+                                ((IProgress<string>)progress).Report($"[{tab.Name}] OCR: Manage Shop не найден — продолжаем.");
+                            }
+                        }
+                    }
+
+                    if (goodsRect.Width > 0 && goodsRect.Height > 0)
+                    {
+                        var (gx, gy) = goodsRect.GetRandomInteriorPoint();
+                        Native.Win32Input.MoveTo(gx, gy);
+                        await Task.Delay(postClickMs, ct);
+                        Native.Win32Input.ClickLeft();
+                        await Task.Delay(postClickMs, ct);
+                    }
+
+                    await _repricingService.RunSingleTabAsync(tab, progress, ct);
+                    Native.Win32Input.PressKey(0x33);
+                    await Task.Delay(150, CancellationToken.None);
                 }
-            }, CancellationToken.None);
+                finally
+                {
+                    Services.GameInputLock.Release();
+                }
+
+                if (tabRepeatCount > 0 && iter >= tabRepeatCount) break;
+
+                var next = DateTime.Now.AddMinutes(tabIntervalMin);
+                ((IProgress<string>)progress).Report(
+                    $"[{tab.Name}] Пауза {tabIntervalMin} мин — следующая в {next:HH:mm}");
+                await Task.Delay(TimeSpan.FromMinutes(tabIntervalMin), ct);
+            }
+        }
+
+        try
+        {
+            await Task.WhenAll(tabs.Select(tab => Task.Run(() => RunTabScheduleAsync(tab), CancellationToken.None)));
             RepricingStatusText.Text = "Готово.";
         }
         catch (OperationCanceledException)
@@ -4309,4 +4672,384 @@ public partial class MainWindow : Window
         _repricingCts?.Cancel();
         RepricingStopBtn.IsEnabled = false;
     }
+
+    // ── Шансинг — хоткей ────────────────────────────────────────────────────
+
+    private void RegisterChancingStartStopHotkey()
+    {
+        UnregisterChancingStartStopHotkey();
+        if (_chancingStartStopVirtualKey == 0) return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        if (GlobalHotkey.TryRegisterChancingStartStop(hwnd, (uint)_chancingStartStopVirtualKey, (uint)_chancingStartStopModifiers))
+            _chancingStartStopHotkeyRegistered = true;
+    }
+
+    private void UnregisterChancingStartStopHotkey()
+    {
+        if (!_chancingStartStopHotkeyRegistered) return;
+        var hwnd = new WindowInteropHelper(this).Handle;
+        GlobalHotkey.UnregisterChancingStartStop(hwnd);
+        _chancingStartStopHotkeyRegistered = false;
+    }
+
+    private void UpdateChancingStartStopHotkeyDisplay()
+    {
+        ChancingStartStopHotkeyBox.Text = FormatHotkey(_chancingStartStopVirtualKey, _chancingStartStopModifiers);
+    }
+
+    private void ChancingToggleStartStop()
+    {
+        if (_chancingCts != null && !_chancingCts.IsCancellationRequested)
+        {
+            _chancingCts.Cancel();
+            ChancingStopBtn.IsEnabled = false;
+        }
+        else
+        {
+            ChancingStartBtn_Click(this, new RoutedEventArgs());
+        }
+    }
+
+    private void ChancingStartStopHotkeyBox_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+    {
+        e.Handled = true;
+        var key = e.Key == Key.System ? e.SystemKey : e.Key;
+        if (key == Key.Escape)
+        {
+            _chancingStartStopVirtualKey = 0;
+            _chancingStartStopModifiers  = 0;
+        }
+        else
+        {
+            var mods = Keyboard.Modifiers;
+            _chancingStartStopVirtualKey = KeyInterop.VirtualKeyFromKey(key);
+            _chancingStartStopModifiers  = ((mods & ModifierKeys.Alt) != 0 ? 1 : 0)
+                                         | ((mods & ModifierKeys.Control) != 0 ? 2 : 0)
+                                         | ((mods & ModifierKeys.Shift) != 0 ? 4 : 0);
+        }
+        UpdateChancingStartStopHotkeyDisplay();
+        RegisterChancingStartStopHotkey();
+        SaveSettings();
+    }
+
+    // ── Шансинг ─────────────────────────────────────────────────────────────
+
+    private static readonly Dictionary<string, (decimal TabletEx, decimal OocEx)> ChancingDefaultCosts = new()
+    {
+        ["Irradiated Tablet"] = (47m,  9.9m),
+        ["Delirium Tablet"]   = (25m,  9.9m),
+        ["Temple Tablet"]     = (25m,  9.9m),
+        ["Ritual Tablet"]     = (50m,  9.9m),
+        ["Breach Tablet"]     = (79m,  9.9m),
+        ["Abyss Tablet"]      = (80m,  9.9m),
+    };
+
+    private void ChancingInputBaseCombo_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        var key = (ChancingInputBaseCombo.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "";
+        if (ChancingDefaultCosts.TryGetValue(key, out var costs))
+        {
+            ChancingTabletCostBox.Text = costs.TabletEx.ToString("0.#");
+            ChancingOocCostBox.Text    = costs.OocEx.ToString("0.#");
+        }
+        SaveSettings();
+    }
+
+    private void ChancingUseOmenCheckBox_Changed(object sender, RoutedEventArgs e)
+    {
+        ChancingUpdateOmenVisibility();
+        SaveSettings();
+    }
+
+    private void ChancingUpdateOmenVisibility()
+    {
+        ChancingOmenCostRow.Visibility = ChancingUseOmenCheckBox.IsChecked == true
+            ? System.Windows.Visibility.Visible
+            : System.Windows.Visibility.Collapsed;
+    }
+
+    private void ChancingPickOocRect_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _chancingOocRect = r;
+        ChancingOocRectInfo.Text = FormatRect(r);
+        SaveSettings();
+    }
+
+    private void ChancingPickTabletCells_Click(object sender, RoutedEventArgs e)
+    {
+        var dimDlg = new ItemGridDimensionsDialog { Owner = this };
+        if (dimDlg.ShowDialog() != true) return;
+        var picker = new RegionPickerWindow(dimDlg.GridColumns, dimDlg.GridRows) { Owner = this };
+        if (picker.ShowDialog() != true || picker.SelectedRegion is not { } region) return;
+        _chancingTabletCells = picker.SelectedCells is { Count: > 0 } c ? c.ToList() : new List<ScreenRect> { region };
+        ChancingTabletCellsInfo.Text = $"{_chancingTabletCells.Count} ячеек";
+        SaveSettings();
+    }
+
+    private void ChancingClearStatsBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var stats = _chancingService.SessionStats;
+        if (stats.TotalAttempts > 0)
+            ChancingSaveStats(stats, _chancingService.DivineEx);
+        stats.Clear();
+        ChancingStatsBox.Clear();
+        ChancingLogBox.Clear();
+        ChancingStatusText.Text = "Статистика сброшена.";
+    }
+
+    private async void ChancingStartBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (_chancingTabletCells.Count == 0)
+        {
+            MessageBox.Show(this, "Задайте сетку ячеек таблетов.", "Шансинг", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+        if (_chancingOocRect.Width == 0)
+        {
+            MessageBox.Show(this, "Задайте ячейку Orb of Chance.", "Шансинг", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+        var useOmen = ChancingUseOmenCheckBox.IsChecked == true;
+
+        _chancingCts?.Cancel();
+        _chancingCts = new CancellationTokenSource();
+        var ct = _chancingCts.Token;
+
+        ChancingStartBtn.IsEnabled = false;
+        ChancingStopBtn.IsEnabled  = true;
+        ChancingStatusText.Text    = "Шансинг…";
+        ChancingLogBox.Clear();
+
+        var inputBase = (ChancingInputBaseCombo.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "Irradiated Tablet";
+        _chancingService.InputBase      = inputBase;
+        _chancingService.UseOmen        = useOmen;
+        _chancingService.TabletCostEx   = decimal.TryParse(ChancingTabletCostBox.Text.Replace(',', '.'), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var tc) ? tc : 47m;
+        _chancingService.OocCostEx      = decimal.TryParse(ChancingOocCostBox.Text.Replace(',', '.'), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var oc) ? oc : 9.9m;
+        _chancingService.OmenCostEx     = decimal.TryParse(ChancingOmenCostBox.Text.Replace(',', '.'), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var om) ? om : 3.7m;
+        _chancingService.MouseActionDelayMs = RfParseInt(ChancingMouseDelayBox.Text, 120);
+        _chancingService.ClipboardDelayMs   = RfParseInt(ClipboardDelayMs.Text, 220);
+        _chancingService.PostApplyWaitMs    = RfParseInt(ChancingPostApplyWaitBox.Text, 600);
+
+        var oocRect    = _chancingOocRect;
+        var cells      = _chancingTabletCells.ToList();
+        var dispatcher = Dispatcher;
+        var divineEx   = _chancingService.DivineEx;
+
+        var progress = new Progress<string>(msg =>
+        {
+            ChancingLogBox.AppendText(msg + "\n");
+            ChancingLogBox.ScrollToEnd();
+        });
+
+        SaveSettings();
+        MinimizeToTrayOnStart();
+
+        try
+        {
+            await _chancingService.RunGridAsync(oocRect, cells, null, progress,
+                (attempt, stats) =>
+                {
+                    dispatcher.BeginInvoke(() =>
+                    {
+                        ChancingStatsBox.Text = stats.FormatSummary(divineEx);
+                        ChancingStatusText.Text = $"{stats.TotalAttempts} поп. | Unique {stats.UniqueRatePct:F1}% | Прибыль {stats.NetProfitEx:F0} ex";
+                    });
+                }, ct);
+
+            ChancingStatusText.Text = $"Готово. {_chancingService.SessionStats.TotalAttempts} попыток.";
+        }
+        catch (OperationCanceledException)
+        {
+            ChancingStatusText.Text = "Остановлено.";
+        }
+        catch (Exception ex)
+        {
+            ChancingStatusText.Text = $"Ошибка: {ex.Message}";
+        }
+        finally
+        {
+            ChancingStartBtn.IsEnabled = true;
+            ChancingStopBtn.IsEnabled  = false;
+            var stats = _chancingService.SessionStats;
+            ChancingStatsBox.Text = stats.FormatSummary(divineEx);
+            if (stats.TotalAttempts > 0)
+            {
+                ChancingSaveStats(stats, divineEx);
+                RefLoadCategories();
+            }
+        }
+    }
+
+    private static string GetProjectDocsPath() =>
+        System.IO.Path.GetFullPath(System.IO.Path.Combine(
+            System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location)!,
+            "..", "..", "..", "..", "docs"));
+
+    private void ChancingSaveStats(Services.ChancingSessionStats stats, decimal divineEx)
+    {
+        try
+        {
+            var docs = GetProjectDocsPath();
+            stats.SaveToJson(System.IO.Path.Combine(docs, "chancing_stats.json"), divineEx);
+
+            var inputBase      = _chancingService.InputBase;
+            var normalizedBase = inputBase.ToLowerInvariant().Replace(" ", "_");
+            stats.SaveReferenceJson(
+                System.IO.Path.Combine(docs, "stats", $"chancing_{normalizedBase}.json"),
+                $"Шансинг → {inputBase}",
+                $"Шансинг/{inputBase}");
+
+            Services.SessionLogger.Info($"[Шансинг] Статистика сохранена ({stats.TotalAttempts} попыток)");
+        }
+        catch (Exception ex)
+        {
+            Services.SessionLogger.Info($"[Шансинг] Ошибка сохранения статистики: {ex.Message}");
+        }
+    }
+
+    private void ChancingStopBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _chancingCts?.Cancel();
+        ChancingStopBtn.IsEnabled = false;
+    }
+
+    // ── Справочник вероятностей ──────────────────────────────────────────────
+
+    private void RefLoadCategories()
+    {
+        var statsDir = System.IO.Path.Combine(GetProjectDocsPath(), "stats");
+        _referenceCategories = Services.ReferenceStatsService.LoadAll(statsDir);
+        _referenceCategories.AddRange(BuildAffixStatCategories());
+        RefBuildTree();
+    }
+
+    private List<Services.ReferenceCategory> BuildAffixStatCategories()
+    {
+        var result = new List<Services.ReferenceCategory>();
+        var data   = Services.AffixStatsScanner.Current;
+        var today  = DateTime.Today.ToString("yyyy-MM-dd");
+
+        // Быстрый словарь имя → запись библиотеки (берём первую подходящую по item class)
+        var libByName = _affixEntries
+            .GroupBy(e => e.AffixName, StringComparer.Ordinal)
+            .ToDictionary(g => g.Key, g => g.ToList(), StringComparer.Ordinal);
+
+        foreach (var (cls, cs) in data.PerClass.OrderBy(kv => kv.Key))
+        {
+            if (cs.TotalSnapshots == 0) continue;
+
+            var prefixes = new List<Services.ReferenceEntry>();
+            var suffixes = new List<Services.ReferenceEntry>();
+
+            foreach (var (affixName, count) in cs.AffixCounts)
+            {
+                libByName.TryGetValue(affixName, out var candidates);
+
+                // Предпочитаем запись, совпадающую по классу предмета
+                var lib = candidates?.FirstOrDefault(e =>
+                              e.ItemClasses.Any(ic => string.Equals(ic, cls, StringComparison.OrdinalIgnoreCase)))
+                          ?? candidates?.FirstOrDefault();
+
+                var statText  = lib?.AffixStats.FirstOrDefault() ?? affixName;
+                var isPrefix  = lib?.AffixType.Contains("Prefix", StringComparison.OrdinalIgnoreCase) ?? false;
+
+                var entry = new Services.ReferenceEntry(statText, count, affixName);
+                (isPrefix ? prefixes : suffixes).Add(entry);
+            }
+
+            // Сортировка по смысловому слову: убираем ведущие +#%()цифры и "to "
+            prefixes.Sort((a, b) => string.Compare(StatSortKey(a.Outcome), StatSortKey(b.Outcome), StringComparison.OrdinalIgnoreCase));
+            suffixes.Sort((a, b) => string.Compare(StatSortKey(a.Outcome), StatSortKey(b.Outcome), StringComparison.OrdinalIgnoreCase));
+
+            if (prefixes.Count > 0)
+                result.Add(new Services.ReferenceCategory(
+                    DisplayName:  $"Хаос-крафт → {cls} · Префиксы",
+                    CategoryPath: $"Аффиксы хаос-крафта/{cls} · Префиксы",
+                    Updated:      today,
+                    TotalSamples: cs.TotalSnapshots,
+                    Entries:      prefixes,
+                    FilePath:     ""));
+
+            if (suffixes.Count > 0)
+                result.Add(new Services.ReferenceCategory(
+                    DisplayName:  $"Хаос-крафт → {cls} · Суффиксы",
+                    CategoryPath: $"Аффиксы хаос-крафта/{cls} · Суффиксы",
+                    Updated:      today,
+                    TotalSamples: cs.TotalSnapshots,
+                    Entries:      suffixes,
+                    FilePath:     ""));
+        }
+
+        return result;
+    }
+
+    private void RefBuildTree()
+    {
+        RefCategoryTree.Items.Clear();
+
+        var groups = _referenceCategories
+            .GroupBy(c => c.CategoryPath.Contains('/')
+                ? c.CategoryPath[..c.CategoryPath.IndexOf('/')]
+                : c.CategoryPath)
+            .OrderBy(g => g.Key);
+
+        foreach (var group in groups)
+        {
+            var cats = group.ToList();
+            if (cats.Count == 1 && !cats[0].CategoryPath.Contains('/'))
+            {
+                var item = new System.Windows.Controls.TreeViewItem
+                    { Header = cats[0].DisplayName, Tag = cats[0] };
+                RefCategoryTree.Items.Add(item);
+            }
+            else
+            {
+                var groupItem = new System.Windows.Controls.TreeViewItem
+                    { Header = group.Key, IsExpanded = true };
+                foreach (var cat in cats.OrderBy(c => c.DisplayName))
+                {
+                    var leaf = cat.CategoryPath.IndexOf('/') is var idx and >= 0
+                        ? cat.CategoryPath[(idx + 1)..]
+                        : cat.DisplayName;
+                    groupItem.Items.Add(new System.Windows.Controls.TreeViewItem
+                        { Header = leaf, Tag = cat });
+                }
+                RefCategoryTree.Items.Add(groupItem);
+            }
+        }
+    }
+
+    // Убирает ведущий числовой мусор для сортировки: "+# to maximum Life" → "maximum Life"
+    private static string StatSortKey(string stat)
+    {
+        var s = stat.AsSpan().TrimStart();
+        // Пропускаем символы +−#%() цифры пробелы
+        var i = 0;
+        while (i < s.Length && "+-–#%() 0123456789".Contains(s[i]))
+            i++;
+        s = s[i..].TrimStart();
+        // Пропускаем ведущее "to " (например после "+# to ")
+        if (s.StartsWith("to ", StringComparison.OrdinalIgnoreCase))
+            s = s[3..].TrimStart();
+        return s.ToString();
+    }
+
+    private void RefCategoryTree_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
+    {
+        if (e.NewValue is System.Windows.Controls.TreeViewItem { Tag: Services.ReferenceCategory cat })
+            RefShowCategory(cat);
+    }
+
+    private void RefShowCategory(Services.ReferenceCategory cat)
+    {
+        RefCategoryTitle.Text = cat.DisplayName;
+        RefCategoryMeta.Text  = $"{cat.TotalSamples} наблюдений · обновлено {cat.Updated}";
+        RefDataGrid.ItemsSource = cat.Entries
+            .Select(e => Services.ReferenceEntryRow.From(e, cat.TotalSamples))
+            .ToList();
+    }
+
+    private void RefReloadBtn_Click(object sender, RoutedEventArgs e) => RefLoadCategories();
 }

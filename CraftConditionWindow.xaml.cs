@@ -948,16 +948,21 @@ public partial class CraftConditionWindow : Window
             }
 
             var total = cs.TotalSnapshots;
+            var hasTpl = !string.IsNullOrEmpty(data.StatTemplate);
             if (selected.Count == 1)
             {
-                cs.AffixCounts.TryGetValue(selected[0], out var c);
+                var c = hasTpl
+                    ? cs.GetStatCount(selected[0], data.StatTemplate)
+                    : (cs.AffixCounts.TryGetValue(selected[0], out var raw) ? raw : 0);
                 var pct = (double)c / total * 100;
                 var avg = c > 0 ? $"~{total / c} орбов" : "∞";
                 lblStats.Text = $"Статистика: {c} / {total} ({pct:F1}%) — {avg}";
             }
             else
             {
-                var combined = selected.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
+                var combined = hasTpl
+                    ? selected.Sum(n => cs.GetStatCount(n, data.StatTemplate))
+                    : selected.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
                 var pct = (double)combined / total * 100;
                 var avg = combined > 0 ? $"~{total / combined} орбов" : "∞";
                 lblStats.Text = $"Статистика: {combined} / {total} ({pct:F1}%) — {avg}, {selected.Count} вариантов";
@@ -1254,7 +1259,10 @@ public partial class CraftConditionWindow : Window
         var names = s.EffectiveAffixNames();
         if (names.Count == 0) return 0.0;
 
-        var count = names.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
+        var hasTpl = !string.IsNullOrEmpty(s.StatTemplate);
+        var count = hasTpl
+            ? names.Sum(n => cs.GetStatCount(n, s.StatTemplate))
+            : names.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
         if (count == 0) { hasPartialData = true; return 0.0; }
 
         var freq = (double)count / cs.TotalSnapshots;
