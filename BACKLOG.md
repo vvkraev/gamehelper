@@ -122,6 +122,22 @@
 
 ---
 
+## Крафт и статистика аффиксов
+
+- [ ] **CRAFT-1** Добавить выбор подтипа предмета в UI крафта
+  - После выбора класса (Body Armours, Gloves, Helmet, Boots) показывать dropdown с подтипом базы
+  - Подтипы: Armour (Str), Evasion (Dex), Energy Shield (Int), Armour/Evasion, Armour/Energy Shield, Evasion/Energy Shield
+  - Подтип влияет на пул аффиксов библиотеки — исключает аффиксы чужих подтипов
+  - Нужно для корректного расчёта вероятности и чистоты статистики весов
+  - Связано с: `AffixSubClass`, `AffixStatsData`, `feat/ilvl-orb-tier-weights`
+
+- [ ] **CRAFT-2** Добавить `ItemSubType` в сбор статистики крафта
+  - Вычислять подтип из `ParsedItem.Requirements` (Str/Dex/Int → Armour/Evasion/Energy Shield)
+  - Изменить ключ `AffixStatsData.PerClass` на `"ItemClass|SubType"` (версия 4)
+  - Без разбивки по подтипу статистика Body Armours смешивает несовместимые пулы аффиксов
+
+---
+
 ## Очерёдность реализации (рекомендуемый порядок)
 
 ```

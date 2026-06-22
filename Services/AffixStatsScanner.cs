@@ -68,7 +68,7 @@ public static class AffixStatsScanner
                 var item = ItemParser.Parse(snapshot);
                 if (!item.IsValid || string.IsNullOrWhiteSpace(item.ItemClass)) continue;
 
-                var cs = data.GetOrCreate(item.ItemClass);
+                var cs = data.GetOrCreate(item.ItemClass, item.ItemSubType);
                 cs.TotalSnapshots++;
                 foreach (var affix in item.Affixes)
                 {

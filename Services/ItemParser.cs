@@ -51,6 +51,13 @@ public class ParsedItem
     public string State { get; set; } = ""; // Corrupted, Sanctified, etc.
     /// <summary>Текущий размер стака (из «Stack Size: X/Y»). 0 — не стакующийся предмет.</summary>
     public int StackSize { get; set; }
+
+    /// <summary>
+    /// Подтип предмета по требованиям к атрибутам: "Armour", "Evasion", "Energy Shield",
+    /// "Armour/Evasion", "Armour/Energy Shield", "Evasion/Energy Shield".
+    /// Пустая строка если атрибутных требований нет или их три одновременно.
+    /// </summary>
+    public string ItemSubType { get; set; } = "";
 }
 
 /// <summary>
@@ -92,6 +99,7 @@ public static class ItemParser
             // Секции могут отсутствовать — дочитываем Item Level / Requires / Sockets с любой позиции.
             ApplyGlobalKeyedFields(sections, item);
 
+            item.ItemSubType = ParseItemSubType(item.Requirements);
             item.IsValid = true;
             return item;
         }
@@ -515,5 +523,29 @@ public static class ItemParser
         return matchIndex < RollPlaceholders.Length
             ? RollPlaceholders[matchIndex]
             : $"X{matchIndex + 1}";
+    }
+
+    /// <summary>
+    /// Определяет подтип базы предмета по строке требований к атрибутам.
+    /// Пример: "Level 70, 121 Dex" → "Evasion".
+    /// </summary>
+    public static string ParseItemSubType(string requirements)
+    {
+        if (string.IsNullOrWhiteSpace(requirements)) return "";
+
+        var hasStr = Regex.IsMatch(requirements, @"\bStr\b", RegexOptions.IgnoreCase);
+        var hasDex = Regex.IsMatch(requirements, @"\bDex\b", RegexOptions.IgnoreCase);
+        var hasInt = Regex.IsMatch(requirements, @"\bInt\b", RegexOptions.IgnoreCase);
+
+        return (hasStr, hasDex, hasInt) switch
+        {
+            (true,  false, false) => "Armour",
+            (false, true,  false) => "Evasion",
+            (false, false, true)  => "Energy Shield",
+            (true,  true,  false) => "Armour/Evasion",
+            (true,  false, true)  => "Armour/Energy Shield",
+            (false, true,  true)  => "Evasion/Energy Shield",
+            _                     => "",
+        };
     }
 }
