@@ -4,7 +4,8 @@ namespace GameHelper.Services;
 
 public sealed class AffixStatsData
 {
-    public int Version { get; set; } = 3; // v3: fractured affixes excluded from counts
+    // v4: PerClass key is "ItemClass|SubType" for items with a subtype, or just "ItemClass" otherwise.
+    public int Version { get; set; } = 4;
 
     [JsonPropertyName("processedLogFiles")]
     public HashSet<string> ProcessedLogFiles { get; set; } = new(StringComparer.Ordinal);
@@ -12,19 +13,42 @@ public sealed class AffixStatsData
     [JsonPropertyName("perClass")]
     public Dictionary<string, ClassStats> PerClass { get; set; } = new(StringComparer.Ordinal);
 
-    public ClassStats GetOrCreate(string itemClass)
+    /// <summary>
+    /// Строит ключ для <see cref="PerClass"/>:
+    /// "ItemClass|SubType" если подтип не пустой, иначе просто "ItemClass".
+    /// </summary>
+    public static string MakeClassKey(string itemClass, string itemSubType)
+        => string.IsNullOrEmpty(itemSubType) ? itemClass : $"{itemClass}|{itemSubType}";
+
+    public ClassStats GetOrCreate(string itemClass, string itemSubType = "")
     {
-        if (!PerClass.TryGetValue(itemClass, out var s))
-            PerClass[itemClass] = s = new ClassStats();
+        var key = MakeClassKey(itemClass, itemSubType);
+        if (!PerClass.TryGetValue(key, out var s))
+            PerClass[key] = s = new ClassStats();
         return s;
     }
 
-    /// <summary>Returns (count of appearances, total item snapshots for this class).</summary>
-    public (int count, int total) GetCounts(string itemClass, string affixName)
+    /// <summary>Returns (count of appearances, total item snapshots for this class+subtype).</summary>
+    public (int count, int total) GetCounts(string itemClass, string itemSubType, string affixName)
     {
-        if (!PerClass.TryGetValue(itemClass, out var cs)) return (0, 0);
+        var key = MakeClassKey(itemClass, itemSubType);
+        if (!PerClass.TryGetValue(key, out var cs)) return (0, 0);
         cs.AffixCounts.TryGetValue(affixName, out var count);
         return (count, cs.TotalSnapshots);
+    }
+
+    /// <summary>
+    /// При загрузке файла версии ниже 4 сбрасывает статистику — старые данные не имеют
+    /// разбивки по подтипу и смешивают несовместимые пулы аффиксов.
+    /// </summary>
+    public void MigrateIfNeeded()
+    {
+        if (Version < 4)
+        {
+            PerClass.Clear();
+            ProcessedLogFiles.Clear();
+            Version = 4;
+        }
     }
 }
 
