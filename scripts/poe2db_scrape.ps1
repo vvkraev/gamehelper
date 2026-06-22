@@ -111,15 +111,15 @@ $AllTypeDefs = @(
     @{ Url="Time-Lost_Emerald";       Class="Time-Lost Emerald Jewels" }
     @{ Url="Time-Lost_Ruby";          Class="Time-Lost Ruby Jewels" }
     @{ Url="Time-Lost_Sapphire";      Class="Time-Lost Sapphire Jewels" }
-    # Tablets — game reports all tablet types as "Item Class: Tablet"
-    @{ Url="Abyss_Tablet";            Class="Tablet" }
-    @{ Url="Breach_Tablet";           Class="Tablet" }
-    @{ Url="Delirium_Tablet";         Class="Tablet" }
-    @{ Url="Expedition_Tablet";       Class="Tablet" }
-    @{ Url="Irradiated_Tablet";       Class="Tablet" }
-    @{ Url="Overseer_Tablet";         Class="Tablet" }
-    @{ Url="Ritual_Tablet";           Class="Tablet" }
-    @{ Url="Temple_Tablet";           Class="Tablet" }
+    # Tablets — game reports all tablet types as "Item Class: Tablet"; SubClass from URL prefix
+    @{ Url="Abyss_Tablet";            Class="Tablet"; SubClass="Abyss" }
+    @{ Url="Breach_Tablet";           Class="Tablet"; SubClass="Breach" }
+    @{ Url="Delirium_Tablet";         Class="Tablet"; SubClass="Delirium" }
+    @{ Url="Expedition_Tablet";       Class="Tablet"; SubClass="Expedition" }
+    @{ Url="Irradiated_Tablet";       Class="Tablet"; SubClass="Irradiated" }
+    @{ Url="Overseer_Tablet";         Class="Tablet"; SubClass="Overseer" }
+    @{ Url="Ritual_Tablet";           Class="Tablet"; SubClass="Ritual" }
+    @{ Url="Temple_Tablet";           Class="Tablet"; SubClass="Temple" }
     # Other
     @{ Url="Charms";                  Class="Charms" }
     @{ Url="Talismans";               Class="Talismans" }
@@ -196,6 +196,33 @@ function Parse-ModStr([string]$rawHtml) {
     return @{ Text = $text; Range = $range }
 }
 
+# ── Helper: crafting tags → armour AffixSubClass ──────────────────────────────
+# Извлекает data-tag значения из mod_no HTML и маппит комбинацию defence-тегов
+# в стандартные строки подтипа ("Armour", "Evasion", "Energy Shield" и гибриды).
+# null = нет defence-тегов → аффикс доступен на всех подтипах.
+$DefenceTags = @('armour','evasion','energy_shield')
+
+function Get-ArmourSubClass([object]$modNo) {
+    $tags = @()
+    if ($null -ne $modNo) {
+        $items = if ($modNo -is [array]) { $modNo } else { @([string]$modNo) }
+        foreach ($item in $items) {
+            if ([string]$item -match 'data-tag="([^"]+)"') { $tags += $Matches[1] }
+        }
+    }
+    $hasArmour = $tags -contains 'armour'
+    $hasEvasion = $tags -contains 'evasion'
+    $hasES     = $tags -contains 'energy_shield'
+    if (!$hasArmour -and !$hasEvasion -and !$hasES) { return $null }
+    if ($hasArmour -and $hasEvasion -and $hasES)    { return $null }  # тройной гибрид — нет ограничения
+    if ($hasArmour -and $hasEvasion)  { return 'Armour/Evasion' }
+    if ($hasArmour -and $hasES)       { return 'Armour/Energy Shield' }
+    if ($hasEvasion -and $hasES)      { return 'Evasion/Energy Shield' }
+    if ($hasArmour)                   { return 'Armour' }
+    if ($hasEvasion)                  { return 'Evasion' }
+    return 'Energy Shield'
+}
+
 # ── Helper: process one page's mods into library entries ──────────────────────
 # Tier assignment: mirrors poe2db.tw ModsView JavaScript.
 # Within each ModFamilyList group, collect all unique ilvl values across the ENTIRE family,
@@ -203,7 +230,7 @@ function Parse-ModStr([string]$rawHtml) {
 # (e.g. chaos vs. cold spell skills) that share a parent family (IncreaseSocketedGemLevel)
 # get globally-ranked tiers — T1=best ilvl in family, gaps appear where no sub-family
 # has a mod at that ilvl level.
-function Convert-ModsToEntries([array]$mods, [string]$itemClass) {
+function Convert-ModsToEntries([array]$mods, [string]$itemClass, [string]$typeSubClass = "") {
     $entries = [System.Collections.Generic.List[hashtable]]::new()
 
     # Step 1: group by ModFamilyList[0]
@@ -245,10 +272,18 @@ function Convert-ModsToEntries([array]$mods, [string]$itemClass) {
 
         # Step 3: emit one entry per mod, using global tier
         foreach ($mod in $familyMods) {
-            $parsed = Parse-ModStr $mod.str
-            $genId  = [int]$mod.ModGenerationTypeID
-            $ilvl   = [int]$mod.Level
-            $entries.Add(@{
+            $parsed      = Parse-ModStr $mod.str
+            $genId       = [int]$mod.ModGenerationTypeID
+            $ilvl        = [int]$mod.Level
+            # Weight from DropChance (tier weight for orb selection)
+            $weight      = if ($null -ne $mod.DropChance) { [int]$mod.DropChance } else { $null }
+            # SubClass: for Tablets use $typeSubClass (e.g. "Breach"), for armour derive from mod_no data-tags
+            $subClass    = if ($typeSubClass -ne "") {
+                $typeSubClass
+            } else {
+                Get-ArmourSubClass $mod.mod_no
+            }
+            $entry = @{
                 itemClasses    = @($itemClass)
                 affixType      = if ($genId -eq 1) { "Prefix Modifier" } else { "Suffix Modifier" }
                 affixName      = [string]$mod.Name
@@ -256,7 +291,10 @@ function Convert-ModsToEntries([array]$mods, [string]$itemClass) {
                 affixTierLevel = $ilvl
                 affixStats     = @($parsed.Text)
                 affixRanges    = @($parsed.Range)
-            })
+            }
+            if ($null -ne $weight)   { $entry.weight        = $weight }
+            if ($null -ne $subClass) { $entry.affixSubClass = $subClass }
+            $entries.Add($entry)
         }
     }
 
@@ -266,7 +304,7 @@ function Convert-ModsToEntries([array]$mods, [string]$itemClass) {
 # ── Main ───────────────────────────────────────────────────────────────────────
 $seenKeys   = [System.Collections.Generic.HashSet[string]]::new()
 $allEntries = [System.Collections.Generic.List[hashtable]]::new()
-# Raw data: url → array of stripped mod objects (Name, Level, ModGenerationTypeID, ModFamilyList, str, hover)
+# Raw data: url → array of stripped mod objects (Name, Level, ModGenerationTypeID, ModFamilyList, str, hover, DropChance?, mod_no?)
 $rawPages   = [ordered]@{}
 
 foreach ($def in $typesToProcess) {
@@ -291,7 +329,7 @@ foreach ($def in $typesToProcess) {
                 $flArr = if ($null -eq $fl) { @() }
                          elseif ($fl -is [array]) { @($fl | ForEach-Object { [string]$_ }) }
                          else { @([string]$fl) }
-                @{
+                $raw = @{
                     Name               = [string]$_.Name
                     Level              = [int]$_.Level
                     ModGenerationTypeID= [int]$_.ModGenerationTypeID
@@ -299,15 +337,19 @@ foreach ($def in $typesToProcess) {
                     str                = [string]$_.str
                     hover              = [string]$_.hover
                 }
+                if ($null -ne $_.DropChance) { $raw.DropChance = [int]$_.DropChance }
+                if ($null -ne $_.mod_no)     { $raw.mod_no     = $_.mod_no }
+                $raw
             })
         }
 
-        $entries = Convert-ModsToEntries $mods $itemClass
+        $subClass = if ($def.ContainsKey('SubClass')) { $def.SubClass } else { "" }
+        $entries = Convert-ModsToEntries $mods $itemClass $subClass
         $added   = 0
         foreach ($e in $entries) {
-            # Dedup key: class + name + stats[0] + ranges[0]
-            # (tier is consistent once ilvl structure is the same across armour sub-variants)
-            $key = "$($e.itemClasses[0])|$($e.affixName)|$($e.affixStats[0])|$($e.affixRanges[0])"
+            # Dedup key: class + subClass + name + stats[0] + ranges[0]
+            $sc  = if ($e.ContainsKey('affixSubClass')) { $e.affixSubClass } else { "" }
+            $key = "$($e.itemClasses[0])|$sc|$($e.affixName)|$($e.affixStats[0])|$($e.affixRanges[0])"
             if ($seenKeys.Add($key)) {
                 $allEntries.Add($e)
                 $added++
