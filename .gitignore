@@ -37,3 +37,12 @@ settings.json
 window_geometry.json
 __pycache__/
 *.pyc
+
+## Временные и резервные файлы
+*.bak
+tmp_*.json
+tmp_*.html
+tmp_*.txt
+
+## Сторонние утилиты и архивы
+PoeAncientsPriceHelper*/
