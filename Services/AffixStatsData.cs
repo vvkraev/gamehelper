@@ -10,6 +10,14 @@ public sealed class AffixStatsData
     [JsonPropertyName("processedLogFiles")]
     public HashSet<string> ProcessedLogFiles { get; set; } = new(StringComparer.Ordinal);
 
+    /// <summary>
+    /// Орб, которым собиралась статистика в режиме Aug+Annul.
+    /// Важно для интерпретации вероятностей: Perfect Orb of Augmentation (min=70)
+    /// ограничивает пул тиров, поэтому вероятности несопоставимы с обычным Aug Orb (min=1).
+    /// </summary>
+    [JsonPropertyName("augAnnulOrbUsed")]
+    public string AugAnnulOrbUsed { get; set; } = "Perfect Orb of Augmentation";
+
     [JsonPropertyName("perClass")]
     public Dictionary<string, ClassStats> PerClass { get; set; } = new(StringComparer.Ordinal);
 

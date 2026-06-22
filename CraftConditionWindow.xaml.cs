@@ -1458,11 +1458,14 @@ public partial class CraftConditionWindow : Window
 
         var p = Math.Max(0.0, Math.Min(1.0, 1.0 - pNone));
         var pct = p * 100;
-        var avgOrbs = p > 0 ? (int)Math.Round(1.0 / p) : -1;
-        var avgStr = avgOrbs > 0 ? $" (~{avgOrbs} орбов)" : " (∞)";
+        var avgTries = p > 0 ? (int)Math.Round(1.0 / p) : -1;
+        var avgStr = avgTries > 0 ? $" (~{avgTries} попыток)" : " (∞)";
         var dataNote = hasPartialData ? " ⚠ нет данных по части аффиксов" : "";
+        var orbNote = !string.IsNullOrEmpty(_stats.AugAnnulOrbUsed)
+            ? $" · статистика: {_stats.AugAnnulOrbUsed}"
+            : "";
 
-        CombinedChanceLabel.Text = $"Суммарный шанс: ~{pct:F1}%{avgStr}{dataNote}";
+        CombinedChanceLabel.Text = $"Суммарный шанс: ~{pct:F1}%{avgStr}{dataNote}{orbNote}";
     }
 
     private double CalcAndGroupProbability(CraftAndGroup group, string ic, ClassStats cs, ref bool hasPartialData)
