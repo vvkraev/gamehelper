@@ -9,7 +9,7 @@
 
 - [x] **DOC-1** Создать `README.md` — описание проекта, требования, установка, запуск, краткое руководство по режимам крафта
 - [x] **DOC-2** Создать `CLAUDE.md` — инструкции для AI-ассистента: стиль кода, архитектурные решения, что нельзя менять
-- [ ] **DOC-3** Создать `CHANGELOG.md` — вести историю изменений по версиям
+- [x] **DOC-3** Создать `CHANGELOG.md` — вести историю изменений по версиям
 - [ ] **DOC-4** Создать `docs/architecture.md` — схема компонентов, описание слоёв, диаграмма зависимостей
 - [ ] **DOC-5** Добавить XML-комментарии к публичным методам сервисов (`ChaosCraftService`, `AugAnnulCraftService`, `ExaltationCraftServiceFracturedSide`, `SharpenService`)
 
@@ -131,7 +131,7 @@
   - Нужно для корректного расчёта вероятности и чистоты статистики весов
   - Связано с: `AffixSubClass`, `AffixStatsData`, `feat/ilvl-orb-tier-weights`
 
-- [ ] **CRAFT-2** Добавить `ItemSubType` в сбор статистики крафта
+- [x] **CRAFT-2** Добавить `ItemSubType` в сбор статистики крафта
   - Вычислять подтип из `ParsedItem.Requirements` (Str/Dex/Int → Armour/Evasion/Energy Shield)
   - Изменить ключ `AffixStatsData.PerClass` на `"ItemClass|SubType"` (версия 4)
   - Без разбивки по подтипу статистика Body Armours смешивает несовместимые пулы аффиксов
