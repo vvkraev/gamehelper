@@ -136,6 +136,19 @@
   - Изменить ключ `AffixStatsData.PerClass` на `"ItemClass|SubType"` (версия 4)
   - Без разбивки по подтипу статистика Body Armours смешивает несовместимые пулы аффиксов
 
+- [ ] **CRAFT-3** Перейти с частотной статистики на весовые вероятности
+  - **Проблема**: текущий `P(аффикс) = count / total_snapshots` — апостериорная частота, не учитывает орб и ilvl
+  - **Цель**: `P(аффикс) = Σвесов_семейства / Σвесов_всего_пула` на основе алгоритма орба (3 шага из `AFFIX_TIER_SELECTION_MECHANICS.md`)
+  - **Шаг 1**: Из `AffixStatsData` выводить относительные веса семейств через частоты наблюдений
+    - `weight_family ≈ count_family / total_snapshots` — нормировать по слоту (Prefix vs Suffix)
+    - Данные уже собираются правильно (CRAFT-2 разбил по subtype, CRAFT-1 добавил subtype в план)
+  - **Шаг 2**: Добавить в `CraftConditionWindow` выбор орба (`OrbCraftProperties`) и ilvl предмета
+    - Орб и ilvl определяют какие тиры попадают в пул (`AffixTierEligibility`)
+  - **Шаг 3**: Заменить `CalcAndGroupProbability` на расчёт через веса + пул тиров
+  - **Шаг 4**: Убрать или переосмыслить «~N попыток» — для Aug+Annul смысл иной чем для Chaos
+  - Зависит от: CRAFT-1, CRAFT-2, `OrbCraftProperties`, `AffixTierEligibility` (всё готово)
+  - Статистика собиралась с: Perfect Orb of Augmentation (min=70) — хранится в `AffixStatsData.AugAnnulOrbUsed`
+
 ---
 
 ## Очерёдность реализации (рекомендуемый порядок)
