@@ -124,7 +124,7 @@
 
 ## Крафт и статистика аффиксов
 
-- [ ] **CRAFT-1** Добавить выбор подтипа предмета в UI крафта
+- [x] **CRAFT-1** Добавить выбор подтипа предмета в UI крафта
   - После выбора класса (Body Armours, Gloves, Helmet, Boots) показывать dropdown с подтипом базы
   - Подтипы: Armour (Str), Evasion (Dex), Energy Shield (Int), Armour/Evasion, Armour/Energy Shield, Evasion/Energy Shield
   - Подтип влияет на пул аффиксов библиотеки — исключает аффиксы чужих подтипов

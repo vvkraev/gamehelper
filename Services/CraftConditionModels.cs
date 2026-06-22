@@ -10,6 +10,13 @@ public sealed class CraftConditionPlan
 {
     public string ExpectedItemClass { get; set; } = "";
 
+    /// <summary>
+    /// Подтип базы по атрибутам: "Armour", "Evasion", "Energy Shield", "Armour/Evasion" и т.д.
+    /// Пустая строка = подтип не задан (применимо к классам без разбивки по атрибутам).
+    /// Используется как часть ключа в <see cref="AffixStatsData.MakeClassKey"/>.
+    /// </summary>
+    public string ExpectedItemSubType { get; set; } = "";
+
     /// <summary>Варианты ИЛИ: достаточно полностью выполнить один <see cref="CraftAndGroup"/>.</summary>
     public List<CraftAndGroup> OrAlternatives { get; set; } = new();
 }

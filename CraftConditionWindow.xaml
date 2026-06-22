@@ -47,6 +47,11 @@
                     <ComboBox x:Name="TabletSubClassCombo"
                               SelectionChanged="TabletSubClassCombo_OnSelectionChanged"/>
                 </StackPanel>
+                <StackPanel x:Name="ArmourSubTypeRow" Visibility="Collapsed" Margin="0,0,0,10">
+                    <TextBlock Text="Подтип базы" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <ComboBox x:Name="ArmourSubTypeCombo"
+                              SelectionChanged="ArmourSubTypeCombo_OnSelectionChanged"/>
+                </StackPanel>
                 <TextBlock TextWrapping="Wrap"
                            Foreground="#555"
                            Margin="0,0,0,10"

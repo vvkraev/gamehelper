@@ -27,6 +27,23 @@ public partial class CraftConditionWindow : Window
     /// <summary>Выбранный подтип планшета; null = без фильтра.</summary>
     private string? _tabletSubClass;
 
+    private static readonly HashSet<string> ArmourSubTypeClasses = new(StringComparer.Ordinal)
+    {
+        "Body Armours", "Gloves", "Helmets", "Boots",
+    };
+
+    private static readonly string[] ArmourSubTypeValues =
+    [
+        "", "Armour", "Evasion", "Energy Shield",
+        "Armour/Evasion", "Armour/Energy Shield", "Evasion/Energy Shield",
+    ];
+
+    private static readonly string[] ArmourSubTypeLabels =
+    [
+        "Любой тип", "Armour (Str)", "Evasion (Dex)", "Energy Shield (Int)",
+        "Armour/Evasion (Str+Dex)", "Armour/Energy Shield (Str+Int)", "Evasion/Energy Shield (Dex+Int)",
+    ];
+
     /// <summary>
     /// Записи для каскадных дропдаунов: если выбран подтип планшета — фильтруются по подклассу
     /// (специфичные + универсальные); иначе — все записи.
@@ -71,6 +88,7 @@ public partial class CraftConditionWindow : Window
 
         _tabletSubClass = null;
         RefreshSubClassRow();
+        RefreshArmourSubTypeRow();
         RefreshOrAlternativesUi();
     }
 
@@ -110,6 +128,32 @@ public partial class CraftConditionWindow : Window
         // idx 0 = "Все типы" (null), idx 1+ = subClasses[idx-1]
         _tabletSubClass = idx == 0 ? null : (idx - 1 < subClasses.Count ? subClasses[idx - 1] : null);
         RefreshOrAlternativesUi();
+    }
+
+    private void RefreshArmourSubTypeRow()
+    {
+        var ic = SelectedItemClass;
+        if (ic == null || !ArmourSubTypeClasses.Contains(ic))
+        {
+            ArmourSubTypeRow.Visibility = System.Windows.Visibility.Collapsed;
+            _plan.ExpectedItemSubType = "";
+            return;
+        }
+
+        ArmourSubTypeRow.Visibility = System.Windows.Visibility.Visible;
+        ArmourSubTypeCombo.ItemsSource = ArmourSubTypeLabels;
+
+        var savedIdx = Array.IndexOf(ArmourSubTypeValues, _plan.ExpectedItemSubType);
+        ArmourSubTypeCombo.SelectedIndex = savedIdx >= 0 ? savedIdx : 0;
+    }
+
+    private void ArmourSubTypeCombo_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var idx = ArmourSubTypeCombo.SelectedIndex;
+        _plan.ExpectedItemSubType = idx >= 0 && idx < ArmourSubTypeValues.Length
+            ? ArmourSubTypeValues[idx]
+            : "";
+        UpdateCombinedChanceLabel();
     }
 
     private void AddOrAlternative_OnClick(object sender, RoutedEventArgs e)
@@ -965,7 +1009,7 @@ public partial class CraftConditionWindow : Window
         void UpdateStatsLabel()
         {
             if (_stats == null || string.IsNullOrEmpty(ic) ||
-                !_stats.PerClass.TryGetValue(ic, out var cs) || cs.TotalSnapshots == 0)
+                !_stats.PerClass.TryGetValue(Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType), out var cs) || cs.TotalSnapshots == 0)
             {
                 lblStats.Text = _stats == null ? "" : "Статистика: нет данных по этому классу";
                 return;
@@ -1399,7 +1443,7 @@ public partial class CraftConditionWindow : Window
             return;
         }
 
-        if (!_stats.PerClass.TryGetValue(ic, out var cs) || cs.TotalSnapshots < 10)
+        if (!_stats.PerClass.TryGetValue(Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType), out var cs) || cs.TotalSnapshots < 10)
         {
             CombinedChanceLabel.Text = cs?.TotalSnapshots > 0
                 ? $"Суммарный шанс: мало данных ({cs.TotalSnapshots} предметов)"
