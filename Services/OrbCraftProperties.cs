@@ -53,8 +53,10 @@ public sealed class OrbCraftProperties
             ["Greater Exalted Orb"]          = new() { Name = "Greater Exalted Orb",          MinModifierLevel = 35, SelectsTier = true  },
             ["Perfect Exalted Orb"]          = new() { Name = "Perfect Exalted Orb",          MinModifierLevel = 50, SelectsTier = true  },
 
-            // Не выбирают тир
+            // Не выбирают тир / не добавляют новый мод
             ["Divine Orb"]                   = new() { Name = "Divine Orb",                   MinModifierLevel = 1,  SelectsTier = false },
-            ["Annulment Orb"]                = new() { Name = "Annulment Orb",                MinModifierLevel = 1,  SelectsTier = false },
+            ["Orb of Annulment"]             = new() { Name = "Orb of Annulment",             MinModifierLevel = 1,  SelectsTier = false },
+            ["Orb of Chance"]                = new() { Name = "Orb of Chance",                MinModifierLevel = 1,  SelectsTier = false },
+            ["Fracturing Orb"]               = new() { Name = "Fracturing Orb",               MinModifierLevel = 1,  SelectsTier = false },
         };
 }
