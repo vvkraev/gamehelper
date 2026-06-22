@@ -28,12 +28,33 @@ public sealed class OrbCraftProperties
     public static readonly IReadOnlyDictionary<string, OrbCraftProperties> Known =
         new Dictionary<string, OrbCraftProperties>(StringComparer.OrdinalIgnoreCase)
         {
-            ["Chaos Orb"]        = new() { Name = "Chaos Orb",        MinModifierLevel = 1,  SelectsTier = true  },
-            ["Perfect Chaos Orb"]= new() { Name = "Perfect Chaos Orb",MinModifierLevel = 50, SelectsTier = true  },
-            ["Exalted Orb"]      = new() { Name = "Exalted Orb",      MinModifierLevel = 1,  SelectsTier = true  },
-            ["Aug Orb"]          = new() { Name = "Aug Orb",          MinModifierLevel = 1,  SelectsTier = true  },
-            ["Regal Orb"]        = new() { Name = "Regal Orb",        MinModifierLevel = 1,  SelectsTier = true  },
-            ["Divine Orb"]       = new() { Name = "Divine Orb",       MinModifierLevel = 1,  SelectsTier = false },
-            ["Annulment Orb"]    = new() { Name = "Annulment Orb",    MinModifierLevel = 1,  SelectsTier = false },
+            // Transmutation: Normal → Magic (1 modifier)
+            ["Orb of Transmutation"]         = new() { Name = "Orb of Transmutation",         MinModifierLevel = 1,  SelectsTier = true  },
+            ["Greater Orb of Transmutation"] = new() { Name = "Greater Orb of Transmutation", MinModifierLevel = 44, SelectsTier = true  },
+            ["Perfect Orb of Transmutation"] = new() { Name = "Perfect Orb of Transmutation", MinModifierLevel = 70, SelectsTier = true  },
+
+            // Augmentation: добавляет 1 модификатор на Magic предмет
+            ["Orb of Augmentation"]          = new() { Name = "Orb of Augmentation",          MinModifierLevel = 1,  SelectsTier = true  },
+            ["Greater Orb of Augmentation"]  = new() { Name = "Greater Orb of Augmentation",  MinModifierLevel = 44, SelectsTier = true  },
+            ["Perfect Orb of Augmentation"]  = new() { Name = "Perfect Orb of Augmentation",  MinModifierLevel = 70, SelectsTier = true  },
+
+            // Regal: Magic → Rare (добавляет 1 модификатор)
+            ["Regal Orb"]                    = new() { Name = "Regal Orb",                    MinModifierLevel = 1,  SelectsTier = true  },
+            ["Greater Regal Orb"]            = new() { Name = "Greater Regal Orb",            MinModifierLevel = 35, SelectsTier = true  },
+            ["Perfect Regal Orb"]            = new() { Name = "Perfect Regal Orb",            MinModifierLevel = 50, SelectsTier = true  },
+
+            // Chaos: удаляет 1 случайный мод и добавляет 1 новый на Rare предмете
+            ["Chaos Orb"]                    = new() { Name = "Chaos Orb",                    MinModifierLevel = 1,  SelectsTier = true  },
+            ["Greater Chaos Orb"]            = new() { Name = "Greater Chaos Orb",            MinModifierLevel = 35, SelectsTier = true  },
+            ["Perfect Chaos Orb"]            = new() { Name = "Perfect Chaos Orb",            MinModifierLevel = 50, SelectsTier = true  },
+
+            // Exalted: добавляет 1 модификатор на Rare предмет
+            ["Exalted Orb"]                  = new() { Name = "Exalted Orb",                  MinModifierLevel = 1,  SelectsTier = true  },
+            ["Greater Exalted Orb"]          = new() { Name = "Greater Exalted Orb",          MinModifierLevel = 35, SelectsTier = true  },
+            ["Perfect Exalted Orb"]          = new() { Name = "Perfect Exalted Orb",          MinModifierLevel = 50, SelectsTier = true  },
+
+            // Не выбирают тир
+            ["Divine Orb"]                   = new() { Name = "Divine Orb",                   MinModifierLevel = 1,  SelectsTier = false },
+            ["Annulment Orb"]                = new() { Name = "Annulment Orb",                MinModifierLevel = 1,  SelectsTier = false },
         };
 }
