@@ -1,0 +1,47 @@
+CHANCING SERVICE FLOW — ChancingService
+========================================
+
+── Режим Single: ChanceSingleAsync() ──────────────────────────────
+
+ProcessForeground.Bring(PoE2)
+
+[если UseOmen]:
+  ПКМ(omenRect) → ЛКМ(tabletRect) → Delay(PostApplyWait)
+
+ПКМ(oocRect) → ЛКМ(tabletRect) → Delay(PostApplyWait)
+
+ReadCellClipboardAsync(tabletRect):
+  ClearClipboard → MoveTo → Delay(HoverSettle)
+  Ctrl+Alt+C → Delay(ClipboardDelay)
+  пусто? → Delay(700) → повтор Ctrl+Alt+C
+
+ParseAttemptResult(clip):
+  │  clip пустой / нет "Rarity: Unique"?
+  │  └─ ChancingOutcome.ItemDestroyed  (цена не известна)
+  │
+  └─ парсим строки после "Rarity: Unique" → uniqueName, uniqueBase
+     Mastered Domain? → ищем биом через regex ([Biome|X] или "X Map")
+     LookupPrice(name, affix)
+     return ChancingAttempt { Outcome=UniqueProduced, Revenue, Profit }
+
+── Режим Grid: RunGridAsync() ──────────────────────────────────────
+
+ProcessForeground.Bring(PoE2)
+
+Фаза 1 — применение OoC:
+  ПКМ(oocRect) → Delay
+  ShiftDown()
+  для каждой ячейки tabletCells:
+    MoveTo(cell) → ЛКМ → Delay
+  ShiftUp()  ← finally
+  Delay(PostApplyWait)
+
+Фаза 2 — сканирование результатов:
+  для каждой ячейки tabletCells:
+    ReadCellClipboardAsync(cell)
+    ParseAttemptResult(clip)
+    SessionStats.Add(attempt)
+    onAttemptDone(attempt, stats)
+    SessionLogger.Info(...)
+
+  log(SessionStats.FormatSummary())

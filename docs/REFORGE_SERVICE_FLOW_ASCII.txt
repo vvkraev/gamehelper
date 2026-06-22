@@ -1,0 +1,52 @@
+REFORGE SERVICE FLOW — ReforgeService.RunAsync()
+=================================================
+
+RunAsync()
+│
+├─ RetrieveFromBenchAsync(slots)   ← очищаем станок перед началом
+├─ CtrlClick(resultRect)           ← очищаем слот результата
+│
+├─ ScanInventoryAsync()
+│   └─ для каждой ячейки: Ctrl+Alt+C → Parse → StackableItemRegistry.Find
+│      ├─ пусто / не найдено → пропустить
+│      └─ найдено → ScannedCell {Index, TypeId, DisplayName, StackSize}
+│
+│  NoCatalystsFound? → return
+│
+└─ для каждого TypeId (группировка):
+    └─ для каждого пакета ≤3 стака (batch):
+        │
+        │  total = sum(batch.StackSize)
+        │  nReforges = min(total / 3, opsRemaining)
+        │  nReforges == 0? → пропустить пакет
+        │
+        ├─ Ctrl+ЛКМ × batch.Count  ← перекладываем в станок
+        ├─ Delay(ItemTransferDelayMs)
+        │
+        └─ для i in 0..nReforges:
+            ├─ ReleaseCtrlAlt()
+            ├─ MoveAndClick(confirmRect)  ← кнопка Reforge
+            ├─ Delay(PostReforgeSettleMs)
+            ├─ ReadWithRetryAsync(resultRect)
+            │   └─ до ResultReadRetries раз:
+            │       MoveTo(rect-20,-20) → MoveTo(rect) → Delay(HoverSettle)
+            │       Ctrl+Alt+C → Delay(ClipboardDelay)
+            │       текст непустой? → return текст
+            │
+            │  текст пустой после всех retry?
+            │  ├─ CtrlClick(resultRect)   ← забираем что есть
+            │  └─ onAttempt(null)
+            │
+            ├─ CtrlClick(resultRect)      ← забираем результат
+            ├─ ItemParser.Parse(text)
+            ├─ onAttempt(result)
+            │
+            opsRemaining == 0?
+            ├─ RetrieveFromBenchAsync()
+            └─ return MaxOpsReached
+        │
+        └─ RetrieveFromBenchAsync()  ← извлекаем остаток (total % 3)
+│
+└─ return NoCatalystsFound  (все катализаторы потрачены)
+
+finally: ReleaseCtrlAlt()  ← всегда, даже при исключении

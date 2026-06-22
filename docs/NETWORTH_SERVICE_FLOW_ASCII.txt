@@ -1,0 +1,36 @@
+NETWORTH SERVICE FLOW — NetworthService.ScanAsync()
+=====================================================
+
+ScanAsync(groups)
+│
+├─ ProcessForeground.Bring(PoE2) → Delay(200)
+│
+├─ [stashOcrSearchRect.Width > 0]:
+│   WindowsOcrTextLocator.TryFind(stashOcrText, searchRect)
+│   найдено? → MoveTo(match) → ЛКМ
+│   Delay(max(stashOpenDelayMs, 500))
+│
+└─ для каждой group в groups:
+    │
+    │  Items пустой? → пропустить
+    │
+    ├─ [NavTabRect задан] → MoveTo → ЛКМ → Delay(350)
+    ├─ [TabRect задан]    → MoveTo → ЛКМ → Delay(500)
+    │
+    └─ для каждого (itemName, area) в group.Items:
+        MoveTo(area) → Delay(mouseDelay)
+        ClearClipboard → Ctrl+Alt+C → ReleaseCtrlAlt → Delay(clipDelay)
+        ReadClipboard → text
+        пусто? → пропустить
+        ItemParser.Parse(text) → parsed
+        parsed невалидный? → пропустить
+        qty = parsed.StackSize > 0 ? StackSize : 1
+        itemCounts[itemName] += qty
+    │
+    ├─ для каждого (itemName, qty):
+    │   PoeNinjaPriceService.GetPrice(itemName) → price.DivineValue
+    │   NetworthItemResult { ItemName, PriceDiv, Qty, TotalDiv }
+    │
+    └─ NetworthGroupResult { GroupName, Items }
+
+return List<NetworthGroupResult>

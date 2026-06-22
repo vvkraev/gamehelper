@@ -1,192 +1,198 @@
-# 📚 СПРАВОЧНИК КОДА — GameHelper
+# Справочник кода — GameHelper
 
-Этот документ объясняет, что находится в каждом файле проекта и как всё работает вместе.
+Актуальный обзор всех файлов проекта. Обновляется при добавлении новых сервисов.
+
+---
+
+## Точки входа и главное окно
+
+| Файл | Роль |
+|---|---|
+| `App.xaml / App.xaml.cs` | Точка входа WPF — создаёт `MainWindow` |
+| `MainWindow.xaml` | XAML-разметка всего UI (~все вкладки и панели) |
+| `MainWindow.xaml.cs` | Координирует сервисы, обрабатывает кнопки, запускает/останавливает крафт (~2000 строк, рефакторинг запланирован в ARCH-3) |
+
+---
+
+## Настройки и хранилище
+
+| Файл | Роль |
+|---|---|
+| `AppSettings.cs` | Все настройки приложения: области экрана, задержки, условие крафта, конфиги вкладок |
+| `SettingsStore.cs` | Сериализация `AppSettings` ↔ `settings.json` |
+| `ProjectPaths.cs` | Пути к корню проекта, папке логов, файлам данных |
+| `ScreenRect.cs` | Базовый тип: прямоугольник экрана (X, Y, Width, Height) |
+
+---
+
+## Диалоговые окна
+
+| Файл | Роль |
+|---|---|
+| `CraftConditionWindow.xaml / .cs` | Редактор условия остановки крафта (OR/AND/Clauses) |
+| `CraftLogWindow.xaml / .cs` | Просмотр лога текущего крафта (автообновление) |
+| `RegionPickerWindow.xaml / .cs` | Выделение области экрана мышью |
+| `ItemParsingWindow.xaml / .cs` | Просмотр распарсенного предмета из буфера |
+| `RecipeNameDialog.xaml / .cs` | Диалог ввода имени рецепта |
+| `RepricingTabSettingsWindow.cs` | Настройка вкладок и шагов переоценки |
+
+---
+
+## Сервисы крафта
+
+| Файл | Роль |
+|---|---|
+| `Services/ChaosCraftService.cs` | Цикл Chaos Orb крафта: орб → предмет → проверка условия |
+| `Services/AugAnnulCraftService.cs` | Цикл Aug+Annul: аугментация, аннулирование, каскад |
+| `Services/ExaltationCraftServiceFracturedSide.cs` | Exalt-крафт с fractured предметами + управление оменами |
+| `Services/OmenActivationService.cs` | Рефил стаков оменов (Refresh + ПКМ, Greater refresh) |
+| `Services/SharpenService.cs` | Заточка предметов по сетке инвентаря |
+| `Services/ReforgeService.cs` | Перековка катализаторов: сканирование → пакет → станок → чтение результата |
+| `Services/AutoReforgeService.cs` | Авто-вариант перековки с полным auto-scan |
+| `Services/ChancingService.cs` | Шансинг таблетов: Single/Grid режимы + статистика ROI |
+
+---
+
+## Сервисы торговли и рынка
+
+| Файл | Роль |
+|---|---|
+| `Services/RepricingService.cs` | Переоценка выставленных лотов: читает цену, снижает по ступеням, вводит новую |
+| `Services/MarketRatioExaltedDivineAutomation.cs` | Авто-обмен по курсу Exalted/Divine через рыночный интерфейс |
+| `Services/MarketRatioOrderBookDepthCapture.cs` | Снимок стакана заявок (до 5 строк Buy + 5 Sell) |
+| `Services/MarketRatioPickerClickHelper.cs` | Клики по панели Market Ratio |
+| `Services/MarketRatioReadoutParser.cs` | Разбор текста курса из OCR |
+| `Services/OrderBookOcrParser.cs` | Основной OCR-парсер стакана (цена + количество) |
+| `Services/OrderBookGridOcrRecognizer.cs` | Распознавание сетки ячеек стакана |
+| `Services/OrderBookManualCellsRecognizer.cs` | Ручная разметка ячеек стакана |
+| `Services/OrderBookOcrLogFormatter.cs` | Форматирование лога OCR-результата |
+| `Services/OrderBookSnapshotCsvLog.cs` | Сохранение снимков стакана в CSV |
+| `Services/ExchangeRateCsvLog.cs` | Лог курсов обмена в CSV |
+| `Services/ExchangeRateInfoCollectionScan.cs` | Сессия сбора данных о курсе |
+| `Services/GoldFeeLibraryScanRunner.cs` | Сканирование комиссий Gold за крафт |
+| `Services/GoldFeeLibraryStore.cs` | Хранилище данных о комиссиях |
+| `Services/CurrencyIWantGoldScanList.cs` | Список валют для обмена на Gold |
+| `Services/CurrencyPairArbitrageCalculator.cs` | Расчёт арбитража между парами валют |
+| `Services/TraderNpcNameOpenTradeAction.cs` | Открытие трейда у NPC по имени |
+
+---
+
+## Networth и цены
+
+| Файл | Роль |
+|---|---|
+| `Services/NetworthService.cs` | Сканирует вкладки стэша, считает стоимость через poe.ninja |
+| `Services/NetworthSnapshotStore.cs` | Сохраняет снэпшот Networth в JSON, загружает при старте |
+| `Services/PoeNinjaPriceService.cs` | Загрузка и поиск цен из `poe_ninja_prices.json` |
+| `poe_ninja_prices.json` | Кэш цен с poe.ninja (обновляется скриптом) |
+
+---
+
+## Условие остановки крафта
+
+| Файл | Роль |
+|---|---|
+| `Services/CraftConditionModels.cs` | Модели: `CraftConditionPlan`, `CraftAndGroup`, `CraftClause` |
+| `Services/CraftConditionEvaluator.cs` | Проверка условия по raw-тексту из буфера |
+| `Services/ParsedItemCraftEvaluator.cs` | Проверка условия по `ParsedItem` |
+| `Services/CraftConditionPlanNormalizer.cs` | Нормализация плана перед сохранением/сравнением |
+| `Services/CraftConditionMigration.cs` | Миграция старого формата условия |
+| `Services/AffixCraftPatternBuilder.cs` | Построение паттернов для поиска аффиксов |
+| `Services/CraftAffixCascadeHelper.cs` | Каскадный подбор аффиксов при Aug+Annul |
+
+---
+
+## Парсинг предметов и библиотека аффиксов
+
+| Файл | Роль |
+|---|---|
+| `Services/ItemParser.cs` | Парсинг текста предмета из буфера → `ParsedItem` |
+| `Services/AffixLibrary.cs` | Загрузка `affix_library.json`, поиск по шаблону |
+| `Services/AffixLibraryEntry.cs` | Модель одной записи библиотеки аффиксов |
+| `affix_library.json` | База аффиксов PoE2 — не редактировать вручную |
+
+---
+
+## Статистика
+
+| Файл | Роль |
+|---|---|
+| `Services/AffixStatsScanner.cs` | Читает лог-файлы крафта, строит статистику аффиксов |
+| `Services/AffixStatsData.cs` | Модели данных статистики (частоты, накопление) |
+| `Services/ReferenceStatsService.cs` | Загрузка/сохранение статистики из `docs/stats/` |
+| `Services/CatalystReforgeStatsScanner.cs` | Статистика выходов перековки катализаторов |
+| `affix_stats.json` | Накопленная статистика аффиксов |
+| `catalyst_reforge_stats.json` | Накопленная статистика катализаторов |
+| `docs/stats/` | Статистика шансинга и других сессий |
+
+---
+
+## OCR и захват экрана
+
+| Файл | Роль |
+|---|---|
+| `Services/WindowsOcrTextLocator.cs` | Поиск текста на экране через Windows OCR API |
+| `Services/ScreenCaptureHelper.cs` | Захват области экрана в Bitmap |
+
+---
+
+## Реестр стакуемых предметов
+
+| Файл | Роль |
+|---|---|
+| `Services/StackableItemRegistry.cs` | Реестр всех стакуемых предметов (орбы, рунные камни, катализаторы, Delirium) |
+| `stackable_item_types.json` | Источник данных реестра |
+
+---
+
+## Логирование
+
+| Файл | Роль |
+|---|---|
+| `Services/SessionLogger.cs` | Статический синглтон — лог текущей сессии в файл |
+| `Services/CraftRunFileLog.cs` | Лог одного крафт-запуска (`.tmp` → `.txt`) |
+
+---
+
+## Сервисы интерфейса
+
+| Файл | Роль |
+|---|---|
+| `Services/WindowGeometryStore.cs` | Сохранение/восстановление позиций окон |
+| `Services/CraftServiceInterfaces.cs` | Общие интерфейсы для крафт-сервисов |
+| `Services/CraftResult.cs` | `record CraftResult` — единый результат всех крафтов |
+| `Services/GameInputLock.cs` | Блокировка пользовательского ввода во время крафта |
+| `ReforgeState.cs` | Состояние перековки между сессиями |
+
+---
+
+## Native (Win32)
+
+| Файл | Роль |
+|---|---|
+| `Native/Win32Input.cs` | Клики, нажатия клавиш, Ctrl+Alt+C, ShiftDown/Up через WinAPI |
+| `Native/GlobalHotkey.cs` | Регистрация глобальных горячих клавиш |
+| `Native/ProcessForeground.cs` | Перевод PoE2 на передний план |
+
+---
 
 ## Документация (`docs/`)
 
-- **[CRAFT_CONDITION_AFFIX_MATCH_ASCII.txt](CRAFT_CONDITION_AFFIX_MATCH_ASCII.txt)** — сопоставление условия остановки крафта с `affix_library.json` и распарсенным предметом (`ParsedItem`): клозы Single / Sum / Count / WholeModifier, семейства типа модификатора (Prefix ↔ Desecrated Prefix и т.д.), цепочка `StatLineMatchesTemplate`, связь с `CraftConditionEvaluator` и `ParsedItemCraftEvaluator`.
-
-См. также ASCII-потоки сервисов: [CHAOS_CRAFT_SERVICE_FLOW_ASCII.txt](CHAOS_CRAFT_SERVICE_FLOW_ASCII.txt), [AUG_ANNUL_DECISION_FLOW_ASCII.txt](AUG_ANNUL_DECISION_FLOW_ASCII.txt), [EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt](EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt).
-
-## 🗂️ СТРУКТУРА ПРОЕКТА
-
-### Корневая папка (Main folder)
-
-## 📄 ЧТО ДЕЛАЕТ КАЖДЫЙ ФАЙЛ?
-
-### 🎯 ГЛАВНЫЕ ФАЙЛЫ (запуск приложения)
-
-**App.xaml + App.xaml.cs** (Приложение)
-- Это точка входа (когда вы запускаете GameHelper.exe)
-- Создаёт главное окно MainWindow
-- Сюда можно добавить инициализацию при запуске
-
-**MainWindow.xaml** (Интерфейс)
-- XAML — это язык описания UI для WPF
-- Описывает кнопки, текстовые поля, надписи
-- Вот что там есть:
-  - Кнопка "Задать область орба"
-  - Кнопка "Задать область предмета"
-  - Поле ввода для шаблона аффикса
-  - Поле для минимального порога
-  - Поле для максимума операций
-  - Кнопка "Запустить крафт"
-  - Кнопка "Стоп"
-  - Окно для вывода статуса
-
-**MainWindow.xaml.cs** (Логика главного окна)
-- Это "код позади" интерфейса
-- Обработчики нажатия кнопок (click events)
-- Связь между интерфейсом и Services
-- Когда нажимаете кнопку "Запустить" — сюда приходит событие
-
-### 🎛️ ОКНА И ДИАЛОГИ
-
-**RegionPickerWindow.xaml + .cs** (Окно выделения)
-- Позволяет пользователю выделить область на экране
-- Показывает весь экран
-- Пользователь тащит мышь — выделяется прямоугольник
-- Координаты показываются в реальном времени
-- При отпускании — область сохраняется
-
-**StepConfirmDialog.xaml + .cs** (Диалог подтверждения)
-- Маленькое окно для подтверждения действия
-- Например: "Вы уверены?" - Да/Нет
-
-### 📦 КЛАССЫ ДАННЫХ
-
-**ScreenRect.cs** (Координаты области)
-```csharp
-AppSettings.cs (Настройки приложения)
-
-Содержит все параметры:
-Область орба (X, Y, W, H)
-Область предмета (X, Y, W, H)
-Шаблон аффикса
-Минимальный порог
-Максимум операций
-Задержки (timings)
-ChaosCraftResult.cs (Результат)
-
-Просто enum: SUCCESS, FAILED, STOPPED
-💾 СОХРАНЕНИЕ И ЗАГРУЗКА
-SettingsStore.cs (Менеджер конфигурации)
-
-Читает settings.json
-Пишет settings.json
-Преобразует JSON ↔ AppSettings класс
-ProjectPaths.cs (Пути к папкам)
-
-Находит корневую папку проекта (где .csproj)
-Возвращает пути к:
-Log/ (папка логов)
-settings.json
-🎮 ЛОГИКА КРАФТА
-ChaosCraftService.cs (Главный сервис крафта)
-
-ЭТО ОСНОВНОЙ КОД!
-Методы:
-StartCraft() → начать цикл
-StopCraft() → остановить цикл
-Внутри → цикл выполняет:
-Нажимает Shift+ПКМ по области орба
-Нажимает ЛКМ по области предмета
-Нажимает Ctrl+C
-Берёт текст из буфера обмена
-Проверяет аффикс (вызывает AffixMatch)
-Если найден → СТОП
-Если не найден → повторить (пока не N итераций)
-AffixMatch.cs (Проверка аффикса)
-
-Методы:
-IsMatch(bufferText) → проверить, найден ли аффикс
-Если шаблон без n → ищет подстроку (case-insensitive)
-Если шаблон с n → строит регулярку и ищет число
-Сравнивает число с минимальным порогом
-📝 ЛОГИРОВАНИЕ
-CraftRunFileLog.cs (Логирование одного крафта)
-
-После каждого цикла крафта:
-Создаёт файл craft_2026-03-28_10-30-45--10-30-50.txt
-Пишет в него информацию о каждой попытке:
-Текст из буфера
-Был ли найден аффикс
-Номер попытки
-При окончании цикла → сохраняет файл окончательно
-SessionLogger.cs (Логирование сеанса)
-
-Логирует действия пользователя в сеансе:
-Какие кнопки нажимал
-Какие ошибки произошли
-Когда приложение закрылось
-Пишет в файл session_2026-03-28_10-00-00--10-30-00.txt
-Файл создаётся при запуске, дополняется во время работы, финализируется при закрытии
-⌨️ ВЗАИМОДЕЙСТВИЕ С WINDOWS
-Native/Win32Input.cs (Клики и клавиши)
-
-Работает с API операционной системы Windows
-Методы:
-ClickMouse(x, y) → клик мыши в координаты (x, y)
-PressKey(Key) → нажать клавишу
-HoldModifier(Shift) → удерживать Shift
-ReleaseModifier(Shift) → отпустить Shift
-Это низкоуровневый код, который общается с Windows
-🔧 КОНФИГУРАЦИЯ
-GameHelper.csproj (Конфиг проекта)
-
-Настройки сборки:
-Целевой фреймворк (.NET версия)
-Какие ссылки нужны (зависимости)
-Тип проекта (WPF приложение)
-AssemblyInfo.cs (Информация о сборке)
-
-Версия приложения
-Название
-Компания
-Copyright
-🔄 КАК ВСЁ РАБОТАЕТ ВМЕСТЕ?
-Сценарий: Пользователь нажимает "Запустить крафт"
-MainWindow.xaml.cs получает событие click
-Берёт данные из полей ввода (шаблон, минимум, максимум)
-Вызывает ChaosCraftService.StartCraft()
-ChaosCraftService запускает цикл:
-
-Для каждой попытки (до N раз):
-  - Вызывает Win32Input.ClickMouse() → нажимает Shift+ПКМ
-  - Вызывает Win32Input.ClickMouse() → нажимает ЛКМ
-  - Вызывает Win32Input.PressKey() → нажимает Ctrl+C
-  - Берёт текст из Clipboard (System.Windows.Forms.Clipboard)
-  - Вызывает AffixMatch.IsMatch(bufferText)
-    - AffixMatch проверяет по шаблону
-  - Если IsMatch → true:
-    - Вызывает CraftRunFileLog.LogSuccess()
-    - Прерывает цикл
-    - Возвращает SUCCESS
-  - Если IsMatch → false:
-    - Вызывает CraftRunFileLog.LogAttempt()
-    - Продолжает цикл
-  - Если N попыток исчерпано:
-    - Вызывает CraftRunFileLog.LogFailure()
-    - Прерывает цикл
-    - Возвращает FAILED
-
-MainWindow получает результат (SUCCESS / FAILED)
-Показывает сообщение пользователю
-SettingsStore сохраняет текущие настройки в settings.json
-SessionLogger логирует событие
-
-Папка Services/ — где логика
-Все классы в Services/ — это бизнес-логика
-Они не знают о UI (MainWindow, кнопки)
-Их легко тестировать и переиспользовать
-Папка Native/ — интеграция с Windows
-Здесь код для работы с операционной системой
-Используется для кликов мышью, нажатия клавиш
-Это "мост" между приложением и Windows
-Главное окно — координирует всё
-MainWindow — это "главный" класс
-Он знает о Services, UI, SettingsStore
-Он координирует всё вместе
-- X, Y → левый верхний угол
-- Width, Height → размеры
-- Это просто хранилище 4 чисел
+| Файл | Когда читать |
+|---|---|
+| `SRS.md` | Требования — что должно работать именно так |
+| `ROADMAP.md` | Текущий фокус и планы |
+| `GAME_MECHANICS.md` | Механики PoE2 (аффиксы, валюты, крафт) |
+| `ITEM_PARSING.md` | Формат текста предмета из буфера обмена |
+| `CRAFTING_STRATEGIES.md` | Зачем нужен каждый режим крафта |
+| `MARKET_RATIO_ORDER_BOOK.md` | Биржевой стакан и авто-обмен |
+| `CRAFT_GOLD_COST_SCREEN_OCR.md` | OCR стоимости крафта в Gold |
+| `CRAFT_CONDITION_AFFIX_MATCH_ASCII.txt` | Логика условия остановки, сопоставление аффиксов |
+| `CHAOS_CRAFT_SERVICE_FLOW_ASCII.txt` | Поток Chaos Orb крафта |
+| `AUG_ANNUL_DECISION_FLOW_ASCII.txt` | Поток Aug+Annul крафта |
+| `EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt` | Поток Exalt (fractured side) |
+| `EXALTATION_CRAFT_SERVICE_NONFRACTURED_SIDE_FLOW_ASCII.txt` | Поток Exalt (обычная сторона) |
+| `REFORGE_SERVICE_FLOW_ASCII.txt` | Поток перековки катализаторов |
+| `CHANCING_SERVICE_FLOW_ASCII.txt` | Поток шансинга таблетов |
+| `REPRICING_SERVICE_FLOW_ASCII.txt` | Поток переоценки лотов |
+| `NETWORTH_SERVICE_FLOW_ASCII.txt` | Поток сканирования Networth |

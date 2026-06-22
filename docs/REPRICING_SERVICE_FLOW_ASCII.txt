@@ -1,0 +1,38 @@
+REPRICING SERVICE FLOW — RepricingService
+==========================================
+
+RunSingleTabAsync(tab)
+│
+├─ [TabRect задан] → MoveTo(tab) → ЛКМ → Delay(PostClick)
+│
+└─ RepriceCellsAsync(cells)
+    └─ для каждой ячейки:
+        │
+        ├─ MoveTo(cell) → Delay(HoverSettle)
+        ├─ ClearClipboard → Ctrl+Alt+C → Delay → ReleaseCtrlAlt
+        ├─ ReadClipboard → text
+        │  пусто? → пропустить
+        │
+        ├─ ParseNotePrice(text) → current
+        │  цена не найдена? → пропустить
+        │
+        ├─ CalcNewPrice(current, steps) → newPrice
+        │  └─ шаги по убыванию FromPrice:
+        │     current >= FromPrice?
+        │     ├─ step.Enabled=false → return null (стоп)
+        │     └─ step.Enabled=true  → return current - step.Step
+        │  newPrice=null? → пропустить (≤ минимума)
+        │
+        ├─ ClearClipboard → MoveTo → ПКМ → Delay(PostClick)
+        ├─ Ctrl+C → ReadClipboard → detectionText
+        │  detectionText = нецифровой текст предмета?
+        │  └─ диалог не открылся → пропустить
+        │
+        ├─ Ctrl+A → TypeText(newPrice) → Enter → Delay
+        │
+        └─ Верификация:
+           ClearClipboard → MoveTo → Delay(HoverSettle)
+           Ctrl+Alt+C → Delay → ReleaseCtrlAlt
+           ParseNotePrice(verify) == newPrice?
+           ├─ да → repriced++
+           └─ нет → skipped++
