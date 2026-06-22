@@ -1497,15 +1497,25 @@ public partial class CraftConditionWindow : Window
             var pool = BuildWeightPool(ic, _plan.ExpectedItemSubType, _plan.ExpectedItemIlvl, _craftOrb);
             if (pool.TotalW > 0)
             {
-                var pNone = 1.0;
+                // Aggregate across OR-alternatives: take the best (highest chance)
+                // For the orb-cost display we use the most likely alternative
+                var best = WR.Zero;
                 foreach (var alt in _plan.OrAlternatives)
-                    pNone *= 1.0 - CalcWeightAndGroupProb(alt, pool);
-                var p = Math.Max(0.0, Math.Min(1.0, 1.0 - pNone));
-                var pct = p * 100;
-                var eAug = p > 0 ? $" (~{1.0/p:F1} Aug)" : " (∞)";
-                CombinedChanceLabel.Text = $"Весовой расчёт: ~{pct:F1}% за Aug{eAug}" +
-                    $" · {_craftOrb.Name} (min {_craftOrb.MinModifierLevel}) · ilvl {_plan.ExpectedItemIlvl}" +
-                    $" · пул: {pool.Prefixes.Count}P/{pool.Suffixes.Count}S тиров";
+                {
+                    var r = CalcWeightAndGroupResult(alt, pool);
+                    if (r.Chance > best.Chance) best = r;
+                }
+                var pct = best.Chance * 100;
+                var orbName = _craftOrb.Name;
+                var annulName = orbName.Contains("Augmentation", StringComparison.Ordinal)
+                    ? orbName.Replace("Augmentation", "Annulment", StringComparison.Ordinal)
+                    : "Orb of Annulment";
+                var costStr = best.EAug > 0
+                    ? $" · ~{best.EAug:F1} {orbName} + ~{best.EAnnul:F1} {annulName}"
+                    : "";
+                CombinedChanceLabel.Text = $"Весовой: ~{pct:F1}% за попытку{costStr}" +
+                    $" · min {_craftOrb.MinModifierLevel} · ilvl {_plan.ExpectedItemIlvl}" +
+                    $" · пул {pool.Prefixes.Count}P/{pool.Suffixes.Count}S";
                 return;
             }
         }
@@ -1578,79 +1588,98 @@ public partial class CraftConditionWindow : Window
                    .Sum(e => (long)(e.Weight ?? 0));
     }
 
-    /// <summary>
-    /// Ожидаемое число Aug-шагов для COUNT≥2 (1 prefix-цель + 1 suffix-цель на magic-предмете).
-    /// Формула через цепь Маркова, учитывает что Annul случайно удаляет один из двух аффиксов.
-    /// Возвращает 1/E0 — «эффективный шанс за Aug-операцию».
-    /// </summary>
-    private static double CalcDualSlotMarkov(double pTp, double pTs, double pCp, double pCs)
+    // (effChance, E[Aug], E[Annul]) — результат весового расчёта для одного клоза/группы
+    private readonly record struct WR(double Chance, double EAug, double EAnnul)
     {
-        if (pTp + pTs <= 0) return 0.0;
-        // E1p = A1 + B1*E0  (expected Aug от состояния R_p, E)
-        var a1 = 2.0 / (1.0 + pCs); var b1 = (1.0 - pCs) / (1.0 + pCs);
-        var a2 = 2.0 / (1.0 + pCp); var b2 = (1.0 - pCp) / (1.0 + pCp);
-        var num = 1.0 + pTp * a1 + pTs * a2;
-        var den = pTp + pTs - pTp * b1 - pTs * b2;
-        if (den <= 0) return 0.0;
-        return Math.Max(0.0, Math.Min(1.0, den / num));  // = 1/E0
+        public static readonly WR Zero = new(0, 0, 0);
+
+        /// <summary>Один Aug-выстрел без Annul (порошок на счастье, хаос и т.д.).</summary>
+        public static WR SingleShot(double p) =>
+            p <= 0 ? Zero : new(p, 1.0 / p, 0);
+
+        /// <summary>Перемножение двух независимых условий (И-связка клозов).</summary>
+        public static WR And(WR a, WR b)
+        {
+            var p = Math.Max(0.0, Math.Min(1.0, a.Chance * b.Chance));
+            return p <= 0 ? Zero : new(p, a.EAug + b.EAug, a.EAnnul + b.EAnnul);
+        }
+    }
+
+    /// <summary>
+    /// Цепь Маркова для COUNT≥2 (1 prefix-цель + 1 suffix-цель на magic-предмете).
+    /// Annul случайно удаляет один из двух аффиксов → 50% шанс сохранить «правильный».
+    /// Возвращает эффективный шанс за Aug, E[Aug] и E[Annul] до успеха.
+    /// </summary>
+    private static WR CalcDualSlotMarkov(double pTp, double pTs, double pCp, double pCs)
+    {
+        var p1 = pTp + pTs;
+        if (p1 <= 0) return WR.Zero;
+        var b1 = (1.0 - pCs) / (1.0 + pCs);  var a1 = 2.0 / (1.0 + pCs);
+        var b2 = (1.0 - pCp) / (1.0 + pCp);  var a2 = 2.0 / (1.0 + pCp);
+        var c   = pTp * b1 + pTs * b2;
+        var den = p1 - c;
+        if (den <= 0) return WR.Zero;
+        var eAug   = (1.0 + pTp * a1 + pTs * a2) / den;
+        var eAnnul = ((1.0 - p1) + 3.0 * c) / den;
+        return new WR(Math.Max(0.0, Math.Min(1.0, den / (1.0 + pTp * a1 + pTs * a2))), eAug, eAnnul);
     }
 
     /// <summary>
     /// Весовой расчёт для COUNT-клоза на magic-предмете (max 1P + 1S).
-    /// threshold=1: P(любой из N) = Σtarget_w / total_w.
-    /// threshold=2: требует 1 prefix-цель и 1 suffix-цель → Markov.
-    /// threshold>2 на magic-предмете невозможно → 0.
+    /// threshold=1: P(любой из N) за один Aug, без Annul.
+    /// threshold=2: требует 1P-цель и 1S-цель → Markov с учётом обоих орбов.
+    /// threshold>2 на magic-предмете невозможно → Zero.
     /// </summary>
-    private double CalcCountWeightProb(CraftCountAffixData cnt, WeightPool pool)
+    private WR CalcCountWeightResult(CraftCountAffixData cnt, WeightPool pool)
     {
         var k = cnt.MinMatchCount;
-        if (k <= 0) return 1.0;
-        if (k > 2 || pool.TotalW == 0) return 0.0;
+        if (k <= 0) return new WR(1, 0, 0);
+        if (k > 2 || pool.TotalW == 0) return WR.Zero;
 
         var prefixNames = cnt.Members
             .Where(m => m.AffixType == "Prefix Modifier")
-            .SelectMany(m => m.EffectiveWholeAffixNames())
-            .ToList();
+            .SelectMany(m => m.EffectiveWholeAffixNames()).ToList();
         var suffixNames = cnt.Members
             .Where(m => m.AffixType == "Suffix Modifier")
-            .SelectMany(m => m.EffectiveWholeAffixNames())
-            .ToList();
+            .SelectMany(m => m.EffectiveWholeAffixNames()).ToList();
 
         var wTp = TargetWeight(prefixNames, "Prefix Modifier", pool.Prefixes);
         var wTs = TargetWeight(suffixNames, "Suffix Modifier", pool.Suffixes);
 
         if (k == 1)
-            return Math.Max(0.0, Math.Min(1.0, (double)(wTp + wTs) / pool.TotalW));
+            return WR.SingleShot(Math.Max(0.0, Math.Min(1.0, (double)(wTp + wTs) / pool.TotalW)));
 
-        // k == 2: need 1 prefix-target AND 1 suffix-target
-        if (wTp == 0 || wTs == 0 || pool.PrefixW == 0 || pool.SuffixW == 0) return 0.0;
-        var pTp = (double)wTp / pool.TotalW;
-        var pTs = (double)wTs / pool.TotalW;
-        var pCp = (double)wTp / pool.PrefixW;
-        var pCs = (double)wTs / pool.SuffixW;
-        return CalcDualSlotMarkov(pTp, pTs, pCp, pCs);
+        // k == 2: нужны 1P-цель и 1S-цель
+        if (wTp == 0 || wTs == 0 || pool.PrefixW == 0 || pool.SuffixW == 0) return WR.Zero;
+        return CalcDualSlotMarkov(
+            (double)wTp / pool.TotalW, (double)wTs / pool.TotalW,
+            (double)wTp / pool.PrefixW, (double)wTs / pool.SuffixW);
     }
 
-    private double CalcSingleWeightProb(IReadOnlyList<string> names, string affixType, WeightPool pool)
+    private WR CalcSingleWeightResult(IReadOnlyList<string> names, string affixType, WeightPool pool)
     {
-        if (pool.TotalW == 0) return 0.0;
+        if (pool.TotalW == 0) return WR.Zero;
         var w = TargetWeight(names, affixType, affixType == "Prefix Modifier" ? pool.Prefixes : pool.Suffixes);
-        return Math.Max(0.0, Math.Min(1.0, (double)w / pool.TotalW));
+        return WR.SingleShot(Math.Max(0.0, Math.Min(1.0, (double)w / pool.TotalW)));
     }
 
-    private double CalcWeightAndGroupProb(CraftAndGroup group, WeightPool pool)
+    private WR CalcWeightAndGroupResult(CraftAndGroup group, WeightPool pool)
     {
-        var p = 1.0;
+        var result = new WR(1, 0, 0);
         foreach (var clause in group.Clauses)
         {
+            WR clauseResult;
             if (clause.Kind == CraftClauseKind.Count && clause.Count is { } cnt)
-                p *= CalcCountWeightProb(cnt, pool);
+                clauseResult = CalcCountWeightResult(cnt, pool);
             else if (clause.Kind == CraftClauseKind.Single && clause.Single is { } s)
-                p *= CalcSingleWeightProb(s.EffectiveAffixNames(), s.AffixType, pool);
+                clauseResult = CalcSingleWeightResult(s.EffectiveAffixNames(), s.AffixType, pool);
             else if (clause.Kind == CraftClauseKind.WholeModifier && clause.Whole is { } w)
-                p *= CalcSingleWeightProb(w.EffectiveWholeAffixNames(), w.AffixType, pool);
+                clauseResult = CalcSingleWeightResult(w.EffectiveWholeAffixNames(), w.AffixType, pool);
+            else
+                continue;
+            result = WR.And(result, clauseResult);
         }
-        return Math.Max(0.0, Math.Min(1.0, p));
+        return result;
     }
 
     private double CalcAndGroupProbability(CraftAndGroup group, string ic, ClassStats cs, ref bool hasPartialData)
