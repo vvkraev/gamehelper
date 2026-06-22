@@ -175,6 +175,34 @@ public partial class CraftConditionWindow : Window
         }
     }
 
+    private static void SyncSingleFromEntry(CraftSingleAffixData data, AffixLibraryEntry e)
+    {
+        data.AffixType = e.AffixType;
+        data.AffixName = e.AffixName;
+        data.AffixTier = e.AffixTier;
+        // Rebuild Lines from library entry stats, preserving existing thresholds where stat matches
+        var oldLines = data.Lines.ToList();
+        data.Lines.Clear();
+        for (var i = 0; i < e.AffixStats.Count; i++)
+        {
+            var st = e.AffixStats[i];
+            var slots = CraftAffixCascadeHelper.GetRollSlotCountForEntryStat(e, i);
+            var existing = oldLines.FirstOrDefault(l =>
+                string.Equals(l.StatTemplate, st, StringComparison.Ordinal) ||
+                CraftAffixCascadeHelper.StatMatchesNormalizedTemplate(st, l.StatTemplate));
+            var line = new CraftWholeModifierLine
+            {
+                StatTemplate = st,
+                MinRoll = existing?.MinRoll ?? 0,
+                MinRolls = existing?.MinRolls.Count > 0 ? existing.MinRolls.ToList() : new List<double>(),
+            };
+            line.EnsureMinRollsSize(slots);
+            data.Lines.Add(line);
+        }
+        // Sync legacy field
+        data.StatTemplate = data.Lines.Count > 0 ? data.Lines[0].StatTemplate : "";
+    }
+
     private CraftClause? TryCreateFirstWholeModifierClause(string itemClass)
     {
         var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(itemClass, EffectiveEntries);
@@ -267,14 +295,14 @@ public partial class CraftConditionWindow : Window
                 return;
             }
 
-            var fp = FirstPickForClass(SelectedItemClass!);
+            var fp = FirstWholePickForClass(SelectedItemClass!);
             group.Clauses.Add(new CraftClause
             {
                 Kind = CraftClauseKind.Count,
                 Count = new CraftCountAffixData
                 {
                     MinMatchCount = 1,
-                    Members = new List<CraftSingleAffixData> { fp },
+                    Members = new List<CraftWholeModifierAffixData> { fp },
                 },
             });
             RefreshOrAlternativesUi();
@@ -331,20 +359,15 @@ public partial class CraftConditionWindow : Window
         {
             var header = new WpfTextBlock
             {
-                Text = "Одиночный аффикс: тир, имя(имена) из библиотеки, минимальный перекат (ползунок).",
+                Text = "Одиночный аффикс: семейство статов, тир и имена из библиотеки, минимальный перекат (ползунок).",
                 FontWeight = FontWeights.SemiBold,
                 Margin = new Thickness(0, 0, 0, 4),
                 TextWrapping = TextWrapping.Wrap,
             };
             panel.Children.Add(header);
-            panel.Children.Add(BuildTypeStatRowForSingle(s));
-            panel.Children.Add(BuildTierAffixNamesSliderForSingle(
+            panel.Children.Add(BuildSingleAffixCoreUi(
                 s,
-                () =>
-                {
-                    group.Clauses.Remove(clause);
-                    RefreshOrAlternativesUi();
-                },
+                () => { group.Clauses.Remove(clause); RefreshOrAlternativesUi(); },
                 "Удалить строку"));
         }
         else if (clause.Kind == CraftClauseKind.WholeModifier && clause.Whole is { } whole)
@@ -441,38 +464,34 @@ public partial class CraftConditionWindow : Window
 
             foreach (var mem in cnt.Members.ToList())
             {
-                var inner = new WpfStackPanel();
-                inner.Children.Add(BuildTypeStatRowForSingle(mem));
-                inner.Children.Add(BuildTierAffixNamesSliderForSingle(mem, () =>
-                {
-                    cnt.Members.Remove(mem);
-                    if (cnt.Members.Count == 0)
-                        group.Clauses.Remove(clause);
-                    else if (cnt.MinMatchCount > cnt.Members.Count)
-                        cnt.MinMatchCount = cnt.Members.Count;
-                    RefreshOrAlternativesUi();
-                }, "Убрать из набора"));
-
                 var memPanel = new WpfStackPanel { Margin = new Thickness(0, 0, 0, 8) };
                 memPanel.Children.Add(new WpfBorder
                 {
                     BorderBrush = System.Windows.Media.Brushes.Gainsboro,
                     BorderThickness = new Thickness(1),
                     Padding = new Thickness(6),
-                    Child = inner,
+                    Child = BuildCountMemberUi(mem, () =>
+                    {
+                        cnt.Members.Remove(mem);
+                        if (cnt.Members.Count == 0)
+                            group.Clauses.Remove(clause);
+                        else if (cnt.MinMatchCount > cnt.Members.Count)
+                            cnt.MinMatchCount = cnt.Members.Count;
+                        RefreshOrAlternativesUi();
+                    }),
                 });
                 panel.Children.Add(memPanel);
             }
 
             var addMem = new WpfButton
             {
-                Content = "Добавить строку в набор",
+                Content = "Добавить аффикс в набор",
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
                 Margin = new Thickness(0, 0, 0, 6),
             };
             addMem.Click += (_, _) =>
             {
-                cnt.Members.Add(FirstPickForClass(SelectedItemClass ?? _plan.ExpectedItemClass));
+                cnt.Members.Add(FirstWholePickForClass(SelectedItemClass ?? _plan.ExpectedItemClass));
                 RefreshOrAlternativesUi();
             };
             panel.Children.Add(addMem);
@@ -496,215 +515,315 @@ public partial class CraftConditionWindow : Window
     }
 
     private sealed record AffixComboItem(string Label, AffixLibraryEntry Entry);
+    private sealed record TierComboItem(string Label, int Tier, AffixLibraryEntry RefEntry, List<string> AllNames);
+
+    private static string NormalizeStatForDisplay(string libStat) =>
+        System.Text.RegularExpressions.Regex.Replace(libStat.Trim(), @"\(\d[^)]*\)", "#");
+
+    private static string FormatFamilyLabel(AffixLibraryEntry e) =>
+        e.AffixStats.Count == 0 ? "(нет стат)" : string.Join(" / ", e.AffixStats.Select(NormalizeStatForDisplay));
+
+    // Normalised family equality: strips numeric ranges before comparing so T1/T2/... of same family match.
+    private static bool SameStatFamily(AffixLibraryEntry a, AffixLibraryEntry b)
+    {
+        if (a.AffixStats.Count != b.AffixStats.Count) return false;
+        for (var i = 0; i < a.AffixStats.Count; i++)
+        {
+            if (!string.Equals(
+                    NormalizeStatForDisplay(a.AffixStats[i]),
+                    NormalizeStatForDisplay(b.AffixStats[i]),
+                    StringComparison.Ordinal))
+                return false;
+        }
+        return true;
+    }
+
+    private List<AffixComboItem> GetFamilyItems(string ic, string affixType, bool multiStatOnly)
+    {
+        var result = new List<AffixComboItem>();
+        var seen = new List<AffixLibraryEntry>();
+        var entries = EffectiveEntries
+            .Where(e => e.ItemClasses.Any(c => string.Equals(c, ic, StringComparison.Ordinal)) &&
+                        string.Equals(e.AffixType, affixType, StringComparison.Ordinal) &&
+                        (!multiStatOnly || e.AffixStats.Count >= 2))
+            .OrderBy(e => NormalizeStatForDisplay(e.AffixStats.FirstOrDefault() ?? ""))
+            .ThenBy(e => e.AffixStats.Count)
+            .ToList();
+        foreach (var e in entries)
+        {
+            if (seen.Any(s => SameStatFamily(s, e)))
+                continue;
+            seen.Add(e);
+            result.Add(new AffixComboItem(FormatFamilyLabel(e), e));
+        }
+        return result;
+    }
+
+    private List<TierComboItem> GetTierItemsForFamily(string ic, string affixType, AffixLibraryEntry familyRef)
+    {
+        return EffectiveEntries
+            .Where(e => e.ItemClasses.Any(c => string.Equals(c, ic, StringComparison.Ordinal)) &&
+                        string.Equals(e.AffixType, affixType, StringComparison.Ordinal) &&
+                        SameStatFamily(familyRef, e))
+            .GroupBy(e => e.AffixTier)
+            .OrderBy(g => g.Key)
+            .Select(g =>
+            {
+                var names = g.Select(e => e.AffixName).OrderBy(n => n).ToList();
+                return new TierComboItem($"T{g.Key} — {string.Join(", ", names)}", g.Key, g.First(), names);
+            })
+            .ToList();
+    }
+
+    // Shared core builder: Type → Family (stat-set) → Tier → Names (ИЛИ) → Sliders.
+    private UIElement BuildWholeAffixCoreUi(CraftWholeModifierAffixData data, bool multiStatOnly)
+    {
+        var ic = SelectedItemClass ?? _plan.ExpectedItemClass ?? "";
+        var root = new WpfStackPanel();
+        var gate = new[] { false };
+        var gateN = new[] { false };
+
+        var cbType = new WpfComboBox { MinWidth = 160, Margin = new Thickness(0, 0, 8, 0), IsEditable = false };
+        var cbFamily = new WpfComboBox { MinWidth = 400, IsEditable = false };
+        cbFamily.DisplayMemberPath = nameof(AffixComboItem.Label);
+        var cbTier = new WpfComboBox { MinWidth = 300, IsEditable = false };
+        cbTier.DisplayMemberPath = nameof(TierComboItem.Label);
+        var lbNames = new WpfListBox
+        {
+            SelectionMode = System.Windows.Controls.SelectionMode.Extended,
+            MaxHeight = 80,
+            Margin = new Thickness(0, 0, 0, 6),
+        };
+        lbNames.DisplayMemberPath = nameof(AffixLibraryEntry.AffixName);
+        var slidersPanel = new WpfStackPanel { Margin = new Thickness(0, 2, 0, 0) };
+
+        void RebuildSliders()
+        {
+            slidersPanel.Children.Clear();
+            var refEntry = (cbTier.SelectedItem as TierComboItem)?.RefEntry;
+            if (refEntry is null) return;
+            foreach (var line in data.Lines)
+            {
+                var si = CraftAffixCascadeHelper.FindStatIndexInEntry(refEntry, line.StatTemplate);
+                if (si < 0) si = AffixCraftPatternBuilder.GetStatIndex(refEntry, line.StatTemplate);
+                var wrap = new WpfStackPanel { Margin = new Thickness(0, 0, 0, 6) };
+                wrap.Children.Add(new WpfTextBlock
+                {
+                    Text = NormalizeStatForDisplay(line.StatTemplate),
+                    TextWrapping = TextWrapping.Wrap,
+                    Foreground = System.Windows.Media.Brushes.DimGray,
+                    Margin = new Thickness(0, 0, 0, 2),
+                });
+                wrap.Children.Add(si >= 0
+                    ? BuildWholeLineSliderRow(data, line, refEntry, si)
+                    : new WpfTextBlock { Text = "Строка не найдена в записи библиотеки.", Foreground = System.Windows.Media.Brushes.OrangeRed });
+                slidersPanel.Children.Add(wrap);
+            }
+        }
+
+        void RefillNames()
+        {
+            if (cbTier.SelectedItem is not TierComboItem ti) { lbNames.ItemsSource = null; return; }
+            var compat = EffectiveEntries
+                .Where(e => e.ItemClasses.Any(c => string.Equals(c, ic, StringComparison.Ordinal)) &&
+                            string.Equals(e.AffixType, data.AffixType, StringComparison.Ordinal) &&
+                            e.AffixTier == ti.Tier &&
+                            SameStatFamily(ti.RefEntry, e))
+                .OrderBy(e => e.AffixName)
+                .ToList();
+            gateN[0] = true;
+            lbNames.ItemsSource = compat;
+            lbNames.SelectedItems.Clear();
+            foreach (var nm in data.SelectedAffixNames)
+            {
+                var m = compat.FirstOrDefault(x => string.Equals(x.AffixName, nm, StringComparison.Ordinal));
+                if (m != null) lbNames.SelectedItems.Add(m);
+            }
+            if (lbNames.SelectedItems.Count == 0 && compat.Count > 0)
+            {
+                lbNames.SelectedItems.Add(compat[0]);
+                data.SelectedAffixNames.Clear();
+                data.SelectedAffixNames.Add(compat[0].AffixName);
+                data.AffixName = compat[0].AffixName;
+            }
+            gateN[0] = false;
+        }
+
+        void RefillTiers(AffixLibraryEntry? familyRef)
+        {
+            if (familyRef is null) { cbTier.ItemsSource = null; return; }
+            var tiers = GetTierItemsForFamily(ic, data.AffixType, familyRef);
+            cbTier.ItemsSource = tiers;
+            gate[0] = true;
+            var pick = data.AffixTier > 0 ? tiers.FirstOrDefault(t => t.Tier == data.AffixTier) : null;
+            cbTier.SelectedItem = pick ?? tiers.FirstOrDefault();
+            gate[0] = false;
+        }
+
+        void RefillFamilies(string affixType)
+        {
+            var families = GetFamilyItems(ic, affixType, multiStatOnly);
+            cbFamily.ItemsSource = families;
+            if (families.Count == 0) { cbTier.ItemsSource = null; lbNames.ItemsSource = null; return; }
+
+            AffixComboItem? pick = null;
+            if (!string.IsNullOrEmpty(data.AffixName) && data.AffixTier > 0)
+            {
+                var cur = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
+                    EffectiveEntries, ic, affixType, data.AffixName, data.AffixTier);
+                if (cur != null)
+                    pick = families.FirstOrDefault(f => SameStatFamily(f.Entry, cur));
+            }
+            gate[0] = true;
+            cbFamily.SelectedItem = pick ?? families[0];
+            gate[0] = false;
+
+            // Sync Lines from best available entry at previously preferred tier for selected family
+            var fi = (cbFamily.SelectedItem as AffixComboItem)!;
+            var bestRef = data.AffixTier > 0
+                ? EffectiveEntries.FirstOrDefault(e =>
+                    e.ItemClasses.Any(c => string.Equals(c, ic, StringComparison.Ordinal)) &&
+                    string.Equals(e.AffixType, affixType, StringComparison.Ordinal) &&
+                    e.AffixTier == data.AffixTier &&
+                    SameStatFamily(fi.Entry, e))
+                : null;
+            SyncWholeModifierFromLibraryEntry(data, bestRef ?? fi.Entry);
+
+            RefillTiers(fi.Entry);
+            RefillNames();
+            RebuildSliders();
+        }
+
+        // ── Init ──────────────────────────────────────────────────────────────
+        var allTypes = CraftAffixCascadeHelper.GetAffixTypesForItemClass(ic, EffectiveEntries);
+        var types = multiStatOnly
+            ? allTypes.Where(t => GetFamilyItems(ic, t, true).Count > 0).ToList()
+            : allTypes;
+        if (!string.IsNullOrEmpty(data.AffixType) && !types.Contains(data.AffixType))
+            types = types.Prepend(data.AffixType).ToList();
+        cbType.ItemsSource = types;
+        if (!string.IsNullOrEmpty(data.AffixType) && types.Contains(data.AffixType))
+            cbType.SelectedItem = data.AffixType;
+        else if (types.Count > 0)
+            cbType.SelectedIndex = 0;
+        if (cbType.SelectedItem is string initType)
+            data.AffixType = initType;
+        RefillFamilies(data.AffixType);
+
+        // ── Events ────────────────────────────────────────────────────────────
+        cbType.SelectionChanged += (_, _) =>
+        {
+            if (gate[0] || cbType.SelectedItem is not string nt) return;
+            data.AffixType = nt;
+            data.AffixName = "";
+            data.SelectedAffixNames.Clear();
+            data.AffixTier = 0;
+            data.Lines.Clear();
+            RefillFamilies(nt);
+            RefreshOrAlternativesUi();
+        };
+
+        cbFamily.SelectionChanged += (_, _) =>
+        {
+            if (gate[0] || cbFamily.SelectedItem is not AffixComboItem fi) return;
+            var prevTier = data.AffixTier;
+            var bestRef = prevTier > 0
+                ? EffectiveEntries.FirstOrDefault(e =>
+                    e.ItemClasses.Any(c => string.Equals(c, ic, StringComparison.Ordinal)) &&
+                    string.Equals(e.AffixType, data.AffixType, StringComparison.Ordinal) &&
+                    e.AffixTier == prevTier &&
+                    SameStatFamily(fi.Entry, e))
+                : null;
+            SyncWholeModifierFromLibraryEntry(data, bestRef ?? fi.Entry);
+            RefillTiers(fi.Entry);
+            RefillNames();
+            RebuildSliders();
+            RefreshOrAlternativesUi();
+        };
+
+        cbTier.SelectionChanged += (_, _) =>
+        {
+            if (gate[0] || cbTier.SelectedItem is not TierComboItem ti) return;
+            // Find entry at new tier for current family (stat set is same, ranges differ)
+            var fi = (cbFamily.SelectedItem as AffixComboItem)?.Entry;
+            var refE = fi is not null
+                ? EffectiveEntries.FirstOrDefault(e =>
+                    e.ItemClasses.Any(c => string.Equals(c, ic, StringComparison.Ordinal)) &&
+                    string.Equals(e.AffixType, data.AffixType, StringComparison.Ordinal) &&
+                    e.AffixTier == ti.Tier &&
+                    SameStatFamily(fi, e))
+                : null;
+            refE ??= ti.RefEntry;
+            // Preserve MinRolls — same stat family, only bounds change
+            var savedRolls = data.Lines.Select(l => (l.MinRoll, Rolls: l.MinRolls.ToList())).ToList();
+            SyncWholeModifierFromLibraryEntry(data, refE);
+            for (var i = 0; i < Math.Min(savedRolls.Count, data.Lines.Count); i++)
+            {
+                data.Lines[i].MinRoll = savedRolls[i].MinRoll;
+                data.Lines[i].MinRolls = savedRolls[i].Rolls;
+            }
+            // Update names to available ones at new tier
+            var prevSelected = new HashSet<string>(data.SelectedAffixNames, StringComparer.Ordinal);
+            var keep = ti.AllNames.Where(n => prevSelected.Contains(n)).ToList();
+            data.SelectedAffixNames.Clear();
+            data.SelectedAffixNames.AddRange(keep.Count > 0 ? keep : ti.AllNames.Take(1));
+            data.AffixName = data.SelectedAffixNames.Count > 0 ? data.SelectedAffixNames[0] : "";
+            data.AffixTier = ti.Tier;
+            RefillNames();
+            RebuildSliders();
+            RefreshOrAlternativesUi();
+        };
+
+        lbNames.SelectionChanged += (_, _) =>
+        {
+            if (gateN[0]) return;
+            data.SelectedAffixNames.Clear();
+            foreach (var o in lbNames.SelectedItems)
+                if (o is AffixLibraryEntry we)
+                    data.SelectedAffixNames.Add(we.AffixName);
+            data.AffixName = data.SelectedAffixNames.Count > 0 ? data.SelectedAffixNames[0] : "";
+            RebuildSliders();
+            RefreshOrAlternativesUi();
+        };
+
+        // ── Layout ────────────────────────────────────────────────────────────
+        var row1 = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 6) };
+        row1.Children.Add(new WpfTextBlock { Text = "Тип:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 6, 0) });
+        row1.Children.Add(cbType);
+        row1.Children.Add(new WpfTextBlock { Text = "Семейство:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(8, 0, 6, 0) });
+        row1.Children.Add(cbFamily);
+        root.Children.Add(row1);
+
+        var row2 = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 6) };
+        row2.Children.Add(new WpfTextBlock { Text = "Тир:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 6, 0) });
+        row2.Children.Add(cbTier);
+        root.Children.Add(row2);
+
+        root.Children.Add(new WpfTextBlock
+        {
+            Text = "Имена (ИЛИ, Ctrl/Shift для нескольких):",
+            Margin = new Thickness(0, 0, 0, 4),
+            Foreground = System.Windows.Media.Brushes.DimGray,
+        });
+        root.Children.Add(lbNames);
+        root.Children.Add(slidersPanel);
+        return root;
+    }
 
     private UIElement BuildWholeModifierClauseUi(
         CraftWholeModifierAffixData data,
         CraftClause clause,
         CraftAndGroup group)
     {
-        var ic = SelectedItemClass ?? _plan.ExpectedItemClass ?? "";
         var root = new WpfStackPanel();
-
         root.Children.Add(new WpfTextBlock
         {
-            Text =
-                "Целый модификатор: шаблон из библиотеки, затем один или несколько имён (ИЛИ) с тем же набором строк стата; по каждой строке — ползунок минимума.",
+            Text = "Целый модификатор: семейство статов, затем тир и имена (ИЛИ); по каждой строке — ползунок минимума.",
             FontWeight = FontWeights.SemiBold,
             Margin = new Thickness(0, 0, 0, 8),
             TextWrapping = TextWrapping.Wrap,
         });
-
-        var row1 = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 8) };
-        var cbType = new WpfComboBox { MinWidth = 160, Margin = new Thickness(0, 0, 8, 0), IsEditable = false };
-        var cbEntry = new WpfComboBox { MinWidth = 420, IsEditable = false };
-
-        var gate = new[] { false };
-
-        bool SameModifier(AffixLibraryEntry e) =>
-            string.Equals(e.AffixName, data.AffixName, StringComparison.Ordinal) &&
-            e.AffixTier == data.AffixTier &&
-            string.Equals(e.AffixType, data.AffixType, StringComparison.Ordinal);
-
-        void RefillEntries(string affixType)
-        {
-            var list = CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(ic, affixType, EffectiveEntries);
-            var items = list
-                .Select(e => new AffixComboItem(
-                    $"{e.AffixName} (T{e.AffixTier}, {e.AffixStats.Count} стр.)",
-                    e))
-                .ToList();
-            cbEntry.ItemsSource = items;
-            if (items.Count == 0)
-                return;
-
-            var pick = items.FirstOrDefault(x => SameModifier(x.Entry));
-            gate[0] = true;
-            cbEntry.SelectedItem = pick ?? items[0];
-            gate[0] = false;
-        }
-
-        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(ic, EffectiveEntries)
-            .Where(t => CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(ic, t, EffectiveEntries).Count > 0)
-            .ToList();
-        if (!string.IsNullOrEmpty(data.AffixType) && !types.Contains(data.AffixType))
-            types.Insert(0, data.AffixType);
-
-        cbType.ItemsSource = types;
-        if (types.Count > 0)
-        {
-            if (!string.IsNullOrEmpty(data.AffixType) && types.Contains(data.AffixType))
-                cbType.SelectedItem = data.AffixType;
-            else
-                cbType.SelectedIndex = 0;
-        }
-
-        gate[0] = true;
-        if (cbType.SelectedItem is string initT)
-            RefillEntries(initT);
-        gate[0] = false;
-
-        cbType.SelectionChanged += (_, _) =>
-        {
-            if (gate[0] || cbType.SelectedItem is not string nt)
-                return;
-            RefillEntries(nt);
-        };
-
-        cbEntry.SelectionChanged += (_, _) =>
-        {
-            if (gate[0] || cbEntry.SelectedItem is not AffixComboItem aci)
-                return;
-            if (SameModifier(aci.Entry))
-                return;
-            SyncWholeModifierFromLibraryEntry(data, aci.Entry);
-            RefreshOrAlternativesUi();
-        };
-
-        cbEntry.DisplayMemberPath = nameof(AffixComboItem.Label);
-
-        row1.Children.Add(new WpfTextBlock { Text = "Тип:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 6, 0) });
-        row1.Children.Add(cbType);
-        row1.Children.Add(new WpfTextBlock { Text = "Модификатор:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(8, 0, 6, 0) });
-        row1.Children.Add(cbEntry);
-        root.Children.Add(row1);
-
-        var gateW = new[] { false };
-        root.Children.Add(new WpfTextBlock
-        {
-            Text = "Имена (ИЛИ), тот же набор строк стата и тир:",
-            Margin = new Thickness(0, 0, 0, 4),
-            Foreground = System.Windows.Media.Brushes.DimGray,
-        });
-        var lbWhole = new WpfListBox
-        {
-            SelectionMode = System.Windows.Controls.SelectionMode.Extended,
-            MaxHeight = 120,
-            Margin = new Thickness(0, 0, 0, 8),
-        };
-
-        void RefillWholeNameList()
-        {
-            var refE = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
-                EffectiveEntries,
-                ic,
-                data.AffixType,
-                data.AffixName,
-                data.AffixTier);
-            if (refE is null)
-            {
-                lbWhole.ItemsSource = null;
-                return;
-            }
-
-            var compat = CraftAffixCascadeHelper.GetMultiStatEntriesForClassAndType(ic, data.AffixType, EffectiveEntries)
-                .Where(e => e.AffixTier == data.AffixTier && CraftAffixCascadeHelper.EntriesShareSameAffixStats(refE, e))
-                .ToList();
-            lbWhole.ItemsSource = compat;
-            lbWhole.DisplayMemberPath = nameof(AffixLibraryEntry.AffixName);
-            gateW[0] = true;
-            lbWhole.SelectedItems.Clear();
-            foreach (var nm in data.SelectedAffixNames)
-            {
-                var m = compat.FirstOrDefault(x => string.Equals(x.AffixName, nm, StringComparison.Ordinal));
-                if (m != null)
-                    lbWhole.SelectedItems.Add(m);
-            }
-
-            if (lbWhole.SelectedItems.Count == 0 && compat.Count > 0)
-            {
-                lbWhole.SelectedItems.Add(compat[0]);
-                data.SelectedAffixNames.Clear();
-                data.SelectedAffixNames.Add(compat[0].AffixName);
-                data.AffixName = compat[0].AffixName;
-            }
-
-            gateW[0] = false;
-        }
-
-        lbWhole.SelectionChanged += (_, _) =>
-        {
-            if (gateW[0])
-                return;
-            data.SelectedAffixNames.Clear();
-            foreach (var o in lbWhole.SelectedItems)
-            {
-                if (o is AffixLibraryEntry we)
-                    data.SelectedAffixNames.Add(we.AffixName);
-            }
-
-            data.AffixName = data.SelectedAffixNames.Count > 0 ? data.SelectedAffixNames[0] : "";
-            RefreshOrAlternativesUi();
-        };
-
-        root.Children.Add(lbWhole);
-        RefillWholeNameList();
-
-        var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
-            _entries,
-            ic,
-            data.AffixType,
-            data.AffixName,
-            data.AffixTier);
-        foreach (var line in data.Lines)
-        {
-            var wrap = new WpfStackPanel { Margin = new Thickness(0, 0, 0, 8) };
-            var stDisp = line.StatTemplate.Length > 120 ? line.StatTemplate[..117] + "…" : line.StatTemplate;
-            wrap.Children.Add(new WpfTextBlock
-            {
-                Text = stDisp,
-                TextWrapping = TextWrapping.Wrap,
-                Foreground = System.Windows.Media.Brushes.DimGray,
-                Margin = new Thickness(0, 0, 0, 4),
-            });
-
-            if (entry is not null)
-            {
-                var si = AffixCraftPatternBuilder.GetStatIndex(entry, line.StatTemplate);
-                if (si < 0)
-                    si = CraftAffixCascadeHelper.FindStatIndexInEntry(entry, line.StatTemplate);
-                if (si >= 0)
-                    wrap.Children.Add(BuildWholeLineSliderRow(data, line, entry, si));
-                else
-                {
-                    wrap.Children.Add(new WpfTextBlock
-                    {
-                        Text = "Строка не совпадает с записью библиотеки.",
-                        Foreground = System.Windows.Media.Brushes.OrangeRed,
-                    });
-                }
-            }
-            else
-            {
-                wrap.Children.Add(new WpfTextBlock
-                {
-                    Text = "Запись библиотеки не найдена для этого имени и тира.",
-                    Foreground = System.Windows.Media.Brushes.OrangeRed,
-                });
-            }
-
-            root.Children.Add(wrap);
-        }
-
+        root.Children.Add(BuildWholeAffixCoreUi(data, multiStatOnly: true));
         var removeClause = new WpfButton
         {
             Content = "Удалить условие «Целый модификатор»",
@@ -718,7 +837,6 @@ public partial class CraftConditionWindow : Window
             RefreshOrAlternativesUi();
         };
         root.Children.Add(removeClause);
-
         return root;
     }
 
@@ -790,146 +908,59 @@ public partial class CraftConditionWindow : Window
         return col;
     }
 
-    private UIElement BuildTypeStatRowForSingle(CraftSingleAffixData data)
+    private CraftWholeModifierAffixData FirstWholePickForClass(string itemClass)
     {
-        var ic = SelectedItemClass ?? _plan.ExpectedItemClass ?? "";
-        var row = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 4) };
-        var cbType = new WpfComboBox { MinWidth = 160, Margin = new Thickness(0, 0, 8, 0), IsEditable = false };
-        var cbStat = new WpfComboBox { MinWidth = 360, IsEditable = false };
-
-        void RefillStatForType(string affixType)
-        {
-            var stats = CraftAffixCascadeHelper.GetStatTemplatesForClassAndType(ic, affixType, EffectiveEntries);
-            cbStat.ItemsSource = stats;
-            if (stats.Count == 0)
-                return;
-            if (!string.IsNullOrEmpty(data.StatTemplate) &&
-                stats.Any(s => string.Equals(s, data.StatTemplate, StringComparison.Ordinal)))
-                cbStat.SelectedItem = data.StatTemplate;
-            else
-                cbStat.SelectedIndex = 0;
-        }
-
-        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(ic, EffectiveEntries);
-        cbType.ItemsSource = types;
-        if (types.Count > 0)
-        {
-            if (!string.IsNullOrEmpty(data.AffixType) && types.Contains(data.AffixType))
-                cbType.SelectedItem = data.AffixType;
-            else
-                cbType.SelectedIndex = 0;
-        }
-
-        var effType = cbType.SelectedItem as string ?? data.AffixType ?? "";
-        RefillStatForType(effType);
-        if (cbType.SelectedItem is string tSync)
-        {
-            data.AffixType = tSync;
-            data.AffixName = "";
-            data.SelectedAffixNames.Clear();
-            data.AffixTier = 0;
-        }
-
-        if (cbStat.SelectedItem is string sSync)
-            data.StatTemplate = sSync;
-
-        cbType.SelectionChanged += (_, _) =>
-        {
-            if (cbType.SelectedItem is not string nt)
-                return;
-            data.AffixType = nt;
-            data.AffixName = "";
-            data.SelectedAffixNames.Clear();
-            data.AffixTier = 0;
-            RefillStatForType(nt);
-            if (cbStat.SelectedItem is string st)
-                data.StatTemplate = st;
-            RefreshOrAlternativesUi();
-        };
-        cbStat.SelectionChanged += (_, _) =>
-        {
-            if (cbStat.SelectedItem is string st)
-            {
-                data.StatTemplate = st;
-                data.AffixName = "";
-                data.SelectedAffixNames.Clear();
-                data.AffixTier = 0;
-            }
-
-            RefreshOrAlternativesUi();
-        };
-
-        row.Children.Add(new WpfTextBlock { Text = "Тип:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 6, 0) });
-        row.Children.Add(cbType);
-        row.Children.Add(new WpfTextBlock { Text = "Стата:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(8, 0, 6, 0) });
-        row.Children.Add(cbStat);
-        return row;
+        var types = CraftAffixCascadeHelper.GetAffixTypesForItemClass(itemClass, EffectiveEntries);
+        if (types.Count == 0)
+            return new CraftWholeModifierAffixData { AffixTier = 1 };
+        var t = types[0];
+        var families = GetFamilyItems(itemClass, t, multiStatOnly: false);
+        if (families.Count == 0)
+            return new CraftWholeModifierAffixData { AffixType = t, AffixTier = 1 };
+        var whole = new CraftWholeModifierAffixData();
+        SyncWholeModifierFromLibraryEntry(whole, families[0].Entry);
+        return whole;
     }
 
-    private UIElement BuildTierAffixNamesSliderForSingle(CraftSingleAffixData data, Action? removeAction, string removeButtonLabel)
+    private UIElement BuildCountMemberUi(CraftWholeModifierAffixData data, Action removeAction)
+    {
+        var root = new WpfStackPanel();
+        root.Children.Add(BuildWholeAffixCoreUi(data, multiStatOnly: false));
+        var removeBtn = new WpfButton
+        {
+            Content = "Убрать из набора",
+            HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+            Margin = new Thickness(0, 4, 0, 0),
+            Padding = new Thickness(8, 2, 8, 2),
+        };
+        removeBtn.Click += (_, _) => removeAction();
+        root.Children.Add(removeBtn);
+        return root;
+    }
+
+    private UIElement BuildSingleAffixCoreUi(CraftSingleAffixData data, Action? removeAction, string removeButtonLabel)
     {
         var ic = SelectedItemClass ?? _plan.ExpectedItemClass ?? "";
-        var col = new WpfStackPanel { Margin = new Thickness(0, 6, 0, 0) };
+        data.EnsureLinesFromLegacy();
 
-        var tierRow = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 6) };
-        tierRow.Children.Add(new WpfTextBlock { Text = "Тир:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 0) });
-        var cbTier = new WpfComboBox { MinWidth = 72, VerticalAlignment = VerticalAlignment.Center };
-        var gate = new[] { false };
+        var root  = new WpfStackPanel();
+        var gate  = new[] { false };
+        var gateN = new[] { false };
 
-        void RefillTiers()
-        {
-            gate[0] = true;
-            var tiers = CraftAffixCascadeHelper.GetDistinctTiersForClassTypeStat(ic, data.AffixType, data.StatTemplate, EffectiveEntries);
-            cbTier.ItemsSource = tiers;
-            if (tiers.Count == 0)
-            {
-                data.AffixTier = Math.Max(1, data.AffixTier);
-                cbTier.SelectedItem = null;
-            }
-            else if (tiers.Contains(data.AffixTier))
-                cbTier.SelectedItem = data.AffixTier;
-            else
-            {
-                data.AffixTier = tiers[0];
-                cbTier.SelectedItem = tiers[0];
-            }
-
-            gate[0] = false;
-        }
-
-        RefillTiers();
-
-        tierRow.Children.Add(cbTier);
-        col.Children.Add(tierRow);
-
-        col.Children.Add(new WpfTextBlock
-        {
-            Text = "Имя аффикса (можно несколько, Ctrl/Shift):",
-            Margin = new Thickness(0, 0, 0, 4),
-            Foreground = System.Windows.Media.Brushes.DimGray,
-        });
+        var cbType   = new WpfComboBox { MinWidth = 160, Margin = new Thickness(0, 0, 8, 0), IsEditable = false };
+        var cbFamily = new WpfComboBox { MinWidth = 380, IsEditable = false };
+        cbFamily.DisplayMemberPath = nameof(AffixComboItem.Label);
+        var cbTier = new WpfComboBox { MinWidth = 300, IsEditable = false };
+        cbTier.DisplayMemberPath = nameof(TierComboItem.Label);
         var lb = new WpfListBox
         {
-            MinHeight = 72,
+            MinHeight = 60,
             MaxHeight = 160,
             SelectionMode = System.Windows.Controls.SelectionMode.Extended,
             Margin = new Thickness(0, 0, 0, 8),
         };
-
-        var sliderRow = new WpfStackPanel { Orientation = WpfOrientation.Vertical, Margin = new Thickness(0, 0, 0, 4) };
-        var lblBounds = new WpfTextBlock { Foreground = System.Windows.Media.Brushes.Gray, Margin = new Thickness(0, 0, 0, 4) };
-        var slider = new WpfSlider { MinWidth = 280, Margin = new Thickness(0, 0, 0, 4) };
-        var lblVal = new WpfTextBlock { Margin = new Thickness(0, 0, 0, 0) };
-        sliderRow.Children.Add(lblBounds);
-        sliderRow.Children.Add(slider);
-        sliderRow.Children.Add(lblVal);
-
-        var lblStats = new WpfTextBlock
-        {
-            Margin = new Thickness(0, 0, 0, 6),
-            FontSize = 11,
-            Foreground = System.Windows.Media.Brushes.CornflowerBlue,
-        };
+        var lblStats    = new WpfTextBlock { Margin = new Thickness(0, 0, 0, 6), FontSize = 11, Foreground = System.Windows.Media.Brushes.CornflowerBlue };
+        var slidersPanel = new WpfStackPanel { Margin = new Thickness(0, 2, 0, 0) };
 
         void UpdateStatsLabel()
         {
@@ -939,21 +970,14 @@ public partial class CraftConditionWindow : Window
                 lblStats.Text = _stats == null ? "" : "Статистика: нет данных по этому классу";
                 return;
             }
-
             var selected = data.SelectedAffixNames;
-            if (selected.Count == 0)
-            {
-                lblStats.Text = "";
-                return;
-            }
-
-            var total = cs.TotalSnapshots;
-            var hasTpl = !string.IsNullOrEmpty(data.StatTemplate);
+            if (selected.Count == 0) { lblStats.Text = ""; return; }
+            var total  = cs.TotalSnapshots;
+            var firstStat = data.Lines.Count > 0 ? data.Lines[0].StatTemplate : data.StatTemplate;
+            var hasTpl = !string.IsNullOrEmpty(firstStat);
             if (selected.Count == 1)
             {
-                var c = hasTpl
-                    ? cs.GetStatCount(selected[0], data.StatTemplate)
-                    : (cs.AffixCounts.TryGetValue(selected[0], out var raw) ? raw : 0);
+                var c = hasTpl ? cs.GetStatCount(selected[0], firstStat) : (cs.AffixCounts.TryGetValue(selected[0], out var raw) ? raw : 0);
                 var pct = (double)c / total * 100;
                 var avg = c > 0 ? $"~{total / c} орбов" : "∞";
                 lblStats.Text = $"Статистика: {c} / {total} ({pct:F1}%) — {avg}";
@@ -961,7 +985,7 @@ public partial class CraftConditionWindow : Window
             else
             {
                 var combined = hasTpl
-                    ? selected.Sum(n => cs.GetStatCount(n, data.StatTemplate))
+                    ? selected.Sum(n => cs.GetStatCount(n, firstStat))
                     : selected.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
                 var pct = (double)combined / total * 100;
                 var avg = combined > 0 ? $"~{total / combined} орбов" : "∞";
@@ -969,28 +993,58 @@ public partial class CraftConditionWindow : Window
             }
         }
 
-        void ApplySliderValueToData(double v)
+        void RebuildSliders()
         {
-            var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(ic, data.AffixType, data.StatTemplate, EffectiveEntries);
-            data.EnsureMinRollsSize(slots);
-            data.MinRoll = v;
-            for (var i = 0; i < data.MinRolls.Count; i++)
-                data.MinRolls[i] = v;
+            slidersPanel.Children.Clear();
+            if (cbTier.SelectedItem is not TierComboItem ti) return;
+            var refEntry = EffectiveEntries.FirstOrDefault(e =>
+                e.ItemClasses.Any(c => string.Equals(c, ic, StringComparison.Ordinal)) &&
+                string.Equals(e.AffixType, data.AffixType, StringComparison.Ordinal) &&
+                e.AffixTier == ti.Tier &&
+                SameStatFamily(ti.RefEntry, e)) ?? ti.RefEntry;
+            foreach (var line in data.Lines)
+            {
+                var si = CraftAffixCascadeHelper.FindStatIndexInEntry(refEntry, line.StatTemplate);
+                if (si < 0) si = AffixCraftPatternBuilder.GetStatIndex(refEntry, line.StatTemplate);
+                var wrap = new WpfStackPanel { Margin = new Thickness(0, 0, 0, 6) };
+                wrap.Children.Add(new WpfTextBlock
+                {
+                    Text = NormalizeStatForDisplay(line.StatTemplate),
+                    TextWrapping = TextWrapping.Wrap,
+                    Foreground = System.Windows.Media.Brushes.DimGray,
+                    Margin = new Thickness(0, 0, 0, 2),
+                });
+                wrap.Children.Add(si >= 0
+                    ? BuildSingleLineSliderRow(data, line, refEntry, si)
+                    : new WpfTextBlock { Text = "Строка не найдена в записи библиотеки.", Foreground = System.Windows.Media.Brushes.OrangeRed });
+                slidersPanel.Children.Add(wrap);
+            }
+            UpdateStatsLabel();
         }
 
-        void RefillNamesAndSlider()
+        void RefillNames()
         {
-            gate[0] = true;
-            var names = CraftAffixCascadeHelper.GetAffixNamesForClassTypeStatTier(
-                ic, data.AffixType, data.StatTemplate, data.AffixTier, EffectiveEntries);
+            if (cbTier.SelectedItem is not TierComboItem ti) { lb.ItemsSource = null; return; }
+            var refEntry = EffectiveEntries.FirstOrDefault(e =>
+                e.ItemClasses.Any(c => string.Equals(c, ic, StringComparison.Ordinal)) &&
+                string.Equals(e.AffixType, data.AffixType, StringComparison.Ordinal) &&
+                e.AffixTier == ti.Tier &&
+                SameStatFamily(ti.RefEntry, e)) ?? ti.RefEntry;
+            SyncSingleFromEntry(data, refEntry);
+            var names = EffectiveEntries
+                .Where(e => e.ItemClasses.Any(c => string.Equals(c, ic, StringComparison.Ordinal)) &&
+                            string.Equals(e.AffixType, data.AffixType, StringComparison.Ordinal) &&
+                            e.AffixTier == ti.Tier &&
+                            SameStatFamily(ti.RefEntry, e))
+                .OrderBy(e => e.AffixName)
+                .Select(e => e.AffixName)
+                .ToList();
+            gateN[0] = true;
             lb.ItemsSource = names;
             lb.SelectedItems.Clear();
             foreach (var n in data.SelectedAffixNames)
-            {
                 if (names.Contains(n, StringComparer.Ordinal))
                     lb.SelectedItems.Add(n);
-            }
-
             if (lb.SelectedItems.Count == 0 && names.Count > 0)
             {
                 lb.SelectedItems.Add(names[0]);
@@ -998,83 +1052,212 @@ public partial class CraftConditionWindow : Window
                 data.SelectedAffixNames.Add(names[0]);
                 data.AffixName = names[0];
             }
+            gateN[0] = false;
+            RebuildSliders();
+        }
 
-            var (lo, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForSingleStat(
-                ic, data.AffixType, data.StatTemplate, data.SelectedAffixNames, data.AffixTier, EffectiveEntries);
-            var fixedRoll = hi <= lo;
-            slider.Minimum = lo;
-            slider.Maximum = hi;
-            var span = hi - lo;
-            var allInt = lo == Math.Truncate(lo) && hi == Math.Truncate(hi);
-            slider.TickFrequency = allInt && span <= 500 ? 1 : Math.Max(span / 20.0, 0.01);
-            slider.IsSnapToTickEnabled = allInt && span <= 500;
-            slider.IsEnabled = !fixedRoll;
-            var v = ResolveSliderThreshold(lo, hi, data.MinRoll);
-            slider.Value = v;
-            ApplySliderValueToData(v);
-            lblBounds.Text = fixedRoll
-                ? $"Перекат по библиотеке (фикс.): {FormatNum(lo)}"
-                : $"Диапазон порога по библиотеке: [{FormatNum(lo)} … {FormatNum(hi)}]";
-            lblVal.Text = fixedRoll
-                ? $"Порог остановки: {FormatNum(v)} (совпадает с перекатом в библиотеке)"
-                : $"Минимум переката: {FormatNum(v)}";
-            UpdateStatsLabel();
+        void RefillTiers(AffixLibraryEntry? familyRef)
+        {
+            if (familyRef is null) { cbTier.ItemsSource = null; return; }
+            var tiers = GetTierItemsForFamily(ic, data.AffixType, familyRef);
+            cbTier.ItemsSource = tiers;
+            gate[0] = true;
+            var pick = data.AffixTier > 0 ? tiers.FirstOrDefault(t => t.Tier == data.AffixTier) : null;
+            cbTier.SelectedItem = pick ?? tiers.FirstOrDefault();
+            if (cbTier.SelectedItem is TierComboItem sel)
+                data.AffixTier = sel.Tier;
             gate[0] = false;
         }
 
-        lb.SelectionChanged += (_, _) =>
+        void ApplyFamily(AffixComboItem fi)
         {
-            if (gate[0])
-                return;
-            data.SelectedAffixNames.Clear();
-            foreach (var o in lb.SelectedItems)
-            {
-                if (o is string sn && !string.IsNullOrWhiteSpace(sn))
-                    data.SelectedAffixNames.Add(sn);
-            }
+            RefillTiers(fi.Entry);
+            RefillNames();
+        }
 
-            data.AffixName = data.SelectedAffixNames.Count > 0 ? data.SelectedAffixNames[0] : "";
-            RefillNamesAndSlider();
+        void RefillFamilies(string affixType)
+        {
+            var families = GetFamilyItems(ic, affixType, multiStatOnly: false);
+            cbFamily.ItemsSource = families;
+            if (families.Count == 0) { cbTier.ItemsSource = null; lb.ItemsSource = null; return; }
+
+            AffixComboItem? pick = null;
+            if (!string.IsNullOrEmpty(data.AffixName) && data.AffixTier > 0)
+            {
+                var cur = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
+                    EffectiveEntries, ic, affixType, data.AffixName, data.AffixTier);
+                if (cur != null)
+                    pick = families.FirstOrDefault(f => SameStatFamily(f.Entry, cur));
+            }
+            if (pick is null && !string.IsNullOrEmpty(data.StatTemplate))
+            {
+                pick = families.FirstOrDefault(f =>
+                    f.Entry.AffixStats.Any(s =>
+                        string.Equals(s, data.StatTemplate, StringComparison.Ordinal) ||
+                        CraftAffixCascadeHelper.StatMatchesNormalizedTemplate(s, data.StatTemplate)));
+            }
+            gate[0] = true;
+            cbFamily.SelectedItem = pick ?? families[0];
+            gate[0] = false;
+            ApplyFamily((cbFamily.SelectedItem as AffixComboItem)!);
+        }
+
+        // ── Init ────────────────────────────────────────────────────────────
+        var allTypes = CraftAffixCascadeHelper.GetAffixTypesForItemClass(ic, EffectiveEntries);
+        cbType.ItemsSource = allTypes;
+        if (!string.IsNullOrEmpty(data.AffixType) && allTypes.Contains(data.AffixType))
+            cbType.SelectedItem = data.AffixType;
+        else if (allTypes.Count > 0)
+            cbType.SelectedIndex = 0;
+        if (cbType.SelectedItem is string initType)
+            data.AffixType = initType;
+
+        RefillFamilies(data.AffixType);
+
+        // ── Events ──────────────────────────────────────────────────────────
+        cbType.SelectionChanged += (_, _) =>
+        {
+            if (gate[0] || cbType.SelectedItem is not string nt) return;
+            data.AffixType = nt;
+            data.AffixName = "";
+            data.SelectedAffixNames.Clear();
+            data.AffixTier = 0;
+            data.Lines.Clear();
+            data.StatTemplate = "";
+            RefillFamilies(nt);
+            RefreshOrAlternativesUi();
         };
 
-        slider.ValueChanged += (_, _) =>
+        cbFamily.SelectionChanged += (_, _) =>
         {
-            if (gate[0] || !slider.IsEnabled)
-                return;
-            var v = slider.Value;
-            ApplySliderValueToData(v);
-            lblVal.Text = $"Минимум переката: {FormatNum(v)}";
+            if (gate[0] || cbFamily.SelectedItem is not AffixComboItem fi) return;
+            data.AffixName = "";
+            data.SelectedAffixNames.Clear();
+            data.AffixTier = 0;
+            data.Lines.Clear();
+            ApplyFamily(fi);
+            RefreshOrAlternativesUi();
         };
 
         cbTier.SelectionChanged += (_, _) =>
         {
-            if (gate[0] || cbTier.SelectedItem is not int ti)
-                return;
-            data.AffixTier = ti;
+            if (gate[0] || cbTier.SelectedItem is not TierComboItem ti) return;
+            data.AffixTier = ti.Tier;
             data.SelectedAffixNames.Clear();
             data.AffixName = "";
-            RefillNamesAndSlider();
+            RefillNames();
+            RefreshOrAlternativesUi();
         };
 
-        col.Children.Add(lb);
-        col.Children.Add(lblStats);
-        col.Children.Add(sliderRow);
+        lb.SelectionChanged += (_, _) =>
+        {
+            if (gateN[0]) return;
+            data.SelectedAffixNames.Clear();
+            foreach (var o in lb.SelectedItems)
+                if (o is string sn && !string.IsNullOrWhiteSpace(sn))
+                    data.SelectedAffixNames.Add(sn);
+            data.AffixName = data.SelectedAffixNames.Count > 0 ? data.SelectedAffixNames[0] : "";
+            RebuildSliders();
+            RefreshOrAlternativesUi();
+        };
 
-        RefillNamesAndSlider();
+        // ── Layout ──────────────────────────────────────────────────────────
+        var row1 = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 6) };
+        row1.Children.Add(new WpfTextBlock { Text = "Тип:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 6, 0) });
+        row1.Children.Add(cbType);
+        row1.Children.Add(new WpfTextBlock { Text = "Семейство:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(8, 0, 6, 0) });
+        row1.Children.Add(cbFamily);
+        root.Children.Add(row1);
+
+        var row2 = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 6) };
+        row2.Children.Add(new WpfTextBlock { Text = "Тир:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 6, 0) });
+        row2.Children.Add(cbTier);
+        root.Children.Add(row2);
+
+        root.Children.Add(new WpfTextBlock
+        {
+            Text = "Имена (ИЛИ, Ctrl/Shift для нескольких):",
+            Margin = new Thickness(0, 0, 0, 4),
+            Foreground = System.Windows.Media.Brushes.DimGray,
+        });
+        root.Children.Add(lb);
+        root.Children.Add(lblStats);
+        root.Children.Add(slidersPanel);
 
         if (removeAction is not null)
         {
-            var remove = new WpfButton
+            var removeBtn = new WpfButton
             {
                 Content = removeButtonLabel,
                 HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
                 Margin = new Thickness(0, 8, 0, 0),
                 Padding = new Thickness(8, 2, 8, 2),
             };
-            remove.Click += (_, _) => removeAction();
-            col.Children.Add(remove);
+            removeBtn.Click += (_, _) => removeAction();
+            root.Children.Add(removeBtn);
         }
 
+        return root;
+    }
+
+    private UIElement BuildSingleLineSliderRow(
+        CraftSingleAffixData single,
+        CraftWholeModifierLine line,
+        AffixLibraryEntry refEntry,
+        int statIndex)
+    {
+        var ic = SelectedItemClass ?? _plan.ExpectedItemClass ?? "";
+        var slots = CraftAffixCascadeHelper.GetRollSlotCountForEntryStat(refEntry, statIndex);
+        line.EnsureMinRollsSize(slots);
+        var names = single.SelectedAffixNames.Count > 0
+            ? single.SelectedAffixNames
+            : single.EffectiveAffixNames().ToList();
+        var (lo, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForWholeLine(
+            ic, single.AffixType, refEntry, statIndex, names, single.AffixTier, _entries);
+        var fixedRoll = hi <= lo;
+
+        var col = new WpfStackPanel { Margin = new Thickness(0, 2, 0, 0) };
+        var lblBounds = new WpfTextBlock
+        {
+            Text = fixedRoll
+                ? $"Перекат по библиотеке (фикс.): {FormatNum(lo)}"
+                : $"Диапазон по выбранным именам: [{FormatNum(lo)} … {FormatNum(hi)}]",
+            Foreground = System.Windows.Media.Brushes.Gray,
+            Margin = new Thickness(0, 0, 0, 4),
+        };
+        var slider = new WpfSlider { MinWidth = 280, Margin = new Thickness(0, 0, 0, 4) };
+        var lblVal = new WpfTextBlock();
+        var span   = hi - lo;
+        var allInt = lo == Math.Truncate(lo) && hi == Math.Truncate(hi);
+        slider.Minimum = lo;
+        slider.Maximum = hi;
+        slider.TickFrequency      = allInt && span <= 500 ? 1 : Math.Max(span / 20.0, 0.01);
+        slider.IsSnapToTickEnabled = allInt && span <= 500;
+        slider.IsEnabled           = !fixedRoll;
+        var current = line.MinRolls.Count > 0 ? line.MinRolls[0] : line.MinRoll;
+        var v = ResolveSliderThreshold(lo, hi, current);
+        slider.Value = v;
+        for (var i = 0; i < line.MinRolls.Count; i++) line.MinRolls[i] = v;
+        line.MinRoll = v;
+        lblVal.Text = fixedRoll
+            ? $"Порог остановки: {FormatNum(v)} (совпадает с перекатом в библиотеке)"
+            : $"Минимум переката: {FormatNum(v)}";
+
+        slider.ValueChanged += (_, _) =>
+        {
+            if (fixedRoll) return;
+            var nv = slider.Value;
+            line.EnsureMinRollsSize(slots);
+            for (var i = 0; i < line.MinRolls.Count; i++) line.MinRolls[i] = nv;
+            line.MinRoll = nv;
+            // Sync legacy field to first line
+            single.MinRoll = single.Lines.Count > 0 ? single.Lines[0].MinRoll : 0;
+            lblVal.Text = $"Минимум переката: {FormatNum(nv)}";
+        };
+
+        col.Children.Add(lblBounds);
+        col.Children.Add(slider);
+        col.Children.Add(lblVal);
         return col;
     }
 
@@ -1278,7 +1461,7 @@ public partial class CraftConditionWindow : Window
 
         var probs = new double[n];
         for (var j = 0; j < n; j++)
-            probs[j] = CalcSingleMemberProbability(cnt.Members[j], ic, cs, ref hasPartialData);
+            probs[j] = CalcWholeModifierProbability(cnt.Members[j], ic, cs, ref hasPartialData);
         var k = cnt.MinMatchCount;
         if (k <= 0) return 1.0;
         if (k > n) return 0.0;

@@ -62,30 +62,40 @@ public static class SessionLogger
         NewLine?.Invoke(line);
     }
 
-    /// <summary>Содержимое буфера обмена после Ctrl+Alt+C (в т.ч. в файл session_*.txt).</summary>
+    /// <summary>Пишет только в файл, без события NewLine (не появляется в UI-логе).</summary>
+    public static void WriteFileOnly(string message)
+    {
+        var line = $"{DateTime.Now:yyyy-MM-dd HH:mm:ss}\t{message}";
+        lock (Gate)
+        {
+            _writer?.WriteLine(line);
+        }
+    }
+
+    /// <summary>Содержимое буфера обмена — пишется только в файл session_*.txt, не в UI.</summary>
     /// <param name="tag">Контекст: предпроверка, попытка крафта, парсинг предмета и т.д.</param>
     public static void InfoClipboard(string tag, string? clipboardText, int maxChars = 12000)
     {
         if (clipboardText == null)
         {
-            Info($"[Буфер обмена — {tag}] (null)");
+            WriteFileOnly($"[Буфер — {tag}] (null)");
             return;
         }
 
         if (clipboardText.Length == 0)
         {
-            Info($"[Буфер обмена — {tag}] (пустая строка)");
+            WriteFileOnly($"[Буфер — {tag}] (пустая строка)");
             return;
         }
 
         if (clipboardText.Length <= maxChars)
         {
-            Info($"[Буфер обмена — {tag}]\n{clipboardText}");
+            WriteFileOnly($"[Буфер — {tag}]\n{clipboardText}");
             return;
         }
 
-        Info(
-            $"[Буфер обмена — {tag}] (показано {maxChars} из {clipboardText.Length} символов)\n{clipboardText[..maxChars]}…");
+        WriteFileOnly(
+            $"[Буфер — {tag}] (показано {maxChars} из {clipboardText.Length} символов)\n{clipboardText[..maxChars]}…");
     }
 
     public static void Shutdown()

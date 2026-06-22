@@ -11,15 +11,18 @@ public static class CraftConditionPlanNormalizer
             if (c.Single is { } sg)
             {
                 NormalizeSingle(sg, plan.ExpectedItemClass, entries);
+                sg.EnsureLinesFromLegacy();
                 ClampMinRollToLibrary(sg, plan.ExpectedItemClass, entries);
+                ClampSingleLinesToLibrary(sg, plan.ExpectedItemClass, entries);
             }
 
             if (c.Count?.Members != null)
             {
                 foreach (var m in c.Count.Members)
                 {
-                    NormalizeSingle(m, plan.ExpectedItemClass, entries);
-                    ClampMinRollToLibrary(m, plan.ExpectedItemClass, entries);
+                    if (m.SelectedAffixNames.Count == 0 && !string.IsNullOrWhiteSpace(m.AffixName))
+                        m.SelectedAffixNames.Add(m.AffixName.Trim());
+                    ClampWholeModifierLinesToLibrary(m, plan.ExpectedItemClass, entries);
                 }
             }
 
@@ -60,6 +63,72 @@ public static class CraftConditionPlanNormalizer
         {
             if (s.MinRolls[i] > hi)
                 s.MinRolls[i] = hi;
+        }
+    }
+
+    private static void ClampSingleLinesToLibrary(
+        CraftSingleAffixData s,
+        string itemClass,
+        IReadOnlyList<AffixLibraryEntry> entries)
+    {
+        if (s.Lines.Count == 0 || string.IsNullOrWhiteSpace(itemClass) || string.IsNullOrWhiteSpace(s.AffixType) || s.AffixTier < 1)
+            return;
+        var names = s.EffectiveAffixNames().ToList();
+        if (names.Count == 0)
+            return;
+        var refEntry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
+            entries, itemClass, s.AffixType, names[0], s.AffixTier);
+        if (refEntry is null)
+            return;
+        foreach (var line in s.Lines)
+        {
+            if (string.IsNullOrWhiteSpace(line.StatTemplate))
+                continue;
+            var si = CraftAffixCascadeHelper.FindStatIndexInEntry(refEntry, line.StatTemplate);
+            if (si < 0)
+                continue;
+            var (_, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForWholeLine(
+                itemClass, s.AffixType, refEntry, si, names, s.AffixTier, entries);
+            if (hi <= 0)
+                continue;
+            if (line.MinRoll > hi)
+                line.MinRoll = hi;
+            for (var i = 0; i < line.MinRolls.Count; i++)
+                if (line.MinRolls[i] > hi)
+                    line.MinRolls[i] = hi;
+        }
+    }
+
+    private static void ClampWholeModifierLinesToLibrary(
+        CraftWholeModifierAffixData m,
+        string itemClass,
+        IReadOnlyList<AffixLibraryEntry> entries)
+    {
+        if (string.IsNullOrWhiteSpace(itemClass) || string.IsNullOrWhiteSpace(m.AffixType) || m.AffixTier < 1)
+            return;
+        var names = m.EffectiveWholeAffixNames().ToList();
+        if (names.Count == 0)
+            return;
+        var refEntry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
+            entries, itemClass, m.AffixType, names[0], m.AffixTier);
+        if (refEntry is null)
+            return;
+        foreach (var line in m.Lines)
+        {
+            if (string.IsNullOrWhiteSpace(line.StatTemplate))
+                continue;
+            var si = CraftAffixCascadeHelper.FindStatIndexInEntry(refEntry, line.StatTemplate);
+            if (si < 0)
+                continue;
+            var (_, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForWholeLine(
+                itemClass, m.AffixType, refEntry, si, names, m.AffixTier, entries);
+            if (hi <= 0)
+                continue;
+            if (line.MinRoll > hi)
+                line.MinRoll = hi;
+            for (var i = 0; i < line.MinRolls.Count; i++)
+                if (line.MinRolls[i] > hi)
+                    line.MinRolls[i] = hi;
         }
     }
 

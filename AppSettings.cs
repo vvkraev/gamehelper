@@ -188,6 +188,11 @@ public sealed class AppSettings
     /// <summary>Области предметов делирия во вкладке Delirium Stash. Ключ — Id из StackableItemRegistry.</summary>
     public Dictionary<string, ScreenRect>? DeliriumItemRegions { get; set; }
 
+    /// <summary>Вкладка Abyss Stash целиком (для навигации / скролла).</summary>
+    public ScreenRect AbyssInventoryRect { get; set; }
+    /// <summary>Области предметов Abyss во вкладке Abyss Stash. Ключ — Id из StackableItemRegistry.</summary>
+    public Dictionary<string, ScreenRect>? AbyssItemRegions { get; set; }
+
     /// <summary>Вкладка Socketable Stash целиком (основная вкладка; кликается перед любой под-вкладкой).</summary>
     public ScreenRect SocketableInventoryRect { get; set; }
     /// <summary>Под-вкладка «Runes» внутри Socketable Stash.</summary>

@@ -903,9 +903,11 @@ public sealed class ExaltationCraftServiceFracturedSide : IExaltationCraftServic
             }
             else if (c.Kind == CraftClauseKind.Count && c.Count is { } cnt)
             {
+                var lib = AffixLibrary.GetEntries();
                 foreach (var m in cnt.Members)
                 {
-                    if (CraftConditionEvaluator.TryEvaluateSingleAffixClause(m, item, plan.ExpectedItemClass, out _))
+                    var mNames = m.EffectiveWholeAffixNames();
+                    if (mNames.Any(nm => ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(m, item, plan.ExpectedItemClass, lib, out _, nm)))
                         return true;
                 }
             }

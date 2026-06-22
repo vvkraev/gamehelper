@@ -40,7 +40,7 @@ public static class PoeNinjaPriceService
 
     // Типы проверены вручную — Verisium и Expedition возвращают 0 позиций для PoE2 Standard.
     // Breach содержит все катализаторы и брич-камни.
-    private static readonly string[] ApiTypes = ["Currency", "Ritual", "Delirium", "Breach", "Runes", "SoulCores"];
+    private static readonly string[] ApiTypes = ["Currency", "Ritual", "Delirium", "Breach", "Runes", "SoulCores", "Abyss", "Omens"];
 
     // ── Загрузка из локального файла при старте ───────────────────────────
 

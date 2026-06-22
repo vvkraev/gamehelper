@@ -38,23 +38,33 @@ public sealed class CraftConditionCountEvaluatorTests
         Fractured Item
         """;
 
+    private static CraftWholeModifierAffixData WholeMember(string name, string stat, double minRoll) =>
+        new()
+        {
+            AffixType = "Suffix Modifier",
+            AffixName = name,
+            SelectedAffixNames = new List<string> { name },
+            AffixTier = 1,
+            Lines = new List<CraftWholeModifierLine>
+            {
+                new() { StatTemplate = stat, MinRoll = minRoll, MinRolls = new List<double> { minRoll } },
+            },
+        };
+
+    private static CraftSingleAffixData SingleMember(string name, string stat, double minRoll) =>
+        new()
+        {
+            AffixType = "Suffix Modifier",
+            AffixName = name,
+            SelectedAffixNames = new List<string> { name },
+            AffixTier = 1,
+            StatTemplate = stat,
+            MinRoll = minRoll,
+            MinRolls = new List<double> { minRoll },
+        };
+
     private static CraftConditionPlan BuildUserPlan(double frostbiteMinRoll = 6)
     {
-        CraftSingleAffixData Member(
-            string name,
-            string stat,
-            double minRoll) =>
-            new()
-            {
-                AffixType = "Suffix Modifier",
-                AffixName = name,
-                SelectedAffixNames = new List<string> { name },
-                AffixTier = 1,
-                StatTemplate = stat,
-                MinRoll = minRoll,
-                MinRolls = new List<double> { minRoll },
-            };
-
         return new CraftConditionPlan
         {
             ExpectedItemClass = "Wands",
@@ -72,11 +82,11 @@ public sealed class CraftConditionCountEvaluatorTests
                                 MinMatchCount = 1,
                                 Members =
                                 {
-                                    Member("of Frostbite", "+ to Level of all Cold Spell Skills", 6),
-                                    Member("of Inferno", "+ to Level of all Fire Spell Skills", 6),
-                                    Member("of Grief", "+ to Level of all Physical Spell Skills", 6),
-                                    Member("of the Wizard", "+ to Level of all Spell Skills", 5),
-                                    Member("of Thunder", "+ to Level of all Lightning Spell Skills", 6),
+                                    WholeMember("of Frostbite", "+ to Level of all Cold Spell Skills", 6),
+                                    WholeMember("of Inferno", "+ to Level of all Fire Spell Skills", 6),
+                                    WholeMember("of Grief", "+ to Level of all Physical Spell Skills", 6),
+                                    WholeMember("of the Wizard", "+ to Level of all Spell Skills", 5),
+                                    WholeMember("of Thunder", "+ to Level of all Lightning Spell Skills", 6),
                                 },
                             },
                         },
@@ -89,7 +99,7 @@ public sealed class CraftConditionCountEvaluatorTests
                         new CraftClause
                         {
                             Kind = CraftClauseKind.Single,
-                            Single = Member("of Grief", "+ to Level of all Physical Spell Skills", 6),
+                            Single = SingleMember("of Grief", "+ to Level of all Physical Spell Skills", 6),
                         },
                     },
                 },
@@ -103,12 +113,11 @@ public sealed class CraftConditionCountEvaluatorTests
         var item = ItemParser.Parse(GriefPlus5Clipboard);
         var plan = BuildUserPlan();
         Assert.False(CraftConditionEvaluator.TryEvaluate(plan, item, out _));
+        var mem = plan.OrAlternatives[0].Clauses[0].Count!.Members[2];
         Assert.False(
-            CraftConditionEvaluator.TryEvaluateSingleAffixClause(
-                plan.OrAlternatives[0].Clauses[0].Count!.Members[2],
-                item,
-                plan.ExpectedItemClass,
-                out _));
+            ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(
+                mem, item, plan.ExpectedItemClass, AffixLibrary.GetEntries(), out _,
+                mem.EffectiveWholeAffixNames()[0]));
     }
 
     [Fact]
@@ -198,17 +207,6 @@ public sealed class CraftConditionCountEvaluatorTests
     {
         var item = ItemParser.Parse(EntombingRingClipboard);
 
-        CraftSingleAffixData Member(string name, string stat, double minRoll) => new()
-        {
-            AffixType = "Prefix Modifier",
-            AffixName = name,
-            SelectedAffixNames = new List<string> { name },
-            AffixTier = 1,
-            StatTemplate = stat,
-            MinRoll = minRoll,
-            MinRolls = new List<double> { minRoll },
-        };
-
         var plan = new CraftConditionPlan
         {
             ExpectedItemClass = "Rings",
@@ -226,7 +224,17 @@ public sealed class CraftConditionCountEvaluatorTests
                                 MinMatchCount = 1,
                                 Members =
                                 {
-                                    Member("Entombing", "Adds # to # Cold damage to Attacks", 21),
+                                    new CraftWholeModifierAffixData
+                                    {
+                                        AffixType = "Prefix Modifier",
+                                        AffixName = "Entombing",
+                                        SelectedAffixNames = new List<string> { "Entombing" },
+                                        AffixTier = 1,
+                                        Lines = new List<CraftWholeModifierLine>
+                                        {
+                                            new() { StatTemplate = "Adds # to # Cold damage to Attacks", MinRoll = 21, MinRolls = new List<double> { 21 } },
+                                        },
+                                    },
                                 },
                             },
                         },
@@ -245,17 +253,6 @@ public sealed class CraftConditionCountEvaluatorTests
     {
         var item = ItemParser.Parse(EntombingRingClipboard);
 
-        CraftSingleAffixData Member(string name, string stat, double minRoll) => new()
-        {
-            AffixType = "Prefix Modifier",
-            AffixName = name,
-            SelectedAffixNames = new List<string> { name },
-            AffixTier = 1,
-            StatTemplate = stat,
-            MinRoll = minRoll,
-            MinRolls = new List<double> { minRoll },
-        };
-
         var plan = new CraftConditionPlan
         {
             ExpectedItemClass = "Rings",
@@ -273,7 +270,17 @@ public sealed class CraftConditionCountEvaluatorTests
                                 MinMatchCount = 1,
                                 Members =
                                 {
-                                    Member("Entombing", "Adds # to # Cold damage to Attacks", 23),
+                                    new CraftWholeModifierAffixData
+                                    {
+                                        AffixType = "Prefix Modifier",
+                                        AffixName = "Entombing",
+                                        SelectedAffixNames = new List<string> { "Entombing" },
+                                        AffixTier = 1,
+                                        Lines = new List<CraftWholeModifierLine>
+                                        {
+                                            new() { StatTemplate = "Adds # to # Cold damage to Attacks", MinRoll = 23, MinRolls = new List<double> { 23 } },
+                                        },
+                                    },
                                 },
                             },
                         },
@@ -305,15 +312,16 @@ public sealed class CraftConditionCountEvaluatorTests
     {
         var item = ItemParser.Parse(SorcererAmuletClipboard);
 
-        CraftSingleAffixData Member(string name, string stat, double minRoll) => new()
+        CraftWholeModifierAffixData WM(string name, string stat, double minRoll) => new()
         {
             AffixType = "Suffix Modifier",
             AffixName = name,
             SelectedAffixNames = new List<string> { name },
             AffixTier = 1,
-            StatTemplate = stat,
-            MinRoll = minRoll,
-            MinRolls = new List<double> { minRoll },
+            Lines = new List<CraftWholeModifierLine>
+            {
+                new() { StatTemplate = stat, MinRoll = minRoll, MinRolls = new List<double> { minRoll } },
+            },
         };
 
         var plan = new CraftConditionPlan
@@ -333,12 +341,12 @@ public sealed class CraftConditionCountEvaluatorTests
                                 MinMatchCount = 1,
                                 Members =
                                 {
-                                    Member("of Battle",         "+# to Level of all Melee Skills",      3),
-                                    Member("of the Overseer",   "+# to Level of all Minion Skills",     3),
-                                    Member("of the Sharpshooter","+# to Level of all Projectile Skills",3),
-                                    Member("of the Sorcerer",   "+# to Level of all Spell Skills",      3),
-                                    Member("of Unmaking",       "#% increased Critical Hit Chance",    35),
-                                    Member("Countess'",         "+# to Spirit",                        47),
+                                    WM("of Battle",              "+# to Level of all Melee Skills",      3),
+                                    WM("of the Overseer",        "+# to Level of all Minion Skills",     3),
+                                    WM("of the Sharpshooter",    "+# to Level of all Projectile Skills", 3),
+                                    WM("of the Sorcerer",        "+# to Level of all Spell Skills",      3),
+                                    WM("of Unmaking",            "#% increased Critical Hit Chance",    35),
+                                    WM("Countess'",              "+# to Spirit",                        47),
                                 },
                             },
                         },
@@ -358,17 +366,6 @@ public sealed class CraftConditionCountEvaluatorTests
     {
         var item = ItemParser.Parse(SorcererAmuletClipboard);
 
-        CraftSingleAffixData Member(string name, string stat, double minRoll) => new()
-        {
-            AffixType = "Suffix Modifier",
-            AffixName = name,
-            SelectedAffixNames = new List<string> { name },
-            AffixTier = 1,
-            StatTemplate = stat,
-            MinRoll = minRoll,
-            MinRolls = new List<double> { minRoll },
-        };
-
         var plan = new CraftConditionPlan
         {
             ExpectedItemClass = "Amulets",
@@ -386,7 +383,17 @@ public sealed class CraftConditionCountEvaluatorTests
                                 MinMatchCount = 1,
                                 Members =
                                 {
-                                    Member("of the Sorcerer", "+# to Level of all Spell Skills", 4),
+                                    new CraftWholeModifierAffixData
+                                    {
+                                        AffixType = "Suffix Modifier",
+                                        AffixName = "of the Sorcerer",
+                                        SelectedAffixNames = new List<string> { "of the Sorcerer" },
+                                        AffixTier = 1,
+                                        Lines = new List<CraftWholeModifierLine>
+                                        {
+                                            new() { StatTemplate = "+# to Level of all Spell Skills", MinRoll = 4, MinRolls = new List<double> { 4 } },
+                                        },
+                                    },
                                 },
                             },
                         },

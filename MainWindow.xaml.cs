@@ -77,6 +77,8 @@ public partial class MainWindow : Window
     private ScreenRect _breachInventoryRect;
     private Dictionary<string, ScreenRect> _deliriumItemRegions = new();
     private ScreenRect _deliriumInventoryRect;
+    private Dictionary<string, ScreenRect> _abyssItemRegions = new();
+    private ScreenRect _abyssInventoryRect;
     private Dictionary<string, ScreenRect> _socketableItemRegions = new();
     private ScreenRect _socketableInventoryRect;
     private ScreenRect _sockSubRunesRect;
@@ -184,11 +186,7 @@ public partial class MainWindow : Window
                 id == GlobalHotkey.CraftCancelHotkeyIdAltShift)
             {
                 handled = true;
-                Dispatcher.BeginInvoke(() =>
-                {
-                    if (StopBtn.IsEnabled)
-                        RequestCraftCancel();
-                });
+                Dispatcher.BeginInvoke(RequestCancelAll);
             }
 
             if (id >= GlobalHotkey.TrayToggleHotkeyIdBase && id < GlobalHotkey.TrayToggleHotkeyIdBase + 8)
@@ -737,6 +735,12 @@ public partial class MainWindow : Window
             ? new Dictionary<string, ScreenRect>(s.DeliriumItemRegions)
             : new();
 
+        _abyssInventoryRect = s.AbyssInventoryRect;
+        AbyssInventoryInfo.Text = FormatRect(_abyssInventoryRect);
+        _abyssItemRegions = s.AbyssItemRegions != null
+            ? new Dictionary<string, ScreenRect>(s.AbyssItemRegions)
+            : new();
+
         _socketableInventoryRect = s.SocketableInventoryRect;
         SocketableInventoryInfo.Text = FormatRect(_socketableInventoryRect);
         _sockSubRunesRect    = s.SocketableSubTabRunesRect;    SockSubRunesInfo.Text    = FormatRect(_sockSubRunesRect);
@@ -747,6 +751,13 @@ public partial class MainWindow : Window
         _socketableItemRegions = s.SocketableItemRegions != null
             ? new Dictionary<string, ScreenRect>(s.SocketableItemRegions)
             : new();
+        // Perfect rune скрыты в UI — удаляем их регионы чтобы не попадали в нетворс
+        foreach (var id in Services.StackableItemRegistry.Items
+            .Where(i => i.Kind == Services.StackableItemKind.Rune &&
+                        i.DisplayName.StartsWith("Perfect ", StringComparison.OrdinalIgnoreCase))
+            .Select(i => i.Id)
+            .ToList())
+            _socketableItemRegions.Remove(id);
 
         _fullInventoryCells = s.FullInventoryCells is { Count: > 0 } fic ? fic.ToList() : new();
         FullInventoryGridInfo.Text = _fullInventoryCells.Count > 0 ? $"{_fullInventoryCells.Count} ячеек" : "не задана";
@@ -773,6 +784,7 @@ public partial class MainWindow : Window
         RfLoadFromState();
         RebuildBreachPanel();
         RebuildDeliriumPanel();
+        RebuildAbyssPanel();
         RebuildSocketablePanel();
         _catalystGoldPrices = s.CatalystGoldPrices != null
             ? new Dictionary<string, int>(s.CatalystGoldPrices)
@@ -914,6 +926,10 @@ public partial class MainWindow : Window
             DeliriumInventoryRect = _deliriumInventoryRect,
             DeliriumItemRegions = _deliriumItemRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_deliriumItemRegions)
+                : null,
+            AbyssInventoryRect = _abyssInventoryRect,
+            AbyssItemRegions = _abyssItemRegions.Count > 0
+                ? new Dictionary<string, ScreenRect>(_abyssItemRegions)
                 : null,
             SocketableInventoryRect = _socketableInventoryRect,
             SocketableSubTabRunesRect    = _sockSubRunesRect,
@@ -2236,15 +2252,21 @@ public partial class MainWindow : Window
     {
         if (e.Key != System.Windows.Input.Key.Escape)
             return;
-        if (!StopBtn.IsEnabled)
-            return;
         e.Handled = true;
-        RequestCraftCancel();
+        RequestCancelAll();
     }
 
-    private void RequestCraftCancel()
+    private void RequestCraftCancel() => RequestCancelAll();
+
+    private void RequestCancelAll()
     {
         _cts?.Cancel();
+        _nwScanCts?.Cancel();
+        _repricingCts?.Cancel();
+        _rfCts?.Cancel();
+        _rfScanCts?.Cancel();
+        _autoRfCts?.Cancel();
+        _chancingCts?.Cancel();
         SessionLogger.Info("(отмена запрошена)");
     }
 
@@ -2734,6 +2756,7 @@ public partial class MainWindow : Window
             RfRefreshCatalystList();
             RebuildBreachPanel();
             RebuildDeliriumPanel();
+            RebuildAbyssPanel();
             RebuildSocketablePanel();
             RebuildProfitTable();
             RfRegistryScanStatus.Text = $"+{added} новых, {skipped} пропущено, {empty} пустых";
@@ -2764,6 +2787,7 @@ public partial class MainWindow : Window
         RfRefreshCatalystList();
         RebuildBreachPanel();
         RebuildDeliriumPanel();
+        RebuildAbyssPanel();
         RebuildSocketablePanel();
         RebuildProfitTable();
         RfLog("[Registry] Реестр очищен");
@@ -3664,6 +3688,128 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
+    // ── Abyss ─────────────────────────────────────────────────────────────
+
+    private void PickAbyssInventoryBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _abyssInventoryRect = region;
+        AbyssInventoryInfo.Text = FormatRect(region);
+        SaveSettings();
+    }
+
+    // Фиксированный список предметов вкладки Abyss — не требует сканирования реестра.
+    private static readonly (string Id, string DisplayName, string? Group)[] AbyssKnownItems =
+    [
+        ("ancient_jawbone",              "Ancient Jawbone",              "Abyssal Bones"),
+        ("gnawed_jawbone",               "Gnawed Jawbone",               "Abyssal Bones"),
+        ("preserved_jawbone",            "Preserved Jawbone",            "Abyssal Bones"),
+        ("ancient_collarbone",           "Ancient Collarbone",           "Abyssal Bones"),
+        ("gnawed_collarbone",            "Gnawed Collarbone",            "Abyssal Bones"),
+        ("preserved_collarbone",         "Preserved Collarbone",         "Abyssal Bones"),
+        ("ancient_rib",                  "Ancient Rib",                  "Abyssal Bones"),
+        ("gnawed_rib",                   "Gnawed Rib",                   "Abyssal Bones"),
+        ("preserved_rib",                "Preserved Rib",                "Abyssal Bones"),
+        ("preserved_cranium",            "Preserved Cranium",            "Abyssal Bones"),
+        ("omen_of_light",                "Omen of Light",                "Omens"),
+        ("omen_of_abyssal_echoes",       "Omen of Abyssal Echoes",       "Omens"),
+        ("omen_of_sinistral_necromancy", "Omen of Sinistral Necromancy", "Omens"),
+        ("omen_of_dextral_necromancy",   "Omen of Dextral Necromancy",   "Omens"),
+        ("omen_of_putrefaction",         "Omen of Putrefaction",         "Omens"),
+    ];
+
+    private void RebuildAbyssPanel()
+    {
+        AbyssItemRegionsPanel.Children.Clear();
+
+        string? currentGroup = null;
+        foreach (var item in AbyssKnownItems)
+        {
+            if (item.Group != currentGroup)
+            {
+                if (currentGroup != null)
+                    AbyssItemRegionsPanel.Children.Add(new System.Windows.Controls.Separator
+                        { Margin = new System.Windows.Thickness(0, 4, 0, 4) });
+                AbyssItemRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
+                {
+                    Text = item.Group,
+                    FontWeight = System.Windows.FontWeights.SemiBold,
+                    Margin = new System.Windows.Thickness(0, 0, 0, 4),
+                });
+                currentGroup = item.Group;
+            }
+
+            _abyssItemRegions.TryGetValue(item.Id, out var rect);
+            var infoText = new System.Windows.Controls.TextBlock
+            {
+                Text = FormatRect(rect),
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                Foreground = System.Windows.Media.Brushes.Gray,
+                FontSize = 11,
+            };
+
+            var btn = new System.Windows.Controls.Button
+            {
+                Content = "Задать…",
+                Padding = new System.Windows.Thickness(8, 4, 8, 4),
+                Margin  = new System.Windows.Thickness(0, 0, 4, 0),
+                Tag = (item.Id, infoText),
+            };
+            btn.Click += AbyssItemPickBtn_Click;
+
+            var clearBtn = new System.Windows.Controls.Button
+            {
+                Content = "✕",
+                Padding = new System.Windows.Thickness(6, 4, 6, 4),
+                Tag = (item.Id, infoText),
+            };
+            clearBtn.Click += AbyssItemClearBtn_Click;
+
+            var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
+            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(240) });
+            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+
+            var label = new System.Windows.Controls.TextBlock
+            {
+                Text = item.DisplayName,
+                VerticalAlignment = System.Windows.VerticalAlignment.Center,
+            };
+            System.Windows.Controls.Grid.SetColumn(label, 0);
+            System.Windows.Controls.Grid.SetColumn(infoText, 1);
+            System.Windows.Controls.Grid.SetColumn(btn, 2);
+            System.Windows.Controls.Grid.SetColumn(clearBtn, 3);
+
+            row.Children.Add(label);
+            row.Children.Add(infoText);
+            row.Children.Add(btn);
+            row.Children.Add(clearBtn);
+            AbyssItemRegionsPanel.Children.Add(row);
+        }
+    }
+
+    private void AbyssItemPickBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Button btn) return;
+        if (btn.Tag is not (string id, System.Windows.Controls.TextBlock infoBlock)) return;
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _abyssItemRegions[id] = region;
+        infoBlock.Text = FormatRect(region);
+        SaveSettings();
+    }
+
+    private void AbyssItemClearBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Button btn) return;
+        if (btn.Tag is not (string id, System.Windows.Controls.TextBlock infoBlock)) return;
+        _abyssItemRegions.Remove(id);
+        infoBlock.Text = FormatRect(default);
+        SaveSettings();
+    }
+
     private void PickSocketableInventoryBtn_Click(object sender, RoutedEventArgs e)
     {
         var dlg = new RegionPickerWindow { Owner = this };
@@ -3690,14 +3836,44 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
+    private void ClearSockSubBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Button btn) return;
+        var tag = btn.Tag as string ?? "";
+        switch (tag)
+        {
+            case "Runes":     _sockSubRunesRect    = default; SockSubRunesInfo.Text    = "не задана"; break;
+            case "Kulguuran": _sockSubKulguuranRect = default; SockSubKulguuranInfo.Text = "не задана"; break;
+            case "SoulCores": _sockSubSoulCoresRect = default; SockSubSoulCoresInfo.Text = "не задана"; break;
+            case "Idols":     _sockSubIdolsRect    = default; SockSubIdolsInfo.Text    = "не задана"; break;
+            case "Augments":  _sockSubAugmentsRect = default; SockSubAugmentsInfo.Text = "не задана"; break;
+        }
+        SaveSettings();
+    }
+
+    private void SocketableItemClearBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (sender is not System.Windows.Controls.Button btn) return;
+        if (btn.Tag is not (string id, System.Windows.Controls.TextBlock infoBlock)) return;
+        _socketableItemRegions.Remove(id);
+        infoBlock.Text = FormatRect(default);
+        SaveSettings();
+    }
+
     /// <summary>Возвращает имя под-вкладки Socketable Stash для предмета.</summary>
     private static string GetSocketableSubTab(Services.StackableItemType? item)
     {
         if (item == null) return "Runes";
         if (item.Kind == Services.StackableItemKind.SoulCore) return "Soul Cores";
+        if (item.Kind == Services.StackableItemKind.AncientAugment) return "Ancient Augments";
         if (item.Kind == Services.StackableItemKind.Rune)
-            return item.DisplayName.StartsWith("Ancient Rune of", StringComparison.OrdinalIgnoreCase)
-                ? "Kulguuran Runes" : "Runes";
+        {
+            var name = item.DisplayName;
+            if (name.StartsWith("Ancient Rune of", StringComparison.OrdinalIgnoreCase) ||
+                name.StartsWith("Warding ", StringComparison.OrdinalIgnoreCase))
+                return "Kulguuran Runes";
+            return "Runes";
+        }
         return "Other";
     }
 
@@ -3706,7 +3882,9 @@ public partial class MainWindow : Window
         SocketableItemRegionsPanel.Children.Clear();
 
         var all = Services.StackableItemRegistry.Items
-            .Where(i => i.Kind == Services.StackableItemKind.Rune || i.Kind == Services.StackableItemKind.SoulCore)
+            .Where(i => i.Kind == Services.StackableItemKind.Rune
+                     || i.Kind == Services.StackableItemKind.SoulCore
+                     || i.Kind == Services.StackableItemKind.AncientAugment)
             .ToList();
 
         if (all.Count == 0)
@@ -3726,7 +3904,6 @@ public partial class MainWindow : Window
         // Порядок секций соответствует под-вкладкам в игре
         var sections = new (string Header, IEnumerable<Services.StackableItemType> Items)[]
         {
-            ("Runes — Perfect",        all.Where(i => i.Kind == Services.StackableItemKind.Rune && StartsWithCI(i, "Perfect "))),
             ("Runes — Greater",        all.Where(i => i.Kind == Services.StackableItemKind.Rune && StartsWithCI(i, "Greater "))),
             ("Runes — Base",           all.Where(i => i.Kind == Services.StackableItemKind.Rune
                                                     && !StartsWithCI(i, "Perfect ") && !StartsWithCI(i, "Greater ")
@@ -3734,19 +3911,20 @@ public partial class MainWindow : Window
                                                     && !StartsWithCI(i, "Warding ")
                                                     && i.DisplayName.EndsWith(" Rune", StringComparison.OrdinalIgnoreCase))),
             ("Runes — Lesser",         all.Where(i => i.Kind == Services.StackableItemKind.Rune && StartsWithCI(i, "Lesser "))),
-            ("Runes — Warding",        all.Where(i => i.Kind == Services.StackableItemKind.Rune && StartsWithCI(i, "Warding "))),
             ("Runes — Named / Unique", all.Where(i => i.Kind == Services.StackableItemKind.Rune
                                                     && !StartsWithCI(i, "Perfect ") && !StartsWithCI(i, "Greater ")
                                                     && !StartsWithCI(i, "Lesser ")  && !StartsWithCI(i, "Ancient ")
                                                     && !StartsWithCI(i, "Warding ")
                                                     && !i.DisplayName.EndsWith(" Rune", StringComparison.OrdinalIgnoreCase))),
-            ("Kulguuran Runes",        all.Where(i => i.Kind == Services.StackableItemKind.Rune && StartsWithCI(i, "Ancient Rune of"))),
+            ("Kulguuran Runes",        all.Where(i => i.Kind == Services.StackableItemKind.Rune
+                                                    && (StartsWithCI(i, "Ancient Rune of") || StartsWithCI(i, "Warding ")))),
             ("Soul Cores — Standard",  all.Where(i => i.Kind == Services.StackableItemKind.SoulCore && StartsWithCI(i, "Soul Core of "))),
             ("Soul Cores — Named",     all.Where(i => i.Kind == Services.StackableItemKind.SoulCore
                                                     && !StartsWithCI(i, "Soul Core of ")
                                                     && i.DisplayName.Contains("Soul Core", StringComparison.OrdinalIgnoreCase))),
             ("Soul Cores — Other",     all.Where(i => i.Kind == Services.StackableItemKind.SoulCore
                                                     && !i.DisplayName.Contains("Soul Core", StringComparison.OrdinalIgnoreCase))),
+            ("Ancient Augments",       all.Where(i => i.Kind == Services.StackableItemKind.AncientAugment)),
         };
 
         bool first = true;
@@ -3782,13 +3960,23 @@ public partial class MainWindow : Window
                 {
                     Content = "Задать…",
                     Padding = new System.Windows.Thickness(8, 4, 8, 4),
+                    Margin  = new System.Windows.Thickness(0, 0, 4, 0),
                     Tag = (item.Id, infoText),
                 };
                 btn.Click += SocketableItemPickBtn_Click;
 
+                var clearBtn = new System.Windows.Controls.Button
+                {
+                    Content = "✕",
+                    Padding = new System.Windows.Thickness(6, 4, 6, 4),
+                    Tag = (item.Id, infoText),
+                };
+                clearBtn.Click += SocketableItemClearBtn_Click;
+
                 var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
                 row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(240) });
                 row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
                 row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
 
                 var label = new System.Windows.Controls.TextBlock
@@ -3799,10 +3987,12 @@ public partial class MainWindow : Window
                 System.Windows.Controls.Grid.SetColumn(label, 0);
                 System.Windows.Controls.Grid.SetColumn(infoText, 1);
                 System.Windows.Controls.Grid.SetColumn(btn, 2);
+                System.Windows.Controls.Grid.SetColumn(clearBtn, 3);
 
                 row.Children.Add(label);
                 row.Children.Add(infoText);
                 row.Children.Add(btn);
+                row.Children.Add(clearBtn);
                 SocketableItemRegionsPanel.Children.Add(row);
             }
         }
@@ -3846,7 +4036,9 @@ public partial class MainWindow : Window
             var items = regions?
                 .Where(kv => kv.Value.Width > 0 && kv.Value.Height > 0)
                 .Select(kv => (
-                    ItemName: registry.FirstOrDefault(r => r.Id == kv.Key)?.DisplayName ?? kv.Key,
+                    ItemName: registry.FirstOrDefault(r => r.Id == kv.Key)?.DisplayName
+                              ?? AbyssKnownItems.FirstOrDefault(a => a.Id == kv.Key).DisplayName
+                              ?? kv.Key,
                     Area: kv.Value))
                 .ToList()
                 ?? new List<(string, ScreenRect)>();
@@ -3878,6 +4070,7 @@ public partial class MainWindow : Window
             MakeGroup("Ritual",     _ritualInventoryRegion   ?? default, _ritualItemRegions),
             MakeGroup("Breach",     _breachInventoryRect,    _breachCatalystRegions),
             MakeGroup("Delirium",   _deliriumInventoryRect,  _deliriumItemRegions),
+            MakeGroup("Abyss",      _abyssInventoryRect,     _abyssItemRegions),
             MakeSockGroup("Runes",           _sockSubRunesRect),
             MakeSockGroup("Kulguuran Runes", _sockSubKulguuranRect),
             MakeSockGroup("Soul Cores",      _sockSubSoulCoresRect),

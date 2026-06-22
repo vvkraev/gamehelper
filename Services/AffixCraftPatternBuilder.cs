@@ -84,6 +84,26 @@ public static class AffixCraftPatternBuilder
         return null;
     }
 
+    /// <summary>Запись по классу предмета, типу и имени без фильтрации по тиру (имя однозначно задаёт тир в PoE2).</summary>
+    public static AffixLibraryEntry? FindEntryByNameTypeAnyTier(
+        IReadOnlyList<AffixLibraryEntry> entries,
+        string itemClass,
+        string affixType,
+        string affixName)
+    {
+        foreach (var e in entries)
+        {
+            if (!e.ItemClasses.Any(x => string.Equals(x, itemClass, StringComparison.Ordinal)))
+                continue;
+            if (!ParsedItemCraftEvaluator.AffixTypesCompatibleForNamedMatch(affixType, e.AffixType))
+                continue;
+            if (string.Equals(e.AffixName.Trim(), affixName.Trim(), StringComparison.Ordinal))
+                return e;
+        }
+
+        return null;
+    }
+
     public static int GetStatIndex(AffixLibraryEntry e, string affixStat)
     {
         for (var i = 0; i < e.AffixStats.Count; i++)

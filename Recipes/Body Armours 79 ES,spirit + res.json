@@ -1,0 +1,151 @@
+{
+  "name": "Body Armours 79 ES,spirit \u002B res",
+  "savedAt": "2026-06-22T13:21:35.3607539+03:00",
+  "craftMode": "\u0410\u0443\u0433\u002B\u0410\u043D\u043D\u0443\u043B",
+  "plan": {
+    "expectedItemClass": "Body Armours",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "count",
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 1,
+              "members": [
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Unfaltering",
+                  "selectedAffixNames": [
+                    "Unfaltering"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "(101\u2013110)% increased Energy Shield",
+                      "minRoll": 101,
+                      "minRolls": [
+                        101
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Resplendent",
+                  "selectedAffixNames": [
+                    "Resplendent"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "\u002B(91\u201396) to maximum Energy Shield",
+                      "minRoll": 91,
+                      "minRolls": [
+                        91
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Divine",
+                  "selectedAffixNames": [
+                    "Divine"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "\u002B(26\u201330) to maximum Energy Shield",
+                      "minRoll": 26,
+                      "minRolls": [
+                        26
+                      ]
+                    },
+                    {
+                      "statTemplate": "(39\u201342)% increased Energy Shield",
+                      "minRoll": 39,
+                      "minRolls": [
+                        39
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Princess\u0027",
+                  "selectedAffixNames": [
+                    "Princess\u0027"
+                  ],
+                  "affixTier": 2,
+                  "lines": [
+                    {
+                      "statTemplate": "\u002B(54\u201356) to Spirit",
+                      "minRoll": 54,
+                      "minRolls": [
+                        54
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of the Ice",
+                  "selectedAffixNames": [
+                    "of the Ice"
+                  ],
+                  "affixTier": 2,
+                  "lines": [
+                    {
+                      "statTemplate": "\u002B(36\u201340)% to Cold Resistance",
+                      "minRoll": 36,
+                      "minRolls": [
+                        36
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Magma",
+                  "selectedAffixNames": [
+                    "of Magma"
+                  ],
+                  "affixTier": 2,
+                  "lines": [
+                    {
+                      "statTemplate": "\u002B(36\u201340)% to Fire Resistance",
+                      "minRoll": 36,
+                      "minRolls": [
+                        36
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of the Lightning",
+                  "selectedAffixNames": [
+                    "of the Lightning"
+                  ],
+                  "affixTier": 2,
+                  "lines": [
+                    {
+                      "statTemplate": "\u002B(36\u201340)% to Lightning Resistance",
+                      "minRoll": 36,
+                      "minRolls": [
+                        36
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "whole": null
+          }
+        ]
+      }
+    ]
+  }
+}

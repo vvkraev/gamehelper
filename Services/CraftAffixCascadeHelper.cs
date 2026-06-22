@@ -114,7 +114,8 @@ public static class CraftAffixCascadeHelper
             return new List<string>();
 
         return entries
-            .Where(e => e.ItemClasses.Any(c => string.Equals(c, itemClass, StringComparison.Ordinal)))
+            .Where(e => e.ItemClasses.Any(c => string.Equals(c, itemClass, StringComparison.Ordinal))
+                     && !e.AffixType.StartsWith("Desecrated", StringComparison.OrdinalIgnoreCase))
             .Select(e => e.AffixType)
             .Distinct(StringComparer.Ordinal)
             .OrderBy(x => x, StringComparer.Ordinal)
@@ -352,6 +353,77 @@ public static class CraftAffixCascadeHelper
         }
 
         return names.OrderBy(x => x, StringComparer.Ordinal).ToList();
+    }
+
+    /// <summary>Имена аффиксов для всех тиров от 1 до <paramref name="maxTier"/> включительно (для режима «тир и лучше»).</summary>
+    public static List<string> GetAffixNamesUpToTier(
+        string itemClass,
+        string affixType,
+        string statTemplate,
+        int maxTier,
+        IReadOnlyList<AffixLibraryEntry> entries)
+    {
+        var names = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var e in entries)
+        {
+            if (!e.ItemClasses.Any(c => string.Equals(c, itemClass, StringComparison.Ordinal)))
+                continue;
+            if (!string.Equals(e.AffixType, affixType, StringComparison.Ordinal))
+                continue;
+            if (e.AffixTier > maxTier)
+                continue;
+            if (FindStatIndexInEntry(e, statTemplate) < 0)
+                continue;
+            names.Add(e.AffixName.Trim());
+        }
+
+        return names.OrderBy(x => x, StringComparer.Ordinal).ToList();
+    }
+
+    /// <summary>
+    /// Объединённый диапазон перекатов по именам аффиксов без фильтрации по тиру:
+    /// тир определяется из библиотеки по имени (в PoE2 имя однозначно задаёт тир).
+    /// </summary>
+    public static (double Min, double Max) GetUnionRollBoundsForNamesStat(
+        string itemClass,
+        string affixType,
+        string statTemplate,
+        IEnumerable<string> affixNames,
+        IReadOnlyList<AffixLibraryEntry> entries)
+    {
+        var any = false;
+        var gMin = 0.0;
+        var gMax = 0.0;
+        var foundMatch = false;
+        foreach (var rawName in affixNames)
+        {
+            var name = (rawName ?? "").Trim();
+            if (name.Length == 0)
+                continue;
+            foreach (var e in entries)
+            {
+                if (!e.ItemClasses.Any(c => string.Equals(c, itemClass, StringComparison.Ordinal)))
+                    continue;
+                if (!string.Equals(e.AffixType, affixType, StringComparison.Ordinal))
+                    continue;
+                if (!string.Equals(e.AffixName.Trim(), name, StringComparison.Ordinal))
+                    continue;
+                var si = FindStatIndexInEntry(e, statTemplate);
+                if (si < 0)
+                    continue;
+                foundMatch = true;
+                var r = si < e.AffixRanges.Count ? e.AffixRanges[si] : null;
+                if (string.IsNullOrEmpty(r) && si < e.AffixStats.Count)
+                    r = e.AffixStats[si];
+                AccumulateNumericBoundsFromRangeString(r, ref any, ref gMin, ref gMax);
+            }
+        }
+
+        if (!any)
+            return foundMatch ? (1.0, 1.0) : (0.0, 100.0);
+        if (gMin > gMax)
+            (gMin, gMax) = (gMax, gMin);
+        return (gMin, gMax);
     }
 
     /// <summary>Одинаковый набор affixStats (порядок и строки) — для мультивыбора имён в целом модификаторе.</summary>

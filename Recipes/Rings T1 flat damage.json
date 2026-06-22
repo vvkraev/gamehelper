@@ -1,0 +1,77 @@
+{
+  "name": "Rings T1 flat damage",
+  "savedAt": "2026-06-18T20:41:45.0287312+03:00",
+  "craftMode": "\u0425\u0430\u043E\u0441",
+  "plan": {
+    "expectedItemClass": "Rings",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "count",
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 1,
+              "members": [
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Entombing",
+                  "selectedAffixNames": [
+                    "Entombing"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "Adds # to # Cold damage to Attacks",
+                  "minRoll": 27,
+                  "minRolls": [
+                    27
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Cremating",
+                  "selectedAffixNames": [
+                    "Cremating"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "Adds # to # Fire damage to Attacks",
+                  "minRoll": 25,
+                  "minRolls": [
+                    25
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Electrocuting",
+                  "selectedAffixNames": [
+                    "Electrocuting"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "Adds # to # Lightning damage to Attacks",
+                  "minRoll": 12,
+                  "minRolls": [
+                    12
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Flaring",
+                  "selectedAffixNames": [
+                    "Flaring"
+                  ],
+                  "affixTier": 1,
+                  "statTemplate": "Adds # to # Physical Damage to Attacks",
+                  "minRoll": 12,
+                  "minRolls": [
+                    12
+                  ]
+                }
+              ]
+            },
+            "whole": null
+          }
+        ]
+      }
+    ]
+  }
+}

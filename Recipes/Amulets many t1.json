@@ -73,7 +73,7 @@
                     "of Unmaking"
                   ],
                   "affixTier": 1,
-                  "statTemplate": "#% increased Critical Hit Chance",
+                  "statTemplate": "% increased Critical Hit Chance",
                   "minRoll": 35,
                   "minRolls": [
                     35
@@ -125,7 +125,7 @@
                     "Confident"
                   ],
                   "affixTier": 1,
-                  "statTemplate": "#% increased maximum Life",
+                  "statTemplate": "% increased maximum Life",
                   "minRoll": 7,
                   "minRolls": [
                     7

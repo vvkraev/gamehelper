@@ -29,7 +29,7 @@
               "affixType": "Prefix Modifier",
               "affixName": "",
               "affixTier": 0,
-              "statTemplate": "Adds X to Y Physical Damage",
+              "statTemplate": "Adds # to # Physical Damage",
               "minRoll": 0,
               "minRolls": [
                 37,

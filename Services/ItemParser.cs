@@ -393,7 +393,7 @@ public static class ItemParser
     /// Перекат и тир: целые или дробные, напр. <c>85(75-89)</c>, <c>+4.47(4.41-5)</c>, <c>10(1-13)</c>.
     /// </summary>
     private static readonly Regex RollWithTierRange = new(
-        @"(\+?\d+(?:\.\d+)?)\(([\d.]+)-([\d.]+)\)",
+        @"(\+?\d+(?:\.\d+)?)\(([\d.]+)[–\-]([\d.]+)\)",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
     /// <summary>Ведущее число со знаком (целое или дробное), без скобок тира: <c>+4 to …</c>, <c>+4.5 …</c>.</summary>
@@ -424,7 +424,9 @@ public static class ItemParser
                 var rest = raw.Substring(flat.Index + flat.Length).TrimStart();
                 var statText = rest;
                 if (sign == "+")
-                    statText = "+ " + rest;
+                    statText = rest.StartsWith("%", StringComparison.Ordinal)
+                        ? "+" + rest           // "+% to Cold Resistance"
+                        : "+ " + rest;         // "+ to Spirit"
                 else if (sign == "-")
                     statText = "- " + rest;
 
@@ -458,12 +460,17 @@ public static class ItemParser
             if (string.IsNullOrEmpty(before))
             {
                 statText = after;
-                if (raw.StartsWith("+", StringComparison.Ordinal) && !after.StartsWith("%", StringComparison.Ordinal))
-                    statText = "+ " + after.TrimStart();
+                if (raw.StartsWith("+", StringComparison.Ordinal))
+                    statText = after.StartsWith("%", StringComparison.Ordinal)
+                        ? "+" + after          // "+% to Cold Resistance" — знак слипается с %
+                        : "+ " + after.TrimStart(); // "+ to Spirit" — пробел перед текстом
             }
             else
             {
-                statText = before + " " + after;
+                // "+N(min-max)% to ..." → before="+", after="% to ..." — не вставлять пробел,
+                // чтобы statText совпал с шаблоном "+#% to ..." после удаления '#'.
+                var sep = before == "+" && after.StartsWith("%", StringComparison.Ordinal) ? "" : " ";
+                statText = before + sep + after;
             }
 
             return new AffixEffectLine

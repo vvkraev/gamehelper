@@ -34,7 +34,7 @@
                     "of Celebration"
                   ],
                   "affixTier": 1,
-                  "statTemplate": "#% increased Attack Speed",
+                  "statTemplate": "% increased Attack Speed",
                   "minRoll": 26,
                   "minRolls": [
                     26

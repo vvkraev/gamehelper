@@ -25,6 +25,16 @@ public static class ParsedItemCraftEvaluator
         @"^\d+(?:\([^)]*\))?\s*(?=%)",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
+    /// «+(36–40)% to …» → «+% to …» (библиотека хранит диапазон вплотную к знаку %).
+    private static readonly Regex LeadingPlusRangeBeforePercent = new(
+        @"^\+(?:\d+(?:\.\d+)?|\([^)]+\))(?=%)",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
+    /// «(101–110)% increased …» → «% increased …» (стат без знака + с диапазоном перед %).
+    private static readonly Regex LeadingParenRangeBeforePercent = new(
+        @"^\([^)]+\)(?=%)",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
     /// <summary>
     /// Одиночные буквенные плейсхолдеры, которые ItemParser подставляет вместо перекатов в мультиролл-строках:
     /// «Adds X to Y Cold damage» — X и Y заменяют числа 22 и 34. Плейсхолдеры: X Y Z W V U T S R Q P O N M L K.
@@ -70,7 +80,15 @@ public static class ParsedItemCraftEvaluator
         var afterPlus = LeadingPlusRollPrefix.Replace(t, "+ ");
         if (!string.Equals(afterPlus, t, StringComparison.Ordinal))
             return afterPlus.TrimStart();
-        return LeadingPercentRollPrefix.Replace(t, "").TrimStart();
+        var afterPercent = LeadingPercentRollPrefix.Replace(t, "").TrimStart();
+        if (!string.Equals(afterPercent, t, StringComparison.Ordinal))
+            return afterPercent;
+        // «+(36–40)% to X» → «+% to X»
+        var afterPlusRange = LeadingPlusRangeBeforePercent.Replace(t, "+");
+        if (!string.Equals(afterPlusRange, t, StringComparison.Ordinal))
+            return afterPlusRange;
+        // «(101–110)% increased X» → «% increased X»
+        return LeadingParenRangeBeforePercent.Replace(t, "").TrimStart();
     }
 
     /// <summary>
@@ -106,6 +124,15 @@ public static class ParsedItemCraftEvaluator
                 bNoHash = bNoHash.Replace("  ", " ", StringComparison.Ordinal);
             if (bNoHash.Length > 0 && string.Equals(aNoRoll, bNoHash, StringComparison.Ordinal))
                 return true;
+
+            // Stat вида "+N(range)%" теряет знак в StatText (aNoRoll = "% to X"),
+            // шаблон хранит его (bNoHash = "+% to X"). Пробуем сравнение без ведущего знака из шаблона.
+            if (bNoHash.Length > 1 && (bNoHash[0] == '+' || bNoHash[0] == '-'))
+            {
+                var bStripped = bNoHash[1..];
+                if (string.Equals(aNoRoll, bStripped, StringComparison.Ordinal))
+                    return true;
+            }
 
             // Мультиролл-стат: ItemParser ставит буквенные плейсхолдеры x/y/z (после нормализации),
             // рецепт хранит '#'. Убираем буквы-плейсхолдеры из a и сравниваем с bNoHash.
@@ -487,6 +514,75 @@ public static class ParsedItemCraftEvaluator
 
     private static string FormatMin(double v) =>
         v == Math.Truncate(v) ? ((long)v).ToString(CultureInfo.InvariantCulture) : v.ToString(CultureInfo.InvariantCulture);
+
+    /// <summary>
+    /// Ищет на предмете аффикс того же семейства статов (те же шаблоны, нормализованные до #),
+    /// но с тиром ЛУЧШЕ (меньший номер) чем <paramref name="conditionTier"/>,
+    /// и проверяет, удовлетворяет ли он порогам из <paramref name="lines"/>.
+    /// </summary>
+    public static bool TryMatchBetterTierSameFamily(
+        ParsedItem item,
+        string expectedItemClass,
+        string affixType,
+        int conditionTier,
+        IReadOnlyList<CraftWholeModifierLine> lines,
+        AffixLibraryEntry familyRef,
+        IReadOnlyList<AffixLibraryEntry> lib,
+        out string detail)
+    {
+        detail = "";
+        foreach (var itemAffix in item.Affixes)
+        {
+            if (!string.Equals(itemAffix.Type, affixType, StringComparison.Ordinal))
+                continue;
+            var libEntry = AffixCraftPatternBuilder.FindEntryByNameTypeAnyTier(
+                lib, expectedItemClass, affixType, itemAffix.Name);
+            if (libEntry is null)
+                continue;
+            if (libEntry.AffixTier >= conditionTier)
+                continue;
+            if (libEntry.AffixStats.Count != familyRef.AffixStats.Count)
+                continue;
+            var sameFam = true;
+            for (var i = 0; i < familyRef.AffixStats.Count; i++)
+            {
+                var n1 = CraftAffixCascadeHelper.NormalizeStatToTemplate(familyRef.AffixStats[i]);
+                var n2 = CraftAffixCascadeHelper.NormalizeStatToTemplate(libEntry.AffixStats[i]);
+                if (!string.Equals(n1, n2, StringComparison.OrdinalIgnoreCase))
+                {
+                    sameFam = false;
+                    break;
+                }
+            }
+            if (!sameFam)
+                continue;
+            var allMatch = true;
+            foreach (var line in lines)
+            {
+                var idx = CraftAffixCascadeHelper.FindStatIndexInEntry(libEntry, line.StatTemplate);
+                if (idx < 0) { allMatch = false; break; }
+                var slots = CraftAffixCascadeHelper.GetRollSlotCountForEntryStat(libEntry, idx);
+                line.EnsureMinRollsSize(slots);
+                var mins = line.GetEffectiveMinRolls(slots).ToList();
+                if (!TryGetRollValuesForNamedAffix(
+                        item, expectedItemClass, affixType, itemAffix.Name,
+                        libEntry.AffixTier, line.StatTemplate, slots, out var actual, out _))
+                {
+                    allMatch = false; break;
+                }
+                if (!RollVectorMeetsMins(actual, mins, out _))
+                {
+                    allMatch = false; break;
+                }
+            }
+            if (allMatch)
+            {
+                detail = $"лучший тир T{libEntry.AffixTier} «{itemAffix.Name}» удовлетворяет всем строкам семейства (условие T{conditionTier}).";
+                return true;
+            }
+        }
+        return false;
+    }
 
     /// <summary>Все строки целого модификатора на одном аффиксе удовлетворяют порогам. Имя: <paramref name="affixNameOverride"/> или <see cref="CraftWholeModifierAffixData.AffixName"/>.</summary>
     public static bool TryEvaluateWholeModifierAffix(

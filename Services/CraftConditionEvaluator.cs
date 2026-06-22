@@ -38,11 +38,11 @@ public static class CraftConditionEvaluator
                 cIndex++;
                 if (c.Kind == CraftClauseKind.Single)
                 {
-                    if (c.Single is null ||
-                        string.IsNullOrWhiteSpace(c.Single.AffixType) ||
-                        string.IsNullOrWhiteSpace(c.Single.StatTemplate))
+                    c.Single?.EnsureLinesFromLegacy();
+                    if (c.Single is null || string.IsNullOrWhiteSpace(c.Single.AffixType) ||
+                        (c.Single.Lines.Count == 0 && string.IsNullOrWhiteSpace(c.Single.StatTemplate)))
                     {
-                        error = $"В варианте {altIndex}, клоз {cIndex}: выберите тип модификатора и строку стата.";
+                        error = $"В варианте {altIndex}, клоз {cIndex}: выберите тип модификатора и семейство стата.";
                         return false;
                     }
 
@@ -50,7 +50,7 @@ public static class CraftConditionEvaluator
                     if (sn.Count == 0)
                     {
                         error =
-                            $"В варианте {altIndex}, клоз {cIndex}: выберите хотя бы одно имя аффикса (список имён после строки стата).";
+                            $"В варианте {altIndex}, клоз {cIndex}: выберите хотя бы одно имя аффикса.";
                         return false;
                     }
 
@@ -61,6 +61,9 @@ public static class CraftConditionEvaluator
                     }
 
                     var libV = AffixLibrary.GetEntries();
+                    var statsToCheck = c.Single.Lines.Count > 0
+                        ? c.Single.Lines.Select(l => l.StatTemplate).ToList()
+                        : new List<string> { c.Single.StatTemplate };
                     foreach (var nm in sn)
                     {
                         var ent = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
@@ -76,11 +79,14 @@ public static class CraftConditionEvaluator
                             return false;
                         }
 
-                        if (CraftAffixCascadeHelper.FindStatIndexInEntry(ent, c.Single.StatTemplate) < 0)
+                        foreach (var st in statsToCheck)
                         {
-                            error =
-                                $"В варианте {altIndex}, клоз {cIndex}: строка стата не входит в «{nm}» (T{c.Single.AffixTier}).";
-                            return false;
+                            if (CraftAffixCascadeHelper.FindStatIndexInEntry(ent, st) < 0)
+                            {
+                                error =
+                                    $"В варианте {altIndex}, клоз {cIndex}: строка стата «{st}» не входит в «{nm}» (T{c.Single.AffixTier}).";
+                                return false;
+                            }
                         }
                     }
                 }
@@ -105,7 +111,7 @@ public static class CraftConditionEvaluator
                 {
                     if (c.Count is null || c.Count.Members.Count == 0)
                     {
-                        error = $"В варианте {altIndex}, клоз {cIndex}: в наборе COUNT добавьте хотя бы одну строку.";
+                        error = $"В варианте {altIndex}, клоз {cIndex}: в наборе COUNT добавьте хотя бы один аффикс.";
                         return false;
                     }
 
@@ -120,40 +126,37 @@ public static class CraftConditionEvaluator
                     for (var mi = 0; mi < c.Count.Members.Count; mi++)
                     {
                         var m = c.Count.Members[mi];
-                        if (string.IsNullOrWhiteSpace(m.AffixType) || string.IsNullOrWhiteSpace(m.StatTemplate))
+                        if (string.IsNullOrWhiteSpace(m.AffixType))
                         {
-                            error =
-                                $"В варианте {altIndex}, клоз {cIndex}, строка {mi + 1} набора: укажите тип и стата.";
+                            error = $"В варианте {altIndex}, клоз {cIndex}, аффикс {mi + 1}: укажите тип модификатора.";
                             return false;
                         }
 
-                        if (m.EffectiveAffixNames().Count == 0)
+                        if (m.EffectiveWholeAffixNames().Count == 0)
                         {
-                            error =
-                                $"В варианте {altIndex}, клоз {cIndex}, строка {mi + 1}: выберите хотя бы одно имя аффикса.";
+                            error = $"В варианте {altIndex}, клоз {cIndex}, аффикс {mi + 1}: выберите хотя бы одно имя аффикса.";
                             return false;
                         }
 
                         if (m.AffixTier < 1)
                         {
-                            error =
-                                $"В варианте {altIndex}, клоз {cIndex}, строка {mi + 1}: выберите тир аффикса.";
+                            error = $"В варианте {altIndex}, клоз {cIndex}, аффикс {mi + 1}: выберите тир аффикса.";
                             return false;
                         }
 
-                        var libV = AffixLibrary.GetEntries();
-                        var (_, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForSingleStat(
-                            plan.ExpectedItemClass,
-                            m.AffixType,
-                            m.StatTemplate,
-                            m.EffectiveAffixNames(),
-                            m.AffixTier,
-                            libV);
-                        if (m.MinRoll > hi)
+                        if (m.Lines.Count == 0)
                         {
-                            error =
-                                $"В варианте {altIndex}, клоз {cIndex}, строка {mi + 1} («{m.AffixName}»): порог {FormatNum(m.MinRoll)} выше максимума по библиотеке ({FormatNum(hi)}).";
+                            error = $"В варианте {altIndex}, клоз {cIndex}, аффикс {mi + 1}: добавьте хотя бы одну строку стата.";
                             return false;
+                        }
+
+                        for (var li = 0; li < m.Lines.Count; li++)
+                        {
+                            if (string.IsNullOrWhiteSpace(m.Lines[li].StatTemplate))
+                            {
+                                error = $"В варианте {altIndex}, клоз {cIndex}, аффикс {mi + 1}, строка {li + 1}: пустая строка стата.";
+                                return false;
+                            }
                         }
                     }
                 }
@@ -312,13 +315,18 @@ public static class CraftConditionEvaluator
                     return false;
 
                 var s = clause.Single;
-                var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(
-                    expectedItemClass,
-                    s.AffixType,
-                    s.StatTemplate,
-                    lib);
-                var mins = s.GetEffectiveMinRolls(slots);
-                sb.Append($"[{s.AffixType}]≥{string.Join("/", mins.Select(FormatNum))}; ");
+                if (s.Lines.Count > 0)
+                {
+                    var minsStr = string.Join(", ", s.Lines.Select(l =>
+                        $"{l.StatTemplate.Split(' ').FirstOrDefault() ?? "?"}≥{string.Join("/", l.GetEffectiveMinRolls(1).Select(FormatNum))}"));
+                    sb.Append($"[{s.AffixType}]({minsStr}); ");
+                }
+                else
+                {
+                    var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(expectedItemClass, s.AffixType, s.StatTemplate, lib);
+                    var mins = s.GetEffectiveMinRolls(slots);
+                    sb.Append($"[{s.AffixType}]≥{string.Join("/", mins.Select(FormatNum))}; ");
+                }
             }
             else if (clause.Kind == CraftClauseKind.Sum)
             {
@@ -441,11 +449,42 @@ public static class CraftConditionEvaluator
         var matched = 0;
         foreach (var m in cnt.Members)
         {
-            if (TryMatchSingleAffix(m, item, expectedItemClass, lib, out _))
+            if (TryMatchCountMember(m, item, expectedItemClass, lib, out _))
                 matched++;
         }
 
         return matched;
+    }
+
+    private static bool TryMatchCountMember(
+        CraftWholeModifierAffixData m,
+        ParsedItem item,
+        string expectedItemClass,
+        IReadOnlyList<AffixLibraryEntry> lib,
+        out string detail)
+    {
+        detail = "";
+        if (m.Lines.Count == 0)
+        {
+            detail = "Нет строк стата для этого аффикса.";
+            return false;
+        }
+
+        var names = m.EffectiveWholeAffixNames();
+        if (names.Count == 0)
+        {
+            detail = "Не выбраны имена аффикса.";
+            return false;
+        }
+
+        foreach (var nm in names)
+        {
+            if (ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(m, item, expectedItemClass, lib, out _, nm))
+                return true;
+        }
+
+        ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(m, item, expectedItemClass, lib, out detail, names[0]);
+        return false;
     }
 
     private static bool TryEvaluateCountClause(
@@ -464,7 +503,7 @@ public static class CraftConditionEvaluator
         foreach (var m in cnt.Members)
         {
             var label = FormatCountMemberLabel(m);
-            if (TryMatchSingleAffix(m, item, expectedItemClass, lib, out var fail))
+            if (TryMatchCountMember(m, item, expectedItemClass, lib, out var fail))
                 parts.Add($"{label}: OK");
             else
                 parts.Add($"{label}: {fail}");
@@ -476,12 +515,12 @@ public static class CraftConditionEvaluator
         return false;
     }
 
-    private static string FormatCountMemberLabel(CraftSingleAffixData m)
+    private static string FormatCountMemberLabel(CraftWholeModifierAffixData m)
     {
-        var nm = string.Join("|", m.EffectiveAffixNames());
+        var nm = string.Join("|", m.EffectiveWholeAffixNames());
         if (nm.Length > 24)
             nm = nm[..21] + "…";
-        return $"«{nm}» T{m.AffixTier}";
+        return $"«{nm}» T{m.AffixTier} ({m.Lines.Count}стр.)";
     }
 
     private static bool TryMatchSingleAffix(
@@ -492,10 +531,11 @@ public static class CraftConditionEvaluator
         out string detail)
     {
         detail = "";
+        s.EnsureLinesFromLegacy();
+
         if (!ParsedItemCraftEvaluator.ItemClassMatches(item, expectedItemClass))
         {
-            detail =
-                $"Класс предмета в буфере: «{item.ItemClass}», ожидался «{expectedItemClass}».";
+            detail = $"Класс предмета в буфере: «{item.ItemClass}», ожидался «{expectedItemClass}».";
             return false;
         }
 
@@ -506,16 +546,91 @@ public static class CraftConditionEvaluator
             return false;
         }
 
+        // Multi-line mode: all Lines must match (AND), at least one name must satisfy (OR)
+        if (s.Lines.Count > 0)
+        {
+            string? firstFailDetail = null;
+            foreach (var name in names)
+            {
+                var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
+                    lib, expectedItemClass, s.AffixType, name, s.AffixTier)
+                    ?? AffixCraftPatternBuilder.FindEntryByNameTypeAnyTier(lib, expectedItemClass, s.AffixType, name);
+                if (entry is null)
+                    continue;
+
+                var allLinesMatch = true;
+                var lineFailDetail = "";
+                foreach (var line in s.Lines)
+                {
+                    var idx = CraftAffixCascadeHelper.FindStatIndexInEntry(entry, line.StatTemplate);
+                    if (idx < 0)
+                    {
+                        allLinesMatch = false;
+                        lineFailDetail = $"строка «{line.StatTemplate}» не найдена в записи «{name}».";
+                        break;
+                    }
+
+                    var slots = CraftAffixCascadeHelper.GetRollSlotCountForEntryStat(entry, idx);
+                    line.EnsureMinRollsSize(slots);
+                    var mins = line.GetEffectiveMinRolls(slots).ToList();
+
+                    if (!ParsedItemCraftEvaluator.TryGetRollValuesForNamedAffix(
+                            item, expectedItemClass, s.AffixType, name, entry.AffixTier,
+                            line.StatTemplate, slots, out var actual, out var expl))
+                    {
+                        allLinesMatch = false;
+                        lineFailDetail = string.IsNullOrEmpty(expl)
+                            ? $"нет аффикса «{name}» со строкой «{line.StatTemplate}»."
+                            : expl;
+                        break;
+                    }
+
+                    if (!ParsedItemCraftEvaluator.RollVectorMeetsMins(actual, mins, out _))
+                    {
+                        allLinesMatch = false;
+                        lineFailDetail =
+                            $"«{name}» строка «{line.StatTemplate}»: [{string.Join(", ", actual.Select(FormatNum))}] < [{string.Join(", ", mins.Select(FormatNum))}].";
+                        break;
+                    }
+                }
+
+                if (allLinesMatch)
+                    return true;
+
+                firstFailDetail ??= lineFailDetail;
+            }
+
+            // Variant 3: check for better tier of the same stat family on the item
+            if (s.AffixTier > 1)
+            {
+                var familyRef = names
+                    .Select(n => AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
+                                     lib, expectedItemClass, s.AffixType, n, s.AffixTier)
+                                 ?? AffixCraftPatternBuilder.FindEntryByNameTypeAnyTier(lib, expectedItemClass, s.AffixType, n))
+                    .FirstOrDefault(e => e is not null);
+                if (familyRef is not null &&
+                    ParsedItemCraftEvaluator.TryMatchBetterTierSameFamily(
+                        item, expectedItemClass, s.AffixType, s.AffixTier, s.Lines, familyRef, lib, out var betterDetail))
+                {
+                    detail = betterDetail;
+                    return true;
+                }
+            }
+
+            detail = firstFailDetail is not null
+                ? $"Ни одно имя не удовлетворяет всем строкам семейства. Пример: {firstFailDetail}"
+                : $"На предмете нет ни одного из выбранных аффиксов ({string.Join(", ", names)}).";
+            return false;
+        }
+
+        // Legacy single-stat fallback
         List<double>? firstActual = null;
         List<double>? firstMins = null;
         foreach (var name in names)
         {
             var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
-                lib,
-                expectedItemClass,
-                s.AffixType,
-                name,
-                s.AffixTier);
+                lib, expectedItemClass, s.AffixType, name, s.AffixTier)
+                ?? AffixCraftPatternBuilder.FindEntryByNameTypeAnyTier(lib, expectedItemClass, s.AffixType, name);
             if (entry is null)
                 continue;
             var si = CraftAffixCascadeHelper.FindStatIndexInEntry(entry, s.StatTemplate);
@@ -525,15 +640,8 @@ public static class CraftConditionEvaluator
             s.EnsureMinRollsSize(slots);
             var mins = s.GetEffectiveMinRolls(slots).ToList();
             if (!ParsedItemCraftEvaluator.TryGetRollValuesForNamedAffix(
-                    item,
-                    expectedItemClass,
-                    s.AffixType,
-                    name,
-                    s.AffixTier,
-                    s.StatTemplate,
-                    slots,
-                    out var actual,
-                    out _))
+                    item, expectedItemClass, s.AffixType, name, entry.AffixTier,
+                    s.StatTemplate, slots, out var actual, out _))
                 continue;
             if (actual.Count != mins.Count)
                 continue;
@@ -546,7 +654,7 @@ public static class CraftConditionEvaluator
         if (firstActual is null)
         {
             detail =
-                $"На предмете нет ни одного из выбранных аффиксов ({string.Join(", ", names)}) с тиром T{s.AffixTier} и строкой «{s.StatTemplate}».";
+                $"На предмете нет ни одного из выбранных аффиксов ({string.Join(", ", names)}) со строкой «{s.StatTemplate}».";
             return false;
         }
 
@@ -586,36 +694,44 @@ public static class CraftConditionEvaluator
                 first = false;
                 if (c.Kind == CraftClauseKind.Single && c.Single is { } s)
                 {
-                    var st = s.StatTemplate.Length > 28 ? s.StatTemplate[..25] + "…" : s.StatTemplate;
-                    var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(
-                        plan.ExpectedItemClass,
-                        s.AffixType,
-                        s.StatTemplate,
-                        lib);
-                    var mins = s.GetEffectiveMinRolls(slots);
-                    var minStr = string.Join(", ", mins.Select(FormatNum));
+                    s.EnsureLinesFromLegacy();
                     var nm = string.Join("|", s.EffectiveAffixNames());
                     if (nm.Length > 40)
                         nm = nm[..37] + "…";
-                    sb.Append($"{s.AffixType} «{nm}» T{s.AffixTier}: {st}≥{minStr}");
+                    string statDesc;
+                    if (s.Lines.Count > 0)
+                    {
+                        statDesc = string.Join(" / ", s.Lines.Select(l =>
+                        {
+                            var st = l.StatTemplate.Length > 22 ? l.StatTemplate[..19] + "…" : l.StatTemplate;
+                            var m = FormatNum(l.GetEffectiveMinRolls(1)[0]);
+                            return $"{st}≥{m}";
+                        }));
+                    }
+                    else
+                    {
+                        var st = s.StatTemplate.Length > 28 ? s.StatTemplate[..25] + "…" : s.StatTemplate;
+                        var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(plan.ExpectedItemClass, s.AffixType, s.StatTemplate, lib);
+                        var minStr = string.Join(", ", s.GetEffectiveMinRolls(slots).Select(FormatNum));
+                        statDesc = $"{st}≥{minStr}";
+                    }
+                    sb.Append($"{s.AffixType} «{nm}» T{s.AffixTier}: {statDesc}");
                 }
                 else if (c.Kind == CraftClauseKind.Sum && c.Sum is { } m)
                     sb.Append($"Σ≥{FormatNum(m.MinSum)}");
                 else if (c.Kind == CraftClauseKind.Count && c.Count is { } k)
                 {
-                    sb.Append($"COUNT≥{k.MinMatchCount}/{k.Members.Count}стр.");
+                    sb.Append($"COUNT≥{k.MinMatchCount}/{k.Members.Count}аф.");
                     if (k.Members.Count > 0)
                     {
-                        var rolls = k.Members
+                        var names = k.Members
                             .Select(m =>
                             {
-                                var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(
-                                    plan.ExpectedItemClass, m.AffixType, m.StatTemplate, lib);
-                                var mins = m.GetEffectiveMinRolls(slots);
-                                return mins.Count > 0 ? FormatNum(mins[0]) : "?";
+                                var nm = string.Join("|", m.EffectiveWholeAffixNames());
+                                return nm.Length > 16 ? nm[..13] + "…" : nm;
                             })
                             .ToList();
-                        sb.Append($" [пороги ≥{string.Join("/", rolls)}]");
+                        sb.Append($" [{string.Join(", ", names)}]");
                     }
                 }
                 else if (c.Kind == CraftClauseKind.WholeModifier && c.Whole is { } w)

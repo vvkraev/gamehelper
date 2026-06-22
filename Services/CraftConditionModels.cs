@@ -54,10 +54,15 @@ public sealed class CraftSingleAffixData
     public string AffixType { get; set; } = "";
     public string AffixName { get; set; } = "";
 
-    /// <summary>Имена из библиотеки для выбранной строки стата; при пустом списке используется <see cref="AffixName"/>.</summary>
+    /// <summary>Имена из библиотеки для выбранного семейства; при пустом списке используется <see cref="AffixName"/>.</summary>
     public List<string> SelectedAffixNames { get; set; } = new();
 
     public int AffixTier { get; set; }
+
+    /// <summary>Строки стата семейства с порогами (новый формат, как в WholeModifier).</summary>
+    public List<CraftWholeModifierLine> Lines { get; set; } = new();
+
+    /// <summary>Устаревшее поле — оставлено для совместимости при загрузке старых рецептов.</summary>
     public string StatTemplate { get; set; } = "";
 
     /// <summary>Имена для сопоставления с предметом (мультивыбор ИЛИ одно устаревшее поле).</summary>
@@ -70,10 +75,24 @@ public sealed class CraftSingleAffixData
         return Array.Empty<string>();
     }
 
-    /// <summary>Устаревшее одно поле; если <see cref="MinRolls"/> пусто, порог дублируется на каждый слот переката.</summary>
+    /// <summary>Если <see cref="Lines"/> пуст, но задан устаревший <see cref="StatTemplate"/> — создаёт одну строку для совместимости.</summary>
+    public void EnsureLinesFromLegacy()
+    {
+        if (Lines.Count == 0 && !string.IsNullOrEmpty(StatTemplate))
+        {
+            var line = new CraftWholeModifierLine { StatTemplate = StatTemplate, MinRoll = MinRoll };
+            if (MinRolls.Count > 0)
+                line.MinRolls = MinRolls.ToList();
+            else
+                line.EnsureMinRollsSize(1);
+            Lines.Add(line);
+        }
+    }
+
+    /// <summary>Устаревшее поле MinRoll — сохранено для чтения старых файлов.</summary>
     public double MinRoll { get; set; }
 
-    /// <summary>Пороги по переменным стата в порядке X, Y, … (длина должна совпадать с числом перекатов в библиотеке для этой строки).</summary>
+    /// <summary>Устаревшее поле MinRolls — сохранено для чтения старых файлов.</summary>
     public List<double> MinRolls { get; set; } = new();
 
     /// <summary>Минимумы для каждого слота; при пустом <see cref="MinRolls"/> используется <see cref="MinRoll"/> для всех слотов.</summary>
@@ -112,6 +131,7 @@ public sealed class CraftSingleAffixData
         while (MinRolls.Count > slotCount)
             MinRolls.RemoveAt(MinRolls.Count - 1);
     }
+
 }
 
 /// <summary>Целый модификатор из affix_library: имя и тир задают запись; пороги по каждой строке стата.</summary>
@@ -190,15 +210,15 @@ public sealed class CraftSumAffixData
 }
 
 /// <summary>
-/// Набор условий по строкам стата (как у одиночного аффикса). Успех клоза: не менее
-/// <see cref="MinMatchCount"/> строк из <see cref="Members"/> выполняется на предмете одновременно.
+/// Набор аффиксов. Успех клоза: не менее <see cref="MinMatchCount"/> членов из <see cref="Members"/>
+/// найдено на предмете (каждый член — целый аффикс из библиотеки со всеми строками стата).
 /// </summary>
 public sealed class CraftCountAffixData
 {
-    /// <summary>Минимум выполненных строк набора (от 1 до числа членов).</summary>
+    /// <summary>Минимум выполненных членов набора (от 1 до числа членов).</summary>
     public int MinMatchCount { get; set; } = 1;
 
-    public List<CraftSingleAffixData> Members { get; set; } = new();
+    public List<CraftWholeModifierAffixData> Members { get; set; } = new();
 }
 
 public sealed class CraftAffixRef

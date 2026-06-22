@@ -1,0 +1,119 @@
+{
+  "description": "Статистика шансинга irradiated tablets + анализ прибыльности. Используется для расчёта EV и реализации функции автошансинга. Лига Runes of Aldur.",
+  "chancing_data": {
+    "date": "2026-06-19",
+    "input_base": "Irradiated Tablet",
+    "used_omen": false,
+    "total_attempts": 150,
+    "note_non_unique": "non-unique = таблет уничтожен (не magic/rare). OoC либо даёт unique либо уничтожает предмет.",
+    "results": {
+      "mastered_domain_cheap_biome": {
+        "count": 55,
+        "note": "Mastered Domain Irradiated Tablet с дешёвыми биомами (Mountain, Grass, Swamp, Water, Desert)"
+      },
+      "mastered_domain_expensive_biome": {
+        "count": 14,
+        "note": "Mastered Domain Irradiated Tablet с дорогим биомом (Forest)"
+      },
+      "visions_of_paradise": {
+        "count": 3,
+        "note": "Visions of Paradise Irradiated Tablet"
+      },
+      "grand_project": {
+        "count": 5,
+        "note": "The Grand Project (Precursor Tablet)"
+      },
+      "item_destroyed": {
+        "count": 73,
+        "note": "Таблет уничтожен, OoC потрачен, ничего не получено"
+      }
+    },
+    "summary": {
+      "total_unique": 77,
+      "total_destroyed": 73,
+      "unique_rate_pct": 51.33
+    }
+  },
+  "currency_rates": {
+    "source": "poe.ninja",
+    "date": "2026-06-19",
+    "league": "Runes of Aldur",
+    "chaos_per_ex": 24.8,
+    "divine_per_ex": 209.1,
+    "ooc_per_ex": 9.9,
+    "omen_of_ancients_per_ex": 3.7
+  },
+  "normal_tablet_prices_ex": {
+    "source": "trade2 API instant buyout (securable), медиана по 50 листингам",
+    "date": "2026-06-19",
+    "note": "Цены Normal таблетов — вход для шансинга. Медиана по n=50 листингам.",
+    "trade_links": {
+      "Ritual Tablet":     "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/Ypg8MEDOsY",
+      "Delirium Tablet":   "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/2K5GvEGduk",
+      "Breach Tablet":     "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/gljP2q0OIQ",
+      "Temple Tablet":     "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/op4ZJwGwFl",
+      "Irradiated Tablet": "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/nr4orV7Rt0",
+      "Abyss Tablet":      "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/9zXqJ0oyCK"
+    },
+    "prices": [
+      { "base": "Delirium Tablet",   "n": 50, "median_ex": 25, "min_ex": 20, "max_ex": 25,   "note": "лучший выбор для Omen режима" },
+      { "base": "Temple Tablet",     "n": 50, "median_ex": 25, "min_ex": 25, "max_ex": 30   },
+      { "base": "Ritual Tablet",     "n": 50, "median_ex": 50, "min_ex": 50, "max_ex": 50   },
+      { "base": "Irradiated Tablet", "n": 50, "median_ex": 47, "min_ex": 40, "max_ex": 50   },
+      { "base": "Breach Tablet",     "n": 50, "median_ex": 79, "min_ex": 40, "max_ex": 80   },
+      { "base": "Abyss Tablet",      "n": 50, "median_ex": 80, "min_ex": 75, "max_ex": 80   }
+    ]
+  },
+  "ev_analysis": {
+    "mode_1_no_omen": {
+      "input_base": "Irradiated Tablet",
+      "cost_per_attempt_ex": 56.9,
+      "breakdown": "47 ex tablet (median) + 9.9 ex OoC",
+      "ev_ex": 81.2,
+      "profit_ex": 24.3,
+      "roi_pct": 42.7,
+      "note": "EV из реальной статистики n=150; unique rate 51.33%"
+    },
+    "mode_2_with_omen": {
+      "input_base": "Delirium Tablet или Temple Tablet",
+      "uses_omen_of_ancients": true,
+      "cost_per_attempt_ex": 38.6,
+      "breakdown": "25 ex tablet (median) + 9.9 ex OoC + 3.7 ex Omen",
+      "ev_ex": null,
+      "note": "EV неизвестен — cross-base пул уников (все tablet уники), нужна новая статистика. Breakeven: >= 38.6 ex. Если EV = 81.2 ex (как Режим 1): прибыль +42.6 ex, ROI 110%",
+      "breakeven_ev_ex": 38.6,
+      "all_inputs_comparison": [
+        { "base": "Delirium",   "cost": 38.6, "vs_mode1_if_same_ev": "+42.6 ex" },
+        { "base": "Temple",     "cost": 38.6, "vs_mode1_if_same_ev": "+42.6 ex" },
+        { "base": "Ritual",     "cost": 63.6, "vs_mode1_if_same_ev": "+17.6 ex" },
+        { "base": "Irradiated", "cost": 60.6, "vs_mode1_if_same_ev": "+20.6 ex" },
+        { "base": "Breach",     "cost": 92.6, "vs_mode1_if_same_ev": "-11.4 ex (убыток если EV = 81.2 ex)" },
+        { "base": "Abyss",      "cost": 93.6, "vs_mode1_if_same_ev": "-12.4 ex (убыток если EV = 81.2 ex)" }
+      ]
+    }
+  },
+  "unique_tablet_prices_ex": {
+    "source": "meetthemarket.gg 2026-06-18 + trade2 API 2026-06-19",
+    "irradiated_tablet": [
+      { "name": "Mastered Domain", "affix": "Forest",   "price_ex": 322, "note": "13 chaos, типичная цена" },
+      { "name": "Mastered Domain", "affix": "Mountain",  "price_ex": 20  },
+      { "name": "Mastered Domain", "affix": "Grass",     "price_ex": 16  },
+      { "name": "Mastered Domain", "affix": "Swamp",     "price_ex": 10  },
+      { "name": "Mastered Domain", "affix": "Water",     "price_ex": 9   },
+      { "name": "Mastered Domain", "affix": "Desert",    "price_ex": 9   },
+      { "name": "Visions of Paradise", "price_ex": 895  },
+      { "name": "Unforeseen Consequences", "price_ex": 484 },
+      { "name": "Wraeclast Besieged",      "price_ex": 73  },
+      { "name": "Freedom of Faith",        "price_ex": 60  },
+      { "name": "Cruel Hegemony",          "price_ex": 8   },
+      { "name": "Season of the Hunt",      "price_ex": 3   },
+      { "name": "Clear Skies",             "price_ex": 1   }
+    ],
+    "precursor_tablet": [
+      { "name": "The Grand Project", "price_ex": 856 }
+    ],
+    "other_tablet_uniques": {
+      "note": "Требует сбора статистики при использовании Omen of the Ancients (cross-base режим)"
+    }
+  }
+}

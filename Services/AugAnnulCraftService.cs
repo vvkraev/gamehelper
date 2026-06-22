@@ -124,6 +124,89 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
         return (wantPrefix, wantSuffix);
     }
 
+    /// <summary>Совпадает ли тип аффикса на предмете с искомым типом (prefix/suffix).</summary>
+    private static bool IsTypeMatch(string? affixType, bool isPrefix) =>
+        isPrefix
+            ? string.Equals(affixType, "Prefix Modifier", StringComparison.OrdinalIgnoreCase) ||
+              string.Equals(affixType, "Desecrated Prefix Modifier", StringComparison.OrdinalIgnoreCase)
+            : string.Equals(affixType, "Suffix Modifier", StringComparison.OrdinalIgnoreCase) ||
+              string.Equals(affixType, "Desecrated Suffix Modifier", StringComparison.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// Проверяет, является ли аффикс нужного типа (prefix/suffix) «правильным» по условию крафта.
+    /// Строит частичный план только из клозов, относящихся к данному типу, и вычисляет его против предмета.
+    /// </summary>
+    private static bool IsAffixRight(ParsedItem item, bool isPrefix, CraftConditionPlan plan)
+    {
+        foreach (var alt in plan.OrAlternatives)
+        {
+            var relevant = FilterClausesForType(alt.Clauses, isPrefix);
+            if (relevant.Count == 0)
+                continue;
+
+            var partialPlan = new CraftConditionPlan
+            {
+                ExpectedItemClass = plan.ExpectedItemClass,
+                OrAlternatives = [new CraftAndGroup { Clauses = relevant }]
+            };
+            if (CraftConditionEvaluator.TryEvaluate(partialPlan, item, out _))
+                return true;
+        }
+
+        return false;
+    }
+
+    private static List<CraftClause> FilterClausesForType(List<CraftClause> clauses, bool isPrefix)
+    {
+        var result = new List<CraftClause>();
+        foreach (var clause in clauses)
+        {
+            var filtered = FilterClauseForType(clause, isPrefix);
+            if (filtered != null)
+                result.Add(filtered);
+        }
+
+        return result;
+    }
+
+    private static CraftClause? FilterClauseForType(CraftClause clause, bool isPrefix)
+    {
+        switch (clause.Kind)
+        {
+            case CraftClauseKind.Single:
+                if (clause.Single == null)
+                    return null;
+                return IsTypeMatch(clause.Single.AffixType, isPrefix) ? clause : null;
+
+            case CraftClauseKind.WholeModifier:
+                if (clause.Whole == null)
+                    return null;
+                return IsTypeMatch(clause.Whole.AffixType, isPrefix) ? clause : null;
+
+            case CraftClauseKind.Sum:
+                // Sum может охватывать оба типа; пропускаем для упрощения
+                return null;
+
+            case CraftClauseKind.Count:
+                if (clause.Count == null)
+                    return null;
+                var matching = clause.Count.Members
+                    .Where(m => IsTypeMatch(m.AffixType, isPrefix))
+                    .ToList();
+                if (matching.Count == 0)
+                    return null;
+                // Для частичной оценки: достаточно совпадения хотя бы одного члена нужного типа
+                return new CraftClause
+                {
+                    Kind = CraftClauseKind.Count,
+                    Count = new CraftCountAffixData { Members = matching, MinMatchCount = 1 }
+                };
+
+            default:
+                return null;
+        }
+    }
+
     private async Task<string> ReadClipboardForItemAsync(ScreenRect itemArea, IProgress<string>? log, CancellationToken ct, string tag)
     {
         _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
@@ -162,6 +245,36 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
         await Task.Delay(1000, ct).ConfigureAwait(false);
         var second = await ReadClipboardForItemAsync(itemArea, log, ct, tag + " (retry)").ConfigureAwait(false);
         return second;
+    }
+
+    /// <summary>Читает предмет из буфера и парсит; возвращает null если буфер пуст.</summary>
+    private async Task<(ParsedItem? Parsed, string Clip)> ReadAndParseAsync(
+        ScreenRect itemArea, IProgress<string>? log, CancellationToken ct, string tag)
+    {
+        var clip = await ReadClipboardForItemWithRetryAsync(itemArea, log, ct, tag).ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(clip))
+            return (null, clip);
+        var parsed = ItemParser.Parse(clip);
+        if (parsed is { IsValid: true })
+            log?.Report($"  Состояние: {FormatItemSummary(parsed)}");
+        return (parsed, clip);
+    }
+
+    private static string FormatItemSummary(ParsedItem item)
+    {
+        static string AffixLabel(AffixInfo a)
+        {
+            var parts = a.EffectDetails.Count > 0
+                ? a.EffectDetails.Take(2).Select(e =>
+                    e.RolledValue != null ? $"{e.RolledValue} {e.StatText}" : e.StatText)
+                : a.Effects.Take(2).Select(e => e);
+            var effect = string.Join("; ", parts);
+            return string.IsNullOrEmpty(effect) ? $"{a.Name} T{a.Tier}" : $"{a.Name} T{a.Tier} ({effect})";
+        }
+
+        var p = string.Join(", ", item.Affixes.Where(a => IsTypeMatch(a.Type, true)).Select(AffixLabel));
+        var s = string.Join(", ", item.Affixes.Where(a => IsTypeMatch(a.Type, false)).Select(AffixLabel));
+        return $"P: {(p.Length > 0 ? p : "—")}  |  S: {(s.Length > 0 ? s : "—")}";
     }
 
     public async Task<CraftPrecheckResult> PrecheckAsync(ScreenRect itemArea, CraftConditionPlan plan, IProgress<string>? log, CancellationToken ct)
@@ -243,7 +356,7 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
         var augStepsConsumed = 0;
         var annulOnlySafety = 0;
 
-        // segmentMaxOperations/globalTotal здесь трактуются как "лимит Aug-шагов" (Annul-only не вычитает N).
+        // segmentMaxOperations трактуется как лимит Aug-шагов; Annul-only циклы не вычитают из лимита.
         while (augStepsConsumed < segmentMaxOperations)
         {
             var displayAttempt = globalAttemptOffset + (augStepsConsumed + 1);
@@ -254,46 +367,29 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
                 ct.ThrowIfCancellationRequested();
                 _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
 
-                // ВАЖНО: проверку условия делаем в начале шага, до орбов.
-                // Ctrl+Alt+C before делается только при входе в ячейку (PrecheckAsync),
-                // дальше используем актуальный ParsedItem из прошлой попытки (после Ctrl+Alt+C after).
-
                 var preMatch = CraftConditionEvaluator.TryEvaluate(plan, current, out var preExplanation);
-                craftLog?.WriteComparison(
-                    displayAttempt,
-                    globalTotal,
-                    currentClipboard,
-                    pattern,
-                    preMatch,
-                    "[проверка перед орбами] " + preExplanation);
                 log?.Report($"Проверка (попытка {displayAttempt}): {preExplanation}");
 
                 if (preMatch)
                 {
+                    craftLog?.WriteComparison(displayAttempt, globalTotal, currentClipboard, pattern, true, "[до орбов] " + preExplanation);
                     log?.Report("Условие уже выполнено — орбы не применяются, переходим к следующей ячейке.");
                     return CraftResult.Found(augStepsConsumed, currentClipboard);
                 }
 
-                var prefixCount = current.Affixes.Count(a => string.Equals(a.Type, "Prefix Modifier", StringComparison.OrdinalIgnoreCase));
-                var suffixCount = current.Affixes.Count(a => string.Equals(a.Type, "Suffix Modifier", StringComparison.OrdinalIgnoreCase));
-                var totalAffixes = prefixCount + suffixCount;
+                var prefixCount = current.Affixes.Count(a => IsTypeMatch(a.Type, isPrefix: true));
+                var suffixCount = current.Affixes.Count(a => IsTypeMatch(a.Type, isPrefix: false));
 
-                // ШАГ (N) считается только по применению Orb of Augmentation.
-                // Решение об Annul принимается ПЕРЕД Aug.
-                var didAugThisCycle = false;
                 if (singleType != null)
                 {
-                    // Если план требует только Prefix или только Suffix:
-                    // - если нужного типа СЛОТ пустой → делаем Aug (он добавит недостающий тип)
-                    // - если слот занят (на предмете уже есть Prefix/Suffix, но он "не тот") → делаем только Annul,
-                    //   чтобы освободить слот; Aug в этом цикле НЕ делаем.
+                    // Режим одного типа: Aug если слот пустой, иначе Annul чтобы освободить слот.
                     var wantPrefixSlot = string.Equals(singleType, "Prefix Modifier", StringComparison.OrdinalIgnoreCase);
                     var slotEmpty = wantPrefixSlot ? prefixCount == 0 : suffixCount == 0;
 
                     if (slotEmpty)
                     {
+                        craftLog?.WriteComparison(displayAttempt, globalTotal, currentClipboard, pattern, false, "[до Aug] " + preExplanation);
                         await ApplyOrbAsync(augOrbArea, itemArea, log, ct, "Orb of Augmentation").ConfigureAwait(false);
-                        didAugThisCycle = true;
                         augStepsConsumed++;
                         annulOnlySafety = 0;
                     }
@@ -307,51 +403,201 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
                             return CraftResult.Failed(augStepsConsumed);
                         }
                     }
+
+                    var (parsedSingle, clipSingle) = await ReadAndParseAsync(
+                        itemArea, log, ct,
+                        $"Ауг+Аннул: after, попытка {displayAttempt}/{globalTotal}").ConfigureAwait(false);
+
+                    if (parsedSingle is null)
+                        return CraftResult.Empty(augStepsConsumed);
+                    if (!parsedSingle.IsValid)
+                    {
+                        craftLog?.WriteValidationError("ItemParser: не удалось разобрать текст после применения сфер.");
+                        return CraftResult.Failed(augStepsConsumed);
+                    }
+
+                    currentClipboard = clipSingle;
+                    current = parsedSingle;
+
+                    if (CraftConditionEvaluator.TryEvaluate(plan, current, out var postExplSingle))
+                    {
+                        craftLog?.WriteComparison(
+                            displayAttempt, globalTotal, currentClipboard, pattern, true,
+                            "[после орбов] " + postExplSingle);
+                        log?.Report("Условие выполнено — переходим к следующей ячейке.");
+                        return CraftResult.Found(augStepsConsumed, currentClipboard);
+                    }
+                    log?.Report($"  Условие: {postExplSingle}");
                 }
                 else
                 {
-                    // Требуются и Prefix, и Suffix: нам нужно иметь возможность получить второй аффикс.
-                    if (totalAffixes >= 2)
+                    // ============================================================
+                    // Режим dual (нужны и Prefix, и Suffix): оптимальный алгоритм.
+                    //
+                    // Состояния (P, S) где каждый: E=пусто, R=правильный, W=неправильный.
+                    //
+                    // (E,E)        → Aug → read → если 1 неправильный → немедленный Annul → read
+                    // (R,E)/(E,R)  → Aug → read
+                    // (R,W)/(W,R)  → Annul → read → если 1 неправильный остался → повторный Annul → read
+                    //                (Aug в этом цикле НЕ делаем)
+                    // (W,E)/(E,W)/(W,W) → Annul → read (защитная ветка)
+                    // ============================================================
+
+                    var prefixRight = prefixCount == 1 && IsAffixRight(current, isPrefix: true, plan);
+                    var suffixRight = suffixCount == 1 && IsAffixRight(current, isPrefix: false, plan);
+                    var totalAffixes = prefixCount + suffixCount;
+
+                    if (totalAffixes == 0)
+                    {
+                        // (E,E): Aug
+                        craftLog?.WriteComparison(displayAttempt, globalTotal, currentClipboard, pattern, false, "[до Aug (E,E)] " + preExplanation);
+                        log?.Report($"Состояние (E,E): применяем Orb of Augmentation.");
+                        await ApplyOrbAsync(augOrbArea, itemArea, log, ct, "Orb of Augmentation").ConfigureAwait(false);
+                        augStepsConsumed++;
+                        annulOnlySafety = 0;
+
+                        var (p1, c1) = await ReadAndParseAsync(
+                            itemArea, log, ct,
+                            $"Ауг+Аннул: after Aug (EE), попытка {displayAttempt}/{globalTotal}").ConfigureAwait(false);
+                        if (p1 is null) return CraftResult.Empty(augStepsConsumed);
+                        if (!p1.IsValid) { craftLog?.WriteValidationError("ItemParser: ошибка после Aug (EE)."); return CraftResult.Failed(augStepsConsumed); }
+
+                        currentClipboard = c1;
+                        current = p1;
+
+                        if (CraftConditionEvaluator.TryEvaluate(plan, current, out var expl1))
+                        {
+                            craftLog?.WriteComparison(displayAttempt, globalTotal, currentClipboard, pattern, true, "[после Aug EE] " + expl1);
+                            log?.Report("Условие выполнено после Aug (EE).");
+                            return CraftResult.Found(augStepsConsumed, currentClipboard);
+                        }
+                        log?.Report($"  Условие: {expl1}");
+
+                        // Если Aug добавил один неправильный аффикс — немедленный Annul
+                        var p1c = current.Affixes.Count(a => IsTypeMatch(a.Type, true));
+                        var s1c = current.Affixes.Count(a => IsTypeMatch(a.Type, false));
+                        var p1r = p1c == 1 && IsAffixRight(current, true, plan);
+                        var s1r = s1c == 1 && IsAffixRight(current, false, plan);
+
+                        if ((p1c + s1c) == 1 && !p1r && !s1r)
+                        {
+                            log?.Report("После Aug (EE) получен один неправильный аффикс — немедленный Annul.");
+                            await ApplyOrbAsync(annulOrbArea, itemArea, log, ct, "Orb of Annulment").ConfigureAwait(false);
+                            annulOnlySafety++;
+
+                            var (p2, c2) = await ReadAndParseAsync(
+                                itemArea, log, ct,
+                                $"Ауг+Аннул: after немедленный Annul (EE→W), попытка {displayAttempt}/{globalTotal}").ConfigureAwait(false);
+                            if (p2 is null) return CraftResult.Empty(augStepsConsumed);
+                            if (!p2.IsValid) { craftLog?.WriteValidationError("ItemParser: ошибка после немедленного Annul."); return CraftResult.Failed(augStepsConsumed); }
+
+                            currentClipboard = c2;
+                            current = p2;
+                        }
+                    }
+                    else if (totalAffixes == 1 && (prefixRight || suffixRight))
+                    {
+                        // (R,E) или (E,R): Aug
+                        craftLog?.WriteComparison(displayAttempt, globalTotal, currentClipboard, pattern, false, $"[до Aug ({(prefixRight ? "R,E" : "E,R")})] " + preExplanation);
+                        log?.Report($"Состояние ({(prefixRight ? "R,E" : "E,R")}): применяем Orb of Augmentation.");
+                        await ApplyOrbAsync(augOrbArea, itemArea, log, ct, "Orb of Augmentation").ConfigureAwait(false);
+                        augStepsConsumed++;
+                        annulOnlySafety = 0;
+
+                        var (p1, c1) = await ReadAndParseAsync(
+                            itemArea, log, ct,
+                            $"Ауг+Аннул: after Aug ({(prefixRight ? "RE" : "ER")}), попытка {displayAttempt}/{globalTotal}").ConfigureAwait(false);
+                        if (p1 is null) return CraftResult.Empty(augStepsConsumed);
+                        if (!p1.IsValid) { craftLog?.WriteValidationError("ItemParser: ошибка после Aug (R+E)."); return CraftResult.Failed(augStepsConsumed); }
+
+                        currentClipboard = c1;
+                        current = p1;
+
+                        if (CraftConditionEvaluator.TryEvaluate(plan, current, out var expl1))
+                        {
+                            craftLog?.WriteComparison(displayAttempt, globalTotal, currentClipboard, pattern, true, $"[после Aug {(prefixRight ? "RE" : "ER")}] " + expl1);
+                            log?.Report("Условие выполнено после Aug.");
+                            return CraftResult.Found(augStepsConsumed, currentClipboard);
+                        }
+                        log?.Report($"  Условие: {expl1}");
+                    }
+                    else if (totalAffixes == 2 && (prefixRight || suffixRight))
+                    {
+                        // (R,W) или (W,R): Annul → read → если остался 1 неправильный → повторный Annul → read
+                        log?.Report($"Состояние ({(prefixRight ? "R,W" : "W,R")}): применяем Orb of Annulment.");
                         await ApplyOrbAsync(annulOrbArea, itemArea, log, ct, "Orb of Annulment").ConfigureAwait(false);
+                        annulOnlySafety++;
 
-                    await ApplyOrbAsync(augOrbArea, itemArea, log, ct, "Orb of Augmentation").ConfigureAwait(false);
-                    didAugThisCycle = true;
-                    augStepsConsumed++;
-                    annulOnlySafety = 0;
-                }
+                        var (p1, c1) = await ReadAndParseAsync(
+                            itemArea, log, ct,
+                            $"Ауг+Аннул: after Annul ({(prefixRight ? "RW" : "WR")}), попытка {displayAttempt}/{globalTotal}").ConfigureAwait(false);
+                        if (p1 is null) return CraftResult.Empty(augStepsConsumed);
+                        if (!p1.IsValid) { craftLog?.WriteValidationError("ItemParser: ошибка после Annul (RW/WR)."); return CraftResult.Failed(augStepsConsumed); }
 
-                // После действия(й) — обновляем состояние (для следующей итерации/шагов).
-                var clip = await ReadClipboardForItemWithRetryAsync(
-                    itemArea,
-                    log,
-                    ct,
-                    $"Ауг+Аннул: after, попытка {displayAttempt}/{globalTotal}" + (didAugThisCycle ? " (после Aug)" : " (после Annul)")).ConfigureAwait(false);
-                if (string.IsNullOrWhiteSpace(clip))
-                    return CraftResult.Empty(augStepsConsumed);
+                        currentClipboard = c1;
+                        current = p1;
 
-                var parsed = ItemParser.Parse(clip);
-                if (parsed is not { IsValid: true })
-                {
-                    craftLog?.WriteValidationError("ItemParser: не удалось разобрать текст после применения сфер.");
-                    return CraftResult.Failed(augStepsConsumed);
-                }
+                        if (CraftConditionEvaluator.TryEvaluate(plan, current, out var expl1))
+                        {
+                            craftLog?.WriteComparison(displayAttempt, globalTotal, currentClipboard, pattern, true, $"[после Annul {(prefixRight ? "RW" : "WR")}] " + expl1);
+                            log?.Report("Условие выполнено после Annul.");
+                            return CraftResult.Found(augStepsConsumed, currentClipboard);
+                        }
+                        log?.Report($"  Условие: {expl1}");
 
-                currentClipboard = clip;
-                current = parsed;
+                        // Если остался 1 неправильный аффикс — повторный Annul (Aug в этом цикле НЕ делаем)
+                        var p1c = current.Affixes.Count(a => IsTypeMatch(a.Type, true));
+                        var s1c = current.Affixes.Count(a => IsTypeMatch(a.Type, false));
+                        var p1r = p1c == 1 && IsAffixRight(current, true, plan);
+                        var s1r = s1c == 1 && IsAffixRight(current, false, plan);
 
-                // Финальная проверка после применения (Annul и/или Aug) — чтобы не пропустить успех на последнем шаге.
-                var postMatch = CraftConditionEvaluator.TryEvaluate(plan, current, out var postExplanation);
-                if (postMatch)
-                {
-                    craftLog?.WriteComparison(
-                        displayAttempt,
-                        globalTotal,
-                        currentClipboard,
-                        pattern,
-                        true,
-                        "[проверка после орбов] " + postExplanation);
-                    log?.Report("Условие выполнено после применения сфер — переходим к следующей ячейке.");
-                    return CraftResult.Found(augStepsConsumed, currentClipboard);
+                        if ((p1c + s1c) == 1 && !p1r && !s1r)
+                        {
+                            log?.Report("После Annul остался один неправильный аффикс — повторный Annul (Aug пропускаем).");
+                            await ApplyOrbAsync(annulOrbArea, itemArea, log, ct, "Orb of Annulment").ConfigureAwait(false);
+                            annulOnlySafety++;
+
+                            var (p2, c2) = await ReadAndParseAsync(
+                                itemArea, log, ct,
+                                $"Ауг+Аннул: after повторный Annul (RW→W→E), попытка {displayAttempt}/{globalTotal}").ConfigureAwait(false);
+                            if (p2 is null) return CraftResult.Empty(augStepsConsumed);
+                            if (!p2.IsValid) { craftLog?.WriteValidationError("ItemParser: ошибка после повторного Annul."); return CraftResult.Failed(augStepsConsumed); }
+
+                            currentClipboard = c2;
+                            current = p2;
+                        }
+                        // Aug в этом цикле НЕ делаем — continue к следующей итерации
+                    }
+                    else
+                    {
+                        // Защитная ветка: (W,E), (E,W) или (W,W) — только Annul, Aug не делаем
+                        log?.Report($"Защитная ветка (W/W или 1 неправильный): применяем Orb of Annulment (prefix={prefixCount},right={prefixRight}; suffix={suffixCount},right={suffixRight}).");
+                        await ApplyOrbAsync(annulOrbArea, itemArea, log, ct, "Orb of Annulment").ConfigureAwait(false);
+                        annulOnlySafety++;
+
+                        var (p1, c1) = await ReadAndParseAsync(
+                            itemArea, log, ct,
+                            $"Ауг+Аннул: after Annul (defensive), попытка {displayAttempt}/{globalTotal}").ConfigureAwait(false);
+                        if (p1 is null) return CraftResult.Empty(augStepsConsumed);
+                        if (!p1.IsValid) { craftLog?.WriteValidationError("ItemParser: ошибка после Annul (defensive)."); return CraftResult.Failed(augStepsConsumed); }
+
+                        currentClipboard = c1;
+                        current = p1;
+
+                        if (CraftConditionEvaluator.TryEvaluate(plan, current, out var expl1))
+                        {
+                            craftLog?.WriteComparison(displayAttempt, globalTotal, currentClipboard, pattern, true, "[после Annul defensive] " + expl1);
+                            log?.Report("Условие выполнено после Annul (defensive).");
+                            return CraftResult.Found(augStepsConsumed, currentClipboard);
+                        }
+                        log?.Report($"  Условие: {expl1}");
+                    }
+
+                    if (annulOnlySafety > 10)
+                    {
+                        craftLog?.WriteValidationError("Слишком много Annul подряд без Aug (защита от бесконечного цикла).");
+                        return CraftResult.Failed(augStepsConsumed);
+                    }
                 }
             }
             catch (OperationCanceledException)
@@ -376,4 +622,3 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
         return CraftResult.LimitReached(augStepsConsumed);
     }
 }
-

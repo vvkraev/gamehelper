@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace GameHelper.Services;
 
-public enum StackableItemKind { Catalyst, SoulCore, Delirium, Rune, Unknown }
+public enum StackableItemKind { Catalyst, SoulCore, Delirium, Rune, Abyss, AncientAugment, Unknown }
 
 public sealed class StackableItemType
 {
@@ -64,6 +64,21 @@ public static class StackableItemRegistry
         if (name.Contains("Soul Core", StringComparison.OrdinalIgnoreCase)) return StackableItemKind.SoulCore;
         if (name.Contains("Liquid",    StringComparison.OrdinalIgnoreCase)) return StackableItemKind.Delirium;
         if (name.Contains("Rune",      StringComparison.OrdinalIgnoreCase)) return StackableItemKind.Rune;
+        // Abyssal Bones (Stackable Currency) — по ключевым словам
+        if (name.Contains("Jawbone",    StringComparison.OrdinalIgnoreCase) ||
+            name.Contains("Collarbone", StringComparison.OrdinalIgnoreCase) ||
+            name.Contains("Cranium",    StringComparison.OrdinalIgnoreCase) ||
+            name.Contains(" Rib",       StringComparison.OrdinalIgnoreCase)) return StackableItemKind.Abyss;
+        // Abyss Omens — только специфичные для абисса
+        if (name.StartsWith("Omen of ", StringComparison.OrdinalIgnoreCase) &&
+            (name.Contains("Abyssal",     StringComparison.OrdinalIgnoreCase) ||
+             name.Contains("Necromancy",  StringComparison.OrdinalIgnoreCase) ||
+             name.Contains("Putrefaction",StringComparison.OrdinalIgnoreCase) ||
+             string.Equals(name, "Omen of Light", StringComparison.OrdinalIgnoreCase)))
+            return StackableItemKind.Abyss;
+        // Уникальные абисс-джувелы (Ancient Augments sub-tab)
+        if (name.EndsWith("'s Gaze", StringComparison.OrdinalIgnoreCase))
+            return StackableItemKind.AncientAugment;
         return StackableItemKind.Unknown;
     }
 
