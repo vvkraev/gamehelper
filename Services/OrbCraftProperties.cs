@@ -22,6 +22,13 @@ public sealed class OrbCraftProperties
     public bool SelectsTier { get; init; } = true;
 
     /// <summary>
+    /// True — орб удаляет один случайный существующий модификатор и добавляет новый (Chaos Orb).
+    /// False — орб добавляет новый модификатор без удаления (Aug, Exalt).
+    /// При True вероятность рассчитывается через Monte Carlo, а не через single-shot формулу.
+    /// </summary>
+    public bool ReplacesOneExisting { get; init; } = false;
+
+    /// <summary>
     /// Известные орбы. Ключ совпадает с <see cref="Name"/>.
     /// Дополнять по мере изучения механики новых орбов.
     /// </summary>
@@ -44,9 +51,9 @@ public sealed class OrbCraftProperties
             ["Perfect Regal Orb"]            = new() { Name = "Perfect Regal Orb",            MinModifierLevel = 50, SelectsTier = true  },
 
             // Chaos: удаляет 1 случайный мод и добавляет 1 новый на Rare предмете
-            ["Chaos Orb"]                    = new() { Name = "Chaos Orb",                    MinModifierLevel = 1,  SelectsTier = true  },
-            ["Greater Chaos Orb"]            = new() { Name = "Greater Chaos Orb",            MinModifierLevel = 35, SelectsTier = true  },
-            ["Perfect Chaos Orb"]            = new() { Name = "Perfect Chaos Orb",            MinModifierLevel = 50, SelectsTier = true  },
+            ["Chaos Orb"]                    = new() { Name = "Chaos Orb",                    MinModifierLevel = 1,  SelectsTier = true, ReplacesOneExisting = true  },
+            ["Greater Chaos Orb"]            = new() { Name = "Greater Chaos Orb",            MinModifierLevel = 35, SelectsTier = true, ReplacesOneExisting = true  },
+            ["Perfect Chaos Orb"]            = new() { Name = "Perfect Chaos Orb",            MinModifierLevel = 50, SelectsTier = true, ReplacesOneExisting = true  },
 
             // Exalted: добавляет 1 модификатор на Rare предмет
             ["Exalted Orb"]                  = new() { Name = "Exalted Orb",                  MinModifierLevel = 1,  SelectsTier = true  },

@@ -30,6 +30,9 @@ public partial class CraftConditionWindow : Window
     /// <summary>Орб для весового расчёта; null = не задан.</summary>
     private OrbCraftProperties? _craftOrb;
 
+    /// <summary>Токен отмены текущего Monte Carlo расчёта для Chaos Orb.</summary>
+    private CancellationTokenSource? _mcCts;
+
     private static readonly string[] CraftOrbNames =
     [
         "",
@@ -1526,18 +1529,278 @@ public partial class CraftConditionWindow : Window
         var ic = _plan.ExpectedItemClass;
         if (string.IsNullOrEmpty(ic) || _plan.OrAlternatives.Count == 0)
         {
+            _mcCts?.Cancel();
             TheoryChanceLabel.Text = "";
             PracticeChanceLabel.Text = "";
             return;
         }
 
-        TheoryChanceLabel.Text  = BuildTheoryLabel(ic);
+        // Chaos Orb заменяет 1 случайный мод → single-shot формула неприменима, используем Monte Carlo.
+        if (_craftOrb is { ReplacesOneExisting: true, SelectsTier: true } && _plan.ExpectedItemIlvl > 0)
+        {
+            var pool = BuildWeightPool(ic, _plan.ExpectedItemSubType, _plan.ExpectedItemIlvl, _craftOrb);
+            if (pool.TotalW > 0)
+                StartChaosMonteCarloAsync(ic, pool);
+            else
+            {
+                _mcCts?.Cancel();
+                TheoryChanceLabel.Text = "";
+            }
+        }
+        else
+        {
+            _mcCts?.Cancel();
+            TheoryChanceLabel.Text = BuildTheoryLabel(ic);
+        }
+
         PracticeChanceLabel.Text = BuildPracticeLabel(ic);
     }
 
+    // ── Monte Carlo для Chaos Orb (CRAFT-4) ─────────────────────────────────────────
+
+    private void StartChaosMonteCarloAsync(string ic, WeightPool pool)
+    {
+        _mcCts?.Cancel();
+        _mcCts = new CancellationTokenSource();
+        var ct = _mcCts.Token;
+
+        TheoryChanceLabel.Text = "Теория (poe2db): расчёт Monte Carlo...";
+
+        // Снимки данных до запуска фонового потока
+        var altSnapshot  = _plan.OrAlternatives.ToArray();
+        var orbCopy      = _craftOrb!;
+        var ilvl         = _plan.ExpectedItemIlvl;
+        var prefixes     = pool.Prefixes.ToArray();
+        var suffixes     = pool.Suffixes.ToArray();
+        var orbPrice     = PoeNinjaPriceService.GetPrice(orbCopy.Name)?.DivineValue ?? 0m;
+
+        Task.Run(() => RunChaosMonteCarloSimulation(altSnapshot, prefixes, suffixes, ct), ct)
+            .ContinueWith(t =>
+            {
+                if (t.IsCanceled || ct.IsCancellationRequested) return;
+                if (t.IsFaulted) { TheoryChanceLabel.Text = "Теория (poe2db): ошибка MC"; return; }
+
+                var eCasts = t.Result;
+                if (eCasts <= 0) { TheoryChanceLabel.Text = ""; return; }
+
+                var orbName = orbCopy.Name;
+                string costStr = orbPrice > 0
+                    ? $"~{eCasts * (double)orbPrice:F2} div (~{eCasts:F0} {orbName})"
+                    : $"~{eCasts:F0} {orbName}";
+
+                TheoryChanceLabel.Text =
+                    $"Теория (poe2db, Monte Carlo): {costStr}" +
+                    $" · min {orbCopy.MinModifierLevel} · ilvl {ilvl}" +
+                    $" · пул {pool.Prefixes.Count}P/{pool.Suffixes.Count}S";
+            },
+            CancellationToken.None,
+            TaskContinuationOptions.None,
+            TaskScheduler.FromCurrentSynchronizationContext());
+    }
+
+    /// <summary>
+    /// Monte Carlo симуляция для Chaos Orb: каждый бросок удаляет один случайный
+    /// модификатор предмета и добавляет новый того же типа из взвешенного пула.
+    /// Возвращает E[количество орбов] до выполнения условия.
+    /// Предполагает Rare предмет с 3 префиксами + 3 суффиксами (максимальная насыщенность).
+    /// </summary>
+    private static double RunChaosMonteCarloSimulation(
+        CraftAndGroup[] alternatives,
+        AffixLibraryEntry[] prefixes,
+        AffixLibraryEntry[] suffixes,
+        CancellationToken ct)
+    {
+        const int SimCount     = 5_000;
+        const int MaxCasts     = 200_000;
+        const int MaxPrefixes  = 3;
+        const int MaxSuffixes  = 3;
+
+        // Кумулятивные веса для O(log n) weighted draw с rejection sampling
+        var prefixCumul = BuildCumulativeWeights(prefixes);
+        var suffixCumul = BuildCumulativeWeights(suffixes);
+        var totalPW     = prefixes.Length > 0 ? prefixCumul[^1] : 0L;
+        var totalSW     = suffixes.Length > 0 ? suffixCumul[^1] : 0L;
+
+        if (totalPW + totalSW == 0) return 0;
+
+        var rng = new Random();
+        long totalCasts = 0;
+        int counted     = 0;
+
+        for (int sim = 0; sim < SimCount && !ct.IsCancellationRequested; sim++)
+        {
+            var item = new List<AffixLibraryEntry>(MaxPrefixes + MaxSuffixes);
+
+            // Стартуем с предмета, который не удовлетворяет условию (не более 20 попыток)
+            for (int attempt = 0; attempt < 20; attempt++)
+            {
+                item.Clear();
+                FillModSlots(item, prefixes, prefixCumul, totalPW, MaxPrefixes, rng);
+                FillModSlots(item, suffixes, suffixCumul, totalSW, MaxSuffixes, rng);
+                if (!CheckConditionOnItem(alternatives, item)) break;
+            }
+
+            int casts = 0;
+            while (casts < MaxCasts && !ct.IsCancellationRequested &&
+                   !CheckConditionOnItem(alternatives, item))
+            {
+                int removeIdx = rng.Next(item.Count);
+                var removed   = item[removeIdx];
+                item.RemoveAt(removeIdx);
+
+                bool isPrefix        = removed.AffixType == "Prefix Modifier";
+                var  pool            = isPrefix ? prefixes : suffixes;
+                var  cumul           = isPrefix ? prefixCumul : suffixCumul;
+                var  totalW          = isPrefix ? totalPW : totalSW;
+                var  usedFamilies    = GetUsedFamilyIds(item);
+                var  newMod          = DrawWeighted(pool, cumul, totalW, usedFamilies, rng);
+                if (newMod != null) item.Add(newMod);
+
+                casts++;
+            }
+
+            totalCasts += casts;
+            counted++;
+        }
+
+        return counted > 0 ? (double)totalCasts / counted : 0;
+    }
+
+    private static long[] BuildCumulativeWeights(AffixLibraryEntry[] pool)
+    {
+        var cumul = new long[pool.Length];
+        long sum  = 0;
+        for (int i = 0; i < pool.Length; i++)
+        {
+            sum     += pool[i].Weight ?? 1;
+            cumul[i] = sum;
+        }
+        return cumul;
+    }
+
+    private static void FillModSlots(
+        List<AffixLibraryEntry> item,
+        AffixLibraryEntry[] pool, long[] cumul, long totalW,
+        int count, Random rng)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            var used = GetUsedFamilyIds(item);
+            var mod  = DrawWeighted(pool, cumul, totalW, used, rng);
+            if (mod == null) break;
+            item.Add(mod);
+        }
+    }
+
+    private static HashSet<string> GetUsedFamilyIds(List<AffixLibraryEntry> item)
+    {
+        var set = new HashSet<string>(StringComparer.Ordinal);
+        foreach (var e in item)
+            if (e.FamilyId != null) set.Add(e.FamilyId);
+        return set;
+    }
+
+    /// <summary>
+    /// Взвешенный выбор из пула с исключением уже использованных семейств.
+    /// Использует rejection sampling поверх бинарного поиска по кумулятивному массиву.
+    /// </summary>
+    private static AffixLibraryEntry? DrawWeighted(
+        AffixLibraryEntry[] pool, long[] cumul, long totalW,
+        HashSet<string> usedFamilies, Random rng)
+    {
+        if (totalW == 0) return null;
+
+        // Rejection sampling: в среднем ~1-2 попытки при 6 занятых семействах из ~50+
+        for (int attempt = 0; attempt < 20; attempt++)
+        {
+            long r   = rng.NextInt64(totalW);
+            int  idx = SearchCumulative(cumul, r);
+            var  e   = pool[idx];
+            if (e.FamilyId == null || !usedFamilies.Contains(e.FamilyId))
+                return e;
+        }
+
+        // Fallback: линейный проход (когда rejection rate высок — пул почти полностью занят)
+        long effW = 0;
+        foreach (var e in pool)
+            if (e.FamilyId == null || !usedFamilies.Contains(e.FamilyId))
+                effW += e.Weight ?? 1;
+        if (effW == 0) return null;
+
+        long r2 = rng.NextInt64(effW);
+        foreach (var e in pool)
+        {
+            if (e.FamilyId != null && usedFamilies.Contains(e.FamilyId)) continue;
+            long w = e.Weight ?? 1;
+            if (r2 < w) return e;
+            r2 -= w;
+        }
+        return null;
+    }
+
+    private static int SearchCumulative(long[] cumul, long r)
+    {
+        int lo = 0, hi = cumul.Length - 1;
+        while (lo < hi)
+        {
+            int mid = (lo + hi) >> 1;
+            if (cumul[mid] <= r) lo = mid + 1;
+            else hi = mid;
+        }
+        return lo;
+    }
+
+    private static bool CheckConditionOnItem(CraftAndGroup[] alternatives, List<AffixLibraryEntry> item)
+    {
+        foreach (var alt in alternatives)
+        {
+            if (CheckAndGroupOnItem(alt, item)) return true;
+        }
+        return false;
+    }
+
+    private static bool CheckAndGroupOnItem(CraftAndGroup group, List<AffixLibraryEntry> item)
+    {
+        foreach (var clause in group.Clauses)
+        {
+            if (!CheckClauseOnItem(clause, item)) return false;
+        }
+        return true;
+    }
+
+    private static bool CheckClauseOnItem(CraftClause clause, List<AffixLibraryEntry> item)
+    {
+        switch (clause.Kind)
+        {
+            case CraftClauseKind.Single when clause.Single is { } s:
+            {
+                var names = new HashSet<string>(s.EffectiveAffixNames(), StringComparer.Ordinal);
+                return names.Count > 0 && item.Any(e => names.Contains(e.AffixName));
+            }
+            case CraftClauseKind.WholeModifier when clause.Whole is { } w:
+            {
+                var names = new HashSet<string>(w.EffectiveWholeAffixNames(), StringComparer.Ordinal);
+                return names.Count > 0 && item.Any(e => names.Contains(e.AffixName));
+            }
+            case CraftClauseKind.Count when clause.Count is { } cnt:
+            {
+                int matched = cnt.Members.Count(m =>
+                {
+                    var names = new HashSet<string>(m.EffectiveWholeAffixNames(), StringComparer.Ordinal);
+                    return names.Count > 0 && item.Any(e => names.Contains(e.AffixName));
+                });
+                return matched >= cnt.MinMatchCount;
+            }
+            default:
+                return true; // Sum и неизвестные: не блокируют
+        }
+    }
+
+    // ── Теоретический расчёт (Aug/Exalt/Regal — single-shot) ─────────────────────────
+
     private string BuildTheoryLabel(string ic)
     {
-        if (_craftOrb is not { SelectsTier: true } || _plan.ExpectedItemIlvl <= 0)
+        if (_craftOrb is not { SelectsTier: true } || _craftOrb.ReplacesOneExisting || _plan.ExpectedItemIlvl <= 0)
             return "";
 
         var pool = BuildWeightPool(ic, _plan.ExpectedItemSubType, _plan.ExpectedItemIlvl, _craftOrb);

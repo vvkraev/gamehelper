@@ -149,11 +149,14 @@
   - Зависит от: CRAFT-1, CRAFT-2, `OrbCraftProperties`, `AffixTierEligibility` (всё готово)
   - Статистика собиралась с: Perfect Orb of Augmentation (min=70) — хранится в `AffixStatsData.AugAnnulOrbUsed`
 
-- [ ] **CRAFT-4** Расчёт вероятности и стоимости для Chaos Orb
+- [x] **CRAFT-4** Расчёт вероятности и стоимости для Chaos Orb
   - **Механика**: Chaos Orb выбирает один случайный аффикс из N на предмете (равновероятно, 1/N), затем заменяет его на новый случайный из пула с учётом весов
-  - **Расчёт вероятности**: Монте-Карло симуляция — аналитический подход сложен из-за комбинаторики (N аффиксов × весовой пул)
-  - **Стоимость**: E[число орбов] = 1/P × цена одного Chaos Orb в экзальтах
-  - Зависит от: CRAFT-3 (весовой пул готов), CRAFT-6 (для использования экспериментальных весов)
+  - **Реализация**: Monte Carlo симуляция 5000 прогонов — `RunChaosMonteCarloSimulation` в `CraftConditionWindow.xaml.cs`
+    - Флаг `OrbCraftProperties.ReplacesOneExisting = true` для Chaos/Greater Chaos/Perfect Chaos
+    - Rejection sampling + binary search по кумулятивным весам — O(log n) на выбор
+    - Старт с рандомного предмета 3P+3S из пула; условие проверяется напрямую по `AffixName`
+    - Асинхронный расчёт: `StartChaosMonteCarloAsync` показывает «расчёт...» пока не готово
+    - Отображение: «Теория (poe2db, Monte Carlo): ~N Chaos Orb · ~X.XX div»
 
 - [ ] **CRAFT-5** Поддержка рун (патч Legacy of Aldur)
   - **Контекст**: руны при вставке в предмет добавляют новые аффиксы в пул выпадения; poe2db показывает для них вес=1, что не соответствует реальности
