@@ -52,6 +52,24 @@
                     <ComboBox x:Name="ArmourSubTypeCombo"
                               SelectionChanged="ArmourSubTypeCombo_OnSelectionChanged"/>
                 </StackPanel>
+                <Grid Margin="0,0,0,10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="12"/>
+                        <ColumnDefinition Width="120"/>
+                    </Grid.ColumnDefinitions>
+                    <StackPanel Grid.Column="0">
+                        <TextBlock Text="Орб (для весового расчёта)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <ComboBox x:Name="CraftOrbCombo"
+                                  SelectionChanged="CraftOrbCombo_OnSelectionChanged"/>
+                    </StackPanel>
+                    <StackPanel Grid.Column="2">
+                        <TextBlock Text="Item Level" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBox x:Name="ItemIlvlBox"
+                                 TextChanged="ItemIlvlBox_OnTextChanged"
+                                 ToolTip="Item level предмета для весового расчёта (0 = не задан)"/>
+                    </StackPanel>
+                </Grid>
                 <TextBlock TextWrapping="Wrap"
                            Foreground="#555"
                            Margin="0,0,0,10"

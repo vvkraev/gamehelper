@@ -17,6 +17,18 @@ public sealed class CraftConditionPlan
     /// </summary>
     public string ExpectedItemSubType { get; set; } = "";
 
+    /// <summary>
+    /// Item level предмета для весового расчёта вероятности (CRAFT-3).
+    /// 0 = не задан, расчёт по весам недоступен.
+    /// </summary>
+    public int ExpectedItemIlvl { get; set; } = 0;
+
+    /// <summary>
+    /// Орб для весового расчёта вероятности (CRAFT-3).
+    /// Имя из <see cref="OrbCraftProperties.Known"/>. Пустая строка = не задан.
+    /// </summary>
+    public string CraftOrbName { get; set; } = "";
+
     /// <summary>Варианты ИЛИ: достаточно полностью выполнить один <see cref="CraftAndGroup"/>.</summary>
     public List<CraftAndGroup> OrAlternatives { get; set; } = new();
 }

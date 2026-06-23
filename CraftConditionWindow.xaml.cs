@@ -27,6 +27,29 @@ public partial class CraftConditionWindow : Window
     /// <summary>Выбранный подтип планшета; null = без фильтра.</summary>
     private string? _tabletSubClass;
 
+    /// <summary>Орб для весового расчёта; null = не задан.</summary>
+    private OrbCraftProperties? _craftOrb;
+
+    private static readonly string[] CraftOrbNames =
+    [
+        "",
+        "Orb of Augmentation", "Greater Orb of Augmentation", "Perfect Orb of Augmentation",
+        "Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb",
+        "Exalted Orb", "Greater Exalted Orb", "Perfect Exalted Orb",
+        "Regal Orb", "Greater Regal Orb", "Perfect Regal Orb",
+        "Orb of Transmutation", "Greater Orb of Transmutation", "Perfect Orb of Transmutation",
+    ];
+
+    private static readonly string[] CraftOrbLabels =
+    [
+        "— не выбран —",
+        "Orb of Augmentation", "Greater Orb of Augmentation (min 44)", "Perfect Orb of Augmentation (min 70)",
+        "Chaos Orb", "Greater Chaos Orb (min 35)", "Perfect Chaos Orb (min 50)",
+        "Exalted Orb", "Greater Exalted Orb (min 35)", "Perfect Exalted Orb (min 50)",
+        "Regal Orb", "Greater Regal Orb (min 35)", "Perfect Regal Orb (min 50)",
+        "Orb of Transmutation", "Greater Orb of Transmutation (min 44)", "Perfect Orb of Transmutation (min 70)",
+    ];
+
     private static readonly HashSet<string> ArmourSubTypeClasses = new(StringComparer.Ordinal)
     {
         "Body Armours", "Gloves", "Helmets", "Boots",
@@ -61,12 +84,37 @@ public partial class CraftConditionWindow : Window
         _stats = stats;
         CraftConditionPlanNormalizer.NormalizeInPlace(_plan, _entries);
         LoadItemClasses();
+        LoadCraftOrbs();
         if (!string.IsNullOrEmpty(_plan.ExpectedItemClass) &&
             ItemClassCombo.Items.Cast<string>().Contains(_plan.ExpectedItemClass, StringComparer.Ordinal))
             ItemClassCombo.SelectedItem = _plan.ExpectedItemClass;
         else if (ItemClassCombo.Items.Count > 0)
             ItemClassCombo.SelectedIndex = 0;
+        ItemIlvlBox.Text = _plan.ExpectedItemIlvl > 0 ? _plan.ExpectedItemIlvl.ToString() : "";
         RefreshOrAlternativesUi();
+    }
+
+    private void LoadCraftOrbs()
+    {
+        CraftOrbCombo.ItemsSource = CraftOrbLabels;
+        var savedIdx = Array.IndexOf(CraftOrbNames, _plan.CraftOrbName);
+        CraftOrbCombo.SelectedIndex = savedIdx > 0 ? savedIdx : 0;
+        _craftOrb = savedIdx > 0 ? OrbCraftProperties.Known.GetValueOrDefault(CraftOrbNames[savedIdx]) : null;
+    }
+
+    private void CraftOrbCombo_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var idx = CraftOrbCombo.SelectedIndex;
+        var name = idx > 0 && idx < CraftOrbNames.Length ? CraftOrbNames[idx] : "";
+        _plan.CraftOrbName = name;
+        _craftOrb = !string.IsNullOrEmpty(name) ? OrbCraftProperties.Known.GetValueOrDefault(name) : null;
+        UpdateCombinedChanceLabel();
+    }
+
+    private void ItemIlvlBox_OnTextChanged(object sender, TextChangedEventArgs e)
+    {
+        _plan.ExpectedItemIlvl = int.TryParse(ItemIlvlBox.Text.Trim(), out var v) && v > 0 ? v : 0;
+        UpdateCombinedChanceLabel();
     }
 
     private void LoadItemClasses()
@@ -1437,7 +1485,57 @@ public partial class CraftConditionWindow : Window
     private void UpdateCombinedChanceLabel()
     {
         var ic = _plan.ExpectedItemClass;
-        if (_stats == null || string.IsNullOrEmpty(ic) || _plan.OrAlternatives.Count == 0)
+        if (string.IsNullOrEmpty(ic) || _plan.OrAlternatives.Count == 0)
+        {
+            CombinedChanceLabel.Text = "";
+            return;
+        }
+
+        // Weight-based calculation (CRAFT-3): if orb + ilvl are set
+        if (_craftOrb is { SelectsTier: true } && _plan.ExpectedItemIlvl > 0)
+        {
+            var pool = BuildWeightPool(ic, _plan.ExpectedItemSubType, _plan.ExpectedItemIlvl, _craftOrb);
+            if (pool.TotalW > 0)
+            {
+                // Aggregate across OR-alternatives: take the best (highest chance)
+                // For the orb-cost display we use the most likely alternative
+                var best = WR.Zero;
+                foreach (var alt in _plan.OrAlternatives)
+                {
+                    var r = CalcWeightAndGroupResult(alt, pool);
+                    if (r.Chance > best.Chance) best = r;
+                }
+                var pct = best.Chance * 100;
+                var orbName  = _craftOrb.Name;
+                const string annulName = "Orb of Annulment";
+                string costStr;
+                if (best.EAug > 0)
+                {
+                    var augDiv   = (double)(PoeNinjaPriceService.GetPrice(orbName)?.DivineValue   ?? 0m);
+                    var annulDiv = (double)(PoeNinjaPriceService.GetPrice(annulName)?.DivineValue ?? 0m);
+                    if (augDiv > 0 || annulDiv > 0)
+                    {
+                        var totalDiv = best.EAug * augDiv + best.EAnnul * annulDiv;
+                        costStr = $" · ~{totalDiv:F2} div (~{best.EAug:F1} aug + ~{best.EAnnul:F1} ann)";
+                    }
+                    else
+                    {
+                        costStr = $" · ~{best.EAug:F1} {orbName} + ~{best.EAnnul:F1} {annulName}";
+                    }
+                }
+                else
+                {
+                    costStr = "";
+                }
+                CombinedChanceLabel.Text = $"Весовой: ~{pct:F1}% за попытку{costStr}" +
+                    $" · min {_craftOrb.MinModifierLevel} · ilvl {_plan.ExpectedItemIlvl}" +
+                    $" · пул {pool.Prefixes.Count}P/{pool.Suffixes.Count}S";
+                return;
+            }
+        }
+
+        // Frequency-based fallback
+        if (_stats == null)
         {
             CombinedChanceLabel.Text = "";
             return;
@@ -1452,20 +1550,176 @@ public partial class CraftConditionWindow : Window
         }
 
         var hasPartialData = false;
-        var pNone = 1.0;
+        var pNone2 = 1.0;
         foreach (var alt in _plan.OrAlternatives)
-            pNone *= 1.0 - CalcAndGroupProbability(alt, ic, cs, ref hasPartialData);
+            pNone2 *= 1.0 - CalcAndGroupProbability(alt, ic, cs, ref hasPartialData);
 
-        var p = Math.Max(0.0, Math.Min(1.0, 1.0 - pNone));
-        var pct = p * 100;
-        var avgTries = p > 0 ? (int)Math.Round(1.0 / p) : -1;
+        var p2 = Math.Max(0.0, Math.Min(1.0, 1.0 - pNone2));
+        var pct2 = p2 * 100;
+        var avgTries = p2 > 0 ? (int)Math.Round(1.0 / p2) : -1;
         var avgStr = avgTries > 0 ? $" (~{avgTries} попыток)" : " (∞)";
         var dataNote = hasPartialData ? " ⚠ нет данных по части аффиксов" : "";
         var orbNote = !string.IsNullOrEmpty(_stats.AugAnnulOrbUsed)
             ? $" · статистика: {_stats.AugAnnulOrbUsed}"
             : "";
 
-        CombinedChanceLabel.Text = $"Суммарный шанс: ~{pct:F1}%{avgStr}{dataNote}{orbNote}";
+        CombinedChanceLabel.Text = $"Суммарный шанс: ~{pct2:F1}%{avgStr}{dataNote}{orbNote}";
+    }
+
+    // ── Весовой расчёт (CRAFT-3) ──────────────────────────────────────────────────
+
+    private sealed record WeightPool(
+        IReadOnlyList<AffixLibraryEntry> Prefixes,
+        IReadOnlyList<AffixLibraryEntry> Suffixes,
+        long PrefixW, long SuffixW)
+    {
+        public long TotalW => PrefixW + SuffixW;
+    }
+
+    private WeightPool BuildWeightPool(string ic, string subType, int ilvl, OrbCraftProperties orb)
+    {
+        var forClass = EffectiveEntries
+            .Where(e => e.ItemClasses.Contains(ic, StringComparer.Ordinal) &&
+                        (e.AffixSubClass == null || string.IsNullOrEmpty(subType) || e.AffixSubClass == subType))
+            .ToList();
+
+        // Group by poe2db FamilyId so that different-named tiers of the same family
+        // (e.g. Queen's T1 and Princess' T2 both share FamilyId="BaseSpirit") are
+        // processed together. This lets GetEligibleTiers apply T1 exception correctly:
+        // if Princess' T2 is ineligible (ilvl too low) but Queen's T1 is eligible,
+        // Queen's enters the pool and will be counted as the effective target weight.
+        var eligible = forClass
+            .GroupBy(e => (FamilyKey: e.FamilyId ?? e.AffixName, e.AffixType))
+            .SelectMany(g => AffixTierEligibility.GetEligibleTiers(g.ToList(), ilvl, orb))
+            .ToList();
+
+        var prefixes = (IReadOnlyList<AffixLibraryEntry>)eligible.Where(e => e.AffixType == "Prefix Modifier").ToList();
+        var suffixes = (IReadOnlyList<AffixLibraryEntry>)eligible.Where(e => e.AffixType == "Suffix Modifier").ToList();
+        var prefixW = prefixes.Sum(e => (long)(e.Weight ?? 0));
+        var suffixW = suffixes.Sum(e => (long)(e.Weight ?? 0));
+        return new WeightPool(prefixes, suffixes, prefixW, suffixW);
+    }
+
+    /// <summary>
+    /// Суммирует вес тиров из пула, соответствующих целевым именам.
+    /// Если прямого совпадения нет (имя не попало в пул), ищет по FamilyId в полной
+    /// библиотеке — это обрабатывает случай Princess'/Queen's (одно семейство, разные имена).
+    /// </summary>
+    private long TargetWeight(
+        IReadOnlyList<string> names,
+        string affixType,
+        IReadOnlyList<AffixLibraryEntry> pool)
+    {
+        var nameSet = new HashSet<string>(names, StringComparer.Ordinal);
+        var direct = pool.Where(e => e.AffixType == affixType && nameSet.Contains(e.AffixName))
+                         .Sum(e => (long)(e.Weight ?? 0));
+        if (direct > 0) return direct;
+
+        // FamilyId fallback: resolve families of target names from the full library,
+        // then count weight of any eligible pool entry that belongs to the same family.
+        var familyIds = _entries
+            .Where(e => e.AffixType == affixType && nameSet.Contains(e.AffixName) && e.FamilyId != null)
+            .Select(e => e.FamilyId!)
+            .ToHashSet(StringComparer.Ordinal);
+
+        if (familyIds.Count == 0) return 0;
+
+        return pool.Where(e => e.AffixType == affixType && e.FamilyId != null && familyIds.Contains(e.FamilyId))
+                   .Sum(e => (long)(e.Weight ?? 0));
+    }
+
+    // (effChance, E[Aug], E[Annul]) — результат весового расчёта для одного клоза/группы
+    private readonly record struct WR(double Chance, double EAug, double EAnnul)
+    {
+        public static readonly WR Zero = new(0, 0, 0);
+
+        /// <summary>Один Aug-выстрел без Annul (порошок на счастье, хаос и т.д.).</summary>
+        public static WR SingleShot(double p) =>
+            p <= 0 ? Zero : new(p, 1.0 / p, 0);
+
+        /// <summary>Перемножение двух независимых условий (И-связка клозов).</summary>
+        public static WR And(WR a, WR b)
+        {
+            var p = Math.Max(0.0, Math.Min(1.0, a.Chance * b.Chance));
+            return p <= 0 ? Zero : new(p, a.EAug + b.EAug, a.EAnnul + b.EAnnul);
+        }
+    }
+
+    /// <summary>
+    /// Цепь Маркова для COUNT≥2 (1 prefix-цель + 1 suffix-цель на magic-предмете).
+    /// Annul случайно удаляет один из двух аффиксов → 50% шанс сохранить «правильный».
+    /// Возвращает эффективный шанс за Aug, E[Aug] и E[Annul] до успеха.
+    /// </summary>
+    private static WR CalcDualSlotMarkov(double pTp, double pTs, double pCp, double pCs)
+    {
+        var p1 = pTp + pTs;
+        if (p1 <= 0) return WR.Zero;
+        var b1 = (1.0 - pCs) / (1.0 + pCs);  var a1 = 2.0 / (1.0 + pCs);
+        var b2 = (1.0 - pCp) / (1.0 + pCp);  var a2 = 2.0 / (1.0 + pCp);
+        var c   = pTp * b1 + pTs * b2;
+        var den = p1 - c;
+        if (den <= 0) return WR.Zero;
+        var eAug   = (1.0 + pTp * a1 + pTs * a2) / den;
+        var eAnnul = ((1.0 - p1) + 3.0 * c) / den;
+        return new WR(Math.Max(0.0, Math.Min(1.0, den / (1.0 + pTp * a1 + pTs * a2))), eAug, eAnnul);
+    }
+
+    /// <summary>
+    /// Весовой расчёт для COUNT-клоза на magic-предмете (max 1P + 1S).
+    /// threshold=1: P(любой из N) за один Aug, без Annul.
+    /// threshold=2: требует 1P-цель и 1S-цель → Markov с учётом обоих орбов.
+    /// threshold>2 на magic-предмете невозможно → Zero.
+    /// </summary>
+    private WR CalcCountWeightResult(CraftCountAffixData cnt, WeightPool pool)
+    {
+        var k = cnt.MinMatchCount;
+        if (k <= 0) return new WR(1, 0, 0);
+        if (k > 2 || pool.TotalW == 0) return WR.Zero;
+
+        var prefixNames = cnt.Members
+            .Where(m => m.AffixType == "Prefix Modifier")
+            .SelectMany(m => m.EffectiveWholeAffixNames()).ToList();
+        var suffixNames = cnt.Members
+            .Where(m => m.AffixType == "Suffix Modifier")
+            .SelectMany(m => m.EffectiveWholeAffixNames()).ToList();
+
+        var wTp = TargetWeight(prefixNames, "Prefix Modifier", pool.Prefixes);
+        var wTs = TargetWeight(suffixNames, "Suffix Modifier", pool.Suffixes);
+
+        if (k == 1)
+            return WR.SingleShot(Math.Max(0.0, Math.Min(1.0, (double)(wTp + wTs) / pool.TotalW)));
+
+        // k == 2: нужны 1P-цель и 1S-цель
+        if (wTp == 0 || wTs == 0 || pool.PrefixW == 0 || pool.SuffixW == 0) return WR.Zero;
+        return CalcDualSlotMarkov(
+            (double)wTp / pool.TotalW, (double)wTs / pool.TotalW,
+            (double)wTp / pool.PrefixW, (double)wTs / pool.SuffixW);
+    }
+
+    private WR CalcSingleWeightResult(IReadOnlyList<string> names, string affixType, WeightPool pool)
+    {
+        if (pool.TotalW == 0) return WR.Zero;
+        var w = TargetWeight(names, affixType, affixType == "Prefix Modifier" ? pool.Prefixes : pool.Suffixes);
+        return WR.SingleShot(Math.Max(0.0, Math.Min(1.0, (double)w / pool.TotalW)));
+    }
+
+    private WR CalcWeightAndGroupResult(CraftAndGroup group, WeightPool pool)
+    {
+        var result = new WR(1, 0, 0);
+        foreach (var clause in group.Clauses)
+        {
+            WR clauseResult;
+            if (clause.Kind == CraftClauseKind.Count && clause.Count is { } cnt)
+                clauseResult = CalcCountWeightResult(cnt, pool);
+            else if (clause.Kind == CraftClauseKind.Single && clause.Single is { } s)
+                clauseResult = CalcSingleWeightResult(s.EffectiveAffixNames(), s.AffixType, pool);
+            else if (clause.Kind == CraftClauseKind.WholeModifier && clause.Whole is { } w)
+                clauseResult = CalcSingleWeightResult(w.EffectiveWholeAffixNames(), w.AffixType, pool);
+            else
+                continue;
+            result = WR.And(result, clauseResult);
+        }
+        return result;
     }
 
     private double CalcAndGroupProbability(CraftAndGroup group, string ic, ClassStats cs, ref bool hasPartialData)
