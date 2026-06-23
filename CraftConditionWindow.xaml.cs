@@ -1066,38 +1066,62 @@ public partial class CraftConditionWindow : Window
 
         void UpdateStatsLabel()
         {
+            var selected = data.SelectedAffixNames;
+            if (selected.Count == 0) { lblStats.Text = ""; return; }
+
+            // poe2db weight for selected names at current tier
+            string weightStr = "";
+            if (cbTier.SelectedItem is TierComboItem ti)
+            {
+                var w = EffectiveEntries
+                    .Where(e => e.ItemClasses.Any(c => string.Equals(c, ic, StringComparison.Ordinal)) &&
+                                string.Equals(e.AffixType, data.AffixType, StringComparison.Ordinal) &&
+                                e.AffixTier == ti.Tier &&
+                                selected.Contains(e.AffixName) &&
+                                e.Weight.HasValue)
+                    .Sum(e => (long)e.Weight!.Value);
+                if (w > 0) weightStr = $"poe2db: {w}";
+            }
+
+            // observed frequency from crafting sessions
+            string freqStr = "";
             var statsOrb = _craftOrb?.Name ?? "";
             var statsKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType, statsOrb);
-            // Fall back to unkeyed data (pre-v5 stats)
             if (_stats != null && !_stats.PerClass.ContainsKey(statsKey) && !string.IsNullOrEmpty(statsOrb))
                 statsKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType);
-            if (_stats == null || string.IsNullOrEmpty(ic) ||
-                !_stats.PerClass.TryGetValue(statsKey, out var cs) || cs.TotalSnapshots == 0)
+            if (_stats != null && _stats.PerClass.TryGetValue(statsKey, out var cs) && cs.TotalSnapshots > 0)
+            {
+                var total = cs.TotalSnapshots;
+                var firstStat = data.Lines.Count > 0 ? data.Lines[0].StatTemplate : data.StatTemplate;
+                var hasTpl = !string.IsNullOrEmpty(firstStat);
+                if (selected.Count == 1)
+                {
+                    var c = hasTpl ? cs.GetStatCount(selected[0], firstStat) : (cs.AffixCounts.TryGetValue(selected[0], out var raw) ? raw : 0);
+                    var pct = (double)c / total * 100;
+                    var avg = c > 0 ? $"~{total / c} орбов" : "∞";
+                    freqStr = $"опыт: {c}/{total} ({pct:F1}%) — {avg}";
+                }
+                else
+                {
+                    var combined = hasTpl
+                        ? selected.Sum(n => cs.GetStatCount(n, firstStat))
+                        : selected.Sum(n => cs.AffixCounts.TryGetValue(n, out var cnt) ? cnt : 0);
+                    var pct = (double)combined / total * 100;
+                    var avg = combined > 0 ? $"~{total / combined} орбов" : "∞";
+                    freqStr = $"опыт: {combined}/{total} ({pct:F1}%) — {avg}, {selected.Count} вар.";
+                }
+            }
+
+            if (string.IsNullOrEmpty(weightStr) && string.IsNullOrEmpty(freqStr))
             {
                 lblStats.Text = _stats == null ? "" : "Статистика: нет данных по этому классу";
                 return;
             }
-            var selected = data.SelectedAffixNames;
-            if (selected.Count == 0) { lblStats.Text = ""; return; }
-            var total  = cs.TotalSnapshots;
-            var firstStat = data.Lines.Count > 0 ? data.Lines[0].StatTemplate : data.StatTemplate;
-            var hasTpl = !string.IsNullOrEmpty(firstStat);
-            if (selected.Count == 1)
-            {
-                var c = hasTpl ? cs.GetStatCount(selected[0], firstStat) : (cs.AffixCounts.TryGetValue(selected[0], out var raw) ? raw : 0);
-                var pct = (double)c / total * 100;
-                var avg = c > 0 ? $"~{total / c} орбов" : "∞";
-                lblStats.Text = $"Статистика: {c} / {total} ({pct:F1}%) — {avg}";
-            }
-            else
-            {
-                var combined = hasTpl
-                    ? selected.Sum(n => cs.GetStatCount(n, firstStat))
-                    : selected.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
-                var pct = (double)combined / total * 100;
-                var avg = combined > 0 ? $"~{total / combined} орбов" : "∞";
-                lblStats.Text = $"Статистика: {combined} / {total} ({pct:F1}%) — {avg}, {selected.Count} вариантов";
-            }
+
+            var parts = new List<string>();
+            if (!string.IsNullOrEmpty(weightStr)) parts.Add(weightStr);
+            if (!string.IsNullOrEmpty(freqStr)) parts.Add(freqStr);
+            lblStats.Text = string.Join(" · ", parts);
         }
 
         void RebuildSliders()

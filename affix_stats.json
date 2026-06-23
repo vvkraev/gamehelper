@@ -1,5 +1,5 @@
 {
-  "Version": 4,
+  "Version": 5,
   "processedLogFiles": [
     "craft_2026-03-31_22-05-06--2026-03-31_22-07-45.txt",
     "craft_2026-03-31_22-20-08--2026-03-31_22-39-05.txt",
@@ -298,7 +298,6 @@
     "craft_2026-06-23_10-48-53--2026-06-23_10-49-00.txt",
     "craft_2026-06-23_10-51-58--2026-06-23_10-52-12.txt"
   ],
-  "augAnnulOrbUsed": "Perfect Orb of Augmentation",
   "perClass": {
     "One Hand Maces|Armour": {
       "totalSnapshots": 1935,
