@@ -1552,20 +1552,33 @@ public partial class CraftConditionWindow : Window
         }
         var pct = best.Chance * 100;
         var orbName = _craftOrb.Name;
-        const string annulName = "Orb of Annulment";
         string costStr;
         if (best.EAug > 0)
         {
-            var augDiv   = (double)(PoeNinjaPriceService.GetPrice(orbName)?.DivineValue   ?? 0m);
-            var annulDiv = (double)(PoeNinjaPriceService.GetPrice(annulName)?.DivineValue ?? 0m);
-            if (augDiv > 0 || annulDiv > 0)
+            if (best.EAnnul > 0)
             {
-                var totalDiv = best.EAug * augDiv + best.EAnnul * annulDiv;
-                costStr = $" · ~{totalDiv:F2} div (~{best.EAug:F1} aug + ~{best.EAnnul:F1} ann)";
+                // Aug+Annul cycle: show both orbs
+                const string annulName = "Orb of Annulment";
+                var augDiv   = (double)(PoeNinjaPriceService.GetPrice(orbName)?.DivineValue   ?? 0m);
+                var annulDiv = (double)(PoeNinjaPriceService.GetPrice(annulName)?.DivineValue ?? 0m);
+                if (augDiv > 0 || annulDiv > 0)
+                {
+                    var totalDiv = best.EAug * augDiv + best.EAnnul * annulDiv;
+                    costStr = $" · ~{totalDiv:F2} div (~{best.EAug:F1} aug + ~{best.EAnnul:F1} ann)";
+                }
+                else
+                {
+                    costStr = $" · ~{best.EAug:F1} {orbName} + ~{best.EAnnul:F1} {annulName}";
+                }
             }
             else
             {
-                costStr = $" · ~{best.EAug:F1} {orbName} + ~{best.EAnnul:F1} {annulName}";
+                // Single-orb mode (Chaos, Exalt, etc.)
+                var orbDiv = (double)(PoeNinjaPriceService.GetPrice(orbName)?.DivineValue ?? 0m);
+                if (orbDiv > 0)
+                    costStr = $" · ~{best.EAug * orbDiv:F2} div (~{best.EAug:F1} {orbName})";
+                else
+                    costStr = $" · ~{best.EAug:F1} {orbName}";
             }
         }
         else
