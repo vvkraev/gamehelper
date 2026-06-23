@@ -1506,13 +1506,27 @@ public partial class CraftConditionWindow : Window
                     if (r.Chance > best.Chance) best = r;
                 }
                 var pct = best.Chance * 100;
-                var orbName = _craftOrb.Name;
-                var annulName = orbName.Contains("Augmentation", StringComparison.Ordinal)
-                    ? orbName.Replace("Augmentation", "Annulment", StringComparison.Ordinal)
-                    : "Orb of Annulment";
-                var costStr = best.EAug > 0
-                    ? $" · ~{best.EAug:F1} {orbName} + ~{best.EAnnul:F1} {annulName}"
-                    : "";
+                var orbName  = _craftOrb.Name;
+                const string annulName = "Orb of Annulment";
+                string costStr;
+                if (best.EAug > 0)
+                {
+                    var augDiv   = (double)(PoeNinjaPriceService.GetPrice(orbName)?.DivineValue   ?? 0m);
+                    var annulDiv = (double)(PoeNinjaPriceService.GetPrice(annulName)?.DivineValue ?? 0m);
+                    if (augDiv > 0 || annulDiv > 0)
+                    {
+                        var totalDiv = best.EAug * augDiv + best.EAnnul * annulDiv;
+                        costStr = $" · ~{totalDiv:F2} div (~{best.EAug:F1} aug + ~{best.EAnnul:F1} ann)";
+                    }
+                    else
+                    {
+                        costStr = $" · ~{best.EAug:F1} {orbName} + ~{best.EAnnul:F1} {annulName}";
+                    }
+                }
+                else
+                {
+                    costStr = "";
+                }
                 CombinedChanceLabel.Text = $"Весовой: ~{pct:F1}% за попытку{costStr}" +
                     $" · min {_craftOrb.MinModifierLevel} · ilvl {_plan.ExpectedItemIlvl}" +
                     $" · пул {pool.Prefixes.Count}P/{pool.Suffixes.Count}S";
@@ -1569,8 +1583,13 @@ public partial class CraftConditionWindow : Window
                         (e.AffixSubClass == null || string.IsNullOrEmpty(subType) || e.AffixSubClass == subType))
             .ToList();
 
+        // Group by poe2db FamilyId so that different-named tiers of the same family
+        // (e.g. Queen's T1 and Princess' T2 both share FamilyId="BaseSpirit") are
+        // processed together. This lets GetEligibleTiers apply T1 exception correctly:
+        // if Princess' T2 is ineligible (ilvl too low) but Queen's T1 is eligible,
+        // Queen's enters the pool and will be counted as the effective target weight.
         var eligible = forClass
-            .GroupBy(e => (e.AffixName, e.AffixType))
+            .GroupBy(e => (FamilyKey: e.FamilyId ?? e.AffixName, e.AffixType))
             .SelectMany(g => AffixTierEligibility.GetEligibleTiers(g.ToList(), ilvl, orb))
             .ToList();
 
@@ -1581,10 +1600,31 @@ public partial class CraftConditionWindow : Window
         return new WeightPool(prefixes, suffixes, prefixW, suffixW);
     }
 
-    private static long TargetWeight(IReadOnlyList<string> names, string affixType, IReadOnlyList<AffixLibraryEntry> pool)
+    /// <summary>
+    /// Суммирует вес тиров из пула, соответствующих целевым именам.
+    /// Если прямого совпадения нет (имя не попало в пул), ищет по FamilyId в полной
+    /// библиотеке — это обрабатывает случай Princess'/Queen's (одно семейство, разные имена).
+    /// </summary>
+    private long TargetWeight(
+        IReadOnlyList<string> names,
+        string affixType,
+        IReadOnlyList<AffixLibraryEntry> pool)
     {
         var nameSet = new HashSet<string>(names, StringComparer.Ordinal);
-        return pool.Where(e => e.AffixType == affixType && nameSet.Contains(e.AffixName))
+        var direct = pool.Where(e => e.AffixType == affixType && nameSet.Contains(e.AffixName))
+                         .Sum(e => (long)(e.Weight ?? 0));
+        if (direct > 0) return direct;
+
+        // FamilyId fallback: resolve families of target names from the full library,
+        // then count weight of any eligible pool entry that belongs to the same family.
+        var familyIds = _entries
+            .Where(e => e.AffixType == affixType && nameSet.Contains(e.AffixName) && e.FamilyId != null)
+            .Select(e => e.FamilyId!)
+            .ToHashSet(StringComparer.Ordinal);
+
+        if (familyIds.Count == 0) return 0;
+
+        return pool.Where(e => e.AffixType == affixType && e.FamilyId != null && familyIds.Contains(e.FamilyId))
                    .Sum(e => (long)(e.Weight ?? 0));
     }
 

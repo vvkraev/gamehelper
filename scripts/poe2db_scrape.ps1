@@ -294,6 +294,7 @@ function Convert-ModsToEntries([array]$mods, [string]$itemClass, [string]$typeSu
             }
             if ($null -ne $weight)   { $entry.weight        = $weight }
             if ($null -ne $subClass) { $entry.affixSubClass = $subClass }
+            $entry.familyId = $family
             $entries.Add($entry)
         }
     }

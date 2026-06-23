@@ -111,6 +111,15 @@ public partial class MainWindow : Window
     private Dictionary<string, int> _catalystGoldPrices = new();
     private string? _activeCraftLogPath;
 
+    private string _augOrbName = "Perfect Orb of Augmentation";
+    private string _chaosOrbName = "Chaos Orb";
+    private bool _isApplyingSettings;
+
+    private static readonly string[] AugOrbChoices =
+        ["Orb of Augmentation", "Greater Orb of Augmentation", "Perfect Orb of Augmentation"];
+    private static readonly string[] ChaosOrbChoices =
+        ["Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb"];
+
     private static (bool WantPrefix, bool WantSuffix) GetWantedAffixTypes(CraftConditionPlan plan)
     {
         var wantPrefix = false;
@@ -516,6 +525,7 @@ public partial class MainWindow : Window
 
     private void ApplySettings()
     {
+        _isApplyingSettings = true;
         var s = SettingsStore.Load();
         var loaded = ReforgeState.FromSettings(s);
         _reforgeState.Slot1Rect             = loaded.Slot1Rect;
@@ -675,6 +685,9 @@ public partial class MainWindow : Window
         TraceExaltationSchemaCheckBox.IsChecked = s.TraceExaltationSchema;
         _craft.ClipboardDelayMs = s.ClipboardDelayMs;
 
+        _augOrbName = !string.IsNullOrEmpty(s.AugOrbName) ? s.AugOrbName : "Perfect Orb of Augmentation";
+        _chaosOrbName = !string.IsNullOrEmpty(s.ChaosOrbName) ? s.ChaosOrbName : "Chaos Orb";
+
         var mode = (s.CraftMode ?? "").Trim();
         if (mode.Contains("Экзаль", StringComparison.OrdinalIgnoreCase) || mode.Contains("Exalt", StringComparison.OrdinalIgnoreCase))
             CraftModeCombo.SelectedIndex = 1;
@@ -684,6 +697,7 @@ public partial class MainWindow : Window
             CraftModeCombo.SelectedIndex = 3;
         else
             CraftModeCombo.SelectedIndex = 0;
+        RefreshCraftOrbCombo();
 
         _trayToggleVirtualKey = s.TrayToggleVirtualKey;
         _trayToggleModifiers = s.TrayToggleModifiers;
@@ -851,6 +865,7 @@ public partial class MainWindow : Window
         RegisterChancingStartStopHotkey();
 
         RefLoadCategories();
+        _isApplyingSettings = false;
     }
 
     private void SaveSettings()
@@ -901,6 +916,8 @@ public partial class MainWindow : Window
             ClipboardDelayMs = int.TryParse(ClipboardDelayMs.Text.Trim(), out var cd) ? cd : 220,
             MaxOps = int.TryParse(MaxOps.Text.Trim(), out var mo) ? mo : 20,
             CraftMode = uiMode,
+            AugOrbName = _augOrbName,
+            ChaosOrbName = _chaosOrbName,
             TraceInput = TraceInputCheckBox.IsChecked == true,
             StepConfirm = StepConfirmCheckBox.IsChecked == true,
             TraceExaltationSchema = TraceExaltationSchemaCheckBox.IsChecked == true,
@@ -1000,15 +1017,66 @@ public partial class MainWindow : Window
     }
 
 
+    private void RefreshCraftOrbCombo()
+    {
+        if (MainCraftOrbCombo is null) return;
+        var mode = (CraftModeCombo.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "";
+        var isAug = mode.Contains("Ауг", StringComparison.OrdinalIgnoreCase)
+                 || mode.Contains("+", StringComparison.OrdinalIgnoreCase);
+        var isChaos = mode.Contains("Хаос", StringComparison.OrdinalIgnoreCase);
+        if (!isAug && !isChaos)
+        {
+            MainCraftOrbCombo.ItemsSource = Array.Empty<string>();
+            MainCraftOrbCombo.IsEnabled = false;
+            return;
+        }
+        var choices = isAug ? AugOrbChoices : ChaosOrbChoices;
+        var current = isAug ? _augOrbName : _chaosOrbName;
+        MainCraftOrbCombo.IsEnabled = true;
+        MainCraftOrbCombo.ItemsSource = choices;
+        var idx = Array.IndexOf(choices, current);
+        MainCraftOrbCombo.SelectedIndex = idx >= 0 ? idx : choices.Length - 1;
+    }
+
+    private void CraftModeCombo_OnSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        RefreshCraftOrbCombo();
+    }
+
+    private void MainCraftOrbCombo_OnSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (_isApplyingSettings) return;
+        var orb = MainCraftOrbCombo.SelectedItem as string ?? "";
+        if (string.IsNullOrEmpty(orb)) return;
+        var mode = (CraftModeCombo.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "";
+        if (mode.Contains("Ауг", StringComparison.OrdinalIgnoreCase) || mode.Contains("+", StringComparison.OrdinalIgnoreCase))
+            _augOrbName = orb;
+        else if (mode.Contains("Хаос", StringComparison.OrdinalIgnoreCase))
+            _chaosOrbName = orb;
+        SaveSettings();
+    }
+
     private void CraftConditionBtn_OnClick(object sender, RoutedEventArgs e)
     {
         AffixLibrary.ReloadFromDisk();
         _affixEntries = AffixLibrary.GetEntries().ToList();
         var editCopy = SettingsStore.CloneCraftConditionPlan(_craftPlan);
+        if (string.IsNullOrEmpty(editCopy.CraftOrbName))
+            editCopy.CraftOrbName = MainCraftOrbCombo.SelectedItem as string ?? "";
         var dlg = new CraftConditionWindow(editCopy, _affixEntries, Services.AffixStatsScanner.Current) { Owner = this };
         if (dlg.ShowDialog() != true)
             return;
         _craftPlan = editCopy;
+        // Sync orb name from plan back to main window
+        if (!string.IsNullOrEmpty(_craftPlan.CraftOrbName))
+        {
+            var mode2 = (CraftModeCombo.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "";
+            if (mode2.Contains("Ауг", StringComparison.OrdinalIgnoreCase) || mode2.Contains("+", StringComparison.OrdinalIgnoreCase))
+                _augOrbName = _craftPlan.CraftOrbName;
+            else if (mode2.Contains("Хаос", StringComparison.OrdinalIgnoreCase))
+                _chaosOrbName = _craftPlan.CraftOrbName;
+            RefreshCraftOrbCombo();
+        }
         UpdateCraftConditionSummary();
         SaveSettings();
     }
@@ -1114,6 +1182,14 @@ public partial class MainWindow : Window
                 CraftModeCombo.SelectedIndex = 3;
             else
                 CraftModeCombo.SelectedIndex = 0;
+            if (!string.IsNullOrEmpty(_craftPlan.CraftOrbName))
+            {
+                if (cm.Contains("Ауг", StringComparison.OrdinalIgnoreCase) || cm.Contains("+", StringComparison.OrdinalIgnoreCase))
+                    _augOrbName = _craftPlan.CraftOrbName;
+                else if (cm.Contains("Хаос", StringComparison.OrdinalIgnoreCase))
+                    _chaosOrbName = _craftPlan.CraftOrbName;
+                RefreshCraftOrbCombo();
+            }
             SaveSettings();
             SessionLogger.Info($"Рецепт загружен: {ofd.FileName}");
         }

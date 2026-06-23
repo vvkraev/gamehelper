@@ -1,9 +1,12 @@
 {
   "name": "Body Armours 79 ES,spirit \u002B res",
-  "savedAt": "2026-06-22T13:21:35.3607539+03:00",
+  "savedAt": "2026-06-23T10:54:01.8911604+03:00",
   "craftMode": "\u0410\u0443\u0433\u002B\u0410\u043D\u043D\u0443\u043B",
   "plan": {
     "expectedItemClass": "Body Armours",
+    "expectedItemSubType": "Energy Shield",
+    "expectedItemIlvl": 0,
+    "craftOrbName": "Perfect Orb of Augmentation",
     "orAlternatives": [
       {
         "clauses": [
@@ -12,7 +15,7 @@
             "single": null,
             "sum": null,
             "count": {
-              "minMatchCount": 1,
+              "minMatchCount": 2,
               "members": [
                 {
                   "affixType": "Prefix Modifier",
@@ -57,17 +60,10 @@
                   "affixTier": 1,
                   "lines": [
                     {
-                      "statTemplate": "\u002B(26\u201330) to maximum Energy Shield",
+                      "statTemplate": "\u002B(26\u201330) to maximum Energy Shield(39\u201342)% increased Energy Shield",
                       "minRoll": 26,
                       "minRolls": [
                         26
-                      ]
-                    },
-                    {
-                      "statTemplate": "(39\u201342)% increased Energy Shield",
-                      "minRoll": 39,
-                      "minRolls": [
-                        39
                       ]
                     }
                   ]

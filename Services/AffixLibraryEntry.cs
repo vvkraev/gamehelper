@@ -25,7 +25,24 @@ public sealed class AffixLibraryEntry
 
     /// <summary>
     /// Подкласс для предметов, где один Item Class объединяет несколько механик.
-    /// Например, все планшеты имеют класс "Tablet", но подклассы: "Ritual", "Breach", "Abyss" и т.д.
+    /// Для Tablet: "Ritual", "Breach", "Abyss" и т.д.
+    /// Для брони: "Armour", "Evasion", "Energy Shield", "Armour/Evasion" и т.д. — определяется
+    /// по crafting-тегам из mod_no (armour / evasion / energy_shield) на poe2db.tw.
+    /// null = доступен на всех подтипах данного ItemClass.
     /// </summary>
     public string? AffixSubClass { get; set; }
+
+    /// <summary>
+    /// Вес тира при выборе орбом (шаг 3 алгоритма из AFFIX_TIER_SELECTION_MECHANICS.md).
+    /// Источник: поле DropChance в ModsView JSON на poe2db.tw.
+    /// null = неизвестен (записи из старой версии скрапера без весов).
+    /// </summary>
+    public int? Weight { get; set; }
+
+    /// <summary>
+    /// Идентификатор семейства аффиксов из poe2db (ModFamilyList[0]).
+    /// Все тиры одного семейства (Queen's T1, Princess' T2) имеют одинаковый FamilyId.
+    /// null = неизвестен (записи из старой версии скрапера).
+    /// </summary>
+    public string? FamilyId { get; set; }
 }

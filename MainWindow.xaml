@@ -426,12 +426,18 @@
                     <TextBlock Text="Режим крафта" FontWeight="SemiBold" Margin="0,0,0,4"/>
                     <ComboBox x:Name="CraftModeCombo"
                               Margin="0,0,0,12"
-                              SelectedIndex="0">
+                              SelectedIndex="0"
+                              SelectionChanged="CraftModeCombo_OnSelectionChanged">
                         <ComboBoxItem Content="Хаос"/>
                         <ComboBoxItem Content="Экзальт"/>
                         <ComboBoxItem Content="Ауг+Аннул"/>
                         <ComboBoxItem Content="Заточка"/>
                     </ComboBox>
+
+                    <TextBlock Text="Орб крафта" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <ComboBox x:Name="MainCraftOrbCombo"
+                              Margin="0,0,0,12"
+                              SelectionChanged="MainCraftOrbCombo_OnSelectionChanged"/>
 
                     <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4"
                                Text="Условие остановки крафта (affix_library.json, класс предмета внутри условия)"/>

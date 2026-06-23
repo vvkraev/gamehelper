@@ -113,6 +113,12 @@ public sealed class AppSettings
     /// <summary>Выбранный режим крафта в UI: "Хаос" или "Ауг+Аннул".</summary>
     public string CraftMode { get; set; } = "Хаос";
 
+    /// <summary>Орб для режима Ауг+Аннул (для весового расчёта вероятности и отображения в UI).</summary>
+    public string AugOrbName { get; set; } = "Perfect Orb of Augmentation";
+
+    /// <summary>Орб для режима Хаос (для весового расчёта вероятности и отображения в UI).</summary>
+    public string ChaosOrbName { get; set; } = "Chaos Orb";
+
     public bool TraceInput { get; set; }
     public bool StepConfirm { get; set; }
 
