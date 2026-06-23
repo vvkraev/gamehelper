@@ -2204,7 +2204,7 @@ public partial class MainWindow : Window
                     }
                     else if (!isAugAnnul)
                     {
-                        craftFile ??= CraftRunFileLog.Begin(orb, cells[0], maxOps, conditionSummary, cells);
+                        craftFile ??= CraftRunFileLog.Begin(orb, cells[0], maxOps, conditionSummary, cells, _chaosOrbName);
                         _activeCraftLogPath = craftFile.WipPath;
                         craftFile.SetCurrentCell(ci + 1, cells.Count);
                         var cr = await _craft.RunAsync(
@@ -2233,7 +2233,8 @@ public partial class MainWindow : Window
                             cells[0],
                             maxOps,
                             conditionSummary,
-                            cells);
+                            cells,
+                            _augOrbName);
                         _activeCraftLogPath = craftFile.WipPath;
                         craftFile.SetCurrentCell(ci + 1, cells.Count);
 

@@ -23,7 +23,8 @@ public sealed class CraftRunFileLog : IDisposable
         ScreenRect item,
         int maxOps,
         string conditionSummary,
-        IReadOnlyList<ScreenRect>? allItemCells = null)
+        IReadOnlyList<ScreenRect>? allItemCells = null,
+        string orbName = "")
     {
         var logDir = GameHelper.ProjectPaths.GetLogDirectory();
         var start = DateTime.Now;
@@ -33,6 +34,8 @@ public sealed class CraftRunFileLog : IDisposable
 
         w.WriteLine($"=== Запуск крафта {start:yyyy-MM-dd HH:mm:ss} ===");
         w.WriteLine($"Общий лимит операций (N) на всю сессию (все ячейки): {maxOps}");
+        if (!string.IsNullOrEmpty(orbName))
+            w.WriteLine($"Орб: {orbName}");
         w.WriteLine($"Область {orbLabel}: X={orb.X}, Y={orb.Y}, W={orb.Width}, H={orb.Height}");
         if (orb2 is { } o2)
             w.WriteLine($"Область {orb2Label ?? "Orb2"}: X={o2.X}, Y={o2.Y}, W={o2.Width}, H={o2.Height}");
@@ -61,8 +64,9 @@ public sealed class CraftRunFileLog : IDisposable
         ScreenRect item,
         int maxOps,
         string conditionSummary,
-        IReadOnlyList<ScreenRect>? allItemCells = null) =>
-        Begin("Chaos Orb", orb, null, null, item, maxOps, conditionSummary, allItemCells);
+        IReadOnlyList<ScreenRect>? allItemCells = null,
+        string orbName = "") =>
+        Begin("Chaos Orb", orb, null, null, item, maxOps, conditionSummary, allItemCells, orbName);
 
     private CraftRunFileLog(string wipPath, DateTime runStart, StreamWriter writer)
     {

@@ -75,11 +75,16 @@
                            Margin="0,0,0,10"
                            Text="Между «Вариант N» — ИЛИ. Внутри варианта клозы связаны И. «Сумма» — сложение значений (нет модификатора — 0). «Набор (COUNT)» — сколько строк из списка должно выполняться на предмете одновременно (каждая строка как одиночный аффикс)."/>
                 <StackPanel x:Name="OrAlternativesHost" Margin="0,0,0,8"/>
-                <TextBlock x:Name="CombinedChanceLabel"
-                           Margin="0,0,0,10"
+                <TextBlock x:Name="TheoryChanceLabel"
+                           Margin="0,0,0,2"
                            FontSize="13"
                            FontWeight="SemiBold"
                            Foreground="#1976D2"/>
+                <TextBlock x:Name="PracticeChanceLabel"
+                           Margin="0,0,0,10"
+                           FontSize="13"
+                           FontWeight="SemiBold"
+                           Foreground="#388E3C"/>
                 <Button Content="Добавить вариант (ИЛИ)…"
                         HorizontalAlignment="Left"
                         Padding="10,6"

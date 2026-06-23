@@ -4,58 +4,55 @@ namespace GameHelper.Services;
 
 public sealed class AffixStatsData
 {
-    // v4: PerClass key is "ItemClass|SubType" for items with a subtype, or just "ItemClass" otherwise.
-    public int Version { get; set; } = 4;
+    // v5: PerClass key is "ItemClass|SubType|OrbName" (or "ItemClass|OrbName" / "ItemClass" when absent).
+    public int Version { get; set; } = 5;
 
     [JsonPropertyName("processedLogFiles")]
     public HashSet<string> ProcessedLogFiles { get; set; } = new(StringComparer.Ordinal);
-
-    /// <summary>
-    /// Орб, которым собиралась статистика в режиме Aug+Annul.
-    /// Важно для интерпретации вероятностей: Perfect Orb of Augmentation (min=70)
-    /// ограничивает пул тиров, поэтому вероятности несопоставимы с обычным Aug Orb (min=1).
-    /// </summary>
-    [JsonPropertyName("augAnnulOrbUsed")]
-    public string AugAnnulOrbUsed { get; set; } = "Perfect Orb of Augmentation";
 
     [JsonPropertyName("perClass")]
     public Dictionary<string, ClassStats> PerClass { get; set; } = new(StringComparer.Ordinal);
 
     /// <summary>
     /// Строит ключ для <see cref="PerClass"/>:
-    /// "ItemClass|SubType" если подтип не пустой, иначе просто "ItemClass".
+    /// "ItemClass|SubType|OrbName", пропуская пустые сегменты.
     /// </summary>
-    public static string MakeClassKey(string itemClass, string itemSubType)
-        => string.IsNullOrEmpty(itemSubType) ? itemClass : $"{itemClass}|{itemSubType}";
-
-    public ClassStats GetOrCreate(string itemClass, string itemSubType = "")
+    public static string MakeClassKey(string itemClass, string itemSubType, string orbName = "")
     {
-        var key = MakeClassKey(itemClass, itemSubType);
+        var parts = new List<string>(3) { itemClass };
+        if (!string.IsNullOrEmpty(itemSubType)) parts.Add(itemSubType);
+        if (!string.IsNullOrEmpty(orbName)) parts.Add(orbName);
+        return string.Join("|", parts);
+    }
+
+    public ClassStats GetOrCreate(string itemClass, string itemSubType = "", string orbName = "")
+    {
+        var key = MakeClassKey(itemClass, itemSubType, orbName);
         if (!PerClass.TryGetValue(key, out var s))
             PerClass[key] = s = new ClassStats();
         return s;
     }
 
-    /// <summary>Returns (count of appearances, total item snapshots for this class+subtype).</summary>
-    public (int count, int total) GetCounts(string itemClass, string itemSubType, string affixName)
+    /// <summary>Returns (count of appearances, total item snapshots for this class+subtype+orb).</summary>
+    public (int count, int total) GetCounts(string itemClass, string itemSubType, string affixName, string orbName = "")
     {
-        var key = MakeClassKey(itemClass, itemSubType);
+        var key = MakeClassKey(itemClass, itemSubType, orbName);
         if (!PerClass.TryGetValue(key, out var cs)) return (0, 0);
         cs.AffixCounts.TryGetValue(affixName, out var count);
         return (count, cs.TotalSnapshots);
     }
 
     /// <summary>
-    /// При загрузке файла версии ниже 4 сбрасывает статистику — старые данные не имеют
-    /// разбивки по подтипу и смешивают несовместимые пулы аффиксов.
+    /// При загрузке данных старой версии сбрасывает статистику — данные пересобираются
+    /// из лог-файлов с новым форматом ключа.
     /// </summary>
     public void MigrateIfNeeded()
     {
-        if (Version < 4)
+        if (Version < 5)
         {
             PerClass.Clear();
             ProcessedLogFiles.Clear();
-            Version = 4;
+            Version = 5;
         }
     }
 }

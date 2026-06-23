@@ -58,17 +58,27 @@ public static class AffixStatsScanner
         return changed;
     }
 
+    private static string ExtractOrbName(string text)
+    {
+        const string marker = "Орб: ";
+        var idx = text.IndexOf(marker, StringComparison.Ordinal);
+        if (idx < 0) return "";
+        var nl = text.IndexOf('\n', idx);
+        return (nl > idx ? text[(idx + marker.Length)..nl] : text[(idx + marker.Length)..]).Trim();
+    }
+
     private static async Task ProcessFileAsync(string filePath, AffixStatsData data)
     {
         try
         {
             var text = await File.ReadAllTextAsync(filePath).ConfigureAwait(false);
+            var orbName = ExtractOrbName(text);
             foreach (var snapshot in ExtractSnapshots(text))
             {
                 var item = ItemParser.Parse(snapshot);
                 if (!item.IsValid || string.IsNullOrWhiteSpace(item.ItemClass)) continue;
 
-                var cs = data.GetOrCreate(item.ItemClass, item.ItemSubType);
+                var cs = data.GetOrCreate(item.ItemClass, item.ItemSubType, orbName);
                 cs.TotalSnapshots++;
                 foreach (var affix in item.Affixes)
                 {

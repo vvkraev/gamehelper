@@ -1056,8 +1056,13 @@ public partial class CraftConditionWindow : Window
 
         void UpdateStatsLabel()
         {
+            var statsOrb = _craftOrb?.Name ?? "";
+            var statsKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType, statsOrb);
+            // Fall back to unkeyed data (pre-v5 stats)
+            if (_stats != null && !_stats.PerClass.ContainsKey(statsKey) && !string.IsNullOrEmpty(statsOrb))
+                statsKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType);
             if (_stats == null || string.IsNullOrEmpty(ic) ||
-                !_stats.PerClass.TryGetValue(Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType), out var cs) || cs.TotalSnapshots == 0)
+                !_stats.PerClass.TryGetValue(statsKey, out var cs) || cs.TotalSnapshots == 0)
             {
                 lblStats.Text = _stats == null ? "" : "Статистика: нет данных по этому классу";
                 return;
@@ -1487,83 +1492,92 @@ public partial class CraftConditionWindow : Window
         var ic = _plan.ExpectedItemClass;
         if (string.IsNullOrEmpty(ic) || _plan.OrAlternatives.Count == 0)
         {
-            CombinedChanceLabel.Text = "";
+            TheoryChanceLabel.Text = "";
+            PracticeChanceLabel.Text = "";
             return;
         }
 
-        // Weight-based calculation (CRAFT-3): if orb + ilvl are set
-        if (_craftOrb is { SelectsTier: true } && _plan.ExpectedItemIlvl > 0)
+        TheoryChanceLabel.Text  = BuildTheoryLabel(ic);
+        PracticeChanceLabel.Text = BuildPracticeLabel(ic);
+    }
+
+    private string BuildTheoryLabel(string ic)
+    {
+        if (_craftOrb is not { SelectsTier: true } || _plan.ExpectedItemIlvl <= 0)
+            return "";
+
+        var pool = BuildWeightPool(ic, _plan.ExpectedItemSubType, _plan.ExpectedItemIlvl, _craftOrb);
+        if (pool.TotalW == 0)
+            return "";
+
+        var best = WR.Zero;
+        foreach (var alt in _plan.OrAlternatives)
         {
-            var pool = BuildWeightPool(ic, _plan.ExpectedItemSubType, _plan.ExpectedItemIlvl, _craftOrb);
-            if (pool.TotalW > 0)
+            var r = CalcWeightAndGroupResult(alt, pool);
+            if (r.Chance > best.Chance) best = r;
+        }
+        var pct = best.Chance * 100;
+        var orbName = _craftOrb.Name;
+        const string annulName = "Orb of Annulment";
+        string costStr;
+        if (best.EAug > 0)
+        {
+            var augDiv   = (double)(PoeNinjaPriceService.GetPrice(orbName)?.DivineValue   ?? 0m);
+            var annulDiv = (double)(PoeNinjaPriceService.GetPrice(annulName)?.DivineValue ?? 0m);
+            if (augDiv > 0 || annulDiv > 0)
             {
-                // Aggregate across OR-alternatives: take the best (highest chance)
-                // For the orb-cost display we use the most likely alternative
-                var best = WR.Zero;
-                foreach (var alt in _plan.OrAlternatives)
-                {
-                    var r = CalcWeightAndGroupResult(alt, pool);
-                    if (r.Chance > best.Chance) best = r;
-                }
-                var pct = best.Chance * 100;
-                var orbName  = _craftOrb.Name;
-                const string annulName = "Orb of Annulment";
-                string costStr;
-                if (best.EAug > 0)
-                {
-                    var augDiv   = (double)(PoeNinjaPriceService.GetPrice(orbName)?.DivineValue   ?? 0m);
-                    var annulDiv = (double)(PoeNinjaPriceService.GetPrice(annulName)?.DivineValue ?? 0m);
-                    if (augDiv > 0 || annulDiv > 0)
-                    {
-                        var totalDiv = best.EAug * augDiv + best.EAnnul * annulDiv;
-                        costStr = $" · ~{totalDiv:F2} div (~{best.EAug:F1} aug + ~{best.EAnnul:F1} ann)";
-                    }
-                    else
-                    {
-                        costStr = $" · ~{best.EAug:F1} {orbName} + ~{best.EAnnul:F1} {annulName}";
-                    }
-                }
-                else
-                {
-                    costStr = "";
-                }
-                CombinedChanceLabel.Text = $"Весовой: ~{pct:F1}% за попытку{costStr}" +
-                    $" · min {_craftOrb.MinModifierLevel} · ilvl {_plan.ExpectedItemIlvl}" +
-                    $" · пул {pool.Prefixes.Count}P/{pool.Suffixes.Count}S";
-                return;
+                var totalDiv = best.EAug * augDiv + best.EAnnul * annulDiv;
+                costStr = $" · ~{totalDiv:F2} div (~{best.EAug:F1} aug + ~{best.EAnnul:F1} ann)";
+            }
+            else
+            {
+                costStr = $" · ~{best.EAug:F1} {orbName} + ~{best.EAnnul:F1} {annulName}";
+            }
+        }
+        else
+        {
+            costStr = "";
+        }
+        return $"Теория (poe2db): ~{pct:F1}%{costStr}" +
+            $" · min {_craftOrb.MinModifierLevel} · ilvl {_plan.ExpectedItemIlvl}" +
+            $" · пул {pool.Prefixes.Count}P/{pool.Suffixes.Count}S";
+    }
+
+    private string BuildPracticeLabel(string ic)
+    {
+        if (_stats == null) return "";
+
+        var orbName = _craftOrb?.Name ?? "";
+        var key = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType, orbName);
+        if (!_stats.PerClass.TryGetValue(key, out var cs) || cs.TotalSnapshots < 10)
+        {
+            if (cs?.TotalSnapshots > 0)
+                return $"Практика: мало данных ({cs.TotalSnapshots} предметов, {orbName})";
+            // Try without orb key for older data collected before v5
+            var legacyKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType);
+            if (!string.IsNullOrEmpty(orbName) && _stats.PerClass.TryGetValue(legacyKey, out cs) && cs.TotalSnapshots >= 10)
+            {
+                // fall through to calculation with legacy data, note it's unkeyed
+                orbName = "";
+            }
+            else
+            {
+                return "";
             }
         }
 
-        // Frequency-based fallback
-        if (_stats == null)
-        {
-            CombinedChanceLabel.Text = "";
-            return;
-        }
-
-        if (!_stats.PerClass.TryGetValue(Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType), out var cs) || cs.TotalSnapshots < 10)
-        {
-            CombinedChanceLabel.Text = cs?.TotalSnapshots > 0
-                ? $"Суммарный шанс: мало данных ({cs.TotalSnapshots} предметов)"
-                : "Суммарный шанс: нет данных по этому классу";
-            return;
-        }
-
         var hasPartialData = false;
-        var pNone2 = 1.0;
+        var pNone = 1.0;
         foreach (var alt in _plan.OrAlternatives)
-            pNone2 *= 1.0 - CalcAndGroupProbability(alt, ic, cs, ref hasPartialData);
+            pNone *= 1.0 - CalcAndGroupProbability(alt, ic, cs!, ref hasPartialData);
 
-        var p2 = Math.Max(0.0, Math.Min(1.0, 1.0 - pNone2));
-        var pct2 = p2 * 100;
-        var avgTries = p2 > 0 ? (int)Math.Round(1.0 / p2) : -1;
+        var p = Math.Max(0.0, Math.Min(1.0, 1.0 - pNone));
+        var pct = p * 100;
+        var avgTries = p > 0 ? (int)Math.Round(1.0 / p) : -1;
         var avgStr = avgTries > 0 ? $" (~{avgTries} попыток)" : " (∞)";
-        var dataNote = hasPartialData ? " ⚠ нет данных по части аффиксов" : "";
-        var orbNote = !string.IsNullOrEmpty(_stats.AugAnnulOrbUsed)
-            ? $" · статистика: {_stats.AugAnnulOrbUsed}"
-            : "";
-
-        CombinedChanceLabel.Text = $"Суммарный шанс: ~{pct2:F1}%{avgStr}{dataNote}{orbNote}";
+        var dataNote = hasPartialData ? " ⚠ нет данных по части" : "";
+        var orbNote = !string.IsNullOrEmpty(orbName) ? $" · {orbName}" : "";
+        return $"Практика (опыт, N={cs!.TotalSnapshots}): ~{pct:F1}%{avgStr}{dataNote}{orbNote}";
     }
 
     // ── Весовой расчёт (CRAFT-3) ──────────────────────────────────────────────────
