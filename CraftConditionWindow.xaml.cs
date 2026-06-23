@@ -50,6 +50,11 @@ public partial class CraftConditionWindow : Window
         "Orb of Transmutation", "Greater Orb of Transmutation (min 44)", "Perfect Orb of Transmutation (min 70)",
     ];
 
+    private static readonly HashSet<string> TabletItemClasses = new(StringComparer.Ordinal)
+    {
+        "Tablet",
+    };
+
     private static readonly HashSet<string> ArmourSubTypeClasses = new(StringComparer.Ordinal)
     {
         "Body Armours", "Gloves", "Helmets", "Boots",
@@ -143,9 +148,14 @@ public partial class CraftConditionWindow : Window
     private void RefreshSubClassRow()
     {
         var ic = SelectedItemClass;
-        var subClasses = ic is not null
-            ? CraftAffixCascadeHelper.GetSubClassesForItemClass(ic, _entries)
-            : new List<string>();
+        if (ic == null || !TabletItemClasses.Contains(ic))
+        {
+            SubClassRow.Visibility = System.Windows.Visibility.Collapsed;
+            _tabletSubClass = null;
+            return;
+        }
+
+        var subClasses = CraftAffixCascadeHelper.GetSubClassesForItemClass(ic, _entries);
 
         if (subClasses.Count == 0)
         {
