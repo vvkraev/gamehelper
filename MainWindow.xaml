@@ -435,6 +435,66 @@
                         <ComboBoxItem Content="Фракт. Орб"/>
                     </ComboBox>
 
+                    <!-- Панель оценки Fracturing Orb — видима только в режиме Фракт. Орб -->
+                    <Border x:Name="FractOrbEvalPanel"
+                            Visibility="Collapsed"
+                            BorderBrush="#C0C0C0"
+                            BorderThickness="1"
+                            CornerRadius="4"
+                            Padding="10,8"
+                            Margin="0,0,0,12"
+                            Background="#F8F8F8">
+                        <StackPanel>
+                            <TextBlock Text="Оценка стратегии" FontWeight="SemiBold" Margin="0,0,0,8"/>
+
+                            <Grid Margin="0,0,0,6">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="70"/>
+                                    <ColumnDefinition Width="28"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="28"/>
+                                    <RowDefinition Height="28"/>
+                                    <RowDefinition Height="28"/>
+                                    <RowDefinition Height="28"/>
+                                    <RowDefinition Height="28"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Row="0" Grid.Column="0" Text="Стоимость предмета-основы" VerticalAlignment="Center"/>
+                                <TextBox   Grid.Row="0" Grid.Column="1" x:Name="FractOrbBaseCostInput" Text="6"
+                                           TextChanged="FractOrbInput_Changed" VerticalContentAlignment="Center"/>
+                                <TextBlock Grid.Row="0" Grid.Column="2" Text="div" VerticalAlignment="Center" Margin="4,0,0,0"/>
+
+                                <TextBlock Grid.Row="1" Grid.Column="0" Text="Preserved Cranium" VerticalAlignment="Center"/>
+                                <TextBox   Grid.Row="1" Grid.Column="1" x:Name="FractOrbCraniumInput" Text="1.51"
+                                           TextChanged="FractOrbInput_Changed" VerticalContentAlignment="Center"/>
+                                <TextBlock Grid.Row="1" Grid.Column="2" Text="div" VerticalAlignment="Center" Margin="4,0,0,0"/>
+
+                                <TextBlock Grid.Row="2" Grid.Column="0" Text="Fracturing Orb" VerticalAlignment="Center"/>
+                                <TextBox   Grid.Row="2" Grid.Column="1" x:Name="FractOrbOrbCostInput" Text="6.76"
+                                           TextChanged="FractOrbInput_Changed" VerticalContentAlignment="Center"/>
+                                <TextBlock Grid.Row="2" Grid.Column="2" Text="div" VerticalAlignment="Center" Margin="4,0,0,0"/>
+
+                                <TextBlock Grid.Row="3" Grid.Column="0" Text="Обычных аффиксов на предмете (N)" VerticalAlignment="Center"/>
+                                <TextBox   Grid.Row="3" Grid.Column="1" x:Name="FractOrbNInput" Text="3"
+                                           TextChanged="FractOrbInput_Changed" VerticalContentAlignment="Center"/>
+                                <TextBlock Grid.Row="3" Grid.Column="2" Text="шт" VerticalAlignment="Center" Margin="4,0,0,0"/>
+
+                                <TextBlock Grid.Row="4" Grid.Column="0" Text="Целевая цена продажи" VerticalAlignment="Center"/>
+                                <TextBox   Grid.Row="4" Grid.Column="1" x:Name="FractOrbSalePriceInput" Text="0"
+                                           TextChanged="FractOrbInput_Changed" VerticalContentAlignment="Center"/>
+                                <TextBlock Grid.Row="4" Grid.Column="2" Text="div" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            </Grid>
+
+                            <TextBlock x:Name="FractOrbEvalResult"
+                                       TextWrapping="Wrap"
+                                       FontFamily="Consolas"
+                                       FontSize="12"
+                                       Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Border>
+
                     <TextBlock Text="Орб крафта" FontWeight="SemiBold" Margin="0,0,0,4"/>
                     <ComboBox x:Name="MainCraftOrbCombo"
                               Margin="0,0,0,12"

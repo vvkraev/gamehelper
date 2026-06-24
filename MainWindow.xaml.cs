@@ -689,6 +689,15 @@ public partial class MainWindow : Window
         _augOrbName = !string.IsNullOrEmpty(s.AugOrbName) ? s.AugOrbName : "Perfect Orb of Augmentation";
         _chaosOrbName = !string.IsNullOrEmpty(s.ChaosOrbName) ? s.ChaosOrbName : "Chaos Orb";
 
+        FractOrbBaseCostInput.Text = s.FractOrbBaseCostDiv > 0 ? s.FractOrbBaseCostDiv.ToString("F2", System.Globalization.CultureInfo.InvariantCulture) : "6";
+        FractOrbNInput.Text = s.FractOrbNAffixes > 0 ? s.FractOrbNAffixes.ToString() : "3";
+        FractOrbSalePriceInput.Text = s.FractOrbTargetPriceDiv > 0 ? s.FractOrbTargetPriceDiv.ToString("F2", System.Globalization.CultureInfo.InvariantCulture) : "0";
+        // Cranium / Orb costs: prefer ninja prices; fallback to saved value
+        var savedCranium = s.FractOrbCraniumCostDiv > 0 ? s.FractOrbCraniumCostDiv : 1.51m;
+        var savedOrb = s.FractOrbOrbCostDiv > 0 ? s.FractOrbOrbCostDiv : 6.76m;
+        FractOrbCraniumInput.Text = savedCranium.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+        FractOrbOrbCostInput.Text = savedOrb.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+
         var mode = (s.CraftMode ?? "").Trim();
         if (mode.Contains("Экзаль", StringComparison.OrdinalIgnoreCase) || mode.Contains("Exalt", StringComparison.OrdinalIgnoreCase))
             CraftModeCombo.SelectedIndex = 1;
@@ -921,6 +930,15 @@ public partial class MainWindow : Window
             CraftMode = uiMode,
             AugOrbName = _augOrbName,
             ChaosOrbName = _chaosOrbName,
+            FractOrbBaseCostDiv = decimal.TryParse(FractOrbBaseCostInput.Text.Replace(',', '.'),
+                System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var fcb) ? fcb : 6m,
+            FractOrbCraniumCostDiv = decimal.TryParse(FractOrbCraniumInput.Text.Replace(',', '.'),
+                System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var fcc) ? fcc : 0m,
+            FractOrbOrbCostDiv = decimal.TryParse(FractOrbOrbCostInput.Text.Replace(',', '.'),
+                System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var fco) ? fco : 0m,
+            FractOrbNAffixes = int.TryParse(FractOrbNInput.Text.Trim(), out var fni) && fni >= 1 ? fni : 3,
+            FractOrbTargetPriceDiv = decimal.TryParse(FractOrbSalePriceInput.Text.Replace(',', '.'),
+                System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var fsp) ? fsp : 0m,
             TraceInput = TraceInputCheckBox.IsChecked == true,
             StepConfirm = StepConfirmCheckBox.IsChecked == true,
             TraceExaltationSchema = TraceExaltationSchemaCheckBox.IsChecked == true,
@@ -1044,6 +1062,75 @@ public partial class MainWindow : Window
     private void CraftModeCombo_OnSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
         RefreshCraftOrbCombo();
+        var mode = (CraftModeCombo.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "";
+        var isFract = mode.Contains("Фракт", StringComparison.OrdinalIgnoreCase);
+        FractOrbEvalPanel.Visibility = isFract ? Visibility.Visible : Visibility.Collapsed;
+        if (isFract)
+        {
+            FillFractOrbPricesFromNinja();
+            UpdateFractOrbEvaluation();
+        }
+    }
+
+    private void FillFractOrbPricesFromNinja()
+    {
+        var cranium = Services.PoeNinjaPriceService.GetPrice("preserved cranium")?.DivineValue;
+        if (cranium is > 0 && FractOrbCraniumInput.Text is "0" or "1.51")
+            FractOrbCraniumInput.Text = cranium.Value.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+
+        var orb = Services.PoeNinjaPriceService.GetPrice("fracturing orb")?.DivineValue;
+        if (orb is > 0 && FractOrbOrbCostInput.Text is "0" or "6.76")
+            FractOrbOrbCostInput.Text = orb.Value.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
+    }
+
+    private void FractOrbInput_Changed(object sender, System.Windows.Controls.TextChangedEventArgs e) =>
+        UpdateFractOrbEvaluation();
+
+    private void UpdateFractOrbEvaluation()
+    {
+        if (FractOrbEvalResult is null) return;
+
+        if (!decimal.TryParse(FractOrbBaseCostInput.Text.Replace(',', '.'), System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture, out var baseCost) || baseCost < 0)
+        { FractOrbEvalResult.Text = "Стоимость предмета-основы: неверное значение."; return; }
+
+        if (!decimal.TryParse(FractOrbCraniumInput.Text.Replace(',', '.'), System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture, out var cranium) || cranium < 0)
+        { FractOrbEvalResult.Text = "Стоимость Preserved Cranium: неверное значение."; return; }
+
+        if (!decimal.TryParse(FractOrbOrbCostInput.Text.Replace(',', '.'), System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture, out var orbCost) || orbCost < 0)
+        { FractOrbEvalResult.Text = "Стоимость Fracturing Orb: неверное значение."; return; }
+
+        if (!int.TryParse(FractOrbNInput.Text.Trim(), out var n) || n < 1)
+        { FractOrbEvalResult.Text = "N (аффиксов): укажите целое ≥ 1."; return; }
+
+        decimal.TryParse(FractOrbSalePriceInput.Text.Replace(',', '.'), System.Globalization.NumberStyles.Float,
+            System.Globalization.CultureInfo.InvariantCulture, out var salePrice);
+
+        var perAttempt = baseCost + cranium + orbCost;
+        var expected = n * perAttempt;
+        var prob = 100m / n;
+
+        var sb = new System.Text.StringBuilder();
+        sb.AppendLine($"За попытку:  {baseCost:F2} + {cranium:F2} + {orbCost:F2} = {perAttempt:F2} div");
+        sb.AppendLine($"Вероятность: 1/{n} ({prob:F1}%)  →  ожидание {n} попыток");
+        sb.AppendLine($"Ожидаемые затраты: {expected:F2} div");
+
+        if (salePrice > 0)
+        {
+            var profit = salePrice - expected;
+            var sign = profit >= 0 ? "+" : "";
+            sb.AppendLine($"Цена продажи:  {salePrice:F2} div");
+            sb.Append($"Прибыль:       {sign}{profit:F2} div  {(profit >= 0 ? "✓" : "✗")}");
+        }
+
+        FractOrbEvalResult.Text = sb.ToString();
+        FractOrbEvalResult.Foreground = salePrice > 0
+            ? (salePrice - expected >= 0
+                ? System.Windows.Media.Brushes.DarkGreen
+                : System.Windows.Media.Brushes.DarkRed)
+            : System.Windows.Media.Brushes.Black;
     }
 
     private void MainCraftOrbCombo_OnSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)

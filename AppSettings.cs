@@ -243,6 +243,18 @@ public sealed class AppSettings
     /// <summary>Задержка после каждого Ctrl+ЛКМ/ПКМ при переносе предмета (игра обрабатывает перенос), мс.</summary>
     public int AutoReforgeItemTransferDelayMs { get; set; } = 400;
 
+    // ── Fracturing Orb оценка ────────────────────────────────────────────────
+    /// <summary>Стоимость предмета-основы (divs) для калькулятора Fracturing Orb.</summary>
+    public decimal FractOrbBaseCostDiv { get; set; } = 6m;
+    /// <summary>Стоимость Preserved Cranium (divs). 0 = использовать цену из poe.ninja.</summary>
+    public decimal FractOrbCraniumCostDiv { get; set; } = 0m;
+    /// <summary>Стоимость Fracturing Orb (divs). 0 = использовать цену из poe.ninja.</summary>
+    public decimal FractOrbOrbCostDiv { get; set; } = 0m;
+    /// <summary>Количество обычных аффиксов на предмете (знаменатель вероятности).</summary>
+    public int FractOrbNAffixes { get; set; } = 3;
+    /// <summary>Целевая цена продажи готового предмета (divs). 0 = не задана.</summary>
+    public decimal FractOrbTargetPriceDiv { get; set; } = 0m;
+
     // ── Шансинг (Orb of Chance) ──────────────────────────────────────────────
     /// <summary>Ячейка стака Orb of Chance в инвентаре или сташе.</summary>
     public ScreenRect ChancingOocRect { get; set; }
