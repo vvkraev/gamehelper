@@ -24,6 +24,23 @@ public static class RuneAffixLibrary
     public static string FilePath =>
         Path.Combine(ProjectPaths.GetProjectRoot(), "rune_affix_overrides.json");
 
+    public static void ReloadFromDisk(string filePath)
+    {
+        lock (Gate)
+        {
+            _data = null;
+            try
+            {
+                var json = File.ReadAllText(filePath);
+                _data = JsonSerializer.Deserialize<RuneAffixFile>(json, JsonOptions) ?? new RuneAffixFile();
+            }
+            catch
+            {
+                _data = new RuneAffixFile();
+            }
+        }
+    }
+
     private static void EnsureLoaded()
     {
         if (_data != null) return;
