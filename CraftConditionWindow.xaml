@@ -52,6 +52,12 @@
                     <ComboBox x:Name="ArmourSubTypeCombo"
                               SelectionChanged="ArmourSubTypeCombo_OnSelectionChanged"/>
                 </StackPanel>
+                <StackPanel x:Name="RuneRow" Visibility="Collapsed" Margin="0,0,0,10">
+                    <TextBlock Text="Вставлена руна" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <ComboBox x:Name="RuneCombo"
+                              SelectionChanged="RuneCombo_OnSelectionChanged"
+                              ToolTip="Руна, вставленная в гнездо предмета — её аффиксы добавляются в пул крафта"/>
+                </StackPanel>
                 <Grid Margin="0,0,0,10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*"/>

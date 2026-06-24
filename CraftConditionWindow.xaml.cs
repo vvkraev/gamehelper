@@ -30,6 +30,9 @@ public partial class CraftConditionWindow : Window
     /// <summary>Орб для весового расчёта; null = не задан.</summary>
     private OrbCraftProperties? _craftOrb;
 
+    /// <summary>Руна, вставленная в предмет ("destruction", "chronomancy", …); null = нет руны.</summary>
+    private string? _selectedRuneGroup;
+
     /// <summary>Токен отмены текущего Monte Carlo расчёта для Chaos Orb.</summary>
     private CancellationTokenSource? _mcCts;
 
@@ -145,6 +148,7 @@ public partial class CraftConditionWindow : Window
         _tabletSubClass = null;
         RefreshSubClassRow();
         RefreshArmourSubTypeRow();
+        RefreshRuneRow();
         RefreshOrAlternativesUi();
     }
 
@@ -214,6 +218,49 @@ public partial class CraftConditionWindow : Window
         _plan.ExpectedItemSubType = idx >= 0 && idx < ArmourSubTypeValues.Length
             ? ArmourSubTypeValues[idx]
             : "";
+        UpdateCombinedChanceLabel();
+    }
+
+    private void RefreshRuneRow()
+    {
+        var ic = SelectedItemClass;
+        _selectedRuneGroup = null;
+
+        if (string.IsNullOrEmpty(ic))
+        {
+            RuneRow.Visibility = System.Windows.Visibility.Collapsed;
+            return;
+        }
+
+        var runes = Services.RuneAffixLibrary.GetRunesForItemClass(ic);
+        if (runes.Count == 0)
+        {
+            RuneRow.Visibility = System.Windows.Visibility.Collapsed;
+            return;
+        }
+
+        RuneRow.Visibility = System.Windows.Visibility.Visible;
+
+        var labels = new List<string> { "Нет руны" };
+        labels.AddRange(runes.Values);
+        RuneCombo.ItemsSource = labels;
+        RuneCombo.SelectedIndex = 0;
+    }
+
+    private void RuneCombo_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var idx = RuneCombo.SelectedIndex;
+        if (idx <= 0 || SelectedItemClass is not { } ic)
+        {
+            _selectedRuneGroup = null;
+            UpdateCombinedChanceLabel();
+            return;
+        }
+
+        var runes = Services.RuneAffixLibrary.GetRunesForItemClass(ic);
+        // idx 0 = "Нет руны", idx 1+ = rune entries in insertion order
+        var keys = runes.Keys.ToList();
+        _selectedRuneGroup = idx - 1 < keys.Count ? keys[idx - 1] : null;
         UpdateCombinedChanceLabel();
     }
 
@@ -1886,8 +1933,38 @@ public partial class CraftConditionWindow : Window
         var avgTries = p > 0 ? (int)Math.Round(1.0 / p) : -1;
         var avgStr = avgTries > 0 ? $" (~{avgTries} попыток)" : " (∞)";
         var dataNote = hasPartialData ? " ⚠ нет данных по части" : "";
-        var orbNote = !string.IsNullOrEmpty(orbName) ? $" · {orbName}" : "";
-        return $"Практика (опыт, N={cs!.TotalSnapshots}): ~{pct:F1}%{avgStr}{dataNote}{orbNote}";
+
+        string costStr;
+        if (p > 0 && !string.IsNullOrEmpty(orbName))
+        {
+            var eAug = 1.0 / p;
+            var isAugAnnul = orbName.Contains("Augmentation", StringComparison.OrdinalIgnoreCase) &&
+                _plan.OrAlternatives.Any(g => g.Clauses.Any(c =>
+                    c.Kind == CraftClauseKind.Count && c.Count?.MinMatchCount >= 2));
+            if (isAugAnnul)
+            {
+                var eAnnul = (1.0 - p) / p;
+                const string annulName = "Orb of Annulment";
+                var augDiv   = (double)(PoeNinjaPriceService.GetPrice(orbName)?.DivineValue   ?? 0m);
+                var annulDiv = (double)(PoeNinjaPriceService.GetPrice(annulName)?.DivineValue ?? 0m);
+                costStr = augDiv > 0 || annulDiv > 0
+                    ? $" · ~{eAug * augDiv + eAnnul * annulDiv:F2} div (~{eAug:F1} aug + ~{eAnnul:F1} ann)"
+                    : $" · ~{eAug:F1} {orbName} + ~{eAnnul:F1} {annulName}";
+            }
+            else
+            {
+                var orbDiv = (double)(PoeNinjaPriceService.GetPrice(orbName)?.DivineValue ?? 0m);
+                costStr = orbDiv > 0
+                    ? $" · ~{eAug * orbDiv:F2} div (~{eAug:F1} {orbName})"
+                    : $" · ~{eAug:F1} {orbName}";
+            }
+        }
+        else
+        {
+            costStr = !string.IsNullOrEmpty(orbName) ? $" · {orbName}" : "";
+        }
+
+        return $"Практика (опыт, N={cs!.TotalSnapshots}): ~{pct:F1}%{costStr}{avgStr}{dataNote}";
     }
 
     // ── Весовой расчёт (CRAFT-3) ──────────────────────────────────────────────────
@@ -1916,6 +1993,24 @@ public partial class CraftConditionWindow : Window
             .GroupBy(e => (FamilyKey: e.FamilyId ?? e.AffixName, e.AffixType))
             .SelectMany(g => AffixTierEligibility.GetEligibleTiers(g.ToList(), ilvl, orb))
             .ToList();
+
+        // Inject rune affixes if a rune is selected.
+        // Each rune affix is a distinct modifier family; multiple can appear simultaneously.
+        // Entries already in the regular pool (same type+name) are excluded to avoid double-counting.
+        if (_selectedRuneGroup != null)
+        {
+            var existingNames = new HashSet<(string Type, string Name)>(
+                eligible.Select(e => (e.AffixType, e.AffixName)));
+            var runeEntries = Services.RuneAffixLibrary.GetEntries(_selectedRuneGroup, ic);
+            // Group rune entries by (type, normalized stat template) to pick the best eligible tier
+            var runeEligible = runeEntries
+                .Where(e => (e.AffixTierLevel ?? 0) <= ilvl && !existingNames.Contains((e.AffixType, e.AffixName)))
+                .GroupBy(e => (e.AffixType,
+                               CraftAffixCascadeHelper.NormalizeStatToTemplate(e.AffixStats.FirstOrDefault() ?? "")))
+                .Select(g => g.OrderBy(e => e.AffixTier).First())
+                .ToList();
+            eligible.AddRange(runeEligible);
+        }
 
         var prefixes = (IReadOnlyList<AffixLibraryEntry>)eligible.Where(e => e.AffixType == "Prefix Modifier").ToList();
         var suffixes = (IReadOnlyList<AffixLibraryEntry>)eligible.Where(e => e.AffixType == "Suffix Modifier").ToList();
