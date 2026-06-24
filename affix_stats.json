@@ -1,5 +1,5 @@
 {
-  "Version": 5,
+  "Version": 6,
   "processedLogFiles": [
     "craft_2026-03-31_22-05-06--2026-03-31_22-07-45.txt",
     "craft_2026-03-31_22-20-08--2026-03-31_22-39-05.txt",
@@ -296,10 +296,19 @@
     "craft_2026-06-22_18-02-17--2026-06-22_18-02-27.txt",
     "craft_2026-06-23_10-48-15--2026-06-23_10-48-43.txt",
     "craft_2026-06-23_10-48-53--2026-06-23_10-49-00.txt",
-    "craft_2026-06-23_10-51-58--2026-06-23_10-52-12.txt"
+    "craft_2026-06-23_10-51-58--2026-06-23_10-52-12.txt",
+    "craft_2026-06-23_18-22-02--2026-06-23_18-23-58.txt",
+    "craft_2026-06-23_18-24-39--2026-06-23_18-25-10.txt",
+    "craft_2026-06-24_01-45-19--2026-06-24_01-47-29.txt",
+    "craft_2026-06-24_01-49-51--2026-06-24_01-51-06.txt",
+    "craft_2026-06-24_01-51-26--2026-06-24_01-52-32.txt",
+    "craft_2026-06-24_01-52-46--2026-06-24_01-53-00.txt",
+    "craft_2026-06-24_02-08-53--2026-06-24_02-09-11.txt",
+    "craft_2026-06-24_20-33-06--2026-06-24_20-33-14.txt",
+    "craft_2026-06-24_20-34-28--2026-06-24_20-34-50.txt"
   ],
   "perClass": {
-    "One Hand Maces|Armour": {
+    "One Hand Maces": {
       "totalSnapshots": 1935,
       "affixCounts": {
         "Overpowering": 153,
@@ -862,7 +871,7 @@
         "Incandescent|\u002B to maximum energy shield": 5
       }
     },
-    "Talismans|Armour/Energy Shield": {
+    "Talismans": {
       "totalSnapshots": 2265,
       "affixCounts": {
         "Merciless": 11,
@@ -935,7 +944,7 @@
         "Carbonising|adds x to y fire damage": 18
       }
     },
-    "Wands|Energy Shield": {
+    "Wands": {
       "totalSnapshots": 2465,
       "affixCounts": {
         "Ardent": 18,
@@ -1289,7 +1298,7 @@
         "Torturer\u0027s|% increased spell physical damage": 1
       }
     },
-    "Staves|Energy Shield": {
+    "Staves": {
       "totalSnapshots": 79,
       "affixCounts": {
         "Warlock\u0027s": 1,
@@ -1466,7 +1475,7 @@
         "of the Appeal|favours deferred at ritual altars in map reappear % sooner": 902,
         "of Omens|ritual favours in map have % increased chance to be omens": 733,
         "Elevated|% increased experience gain in map": 1500,
-        "Crystallised|map contains an additional essence \u2014 unscalable value": 265,
+        "Crystallised|map contains an additional essence": 265,
         "of Prayers|ritual altars in map allow rerolling favours an additional time": 7,
         "Treasurer\u0027s|map contains additional rare chests": 771,
         "of the Antiquarian|map contains an additional strongbox": 208,
@@ -1861,12 +1870,12 @@
         "Crystalline|% increased cold damage": 1,
         "Smouldering|adds x to y fire damage to attacks": 1,
         "Cremating|adds x to y fire damage to attacks": 1,
-        "Breachlord\u0027s|\u002B% to maximum quality \u2014 unscalable value": 1,
+        "Breachlord\u0027s|\u002B% to maximum quality": 1,
         "Frosted|adds 1 to cold damage to attacks": 1,
         "Flaring|adds x to y physical damage to attacks": 1
       }
     },
-    "Spears|Armour/Evasion": {
+    "Spears": {
       "totalSnapshots": 680,
       "affixCounts": {
         "of the Bear": 4,
@@ -2038,7 +2047,7 @@
         "Arcing|adds x to y lightning damage": 11,
         "of the Gladiator|causes % increased stun buildup": 9,
         "Crackling|adds x to y lightning damage": 11,
-        "of Destruction|% increased explicit cold modifier magnitudes \u2014 unscalable value": 2,
+        "of Destruction|% increased explicit cold modifier magnitudes": 2,
         "of the Parched|leeches % of physical damage as mana": 7,
         "of the Boxer|causes % increased stun buildup": 6,
         "Frigid|adds x to y cold damage": 9,
@@ -2079,24 +2088,24 @@
         "of the Sharpshooter|\u002B to level of all projectile skills": 3,
         "Gleaming|adds x to y physical damage": 8,
         "Steady|\u002B to accuracy rating": 9,
-        "of Destruction|% increased explicit fire modifier magnitudes \u2014 unscalable value": 4,
+        "of Destruction|% increased explicit fire modifier magnitudes": 4,
         "of the Locust|leeches % of physical damage as life": 6,
         "of Conquest|gain life per enemy killed": 8,
         "of Ire|\u002B% to critical damage bonus": 7,
-        "of Destruction|% increased explicit lightning modifier magnitudes \u2014 unscalable value": 7,
+        "of Destruction|% increased explicit lightning modifier magnitudes": 7,
         "of the Brute|\u002B to strength": 1,
         "of Rejuvenation|grants 2 life per enemy hit": 11,
         "of Conflict|\u002B to level of all melee skills": 1,
         "of Victory|gain life per enemy killed": 6,
         "of Impact|% increased stun duration": 10,
         "Electrocuting|adds x to y lightning damage": 3,
-        "Thrud\u0027s|% increased explicit critical modifier magnitudes \u2014 unscalable value": 3,
+        "Thrud\u0027s|% increased explicit critical modifier magnitudes": 3,
         "Blasting|adds x to y fire damage": 1,
         "of the Pugilist|causes % increased stun buildup": 5,
         "of Light|\u002B to accuracy rating": 5,
         "of Light|% increased light radius": 5,
         "Buzzing|adds 1 to lightning damage": 8,
-        "of Destruction|% increased explicit physical modifier magnitudes \u2014 unscalable value": 3,
+        "of Destruction|% increased explicit physical modifier magnitudes": 3,
         "Hunter\u0027s|\u002B to accuracy rating": 1,
         "Scorching|adds x to y fire damage": 3,
         "of Osmosis|gain mana per enemy killed": 1,
@@ -2125,7 +2134,7 @@
         "Chilled|adds x to y cold damage": 6,
         "of Anger|\u002B% to critical damage bonus": 5,
         "Polished|adds x to y physical damage": 10,
-        "of Destruction|% increased explicit chaos modifier magnitudes \u2014 unscalable value": 5,
+        "of Destruction|% increased explicit chaos modifier magnitudes": 5,
         "of Dazing|% increased stun duration": 5,
         "of Acclaim|% increased attack speed": 5,
         "Flaming|adds x to y fire damage": 4,
@@ -2144,7 +2153,7 @@
         "Glinting|adds x to y physical damage": 3,
         "Burnished|adds x to y physical damage": 5,
         "Consistent|\u002B to accuracy rating": 3,
-        "Thrud\u0027s|% increased explicit speed modifier magnitudes \u2014 unscalable value": 2,
+        "Thrud\u0027s|% increased explicit speed modifier magnitudes": 2,
         "of Ease|% increased attack speed": 2,
         "of Ruin|\u002B% to critical hit chance": 1,
         "Freezing|adds x to y cold damage": 4,
@@ -2268,6 +2277,32 @@
         "Ghost\u0027s|% increased evasion rating": 1,
         "of Titanium Skin|\u002B to stun threshold": 1,
         "of the Walrus|\u002B% to cold resistance": 1
+      }
+    },
+    "Body Armours|Energy Shield|Perfect Orb of Augmentation": {
+      "totalSnapshots": 271,
+      "affixCounts": {
+        "Unfaltering": 18,
+        "of Magma": 17,
+        "of the Lightning": 40,
+        "Resplendent": 20,
+        "of the Ice": 20
+      },
+      "statTemplateCounts": {
+        "Unfaltering|% increased energy shield": 18,
+        "of Magma|\u002B% to fire resistance": 17,
+        "of the Lightning|\u002B% to lightning resistance": 40,
+        "Resplendent|\u002B to maximum energy shield": 20,
+        "of the Ice|\u002B% to cold resistance": 20
+      }
+    },
+    "Spears|Perfect Orb of Augmentation": {
+      "totalSnapshots": 11,
+      "affixCounts": {
+        "Thrud\u0027s": 1
+      },
+      "statTemplateCounts": {
+        "Thrud\u0027s|% increased explicit speed modifier magnitudes": 1
       }
     }
   }

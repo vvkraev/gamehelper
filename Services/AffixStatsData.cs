@@ -1,11 +1,22 @@
 using System.Text.Json.Serialization;
+using System.Text.RegularExpressions;
 
 namespace GameHelper.Services;
 
 public sealed class AffixStatsData
 {
-    // v5: PerClass key is "ItemClass|SubType|OrbName" (or "ItemClass|OrbName" / "ItemClass" when absent).
-    public int Version { get; set; } = 5;
+    // v7: MakeStatKey strips x/y variable placeholders so "adds x to y fire damage" matches
+    //     "adds # to # fire damage" from the library after # removal.
+    public int Version { get; set; } = 7;
+
+    /// <summary>
+    /// Item classes for which <see cref="MakeClassKey"/> includes the armour subtype segment.
+    /// Other classes (weapons, jewellery, …) always use an empty subtype.
+    /// </summary>
+    public static readonly HashSet<string> SubTypeClasses = new(StringComparer.Ordinal)
+    {
+        "Body Armours", "Gloves", "Helmets", "Boots",
+    };
 
     [JsonPropertyName("processedLogFiles")]
     public HashSet<string> ProcessedLogFiles { get; set; } = new(StringComparer.Ordinal);
@@ -84,13 +95,22 @@ public sealed class ClassStats
         return c;
     }
 
+    // Matches standalone x/y variable tokens used by ItemParser for roll placeholders.
+    private static readonly Regex VarTokens = new(@"\b[xy]\b", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
     /// <summary>Формирует ключ словаря из имени аффикса и шаблона стата.</summary>
     public static string MakeStatKey(string affixName, string statTemplate)
     {
         var norm = statTemplate.Trim().ToLowerInvariant()
-            .Replace("#", "", StringComparison.Ordinal).Trim();
+            .Replace("#", "", StringComparison.Ordinal);
+        // Strip x/y variable placeholders (ItemParser) so they match # templates from the library.
+        norm = VarTokens.Replace(norm, "").Trim();
+        // Strip "— unscalable value" suffix added by poe2db for fixed-roll stats.
+        const string unscalable = " — unscalable value";
+        if (norm.EndsWith(unscalable, StringComparison.Ordinal))
+            norm = norm[..^unscalable.Length].TrimEnd();
         while (norm.Contains("  ", StringComparison.Ordinal))
             norm = norm.Replace("  ", " ", StringComparison.Ordinal);
-        return affixName + "|" + norm;
+        return affixName + "|" + norm.Trim();
     }
 }

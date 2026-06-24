@@ -78,7 +78,9 @@ public static class AffixStatsScanner
                 var item = ItemParser.Parse(snapshot);
                 if (!item.IsValid || string.IsNullOrWhiteSpace(item.ItemClass)) continue;
 
-                var cs = data.GetOrCreate(item.ItemClass, item.ItemSubType, orbName);
+                // Subtype is only meaningful for armour-slot items (see AffixStatsData.SubTypeClasses).
+                var subType = AffixStatsData.SubTypeClasses.Contains(item.ItemClass) ? item.ItemSubType : "";
+                var cs = data.GetOrCreate(item.ItemClass, subType, orbName);
                 cs.TotalSnapshots++;
                 foreach (var affix in item.Affixes)
                 {

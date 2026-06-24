@@ -39,13 +39,13 @@ GameHelper -> C:\Users\VVK\GameHelper\bin\Release\net10.0-windows10.0.17763.0\Ga
 ## Run tests
 
 ```bash
-dotnet test GameHelper.Tests
+"/mnt/c/Program Files/dotnet/dotnet.exe" test GameHelper.Tests/GameHelper.Tests.csproj --configuration Release
 ```
 
-Тесты запускаются через Linux dotnet SDK (уже в PATH).
+Тесты требуют Windows Desktop runtime — используй Windows dotnet.exe через interop, не Linux `dotnet`.
 
 ## Notes
 
-- `dotnet` (Linux) — для тестов и анализа кода
-- `"/mnt/c/Program Files/dotnet/dotnet.exe"` (Windows) — для сборки и запуска WPF
+- Linux `dotnet` — только для сборки с флагом `-p:EnableWindowsTargeting=true` (статический анализ, CI-check)
+- `"/mnt/c/Program Files/dotnet/dotnet.exe"` (Windows) — для сборки, запуска и тестов WPF
 - Не использовать `dotnet run` (Linux) для главного проекта — WPF требует Windows runtime

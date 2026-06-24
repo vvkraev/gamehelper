@@ -61,10 +61,7 @@ public partial class CraftConditionWindow : Window
         "Tablet",
     };
 
-    private static readonly HashSet<string> ArmourSubTypeClasses = new(StringComparer.Ordinal)
-    {
-        "Body Armours", "Gloves", "Helmets", "Boots",
-    };
+    private static readonly HashSet<string> ArmourSubTypeClasses = Services.AffixStatsData.SubTypeClasses;
 
     private static readonly string[] ArmourSubTypeValues =
     [
@@ -1134,12 +1131,17 @@ public partial class CraftConditionWindow : Window
             }
 
             // observed frequency from crafting sessions
+            // Affix weights are orb-independent — prefer the larger sample regardless of orb.
             string freqStr = "";
             var statsOrb = _craftOrb?.Name ?? "";
             var statsKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType, statsOrb);
-            if (_stats != null && !_stats.PerClass.ContainsKey(statsKey) && !string.IsNullOrEmpty(statsOrb))
-                statsKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType);
-            if (_stats != null && _stats.PerClass.TryGetValue(statsKey, out var cs) && cs.TotalSnapshots > 0)
+            Services.ClassStats? cs = null;
+            if (_stats != null) _stats.PerClass.TryGetValue(statsKey, out cs);
+            var genericStatsKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType);
+            if (_stats != null && _stats.PerClass.TryGetValue(genericStatsKey, out var genericCs) &&
+                genericCs.TotalSnapshots > (cs?.TotalSnapshots ?? 0))
+                cs = genericCs;
+            if (_stats != null && cs != null && cs.TotalSnapshots > 0)
             {
                 var total = cs.TotalSnapshots;
                 var firstStat = data.Lines.Count > 0 ? data.Lines[0].StatTemplate : data.StatTemplate;
@@ -1906,22 +1908,19 @@ public partial class CraftConditionWindow : Window
 
         var orbName = _craftOrb?.Name ?? "";
         var key = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType, orbName);
-        if (!_stats.PerClass.TryGetValue(key, out var cs) || cs.TotalSnapshots < 10)
+        _stats.PerClass.TryGetValue(key, out var cs);
+
+        // Affix weights are orb-independent — prefer the larger sample regardless of orb.
+        var genericKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType);
+        if (_stats.PerClass.TryGetValue(genericKey, out var genericCs) &&
+            genericCs.TotalSnapshots > (cs?.TotalSnapshots ?? 0))
         {
-            if (cs?.TotalSnapshots > 0)
-                return $"Практика: мало данных ({cs.TotalSnapshots} предметов, {orbName})";
-            // Try without orb key for older data collected before v5
-            var legacyKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType);
-            if (!string.IsNullOrEmpty(orbName) && _stats.PerClass.TryGetValue(legacyKey, out cs) && cs.TotalSnapshots >= 10)
-            {
-                // fall through to calculation with legacy data, note it's unkeyed
-                orbName = "";
-            }
-            else
-            {
-                return "";
-            }
+            cs = genericCs;
+            orbName = "";
         }
+
+        if (cs == null || cs.TotalSnapshots < 10)
+            return cs?.TotalSnapshots > 0 ? $"Практика: мало данных ({cs.TotalSnapshots} предметов)" : "";
 
         var hasPartialData = false;
         var pNone = 1.0;
