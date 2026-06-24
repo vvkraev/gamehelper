@@ -477,8 +477,19 @@ public static class ItemParser
             {
                 // "+N(min-max)% to ..." → before="+", after="% to ..." — не вставлять пробел,
                 // чтобы statText совпал с шаблоном "+#% to ..." после удаления '#'.
-                var sep = before == "+" && after.StartsWith("%", StringComparison.Ordinal) ? "" : " ";
-                statText = before + sep + after;
+                var rollStr = m.Groups[1].Value;
+                if (rollStr.StartsWith("+", StringComparison.Ordinal))
+                {
+                    // '+' was consumed by the roll match but belongs to the stat template.
+                    // e.g. "Minions have +7(7-13)% to Chaos" → "Minions have +% to Chaos"
+                    //      "Grant +1(1-1) to Maximum Rage" → "Grant + to Maximum Rage"
+                    statText = before + (after.StartsWith("%", StringComparison.Ordinal) ? " +" : " + ") + after;
+                }
+                else
+                {
+                    var sep = before == "+" && after.StartsWith("%", StringComparison.Ordinal) ? "" : " ";
+                    statText = before + sep + after;
+                }
             }
 
             return new AffixEffectLine

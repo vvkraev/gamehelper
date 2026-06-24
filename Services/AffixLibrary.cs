@@ -42,6 +42,7 @@ public static class AffixLibrary
                 var root = JsonSerializer.Deserialize<AffixLibraryFile>(json, JsonOptions);
                 _entries = root?.Entries ?? new List<AffixLibraryEntry>();
                 MigrateMultiClassEntries(_entries);
+                SplitConcatenatedStats(_entries);
             }
             catch
             {
@@ -167,6 +168,7 @@ public static class AffixLibrary
             var root = JsonSerializer.Deserialize<AffixLibraryFile>(json, JsonOptions);
             _entries = root?.Entries ?? new List<AffixLibraryEntry>();
             MigrateMultiClassEntries(_entries);
+            SplitConcatenatedStats(_entries);
         }
         catch
         {
@@ -179,6 +181,47 @@ public static class AffixLibrary
     /// Нужна потому что одинаковый аффикс может иметь разные диапазоны на разных типах предметов.
     /// Диапазоны в дублированных записях могут быть приблизительными до следующего сканирования.
     /// </summary>
+    // Разбивает конкатенированный стат poe2db на отдельные части в памяти.
+    // Файл на диске не меняется. Например:
+    // "(15–19)% increased Spell Damage+(17–20) to maximum Mana"
+    // → ["(15–19)% increased Spell Damage", "+(17–20) to maximum Mana"]
+    private static readonly System.Text.RegularExpressions.Regex ConcatSplitRe = new(
+        @"(?<=[a-zA-Z\d])(?=\+[\(\d])|(?<=[a-zA-Z])(?=\(\d)|(?<=[a-zA-Z])(?=\d+(?:\.\d+)?%)",
+        System.Text.RegularExpressions.RegexOptions.Compiled |
+        System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    private static readonly System.Text.RegularExpressions.Regex FirstParenRange = new(
+        @"\((\d+)[–\-](\d+)\)",
+        System.Text.RegularExpressions.RegexOptions.Compiled |
+        System.Text.RegularExpressions.RegexOptions.CultureInvariant);
+
+    private static void SplitConcatenatedStats(List<AffixLibraryEntry> entries)
+    {
+        foreach (var entry in entries)
+        {
+            if (entry.AffixStats.Count != 1)
+                continue;
+
+            var parts = ConcatSplitRe.Split(entry.AffixStats[0])
+                .Select(p => p.Trim())
+                .Where(p => p.Length > 0)
+                .ToArray();
+
+            if (parts.Length <= 1)
+                continue;
+
+            entry.AffixStats.Clear();
+            entry.AffixStats.AddRange(parts);
+
+            entry.AffixRanges.Clear();
+            foreach (var part in parts)
+            {
+                var m = FirstParenRange.Match(part);
+                entry.AffixRanges.Add(m.Success ? $"{m.Groups[1].Value}-{m.Groups[2].Value}" : null);
+            }
+        }
+    }
+
     private static void MigrateMultiClassEntries(List<AffixLibraryEntry> entries)
     {
         var toAdd = new List<AffixLibraryEntry>();
