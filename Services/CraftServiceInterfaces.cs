@@ -93,6 +93,24 @@ public interface IExaltationCraftService : IPrecheckableCraftService
         CraftRunFileLog? craftLog);
 }
 
+/// <summary>
+/// Сервис Fracturing Orb крафта: применяет орб к одному предмету и проверяет,
+/// нужный ли аффикс зафиксировался (IsFractured = true).
+/// </summary>
+public interface IFracturingOrbService : IPrecheckableCraftService
+{
+    Task<CraftResult> RunAsync(
+        ScreenRect orbArea,
+        ScreenRect itemArea,
+        CraftConditionPlan plan,
+        string conditionSummary,
+        int globalTotal,
+        int globalAttemptOffset,
+        IProgress<string>? log,
+        CancellationToken ct,
+        CraftRunFileLog? craftLog = null);
+}
+
 /// <summary>Сервис заточки предметов (не использует план крафта).</summary>
 public interface ISharpenService
 {

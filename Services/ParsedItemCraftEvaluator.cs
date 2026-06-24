@@ -526,6 +526,31 @@ public static class ParsedItemCraftEvaluator
         return list;
     }
 
+    /// <summary>
+    /// Проверяет, совпадает ли хотя бы один зафиксированный (Fractured) аффикс на предмете с условием крафта.
+    /// Создаёт временный вид предмета с только <c>IsFractured=true</c> аффиксами и прогоняет через стандартный эвалюатор.
+    /// </summary>
+    public static bool FracturedAffixMatchesPlan(ParsedItem item, CraftConditionPlan plan, out string explanation)
+    {
+        var fracturedAffixes = item.Affixes.Where(a => a.IsFractured).ToList();
+        if (fracturedAffixes.Count == 0)
+        {
+            explanation = "На предмете нет зафиксированных (Fractured) аффиксов.";
+            return false;
+        }
+
+        var filteredItem = new ParsedItem
+        {
+            IsValid = item.IsValid,
+            ItemClass = item.ItemClass,
+            Rarity = item.Rarity,
+            Name = item.Name,
+            Base = item.Base,
+            Affixes = fracturedAffixes,
+        };
+        return CraftConditionEvaluator.TryEvaluate(plan, filteredItem, out explanation);
+    }
+
     private static string NormalizeStat(string s)
     {
         var t = s.Trim().ToLowerInvariant();

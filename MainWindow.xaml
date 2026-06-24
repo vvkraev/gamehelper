@@ -432,6 +432,7 @@
                         <ComboBoxItem Content="Экзальт"/>
                         <ComboBoxItem Content="Ауг+Аннул"/>
                         <ComboBoxItem Content="Заточка"/>
+                        <ComboBoxItem Content="Фракт. Орб"/>
                     </ComboBox>
 
                     <TextBlock Text="Орб крафта" FontWeight="SemiBold" Margin="0,0,0,4"/>

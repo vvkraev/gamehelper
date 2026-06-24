@@ -18,6 +18,7 @@ public partial class MainWindow : Window
     private readonly AugAnnulCraftService _augAnnulCraft = new();
     private readonly ExaltationCraftServiceFracturedSide _exaltCraft;
     private readonly SharpenService _sharpen = new();
+    private readonly FracturingOrbService _fracturingCraft = new();
     private readonly OmenActivationService _omen = new();
     private CancellationTokenSource? _cts;
     private readonly ReforgeState _reforgeState = new();
@@ -695,6 +696,8 @@ public partial class MainWindow : Window
             CraftModeCombo.SelectedIndex = 2;
         else if (mode.Contains("Заточ", StringComparison.OrdinalIgnoreCase))
             CraftModeCombo.SelectedIndex = 3;
+        else if (mode.Contains("Фракт", StringComparison.OrdinalIgnoreCase))
+            CraftModeCombo.SelectedIndex = 4;
         else
             CraftModeCombo.SelectedIndex = 0;
         RefreshCraftOrbCombo();
@@ -1180,6 +1183,8 @@ public partial class MainWindow : Window
                 CraftModeCombo.SelectedIndex = 2;
             else if (cm.Contains("Заточ", StringComparison.OrdinalIgnoreCase))
                 CraftModeCombo.SelectedIndex = 3;
+            else if (cm.Contains("Фракт", StringComparison.OrdinalIgnoreCase))
+                CraftModeCombo.SelectedIndex = 4;
             else
                 CraftModeCombo.SelectedIndex = 0;
             if (!string.IsNullOrEmpty(_craftPlan.CraftOrbName))
@@ -1841,6 +1846,7 @@ public partial class MainWindow : Window
         var isAugAnnul = mode.Contains("Ауг", StringComparison.OrdinalIgnoreCase)
                       || mode.Contains("Аннул", StringComparison.OrdinalIgnoreCase)
                       || mode.Contains("+", StringComparison.OrdinalIgnoreCase);
+        var isFractOrb = mode.Contains("Фракт", StringComparison.OrdinalIgnoreCase);
 
         if (isSharpen)
         {
@@ -1898,7 +1904,13 @@ public partial class MainWindow : Window
 
         // Омены не запускаются как отдельный режим — используются ExaltationCraftService как вспомогательный сервис.
 
-        if (!isAugAnnul && !isExalt && GetCurrencyRect("Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb") is null)
+        if (isFractOrb && GetCurrencyRect("Fracturing Orb") is null)
+        {
+            MessageBox.Show(this, "Задайте область Fracturing Orb в «Настройки областей → Currency».", "Область орба", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        if (!isAugAnnul && !isExalt && !isFractOrb && GetCurrencyRect("Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb") is null)
         {
             MessageBox.Show(this,"Задайте область Chaos Orb в «Настройки областей → Currency».", "Область орба", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
@@ -2039,6 +2051,12 @@ public partial class MainWindow : Window
         _augAnnulCraft.TraceInputToLog = trace;
         _augAnnulCraft.StepConfirmAsync = null;
 
+        _fracturingCraft.MouseActionDelayMs = mouseDelay;
+        _fracturingCraft.ClipboardDelayMs = clipboardDelay;
+        _fracturingCraft.HoverSettleBeforeClipboardMs = hoverSettle;
+        _fracturingCraft.TraceInputToLog = trace;
+        _fracturingCraft.StepConfirmAsync = null;
+
         _exaltCraft.MouseActionDelayMs = mouseDelay;
         _exaltCraft.ClipboardDelayMs = clipboardDelay;
         _exaltCraft.HoverSettleBeforeClipboardMs = hoverSettle;
@@ -2069,6 +2087,7 @@ public partial class MainWindow : Window
             _craft.StepConfirmAsync = confirm;
             _augAnnulCraft.StepConfirmAsync = confirm;
             _exaltCraft.StepConfirmAsync = confirm;
+            _fracturingCraft.StepConfirmAsync = confirm;
         }
 
         StartBtn.IsEnabled = false;
@@ -2111,9 +2130,11 @@ public partial class MainWindow : Window
                     var pre =
                         isExalt
                             ? await _exaltCraft.PrecheckAsync(item, _craftPlan, progress, _cts.Token)
-                            : !isAugAnnul
-                                ? await _craft.PrecheckAsync(item, _craftPlan, progress, _cts.Token)
-                                : await _augAnnulCraft.PrecheckAsync(item, _craftPlan, progress, _cts.Token);
+                            : isFractOrb
+                                ? await _fracturingCraft.PrecheckAsync(item, _craftPlan, progress, _cts.Token)
+                                : !isAugAnnul
+                                    ? await _craft.PrecheckAsync(item, _craftPlan, progress, _cts.Token)
+                                    : await _augAnnulCraft.PrecheckAsync(item, _craftPlan, progress, _cts.Token);
                     if (pre.Outcome == CraftPrecheckOutcome.AlreadySatisfied)
                     {
                         SessionLogger.Info(
@@ -2149,7 +2170,7 @@ public partial class MainWindow : Window
                         break;
                     }
 
-                    if ((isAugAnnul || isExalt) && pre.ParsedItem is null)
+                    if ((isAugAnnul || isExalt) && !isFractOrb && pre.ParsedItem is null)
                     {
                         precheckFailed = true;
                         result = ChaosCraftResult.Error;
@@ -2192,6 +2213,28 @@ public partial class MainWindow : Window
                             pre.ParsedItem!,
                             pre.ClipboardText,
                             remaining,
+                            maxOps,
+                            offset,
+                            progress,
+                            _cts.Token,
+                            craftFile);
+
+                        offset += cr.Attempts;
+                        remaining -= cr.Attempts;
+                        result = cr.StopReason;
+                    }
+                    else if (isFractOrb)
+                    {
+                        var fracOrb = GetCurrencyRect("Fracturing Orb") ?? default;
+                        craftFile ??= CraftRunFileLog.Begin(fracOrb, cells[0], maxOps, conditionSummary, cells, "Fracturing Orb");
+                        _activeCraftLogPath = craftFile.WipPath;
+                        craftFile.SetCurrentCell(ci + 1, cells.Count);
+
+                        var cr = await _fracturingCraft.RunAsync(
+                            fracOrb,
+                            item,
+                            _craftPlan,
+                            conditionSummary,
                             maxOps,
                             offset,
                             progress,
@@ -2270,6 +2313,12 @@ public partial class MainWindow : Window
 
                     if (result == ChaosCraftResult.AffixFound)
                     {
+                        if (isFractOrb)
+                        {
+                            SessionLogger.Info($"Нужный аффикс зафиксирован в ячейке {ci + 1} — сессия Fracturing Orb завершена.");
+                            break;
+                        }
+
                         if (ci + 1 < cells.Count)
                             SessionLogger.Info(
                                 $"Условие остановки выполнено для ячейки {ci + 1} — автоматически продолжаем со следующей предметной ячейки (осталось попыток: {remaining}).");
@@ -2312,6 +2361,7 @@ public partial class MainWindow : Window
             UnregisterCraftCancelHotkey();
             _craft.StepConfirmAsync = null;
             _exaltCraft.StepConfirmAsync = null;
+            _fracturingCraft.StepConfirmAsync = null;
             craftFile?.Dispose();
             _ = Services.AffixStatsScanner.ScanNewLogsAsync()
                 .ContinueWith(_ => Dispatcher.Invoke(RefLoadCategories), TaskScheduler.Default);
