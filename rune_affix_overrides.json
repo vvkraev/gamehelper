@@ -25,119 +25,119 @@
         {
           "affixType": "Prefix Modifier",
           "affixName": "Thrud's",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(20–30)% increased Explicit Critical Modifier magnitudes"
           ],
           "affixRanges": [
-            null
+            "20-30"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Thrud's",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(25–30)% increased Explicit Speed Modifier magnitudes"
           ],
           "affixRanges": [
-            null
+            "25-30"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Destruction",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(10–15)% increased Explicit Physical Modifier magnitudes"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Destruction",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(15–20)% increased Explicit Chaos Modifier magnitudes"
           ],
           "affixRanges": [
-            null
+            "15-20"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Destruction",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(15–20)% increased Explicit Cold Modifier magnitudes"
           ],
           "affixRanges": [
-            null
+            "15-20"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Destruction",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(15–20)% increased Explicit Elemental Damage Modifier magnitudes"
           ],
           "affixRanges": [
-            null
+            "15-20"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Destruction",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(15–20)% increased Explicit Fire Modifier magnitudes"
           ],
           "affixRanges": [
-            null
+            "15-20"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Destruction",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(15–20)% increased Explicit Lightning Modifier magnitudes"
           ],
           "affixRanges": [
-            null
+            "15-20"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Destruction",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(25–30)% increased Explicit Mana Modifier magnitudes"
           ],
           "affixRanges": [
-            null
+            "25-30"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Destruction",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(10–15)% increased Explicit Physical Modifier magnitudes"
+          ],
+          "affixRanges": [
+            "10-15"
+          ],
+          "weight": 1
         }
       ]
     },
@@ -150,229 +150,229 @@
         {
           "affixType": "Prefix Modifier",
           "affixName": "Uhtred's",
+          "affixTier": 1,
           "affixTierLevel": 78,
           "affixStats": [
             "(17–23)% increased Movement Speed while Sprinting"
           ],
           "affixRanges": [
-            null
+            "17-23"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Uhtred's",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(10–14)% increased Movement Speed while Sprinting"
+          ],
+          "affixRanges": [
+            "10-14"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Uhtred's",
+          "affixTier": 1,
           "affixTierLevel": 78,
           "affixStats": [
             "(30–32)% increased Movement Speed",
             "(21–25)% reduced Slowing Potency of Debuffs on You"
           ],
           "affixRanges": [
-            null,
-            null
+            "30-32",
+            "21-25"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Uhtred's",
-          "affixTierLevel": 78,
-          "affixStats": [
-            "+(0.4–0.5) metres to Dodge Roll distance"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Chronomancy",
-          "affixTierLevel": 78,
-          "affixStats": [
-            "(24–30)% increased Cooldown Recovery Rate"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Chronomancy",
-          "affixTierLevel": 78,
-          "affixStats": [
-            "(30–40)% increased Skill Effect Duration"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Chronomancy",
-          "affixTierLevel": 78,
-          "affixStats": [
-            "Debuffs on you expire (70–89)% faster"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Chronomancy",
-          "affixTierLevel": 78,
-          "affixStats": [
-            "Skills have (11–15)% chance to not remove Charges but still count as consuming them"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Uhtred's",
+          "affixTier": 2,
           "affixTierLevel": 70,
           "affixStats": [
             "(27–29)% increased Movement Speed",
             "(16–20)% reduced Slowing Potency of Debuffs on You"
           ],
           "affixRanges": [
-            null,
-            null
+            "27-29",
+            "16-20"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Uhtred's",
+          "affixTier": 3,
           "affixTierLevel": 65,
           "affixStats": [
             "(24–26)% increased Movement Speed",
             "(10–15)% reduced Slowing Potency of Debuffs on You"
           ],
           "affixRanges": [
-            null,
-            null
+            "24-26",
+            "10-15"
           ],
-          "weight": 1,
-          "affixTier": 3
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Chronomancy",
-          "affixTierLevel": 55,
-          "affixStats": [
-            "(18–23)% increased Cooldown Recovery Rate"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 4
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Chronomancy",
-          "affixTierLevel": 55,
-          "affixStats": [
-            "(20–29)% increased Skill Effect Duration"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 4
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Uhtred's",
-          "affixTierLevel": 45,
+          "affixTier": 1,
+          "affixTierLevel": 78,
           "affixStats": [
-            "(10–14)% increased Movement Speed while Sprinting"
+            "+(0.4–0.5) metres to Dodge Roll distance"
           ],
           "affixRanges": [
-            null
+            "0.4-0.5"
           ],
-          "weight": 1,
-          "affixTier": 5
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Uhtred's",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "+(0.3–0.4) metres to Dodge Roll distance"
           ],
           "affixRanges": [
-            null
+            "0.3-0.4"
           ],
-          "weight": 1,
-          "affixTier": 5
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Chronomancy",
+          "affixTier": 1,
+          "affixTierLevel": 78,
+          "affixStats": [
+            "(24–30)% increased Cooldown Recovery Rate"
+          ],
+          "affixRanges": [
+            "24-30"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Chronomancy",
+          "affixTier": 2,
+          "affixTierLevel": 55,
+          "affixStats": [
+            "(18–23)% increased Cooldown Recovery Rate"
+          ],
+          "affixRanges": [
+            "18-23"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Chronomancy",
+          "affixTier": 3,
           "affixTierLevel": 45,
           "affixStats": [
             "(12–17)% increased Cooldown Recovery Rate"
           ],
           "affixRanges": [
-            null
+            "12-17"
           ],
-          "weight": 1,
-          "affixTier": 5
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Chronomancy",
+          "affixTier": 1,
+          "affixTierLevel": 78,
+          "affixStats": [
+            "(30–40)% increased Skill Effect Duration"
+          ],
+          "affixRanges": [
+            "30-40"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Chronomancy",
+          "affixTier": 2,
+          "affixTierLevel": 55,
+          "affixStats": [
+            "(20–29)% increased Skill Effect Duration"
+          ],
+          "affixRanges": [
+            "20-29"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Chronomancy",
+          "affixTier": 3,
           "affixTierLevel": 45,
           "affixStats": [
             "(15–19)% increased Skill Effect Duration"
           ],
           "affixRanges": [
-            null
+            "15-19"
           ],
-          "weight": 1,
-          "affixTier": 5
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Chronomancy",
+          "affixTier": 1,
+          "affixTierLevel": 78,
+          "affixStats": [
+            "Debuffs on you expire (70–89)% faster"
+          ],
+          "affixRanges": [
+            "70-89"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Chronomancy",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "Debuffs on you expire (50–69)% faster"
           ],
           "affixRanges": [
-            null
+            "50-69"
           ],
-          "weight": 1,
-          "affixTier": 5
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Chronomancy",
+          "affixTier": 1,
+          "affixTierLevel": 78,
+          "affixStats": [
+            "Skills have (11–15)% chance to not remove Charges but still count as consuming them"
+          ],
+          "affixRanges": [
+            "11-15"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Chronomancy",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "Skills have (7–10)% chance to not remove Charges but still count as consuming them"
           ],
           "affixRanges": [
-            null
+            "7-10"
           ],
-          "weight": 1,
-          "affixTier": 5
+          "weight": 1
         }
       ]
     },
@@ -385,201 +385,202 @@
         {
           "affixType": "Prefix Modifier",
           "affixName": "Kolr's",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(31–40)% increased Projectile Damage"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Kolr's",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(31–40)% increased Projectile Speed"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Hunt",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(28–34)% increased Critical Hit Chance"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Hunt",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(51–100)% chance to Pierce an Enemy"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Hunt",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "+(51–66)% Surpassing chance to fire an additional Projectile"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Hunt",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "Mark Skills have (24–39)% increased Use Speed"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Hunt",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "Mark Skills have (75–100)% increased Skill Effect Duration"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Hunt",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "Projectiles have (20–32)% chance to Chain an additional time from terrain"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Hunt",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "Projectiles have (51–100)% chance for an additional Projectile when Forking"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Kolr's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(21–30)% increased Projectile Damage"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 2
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Kolr's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(21–30)% increased Projectile Speed"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 2
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Kolr's",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(25–39)% increased Effect of your Mark Skills"
           ],
           "affixRanges": [
-            null
+            "25-39"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Kolr's",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(15–24)% increased Effect of your Mark Skills"
+          ],
+          "affixRanges": [
+            "15-24"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Kolr's",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(31–40)% increased Projectile Damage"
+          ],
+          "affixRanges": [
+            "31-40"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Kolr's",
+          "affixTier": 2,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(21–30)% increased Projectile Damage"
+          ],
+          "affixRanges": [
+            "21-30"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Kolr's",
+          "affixTier": 3,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(11–20)% increased Projectile Damage"
+          ],
+          "affixRanges": [
+            "11-20"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Kolr's",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(31–40)% increased Projectile Speed"
+          ],
+          "affixRanges": [
+            "31-40"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Kolr's",
+          "affixTier": 2,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(21–30)% increased Projectile Speed"
+          ],
+          "affixRanges": [
+            "21-30"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Kolr's",
+          "affixTier": 3,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(11–20)% increased Projectile Speed"
+          ],
+          "affixRanges": [
+            "11-20"
+          ],
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Hunt",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(51–100)% chance to Pierce an Enemy"
+          ],
+          "affixRanges": [
+            "51-100"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Hunt",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(25–50)% chance to Pierce an Enemy"
+          ],
+          "affixRanges": [
+            "25-50"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Hunt",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(28–34)% increased Critical Hit Chance"
+          ],
+          "affixRanges": [
+            "28-34"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Hunt",
+          "affixTier": 2,
           "affixTierLevel": 65,
           "affixStats": [
             "(22–27)% increased Critical Hit Chance"
           ],
           "affixRanges": [
-            null
+            "22-27"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Hunt",
-          "affixTierLevel": 65,
+          "affixTier": 3,
+          "affixTierLevel": 45,
           "affixStats": [
-            "+(37–50)% Surpassing chance to fire an additional Projectile"
+            "(16–21)% increased Critical Hit Chance"
           ],
           "affixRanges": [
-            null
+            "16-21"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Hunt",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "+(3–4) to Level of all Mark Skills"
           ],
           "affixRanges": [
-            null
+            "3-4"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Hunt",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "+(1–2) to Level of all Mark Skills"
+          ],
+          "affixRanges": [
+            "1-2"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Hunt",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "+2 to Level of all Projectile Skills"
@@ -587,103 +588,12 @@
           "affixRanges": [
             null
           ],
-          "weight": 1,
-          "affixTier": 2
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Kolr's",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "(11–20)% increased Projectile Damage"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 3
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Kolr's",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "(11–20)% increased Projectile Speed"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 3
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Kolr's",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "(15–24)% increased Effect of your Mark Skills"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Hunt",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "(16–21)% increased Critical Hit Chance"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 3
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Hunt",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "(25–50)% chance to Pierce an Enemy"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 3
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Hunt",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "+(1–2) to Level of all Mark Skills"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 3
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Hunt",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "+(23–36)% Surpassing chance to fire an additional Projectile"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 3
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Hunt",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "+1 to Level of all Projectile Skills"
@@ -691,60 +601,150 @@
           "affixRanges": [
             null
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Hunt",
-          "affixTierLevel": 45,
+          "affixTier": 1,
+          "affixTierLevel": 75,
           "affixStats": [
-            "Mark Skills have (13–23)% increased Use Speed"
+            "+(51–66)% Surpassing chance to fire an additional Projectile"
           ],
           "affixRanges": [
-            null
+            "51-66"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Hunt",
+          "affixTier": 2,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "+(37–50)% Surpassing chance to fire an additional Projectile"
+          ],
+          "affixRanges": [
+            "37-50"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Hunt",
+          "affixTier": 3,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "+(23–36)% Surpassing chance to fire an additional Projectile"
+          ],
+          "affixRanges": [
+            "23-36"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Hunt",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "Mark Skills have (75–100)% increased Skill Effect Duration"
+          ],
+          "affixRanges": [
+            "75-100"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Hunt",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "Mark Skills have (50–74)% increased Skill Effect Duration"
           ],
           "affixRanges": [
-            null
+            "50-74"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Hunt",
-          "affixTierLevel": 45,
+          "affixTier": 1,
+          "affixTierLevel": 75,
           "affixStats": [
-            "Projectiles have (10–19)% chance to Chain an additional time from terrain"
+            "Mark Skills have (24–39)% increased Use Speed"
           ],
           "affixRanges": [
-            null
+            "24-39"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Hunt",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "Mark Skills have (13–23)% increased Use Speed"
+          ],
+          "affixRanges": [
+            "13-23"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Hunt",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "Projectiles have (51–100)% chance for an additional Projectile when Forking"
+          ],
+          "affixRanges": [
+            "51-100"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Hunt",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "Projectiles have (25–50)% chance for an additional Projectile when Forking"
           ],
           "affixRanges": [
-            null
+            "25-50"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Hunt",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "Projectiles have (20–32)% chance to Chain an additional time from terrain"
+          ],
+          "affixRanges": [
+            "20-32"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Hunt",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "Projectiles have (10–19)% chance to Chain an additional time from terrain"
+          ],
+          "affixRanges": [
+            "10-19"
+          ],
+          "weight": 1
         }
       ]
     },
@@ -757,305 +757,305 @@
         {
           "affixType": "Prefix Modifier",
           "affixName": "Katla's",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(26–32)% increased Magnitude of Ailments you inflict"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Katla's",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(30–42)% increased Magnitude of Bleeding you inflict"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Katla's",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(30–42)% increased Magnitude of Poison you inflict"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Katla's",
+          "affixTier": 1,
           "affixTierLevel": 75,
           "affixStats": [
             "(35–50)% increased Ignite Magnitude"
           ],
           "affixRanges": [
-            null
+            "35-50"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Katla's",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "Damaging Ailments deal damage (14–20)% faster"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Decay",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(20–30)% faster Curse Activation"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Decay",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(20–30)% increased Duration of Damaging Ailments on Enemies"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Decay",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(22–29)% increased Curse Magnitudes"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Decay",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(25–35)% increased Withered Magnitude"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Decay",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(35–50)% increased Exposure Effect"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of Decay",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(50–99)% increased Curse Duration"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Katla's",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "(20–25)% increased Magnitude of Ailments you inflict"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 2
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Katla's",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "(20–29)% increased Magnitude of Bleeding you inflict"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 2
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Katla's",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "(20–29)% increased Magnitude of Poison you inflict"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 2
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Katla's",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "(20–34)% increased Ignite Magnitude"
           ],
           "affixRanges": [
-            null
+            "20-34"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Katla's",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(26–32)% increased Magnitude of Ailments you inflict"
+          ],
+          "affixRanges": [
+            "26-32"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Katla's",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(20–25)% increased Magnitude of Ailments you inflict"
+          ],
+          "affixRanges": [
+            "20-25"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Katla's",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(30–42)% increased Magnitude of Bleeding you inflict"
+          ],
+          "affixRanges": [
+            "30-42"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Katla's",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(20–29)% increased Magnitude of Bleeding you inflict"
+          ],
+          "affixRanges": [
+            "20-29"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Katla's",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(30–42)% increased Magnitude of Poison you inflict"
+          ],
+          "affixRanges": [
+            "30-42"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Katla's",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(20–29)% increased Magnitude of Poison you inflict"
+          ],
+          "affixRanges": [
+            "20-29"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Katla's",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "Damaging Ailments deal damage (14–20)% faster"
+          ],
+          "affixRanges": [
+            "14-20"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Katla's",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "Damaging Ailments deal damage (8–13)% faster"
           ],
           "affixRanges": [
-            null
+            "8-13"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Decay",
-          "affixTierLevel": 45,
+          "affixTier": 1,
+          "affixTierLevel": 75,
           "affixStats": [
-            "(10–19)% increased Duration of Damaging Ailments on Enemies"
+            "(20–30)% faster Curse Activation"
           ],
           "affixRanges": [
-            null
+            "20-30"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Decay",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(50–99)% increased Curse Duration"
+          ],
+          "affixRanges": [
+            "50-99"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Decay",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(22–29)% increased Curse Magnitudes"
+          ],
+          "affixRanges": [
+            "22-29"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Decay",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "(15–21)% increased Curse Magnitudes"
           ],
           "affixRanges": [
-            null
+            "15-21"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Decay",
-          "affixTierLevel": 45,
+          "affixTier": 1,
+          "affixTierLevel": 75,
           "affixStats": [
-            "(15–24)% increased Withered Magnitude"
+            "(20–30)% increased Duration of Damaging Ailments on Enemies"
           ],
           "affixRanges": [
-            null
+            "20-30"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Decay",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(10–19)% increased Duration of Damaging Ailments on Enemies"
+          ],
+          "affixRanges": [
+            "10-19"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Decay",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(35–50)% increased Exposure Effect"
+          ],
+          "affixRanges": [
+            "35-50"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Decay",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "(20–34)% increased Exposure Effect"
           ],
           "affixRanges": [
-            null
+            "20-34"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Decay",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(25–35)% increased Withered Magnitude"
+          ],
+          "affixRanges": [
+            "25-35"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Decay",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(15–24)% increased Withered Magnitude"
+          ],
+          "affixRanges": [
+            "15-24"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of Decay",
+          "affixTier": 1,
           "affixTierLevel": 45,
           "affixStats": [
             "(30–40)% increased amount of Life Leeched"
           ],
           "affixRanges": [
-            null
+            "30-40"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Decay",
+          "affixTier": 1,
           "affixTierLevel": 45,
           "affixStats": [
             "Leech (8–12)% of Physical Attack Damage as Life",
             "Leech Life (15–25)% faster"
           ],
           "affixRanges": [
-            null,
-            null
+            "8-12",
+            "15-25"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of Decay",
+          "affixTier": 1,
           "affixTierLevel": 45,
           "affixStats": [
             "Leech (8–12)% of Physical Attack Damage as Life",
             "Leech Life (15–25)% slower"
           ],
           "affixRanges": [
-            null,
-            null
+            "8-12",
+            "15-25"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         }
       ]
     },
@@ -1068,301 +1068,301 @@
         {
           "affixType": "Prefix Modifier",
           "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Armour and Energy Shield",
+            "+(1–24) to Spirit"
+          ],
+          "affixRanges": [
+            "6-52",
+            "1-24"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Armour and Energy Shield",
+            "+(7–57) to maximum Mana"
+          ],
+          "affixRanges": [
+            "6-52",
+            "7-57"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Armour and Evasion",
+            "+(1–24) to Spirit"
+          ],
+          "affixRanges": [
+            "6-52",
+            "1-24"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Armour and Evasion",
+            "+(7–57) to maximum Mana"
+          ],
+          "affixRanges": [
+            "6-52",
+            "7-57"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Armour",
+            "+(1–24) to Spirit"
+          ],
+          "affixRanges": [
+            "6-52",
+            "1-24"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Armour",
+            "+(7–57) to maximum Mana"
+          ],
+          "affixRanges": [
+            "6-52",
+            "7-57"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Energy Shield",
+            "+(1–24) to Spirit"
+          ],
+          "affixRanges": [
+            "6-52",
+            "1-24"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Energy Shield",
+            "+(7–57) to maximum Mana"
+          ],
+          "affixRanges": [
+            "6-52",
+            "7-57"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Evasion Rating",
+            "+(1–24) to Spirit"
+          ],
+          "affixRanges": [
+            "6-52",
+            "1-24"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Evasion Rating",
+            "+(7–57) to maximum Mana"
+          ],
+          "affixRanges": [
+            "6-52",
+            "7-57"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Evasion and Energy Shield",
+            "+(1–24) to Spirit"
+          ],
+          "affixRanges": [
+            "6-52",
+            "1-24"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(6–52)% increased Evasion and Energy Shield",
+            "+(7–57) to maximum Mana"
+          ],
+          "affixRanges": [
+            "6-52",
+            "7-57"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Medved's",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(1–20)% increased Spirit"
           ],
           "affixRanges": [
-            null
+            "1-20"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Medved's",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(1–20)% increased maximum Life"
           ],
           "affixRanges": [
-            null
+            "1-20"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Medved's",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(1–20)% increased maximum Mana"
           ],
           "affixRanges": [
-            null
+            "1-20"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Armour",
-            "+(1–24) to Spirit"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Armour",
-            "+(7–57) to maximum Mana"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Armour and Energy Shield",
-            "+(1–24) to Spirit"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Armour and Energy Shield",
-            "+(7–57) to maximum Mana"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Armour and Evasion",
-            "+(1–24) to Spirit"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Armour and Evasion",
-            "+(7–57) to maximum Mana"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Energy Shield",
-            "+(1–24) to Spirit"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Energy Shield",
-            "+(7–57) to maximum Mana"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Evasion Rating",
-            "+(1–24) to Spirit"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Evasion Rating",
-            "+(7–57) to maximum Mana"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Evasion and Energy Shield",
-            "+(1–24) to Spirit"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(6–52)% increased Evasion and Energy Shield",
-            "+(7–57) to maximum Mana"
-          ],
-          "affixRanges": [
-            null,
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Medved's",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "+(19–189) to maximum Life",
             "+(19–189) to maximum Mana"
           ],
           "affixRanges": [
-            null,
-            null
+            "19-189",
+            "19-189"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Soul",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "(5–50)% reduced Duration of Ailments on You"
           ],
           "affixRanges": [
-            null
+            "5-50"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Soul",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "+(3–31)% to Cold and Chaos Resistances"
           ],
           "affixRanges": [
-            null
+            "3-31"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Soul",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "+(3–31)% to Fire and Chaos Resistances"
           ],
           "affixRanges": [
-            null
+            "3-31"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Soul",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "+(3–31)% to Lightning and Chaos Resistances"
           ],
           "affixRanges": [
-            null
+            "3-31"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Soul",
+          "affixTier": 1,
           "affixTierLevel": 65,
           "affixStats": [
             "Hits against you have (10–99)% reduced Critical Damage Bonus"
           ],
           "affixRanges": [
-            null
+            "10-99"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         }
       ]
     },
@@ -1375,357 +1375,319 @@
         {
           "affixType": "Prefix Modifier",
           "affixName": "Vorana's",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(35–55)% increased total Power counted by Warcries"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Vorana's",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(35–60)% increased Rage Cost Efficiency"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Vorana's",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(40–60)% increased effect of Fully Broken Armour"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Vorana's",
+          "affixTier": 1,
           "affixTierLevel": 75,
           "affixStats": [
             "(50–75)% increased Damage with Warcries"
           ],
           "affixRanges": [
-            null
+            "50-75"
           ],
-          "weight": 1,
-          "affixTier": 1
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Vorana's",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(50–85)% increased Glory generation"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Vorana's",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "+(8–12) to Maximum Rage"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Berserker",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(100–150)% increased Armour Break Duration"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Berserker",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(37–50)% increased Warcry Cooldown Recovery Rate"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Berserker",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(37–50)% increased Warcry Speed"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Berserker",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "(40–60)% chance to build an additional Combo on Hit"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Berserker",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "Gain (6–10) Rage when Hit by an Enemy"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Berserker",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "Inherent Rage loss starts (3–5) seconds later"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Berserker",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "Recover (4–5)% of maximum Life when you use a Warcry"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Berserker",
-          "affixTierLevel": 75,
-          "affixStats": [
-            "Warcry Skills have (30–50)% increased Area of Effect"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 1
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Vorana's",
-          "affixTierLevel": 65,
-          "affixStats": [
-            "(25–39)% increased effect of Fully Broken Armour"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 2
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Vorana's",
+          "affixTier": 2,
           "affixTierLevel": 65,
           "affixStats": [
             "(35–49)% increased Damage with Warcries"
           ],
           "affixRanges": [
-            null
+            "35-49"
           ],
-          "weight": 1,
-          "affixTier": 2
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Vorana's",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "(15–24)% increased effect of Fully Broken Armour"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 3
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Vorana's",
+          "affixTier": 3,
           "affixTierLevel": 45,
           "affixStats": [
             "(20–34)% increased Damage with Warcries"
           ],
           "affixRanges": [
-            null
+            "20-34"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Vorana's",
-          "affixTierLevel": 45,
+          "affixTier": 1,
+          "affixTierLevel": 75,
           "affixStats": [
-            "(20–34)% increased Rage Cost Efficiency"
+            "(50–85)% increased Glory generation"
           ],
           "affixRanges": [
-            null
+            "50-85"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Vorana's",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "(20–34)% increased total Power counted by Warcries"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 3
-        },
-        {
-          "affixType": "Prefix Modifier",
-          "affixName": "Vorana's",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "(20–49)% increased Glory generation"
           ],
           "affixRanges": [
-            null
+            "20-49"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Prefix Modifier",
           "affixName": "Vorana's",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(35–60)% increased Rage Cost Efficiency"
+          ],
+          "affixRanges": [
+            "35-60"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Vorana's",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(20–34)% increased Rage Cost Efficiency"
+          ],
+          "affixRanges": [
+            "20-34"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Vorana's",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(40–60)% increased effect of Fully Broken Armour"
+          ],
+          "affixRanges": [
+            "40-60"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Vorana's",
+          "affixTier": 2,
+          "affixTierLevel": 65,
+          "affixStats": [
+            "(25–39)% increased effect of Fully Broken Armour"
+          ],
+          "affixRanges": [
+            "25-39"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Vorana's",
+          "affixTier": 3,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(15–24)% increased effect of Fully Broken Armour"
+          ],
+          "affixRanges": [
+            "15-24"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Vorana's",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(35–55)% increased total Power counted by Warcries"
+          ],
+          "affixRanges": [
+            "35-55"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Vorana's",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(20–34)% increased total Power counted by Warcries"
+          ],
+          "affixRanges": [
+            "20-34"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Vorana's",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "+(8–12) to Maximum Rage"
+          ],
+          "affixRanges": [
+            "8-12"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Prefix Modifier",
+          "affixName": "Vorana's",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "+(4–7) to Maximum Rage"
           ],
           "affixRanges": [
-            null
+            "4-7"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Berserker",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(40–60)% chance to build an additional Combo on Hit"
+          ],
+          "affixRanges": [
+            "40-60"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Berserker",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "(20–39)% chance to build an additional Combo on Hit"
           ],
           "affixRanges": [
-            null
+            "20-39"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Berserker",
-          "affixTierLevel": 45,
+          "affixTier": 1,
+          "affixTierLevel": 75,
           "affixStats": [
-            "(23–36)% increased Warcry Cooldown Recovery Rate"
+            "(100–150)% increased Armour Break Duration"
           ],
           "affixRanges": [
-            null
+            "100-150"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Berserker",
-          "affixTierLevel": 45,
-          "affixStats": [
-            "(23–36)% increased Warcry Speed"
-          ],
-          "affixRanges": [
-            null
-          ],
-          "weight": 1,
-          "affixTier": 3
-        },
-        {
-          "affixType": "Suffix Modifier",
-          "affixName": "of the Berserker",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "(50–99)% increased Armour Break Duration"
           ],
           "affixRanges": [
-            null
+            "50-99"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Berserker",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(37–50)% increased Warcry Cooldown Recovery Rate"
+          ],
+          "affixRanges": [
+            "37-50"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Berserker",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(23–36)% increased Warcry Cooldown Recovery Rate"
+          ],
+          "affixRanges": [
+            "23-36"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Berserker",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "(37–50)% increased Warcry Speed"
+          ],
+          "affixRanges": [
+            "37-50"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Berserker",
+          "affixTier": 2,
+          "affixTierLevel": 45,
+          "affixStats": [
+            "(23–36)% increased Warcry Speed"
+          ],
+          "affixRanges": [
+            "23-36"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Berserker",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "Gain (6–10) Rage when Hit by an Enemy"
+          ],
+          "affixRanges": [
+            "6-10"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Berserker",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "Gain (4–5) Rage when Hit by an Enemy"
           ],
           "affixRanges": [
-            null
+            "4-5"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Berserker",
+          "affixTier": 1,
           "affixTierLevel": 45,
           "affixStats": [
             "Inherent Rage loss starts 1 second later"
@@ -1733,34 +1695,72 @@
           "affixRanges": [
             null
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Berserker",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "Inherent Rage loss starts (3–5) seconds later"
+          ],
+          "affixRanges": [
+            "3-5"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Berserker",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "Recover (4–5)% of maximum Life when you use a Warcry"
+          ],
+          "affixRanges": [
+            "4-5"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Berserker",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "Recover (2–3)% of maximum Life when you use a Warcry"
           ],
           "affixRanges": [
-            null
+            "2-3"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         },
         {
           "affixType": "Suffix Modifier",
           "affixName": "of the Berserker",
+          "affixTier": 1,
+          "affixTierLevel": 75,
+          "affixStats": [
+            "Warcry Skills have (30–50)% increased Area of Effect"
+          ],
+          "affixRanges": [
+            "30-50"
+          ],
+          "weight": 1
+        },
+        {
+          "affixType": "Suffix Modifier",
+          "affixName": "of the Berserker",
+          "affixTier": 2,
           "affixTierLevel": 45,
           "affixStats": [
             "Warcry Skills have (15–29)% increased Area of Effect"
           ],
           "affixRanges": [
-            null
+            "15-29"
           ],
-          "weight": 1,
-          "affixTier": 3
+          "weight": 1
         }
       ]
     }

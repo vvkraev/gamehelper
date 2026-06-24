@@ -1995,19 +1995,24 @@ public partial class CraftConditionWindow : Window
             .ToList();
 
         // Inject rune affixes if a rune is selected.
-        // Each rune affix is a distinct modifier family; multiple can appear simultaneously.
-        // Entries already in the regular pool (same type+name) are excluded to avoid double-counting.
+        // Each rune affix is a distinct modifier family (unique FamilyId); multiple can appear simultaneously.
+        // Exclude rune entries whose *stat* already exists in the regular pool — same name is not sufficient
+        // because "of Destruction" in the regular library (e.g. Critical Damage Bonus) is a completely
+        // different family from the rune's "of Destruction" (Explicit Physical magnitudes).
         if (_selectedRuneGroup != null)
         {
-            var existingNames = new HashSet<(string Type, string Name)>(
-                eligible.Select(e => (e.AffixType, e.AffixName)));
+            var existingStats = new HashSet<(string Type, string NormStat)>(
+                eligible.Select(e => (e.AffixType,
+                                      CraftAffixCascadeHelper.NormalizeStatToTemplate(e.AffixStats.FirstOrDefault() ?? ""))));
             var runeEntries = Services.RuneAffixLibrary.GetEntries(_selectedRuneGroup, ic);
             // Group rune entries by (type, normalized stat template) to pick the best eligible tier
             var runeEligible = runeEntries
-                .Where(e => (e.AffixTierLevel ?? 0) <= ilvl && !existingNames.Contains((e.AffixType, e.AffixName)))
+                .Where(e => (e.AffixTierLevel ?? 0) <= ilvl)
                 .GroupBy(e => (e.AffixType,
                                CraftAffixCascadeHelper.NormalizeStatToTemplate(e.AffixStats.FirstOrDefault() ?? "")))
                 .Select(g => g.OrderBy(e => e.AffixTier).First())
+                .Where(e => !existingStats.Contains((e.AffixType,
+                                                     CraftAffixCascadeHelper.NormalizeStatToTemplate(e.AffixStats.FirstOrDefault() ?? ""))))
                 .ToList();
             eligible.AddRange(runeEligible);
         }

@@ -116,6 +116,21 @@ public static class ParsedItemCraftEvaluator
             if (bNoRoll.Length > 0 && string.Equals(aNoRoll, bNoRoll, StringComparison.Ordinal))
                 return true;
 
+            // Гибридный мод: библиотека хранит два стата одной строкой без разделителя
+            // (напр. "+(26–30) to maximum Energy Shield(39–42)% increased Energy Shield").
+            // На предмете они показываются раздельно. Считаем совпадением, если один stripped-стат
+            // является строгим префиксом другого с границей на не-буквенно-цифровом символе.
+            const int minLenForPrefixMatch = 15;
+            if (aNoRoll.Length >= minLenForPrefixMatch && bNoRoll.Length >= minLenForPrefixMatch)
+            {
+                static bool IsWordPrefix(string shorter, string longer) =>
+                    longer.StartsWith(shorter, StringComparison.Ordinal) &&
+                    (longer.Length == shorter.Length || !char.IsLetterOrDigit(longer[shorter.Length]));
+
+                if (IsWordPrefix(aNoRoll, bNoRoll) || IsWordPrefix(bNoRoll, aNoRoll))
+                    return true;
+            }
+
             // Шаблон может содержать '#' как плейсхолдер числа (напр. "+# to Level of all Spell Skills").
             // Парсер уже извлёк число в RolledValue, оставив в StatText "+ to Level…".
             // Сравниваем aNoRoll с шаблоном без '#'.
@@ -252,6 +267,11 @@ public static class ParsedItemCraftEvaluator
         if (expectedSlotCount < 1)
             expectedSlotCount = 1;
 
+        // Multiple affixes may share the same (name, tier) — e.g. rune affixes from the same rune
+        // or desecrated items where two different stat families share a name and tier.
+        // We must continue past the first (name, tier) match when its stat doesn't match,
+        // so that a subsequent affix with the same (name, tier) but a different stat can be found.
+        var foundByNameTier = false;
         foreach (var affix in item.Affixes)
         {
             if (!AffixTypesCompatibleForNamedMatch(affixType, affix.Type))
@@ -260,6 +280,8 @@ public static class ParsedItemCraftEvaluator
                 continue;
             if (affix.Tier != affixTier)
                 continue;
+
+            foundByNameTier = true;
 
             foreach (var line in affix.EffectDetails)
             {
@@ -284,10 +306,10 @@ public static class ParsedItemCraftEvaluator
                 values = vals.Count == expectedSlotCount ? vals : vals.Take(expectedSlotCount).ToList();
                 return true;
             }
-
-            explanation = $"Модификатор «{affixName}» найден, но без подходящей строки стата «{statTemplate}».";
-            return false;
         }
+
+        if (foundByNameTier)
+            explanation = $"Модификатор «{affixName}» найден, но без подходящей строки стата «{statTemplate}».";
 
         return false;
     }
@@ -711,7 +733,8 @@ public static class ParsedItemCraftEvaluator
         for (var i = 0; i < entry.AffixStats.Count; i++)
         {
             if (StatLineMatchesTemplate(entry.AffixStats[i], statTemplate) ||
-                StatLineMatchesTemplate(statTemplate, entry.AffixStats[i]))
+                StatLineMatchesTemplate(statTemplate, entry.AffixStats[i]) ||
+                CraftAffixCascadeHelper.StatMatchesNormalizedTemplate(entry.AffixStats[i], statTemplate))
                 return i;
         }
 
