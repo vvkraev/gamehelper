@@ -158,7 +158,7 @@
     - Асинхронный расчёт: `StartChaosMonteCarloAsync` показывает «расчёт...» пока не готово
     - Отображение: «Теория (poe2db, Monte Carlo): ~N Chaos Orb · ~X.XX div»
 
-- [ ] **CRAFT-5** Поддержка рун (патч Legacy of Aldur)
+- [x] **CRAFT-5** Поддержка рун (патч Legacy of Aldur)
   - **Контекст**: руны при вставке в предмет добавляют новые аффиксы в пул выпадения; poe2db показывает для них вес=1, что не соответствует реальности
   - **Известный пример**: `[Spears] "Thrud's" T1` — Prefix Modifier, стат `"(25–30)% increased Explicit Speed Modifier magnitudes"` (poe2db добавляет суффикс `— Unscalable Value`, т.е. ролл не зависит от ilvl). Единственная запись в `affix_library.json` без `familyId` — скраппер не назначил его, т.к. рунные аффиксы не входят в стандартный тировый пул
   - Хранить данные рун в отдельном `rune_affix_overrides.json` — не изменять `affix_library.json`
