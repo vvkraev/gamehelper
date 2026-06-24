@@ -109,10 +109,13 @@
 
 ## Инфраструктура
 
-- [ ] **INF-1** Настроить CI/CD (GitHub Actions или аналог)
-  - Сборка проекта на push
-  - Запуск тестов автоматически
-  - Публикация артефактов (exe/zip)
+- [~] **INF-1** Настроить CI/CD (GitHub Actions)
+  - [x] Создан `.github/workflows/tests.yml` — запуск 1452 тестов на `windows-latest` при push/PR в main
+  - [ ] **Нужно сделать за компом:** запушить ветку в GitHub
+    1. Создать Personal Access Token: `https://github.com/settings/tokens/new` → scope **repo** → Generate
+    2. Выполнить: `git push https://vvkraev:<TOKEN>@github.com/vvkraev/gamehelper.git`
+    3. Убедиться что Actions запустился: `https://github.com/vvkraev/gamehelper/actions`
+  - [ ] Публикация артефактов (exe/zip) — отдельный workflow, после того как базовый CI заработает
 
 - [ ] **INF-2** Добавить `.editorconfig` — единый стиль кода для всей команды
 
