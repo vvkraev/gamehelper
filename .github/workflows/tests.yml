@@ -1,0 +1,28 @@
+name: Tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: windows-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Restore
+        run: dotnet restore GameHelper.Tests/GameHelper.Tests.csproj
+
+      - name: Build
+        run: dotnet build GameHelper.Tests/GameHelper.Tests.csproj --no-restore --configuration Release
+
+      - name: Test
+        run: dotnet test GameHelper.Tests/GameHelper.Tests.csproj --no-build --configuration Release --logger "console;verbosity=normal"
