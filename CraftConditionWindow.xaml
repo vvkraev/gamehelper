@@ -87,10 +87,20 @@
                            FontWeight="SemiBold"
                            Foreground="#1976D2"/>
                 <TextBlock x:Name="PracticeChanceLabel"
-                           Margin="0,0,0,10"
+                           Margin="0,0,0,6"
                            FontSize="13"
                            FontWeight="SemiBold"
                            Foreground="#388E3C"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                    <Button Content="Из буфера: учесть фрактуру"
+                            Padding="8,4"
+                            Click="DetectFractured_Click"/>
+                    <TextBlock x:Name="FracturedInfoLabel"
+                               Margin="8,0,0,0"
+                               VerticalAlignment="Center"
+                               FontSize="12"
+                               Foreground="#7B1FA2"/>
+                </StackPanel>
                 <Button Content="Добавить вариант (ИЛИ)…"
                         HorizontalAlignment="Left"
                         Padding="10,6"

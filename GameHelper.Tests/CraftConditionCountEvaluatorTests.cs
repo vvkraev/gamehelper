@@ -406,4 +406,112 @@ public sealed class CraftConditionCountEvaluatorTests
             CraftConditionEvaluator.TryEvaluate(plan, item, out _),
             "+3 не должен удовлетворять порогу ≥4");
     }
+
+    // ── Тесты: fractured-аффиксы не засчитываются при проверке условия крафта ─
+
+    private const string FracturedRunicWandClipboard = """
+        Item Class: Wands
+        Rarity: Rare
+        Test Wand
+        --------
+        { Fractured Prefix Modifier "Runic" (Tier: 1) — Damage, Caster }
+        106(105-119)% increased Spell Damage
+        { Suffix Modifier "of Grief" (Tier: 1) — Physical, Caster, Gem }
+        +5 to Level of all Physical Spell Skills
+        --------
+        Fractured Item
+        """;
+
+    /// <summary>
+    /// Руник зафиксирован (Fractured). Условие: «Руник T1, % increased Spell Damage ≥ 50».
+    /// Ожидание: false — fractured-аффикс не засчитывается как результат крафта.
+    /// </summary>
+    [Fact]
+    public void FracturedAffix_DoesNotSatisfySingleCondition()
+    {
+        var item = ItemParser.Parse(FracturedRunicWandClipboard);
+        Assert.True(item.Affixes.Any(a => a.IsFractured && a.Name == "Runic"), "Предмет должен иметь fractured Runic");
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Wands",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Single,
+                            Single = new CraftSingleAffixData
+                            {
+                                AffixType = "Prefix Modifier",
+                                AffixName = "Runic",
+                                SelectedAffixNames = new List<string> { "Runic" },
+                                AffixTier = 1,
+                                StatTemplate = "% increased Spell Damage",
+                                MinRoll = 50,
+                                MinRolls = new List<double> { 50 },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.False(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"Fractured-аффикс не должен засчитываться. Объяснение: {expl}");
+    }
+
+    /// <summary>
+    /// Руник зафиксирован (Fractured). Условие: хотя бы 1 совпадение из Count-клоза с Руником.
+    /// Ожидание: false — fractured-аффикс не засчитывается.
+    /// </summary>
+    [Fact]
+    public void FracturedAffix_DoesNotSatisfyCountCondition()
+    {
+        var item = ItemParser.Parse(FracturedRunicWandClipboard);
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Wands",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                Members =
+                                {
+                                    new CraftWholeModifierAffixData
+                                    {
+                                        AffixType = "Prefix Modifier",
+                                        AffixName = "Runic",
+                                        SelectedAffixNames = new List<string> { "Runic" },
+                                        AffixTier = 1,
+                                        Lines = new List<CraftWholeModifierLine>
+                                        {
+                                            new() { StatTemplate = "% increased Spell Damage", MinRoll = 50, MinRolls = new List<double> { 50 } },
+                                        },
+                                    },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.False(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"Fractured-аффикс не должен засчитываться в Count. Объяснение: {expl}");
+    }
 }

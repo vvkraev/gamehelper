@@ -22,6 +22,7 @@ public partial class MainWindow : Window
     private readonly OmenActivationService _omen = new();
     private CancellationTokenSource? _cts;
     private readonly ReforgeState _reforgeState = new();
+    private List<Services.SaleRecord> _tradeHistory = [];
 
     private ScreenRect? _currencyInventoryRegion;
     private ScreenRect? _ritualInventoryRegion;
@@ -876,6 +877,13 @@ public partial class MainWindow : Window
         UpdateChancingStartStopHotkeyDisplay();
         RegisterChancingStartStopHotkey();
 
+        TradeSessionIdBox.Text = s.TradeSessionId ?? "";
+        TradeHistoryLeagueBox.Text = string.IsNullOrWhiteSpace(s.TradeHistoryLeague)
+            ? (string.IsNullOrWhiteSpace(s.PoeNinjaLeague) ? "Runes of Aldur" : s.PoeNinjaLeague)
+            : s.TradeHistoryLeague;
+        _tradeHistory = Services.TradeHistoryService.LoadFromFile();
+        RebuildTradeHistoryGrid();
+
         RefLoadCategories();
         _isApplyingSettings = false;
     }
@@ -1028,6 +1036,8 @@ public partial class MainWindow : Window
         s.ChancingPostApplyWaitMs  = RfParseInt(ChancingPostApplyWaitBox.Text, 600);
         s.ChancingStartStopVirtualKey = _chancingStartStopVirtualKey;
         s.ChancingStartStopModifiers  = _chancingStartStopModifiers;
+        s.TradeSessionId      = TradeSessionIdBox.Text.Trim();
+        s.TradeHistoryLeague  = TradeHistoryLeagueBox.Text.Trim();
         _reforgeState.ApplyToSettings(s);
         SettingsStore.Save(s);
     }
@@ -1062,6 +1072,7 @@ public partial class MainWindow : Window
     private void CraftModeCombo_OnSelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
     {
         RefreshCraftOrbCombo();
+        if (FractOrbEvalPanel is null) return;  // FractOrbEvalPanel определён после CraftModeCombo в XAML — защита от порядка инициализации
         var mode = (CraftModeCombo.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "";
         var isFract = mode.Contains("Фракт", StringComparison.OrdinalIgnoreCase);
         FractOrbEvalPanel.Visibility = isFract ? Visibility.Visible : Visibility.Collapsed;
@@ -5459,4 +5470,394 @@ public partial class MainWindow : Window
     }
 
     private void RefReloadBtn_Click(object sender, RoutedEventArgs e) => RefLoadCategories();
+
+    // ── История продаж (TRADE-3) ─────────────────────────────────────────────
+
+    private async void TradeHistoryFetchBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var sessid = TradeSessionIdBox.Text.Trim();
+        var league = TradeHistoryLeagueBox.Text.Trim();
+        if (string.IsNullOrWhiteSpace(sessid))
+        {
+            TradeHistoryStatusText.Text = "Введите POESESSID.";
+            return;
+        }
+        if (string.IsNullOrWhiteSpace(league)) league = "Runes of Aldur";
+        SaveSettings();
+        TradeHistoryStatusText.Text = "Загрузка…";
+        try
+        {
+            var (merged, newCount) = await Services.TradeHistoryService.FetchAndMergeAsync(
+                league, sessid, _tradeHistory);
+            _tradeHistory = merged;
+            Services.TradeHistoryService.Save(_tradeHistory);
+            RebuildTradeHistoryGrid();
+            var countMsg = newCount > 0
+                ? $"Загружено +{newCount} новых. Всего: {_tradeHistory.Count}."
+                : $"Новых нет. Всего: {_tradeHistory.Count}.";
+            TradeHistoryStatusText.Text = countMsg + "  " + BuildRateLimitSummary();
+        }
+        catch (Exception ex)
+        {
+            TradeHistoryStatusText.Text = $"Ошибка: {ex.Message}";
+        }
+    }
+
+    private void RebuildTradeHistoryGrid()
+    {
+        var rows = _tradeHistory.Select(r => new SaleRow(r)).ToList();
+        TradeHistoryGrid.ItemsSource = rows;
+        UpdateTradeHistorySummary();
+        RebuildTradeGroupGrid();
+    }
+
+    private void RebuildTradeGroupGrid()
+    {
+        // Синие предметы: name пустой, typeLine отличается от baseType
+        var groups = _tradeHistory
+            .Where(r => string.IsNullOrEmpty(r.ItemName)
+                     && !string.IsNullOrEmpty(r.BaseType)
+                     && r.TypeLine != r.BaseType)
+            .GroupBy(r => r.BaseType)
+            .OrderByDescending(g => g.Count())
+            .Select(g => new SaleGroupRow(g.Key, g.ToList(), () =>
+                Dispatcher.InvokeAsync(() =>
+                {
+                    Services.TradeHistoryService.Save(_tradeHistory);
+                    // Обновляем основной грид чтобы BaseCostDiv отобразился
+                    TradeHistoryGrid.ItemsSource = _tradeHistory.Select(r => new SaleRow(r)).ToList();
+                    UpdateTradeHistorySummary();
+                }, System.Windows.Threading.DispatcherPriority.Background)))
+            .ToList();
+
+        TradeGroupGrid.ItemsSource = groups;
+
+        if (groups.Count > 0)
+        {
+            var totalRev = groups.Sum(g =>
+                _tradeHistory.Where(r => string.IsNullOrEmpty(r.ItemName)
+                    && r.BaseType == g.BaseType && r.TypeLine != r.BaseType
+                    && r.PriceCurrency == "divine").Sum(r => r.PriceAmount));
+            TradeGroupSummaryText.Text = groups.Count > 0
+                ? $"Синих баз: {groups.Count} типов · {groups.Sum(g => int.Parse(g.CountStr))} продаж · Выручка: {totalRev:0.##} div"
+                : "";
+        }
+        else
+        {
+            TradeGroupSummaryText.Text = "";
+        }
+    }
+
+    private void TradeGroupGrid_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
+    {
+        if (e.EditAction != System.Windows.Controls.DataGridEditAction.Commit) return;
+        // Сохранение и обновление происходит внутри SaleGroupRow.BaseCostStr.set через _onChanged
+    }
+
+    private void CalcCraftFromLogs_Click(object sender, RoutedEventArgs e)
+    {
+        TradeHistoryStatusText.Text = "Анализ логов…";
+        List<Services.CraftCompletion> completions;
+        try
+        {
+            completions = Services.CraftLogAnalyzer.AnalyzeRecentLogs(4);
+        }
+        catch (Exception ex)
+        {
+            TradeHistoryStatusText.Text = $"Ошибка чтения логов: {ex.Message}";
+            return;
+        }
+
+        if (completions.Count == 0)
+        {
+            TradeHistoryStatusText.Text = "Логи за 4 дня не найдены или не содержат завершённых крафтов.";
+            return;
+        }
+
+        // Стоимость крафта на единицу по TypeLine (усредняем по нескольким крафтам)
+        var costByTypeLine = completions
+            .GroupBy(c => c.TypeLine, StringComparer.OrdinalIgnoreCase)
+            .ToDictionary(
+                g => g.Key,
+                g =>
+                {
+                    var costs = g.Select(Services.CraftLogAnalyzer.CalcCostDiv).Where(v => v > 0).ToList();
+                    return costs.Count > 0 ? costs.Average() : 0m;
+                },
+                StringComparer.OrdinalIgnoreCase);
+
+        // Применяем к синим предметам у которых crافт-стоимость ещё не задана
+        int updated = 0;
+        foreach (var record in _tradeHistory)
+        {
+            // Синий предмет: ItemName пустой, TypeLine != BaseType
+            if (!string.IsNullOrEmpty(record.ItemName)) continue;
+            if (string.IsNullOrEmpty(record.TypeLine) || record.TypeLine == record.BaseType) continue;
+
+            if (costByTypeLine.TryGetValue(record.TypeLine, out var cost) && cost > 0)
+            {
+                record.CraftCostDiv = Math.Round(cost, 4);
+                updated++;
+            }
+        }
+
+        if (updated > 0)
+        {
+            Services.TradeHistoryService.Save(_tradeHistory);
+            RebuildTradeHistoryGrid();
+        }
+
+        var logsSummary = string.Join(", ",
+            costByTypeLine.Where(kv => kv.Value > 0)
+                          .Select(kv => $"{kv.Key}: {kv.Value:0.####} div"));
+
+        TradeHistoryStatusText.Text =
+            $"Логи: {completions.Count} крафтов за 4 дня. Обновлено записей: {updated}."
+            + (logsSummary.Length > 0 ? $"  [{logsSummary}]" : " Цены орбов не загружены.");
+    }
+
+    private static string BuildRateLimitSummary()
+    {
+        var rl = Services.TradeHistoryService.LastRateLimit;
+        if (rl == null || rl.Length == 0) return "";
+
+        var parts = rl.Select(r =>
+        {
+            string warn = r.IsExceeded ? "⛔" : r.IsNearLimit ? "⚠️" : "";
+            return $"{warn}{r.Current}/{r.Limit} ({r.WindowLabel})";
+        });
+        return "Лимит: " + string.Join(" · ", parts);
+    }
+
+    private void UpdateTradeHistorySummary()
+    {
+        var rows = (TradeHistoryGrid.ItemsSource as List<SaleRow>) ?? [];
+        if (rows.Count == 0) { TradeHistorySummaryText.Text = ""; return; }
+
+        var divSales = rows.Where(r => r.Record.PriceCurrency == "divine").ToList();
+        var sb = new System.Text.StringBuilder();
+        sb.Append($"Всего: {rows.Count} продаж");
+        if (divSales.Count > 0)
+        {
+            var totalDiv = divSales.Sum(r => r.Record.PriceAmount);
+            sb.Append($" · {divSales.Count} в div · Выручка: {totalDiv:0.##} div");
+
+            var withAnyCost = rows.Where(r => r.Record.CraftCostDiv > 0 || r.Record.BaseCostDiv > 0).ToList();
+            if (withAnyCost.Count > 0)
+            {
+                var totalCraft = withAnyCost.Sum(r => r.Record.CraftCostDiv);
+                var totalBase  = withAnyCost.Sum(r => r.Record.BaseCostDiv);
+                var totalCost  = totalCraft + totalBase;
+                var profit     = totalDiv - totalCost;
+                sb.Append($" · Затраты ({withAnyCost.Count}): {totalCost:0.##} div");
+                if (totalCraft > 0) sb.Append($" (крафт {totalCraft:0.##} + база {totalBase:0.##})");
+                sb.Append($" · Прибыль: {profit:+0.##;-0.##;0} div");
+            }
+        }
+        TradeHistorySummaryText.Text = sb.ToString();
+    }
+
+    private void TradeHistoryGrid_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
+    {
+        if (e.EditAction != System.Windows.Controls.DataGridEditAction.Commit) return;
+        Dispatcher.InvokeAsync(() =>
+        {
+            Services.TradeHistoryService.Save(_tradeHistory);
+            UpdateTradeHistorySummary();
+        }, System.Windows.Threading.DispatcherPriority.Background);
+    }
+
+    private sealed class SaleRow : System.ComponentModel.INotifyPropertyChanged
+    {
+        public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
+        public Services.SaleRecord Record { get; }
+
+        private string _craftCostStr;
+        private string _baseCostStr;
+
+        private static string DecToStr(decimal v) =>
+            v > 0 ? v.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) : "";
+
+        private static decimal ParseCostStr(string s) =>
+            decimal.TryParse(s.Replace(',', '.'),
+                System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out var v) ? v : 0;
+
+        public SaleRow(Services.SaleRecord record)
+        {
+            Record = record;
+            _craftCostStr = DecToStr(record.CraftCostDiv);
+            _baseCostStr  = DecToStr(record.BaseCostDiv);
+        }
+
+        public string DateStr => Record.Time.ToLocalTime().ToString("dd.MM.yy HH:mm");
+
+        public string DisplayName
+        {
+            get
+            {
+                var name = Record.ItemName.Trim();
+                var type = Record.TypeLine.Trim();
+                return string.IsNullOrEmpty(name) ? type : $"{name} {type}".Trim();
+            }
+        }
+
+        public int ItemLevel => Record.ItemLevel;
+
+        public string PriceStr
+        {
+            get
+            {
+                var curr = Record.PriceCurrency switch
+                {
+                    "divine" => "div",
+                    "exalted" => "ex",
+                    "chaos" => "c",
+                    _ => Record.PriceCurrency,
+                };
+                return $"{Record.PriceAmount} {curr}";
+            }
+        }
+
+        public string CraftCostStr
+        {
+            get => _craftCostStr;
+            set
+            {
+                if (_craftCostStr == value) return;
+                _craftCostStr = value;
+                Record.CraftCostDiv = ParseCostStr(value);
+                PropertyChanged?.Invoke(this, new(nameof(CraftCostStr)));
+                PropertyChanged?.Invoke(this, new(nameof(ProfitStr)));
+            }
+        }
+
+        public string BaseCostStr
+        {
+            get => _baseCostStr;
+            set
+            {
+                if (_baseCostStr == value) return;
+                _baseCostStr = value;
+                Record.BaseCostDiv = ParseCostStr(value);
+                PropertyChanged?.Invoke(this, new(nameof(BaseCostStr)));
+                PropertyChanged?.Invoke(this, new(nameof(ProfitStr)));
+            }
+        }
+
+        public string ProfitStr
+        {
+            get
+            {
+                // Считаем прибыль только если задана хотя бы одна из стоимостей и цена в div
+                if (string.IsNullOrWhiteSpace(_craftCostStr) && string.IsNullOrWhiteSpace(_baseCostStr))
+                    return "";
+                if (Record.PriceCurrency != "divine") return "";
+                var totalCost = Record.CraftCostDiv + Record.BaseCostDiv;
+                var profit = Record.PriceAmount - totalCost;
+                return profit >= 0 ? $"+{profit:0.##} div" : $"{profit:0.##} div";
+            }
+        }
+
+        public string ModsPreview =>
+            string.Join(" · ", Record.ExplicitMods.Concat(Record.FracturedMods).Take(4));
+    }
+
+    private sealed class SaleGroupRow : System.ComponentModel.INotifyPropertyChanged
+    {
+        public event System.ComponentModel.PropertyChangedEventHandler? PropertyChanged;
+
+        private readonly List<Services.SaleRecord> _records;
+        private string _baseCostStr;
+        private readonly Action _onChanged;
+
+        public string BaseType { get; }
+        public string CountStr => _records.Count.ToString();
+
+        private static string DecToStr(decimal v) =>
+            v > 0 ? v.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture) : "";
+
+        private static decimal ParseDecStr(string s) =>
+            decimal.TryParse(s.Replace(',', '.'),
+                System.Globalization.NumberStyles.Float,
+                System.Globalization.CultureInfo.InvariantCulture, out var v) ? v : 0;
+
+        private string _craftCostStr;
+
+        public SaleGroupRow(string baseType, List<Services.SaleRecord> records, Action onChanged)
+        {
+            BaseType   = baseType;
+            _records   = records;
+            _onChanged = onChanged;
+            var existingBase  = records.FirstOrDefault(r => r.BaseCostDiv  > 0)?.BaseCostDiv  ?? 0;
+            var existingCraft = records.FirstOrDefault(r => r.CraftCostDiv > 0)?.CraftCostDiv ?? 0;
+            _baseCostStr  = DecToStr(existingBase);
+            _craftCostStr = DecToStr(existingCraft);
+        }
+
+        public string AvgPriceStr
+        {
+            get
+            {
+                var div = _records.Where(r => r.PriceCurrency == "divine").ToList();
+                return div.Count > 0 ? $"{div.Average(r => r.PriceAmount):0.##} div" : "";
+            }
+        }
+
+        public string TotalRevenueStr
+        {
+            get
+            {
+                var total = _records.Where(r => r.PriceCurrency == "divine").Sum(r => r.PriceAmount);
+                return total > 0 ? $"{total:0.##} div" : "";
+            }
+        }
+
+        public string CraftCostStr
+        {
+            get => _craftCostStr;
+            set
+            {
+                if (_craftCostStr == value) return;
+                _craftCostStr = value;
+                var cost = ParseDecStr(value);
+                foreach (var r in _records)
+                    r.CraftCostDiv = cost;
+                PropertyChanged?.Invoke(this, new(nameof(CraftCostStr)));
+                PropertyChanged?.Invoke(this, new(nameof(AvgProfitStr)));
+                _onChanged();
+            }
+        }
+
+        public string BaseCostStr
+        {
+            get => _baseCostStr;
+            set
+            {
+                if (_baseCostStr == value) return;
+                _baseCostStr = value;
+                var cost = ParseDecStr(value);
+                foreach (var r in _records)
+                    r.BaseCostDiv = cost;
+                PropertyChanged?.Invoke(this, new(nameof(BaseCostStr)));
+                PropertyChanged?.Invoke(this, new(nameof(AvgProfitStr)));
+                _onChanged();
+            }
+        }
+
+        public string AvgProfitStr
+        {
+            get
+            {
+                var divSales = _records.Where(r => r.PriceCurrency == "divine").ToList();
+                if (divSales.Count == 0) return "";
+                var craftCost = ParseDecStr(_craftCostStr);
+                var baseCost  = ParseDecStr(_baseCostStr);
+                var avgPrice  = divSales.Average(r => r.PriceAmount);
+                var profit    = avgPrice - craftCost - baseCost;
+                return profit >= 0 ? $"+{profit:0.##} div" : $"{profit:0.##} div";
+            }
+        }
+    }
 }

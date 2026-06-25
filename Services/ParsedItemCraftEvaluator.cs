@@ -293,6 +293,7 @@ public static class ParsedItemCraftEvaluator
         var foundByNameTier = false;
         foreach (var affix in item.Affixes)
         {
+            if (affix.IsFractured) continue;
             if (!AffixTypesCompatibleForNamedMatch(affixType, affix.Type))
                 continue;
             if (!string.Equals(affix.Name, affixName.Trim(), StringComparison.Ordinal))
@@ -379,6 +380,7 @@ public static class ParsedItemCraftEvaluator
 
         foreach (var affix in item.Affixes)
         {
+            if (affix.IsFractured) continue;
             if (!string.Equals(affix.Type, affixType.Trim(), StringComparison.Ordinal))
                 continue;
 
@@ -421,6 +423,7 @@ public static class ParsedItemCraftEvaluator
 
         foreach (var affix in item.Affixes)
         {
+            if (affix.IsFractured) continue;
             if (!AffixTypesCompatibleForNamedMatch(affixType, affix.Type))
                 continue;
 
@@ -599,6 +602,7 @@ public static class ParsedItemCraftEvaluator
         detail = "";
         foreach (var itemAffix in item.Affixes)
         {
+            if (itemAffix.IsFractured) continue;
             if (!string.Equals(itemAffix.Type, affixType, StringComparison.Ordinal))
                 continue;
             var libEntry = AffixCraftPatternBuilder.FindEntryByNameTypeAnyTier(

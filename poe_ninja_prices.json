@@ -5953,6 +5953,1380 @@
           "exaltedValue": 198.9
         }
       }
+    },
+    {
+      "fetchedAt": "2026-06-25T10:32:51.4128623+03:00",
+      "league": "Runes of Aldur",
+      "prices": {
+        "chaos orb": {
+          "divineValue": 0.1153,
+          "exaltedValue": 39.5
+        },
+        "glassblower s bauble": {
+          "divineValue": 0.002881,
+          "exaltedValue": 1.0
+        },
+        "exalted orb": {
+          "divineValue": 0.002919,
+          "exaltedValue": 1.0
+        },
+        "artificer s shard": {
+          "divineValue": 0.002009,
+          "exaltedValue": 0.7
+        },
+        "greater orb of transmutation": {
+          "divineValue": 0.0005002,
+          "exaltedValue": 0.2
+        },
+        "divine orb": {
+          "divineValue": 1,
+          "exaltedValue": 342.5
+        },
+        "crystallised corruption": {
+          "divineValue": 2.61,
+          "exaltedValue": 893.9
+        },
+        "vaal armourer s infuser": {
+          "divineValue": 0.3881,
+          "exaltedValue": 132.9
+        },
+        "blacksmith s whetstone": {
+          "divineValue": 0.0007355,
+          "exaltedValue": 0.3
+        },
+        "orb of extraction": {
+          "divineValue": 0.7285,
+          "exaltedValue": 249.5
+        },
+        "greater exalted orb": {
+          "divineValue": 0.01231,
+          "exaltedValue": 4.2
+        },
+        "greater orb of augmentation": {
+          "divineValue": 0.0006668,
+          "exaltedValue": 0.2
+        },
+        "regal orb": {
+          "divineValue": 0.001797,
+          "exaltedValue": 0.6
+        },
+        "arcanist s etcher": {
+          "divineValue": 0.006564,
+          "exaltedValue": 2.2
+        },
+        "vaal arcanist s infuser": {
+          "divineValue": 0.004279,
+          "exaltedValue": 1.5
+        },
+        "scroll of wisdom": {
+          "divineValue": 0.00007386,
+          "exaltedValue": 0.0
+        },
+        "perfect jeweller s orb": {
+          "divineValue": 0.2781,
+          "exaltedValue": 95.2
+        },
+        "orb of augmentation": {
+          "divineValue": 0.0005420,
+          "exaltedValue": 0.2
+        },
+        "vaal cultivation orb": {
+          "divineValue": 2.70,
+          "exaltedValue": 924.8
+        },
+        "vaal orb": {
+          "divineValue": 0.007582,
+          "exaltedValue": 2.6
+        },
+        "orb of alchemy": {
+          "divineValue": 0.002551,
+          "exaltedValue": 0.9
+        },
+        "vaal catalysing infuser": {
+          "divineValue": 2.33,
+          "exaltedValue": 798.0
+        },
+        "orb of chance": {
+          "divineValue": 0.02849,
+          "exaltedValue": 9.8
+        },
+        "greater regal orb": {
+          "divineValue": 0.005920,
+          "exaltedValue": 2.0
+        },
+        "perfect exalted orb": {
+          "divineValue": 3.38,
+          "exaltedValue": 1157.6
+        },
+        "gemcutter s prism": {
+          "divineValue": 0.004874,
+          "exaltedValue": 1.7
+        },
+        "fracturing orb": {
+          "divineValue": 6.42,
+          "exaltedValue": 2198.8
+        },
+        "ancient infuser": {
+          "divineValue": 0.1524,
+          "exaltedValue": 52.2
+        },
+        "perfect regal orb": {
+          "divineValue": 0.08399,
+          "exaltedValue": 28.8
+        },
+        "lesser jeweller s orb": {
+          "divineValue": 0.00003006,
+          "exaltedValue": 0.0
+        },
+        "core destabiliser": {
+          "divineValue": 1.68,
+          "exaltedValue": 575.4
+        },
+        "orb of transmutation": {
+          "divineValue": 0.0003506,
+          "exaltedValue": 0.1
+        },
+        "armourer s scrap": {
+          "divineValue": 0.002356,
+          "exaltedValue": 0.8
+        },
+        "perfect chaos orb": {
+          "divineValue": 5.55,
+          "exaltedValue": 1900.9
+        },
+        "vaal blacksmith s infuser": {
+          "divineValue": 0.1603,
+          "exaltedValue": 54.9
+        },
+        "vaal siphoner": {
+          "divineValue": 0.001724,
+          "exaltedValue": 0.6
+        },
+        "artificer s orb": {
+          "divineValue": 0.002040,
+          "exaltedValue": 0.7
+        },
+        "greater jeweller s orb": {
+          "divineValue": 0.001946,
+          "exaltedValue": 0.7
+        },
+        "greater chaos orb": {
+          "divineValue": 0.3446,
+          "exaltedValue": 118.0
+        },
+        "perfect orb of transmutation": {
+          "divineValue": 0.02537,
+          "exaltedValue": 8.7
+        },
+        "architect s orb": {
+          "divineValue": 3.57,
+          "exaltedValue": 1222.7
+        },
+        "perfect orb of augmentation": {
+          "divineValue": 0.04276,
+          "exaltedValue": 14.6
+        },
+        "cryptic key": {
+          "divineValue": 0.1544,
+          "exaltedValue": 52.9
+        },
+        "transmutation shard": {
+          "divineValue": 0.002919,
+          "exaltedValue": 1.0
+        },
+        "orb of annulment": {
+          "divineValue": 0.7375,
+          "exaltedValue": 252.6
+        },
+        "regal shard": {
+          "divineValue": 0.0003244,
+          "exaltedValue": 0.1
+        },
+        "chance shard": {
+          "divineValue": 0.003805,
+          "exaltedValue": 1.3
+        },
+        "mirror of kalandra": {
+          "divineValue": 4664,
+          "exaltedValue": 1597420.0
+        },
+        "hinekora s lock": {
+          "divineValue": 966.8,
+          "exaltedValue": 331129.0
+        },
+        "an audience with the king": {
+          "divineValue": 0.01638,
+          "exaltedValue": 5.6
+        },
+        "call of the shadows": {
+          "divineValue": 0.02184,
+          "exaltedValue": 7.5
+        },
+        "omen of abyssal echoes": {
+          "divineValue": 0.2308,
+          "exaltedValue": 79.0
+        },
+        "omen of answered prayers": {
+          "divineValue": 0.08976,
+          "exaltedValue": 30.7
+        },
+        "omen of chance": {
+          "divineValue": 14.32,
+          "exaltedValue": 4904.6
+        },
+        "omen of chaotic quantity": {
+          "divineValue": 0.1908,
+          "exaltedValue": 65.3
+        },
+        "omen of dextral annulment": {
+          "divineValue": 5.61,
+          "exaltedValue": 1921.4
+        },
+        "omen of dextral crystallisation": {
+          "divineValue": 0.2552,
+          "exaltedValue": 87.4
+        },
+        "omen of dextral erasure": {
+          "divineValue": 5.66,
+          "exaltedValue": 1938.6
+        },
+        "omen of gambling": {
+          "divineValue": 0.001192,
+          "exaltedValue": 0.4
+        },
+        "omen of greater exaltation": {
+          "divineValue": 0.008431,
+          "exaltedValue": 2.9
+        },
+        "omen of light": {
+          "divineValue": 7.70,
+          "exaltedValue": 2637.2
+        },
+        "omen of refreshment": {
+          "divineValue": 0.001297,
+          "exaltedValue": 0.4
+        },
+        "omen of reinforcements": {
+          "divineValue": 0.2100,
+          "exaltedValue": 71.9
+        },
+        "omen of secret compartments": {
+          "divineValue": 0.2800,
+          "exaltedValue": 95.9
+        },
+        "omen of sinistral annulment": {
+          "divineValue": 9.63,
+          "exaltedValue": 3298.3
+        },
+        "omen of sinistral crystallisation": {
+          "divineValue": 0.06950,
+          "exaltedValue": 23.8
+        },
+        "omen of sinistral exaltation": {
+          "divineValue": 0.04348,
+          "exaltedValue": 14.9
+        },
+        "omen of sinistral necromancy": {
+          "divineValue": 0.002874,
+          "exaltedValue": 1.0
+        },
+        "omen of the hunt": {
+          "divineValue": 0.3995,
+          "exaltedValue": 136.8
+        },
+        "omen of the liege": {
+          "divineValue": 0.0008052,
+          "exaltedValue": 0.3
+        },
+        "head of the king": {
+          "divineValue": 1.14,
+          "exaltedValue": 390.4
+        },
+        "omen of amelioration": {
+          "divineValue": 0.02443,
+          "exaltedValue": 8.4
+        },
+        "omen of bartering": {
+          "divineValue": 0.02368,
+          "exaltedValue": 8.1
+        },
+        "omen of catalysing exaltation": {
+          "divineValue": 0.01500,
+          "exaltedValue": 5.1
+        },
+        "omen of chaotic effectiveness": {
+          "divineValue": 0.07968,
+          "exaltedValue": 27.3
+        },
+        "omen of chaotic monsters": {
+          "divineValue": 0.1494,
+          "exaltedValue": 51.2
+        },
+        "omen of chaotic rarity": {
+          "divineValue": 0.2578,
+          "exaltedValue": 88.3
+        },
+        "omen of dextral exaltation": {
+          "divineValue": 0.008975,
+          "exaltedValue": 3.1
+        },
+        "omen of dextral necromancy": {
+          "divineValue": 0.004451,
+          "exaltedValue": 1.5
+        },
+        "omen of putrefaction": {
+          "divineValue": 0.0009473,
+          "exaltedValue": 0.3
+        },
+        "omen of resurgence": {
+          "divineValue": 0.01864,
+          "exaltedValue": 6.4
+        },
+        "omen of sanctification": {
+          "divineValue": 0.5616,
+          "exaltedValue": 192.3
+        },
+        "omen of sinistral erasure": {
+          "divineValue": 7.86,
+          "exaltedValue": 2692.0
+        },
+        "omen of the ancients": {
+          "divineValue": 0.01559,
+          "exaltedValue": 5.3
+        },
+        "omen of the blackblooded": {
+          "divineValue": 0.1533,
+          "exaltedValue": 52.5
+        },
+        "omen of the blessed": {
+          "divineValue": 0.1736,
+          "exaltedValue": 59.5
+        },
+        "omen of the sovereign": {
+          "divineValue": 0.007394,
+          "exaltedValue": 2.5
+        },
+        "omen of whittling": {
+          "divineValue": 5.63,
+          "exaltedValue": 1928.3
+        },
+        "raven touched shard": {
+          "divineValue": 79.45,
+          "exaltedValue": 27211.6
+        },
+        "ancient concentrated liquid isolation": {
+          "divineValue": 0.01589,
+          "exaltedValue": 5.4
+        },
+        "ancient concentrated liquid suffering": {
+          "divineValue": 0.006295,
+          "exaltedValue": 2.2
+        },
+        "ancient diluted liquid greed": {
+          "divineValue": 0.0004541,
+          "exaltedValue": 0.2
+        },
+        "ancient diluted liquid ire": {
+          "divineValue": 0.00005605,
+          "exaltedValue": 0.0
+        },
+        "ancient liquid disgust": {
+          "divineValue": 0.001006,
+          "exaltedValue": 0.3
+        },
+        "ancient liquid envy": {
+          "divineValue": 0.0004186,
+          "exaltedValue": 0.1
+        },
+        "ancient liquid paranoia": {
+          "divineValue": 0.0002654,
+          "exaltedValue": 0.1
+        },
+        "ancient potent liquid contempt": {
+          "divineValue": 1.81,
+          "exaltedValue": 619.9
+        },
+        "ancient potent liquid ferocity": {
+          "divineValue": 0.01727,
+          "exaltedValue": 5.9
+        },
+        "ancient concentrated liquid fear": {
+          "divineValue": 0.003218,
+          "exaltedValue": 1.1
+        },
+        "ancient diluted liquid guilt": {
+          "divineValue": 0.0001045,
+          "exaltedValue": 0.0
+        },
+        "ancient liquid despair": {
+          "divineValue": 0.003001,
+          "exaltedValue": 1.0
+        },
+        "ancient potent liquid melancholy": {
+          "divineValue": 0.03465,
+          "exaltedValue": 11.9
+        },
+        "concentrated liquid isolation": {
+          "divineValue": 0.4478,
+          "exaltedValue": 153.4
+        },
+        "concentrated liquid suffering": {
+          "divineValue": 0.1158,
+          "exaltedValue": 39.7
+        },
+        "diluted liquid ire": {
+          "divineValue": 0.0001709,
+          "exaltedValue": 0.1
+        },
+        "liquid despair": {
+          "divineValue": 0.009285,
+          "exaltedValue": 3.2
+        },
+        "liquid envy": {
+          "divineValue": 0.0006674,
+          "exaltedValue": 0.2
+        },
+        "liquid paranoia": {
+          "divineValue": 0.001302,
+          "exaltedValue": 0.4
+        },
+        "potent liquid ferocity": {
+          "divineValue": 1.89,
+          "exaltedValue": 647.3
+        },
+        "concentrated liquid fear": {
+          "divineValue": 0.04165,
+          "exaltedValue": 14.3
+        },
+        "diluted liquid greed": {
+          "divineValue": 0.0008077,
+          "exaltedValue": 0.3
+        },
+        "diluted liquid guilt": {
+          "divineValue": 0.0001671,
+          "exaltedValue": 0.1
+        },
+        "liquid disgust": {
+          "divineValue": 0.001914,
+          "exaltedValue": 0.7
+        },
+        "potent liquid contempt": {
+          "divineValue": 1.80,
+          "exaltedValue": 616.5
+        },
+        "potent liquid melancholy": {
+          "divineValue": 0.006312,
+          "exaltedValue": 2.2
+        },
+        "adaptive catalyst": {
+          "divineValue": 0.006681,
+          "exaltedValue": 2.3
+        },
+        "breach splinter": {
+          "divineValue": 0.0008994,
+          "exaltedValue": 0.3
+        },
+        "breachstone": {
+          "divineValue": 0.4050,
+          "exaltedValue": 138.7
+        },
+        "carapace catalyst": {
+          "divineValue": 0.006753,
+          "exaltedValue": 2.3
+        },
+        "esh s catalyst": {
+          "divineValue": 0.02399,
+          "exaltedValue": 8.2
+        },
+        "flesh catalyst": {
+          "divineValue": 0.006112,
+          "exaltedValue": 2.1
+        },
+        "necrotic catalyst": {
+          "divineValue": 0.01939,
+          "exaltedValue": 6.6
+        },
+        "reaver catalyst": {
+          "divineValue": 0.2946,
+          "exaltedValue": 100.9
+        },
+        "refined carapace catalyst": {
+          "divineValue": 0.08472,
+          "exaltedValue": 29.0
+        },
+        "refined chayula s catalyst": {
+          "divineValue": 0.07705,
+          "exaltedValue": 26.4
+        },
+        "refined necrotic catalyst": {
+          "divineValue": 0.4802,
+          "exaltedValue": 164.5
+        },
+        "refined skittering catalyst": {
+          "divineValue": 0.07763,
+          "exaltedValue": 26.6
+        },
+        "refined tul s catalyst": {
+          "divineValue": 0.09048,
+          "exaltedValue": 31.0
+        },
+        "sibilant catalyst": {
+          "divineValue": 0.2999,
+          "exaltedValue": 102.7
+        },
+        "uul netol s catalyst": {
+          "divineValue": 0.004798,
+          "exaltedValue": 1.6
+        },
+        "xoph s catalyst": {
+          "divineValue": 0.02033,
+          "exaltedValue": 7.0
+        },
+        "chayula s catalyst": {
+          "divineValue": 0.008720,
+          "exaltedValue": 3.0
+        },
+        "neural catalyst": {
+          "divineValue": 0.01773,
+          "exaltedValue": 6.1
+        },
+        "refined adaptive catalyst": {
+          "divineValue": 0.06455,
+          "exaltedValue": 22.1
+        },
+        "refined esh s catalyst": {
+          "divineValue": 0.07315,
+          "exaltedValue": 25.1
+        },
+        "refined flesh catalyst": {
+          "divineValue": 0.07752,
+          "exaltedValue": 26.6
+        },
+        "refined neural catalyst": {
+          "divineValue": 0.07659,
+          "exaltedValue": 26.2
+        },
+        "refined reaver catalyst": {
+          "divineValue": 2.87,
+          "exaltedValue": 983.0
+        },
+        "refined sibilant catalyst": {
+          "divineValue": 2.87,
+          "exaltedValue": 983.0
+        },
+        "refined uul netol s catalyst": {
+          "divineValue": 0.07495,
+          "exaltedValue": 25.7
+        },
+        "refined xoph s catalyst": {
+          "divineValue": 0.07623,
+          "exaltedValue": 26.1
+        },
+        "skittering catalyst": {
+          "divineValue": 0.1579,
+          "exaltedValue": 54.1
+        },
+        "tul s catalyst": {
+          "divineValue": 0.02303,
+          "exaltedValue": 7.9
+        },
+        "adept rune": {
+          "divineValue": 0.05509,
+          "exaltedValue": 18.9
+        },
+        "aldur s legacy": {
+          "divineValue": 269.5,
+          "exaltedValue": 92303.8
+        },
+        "ancient rune of animosity": {
+          "divineValue": 0.004809,
+          "exaltedValue": 1.6
+        },
+        "ancient rune of control": {
+          "divineValue": 0.002085,
+          "exaltedValue": 0.7
+        },
+        "ancient rune of decay": {
+          "divineValue": 0.01614,
+          "exaltedValue": 5.5
+        },
+        "ancient rune of detonation": {
+          "divineValue": 0.01075,
+          "exaltedValue": 3.7
+        },
+        "ancient rune of discovery": {
+          "divineValue": 0.01839,
+          "exaltedValue": 6.3
+        },
+        "ancient rune of dueling": {
+          "divineValue": 0.008309,
+          "exaltedValue": 2.8
+        },
+        "ancient rune of prowess": {
+          "divineValue": 0.002748,
+          "exaltedValue": 0.9
+        },
+        "ancient rune of retaliation": {
+          "divineValue": 0.006934,
+          "exaltedValue": 2.4
+        },
+        "ancient rune of shattering": {
+          "divineValue": 0.02121,
+          "exaltedValue": 7.3
+        },
+        "ancient rune of splinters": {
+          "divineValue": 0.01145,
+          "exaltedValue": 3.9
+        },
+        "ancient rune of the horde": {
+          "divineValue": 0.009459,
+          "exaltedValue": 3.2
+        },
+        "ancient rune of the titan": {
+          "divineValue": 0.02236,
+          "exaltedValue": 7.7
+        },
+        "astrid s creativity": {
+          "divineValue": 7.90,
+          "exaltedValue": 2705.8
+        },
+        "betrayal of aldur": {
+          "divineValue": 0.04679,
+          "exaltedValue": 16.0
+        },
+        "body rune": {
+          "divineValue": 0.01127,
+          "exaltedValue": 3.9
+        },
+        "breath of aldur": {
+          "divineValue": 0.01639,
+          "exaltedValue": 5.6
+        },
+        "cadigan s epiphany": {
+          "divineValue": 1.86,
+          "exaltedValue": 637.0
+        },
+        "ancient rune of witchcraft": {
+          "divineValue": 0.01105,
+          "exaltedValue": 3.8
+        },
+        "countess seske s rune of archery": {
+          "divineValue": 0.03629,
+          "exaltedValue": 12.4
+        },
+        "courtesan mannan s rune of cruelty": {
+          "divineValue": 0.02550,
+          "exaltedValue": 8.7
+        },
+        "craiceann s rune of recovery": {
+          "divineValue": 0.01588,
+          "exaltedValue": 5.4
+        },
+        "craiceann s rune of warding": {
+          "divineValue": 0.01337,
+          "exaltedValue": 4.6
+        },
+        "farrul s rune of the chase": {
+          "divineValue": 0.08609,
+          "exaltedValue": 29.5
+        },
+        "farrul s rune of the hunt": {
+          "divineValue": 0.04616,
+          "exaltedValue": 15.8
+        },
+        "fenumus rune of agony": {
+          "divineValue": 0.04437,
+          "exaltedValue": 15.2
+        },
+        "fenumus rune of draining": {
+          "divineValue": 0.002792,
+          "exaltedValue": 1.0
+        },
+        "fenumus rune of spinning": {
+          "divineValue": 0.01631,
+          "exaltedValue": 5.6
+        },
+        "greater adept rune": {
+          "divineValue": 0.003236,
+          "exaltedValue": 1.1
+        },
+        "greater desert rune": {
+          "divineValue": 0.0009977,
+          "exaltedValue": 0.3
+        },
+        "greater resolve rune": {
+          "divineValue": 0.001725,
+          "exaltedValue": 0.6
+        },
+        "greater robust rune": {
+          "divineValue": 0.003475,
+          "exaltedValue": 1.2
+        },
+        "greater rune of leadership": {
+          "divineValue": 0.8168,
+          "exaltedValue": 279.8
+        },
+        "greater vision rune": {
+          "divineValue": 0.0007928,
+          "exaltedValue": 0.3
+        },
+        "iron rune": {
+          "divineValue": 0.01691,
+          "exaltedValue": 5.8
+        },
+        "kolr s hunt": {
+          "divineValue": 0.5316,
+          "exaltedValue": 182.1
+        },
+        "lesser ward rune": {
+          "divineValue": 0.01342,
+          "exaltedValue": 4.6
+        },
+        "masterwork rune": {
+          "divineValue": 0.3857,
+          "exaltedValue": 132.1
+        },
+        "medved s tending": {
+          "divineValue": 0.1258,
+          "exaltedValue": 43.1
+        },
+        "perfect adept rune": {
+          "divineValue": 1.58,
+          "exaltedValue": 541.2
+        },
+        "perfect body rune": {
+          "divineValue": 0.9828,
+          "exaltedValue": 336.6
+        },
+        "perfect charging rune": {
+          "divineValue": 1,
+          "exaltedValue": 342.5
+        },
+        "perfect desert rune": {
+          "divineValue": 1,
+          "exaltedValue": 342.5
+        },
+        "perfect glacial rune": {
+          "divineValue": 1,
+          "exaltedValue": 342.5
+        },
+        "perfect inspiration rune": {
+          "divineValue": 1.56,
+          "exaltedValue": 534.3
+        },
+        "perfect mind rune": {
+          "divineValue": 0.9972,
+          "exaltedValue": 341.5
+        },
+        "perfect stone rune": {
+          "divineValue": 1.4,
+          "exaltedValue": 479.5
+        },
+        "perfect storm rune": {
+          "divineValue": 1.14,
+          "exaltedValue": 390.4
+        },
+        "perfect vision rune": {
+          "divineValue": 1.04,
+          "exaltedValue": 356.2
+        },
+        "resolve rune": {
+          "divineValue": 0.03536,
+          "exaltedValue": 12.1
+        },
+        "robust rune": {
+          "divineValue": 0.05969,
+          "exaltedValue": 20.4
+        },
+        "rune of acrobatics": {
+          "divineValue": 0.05833,
+          "exaltedValue": 20.0
+        },
+        "rune of consistency": {
+          "divineValue": 0.01373,
+          "exaltedValue": 4.7
+        },
+        "rune of foundations": {
+          "divineValue": 0.04954,
+          "exaltedValue": 17.0
+        },
+        "rune of the blossom": {
+          "divineValue": 0.06373,
+          "exaltedValue": 21.8
+        },
+        "saqawal s rune of erosion": {
+          "divineValue": 0.007071,
+          "exaltedValue": 2.4
+        },
+        "saqawal s rune of the sky": {
+          "divineValue": 0.04405,
+          "exaltedValue": 15.1
+        },
+        "serle s triumph": {
+          "divineValue": 2.67,
+          "exaltedValue": 914.5
+        },
+        "storm rune": {
+          "divineValue": 0.008492,
+          "exaltedValue": 2.9
+        },
+        "thane girt s rune of wildness": {
+          "divineValue": 0.007030,
+          "exaltedValue": 2.4
+        },
+        "thane grannell s rune of mastery": {
+          "divineValue": 0.02600,
+          "exaltedValue": 8.9
+        },
+        "thane leld s rune of spring": {
+          "divineValue": 0.007194,
+          "exaltedValue": 2.5
+        },
+        "the greatwolf s rune of willpower": {
+          "divineValue": 0.02384,
+          "exaltedValue": 8.2
+        },
+        "thrud s might": {
+          "divineValue": 0.05300,
+          "exaltedValue": 18.2
+        },
+        "uhtred s sidereus": {
+          "divineValue": 0.1884,
+          "exaltedValue": 64.5
+        },
+        "vorana s carnage": {
+          "divineValue": 0.1324,
+          "exaltedValue": 45.3
+        },
+        "warding rune of armature": {
+          "divineValue": 0.02220,
+          "exaltedValue": 7.6
+        },
+        "warding rune of equinox": {
+          "divineValue": 0.02232,
+          "exaltedValue": 7.6
+        },
+        "warding rune of heart": {
+          "divineValue": 0.03600,
+          "exaltedValue": 12.3
+        },
+        "warding rune of hollowing": {
+          "divineValue": 0.02172,
+          "exaltedValue": 7.4
+        },
+        "warding rune of reinforcement": {
+          "divineValue": 0.1206,
+          "exaltedValue": 41.3
+        },
+        "warding rune of salvaging": {
+          "divineValue": 0.03445,
+          "exaltedValue": 11.8
+        },
+        "warding rune of stability": {
+          "divineValue": 0.07545,
+          "exaltedValue": 25.8
+        },
+        "ward rune": {
+          "divineValue": 0.02214,
+          "exaltedValue": 7.6
+        },
+        "charging rune": {
+          "divineValue": 0.1290,
+          "exaltedValue": 44.2
+        },
+        "desert rune": {
+          "divineValue": 0.004460,
+          "exaltedValue": 1.5
+        },
+        "warding rune of courage": {
+          "divineValue": 0.002919,
+          "exaltedValue": 1.0
+        },
+        "glacial rune": {
+          "divineValue": 0.005683,
+          "exaltedValue": 1.9
+        },
+        "greater rune of nobility": {
+          "divineValue": 0.01624,
+          "exaltedValue": 5.6
+        },
+        "lesser desert rune": {
+          "divineValue": 0.002275,
+          "exaltedValue": 0.8
+        },
+        "rune of confrontation": {
+          "divineValue": 0.001946,
+          "exaltedValue": 0.7
+        },
+        "warding rune of obsession": {
+          "divineValue": 0.01460,
+          "exaltedValue": 5.0
+        },
+        "farrul s rune of grace": {
+          "divineValue": 0.02155,
+          "exaltedValue": 7.4
+        },
+        "greater body rune": {
+          "divineValue": 0.003455,
+          "exaltedValue": 1.2
+        },
+        "greater charging rune": {
+          "divineValue": 0.02533,
+          "exaltedValue": 8.7
+        },
+        "greater glacial rune": {
+          "divineValue": 0.0009477,
+          "exaltedValue": 0.3
+        },
+        "greater inspiration rune": {
+          "divineValue": 0.0008298,
+          "exaltedValue": 0.3
+        },
+        "greater iron rune": {
+          "divineValue": 0.004963,
+          "exaltedValue": 1.7
+        },
+        "greater mind rune": {
+          "divineValue": 0.002352,
+          "exaltedValue": 0.8
+        },
+        "greater rebirth rune": {
+          "divineValue": 0.0006037,
+          "exaltedValue": 0.2
+        },
+        "greater rune of alacrity": {
+          "divineValue": 0.4155,
+          "exaltedValue": 142.3
+        },
+        "greater rune of tithing": {
+          "divineValue": 0.2130,
+          "exaltedValue": 73.0
+        },
+        "greater stone rune": {
+          "divineValue": 0.0001590,
+          "exaltedValue": 0.1
+        },
+        "greater storm rune": {
+          "divineValue": 0.0008433,
+          "exaltedValue": 0.3
+        },
+        "greater ward rune": {
+          "divineValue": 0.08821,
+          "exaltedValue": 30.2
+        },
+        "hedgewitch assandra s rune of wisdom": {
+          "divineValue": 0.1164,
+          "exaltedValue": 39.9
+        },
+        "inspiration rune": {
+          "divineValue": 0.03854,
+          "exaltedValue": 13.2
+        },
+        "ire of aldur": {
+          "divineValue": 0.03981,
+          "exaltedValue": 13.6
+        },
+        "katla s gloom": {
+          "divineValue": 0.08102,
+          "exaltedValue": 27.7
+        },
+        "lady hestra s rune of winter": {
+          "divineValue": 0.002919,
+          "exaltedValue": 1.0
+        },
+        "lesser adept rune": {
+          "divineValue": 0.008475,
+          "exaltedValue": 2.9
+        },
+        "lesser body rune": {
+          "divineValue": 0.005260,
+          "exaltedValue": 1.8
+        },
+        "lesser glacial rune": {
+          "divineValue": 0.007446,
+          "exaltedValue": 2.6
+        },
+        "lesser inspiration rune": {
+          "divineValue": 0.01255,
+          "exaltedValue": 4.3
+        },
+        "lesser iron rune": {
+          "divineValue": 0.006249,
+          "exaltedValue": 2.1
+        },
+        "lesser mind rune": {
+          "divineValue": 0.0005839,
+          "exaltedValue": 0.2
+        },
+        "lesser resolve rune": {
+          "divineValue": 0.002909,
+          "exaltedValue": 1.0
+        },
+        "lesser robust rune": {
+          "divineValue": 0.06344,
+          "exaltedValue": 21.7
+        },
+        "lesser storm rune": {
+          "divineValue": 0.004775,
+          "exaltedValue": 1.6
+        },
+        "lesser vision rune": {
+          "divineValue": 0.001460,
+          "exaltedValue": 0.5
+        },
+        "mind rune": {
+          "divineValue": 0.002848,
+          "exaltedValue": 1.0
+        },
+        "passion of aldur": {
+          "divineValue": 0.009196,
+          "exaltedValue": 3.1
+        },
+        "perfect iron rune": {
+          "divineValue": 1.13,
+          "exaltedValue": 387.0
+        },
+        "perfect rebirth rune": {
+          "divineValue": 0.9074,
+          "exaltedValue": 310.8
+        },
+        "perfect resolve rune": {
+          "divineValue": 1.55,
+          "exaltedValue": 530.9
+        },
+        "perfect robust rune": {
+          "divineValue": 1.67,
+          "exaltedValue": 572.0
+        },
+        "perfect ward rune": {
+          "divineValue": 1.43,
+          "exaltedValue": 489.8
+        },
+        "rebirth rune": {
+          "divineValue": 0.02044,
+          "exaltedValue": 7.0
+        },
+        "rune of accumulation": {
+          "divineValue": 0.05715,
+          "exaltedValue": 19.6
+        },
+        "rune of culmination": {
+          "divineValue": 0.04709,
+          "exaltedValue": 16.1
+        },
+        "rune of reach": {
+          "divineValue": 0.02272,
+          "exaltedValue": 7.8
+        },
+        "rune of renown": {
+          "divineValue": 0.04835,
+          "exaltedValue": 16.6
+        },
+        "rune of the hunt": {
+          "divineValue": 0.01259,
+          "exaltedValue": 4.3
+        },
+        "rune of the prism": {
+          "divineValue": 0.02181,
+          "exaltedValue": 7.5
+        },
+        "rune of vital flame": {
+          "divineValue": 0.001752,
+          "exaltedValue": 0.6
+        },
+        "rune of vitality": {
+          "divineValue": 0.01513,
+          "exaltedValue": 5.2
+        },
+        "saqawal s rune of memory": {
+          "divineValue": 0.02344,
+          "exaltedValue": 8.0
+        },
+        "stone rune": {
+          "divineValue": 0.001460,
+          "exaltedValue": 0.5
+        },
+        "thane myrk s rune of summer": {
+          "divineValue": 0.002919,
+          "exaltedValue": 1.0
+        },
+        "the greatwolf s rune of claws": {
+          "divineValue": 0.01983,
+          "exaltedValue": 6.8
+        },
+        "vision rune": {
+          "divineValue": 0.002919,
+          "exaltedValue": 1.0
+        },
+        "warding rune of annihilation": {
+          "divineValue": 0.03944,
+          "exaltedValue": 13.5
+        },
+        "warding rune of bodyguards": {
+          "divineValue": 0.02003,
+          "exaltedValue": 6.9
+        },
+        "warding rune of desperation": {
+          "divineValue": 0.002919,
+          "exaltedValue": 1.0
+        },
+        "warding rune of disintegration": {
+          "divineValue": 0.07773,
+          "exaltedValue": 26.6
+        },
+        "warding rune of glancing": {
+          "divineValue": 0.02463,
+          "exaltedValue": 8.4
+        },
+        "warding rune of nourishment": {
+          "divineValue": 0.01659,
+          "exaltedValue": 5.7
+        },
+        "warding rune of protection": {
+          "divineValue": 0.008478,
+          "exaltedValue": 2.9
+        },
+        "warding rune of symbiosis": {
+          "divineValue": 0.005306,
+          "exaltedValue": 1.8
+        },
+        "lesser rebirth rune": {
+          "divineValue": 0.002919,
+          "exaltedValue": 1.0
+        },
+        "lesser stone rune": {
+          "divineValue": 0.001460,
+          "exaltedValue": 0.5
+        },
+        "atmohua s soul core of retreat": {
+          "divineValue": 0.02182,
+          "exaltedValue": 7.5
+        },
+        "carved cunning": {
+          "divineValue": 3.51,
+          "exaltedValue": 1202.2
+        },
+        "carved majesty": {
+          "divineValue": 80.67,
+          "exaltedValue": 27629.5
+        },
+        "carved mischief": {
+          "divineValue": 0.1301,
+          "exaltedValue": 44.6
+        },
+        "carved tenacity": {
+          "divineValue": 0.3681,
+          "exaltedValue": 126.1
+        },
+        "cholotl s soul core of war": {
+          "divineValue": 0.01802,
+          "exaltedValue": 6.2
+        },
+        "citaqualotl s thesis": {
+          "divineValue": 0.4943,
+          "exaltedValue": 169.3
+        },
+        "emergent possibility": {
+          "divineValue": 25.23,
+          "exaltedValue": 8641.3
+        },
+        "guatelitzi s soul core of endurance": {
+          "divineValue": 0.03395,
+          "exaltedValue": 11.6
+        },
+        "guatelitzi s thesis": {
+          "divineValue": 15.78,
+          "exaltedValue": 5404.6
+        },
+        "quipolatl s soul core of flow": {
+          "divineValue": 0.1591,
+          "exaltedValue": 54.5
+        },
+        "soul core of azcapa": {
+          "divineValue": 5.45,
+          "exaltedValue": 1866.6
+        },
+        "soul core of citaqualotl": {
+          "divineValue": 0.2911,
+          "exaltedValue": 99.7
+        },
+        "soul core of jiquani": {
+          "divineValue": 0.3651,
+          "exaltedValue": 125.0
+        },
+        "soul core of opiloti": {
+          "divineValue": 0.1325,
+          "exaltedValue": 45.4
+        },
+        "soul core of puhuarte": {
+          "divineValue": 0.1158,
+          "exaltedValue": 39.7
+        },
+        "soul core of tacati": {
+          "divineValue": 0.1491,
+          "exaltedValue": 51.1
+        },
+        "soul core of ticaba": {
+          "divineValue": 0.1240,
+          "exaltedValue": 42.5
+        },
+        "soul core of topotante": {
+          "divineValue": 0.1347,
+          "exaltedValue": 46.1
+        },
+        "soul core of zantipi": {
+          "divineValue": 0.2385,
+          "exaltedValue": 81.7
+        },
+        "topotante s soul core of dampening": {
+          "divineValue": 0.01225,
+          "exaltedValue": 4.2
+        },
+        "xipocado s soul core of dominion": {
+          "divineValue": 0.01869,
+          "exaltedValue": 6.4
+        },
+        "xopec s soul core of power": {
+          "divineValue": 2.08,
+          "exaltedValue": 712.4
+        },
+        "citaqualotl s soul core of foulness": {
+          "divineValue": 0.01850,
+          "exaltedValue": 6.3
+        },
+        "emergent instinct": {
+          "divineValue": 0.2440,
+          "exaltedValue": 83.6
+        },
+        "emergent protection": {
+          "divineValue": 0.03508,
+          "exaltedValue": 12.0
+        },
+        "emergent vigour": {
+          "divineValue": 4.33,
+          "exaltedValue": 1483.0
+        },
+        "estazunti s soul core of convalescence": {
+          "divineValue": 0.04093,
+          "exaltedValue": 14.0
+        },
+        "hayoxi s soul core of heatproofing": {
+          "divineValue": 0.01703,
+          "exaltedValue": 5.8
+        },
+        "jiquani s thesis": {
+          "divineValue": 280.5,
+          "exaltedValue": 96071.2
+        },
+        "opiloti s soul core of assault": {
+          "divineValue": 1.53,
+          "exaltedValue": 524.0
+        },
+        "quipolatl s thesis": {
+          "divineValue": 5.43,
+          "exaltedValue": 1859.8
+        },
+        "soul core of atmohua": {
+          "divineValue": 0.1218,
+          "exaltedValue": 41.7
+        },
+        "soul core of cholotl": {
+          "divineValue": 0.6357,
+          "exaltedValue": 217.7
+        },
+        "soul core of quipolatl": {
+          "divineValue": 4.43,
+          "exaltedValue": 1517.3
+        },
+        "soul core of tzamoto": {
+          "divineValue": 0.1214,
+          "exaltedValue": 41.6
+        },
+        "soul core of xopec": {
+          "divineValue": 0.1164,
+          "exaltedValue": 39.9
+        },
+        "soul core of zalatl": {
+          "divineValue": 0.4335,
+          "exaltedValue": 148.5
+        },
+        "tacati s soul core of affliction": {
+          "divineValue": 0.02140,
+          "exaltedValue": 7.3
+        },
+        "tzamoto s soul core of ferocity": {
+          "divineValue": 0.5631,
+          "exaltedValue": 192.9
+        },
+        "uromoti s soul core of attenuation": {
+          "divineValue": 0.02174,
+          "exaltedValue": 7.4
+        },
+        "zalatl s soul core of insulation": {
+          "divineValue": 0.01591,
+          "exaltedValue": 5.4
+        },
+        "altered collarbone": {
+          "divineValue": 0.6496,
+          "exaltedValue": 222.5
+        },
+        "amanamu s gaze": {
+          "divineValue": 0.06100,
+          "exaltedValue": 20.9
+        },
+        "ancient collarbone": {
+          "divineValue": 2.05,
+          "exaltedValue": 702.1
+        },
+        "ancient jawbone": {
+          "divineValue": 1.91,
+          "exaltedValue": 654.2
+        },
+        "ancient rib": {
+          "divineValue": 1.41,
+          "exaltedValue": 482.9
+        },
+        "gnawed jawbone": {
+          "divineValue": 0.01218,
+          "exaltedValue": 4.2
+        },
+        "kurgal s gaze": {
+          "divineValue": 45.53,
+          "exaltedValue": 15594.0
+        },
+        "preserved cranium": {
+          "divineValue": 1.70,
+          "exaltedValue": 582.2
+        },
+        "preserved jawbone": {
+          "divineValue": 0.0009546,
+          "exaltedValue": 0.3
+        },
+        "tecrod s gaze": {
+          "divineValue": 0.9371,
+          "exaltedValue": 321.0
+        },
+        "gnawed collarbone": {
+          "divineValue": 0.008142,
+          "exaltedValue": 2.8
+        },
+        "gnawed rib": {
+          "divineValue": 0.003110,
+          "exaltedValue": 1.1
+        },
+        "preserved collarbone": {
+          "divineValue": 0.009459,
+          "exaltedValue": 3.2
+        },
+        "preserved rib": {
+          "divineValue": 0.0002435,
+          "exaltedValue": 0.1
+        },
+        "ulaman s gaze": {
+          "divineValue": 0.3989,
+          "exaltedValue": 136.6
+        }
+      }
     }
   ]
 }

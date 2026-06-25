@@ -36,6 +36,11 @@ public partial class CraftConditionWindow : Window
     /// <summary>Токен отмены текущего Monte Carlo расчёта для Chaos Orb.</summary>
     private CancellationTokenSource? _mcCts;
 
+    // Фрактурные моды, обнаруженные из буфера обмена — используются в MC симуляции.
+    private int _fracturedPrefixCount;
+    private int _fracturedSuffixCount;
+    private readonly HashSet<string> _fracturedFamilyIds = new(StringComparer.Ordinal);
+
     private static readonly string[] CraftOrbNames =
     [
         "",
@@ -1607,6 +1612,50 @@ public partial class CraftConditionWindow : Window
 
     // ── Monte Carlo для Chaos Orb (CRAFT-4) ─────────────────────────────────────────
 
+    private void DetectFractured_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var text = Clipboard.GetText();
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            FracturedInfoLabel.Text = "Буфер пуст";
+            return;
+        }
+
+        var item = Services.ItemParser.Parse(text);
+        if (item is not { IsValid: true })
+        {
+            FracturedInfoLabel.Text = "Предмет не распознан";
+            return;
+        }
+
+        _fracturedFamilyIds.Clear();
+        _fracturedPrefixCount = 0;
+        _fracturedSuffixCount = 0;
+        var names = new List<string>();
+
+        foreach (var affix in item.Affixes)
+        {
+            if (!affix.IsFractured) continue;
+
+            bool isPrefix = affix.Type.Contains("Prefix", StringComparison.OrdinalIgnoreCase);
+            if (isPrefix) _fracturedPrefixCount++;
+            else _fracturedSuffixCount++;
+
+            var entry = _entries.Find(en =>
+                string.Equals(en.AffixName, affix.Name, StringComparison.OrdinalIgnoreCase));
+            if (entry?.FamilyId != null)
+                _fracturedFamilyIds.Add(entry.FamilyId);
+
+            names.Add(affix.Name);
+        }
+
+        FracturedInfoLabel.Text = names.Count == 0
+            ? "Фрактура не обнаружена"
+            : $"Фрактура: {_fracturedPrefixCount}P+{_fracturedSuffixCount}S — {string.Join(", ", names)}";
+
+        UpdateCombinedChanceLabel();
+    }
+
     private void StartChaosMonteCarloAsync(string ic, WeightPool pool)
     {
         _mcCts?.Cancel();
@@ -1622,8 +1671,13 @@ public partial class CraftConditionWindow : Window
         var prefixes     = pool.Prefixes.ToArray();
         var suffixes     = pool.Suffixes.ToArray();
         var orbPrice     = PoeNinjaPriceService.GetPrice(orbCopy.Name)?.DivineValue ?? 0m;
+        var fractPrefCnt = _fracturedPrefixCount;
+        var fractSuffCnt = _fracturedSuffixCount;
+        var fractFamilies = new HashSet<string>(_fracturedFamilyIds, StringComparer.Ordinal);
 
-        Task.Run(() => RunChaosMonteCarloSimulation(altSnapshot, prefixes, suffixes, ct), ct)
+        Task.Run(() => RunChaosMonteCarloSimulation(
+            altSnapshot, prefixes, suffixes,
+            fractPrefCnt, fractSuffCnt, fractFamilies, ct), ct)
             .ContinueWith(t =>
             {
                 if (t.IsCanceled || ct.IsCancellationRequested) return;
@@ -1637,10 +1691,15 @@ public partial class CraftConditionWindow : Window
                     ? $"~{eCasts * (double)orbPrice:F2} div (~{eCasts:F0} {orbName})"
                     : $"~{eCasts:F0} {orbName}";
 
+                string fractNote = fractPrefCnt + fractSuffCnt > 0
+                    ? $" · фрактура {fractPrefCnt}P+{fractSuffCnt}S"
+                    : "";
+
                 TheoryChanceLabel.Text =
                     $"Теория (poe2db, Monte Carlo): {costStr}" +
                     $" · min {orbCopy.MinModifierLevel} · ilvl {ilvl}" +
-                    $" · пул {pool.Prefixes.Count}P/{pool.Suffixes.Count}S";
+                    $" · пул {pool.Prefixes.Count}P/{pool.Suffixes.Count}S" +
+                    fractNote;
             },
             CancellationToken.None,
             TaskContinuationOptions.None,
@@ -1648,21 +1707,25 @@ public partial class CraftConditionWindow : Window
     }
 
     /// <summary>
-    /// Monte Carlo симуляция для Chaos Orb: каждый бросок удаляет один случайный
-    /// модификатор предмета и добавляет новый того же типа из взвешенного пула.
+    /// Monte Carlo симуляция для Chaos Orb: каждый бросок полностью перероллит
+    /// все вариативные моды (prefix + suffix одновременно), как это делает Chaos Orb в игре.
     /// Возвращает E[количество орбов] до выполнения условия.
-    /// Предполагает Rare предмет с 3 префиксами + 3 суффиксами (максимальная насыщенность).
+    /// Фрактурные моды занимают слоты и блокируют свои семейства в пуле.
     /// </summary>
     private static double RunChaosMonteCarloSimulation(
         CraftAndGroup[] alternatives,
         AffixLibraryEntry[] prefixes,
         AffixLibraryEntry[] suffixes,
+        int fracturedPrefixCount,
+        int fracturedSuffixCount,
+        HashSet<string> fracturedFamilies,
         CancellationToken ct)
     {
-        const int SimCount     = 5_000;
-        const int MaxCasts     = 200_000;
-        const int MaxPrefixes  = 3;
-        const int MaxSuffixes  = 3;
+        const int SimCount  = 5_000;
+        const int MaxCasts  = 200_000;
+        // Вариативные слоты — те, что Chaos Orb реально перероллит.
+        int varPrefixes     = Math.Max(0, 3 - fracturedPrefixCount);
+        int varSuffixes     = Math.Max(0, 3 - fracturedSuffixCount);
 
         // Кумулятивные веса для O(log n) weighted draw с rejection sampling
         var prefixCumul = BuildCumulativeWeights(prefixes);
@@ -1678,14 +1741,15 @@ public partial class CraftConditionWindow : Window
 
         for (int sim = 0; sim < SimCount && !ct.IsCancellationRequested; sim++)
         {
-            var item = new List<AffixLibraryEntry>(MaxPrefixes + MaxSuffixes);
+            // item содержит только вариативные моды (без фрактурных)
+            var item = new List<AffixLibraryEntry>(varPrefixes + varSuffixes);
 
             // Стартуем с предмета, который не удовлетворяет условию (не более 20 попыток)
             for (int attempt = 0; attempt < 20; attempt++)
             {
                 item.Clear();
-                FillModSlots(item, prefixes, prefixCumul, totalPW, MaxPrefixes, rng);
-                FillModSlots(item, suffixes, suffixCumul, totalSW, MaxSuffixes, rng);
+                FillModSlots(item, prefixes, prefixCumul, totalPW, varPrefixes, rng, fracturedFamilies);
+                FillModSlots(item, suffixes, suffixCumul, totalSW, varSuffixes, rng, fracturedFamilies);
                 if (!CheckConditionOnItem(alternatives, item)) break;
             }
 
@@ -1693,18 +1757,11 @@ public partial class CraftConditionWindow : Window
             while (casts < MaxCasts && !ct.IsCancellationRequested &&
                    !CheckConditionOnItem(alternatives, item))
             {
-                int removeIdx = rng.Next(item.Count);
-                var removed   = item[removeIdx];
-                item.RemoveAt(removeIdx);
-
-                bool isPrefix        = removed.AffixType == "Prefix Modifier";
-                var  pool            = isPrefix ? prefixes : suffixes;
-                var  cumul           = isPrefix ? prefixCumul : suffixCumul;
-                var  totalW          = isPrefix ? totalPW : totalSW;
-                var  usedFamilies    = GetUsedFamilyIds(item);
-                var  newMod          = DrawWeighted(pool, cumul, totalW, usedFamilies, rng);
-                if (newMod != null) item.Add(newMod);
-
+                // Chaos Orb перероллит все вариативные моды одновременно.
+                // Prefix/suffix не сохраняют тип — полная переинициализация.
+                item.Clear();
+                FillModSlots(item, prefixes, prefixCumul, totalPW, varPrefixes, rng, fracturedFamilies);
+                FillModSlots(item, suffixes, suffixCumul, totalSW, varSuffixes, rng, fracturedFamilies);
                 casts++;
             }
 
@@ -1730,12 +1787,15 @@ public partial class CraftConditionWindow : Window
     private static void FillModSlots(
         List<AffixLibraryEntry> item,
         AffixLibraryEntry[] pool, long[] cumul, long totalW,
-        int count, Random rng)
+        int count, Random rng, HashSet<string>? preBlocked = null)
     {
         for (int i = 0; i < count; i++)
         {
             var used = GetUsedFamilyIds(item);
-            var mod  = DrawWeighted(pool, cumul, totalW, used, rng);
+            if (preBlocked != null)
+                foreach (var f in preBlocked)
+                    used.Add(f);
+            var mod = DrawWeighted(pool, cumul, totalW, used, rng);
             if (mod == null) break;
             item.Add(mod);
         }

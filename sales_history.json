@@ -1,0 +1,1883 @@
+[
+  {
+    "itemId": "ed4a0f0eb1f862db2447c62a772ccb049add2915a0d700b2fe1f6f7c62e86ae9",
+    "time": "2026-06-25T03:16:39+03:00",
+    "priceAmount": 16,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B91 to maximum [EnergyShield|Energy Shield]",
+      "\u002B40% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8803,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "f6721d54b82d70d36763d085f5ce83a4a9581598ada7fafa3467708a98a79a30",
+    "time": "2026-06-25T03:16:33+03:00",
+    "priceAmount": 16,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of Magma",
+    "baseType": "Vile Robe",
+    "itemLevel": 81,
+    "explicitMods": [
+      "\u002B94 to maximum [EnergyShield|Energy Shield]",
+      "\u002B38% to [Resistances|Fire Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8778,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "92fb80b1c6931c68b7ca9bb33ade0412ab1014105edac68f2e409d4fdb171ee0",
+    "time": "2026-06-25T03:13:51+03:00",
+    "priceAmount": 360,
+    "priceCurrency": "divine",
+    "itemName": "Foe Jack",
+    "typeLine": "Vile Robe",
+    "baseType": "Vile Robe",
+    "itemLevel": 79,
+    "explicitMods": [
+      "\u002B92 to maximum [EnergyShield|Energy Shield]",
+      "108% increased [EnergyShield|Energy Shield]",
+      "\u002B61 to [Spirit|Spirit]",
+      "59% reduced [Ignite|Ignite] Duration on you"
+    ],
+    "fracturedMods": [
+      "\u002B39% to [Resistances|Fire Resistance]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "1d2495ef3e9c7dcddceb8a9619c00eccf199e5ab5e602411b390abdd6d37ab9b",
+    "time": "2026-06-25T00:34:02+03:00",
+    "priceAmount": 5,
+    "priceCurrency": "chaos",
+    "itemName": "Dire Circle",
+    "typeLine": "Breach Ring",
+    "baseType": "Breach Ring",
+    "itemLevel": 79,
+    "explicitMods": [
+      "23% increased [Chaos] Damage",
+      "25% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "\u002B32 to [Dexterity|Dexterity]",
+      "\u002B33 to [Intelligence|Intelligence]",
+      "9% increased [Curse] [BuffMagnitude|Magnitudes]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "19d554ca0c9a921975321f5be8359975a676e2eb306330729b64f97094cc6587",
+    "time": "2026-06-24T21:45:53+03:00",
+    "priceAmount": 1,
+    "priceCurrency": "divine",
+    "itemName": "Blasted Panorama",
+    "typeLine": "Waystone (Tier 16)",
+    "baseType": "Waystone (Tier 16)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Players are periodically [Curse|Cursed] with [Enfeeble]",
+      "Monsters have 212% increased [Critical|Critical Hit] Chance",
+      "Monsters have \u002B21% [CriticalDamageBonus|Critical Damage Bonus]",
+      "17% increased Monster Damage",
+      "Monsters have 38% increased Accuracy Rating",
+      "Monsters have 77% increased Ailment Threshold",
+      "Monster have 118% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]",
+      "Monsters have 66% increased Stun Threshold"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "0fcfcf4329bd2e831cf33ef2f8ad8fe7a4ff6a2f54dbc8572982ad4b687eb44a",
+    "time": "2026-06-24T20:56:32+03:00",
+    "priceAmount": 21,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Unfaltering Vile Robe of the Ice",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "110% increased [EnergyShield|Energy Shield]",
+      "\u002B37% to [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 1.1837,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "32354b782f8f3e077c66b44585df4e2b872347194fd9747e6376c5f756fc69a3",
+    "time": "2026-06-24T20:55:46+03:00",
+    "priceAmount": 16,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B91 to maximum [EnergyShield|Energy Shield]",
+      "\u002B36% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8803,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "e8867d0846ed917fd2e1a387f9ab42f1e9e8efe6b5e6c270811de19618aaa9e8",
+    "time": "2026-06-24T19:23:04+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Cruel Frontier",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 81,
+    "explicitMods": [
+      "Players are periodically [Curse|Cursed] with [TemporalChains|Temporal Chains]",
+      "25% more Monster Life",
+      "Monsters have 36% increased Accuracy Rating",
+      "\u002B33% Monster Elemental Resistances",
+      "Monsters [ArmourBreak|Break Armour] equal to 28% of [Physical|Physical Damage] dealt",
+      "Monsters gain 20% of maximum Life as Extra maximum [EnergyShield|Energy Shield]",
+      "Players gain 34% reduced [Flask] Charges"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "7a44ed42a53ad5ea9bd60a1efe51531cfa03d0540dab6c1dc1e2d92f0c482616",
+    "time": "2026-06-24T18:02:18+03:00",
+    "priceAmount": 17,
+    "priceCurrency": "divine",
+    "itemName": "Torment Finger",
+    "typeLine": "Ruby Ring",
+    "baseType": "Ruby Ring",
+    "itemLevel": 75,
+    "explicitMods": [
+      "Adds 34 to 54 [Fire] damage to [Attack|Attacks]",
+      "Adds 22 to 34 [Cold] damage to [Attack|Attacks]",
+      "\u002B114 to maximum Life",
+      "\u002B27 to [Strength|Strength]",
+      "\u002B24% to [Resistances|Cold Resistance]",
+      "\u002B28% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "331a28017407c8651a128cc27e7cd05d7a5a63ca8440889e866328869aea3d3e",
+    "time": "2026-06-24T13:00:20+03:00",
+    "priceAmount": 16,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of Magma",
+    "baseType": "Vile Robe",
+    "itemLevel": 79,
+    "explicitMods": [
+      "\u002B93 to maximum [EnergyShield|Energy Shield]",
+      "\u002B38% to [Resistances|Fire Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8778,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "56a5b2052f0f09e6ebfebae4e777748b627f98c35ba0c9958a150e865df893f0",
+    "time": "2026-06-24T10:00:12+03:00",
+    "priceAmount": 17,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B91 to maximum [EnergyShield|Energy Shield]",
+      "\u002B39% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8803,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "c9cb6be60390d799b2552b5393bf124df47d09df3c84a71330fa22cb9476dd5e",
+    "time": "2026-06-24T10:00:08+03:00",
+    "priceAmount": 17,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B91 to maximum [EnergyShield|Energy Shield]",
+      "\u002B39% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8803,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "837666de4e608d8abbb4d5d07898b14d00dbb5adef0099952eecb71a0c310ff6",
+    "time": "2026-06-24T09:59:52+03:00",
+    "priceAmount": 16,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 79,
+    "explicitMods": [
+      "\u002B91 to maximum [EnergyShield|Energy Shield]",
+      "\u002B36% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8803,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "91b565c63df4d174952e0c4a8737fa0ccaf7011326eed785b93b33ecc8b01f9e",
+    "time": "2026-06-24T09:59:47+03:00",
+    "priceAmount": 16,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Ice",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B92 to maximum [EnergyShield|Energy Shield]",
+      "\u002B36% to [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0.2491,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "417cd61b23dea2d60304532e9c925dc5cf547c568b7b860d2bc011a4dfae82fb",
+    "time": "2026-06-23T22:01:25+03:00",
+    "priceAmount": 21,
+    "priceCurrency": "divine",
+    "itemName": "Pain Shelter",
+    "typeLine": "Vile Robe",
+    "baseType": "Vile Robe",
+    "itemLevel": 79,
+    "explicitMods": [
+      "\u002B25 to maximum [EnergyShield|Energy Shield]",
+      "146% increased [EnergyShield|Energy Shield]",
+      "\u002B25 to [Intelligence|Intelligence]",
+      "\u002B36% to [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [
+      "48% reduced [Ignite|Ignite] Duration on you"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "c7952c862f7028d471404470c250616e6e794af6385491f9a4b3ddd831bc4757",
+    "time": "2026-06-23T21:20:12+03:00",
+    "priceAmount": 16,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Ice",
+    "baseType": "Vile Robe",
+    "itemLevel": 81,
+    "explicitMods": [
+      "\u002B91 to maximum [EnergyShield|Energy Shield]",
+      "\u002B40% to [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0.2491,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "73ee7cd725c3b6246b2445532c057c6bbd4c8a046387a273bd593b3bc65ee885",
+    "time": "2026-06-23T21:20:11+03:00",
+    "priceAmount": 16,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 81,
+    "explicitMods": [
+      "\u002B93 to maximum [EnergyShield|Energy Shield]",
+      "\u002B38% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8803,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "adf663ef48063b541a8abb016d668a8493c930ca69fe36bc98d0474ece4895fb",
+    "time": "2026-06-23T21:18:48+03:00",
+    "priceAmount": 16,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B96 to maximum [EnergyShield|Energy Shield]",
+      "\u002B37% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8803,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "c2cc2b5f88862e39b3be07a1831f225ea5029aa1a11168b27cfbe5c276df4e7f",
+    "time": "2026-06-23T21:09:46+03:00",
+    "priceAmount": 21,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Unfaltering Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 81,
+    "explicitMods": [
+      "110% increased [EnergyShield|Energy Shield]",
+      "\u002B39% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 1.7226,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "ecd5d9e6302c3071e0e5709417deaca9e1380681a122d19d7cbe28fcbc4d193b",
+    "time": "2026-06-23T19:04:57+03:00",
+    "priceAmount": 20,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Unfaltering Vile Robe of the Ice",
+    "baseType": "Vile Robe",
+    "itemLevel": 81,
+    "explicitMods": [
+      "106% increased [EnergyShield|Energy Shield]",
+      "\u002B40% to [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 1.1837,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "f10c9a1b45c7a18a8f0a0f573c75872d8580f8a1c865cd79e63823e06cbd6ad8",
+    "time": "2026-06-23T18:46:24+03:00",
+    "priceAmount": 19,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Unfaltering Vile Robe of Magma",
+    "baseType": "Vile Robe",
+    "itemLevel": 79,
+    "explicitMods": [
+      "105% increased [EnergyShield|Energy Shield]",
+      "\u002B36% to [Resistances|Fire Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0.7386,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "a8eced2a6f6687f676a3c7d1523264f5dfdc5504323478722025de76cd856c19",
+    "time": "2026-06-23T17:29:24+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Wraeclast Besieged",
+    "typeLine": "Breach Tablet",
+    "baseType": "Breach Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[ContainsBreach|Breach] Hives in Map have 5 additional waves of Hiveborn Monsters",
+      "[ContainsBreach|Breaches] in Map have 9% reduced Pack Size",
+      "Unstable [ContainsBreach|Breaches] in Map take 120 additional seconds to collapse after timer is filled",
+      "Unstable [ContainsBreach|Breaches] in Map spawn 5 additional [Rarity|Rare] Monsters when Stabilised"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "50c4f894a036539938dae4212a7ee63cab8b5fc7db22fd3f90640c049b0a0157",
+    "time": "2026-06-23T16:30:13+03:00",
+    "priceAmount": 55,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Thrud\u0027s Soaring Spear",
+    "baseType": "Soaring Spear",
+    "itemLevel": 82,
+    "explicitMods": [
+      "25% increased Explicit Speed Modifier magnitudes"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0.7429,
+    "baseCostDiv": 24
+  },
+  {
+    "itemId": "9e030d8f6a394d3e90e254415c78f41142173bbafd69acf00fec22f70950b88f",
+    "time": "2026-06-23T15:07:24+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of Magma",
+    "baseType": "Vile Robe",
+    "itemLevel": 79,
+    "explicitMods": [
+      "\u002B96 to maximum [EnergyShield|Energy Shield]",
+      "\u002B37% to [Resistances|Fire Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8778,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "a6b96a25c1347a93033a8bba27b7e15333ae0bdabca182afcc91e6ad95ff1278",
+    "time": "2026-06-23T15:00:39+03:00",
+    "priceAmount": 19,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Unfaltering Vile Robe of the Ice",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "103% increased [EnergyShield|Energy Shield]",
+      "\u002B36% to [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 1.1837,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "6439593005f578f269493aca8bacd4d6e81fa080d6da7005ea6881049c1f6eed",
+    "time": "2026-06-23T14:16:26+03:00",
+    "priceAmount": 80,
+    "priceCurrency": "divine",
+    "itemName": "Corruption Pelt",
+    "typeLine": "Vile Robe",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B29 to maximum [EnergyShield|Energy Shield]",
+      "145% increased [EnergyShield|Energy Shield]",
+      "\u002B40% to [Resistances|Fire Resistance]",
+      "\u002B36% to [Resistances|Lightning Resistance]",
+      "58% reduced Duration of [Bleeding] on You"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "e0ebe4b04aa2ef927d37241650651ed67361e3b1866f9d7695784752219e2873",
+    "time": "2026-06-23T11:44:12+03:00",
+    "priceAmount": 47,
+    "priceCurrency": "exalted",
+    "itemName": "",
+    "typeLine": "Utility Belt",
+    "baseType": "Utility Belt",
+    "itemLevel": 79,
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "00696a246e8a47ea97becc62e992fa955d9872e23dc8b689eeec26e3f4808518",
+    "time": "2026-06-23T06:33:03+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Insane Remnant",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [IgnitedGround|Ignited Ground]",
+      "19% increased Monster Damage",
+      "Monsters deal 17% of Damage as Extra Fire",
+      "\u002B34% Monster Elemental Resistances",
+      "Monsters [ArmourBreak|Break Armour] equal to 29% of [Physical|Physical Damage] dealt",
+      "Monsters have 30% chance to [Poison] on [HitDamage|Hit]",
+      "Players have 36% less Recovery Rate of Life and [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "17bb398eadf6339e678f2a597572bbcb4ff8ded3c8a08c36fe91fd918ee6bc93",
+    "time": "2026-06-23T06:21:54+03:00",
+    "priceAmount": 110,
+    "priceCurrency": "exalted",
+    "itemName": "Wraeclast Besieged",
+    "typeLine": "Breach Tablet",
+    "baseType": "Breach Tablet",
+    "itemLevel": 79,
+    "explicitMods": [
+      "[ContainsBreach|Breach] Hives in Map have 3 additional waves of Hiveborn Monsters",
+      "[ContainsBreach|Breaches] in Map have 7% reduced Pack Size",
+      "Unstable [ContainsBreach|Breaches] in Map take 120 additional seconds to collapse after timer is filled",
+      "Unstable [ContainsBreach|Breaches] in Map spawn 5 additional [Rarity|Rare] Monsters when Stabilised"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "c9d44a5f2715b8999ade8a83abee5bab2c5910f4d9207cbf96e27cf2fae085c6",
+    "time": "2026-06-23T04:54:39+03:00",
+    "priceAmount": 1,
+    "priceCurrency": "divine",
+    "itemName": "Death Route",
+    "typeLine": "Waystone (Tier 16)",
+    "baseType": "Waystone (Tier 16)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Players are periodically [Curse|Cursed] with [ElementalWeakness|Elemental Weakness]",
+      "Monsters deal 15% of Damage as Extra Chaos",
+      "Monsters have 40% increased Accuracy Rating",
+      "Monsters [ArmourBreak|Break Armour] equal to 26% of [Physical|Physical Damage] dealt",
+      "48% less [BuffEffect|effect] of [Curse|Curses] on Monsters",
+      "Players have 39% less Recovery Rate of Life and [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "1ad5eafb01ddb89c7644a426510a82a07794ee5d6ed412e65be6f25117ead067",
+    "time": "2026-06-23T04:14:51+03:00",
+    "priceAmount": 14,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Divine Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B28 to maximum [EnergyShield|Energy Shield]",
+      "41% increased [EnergyShield|Energy Shield]",
+      "\u002B37% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 1.8462,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "d3cd61e6db08596fb78f5dd64625b1fed3ead3005cb5e5429312f11e60c4b7ec",
+    "time": "2026-06-22T22:36:28+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Barren Bearings",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "25% more Monster Life",
+      "17% increased Monster Damage",
+      "Monsters deal 17% of Damage as Extra Chaos",
+      "Monsters have 12% increased [Attack], Cast and Movement Speed",
+      "Monsters have 17% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "Monsters have 98% increased Stun Buildup"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "53a2a171146044301c618de379e7972cc6705161f1756735348dc8dcc7d59282",
+    "time": "2026-06-22T21:09:30+03:00",
+    "priceAmount": 45,
+    "priceCurrency": "exalted",
+    "itemName": "Cyclopean Judgment",
+    "typeLine": "Ritual Tablet",
+    "baseType": "Ritual Tablet",
+    "itemLevel": 81,
+    "explicitMods": [
+      "12% increased [Rarity] of Items found in Map",
+      "35% increased Quantity of [Waystone|Waystones] found in Map",
+      "Map has 29% increased number of [Rarity|Rare] Monsters",
+      "Revived Monsters from [ContainsRitual|Ritual Altars] in Map have 65% increased chance to be [Rarity|Magic]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "3ee24df6b41b284c68367b9e9ae38c957c646261aac053c9e70cadaa4766de8c",
+    "time": "2026-06-22T19:43:47+03:00",
+    "priceAmount": 1,
+    "priceCurrency": "divine",
+    "itemName": "Twisted Order",
+    "typeLine": "Waystone (Tier 16)",
+    "baseType": "Waystone (Tier 16)",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Players are periodically [Curse|Cursed] with [TemporalChains|Temporal Chains]",
+      "Monsters have 235% increased [Critical|Critical Hit] Chance",
+      "Monsters have \u002B21% [CriticalDamageBonus|Critical Damage Bonus]",
+      "Monsters have 79% increased Ailment Threshold",
+      "Monsters have 33% chance to [Poison] on [HitDamage|Hit]",
+      "Monsters have 91% increased Stun Buildup",
+      "Monsters have 68% increased Stun Threshold",
+      "Players gain 35% reduced [Flask] Charges"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "4e89ac9b5b4ece201cb7c307c46d25a5aa9797bc8c2df2a4f3926bfadd2dd1f8",
+    "time": "2026-06-22T18:59:53+03:00",
+    "priceAmount": 26,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Exceptional Soaring Spear",
+    "baseType": "Soaring Spear",
+    "itemLevel": 80,
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 24
+  },
+  {
+    "itemId": "314a0369052b815cf3c70e9e17702cad887c3340084f26f7218f1e3647000553",
+    "time": "2026-06-22T17:58:20+03:00",
+    "priceAmount": 17,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 79,
+    "explicitMods": [
+      "\u002B95 to maximum [EnergyShield|Energy Shield]",
+      "\u002B40% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8803,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "43c3ff7d8f4675f4aeee07da4d3895f2ee988e8cbfcad1e9396d3e44c0ce3e9f",
+    "time": "2026-06-22T17:58:15+03:00",
+    "priceAmount": 14,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B91 to maximum [EnergyShield|Energy Shield]",
+      "\u002B37% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8803,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "99cd646b109b124113f0fccdf2ba03378810c8e4dec6729fc9b81dfeb778c349",
+    "time": "2026-06-22T17:41:14+03:00",
+    "priceAmount": 25,
+    "priceCurrency": "divine",
+    "itemName": "Mind Spiral",
+    "typeLine": "Iron Ring",
+    "baseType": "Iron Ring",
+    "itemLevel": 75,
+    "explicitMods": [
+      "Adds 19 to 34 [Physical|Physical] Damage to [Attack|Attacks]",
+      "Adds 28 to 42 [Cold] damage to [Attack|Attacks]",
+      "\u002B19 to [Strength|Strength]",
+      "\u002B28% to [Resistances|Cold Resistance]",
+      "\u002B25% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "25764826c2aedeb87dd8df153dd502f34e6f9682ed18323e9ca0c04b4ca0f1c7",
+    "time": "2026-06-22T17:21:33+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Unfaltering Vile Robe of the Ice",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "106% increased [EnergyShield|Energy Shield]",
+      "\u002B36% to [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 1.1837,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "d806d995496771b95a4626c0e6f06cccf20161c83ae5dd158cf26574c03a5395",
+    "time": "2026-06-22T16:43:19+03:00",
+    "priceAmount": 14,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of Magma",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B93 to maximum [EnergyShield|Energy Shield]",
+      "\u002B36% to [Resistances|Fire Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 3.8778,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "1a44f2b05cbb84a548ffb6f8c4b8f4a7907e29c6cd8a1e9d2d78ef1e892437af",
+    "time": "2026-06-22T16:43:19+03:00",
+    "priceAmount": 14,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Resplendent Vile Robe of the Ice",
+    "baseType": "Vile Robe",
+    "itemLevel": 79,
+    "explicitMods": [
+      "\u002B94 to maximum [EnergyShield|Energy Shield]",
+      "\u002B39% to [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0.2491,
+    "baseCostDiv": 8
+  },
+  {
+    "itemId": "798fd9366350c98e5d7ee984ea27188c79bee58fb6039fcb82562dea49ece630",
+    "time": "2026-06-22T11:57:37+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Haunted Edge",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [ShockedGround|Shocked Ground]",
+      "-8% maximum Player Resistances",
+      "Monsters have 12% increased [Attack], Cast and Movement Speed",
+      "Monsters have 39% increased Accuracy Rating",
+      "Monsters have 16% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "Players have 39% less Recovery Rate of Life and [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "bc533cf1be60eee2e8c832bfa56b355a2c39fae7f1d7fd11c9d754f72120d252",
+    "time": "2026-06-22T11:21:18+03:00",
+    "priceAmount": 45,
+    "priceCurrency": "exalted",
+    "itemName": "Empyrean Myth",
+    "typeLine": "Ritual Tablet",
+    "baseType": "Ritual Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "7% increased Pack Size in Map",
+      "12% increased [Rarity] of Items found in Map",
+      "Revived Monsters from [ContainsRitual|Ritual Altars] in Map have 41% increased chance to be [Rarity|Magic]",
+      "Rerolling Favours at [ContainsRitual|Ritual Altars] in Map costs 25% reduced Tribute"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "3598306b64cd726cad04fecc86430ebe4c32344c6ec9cb7aea43e7906e3f984c",
+    "time": "2026-06-22T11:21:18+03:00",
+    "priceAmount": 45,
+    "priceCurrency": "exalted",
+    "itemName": "Otherworldly Judgment",
+    "typeLine": "Breach Tablet",
+    "baseType": "Breach Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "7% increased [MonsterEffectiveness|Effectiveness] of [Rarity|Rare] [ContainsBreach|Breach] Monsters in Map",
+      "14% increased Experience gain in Map",
+      "25% increased Gold found in Map",
+      "35% increased Quantity of [Waystone|Waystones] found in Map"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "be5a76226b27a1bdb55fbfd8a6c5b396524784929ff0b13784911aae551abdf4",
+    "time": "2026-06-22T06:40:18+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Forsaken Vector",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [IgnitedGround|Ignited Ground]",
+      "-6% maximum Player Resistances",
+      "15% increased Monster Damage",
+      "Monsters deal 16% of Damage as Extra Lightning",
+      "Monsters are [MonsterExtraEvasion1|Evasive]",
+      "Monsters have 96% increased Stun Buildup"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "1c7b2922384947bb76c83a1a40114bc35af3dbbdf6db7c1ee6743ab4fe6b2816",
+    "time": "2026-06-22T01:47:25+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "",
+    "typeLine": "Diamond",
+    "baseType": "Diamond",
+    "itemLevel": 82,
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "9f44c13d6fcf42d0b153a7d857be4919f4f78788597768966b7d874189818f60",
+    "time": "2026-06-22T00:47:48+03:00",
+    "priceAmount": 20,
+    "priceCurrency": "exalted",
+    "itemName": "",
+    "typeLine": "Gold Ring",
+    "baseType": "Gold Ring",
+    "itemLevel": 79,
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "6934de769f2d9073a78b2c9cc056394ed44900fb0ce271599437bf9ba015edb1",
+    "time": "2026-06-22T00:41:26+03:00",
+    "priceAmount": 30,
+    "priceCurrency": "exalted",
+    "itemName": "",
+    "typeLine": "Utility Belt",
+    "baseType": "Utility Belt",
+    "itemLevel": 80,
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "411f3b73e3ac2d19a4e9dfc26341bab65ca348d8728450bdbed03bd959009a70",
+    "time": "2026-06-21T21:33:26+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Lost Charge",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "17% increased Monster Damage",
+      "Monsters deal 18% of Damage as Extra Cold",
+      "Monsters have 13% increased [Attack], Cast and Movement Speed",
+      "Monsters [ArmourBreak|Break Armour] equal to 28% of [Physical|Physical Damage] dealt",
+      "Monsters have 92% increased Stun Buildup",
+      "Monster Damage Penetrates 12% Elemental Resistances"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "9a6a28ef2ba0e8952e9ce6d2192be75bf192d1a9fe44bff9faeac9f519050d65",
+    "time": "2026-06-21T21:04:34+03:00",
+    "priceAmount": 55,
+    "priceCurrency": "divine",
+    "itemName": "Damnation Edge",
+    "typeLine": "Soaring Spear",
+    "baseType": "Soaring Spear",
+    "itemLevel": 79,
+    "explicitMods": [
+      "25% increased Explicit Speed Modifier magnitudes"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "25a51f6d42305d2e403784069448b63acdbfcb44dd310fa755c6150280a37ae9",
+    "time": "2026-06-21T19:13:19+03:00",
+    "priceAmount": 65,
+    "priceCurrency": "chaos",
+    "itemName": "Voidtouched Decree",
+    "typeLine": "Breach Tablet",
+    "baseType": "Breach Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[ContainsBreach|Breaches] in Map have 13% increased Pack Size",
+      "Monsters have 14% increased [MonsterEffectiveness|Effectiveness]",
+      "Map contains 1 additional [AzmeriSpirit|Azmeri Spirit]",
+      "Unstable [ContainsBreach|Breaches] in Map spawn 3 additional [Rarity|Rare] Monsters when Stabilised"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "c9f046784bc128037f27fca9d4b04e04503abd2bd95d9adf54c17e66f31ac090",
+    "time": "2026-06-21T16:46:10+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Chaos Bearings",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 81,
+    "explicitMods": [
+      "Area has patches of [ShockedGround|Shocked Ground]",
+      "Players are periodically [Curse|Cursed] with [TemporalChains|Temporal Chains]",
+      "-7% maximum Player Resistances",
+      "Monsters are [MonsterExtraEvasion1|Evasive]",
+      "\u002B33% Monster Elemental Resistances",
+      "Monsters gain 13% of maximum Life as Extra maximum [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "1b3342a94437153796194036b3e0fc01886376f994d9fb2ed64a8829f63238c9",
+    "time": "2026-06-21T15:20:33+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Barren Intent",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 81,
+    "explicitMods": [
+      "Area has patches of [ShockedGround|Shocked Ground]",
+      "Monsters are [MonsterExtraEvasion1|Evasive]",
+      "\u002B30% Monster Elemental Resistances",
+      "41% less [BuffEffect|effect] of [Curse|Curses] on Monsters",
+      "Monsters gain 22% of maximum Life as Extra maximum [EnergyShield|Energy Shield]",
+      "Players have 25% less Cooldown Recovery Rate"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "dc57e002e59386993db56e48c5e5635b955901b6750dad6e3f9fa0a47b242d8f",
+    "time": "2026-06-21T14:05:50+03:00",
+    "priceAmount": 6,
+    "priceCurrency": "divine",
+    "itemName": "Cyclopean Abyss",
+    "typeLine": "Breach Tablet",
+    "baseType": "Breach Tablet",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Monsters have 15% increased [MonsterEffectiveness|Effectiveness]",
+      "Map has 40% increased [Rarity|Magic] Monsters",
+      "Map has 82% increased chance to contain [Shrine|Shrines]",
+      "Unstable [ContainsBreach|Breaches] in Map spawn 3 additional [Rarity|Rare] Monsters when Stabilised"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "9dd7fe95155ecaea9f9404f877c083f655776b862890b330d5440d8462c4a108",
+    "time": "2026-06-21T06:37:15+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Death Crosscut",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [IgnitedGround|Ignited Ground]",
+      "Monsters deal 19% of Damage as Extra Chaos",
+      "Monsters take 30% reduced Extra Damage from [Critical|Critical Hits]",
+      "Monsters have 20% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "Monsters have 31% chance to [Poison] on [HitDamage|Hit]",
+      "Monster have 100% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "6b6ac20273619f2347b3173834f63ca1c62b5f2bcf25cb2047717ae6c470453f",
+    "time": "2026-06-21T03:09:27+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Dream Direction",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [ChilledGround|Chilled Ground]",
+      "Players are periodically [Curse|Cursed] with [ElementalWeakness|Elemental Weakness]",
+      "Monsters are [MonsterExtraArmour1|Armoured]",
+      "43% less [BuffEffect|effect] of [Curse|Curses] on Monsters",
+      "Players gain 30% reduced [Flask] Charges",
+      "Players have 30% less Cooldown Recovery Rate"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "bf54e9352a0aa9c29eb34ffd658056a491254ee30120ef7016c22f46048071fb",
+    "time": "2026-06-21T00:18:45+03:00",
+    "priceAmount": 12,
+    "priceCurrency": "chaos",
+    "itemName": "Chaos Compass",
+    "typeLine": "Waystone (Tier 16)",
+    "baseType": "Waystone (Tier 16)",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Monsters deal 18% of Damage as Extra Cold",
+      "Monsters have 32% increased Accuracy Rating",
+      "\u002B33% Monster Elemental Resistances",
+      "Monsters have 19% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "50% less [BuffEffect|effect] of [Curse|Curses] on Monsters",
+      "Monsters gain 15% of maximum Life as Extra maximum [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "03790825feceea57fbfe4fb440e56edef5a1fc9dfe452ef79e39ee2456ff6dcd",
+    "time": "2026-06-20T23:40:35+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Putrid Route",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 81,
+    "explicitMods": [
+      "Area has patches of [ShockedGround|Shocked Ground]",
+      "Players are periodically [Curse|Cursed] with [ElementalWeakness|Elemental Weakness]",
+      "Monsters deal 17% of Damage as Extra Chaos",
+      "Monsters have 11% increased [Attack], Cast and Movement Speed",
+      "\u002B31% Monster Elemental Resistances",
+      "Monsters are [MonsterExtraArmour1|Armoured]",
+      "Monsters have 33% chance to [Poison] on [HitDamage|Hit]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "be7c610a77cd0e4b229817f7b6f6112ea1780b9c8e4229faab9732b634b6feed",
+    "time": "2026-06-20T23:26:36+03:00",
+    "priceAmount": 12,
+    "priceCurrency": "chaos",
+    "itemName": "Breeding Intent",
+    "typeLine": "Waystone (Tier 16)",
+    "baseType": "Waystone (Tier 16)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Players are periodically [Curse|Cursed] with [ElementalWeakness|Elemental Weakness]",
+      "\u002B32% Monster Elemental Resistances",
+      "Monsters have 19% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "Monsters have 29% chance to [Poison] on [HitDamage|Hit]",
+      "Monster have 119% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]",
+      "Monster Damage Penetrates 13% Elemental Resistances"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "3de01066f6955a36fe1e98cdfc1a8bf27aefc44d2cdbb2c570081f8f38cfeb1a",
+    "time": "2026-06-20T22:16:21+03:00",
+    "priceAmount": 12,
+    "priceCurrency": "chaos",
+    "itemName": "Barren Panorama",
+    "typeLine": "Waystone (Tier 16)",
+    "baseType": "Waystone (Tier 16)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [ChilledGround|Chilled Ground]",
+      "Monsters deal 19% of Damage as Extra Fire",
+      "Monsters deal 16% of Damage as Extra Cold",
+      "Monsters have 76% increased Ailment Threshold",
+      "Monsters have 16% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "Monsters gain 12% of maximum Life as Extra maximum [EnergyShield|Energy Shield]",
+      "Monsters have 66% increased Stun Threshold"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "886d96e67770de185d9ef7c5fed7b05803ff171bd99c02f1b2d882cb5c712b6e",
+    "time": "2026-06-20T22:00:43+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Cinder Stone",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Area has patches of [ShockedGround|Shocked Ground]",
+      "Monsters have 204% increased [Critical|Critical Hit] Chance",
+      "Monsters have \u002B23% [CriticalDamageBonus|Critical Damage Bonus]",
+      "17% increased Monster Damage",
+      "Monsters have 14% increased [Attack], Cast and Movement Speed",
+      "Monsters have 17% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "48% less [BuffEffect|effect] of [Curse|Curses] on Monsters",
+      "Players gain 34% reduced [Flask] Charges"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "43335a3b974d5390cd11cc0f9d3024c1f2912fe142cca8ffe516c311d992fc0e",
+    "time": "2026-06-20T21:33:17+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Forbidden Frontier",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Area has patches of [ShockedGround|Shocked Ground]",
+      "\u002B31% Monster Elemental Resistances",
+      "43% less [BuffEffect|effect] of [Curse|Curses] on Monsters",
+      "Monster have 119% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]",
+      "Players gain 35% reduced [Flask] Charges",
+      "Players have 27% less Cooldown Recovery Rate"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "3b47051a3430942b9541525dcfb7ef861318a22accd76a0daeef11467e4d0191",
+    "time": "2026-06-20T20:43:10+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "exalted",
+    "itemName": "Blood Choice",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "24% more Monster Life",
+      "19% increased Monster Damage",
+      "Monsters deal 19% of Damage as Extra Chaos",
+      "Monsters have 10% increased [Attack], Cast and Movement Speed",
+      "Monsters [ArmourBreak|Break Armour] equal to 25% of [Physical|Physical Damage] dealt",
+      "Monsters have 19% chance to inflict [Bleeding] on [HitDamage|Hit]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "8f725e48dc58f7d917173462714fc74f08eb94e0345db5df423c83fa47380372",
+    "time": "2026-06-20T19:39:22+03:00",
+    "priceAmount": 20,
+    "priceCurrency": "exalted",
+    "itemName": "Rune Spiral",
+    "typeLine": "Amethyst Ring",
+    "baseType": "Amethyst Ring",
+    "itemLevel": 75,
+    "explicitMods": [
+      "Adds 7 to 13 [Physical|Physical] Damage to [Attack|Attacks]",
+      "\u002B11% to all [ElementalDamage|Elemental] [Resistances]",
+      "\u002B25% to [Resistances|Lightning Resistance]",
+      "11.4 Life Regeneration per second"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "5fb3f40996c11bd9e35ed55e31603e917ba0b518d7a35481faea2d2e70645bc4",
+    "time": "2026-06-20T19:05:42+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "exalted",
+    "itemName": "Ancient Path",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 81,
+    "explicitMods": [
+      "22% more Monster Life",
+      "18% increased Monster Damage",
+      "Monsters deal 17% of Damage as Extra Lightning",
+      "Monsters have 30% increased Accuracy Rating",
+      "Monsters [ArmourBreak|Break Armour] equal to 30% of [Physical|Physical Damage] dealt",
+      "Monsters have 90% increased Stun Buildup"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "dae56d0340ca30e6f0376d110a3ccf7579ad36529d45a4150ee8b4f2c0907d8a",
+    "time": "2026-06-20T18:27:28+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "exalted",
+    "itemName": "Profane Control",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Area has patches of [ChilledGround|Chilled Ground]",
+      "Monsters are [MonsterExtraEvasion1|Evasive]",
+      "\u002B31% Monster Elemental Resistances",
+      "Monster have 104% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]",
+      "Players gain 32% reduced [Flask] Charges",
+      "Players have 36% less Recovery Rate of Life and [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "a14827b57277d67fab40b82add8a561e352347189bb08ee0d1ffb675768a8672",
+    "time": "2026-06-20T18:27:27+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "exalted",
+    "itemName": "Desecrated Bearings",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Monsters take 26% reduced Extra Damage from [Critical|Critical Hits]",
+      "Monsters are [MonsterExtraEvasion1|Evasive]",
+      "\u002B33% Monster Elemental Resistances",
+      "41% less [BuffEffect|effect] of [Curse|Curses] on Monsters",
+      "Monster have 107% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]",
+      "Players have 40% less Recovery Rate of Life and [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "e46c7080774dbfb39f97c422b52c0e04458e8716b6f5f671a769c0221e1e34ab",
+    "time": "2026-06-20T17:51:51+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "exalted",
+    "itemName": "Dark Remnant",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 80,
+    "explicitMods": [
+      "15% increased Monster Damage",
+      "Monsters deal 19% of Damage as Extra Chaos",
+      "Monsters have 11% increased [Attack], Cast and Movement Speed",
+      "Monsters have 18% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "Monsters have 94% increased Stun Buildup",
+      "Monster Damage Penetrates 14% Elemental Resistances"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "6941a14de172476c63a9d19f14f92cd829e554b2d169495849291981ce1685f0",
+    "time": "2026-06-20T17:48:42+03:00",
+    "priceAmount": 7,
+    "priceCurrency": "divine",
+    "itemName": "Rapture Barrier",
+    "typeLine": "Sacred Focus",
+    "baseType": "Sacred Focus",
+    "itemLevel": 81,
+    "explicitMods": [
+      "101% increased [EnergyShield|Energy Shield]",
+      "\u002B191 to maximum Mana",
+      "11% increased Cast Speed"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "1ad7b47b87f55c798f50fd7781b2de5a90f1b757d74f0bfe49b5cfd1aed7bc28",
+    "time": "2026-06-20T17:44:08+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "exalted",
+    "itemName": "Tranquil Panorama",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [ShockedGround|Shocked Ground]",
+      "Monsters have 207% increased [Critical|Critical Hit] Chance",
+      "Monsters have \u002B23% [CriticalDamageBonus|Critical Damage Bonus]",
+      "Monsters have 11% increased [Attack], Cast and Movement Speed",
+      "Monsters [ArmourBreak|Break Armour] equal to 29% of [Physical|Physical Damage] dealt",
+      "Monster have 110% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]",
+      "Players have 28% less Cooldown Recovery Rate",
+      "Players have 36% less Recovery Rate of Life and [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "9c4ba93d7f9497165ce8226c6d330c8d9847ca1973d58926c5976f608cb393fd",
+    "time": "2026-06-20T17:44:07+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "exalted",
+    "itemName": "Fetid Vector",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [ShockedGround|Shocked Ground]",
+      "Players are periodically [Curse|Cursed] with [ElementalWeakness|Elemental Weakness]",
+      "Monsters have 216% increased [Critical|Critical Hit] Chance",
+      "Monsters have \u002B23% [CriticalDamageBonus|Critical Damage Bonus]",
+      "Monsters have 11% increased [Attack], Cast and Movement Speed",
+      "\u002B31% Monster Elemental Resistances",
+      "Monsters have 16% chance to inflict [Bleeding] on [HitDamage|Hit]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "831b84b5e317f36f9d582c91b977c2304d8d1e37022a8a375494b15cb0d34897",
+    "time": "2026-06-20T17:24:22+03:00",
+    "priceAmount": 6,
+    "priceCurrency": "divine",
+    "itemName": "Vengeance Weaver",
+    "typeLine": "Cultist Focus",
+    "baseType": "Cultist Focus",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B30 to maximum [EnergyShield|Energy Shield]",
+      "63% increased [EnergyShield|Energy Shield]",
+      "74% increased [Spell] Damage",
+      "50% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "ea97248597fbe69a12e207fd0a672222c7405cd8b68edf656c7c859da64a9037",
+    "time": "2026-06-20T17:11:07+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "exalted",
+    "itemName": "Ancient Control",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [ShockedGround|Shocked Ground]",
+      "24% more Monster Life",
+      "Monsters deal 16% of Damage as Extra Cold",
+      "Monsters have 16% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "45% less [BuffEffect|effect] of [Curse|Curses] on Monsters",
+      "Monster have 114% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]",
+      "Players have 30% less Cooldown Recovery Rate"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "a1c95f1473bb0b6cff0e1920668bb66632408d80f386a094def9af106f1028f7",
+    "time": "2026-06-20T16:55:12+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "exalted",
+    "itemName": "Blasted Course",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 84,
+    "explicitMods": [
+      "-6% maximum Player Resistances",
+      "23% more Monster Life",
+      "Monsters deal 17% of Damage as Extra Fire",
+      "Monsters deal 15% of Damage as Extra Lightning",
+      "Monsters take 26% reduced Extra Damage from [Critical|Critical Hits]",
+      "Monsters have 15% increased [Attack], Cast and Movement Speed",
+      "Monsters have 76% increased Ailment Threshold",
+      "Monsters have 63% increased Stun Threshold"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "364440e551696e8627f10072db419e6f4ad96e64cb09f7af0111dab697c42600",
+    "time": "2026-06-20T16:50:04+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "exalted",
+    "itemName": "Blasted Bearings",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "-8% maximum Player Resistances",
+      "21% more Monster Life",
+      "Monsters deal 16% of Damage as Extra Lightning",
+      "Monsters deal 18% of Damage as Extra Chaos",
+      "Monsters have 73% increased Ailment Threshold",
+      "Monster have 106% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]",
+      "Monster Damage Penetrates 13% Elemental Resistances",
+      "Monsters have 66% increased Stun Threshold"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "37fb7f3e52dc1e35ab20eae1a4042726973c8b15d50c8d119bead9c35db4aa1d",
+    "time": "2026-06-20T16:45:15+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "exalted",
+    "itemName": "Ghost Determination",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 84,
+    "explicitMods": [
+      "Area has patches of [ChilledGround|Chilled Ground]",
+      "-7% maximum Player Resistances",
+      "Monsters have 231% increased [Critical|Critical Hit] Chance",
+      "Monsters have \u002B24% [CriticalDamageBonus|Critical Damage Bonus]",
+      "Monsters deal 17% of Damage as Extra Fire",
+      "Monsters [ArmourBreak|Break Armour] equal to 30% of [Physical|Physical Damage] dealt",
+      "Players gain 33% reduced [Flask] Charges",
+      "Players have 37% less Recovery Rate of Life and [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "1a1a7c94af363bcf5577e8481576997450173ff6489d8adf2e38b44b2070962c",
+    "time": "2026-06-20T16:41:56+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Onslaught Anthem",
+    "typeLine": "Tasalian Focus",
+    "baseType": "Tasalian Focus",
+    "itemLevel": 80,
+    "explicitMods": [
+      "37% increased [EnergyShield|Energy Shield]",
+      "66% increased [Chaos] Damage",
+      "\u002B160 to maximum Mana",
+      "\u002B34% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "9ae25c5ac464f4f4f1d4845fcfcdc708e04b60175a41eac70d2d8c1f0c7d9f12",
+    "time": "2026-06-20T14:58:25+03:00",
+    "priceAmount": 20,
+    "priceCurrency": "exalted",
+    "itemName": "Rugged Bind",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [ShockedGround|Shocked Ground]",
+      "21% more Monster Life",
+      "Monsters have 12% increased [Attack], Cast and Movement Speed",
+      "Monsters have 19% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "Monsters have 32% chance to [Poison] on [HitDamage|Hit]",
+      "41% less [BuffEffect|effect] of [Curse|Curses] on Monsters",
+      "Monster have 118% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]",
+      "Monsters gain 18% of maximum Life as Extra maximum [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "b5fc8f11214544007a62514368f401dcb83a28bd9f63831b84bd71294f56a6a0",
+    "time": "2026-06-20T14:57:18+03:00",
+    "priceAmount": 20,
+    "priceCurrency": "exalted",
+    "itemName": "Cyclopean Bearings",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [ChilledGround|Chilled Ground]",
+      "23% more Monster Life",
+      "Monsters have 218% increased [Critical|Critical Hit] Chance",
+      "Monsters have \u002B22% [CriticalDamageBonus|Critical Damage Bonus]",
+      "Monsters are [MonsterExtraEvasion1|Evasive]",
+      "Monsters have 15% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "Monsters have 29% chance to [Poison] on [HitDamage|Hit]",
+      "Monster have 112% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]",
+      "Players have 40% less Recovery Rate of Life and [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "5487d2faf594e24c7da3fa4d6eec8de3608bcced3aaa1e67aa273dd4b8edc140",
+    "time": "2026-06-20T14:20:33+03:00",
+    "priceAmount": 31,
+    "priceCurrency": "chaos",
+    "itemName": "Unforeseen Consequences",
+    "typeLine": "Abyss Tablet",
+    "baseType": "Abyss Tablet",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Map is overrun by the [ContainsAbyss|Abyssal]",
+      "Map contains 14 additional [ContainsAbyss|Abysses]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "18c4d0a54872ba71613e4d30186c57d2e0c7b582adee9f404e5383308d1cb01b",
+    "time": "2026-06-20T14:20:29+03:00",
+    "priceAmount": 32,
+    "priceCurrency": "chaos",
+    "itemName": "Unforeseen Consequences",
+    "typeLine": "Abyss Tablet",
+    "baseType": "Abyss Tablet",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Map is overrun by the [ContainsAbyss|Abyssal]",
+      "Map contains 15 additional [ContainsAbyss|Abysses]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "7c9cae9d757e167d45a81fb7f21a3249a5ea68a914c610b4573869eb53b390e4",
+    "time": "2026-06-20T14:16:19+03:00",
+    "priceAmount": 25,
+    "priceCurrency": "exalted",
+    "itemName": "Dread Route",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Area has patches of [IgnitedGround|Ignited Ground]",
+      "Monsters have 216% increased [Critical|Critical Hit] Chance",
+      "Monsters have \u002B24% [CriticalDamageBonus|Critical Damage Bonus]",
+      "Monsters have 10% increased [Attack], Cast and Movement Speed",
+      "Monsters are [MonsterExtraEvasion1|Evasive]",
+      "\u002B33% Monster Elemental Resistances",
+      "Monsters are [MonsterExtraArmour1|Armoured]",
+      "Monsters [ArmourBreak|Break Armour] equal to 29% of [Physical|Physical Damage] dealt",
+      "Monsters have 29% chance to [Poison] on [HitDamage|Hit]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "f244d3edecec5a9edaa72bc7218fdeed226498831ba439af72317c80ebfe3e9e",
+    "time": "2026-06-20T13:50:21+03:00",
+    "priceAmount": 270,
+    "priceCurrency": "exalted",
+    "itemName": "Mastered Domain",
+    "typeLine": "Irradiated Tablet",
+    "baseType": "Irradiated Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Map also counts as a [Biome|Forest] Map"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "84fc9cd70d7e39220c21e3ddf236d2de7dd9807fb749d60d77139e7bc89ff6c8",
+    "time": "2026-06-20T13:40:46+03:00",
+    "priceAmount": 270,
+    "priceCurrency": "exalted",
+    "itemName": "Mastered Domain",
+    "typeLine": "Irradiated Tablet",
+    "baseType": "Irradiated Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Map also counts as a [Biome|Forest] Map"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "8bf62eb1a874be3a2e7dcfe24229aac939332014c5bff70bc924713080485285",
+    "time": "2026-06-20T13:32:37+03:00",
+    "priceAmount": 60,
+    "priceCurrency": "exalted",
+    "itemName": "Freedom of Faith",
+    "typeLine": "Ritual Tablet",
+    "baseType": "Ritual Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Favours at [ContainsRitual|Ritual Altars] in Area costs 15% increased Tribute",
+      "Can Reroll Favours at [ContainsRitual|Ritual Altars] in your Maps twice as many times"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "18dea9fa81de08aa1f401ff418786de8de8e355611615b1b3b05053f07bfbb38",
+    "time": "2026-06-20T13:32:36+03:00",
+    "priceAmount": 60,
+    "priceCurrency": "exalted",
+    "itemName": "Freedom of Faith",
+    "typeLine": "Ritual Tablet",
+    "baseType": "Ritual Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Favours at [ContainsRitual|Ritual Altars] in Area costs 15% increased Tribute",
+      "Can Reroll Favours at [ContainsRitual|Ritual Altars] in your Maps twice as many times"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "ad4b5709b8b2e651c906575168d0eeefc360018c03b9b6d6d3e063bd9f023d26",
+    "time": "2026-06-20T13:32:36+03:00",
+    "priceAmount": 60,
+    "priceCurrency": "exalted",
+    "itemName": "Freedom of Faith",
+    "typeLine": "Ritual Tablet",
+    "baseType": "Ritual Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Favours at [ContainsRitual|Ritual Altars] in Area costs 15% increased Tribute",
+      "Can Reroll Favours at [ContainsRitual|Ritual Altars] in your Maps twice as many times"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "a7e5e0c009e5100a9e474e0fce45e5baf88b593aca0d4e9768685cfc72923259",
+    "time": "2026-06-20T13:29:57+03:00",
+    "priceAmount": 270,
+    "priceCurrency": "exalted",
+    "itemName": "Mastered Domain",
+    "typeLine": "Irradiated Tablet",
+    "baseType": "Irradiated Tablet",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Map also counts as a [Biome|Forest] Map"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "863080884331daa055728980c81670813e89b9a1f76a4adf8848fa8348879b79",
+    "time": "2026-06-20T13:23:55+03:00",
+    "priceAmount": 65,
+    "priceCurrency": "exalted",
+    "itemName": "Wraeclast Besieged",
+    "typeLine": "Breach Tablet",
+    "baseType": "Breach Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[ContainsBreach|Breach] Hives in Map have 3 additional waves of Hiveborn Monsters",
+      "[ContainsBreach|Breaches] in Map have 18% reduced Pack Size",
+      "Unstable [ContainsBreach|Breaches] in Map take 120 additional seconds to collapse after timer is filled",
+      "Unstable [ContainsBreach|Breaches] in Map spawn 5 additional [Rarity|Rare] Monsters when Stabilised"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "d3cfcf22f98369d616779a1032cebf6e99d0cddd73eadad02a2f352a3965cf5f",
+    "time": "2026-06-20T13:19:26+03:00",
+    "priceAmount": 270,
+    "priceCurrency": "exalted",
+    "itemName": "Mastered Domain",
+    "typeLine": "Irradiated Tablet",
+    "baseType": "Irradiated Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Map also counts as a [Biome|Forest] Map"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "f5f82d76a4ee19d88efd78a51ab339b219641accc53b456fb386ce6b51762963",
+    "time": "2026-06-20T13:17:45+03:00",
+    "priceAmount": 270,
+    "priceCurrency": "exalted",
+    "itemName": "Mastered Domain",
+    "typeLine": "Irradiated Tablet",
+    "baseType": "Irradiated Tablet",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Map also counts as a [Biome|Forest] Map"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "e64b9ba9caab70c91129ae6edf84b30d39e43a181c6331d6c8c430ce26ba0d5f",
+    "time": "2026-06-20T13:17:44+03:00",
+    "priceAmount": 270,
+    "priceCurrency": "exalted",
+    "itemName": "Mastered Domain",
+    "typeLine": "Irradiated Tablet",
+    "baseType": "Irradiated Tablet",
+    "itemLevel": 78,
+    "explicitMods": [
+      "Map also counts as a [Biome|Forest] Map"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "8ca1fc1ea4caddec56dc79dc5a088e118bfc4697f1ff047b164e141fca92d683",
+    "time": "2026-06-20T13:14:13+03:00",
+    "priceAmount": 37,
+    "priceCurrency": "chaos",
+    "itemName": "Visions of Paradise",
+    "typeLine": "Irradiated Tablet",
+    "baseType": "Irradiated Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "If Map was not previously [IrradiatedNonAtlas|Irradiated], completing Map adds [IrradiatedNonAtlas|Irradiation] instead"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "ae5f0ef23435f0270ab462c75b8bb3380c5c80a3ac6a73dd5ae7e563a57d8ca1",
+    "time": "2026-06-20T13:09:48+03:00",
+    "priceAmount": 37,
+    "priceCurrency": "chaos",
+    "itemName": "Visions of Paradise",
+    "typeLine": "Irradiated Tablet",
+    "baseType": "Irradiated Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "If Map was not previously [IrradiatedNonAtlas|Irradiated], completing Map adds [IrradiatedNonAtlas|Irradiation] instead"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "6fda617b58228cac03c1306dc7d184d46d27394c6ff1c94bc52f2a6f5130b752",
+    "time": "2026-06-20T13:09:45+03:00",
+    "priceAmount": 37,
+    "priceCurrency": "chaos",
+    "itemName": "Visions of Paradise",
+    "typeLine": "Irradiated Tablet",
+    "baseType": "Irradiated Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "If Map was not previously [IrradiatedNonAtlas|Irradiated], completing Map adds [IrradiatedNonAtlas|Irradiation] instead"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "efee10040017367554baa4d2a637f18c47ff37b56a235b4478342184f735fe1c",
+    "time": "2026-06-20T13:09:13+03:00",
+    "priceAmount": 170,
+    "priceCurrency": "exalted",
+    "itemName": "Wraeclast Besieged",
+    "typeLine": "Breach Tablet",
+    "baseType": "Breach Tablet",
+    "itemLevel": 79,
+    "explicitMods": [
+      "[ContainsBreach|Breach] Hives in Map have 4 additional waves of Hiveborn Monsters",
+      "[ContainsBreach|Breaches] in Map have 5% reduced Pack Size",
+      "Unstable [ContainsBreach|Breaches] in Map take 120 additional seconds to collapse after timer is filled",
+      "Unstable [ContainsBreach|Breaches] in Map spawn 5 additional [Rarity|Rare] Monsters when Stabilised"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "32d2c7724d6e1ba1dc081b6a0e7ae84aebe959e123a47715fbac80ec276ce501",
+    "time": "2026-06-20T13:08:56+03:00",
+    "priceAmount": 32,
+    "priceCurrency": "chaos",
+    "itemName": "Wraeclast Besieged",
+    "typeLine": "Breach Tablet",
+    "baseType": "Breach Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[ContainsBreach|Breach] Hives in Map have 3 additional waves of Hiveborn Monsters",
+      "[ContainsBreach|Breaches] in Map have 9% increased Pack Size",
+      "Unstable [ContainsBreach|Breaches] in Map take 120 additional seconds to collapse after timer is filled",
+      "Unstable [ContainsBreach|Breaches] in Map spawn 5 additional [Rarity|Rare] Monsters when Stabilised"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "e1c82a85cc63e9082069b6b7c7b66cb0a36277b2dad87fd90d034f6bb3281033",
+    "time": "2026-06-20T13:03:02+03:00",
+    "priceAmount": 42,
+    "priceCurrency": "chaos",
+    "itemName": "The Grand Project",
+    "typeLine": "Irradiated Tablet",
+    "baseType": "Irradiated Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Can only be applied to [PrecursorTower|Precursor Tower Maps]\nCompleting the Tower makes all nearby Maps accessible"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "2987a68a4e15f4e8d186a236ef0495d41ee974823cd2456b3d7c6a06c432dacf",
+    "time": "2026-06-20T13:02:51+03:00",
+    "priceAmount": 42,
+    "priceCurrency": "chaos",
+    "itemName": "The Grand Project",
+    "typeLine": "Irradiated Tablet",
+    "baseType": "Irradiated Tablet",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Can only be applied to [PrecursorTower|Precursor Tower Maps]\nCompleting the Tower makes all nearby Maps accessible"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  },
+  {
+    "itemId": "c7ae1a8ce7f86423594e00edb565df4527268c3103a36bf8aae760eca6e43a9f",
+    "time": "2026-06-20T13:02:06+03:00",
+    "priceAmount": 41,
+    "priceCurrency": "chaos",
+    "itemName": "Unforeseen Consequences",
+    "typeLine": "Abyss Tablet",
+    "baseType": "Abyss Tablet",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Map is overrun by the [ContainsAbyss|Abyssal]",
+      "Map contains 18 additional [ContainsAbyss|Abysses]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0
+  }
+]

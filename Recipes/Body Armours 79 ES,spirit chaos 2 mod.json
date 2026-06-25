@@ -1,0 +1,103 @@
+{
+  "name": "Body Armours 79 ES,spirit chaos 2 mod",
+  "savedAt": "2026-06-25T10:39:00.1638199+03:00",
+  "craftMode": "\u0425\u0430\u043E\u0441",
+  "plan": {
+    "expectedItemClass": "Body Armours",
+    "expectedItemSubType": "Energy Shield",
+    "expectedItemIlvl": 79,
+    "craftOrbName": "Chaos Orb",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "count",
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 1,
+              "members": [
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Unfaltering",
+                  "selectedAffixNames": [
+                    "Unfaltering"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "(101\u2013110)% increased Energy Shield",
+                      "minRoll": 101,
+                      "minRolls": [
+                        101
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Resplendent",
+                  "selectedAffixNames": [
+                    "Resplendent"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "\u002B(91\u201396) to maximum Energy Shield",
+                      "minRoll": 91,
+                      "minRolls": [
+                        91
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Divine",
+                  "selectedAffixNames": [
+                    "Divine"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "\u002B(26\u201330) to maximum Energy Shield",
+                      "minRoll": 26,
+                      "minRolls": [
+                        26
+                      ]
+                    },
+                    {
+                      "statTemplate": "(39\u201342)% increased Energy Shield",
+                      "minRoll": 39,
+                      "minRolls": [
+                        39
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Princess\u0027",
+                  "selectedAffixNames": [
+                    "Princess\u0027"
+                  ],
+                  "affixTier": 2,
+                  "lines": [
+                    {
+                      "statTemplate": "\u002B(54\u201356) to Spirit",
+                      "minRoll": 54,
+                      "minRolls": [
+                        54
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "whole": null
+          }
+        ]
+      }
+    ]
+  }
+}

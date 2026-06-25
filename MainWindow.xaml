@@ -1388,6 +1388,119 @@
             </Grid>
         </TabItem>
 
+        <TabItem x:Name="TabTradeHistory" Header="История продаж">
+            <Grid Margin="12">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="3*"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="160"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <StackPanel Grid.Row="0" Margin="0,0,0,8">
+                    <TextBlock Text="POESESSID (F12 → Application → Cookies → pathofexile.com)" FontWeight="SemiBold" Margin="0,0,0,4"
+                               ToolTip="Токен сессии. Хранится в settings.json локально. Обновляется при входе на сайт."/>
+                    <TextBox x:Name="TradeSessionIdBox" FontFamily="Consolas" FontSize="11" Padding="4,3"/>
+                </StackPanel>
+
+                <Grid Grid.Row="1" Margin="0,0,0,8">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"/>
+                        <ColumnDefinition Width="220"/>
+                        <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Text="Лига:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TradeHistoryLeagueBox" Grid.Column="1" Padding="4,2" Margin="0,0,8,0"/>
+                    <Button Grid.Column="2" Content="Обновить историю" Padding="6,4"
+                            Click="TradeHistoryFetchBtn_Click"
+                            ToolTip="Загрузить последние 100 продаж с pathofexile.com. Лимит: 5 запросов/мин."/>
+                    <Button Grid.Column="3" Content="Расч. крафт из логов" Padding="6,4" Margin="8,0,0,0"
+                            Click="CalcCraftFromLogs_Click"
+                            ToolTip="Прочитать лог-файлы за последние 4 дня и авторассчитать стоимость крафта для синих предметов."/>
+                </Grid>
+
+                <TextBlock x:Name="TradeHistoryStatusText" Grid.Row="2" FontSize="11" Foreground="#555"
+                           Margin="0,0,0,6" Text="История не загружена."/>
+
+                <!-- Индивидуальные продажи -->
+                <DataGrid x:Name="TradeHistoryGrid" Grid.Row="3"
+                          AutoGenerateColumns="False"
+                          CanUserAddRows="False"
+                          CanUserDeleteRows="False"
+                          GridLinesVisibility="Horizontal"
+                          HeadersVisibility="Column"
+                          SelectionMode="Single"
+                          VerticalScrollBarVisibility="Auto"
+                          CellEditEnding="TradeHistoryGrid_CellEditEnding">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Дата"        Binding="{Binding DateStr}"     IsReadOnly="True" Width="110"/>
+                        <DataGridTextColumn Header="Предмет"     Binding="{Binding DisplayName}" IsReadOnly="True" Width="200"/>
+                        <DataGridTextColumn Header="iLvl"        Binding="{Binding ItemLevel}"   IsReadOnly="True" Width="40"/>
+                        <DataGridTextColumn Header="Цена"        Binding="{Binding PriceStr}"    IsReadOnly="True" Width="90"/>
+                        <DataGridTextColumn Header="Крафт (div)" Width="95">
+                            <DataGridTextColumn.Binding>
+                                <Binding Path="CraftCostStr" Mode="TwoWay" UpdateSourceTrigger="LostFocus"/>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="База (div)" Width="85">
+                            <DataGridTextColumn.Binding>
+                                <Binding Path="BaseCostStr" Mode="TwoWay" UpdateSourceTrigger="LostFocus"/>
+                            </DataGridTextColumn.Binding>
+                        </DataGridTextColumn>
+                        <DataGridTextColumn Header="Прибыль"    Binding="{Binding ProfitStr}"   IsReadOnly="True" Width="95"/>
+                        <DataGridTextColumn Header="Моды"       Binding="{Binding ModsPreview}" IsReadOnly="True" Width="*"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+
+                <TextBlock x:Name="TradeHistorySummaryText" Grid.Row="4"
+                           Margin="0,4,0,0" FontSize="11" Foreground="#555" Text=""/>
+
+                <!-- Агрегат по синим базам -->
+                <Grid Grid.Row="5" Margin="0,8,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="Партии синих баз — введи «База/шт», прибыль пересчитается для всей партии"
+                               FontWeight="SemiBold" FontSize="11" Foreground="#1565C0" Margin="0,0,0,4"/>
+                    <DataGrid x:Name="TradeGroupGrid" Grid.Row="1"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              GridLinesVisibility="Horizontal"
+                              HeadersVisibility="Column"
+                              SelectionMode="Single"
+                              VerticalScrollBarVisibility="Auto"
+                              CellEditEnding="TradeGroupGrid_CellEditEnding">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="База"         Binding="{Binding BaseType}"       IsReadOnly="True" Width="160"/>
+                            <DataGridTextColumn Header="Прод."        Binding="{Binding CountStr}"       IsReadOnly="True" Width="45"/>
+                            <DataGridTextColumn Header="Ср. цена"     Binding="{Binding AvgPriceStr}"    IsReadOnly="True" Width="90"/>
+                            <DataGridTextColumn Header="Выручка"      Binding="{Binding TotalRevenueStr}" IsReadOnly="True" Width="90"/>
+                            <DataGridTextColumn Header="Крафт/шт (div)" Width="110">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="CraftCostStr" Mode="TwoWay" UpdateSourceTrigger="LostFocus"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="База/шт (div)" Width="105">
+                                <DataGridTextColumn.Binding>
+                                    <Binding Path="BaseCostStr" Mode="TwoWay" UpdateSourceTrigger="LostFocus"/>
+                                </DataGridTextColumn.Binding>
+                            </DataGridTextColumn>
+                            <DataGridTextColumn Header="Ср. прибыль" Binding="{Binding AvgProfitStr}"   IsReadOnly="True" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </Grid>
+
+                <TextBlock x:Name="TradeGroupSummaryText" Grid.Row="6"
+                           Margin="0,4,0,0" FontSize="11" Foreground="#555" Text=""/>
+            </Grid>
+        </TabItem>
+
         <TabItem x:Name="TabAppSettings" Header="Настройки приложения">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="16">

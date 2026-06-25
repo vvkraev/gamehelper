@@ -279,6 +279,12 @@ public sealed class AppSettings
     [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
     public List<ScreenRect>? RepricingCells { get; set; }
 
+    // ── История продаж (TRADE-3) ─────────────────────────────────────────────
+    /// <summary>POESESSID для запросов к trade2 API (история продаж через Ange). Хранится локально, не коммитить.</summary>
+    public string TradeSessionId { get; set; } = "";
+    /// <summary>Название лиги для запроса истории продаж (напр. «Runes of Aldur»).</summary>
+    public string TradeHistoryLeague { get; set; } = "";
+
     /// <summary>Вкладки торговца для переоценки (по умолчанию одна).</summary>
     public List<RepricingTabConfig>? RepricingTabs { get; set; }
 
