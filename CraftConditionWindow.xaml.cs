@@ -1136,14 +1136,16 @@ public partial class CraftConditionWindow : Window
             }
 
             // observed frequency from crafting sessions
-            // Affix weights are orb-independent — prefer the larger sample regardless of orb.
+            // For Aug+Annul, use the orb-specific stats — the generic (Chaos) dataset records
+            // 4–6 mods per snapshot, which distorts per-mod frequency vs Aug's 0–1 mods per snapshot.
             string freqStr = "";
             var statsOrb = _craftOrb?.Name ?? "";
+            var isAugOrbStats = statsOrb.Contains("Augmentation", StringComparison.OrdinalIgnoreCase);
             var statsKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType, statsOrb);
             Services.ClassStats? cs = null;
             if (_stats != null) _stats.PerClass.TryGetValue(statsKey, out cs);
             var genericStatsKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType);
-            if (_stats != null && _stats.PerClass.TryGetValue(genericStatsKey, out var genericCs) &&
+            if (!isAugOrbStats && _stats != null && _stats.PerClass.TryGetValue(genericStatsKey, out var genericCs) &&
                 genericCs.TotalSnapshots > (cs?.TotalSnapshots ?? 0))
                 cs = genericCs;
             if (_stats != null && cs != null && cs.TotalSnapshots > 0)
@@ -1943,6 +1945,23 @@ public partial class CraftConditionWindow : Window
                     costStr = $" · ~{best.EAug:F1} {orbName} + ~{best.EAnnul:F1} {annulName}";
                 }
             }
+            else if (orbName.Contains("Augmentation", StringComparison.OrdinalIgnoreCase))
+            {
+                // Aug+Annul cycle (k=1): каждый промах требует Annul для сброса мода.
+                var eAnnul = (1.0 - best.Chance) / best.Chance;
+                const string annulName = "Orb of Annulment";
+                var augDiv   = (double)(PoeNinjaPriceService.GetPrice(orbName)?.DivineValue   ?? 0m);
+                var annulDiv = (double)(PoeNinjaPriceService.GetPrice(annulName)?.DivineValue ?? 0m);
+                if (augDiv > 0 || annulDiv > 0)
+                {
+                    var totalDiv = best.EAug * augDiv + eAnnul * annulDiv;
+                    costStr = $" · ~{totalDiv:F2} div (~{best.EAug:F1} aug + ~{eAnnul:F1} ann)";
+                }
+                else
+                {
+                    costStr = $" · ~{best.EAug:F1} {orbName} + ~{eAnnul:F1} {annulName}";
+                }
+            }
             else
             {
                 // Single-orb mode (Chaos, Exalt, etc.)
@@ -1970,13 +1989,18 @@ public partial class CraftConditionWindow : Window
         var key = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType, orbName);
         _stats.PerClass.TryGetValue(key, out var cs);
 
-        // Affix weights are orb-independent — prefer the larger sample regardless of orb.
+        // For Aug+Annul, the orb-specific snapshots are most relevant — they record actual Aug
+        // results in the right context (blank items → 1 mod). The generic Chaos dataset records
+        // items with 4–6 mods after a Chaos roll, so freq(mod) per snapshot is incomparable.
+        // For non-Aug orbs, prefer the larger generic sample (relative weights are orb-independent).
+        var isAugOrb = orbName.Contains("Augmentation", StringComparison.OrdinalIgnoreCase);
         var genericKey = Services.AffixStatsData.MakeClassKey(ic, _plan.ExpectedItemSubType);
-        if (_stats.PerClass.TryGetValue(genericKey, out var genericCs) &&
+        if (!isAugOrb &&
+            _stats.PerClass.TryGetValue(genericKey, out var genericCs) &&
             genericCs.TotalSnapshots > (cs?.TotalSnapshots ?? 0))
         {
             cs = genericCs;
-            orbName = "";
+            // не очищаем orbName — он нужен для расчёта стоимости в div ниже
         }
 
         if (cs == null || cs.TotalSnapshots < 10)
@@ -1997,9 +2021,7 @@ public partial class CraftConditionWindow : Window
         if (p > 0 && !string.IsNullOrEmpty(orbName))
         {
             var eAug = 1.0 / p;
-            var isAugAnnul = orbName.Contains("Augmentation", StringComparison.OrdinalIgnoreCase) &&
-                _plan.OrAlternatives.Any(g => g.Clauses.Any(c =>
-                    c.Kind == CraftClauseKind.Count && c.Count?.MinMatchCount >= 2));
+            var isAugAnnul = orbName.Contains("Augmentation", StringComparison.OrdinalIgnoreCase);
             if (isAugAnnul)
             {
                 var eAnnul = (1.0 - p) / p;
