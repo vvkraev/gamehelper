@@ -43,6 +43,14 @@ public static class ParsedItemCraftEvaluator
         @"\b[xyzwvutsrqponmlk]\b",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
+    /// <summary>
+    /// Числовые константы в тексте стата (напр. «2» в «within 2m»): фиксированные значения,
+    /// не переваты; в шаблоне библиотеки хранятся как «#». Удаляются при финальном сравнении.
+    /// </summary>
+    private static readonly Regex FixedNumericInStat = new(
+        @"\d[\d,.]*",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
     public static bool ItemClassMatches(ParsedItem item, string expectedItemClass) =>
         string.Equals(item.ItemClass.Trim(), expectedItemClass.Trim(), StringComparison.OrdinalIgnoreCase);
 
@@ -156,6 +164,17 @@ public static class ParsedItemCraftEvaluator
                 aNoLetters = aNoLetters.Replace("  ", " ", StringComparison.Ordinal);
             if (aNoLetters.Length > 0 && bNoHash.Length > 0 &&
                 string.Equals(aNoLetters, bNoHash, StringComparison.Ordinal))
+                return true;
+
+            // Финальный шаг: стат содержит числовые константы (напр. «2» в «within 2m»),
+            // которые не являются перекатом, но шаблон библиотеки хранит их как «#».
+            // Убираем числа из aNoLetters и сравниваем с bNoHash.
+            var aNoFixed = FixedNumericInStat.Replace(aNoLetters, "");
+            while (aNoFixed.Contains("  ", StringComparison.Ordinal))
+                aNoFixed = aNoFixed.Replace("  ", " ", StringComparison.Ordinal);
+            aNoFixed = aNoFixed.Trim();
+            if (aNoFixed.Length >= minLenForPrefixMatch && bNoHash.Length >= minLenForPrefixMatch &&
+                string.Equals(aNoFixed, bNoHash, StringComparison.Ordinal))
                 return true;
 
             // Короткий шаблон целиком в строке предмета (в т.ч. суффикс вроде «(rune)»), без общих 2–3 слов.

@@ -114,8 +114,7 @@ public static class CraftAffixCascadeHelper
             return new List<string>();
 
         return entries
-            .Where(e => e.ItemClasses.Any(c => string.Equals(c, itemClass, StringComparison.Ordinal))
-                     && !e.AffixType.StartsWith("Desecrated", StringComparison.OrdinalIgnoreCase))
+            .Where(e => e.ItemClasses.Any(c => string.Equals(c, itemClass, StringComparison.Ordinal)))
             .Select(e => e.AffixType)
             .Distinct(StringComparer.Ordinal)
             .OrderBy(x => x, StringComparer.Ordinal)

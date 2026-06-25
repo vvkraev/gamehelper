@@ -230,7 +230,7 @@ function Get-ArmourSubClass([object]$modNo) {
 # (e.g. chaos vs. cold spell skills) that share a parent family (IncreaseSocketedGemLevel)
 # get globally-ranked tiers — T1=best ilvl in family, gaps appear where no sub-family
 # has a mod at that ilvl level.
-function Convert-ModsToEntries([array]$mods, [string]$itemClass, [string]$typeSubClass = "") {
+function Convert-ModsToEntries([array]$mods, [string]$itemClass, [string]$typeSubClass = "", [bool]$isDesecrated = $false) {
     $entries = [System.Collections.Generic.List[hashtable]]::new()
 
     # Step 1: group by ModFamilyList[0]
@@ -285,7 +285,11 @@ function Convert-ModsToEntries([array]$mods, [string]$itemClass, [string]$typeSu
             }
             $entry = @{
                 itemClasses    = @($itemClass)
-                affixType      = if ($genId -eq 1) { "Prefix Modifier" } else { "Suffix Modifier" }
+                affixType      = if ($isDesecrated) {
+                    if ($genId -eq 1) { "Desecrated Prefix Modifier" } else { "Desecrated Suffix Modifier" }
+                } else {
+                    if ($genId -eq 1) { "Prefix Modifier" } else { "Suffix Modifier" }
+                }
                 affixName      = [string]$mod.Name
                 affixTier      = $tierMap[$ilvl]
                 affixTierLevel = $ilvl
@@ -357,6 +361,23 @@ foreach ($def in $typesToProcess) {
             }
         }
         Write-Host "  Added $added new entries ($($entries.Count - $added) duplicates skipped)"
+
+        # Process desecrated mods separately
+        $desecMods = $data.desecrated
+        if ($desecMods -and $desecMods.Count -gt 0) {
+            Write-Host "  Found $($desecMods.Count) desecrated mods"
+            $desecEntries = Convert-ModsToEntries $desecMods $itemClass $subClass -isDesecrated $true
+            $desecAdded = 0
+            foreach ($e in $desecEntries) {
+                $sc  = if ($e.ContainsKey('affixSubClass')) { $e.affixSubClass } else { "" }
+                $key = "$($e.itemClasses[0])|$sc|$($e.affixName)|$($e.affixStats[0])|$($e.affixRanges[0])"
+                if ($seenKeys.Add($key)) {
+                    $allEntries.Add($e)
+                    $desecAdded++
+                }
+            }
+            Write-Host "  Added $desecAdded desecrated entries ($($desecEntries.Count - $desecAdded) duplicates skipped)"
+        }
     } catch {
         Write-Warning "  FAILED: $_"
     }
