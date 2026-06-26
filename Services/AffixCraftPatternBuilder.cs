@@ -84,6 +84,29 @@ public static class AffixCraftPatternBuilder
         return null;
     }
 
+    /// <summary>
+    /// Все записи с заданным именем/тиром/типом (одно имя может соответствовать разным семействам статов).
+    /// </summary>
+    public static IEnumerable<AffixLibraryEntry> FindAllByNameAndTierTypeCompatible(
+        IReadOnlyList<AffixLibraryEntry> entries,
+        string itemClass,
+        string affixType,
+        string affixName,
+        int tier)
+    {
+        foreach (var e in entries)
+        {
+            if (!e.ItemClasses.Any(x => string.Equals(x, itemClass, StringComparison.Ordinal)))
+                continue;
+            if (!ParsedItemCraftEvaluator.AffixTypesCompatibleForNamedMatch(affixType, e.AffixType))
+                continue;
+            if (e.AffixTier != tier)
+                continue;
+            if (string.Equals(e.AffixName.Trim(), affixName.Trim(), StringComparison.Ordinal))
+                yield return e;
+        }
+    }
+
     /// <summary>Запись по классу предмета, типу и имени без фильтрации по тиру (имя однозначно задаёт тир в PoE2).</summary>
     public static AffixLibraryEntry? FindEntryByNameTypeAnyTier(
         IReadOnlyList<AffixLibraryEntry> entries,

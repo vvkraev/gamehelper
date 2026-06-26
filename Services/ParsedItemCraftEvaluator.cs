@@ -35,6 +35,12 @@ public static class ParsedItemCraftEvaluator
         @"^\([^)]+\)(?=%)",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
+    /// Встроенный диапазон тира в шаблоне библиотеки: «...grant (5–10)% increased…» → «...grant % increased…».
+    /// Парсер удаляет и переброс, и скобочный диапазон из StatText, поэтому шаблон нужно тоже очистить.
+    private static readonly Regex EmbeddedTierRange = new(
+        @"\(\d+(?:[.,]\d+)?[–\-]\d+(?:[.,]\d+)?\)",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
     /// <summary>
     /// Одиночные буквенные плейсхолдеры, которые ItemParser подставляет вместо перекатов в мультиролл-строках:
     /// «Adds X to Y Cold damage» — X и Y заменяют числа 22 и 34. Плейсхолдеры: X Y Z W V U T S R Q P O N M L K.
@@ -51,8 +57,16 @@ public static class ParsedItemCraftEvaluator
         @"\d[\d,.]*",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
-    public static bool ItemClassMatches(ParsedItem item, string expectedItemClass) =>
-        string.Equals(item.ItemClass.Trim(), expectedItemClass.Trim(), StringComparison.OrdinalIgnoreCase);
+    public static bool ItemClassMatches(ParsedItem item, string expectedItemClass)
+    {
+        var actual   = item.ItemClass.Trim();
+        var expected = expectedItemClass.Trim();
+        // In-game item class may be generic (e.g. "Jewels") while the library uses a
+        // specific sub-type (e.g. "Time-Lost Sapphire Jewels"). Accept if the expected
+        // class ends with the game-reported class ("Jewels" ⊆ "Time-Lost Sapphire Jewels").
+        return string.Equals(actual, expected, StringComparison.OrdinalIgnoreCase)
+            || expected.EndsWith(actual, StringComparison.OrdinalIgnoreCase);
+    }
 
     /// <summary>
     /// Тип из условия/библиотеки и тип с предмета считаются одним семейством для поиска по имени+тиру
@@ -156,6 +170,15 @@ public static class ParsedItemCraftEvaluator
                 if (string.Equals(aNoRoll, bStripped, StringComparison.Ordinal))
                     return true;
             }
+
+            // Шаблон библиотеки хранит диапазон тира в скобках «(5–10)%», а парсер удаляет
+            // и сам переброс, и скобочный диапазон из StatText («...grant % increased…»).
+            // Убираем встроенный диапазон из b и сравниваем с aNoRoll.
+            var bNoTierRange = EmbeddedTierRange.Replace(b, "").Trim();
+            while (bNoTierRange.Contains("  ", StringComparison.Ordinal))
+                bNoTierRange = bNoTierRange.Replace("  ", " ", StringComparison.Ordinal);
+            if (bNoTierRange.Length > 0 && string.Equals(aNoRoll, bNoTierRange, StringComparison.Ordinal))
+                return true;
 
             // Мультиролл-стат: ItemParser ставит буквенные плейсхолдеры x/y/z (после нормализации),
             // рецепт хранит '#'. Убираем буквы-плейсхолдеры из a и сравниваем с bNoHash.
@@ -677,12 +700,13 @@ public static class ParsedItemCraftEvaluator
             return false;
         }
 
-        var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
-            lib,
-            expectedItemClass,
-            whole.AffixType,
-            useName,
-            whole.AffixTier);
+        // When multiple library entries share the same name+tier (e.g. two "of Potency" families),
+        // pick the one whose stats match all condition lines rather than returning the first found.
+        var candidates = AffixCraftPatternBuilder
+            .FindAllByNameAndTierTypeCompatible(lib, expectedItemClass, whole.AffixType, useName, whole.AffixTier)
+            .ToList();
+        var entry = candidates.FirstOrDefault(c => whole.Lines.All(l => ResolveStatIndexInEntry(c, l.StatTemplate) >= 0))
+            ?? candidates.FirstOrDefault();
         if (entry is null)
         {
             detail =
@@ -737,12 +761,12 @@ public static class ParsedItemCraftEvaluator
     {
         foreach (var nm in whole.EffectiveWholeAffixNames())
         {
-            var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
-                lib,
-                expectedItemClass,
-                whole.AffixType,
-                nm,
-                whole.AffixTier);
+            // Pick the candidate whose stats match the condition lines (disambiguates duplicate names).
+            var candidates = AffixCraftPatternBuilder
+                .FindAllByNameAndTierTypeCompatible(lib, expectedItemClass, whole.AffixType, nm, whole.AffixTier)
+                .ToList();
+            var entry = candidates.FirstOrDefault(c => whole.Lines.All(l => ResolveStatIndexInEntry(c, l.StatTemplate) >= 0))
+                ?? candidates.FirstOrDefault();
             if (entry is null)
                 continue;
 

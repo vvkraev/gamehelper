@@ -1,0 +1,347 @@
+{
+  "started": "2026-06-26",
+  "item": "Time-Lost Sapphire",
+  "target": "CS=12% (fractured) + CD=12% + CHS=8% + VL radius",
+  "theory_cost_div": 131.23,
+  "bases_bought": {
+    "cs_10_max": 3,
+    "cs_sub10": 6,
+    "cost_div": 27.0,
+    "note": "6 баз sub-10 по 1d + 3 базы CS=10 по 7d = 27d"
+  },
+  "steps": [
+    {
+      "step": "base_acquisition",
+      "description": "Покупка баз: 6 sub-10 по 1d + 3 CS=10 по 7d",
+      "spent_div": 27.0
+    },
+    {
+      "step": "divine_sub10_bases",
+      "description": "Дивайн 6 баз sub-10 до CS=10. 43 Divine Orb.",
+      "spent_div": 43.0,
+      "detail": {
+        "divine_orbs": 43,
+        "bases_rolled": 6,
+        "expected_divines": 36,
+        "actual_divines": 43,
+        "vs_buying_prerolled": "43d divine + 6d базы = 49d vs 6×7d = 42d (чуть не повезло)"
+      }
+    },
+    {
+      "step": "add_desecrated_prefix",
+      "description": "Preserved Cranium + Omen of Sinistral Necromancy → добавить десекрейтед мод в PREFIX. 9 Craniums. 2 базы уже имели десекрейтед мод.",
+      "spent_div": 24.681,
+      "detail": {
+        "preserved_craniums": 9,
+        "omen_sinistral_necromancy": 9,
+        "cranium_price_div": 2.74,
+        "mechanic": "Desecrated PREFIX + CS suffix + junk suffix = 3 mods → Fracturing Orb 1:3 chance to fracture CS",
+        "items_with_existing_desecrated": 2,
+        "note": "9 Craniums на 9 баз + 2 базы с готовым десекрейтед = 11 предметов к фрактуре",
+        "items_total_ready": 11
+      }
+    },
+    {
+      "step": "fracturing_orb",
+      "description": "Fracturing Orb × 11. Успехов (CS fractured): 4. Провалов: 7.",
+      "spent_div": 88.33,
+      "detail": {
+        "fracturing_orbs": 11,
+        "orb_price_div": 8.03,
+        "successes": 4,
+        "failures": 7,
+        "p_per_item": "1/3",
+        "expected_successes": 3.7
+      }
+    },
+    {
+      "step": "annulment_strip",
+      "description": "Orb of Annulment × 8 (по 2 на каждый из 4 предметов). Гарантированно оставляет только CS(fractured).",
+      "spent_div": 5.586,
+      "detail": {
+        "orbs_of_annulment": 8,
+        "annul_price_div": 0.6982,
+        "mechanic": "3-mod item (CS frac S + junk S + desecrated P) → 2 annuls гарантированно = только CS(frac)",
+        "items": 4
+      }
+    },
+    {
+      "step": "chaos_orb_cd_suffix",
+      "description": "Chaos Orb × 177 (без учёта потерь от багов) — поиск CD-суффикса на 4 базах.",
+      "spent_div": 18.39,
+      "detail": {
+        "chaos_orbs": 177,
+        "chaos_price_div": 0.1039,
+        "price_source": "poe_ninja 2026-06-26 14:57",
+        "actual_orbs_spent": 451,
+        "wasted_due_to_bugs": 274,
+        "bug_cost_div": 28.48,
+        "cells": 4,
+        "completions": {
+          "cell_1": "of Unmaking (CS) — первое попадание на 21-м хаосе",
+          "cell_2": "of Potency (CD) — первое попадание на 30-м хаосе",
+          "cell_3": "? — 9 хаосов",
+          "cell_4": "? — 117 хаосов"
+        },
+        "note": "Записано как 177 (без багов). Фактически потрачено 451 хаос из-за двух багов в приложении."
+      }
+    },
+    {
+      "step": "add_two_prefixes_for_liquid_contempt",
+      "description": "2× Exalted Orb на каждый из 4 предметов — доводим до 2P+2S перед Liquid Contempt.",
+      "spent_div": 0.02,
+      "detail": {
+        "exalted_orbs": 8,
+        "exalt_price_div": 0.00276,
+        "goal": "2P + 2S (CS frac + CD) → 1 свободный prefix + 1 свободный suffix",
+        "reason": "При равном числе свободных слотов P(попасть в suffix) = 1/2"
+      }
+    },
+    {
+      "step": "liquid_contempt",
+      "description": "Potent Liquid Contempt × 4 (по 1 на предмет, раунд 1) — добавление crafted +1 Suffix prefix.",
+      "spent_div": 8.6,
+      "detail": {
+        "liquid_contempt_used": 4,
+        "price_per_unit_div": 2.15,
+        "price_source": "poe_ninja 2026-06-26 14:57",
+        "mechanic": "Добавляет 1 мод в случайный свободный слот. При 1 free prefix + 1 free suffix → P = 50%.",
+        "results": {
+          "success_hit_prefix": 2,
+          "fail_hit_suffix": 2
+        },
+        "empirical_p_suffix": "2/4 = 50% (n=4, слишком мало для вывода)",
+        "note": "Цель — попасть в PREFIX (crafted +1 Suffix). Попадание в суффикс = промах."
+      }
+    },
+    {
+      "step": "annul_after_liquid_contempt_fail",
+      "description": "Orb of Annulment × 4 (по 2 на 2 провальных предмета) — снять добавленный суффикс и CD для перезапуска.",
+      "spent_div": 2.79,
+      "detail": {
+        "annul_orbs": 4,
+        "annul_price_div": 0.6982,
+        "items_failed": 2,
+        "annuls_per_item": 2,
+        "result": "2 базы возвращены к CS(frac) only → перезапуск хаос-реролов"
+      }
+    },
+    {
+      "step": "chaos_orb_cd_suffix_retry_r1",
+      "description": "Chaos Orb × 64 — повторный поиск CD на 2 базах (сессия 20:41). Обе нашли CD.",
+      "spent_div": 6.65,
+      "detail": {
+        "chaos_orbs": 64,
+        "chaos_price_div": 0.1039,
+        "session_log": "craft_2026-06-26_20-41-47--2026-06-26_20-42-35.txt",
+        "cell_1_found_attempt": 42,
+        "cell_2_found_attempt": 66,
+        "items_completed": 2
+      }
+    },
+    {
+      "step": "liquid_contempt_r2",
+      "description": "Potent Liquid Contempt × 2 (раунд 2 на 2 перекатанных базах). 1 успех (суффикс), 1 промах (префикс).",
+      "spent_div": 4.3,
+      "detail": {
+        "liquid_contempt_used": 2,
+        "price_per_unit_div": 2.15,
+        "success_hit_suffix": 1,
+        "fail_hit_prefix": 1,
+        "cumulative_results": "3 успеха / 5 попыток = 60% (n=5)"
+      }
+    },
+    {
+      "step": "annul_after_lc_fail_r2",
+      "description": "Orb of Annulment × 2 (1 провальная база) — снять добавленный префикс и CD.",
+      "spent_div": 1.4,
+      "detail": {
+        "annul_orbs": 2,
+        "annul_price_div": 0.6982,
+        "result": "1 база возвращена к CS(frac) only → перезапуск хаос-реролов"
+      }
+    },
+    {
+      "step": "chaos_orb_cd_suffix_retry_r2",
+      "description": "Chaos Orb × 64 — повторный поиск CD на 1 базе (сессия 20:52). Найдено.",
+      "spent_div": 6.65,
+      "detail": {
+        "chaos_orbs": 64,
+        "chaos_price_div": 0.1039,
+        "session_log": "craft_2026-06-26_20-52-37--2026-06-26_20-53-26.txt",
+        "found_at_attempt": 65
+      }
+    },
+    {
+      "step": "liquid_contempt_r3",
+      "description": "Potent Liquid Contempt × 1 (раунд 3). Промах — попал в PREFIX.",
+      "spent_div": 2.15,
+      "detail": {
+        "liquid_contempt_used": 1,
+        "price_per_unit_div": 2.15,
+        "result": "prefix",
+        "cumulative_results": "3 успеха / 6 попыток = 50% (n=6)"
+      }
+    },
+    {
+      "step": "annul_after_lc_fail_r3",
+      "description": "Orb of Annulment × 2 — снять добавленный префикс и CD.",
+      "spent_div": 1.40,
+      "detail": {
+        "annul_orbs": 2,
+        "annul_price_div": 0.6982,
+        "result": "1 база возвращена к CS(frac) only → снова хаос"
+      }
+    },
+    {
+      "step": "chaos_orb_cd_suffix_retry_r3",
+      "description": "Chaos Orb × 184 — повторный поиск CD на 1 базе (3 сессии: закончились хаосы 2×, докупил).",
+      "spent_div": 19.12,
+      "detail": {
+        "chaos_orbs": 184,
+        "chaos_price_div": 0.1039,
+        "sessions": {
+          "craft_2026-06-26_20-54-33": "30 хаосов — Cancelled (закончились хаосы)",
+          "craft_2026-06-26_20-56-09": "125 хаосов — Cancelled (закончились хаосы)",
+          "craft_2026-06-26_20-57-57": "29 хаосов — AffixFound (попытка 30)"
+        }
+      }
+    },
+    {
+      "step": "liquid_contempt_r4",
+      "description": "Potent Liquid Contempt × 1 (раунд 4, финальная база). УСПЕХ — суффикс добавлен.",
+      "spent_div": 2.15,
+      "detail": {
+        "liquid_contempt_used": 1,
+        "price_per_unit_div": 2.15,
+        "result": "suffix",
+        "cumulative_results": "4 успеха / 7 попыток = 57% (n=7)",
+        "status": "Все 4 базы имеют CS(frac) + CD + crafted +1 Suffix prefix — готовы к Desecrate"
+      }
+    },
+    {
+      "step": "desecrate_reveal",
+      "description": "Abyssal Echo — поиск CHS суффикса через Desecrate на 4 базах. 14 циклов суммарно.",
+      "spent_div": 22.0,
+      "detail": {
+        "abyssal_echo_cycles_total": 14,
+        "bases": 4,
+        "source_log": "desecrate_reveal_log.jsonl",
+        "per_base_cycles": { "base_1": 4, "base_2": 3, "base_3": 5, "base_4": 2 },
+        "chosen_mods": {
+          "base_1": "7% increased Critical Hit Chance (T1, 3–7%)",
+          "base_2": "4% increased Critical Hit Chance for Spells",
+          "base_3": "4% increased Critical Hit Chance",
+          "base_4": "3% increased Critical Hit Chance for Spells"
+        },
+        "note": "Оценка 22d — точная цена Abyssal Echo не записана"
+      }
+    },
+    {
+      "step": "divine_orb_sub_max_rolls",
+      "description": "Divine Orb — улучшение роллов CSD/CD на 4 базах. Результат: CSD 6→9 на базе 1.",
+      "spent_div": null,
+      "detail": {
+        "divine_orbs": null,
+        "note": "TBD — количество не записано. CSD base 1: 6→9. CD уже был 10/10 (max)."
+      }
+    },
+    {
+      "step": "sinistral_annulment",
+      "description": "Omen of Sinistral Annulment × 7 на 4 базах — удаление crafted '+1 Suffix' PREFIX.",
+      "spent_div": 82.53,
+      "detail": {
+        "sinistral_annulments_used": 7,
+        "price_per_attempt_div": 11.79,
+        "breakdown": {
+          "omen_price_div": 11.09,
+          "annul_orb_price_div": 0.70
+        },
+        "mechanic": "Orb of Annulment с Omen of Sinistral Annulment → удаляет только PREFIX случайно. При 2 префиксах (Spell Damage T1 + crafted) → P(hit crafted) = 0.5.",
+        "p_per_attempt": 0.5,
+        "expected_attempts": 6.0,
+        "actual_attempts": 7,
+        "bases": 4,
+        "note": "Цель: убрать crafted, сохранить Spell Damage T1. После успеха: 3 суффикса при лимите 2 = overflow."
+      }
+    },
+    {
+      "step": "chaos_orb_2_good_prefixes",
+      "description": "Chaos Orb × 516 на 4 базах — поиск COUNT≥2 T1 префиксов через overflow-механику (хаос не может менять суффиксы).",
+      "spent_div": 53.61,
+      "detail": {
+        "chaos_orbs": 516,
+        "chaos_price_div": 0.1039,
+        "mechanic": "3 суффикса при лимите 2 (overflow) → Chaos Orb не может применить суффиксную замену → только перекатывает 0–2 PREFIX слота",
+        "condition": "COUNT≥2 из 12 T1 префиксов",
+        "sessions": {
+          "craft_2026-06-26_16-22-16": "139 хаосов — Cancelled",
+          "craft_2026-06-26_16-55-17": "134 хаосов — AffixFound",
+          "craft_2026-06-26_23-33-07": "10 хаосов — MaxAttemptsReached",
+          "craft_2026-06-26_23-33-59": "6 хаосов — AffixFound",
+          "craft_2026-06-26_23-54-47": "100 хаосов — MaxAttemptsReached",
+          "craft_2026-06-26_23-56-26": "127 хаосов — AffixFound (БАЗА 1 ГОТОВА)"
+        },
+        "base_1_result": "Spell Damage 2% T1 + Energy Shield 3% T1 (COUNT=2, условие выполнено)"
+      }
+    },
+    {
+      "step": "delirium_oil_vl_base1",
+      "description": "масло делириума (Delirium Oil) × 1 на базе 1 — добавление 'Upgrades Radius to Very Large' (crafted C prefix).",
+      "spent_div": null,
+      "detail": {
+        "price_per_unit_div": null,
+        "mechanic": "Добавляет crafted 'Upgrades Radius to Very Large' и удаляет 1 случайный PREFIX. При 2 префиксах → P(удалить нужный) = 0.5.",
+        "removed_prefix": "Energy Shield 3% T1 (повезло — Spell Damage T1 выжил)",
+        "kept_prefix": "Spell Damage 2% T1",
+        "p_keep_target": 0.5,
+        "result": "БАЗА 1 ЗАВЕРШЕНА. Radius → Very Large.",
+        "note": "TBD: цена масла делириума не записана"
+      }
+    }
+  ],
+  "completed_bases": [
+    {
+      "base": 1,
+      "name": "Pandemonium Splinter — Time-Lost Sapphire",
+      "item_level": 80,
+      "radius": "Very Large",
+      "mods": {
+        "prefixes": [
+          { "name": "Mystic", "tier": 1, "stat": "Small Passive Skills in Radius also grant 2% increased Spell Damage", "roll": 2, "range": "1-2" },
+          { "type": "crafted", "stat": "Upgrades Radius to Very Large", "note": "Unscalable Value (C)" }
+        ],
+        "suffixes": [
+          { "name": "of Potency", "tier": 1, "type": "fractured", "stat": "Notable Passive Skills also grant increased Critical Damage Bonus", "roll": 10, "range": "5-10" },
+          { "name": "of Unmaking", "tier": 1, "stat": "Notable Passive Skills also grant increased Critical Spell Damage Bonus", "roll": 9, "range": "5-10" },
+          { "tier": 1, "type": "desecrate", "stat": "Notable Passive Skills also grant increased Critical Hit Chance", "roll": 7, "range": "3-7" }
+        ]
+      },
+      "listing_price_div": 215,
+      "listing_date": "2026-06-27",
+      "sale_price_div": null,
+      "status": "listed"
+    }
+  ],
+  "pending_bases": [
+    { "base": 2, "status": "needs_delirium_oil_or_chaos" },
+    { "base": 3, "status": "needs_delirium_oil_or_chaos" },
+    { "base": 4, "status": "needs_delirium_oil_or_chaos" }
+  ],
+  "totals": {
+    "spent_div_tracked": 262.27,
+    "spent_div_desecrate_estimated": 22.0,
+    "spent_div_sinistral_annulment": 82.53,
+    "spent_div_chaos_2prefix": 53.61,
+    "spent_div_divine_tbd": null,
+    "spent_div_delirium_oil_tbd": null,
+    "spent_div_total_known": 420.41,
+    "sold_div": null,
+    "margin_div": null,
+    "active_bases": 4,
+    "completed_bases": 1,
+    "note": "420.41d — известные расходы. Без: Divine orbs (TBD) + масло делириума × 4 (TBD)"
+  },
+  "status": "in_progress_base1_listed",
+  "theory_cost_div_updated": 149.62
+}

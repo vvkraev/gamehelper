@@ -1,0 +1,232 @@
+{
+  "name": "Time-Lost Sapphire Jewels 2 good prefix",
+  "savedAt": "2026-06-26T23:36:01.6945648+03:00",
+  "craftMode": "\u0425\u0430\u043E\u0441",
+  "plan": {
+    "expectedItemClass": "Time-Lost Sapphire Jewels",
+    "expectedItemSubType": "",
+    "expectedItemIlvl": 0,
+    "craftOrbName": "Chaos Orb",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "count",
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 2,
+              "members": [
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Serene",
+                  "selectedAffixNames": [
+                    "Serene"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant (5\u20137)% faster start of Energy Shield Recharge",
+                      "minRoll": 5,
+                      "minRolls": [
+                        5
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Blasting",
+                  "selectedAffixNames": [
+                    "Blasting"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant (2\u20133)% increased Area of Effect",
+                      "minRoll": 2,
+                      "minRolls": [
+                        2
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Focusing",
+                  "selectedAffixNames": [
+                    "Focusing"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant (15\u201325)% increased Energy Shield from Equipped Focus",
+                      "minRoll": 15,
+                      "minRolls": [
+                        15
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Acrimonious",
+                  "selectedAffixNames": [
+                    "Acrimonious"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant (3\u20137)% increased Magnitude of Ailments you inflict",
+                      "minRoll": 3,
+                      "minRolls": [
+                        3
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Rancorous",
+                  "selectedAffixNames": [
+                    "Rancorous"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant (5\u201310)% increased Magnitude of Damaging Ailments you inflict with Critical Hits",
+                      "minRoll": 5,
+                      "minRolls": [
+                        5
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Jolting",
+                  "selectedAffixNames": [
+                    "Jolting"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant (5\u20137)% increased Magnitude of Shock you inflict",
+                      "minRoll": 5,
+                      "minRolls": [
+                        5
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Chilling",
+                  "selectedAffixNames": [
+                    "Chilling"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Small Passive Skills in Radius also grant (1\u20132)% increased Cold Damage",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Overgrown",
+                  "selectedAffixNames": [
+                    "Overgrown"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Small Passive Skills in Radius also grant (1\u20132)% increased Damage with Plant Skills",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Prismatic",
+                  "selectedAffixNames": [
+                    "Prismatic"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Small Passive Skills in Radius also grant (1\u20132)% increased Elemental Damage",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Shimmering",
+                  "selectedAffixNames": [
+                    "Shimmering"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Small Passive Skills in Radius also grant (2\u20133)% increased maximum Energy Shield",
+                      "minRoll": 2,
+                      "minRolls": [
+                        2
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Mystic",
+                  "selectedAffixNames": [
+                    "Mystic"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Small Passive Skills in Radius also grant (1\u20132)% increased Spell Damage",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Triggered",
+                  "selectedAffixNames": [
+                    "Triggered"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Small Passive Skills in Radius also grant Triggered Spells deal (2\u20133)% increased Spell Damage",
+                      "minRoll": 2,
+                      "minRolls": [
+                        2
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "whole": null
+          }
+        ]
+      }
+    ]
+  }
+}

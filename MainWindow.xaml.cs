@@ -26,6 +26,10 @@ public partial class MainWindow : Window
 
     private ScreenRect? _currencyInventoryRegion;
     private ScreenRect? _ritualInventoryRegion;
+    private ScreenRect _desecrateCaptureArea;
+    private int _desecrateCycle = 1;
+    private int _desecrateAttempt = 1;
+    private System.Drawing.Bitmap? _desecrateLastCapture;
     private Dictionary<string, ScreenRect> _ritualItemRegions = new();
     private List<ScreenRect> _itemCellRegions = new();
     private List<ScreenRect> _omenSinistralCells = new();
@@ -877,6 +881,9 @@ public partial class MainWindow : Window
         UpdateChancingStartStopHotkeyDisplay();
         RegisterChancingStartStopHotkey();
 
+        _desecrateCaptureArea = s.DesecrateCaptureArea;
+        DesecrateAreaInfo.Text = _desecrateCaptureArea.Width > 0 ? FormatRect(_desecrateCaptureArea) : "не задана";
+
         TradeSessionIdBox.Text = s.TradeSessionId ?? "";
         TradeHistoryLeagueBox.Text = string.IsNullOrWhiteSpace(s.TradeHistoryLeague)
             ? (string.IsNullOrWhiteSpace(s.PoeNinjaLeague) ? "Runes of Aldur" : s.PoeNinjaLeague)
@@ -1038,6 +1045,7 @@ public partial class MainWindow : Window
         s.ChancingStartStopModifiers  = _chancingStartStopModifiers;
         s.TradeSessionId      = TradeSessionIdBox.Text.Trim();
         s.TradeHistoryLeague  = TradeHistoryLeagueBox.Text.Trim();
+        s.DesecrateCaptureArea = _desecrateCaptureArea;
         _reforgeState.ApplyToSettings(s);
         SettingsStore.Save(s);
     }
@@ -5665,6 +5673,82 @@ public partial class MainWindow : Window
             Services.TradeHistoryService.Save(_tradeHistory);
             UpdateTradeHistorySummary();
         }, System.Windows.Threading.DispatcherPriority.Background);
+    }
+
+    // ── Десекрейт (Reveal Desecrate) ─────────────────────────────────────────
+
+    [DllImport("gdi32.dll")]
+    private static extern bool DeleteObject(IntPtr hObject);
+
+    private void DesecratePick_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _desecrateCaptureArea = region;
+        DesecrateAreaInfo.Text = FormatRect(region);
+        SaveSettings();
+    }
+
+    private void DesecrateScreenshot_Click(object sender, RoutedEventArgs e)
+    {
+        if (_desecrateCaptureArea.Width == 0 || _desecrateCaptureArea.Height == 0)
+        {
+            MessageBox.Show("Сначала задайте область захвата.", "Десекрейт",
+                MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+        _desecrateLastCapture?.Dispose();
+        _desecrateLastCapture = ScreenCaptureHelper.CaptureRegion(_desecrateCaptureArea);
+        var hBitmap = _desecrateLastCapture.GetHbitmap();
+        try
+        {
+            DesecratePreviewImage.Source = Imaging.CreateBitmapSourceFromHBitmap(
+                hBitmap, IntPtr.Zero, Int32Rect.Empty,
+                System.Windows.Media.Imaging.BitmapSizeOptions.FromEmptyOptions());
+        }
+        finally
+        {
+            DeleteObject(hBitmap);
+        }
+        DesecrateSave.IsEnabled = true;
+        DesecrateSaveInfo.Text = "";
+    }
+
+    private void DesecrateSave_Click(object sender, RoutedEventArgs e)
+    {
+        if (_desecrateLastCapture is null) return;
+        var path = Path.Combine(ProjectPaths.GetProjectRoot(), "desecrate_last.png");
+        _desecrateLastCapture.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+        DesecrateSaveInfo.Text = "Сохранён";
+    }
+
+    private void DesecrateAccept_Click(object sender, RoutedEventArgs e)
+    {
+        _desecrateCycle = 1;
+        _desecrateAttempt = 1;
+        DesecratePreviewImage.Source = null;
+        UpdateDesecrateState();
+    }
+
+    private void DesecrateReroll_Click(object sender, RoutedEventArgs e)
+    {
+        _desecrateAttempt = 2;
+        UpdateDesecrateState();
+    }
+
+    private void DesecrateResetCycle_Click(object sender, RoutedEventArgs e)
+    {
+        _desecrateCycle++;
+        _desecrateAttempt = 1;
+        DesecratePreviewImage.Source = null;
+        UpdateDesecrateState();
+    }
+
+    private void UpdateDesecrateState()
+    {
+        DesecrateStateLabel.Text = $"Цикл {_desecrateCycle} — Попытка {_desecrateAttempt} / 2";
+        DesecrateReroll.Visibility = _desecrateAttempt == 1 ? Visibility.Visible : Visibility.Collapsed;
+        DesecrateResetCycle.Visibility = _desecrateAttempt == 2 ? Visibility.Visible : Visibility.Collapsed;
     }
 
     private sealed class SaleRow : System.ComponentModel.INotifyPropertyChanged

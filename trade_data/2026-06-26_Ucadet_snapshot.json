@@ -1,0 +1,1868 @@
+{
+  "date": "2026-06-26",
+  "crafter": "Ucadet#5740",
+  "account_hash": "8abeec8bf64cc574558cc954c87dc288",
+  "trade_search_url": "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/QL74qMJjTw",
+  "filter_note": "price >= 20 divine, non-unique, account = Ucadet#5740 (оригинальные фильтры)",
+  "total_in_search": 49,
+  "fetched": 49,
+  "items": [
+    {
+      "id": "1a73cc2a383dcc630a37518e375fbd24155fa5530e8bb51df4a9fb659c60f2a4",
+      "name": "Loath Crest",
+      "base": "Ancestral Tiara",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": false,
+      "sockets": 1,
+      "price_amount": 22,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+55 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+157 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "30% increased [Critical|Critical Hit] Chance"
+        },
+        {
+          "type": "explicit",
+          "text": "+26% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+36% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "99% increased [EnergyShield|Energy Shield]"
+        }
+      ]
+    },
+    {
+      "id": "4013c012dcdbdf71bf773a2d78015d1ae3c0b63d6eb63f73fa73e8bbce7e50ac",
+      "name": "Miracle Grasp",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 25,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "31% increased Mana Cost [Efficiency] of [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "21% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "80% increased Mana Regeneration Rate"
+        },
+        {
+          "type": "explicit",
+          "text": "+20% to Maximum [Quality]"
+        }
+      ]
+    },
+    {
+      "id": "3e1a433bc574edd1bc7e14b82ee66916bd399b90d150b4e60a1978c09c7f1a34",
+      "name": "Chimeric Band",
+      "base": "Unset Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 25,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+105 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "15% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "25% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "22% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "6% increased maximum Mana"
+        },
+        {
+          "type": "desecrated",
+          "text": "15% increased [Spell] Damage while on Full [EnergyShield|Energy Shield]"
+        }
+      ]
+    },
+    {
+      "id": "61f0a5458787a9d997692af1a02ee68458d68465cacb53277b7095e15330c756",
+      "name": "Blood Brow",
+      "base": "Ancestral Tiara",
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": false,
+      "sockets": 1,
+      "price_amount": 27,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+64 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "139% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+37 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+25% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "22.5 Life Regeneration per second"
+        },
+        {
+          "type": "desecrated",
+          "text": "8% increased [Spirit] [Reservation] [Efficiency] of Skills"
+        }
+      ]
+    },
+    {
+      "id": "0ef39e113744588181143e06c93072e56a1376f32b9af27a3c785fd8d83062f5",
+      "name": "Viper Prism",
+      "base": "Time-Lost Sapphire",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 29,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Notable Passive Skills in Radius also grant [Minion|Minions] have 9% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "Upgrades Radius to Large"
+        }
+      ]
+    },
+    {
+      "id": "b5fd25378ed90eade339bedc45c7f317e48924141404f14f1ce60a28f99834df",
+      "name": "Loath Trail",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 31,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "51% reduced [Chill|Chill] Duration on you"
+        },
+        {
+          "type": "explicit",
+          "text": "+56 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "99% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+119 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "+27% to [Resistances|Chaos Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        }
+      ]
+    },
+    {
+      "id": "80c85802b460348d569d0d7f4f248eb5261537bd8dda3b7d80df6d6966c7611a",
+      "name": "Loath Circle",
+      "base": "Amethyst Ring",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 32,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+224 to [Evasion] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "+179 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "16% increased [ItemRarity|Rarity of Items] found"
+        },
+        {
+          "type": "explicit",
+          "text": "[Minion|Minions] have +26% to all Elemental [Resistances]"
+        },
+        {
+          "type": "explicit",
+          "text": "[Minion|Minions] have 57% increased [Critical|Critical Hit Chance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "17% increased [ItemRarity|Rarity of Items] found"
+        }
+      ]
+    },
+    {
+      "id": "1f31d66b75ef769c80893e5232daa36621808d0685e80c093e43cc8d3a6c2315",
+      "name": "Spirit Ward",
+      "base": "Ancestral Tiara",
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": false,
+      "sockets": 1,
+      "price_amount": 35,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+72 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "129% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+27 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to [Intelligence|Intelligence]"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "+17% to Cold and Chaos Resistances"
+        }
+      ]
+    },
+    {
+      "id": "0bd618b815092c00283aebd3d25a96658a836119710e3c3caf60da5f6ddadea1",
+      "name": "Gale Dash",
+      "base": "Luxurious Slippers",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 2,
+      "price_amount": 41,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+53 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "68% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+25% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+15 to [Spirit|Spirit]"
+        },
+        {
+          "type": "desecrated",
+          "text": "33% increased Movement Speed"
+        }
+      ]
+    },
+    {
+      "id": "daf794f7f583ec4575cbfdf2dd6c050a0da5821bc964a1edee6b867c3765e2d2",
+      "name": "Wrath Spiral",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 48,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+102 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "16% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "20% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain 16 Mana per enemy killed"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased maximum Mana"
+        },
+        {
+          "type": "desecrated",
+          "text": "+126 to maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "f02b18950a871fab1d90798b9c3345ffa46352a9e9b9e7cc79873c4dbddd3e02",
+      "name": "Maelström Gyre",
+      "base": "Mnemonic Ring",
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 48,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "33% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+114 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "21% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+27 to [Dexterity|Dexterity]"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased maximum Mana"
+        },
+        {
+          "type": "desecrated",
+          "text": "Recover 4% of maximum Mana on Kill"
+        }
+      ]
+    },
+    {
+      "id": "1e7763f42ec865edbf242c1570c01c2f20aaeb76cd22321f7637df3fdae14a54",
+      "name": "Kraken Band",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 55,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+177 to [Evasion] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "27% increased [Lightning] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+35% to [Resistances|Fire Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "68% increased Mana Regeneration Rate"
+        },
+        {
+          "type": "explicit",
+          "text": "36% increased Mana Cost [Efficiency] of [Spell|Spells]"
+        },
+        {
+          "type": "desecrated",
+          "text": "18% increased [ItemRarity|Rarity of Items] found"
+        }
+      ]
+    },
+    {
+      "id": "56319960e1bc301db60bbc33065b1fa51c04303fa836f3c485d7ff08adea776b",
+      "name": "Vengeance Glance",
+      "base": "Ancestral Tiara",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": false,
+      "sockets": 1,
+      "price_amount": 77,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+73 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "138% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+38 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to [Intelligence|Intelligence]"
+        },
+        {
+          "type": "explicit",
+          "text": "+27% to [Resistances|Chaos Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "+37% to [Resistances|Lightning Resistance]"
+        }
+      ]
+    },
+    {
+      "id": "4ff5b80baa76de8e525f230daa57a7b90d02edad52648f3c31a6d824e51e21a7",
+      "name": "Glyph Peak",
+      "base": "Ancestral Tiara",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": false,
+      "sockets": 1,
+      "price_amount": 88,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+70 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "136% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+37 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Fire Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+23% to [Resistances|Chaos Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "8% increased [Spirit] [Reservation] [Efficiency] of Skills"
+        },
+        {
+          "type": "enchant",
+          "text": "22% increased Life Regeneration rate"
+        }
+      ]
+    },
+    {
+      "id": "d992aa16ad4454557bd1bdfd1fe8ae432d993b3ad277c3321d4e56ca18ed6772",
+      "name": "Foe Gyre",
+      "base": "Iron Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 88,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "Adds 19 to 32 [Fire] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "+107 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "21% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "23% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "28% increased Cast Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "29% increased [Lightning] Damage"
+        }
+      ]
+    },
+    {
+      "id": "4f482a142e60a82ef1f673658f4ff332d79af9cd407dd4cf398297a04e6cb672",
+      "name": "Brood Pace",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 2,
+      "price_amount": 99,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+58 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+90 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to [Intelligence|Intelligence]"
+        },
+        {
+          "type": "explicit",
+          "text": "+42% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+33% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "35% increased Movement Speed"
+        }
+      ]
+    },
+    {
+      "id": "615e4df118ae569242c3d0b135e16cdf47fa99752d96a73d4730005f1be9b46a",
+      "name": "Dire March",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": false,
+      "sockets": 2,
+      "price_amount": 99,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "93% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+123 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+39% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+11 to [Spirit|Spirit]"
+        },
+        {
+          "type": "desecrated",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "enchant",
+          "text": "+20% to [Resistances|Lightning Resistance]"
+        }
+      ]
+    },
+    {
+      "id": "1d77efa9795ee9b072813b64d67b04f230399fbff8255e1ab5e40fce55ee10df",
+      "name": "Tempest Finger",
+      "base": "Amethyst Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 111,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "20% increased [Lightning] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+127 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "34% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "34% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to [Strength|Strength]"
+        },
+        {
+          "type": "explicit",
+          "text": "5% increased maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "f2d63d9941384fea78bf880c3f1a51b7f6eec23468f44418085f65afd20453cb",
+      "name": "Eagle Track",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 2,
+      "price_amount": 115,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "99% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+32% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "+58 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+14 to [Spirit|Spirit]"
+        }
+      ]
+    },
+    {
+      "id": "7624820de7a3bc540d98c9247e6f26788ce809f1ff4fbea1d566768dee8b9e9e",
+      "name": "Onslaught Road",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 2,
+      "price_amount": 125,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "30% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "99% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+41% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "+60 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+10 to [Spirit|Spirit]"
+        }
+      ]
+    },
+    {
+      "id": "9e05d66c8bf436e4b634c4bda29b078383412b96264e6e1ef3a62ea872e2b8aa",
+      "name": "Rift March",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 2,
+      "price_amount": 144,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "96% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+24 to [Intelligence|Intelligence]"
+        },
+        {
+          "type": "desecrated",
+          "text": "+60 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+13 to [Spirit|Spirit]"
+        }
+      ]
+    },
+    {
+      "id": "9c41f01d66388872041d430ebdcd41f909f6ad805c583f275a83b21440534e81",
+      "name": "Behemoth Cut",
+      "base": "Time-Lost Sapphire",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 160,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 7% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 20% increased [EnergyShield|Energy Shield] from Equipped [Focus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "24% increased Effect of Notable Passive Skills in Radius"
+        },
+        {
+          "type": "explicit",
+          "text": "Upgrades Radius to Very Large"
+        }
+      ]
+    },
+    {
+      "id": "ac689b85d8cfbdf990f6723e610c60661adf220417bc7b0da90801c3ccccc53e",
+      "name": "Hate Grip",
+      "base": "Mnemonic Ring",
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 177,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "17% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "+219 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "24% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+32 to [Strength|Strength]"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased maximum Mana"
+        },
+        {
+          "type": "desecrated",
+          "text": "[Gain] 8% of Damage as Extra [Fire|Fire] Damage with [Spell|Spells]"
+        }
+      ]
+    },
+    {
+      "id": "4c335842d359fed201c54a078a69df5a87285f295dbb6070c2de1dddcbaf98cc",
+      "name": "Chimeric Breath",
+      "base": "Sapphire",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 195,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "30% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "14% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "29% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "22% increased [Critical|Critical Hit] Chance"
+        },
+        {
+          "type": "explicit",
+          "text": "53% increased Effect of Suffixes"
+        }
+      ]
+    },
+    {
+      "id": "6e29affc683deeaa597f8a2cdcaa074114c39756fab572049fc2a5f6c8f897f9",
+      "name": "Morbid Spark",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 2,
+      "price_amount": 199,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "100% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+30 to [Intelligence|Intelligence]"
+        },
+        {
+          "type": "desecrated",
+          "text": "+58 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+15 to [Spirit|Spirit]"
+        }
+      ]
+    },
+    {
+      "id": "b5a728d85ab161b5ca510ed0360ba272c1d7d6e6a57f3f9d7a216a5d06d5ef6e",
+      "name": "Apocalypse Trail",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 2,
+      "price_amount": 250,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+58 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "98% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "15% increased [ItemRarity|Rarity of Items] found"
+        },
+        {
+          "type": "desecrated",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+14 to [Spirit|Spirit]"
+        }
+      ]
+    },
+    {
+      "id": "59e0f0d355ddaba4eb8bc0c1a980ade527b17196dfe49d8403158f2fc34874cd",
+      "name": "Cataclysm Hope",
+      "base": "Time-Lost Sapphire",
+      "ilvl": 67,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 277,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 25% increased [EnergyShield|Energy Shield] from Equipped [Focus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "Notable Passive Skills in Radius also grant 7% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "Upgrades Radius to Very Large"
+        }
+      ]
+    },
+    {
+      "id": "f90c78983421b9dd5984a8c8d545cde4ca2b59de66901c01d062a2278467d61f",
+      "name": "Skull Star",
+      "base": "Ancestral Tiara",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 1,
+      "price_amount": 299,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "32% increased [Critical|Critical Hit] Chance"
+        },
+        {
+          "type": "explicit",
+          "text": "116% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Fire Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "+73 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "enchant",
+          "text": "24% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "enchant",
+          "text": "+26 to [Spirit|Spirit]"
+        }
+      ]
+    },
+    {
+      "id": "2fbea92031e24c719738b42d5219dabcd64e5eefa1f9d19d666f2410a492312c",
+      "name": "Plague Essence",
+      "base": "Time-Lost Sapphire",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 325,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 7% increased [BuffMagnitude|Magnitude] of [Ailments] you inflict"
+        },
+        {
+          "type": "desecrated",
+          "text": "Notable Passive Skills in Radius also grant 7% increased [Critical|Critical Hit] Chance"
+        },
+        {
+          "type": "explicit",
+          "text": "Upgrades Radius to Very Large"
+        }
+      ]
+    },
+    {
+      "id": "0dc2fc60530a615eb5603366b55b82aadf45027be0cfd32c252ffe08af559b57",
+      "name": "Hate Turn",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 422,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+116 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "21% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "40% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "29% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "6% increased maximum Mana"
+        },
+        {
+          "type": "desecrated",
+          "text": "+174 to maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "6cdbb22d3382d5b0f6a492872d80f49d48de02847119544e92d9977d0ccb880e",
+      "name": "Vengeance Loop",
+      "base": "Prismatic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 422,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "46% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+116 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "30% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "29% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "5% increased maximum Mana"
+        },
+        {
+          "type": "desecrated",
+          "text": "Recover 3% of maximum Mana on Kill"
+        }
+      ]
+    },
+    {
+      "id": "efd590acfaa44247bcafa8183502a42723d94dcda05fd8a3d133a00a954c9ae0",
+      "name": "Demon Clasp",
+      "base": "Solar Amulet",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 455,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+130 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "+209 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+4 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "38% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "25% increased Cast Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "+55 to [Spirit|Spirit]"
+        },
+        {
+          "type": "enchant",
+          "text": "Allocates [DeliriumAnoint_ZarokhsGift_|Zarokh's Gift]"
+        }
+      ]
+    },
+    {
+      "id": "a153afd1e1bf74faac52da79dcb7b6fa74d8563fd3fda53b8a2cbebc0e18c967",
+      "name": "Rift Choker",
+      "base": "Absent Amulet",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 465,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+4 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "+47 to [Spirit|Spirit]"
+        },
+        {
+          "type": "explicit",
+          "text": "39% increased Cast Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "42% increased [Spell] Damage"
+        },
+        {
+          "type": "enchant",
+          "text": "Allocates [DeliriumAnoint_ZarokhsGift_|Zarokh's Gift]"
+        }
+      ]
+    },
+    {
+      "id": "94eb554dde7ea51b58fc346df3fcd3b34bcf5bc4b0cda54f80d5ef39b6453007",
+      "name": "Loath Tread",
+      "base": "Luxurious Slippers",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 2,
+      "price_amount": 499,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "42% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+57 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "88% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+12 to [Spirit|Spirit]"
+        }
+      ]
+    },
+    {
+      "id": "bec151a95ac74002f5aeafbeee33905b77b43386f351f0bf03e6e3e9a7c21ae1",
+      "name": "Tempest Grasp",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 544,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "24% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "15% increased [ItemRarity|Rarity of Items] found"
+        },
+        {
+          "type": "explicit",
+          "text": "79% increased Mana Regeneration Rate"
+        },
+        {
+          "type": "explicit",
+          "text": "36% increased Mana Cost [Efficiency] of [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased maximum Mana"
+        },
+        {
+          "type": "desecrated",
+          "text": "+240 to maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "b39985189a4c84f47b5770a050da982a72864b7cada461ae16338d61a50044c2",
+      "name": "Hate Strap",
+      "base": "Mail Belt",
+      "ilvl": 83,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 555,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "[Minion|Minions] have 48% increased [Immobilised|Immobilisation] buildup"
+        },
+        {
+          "type": "explicit",
+          "text": "+153 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "+110 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+2 to Level of all [Minion|Minion] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "85 to 138 [Physical|Physical] [Thorns|Thorns] damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "[Minion|Minions]' [Strike|Strikes] have [MeleeSplash|Melee Splash]"
+        }
+      ]
+    },
+    {
+      "id": "e24694fcdf5e39fc6227634942fbeac1adad819d18b38c9e1d5e53edc3a4dfa1",
+      "name": "Rage Circle",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 655,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "36% increased Mana Cost [Efficiency] of [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "+166 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "20% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "89% increased Mana Regeneration Rate"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased maximum Mana"
+        },
+        {
+          "type": "desecrated",
+          "text": "22% increased Cast Speed"
+        }
+      ]
+    },
+    {
+      "id": "1d28fc118c44a1cca20aceb7dc5b6a192ccde77354975166c0020740e2ab8608",
+      "name": "Blight Weaver",
+      "base": "Dueling Wand",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 850,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+4 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 30% of Damage as Extra [Cold] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "59% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "+179 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+1 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "28% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 10% of [ElementalDamage|Elemental Damage] as Extra [Cold] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "86% increased [ElementalDamage|Elemental Damage]"
+        }
+      ]
+    },
+    {
+      "id": "776231b0f33cca4746cb30fd17de6dbf18f9383fc785c193a51a3cfe7c084abe",
+      "name": "Golem Mantle",
+      "base": "Sleek Jacket",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 3,
+      "price_amount": 855,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+161 to [Evasion] Rating"
+        },
+        {
+          "type": "fractured",
+          "text": "+48 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+44 to [Evasion] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "+14 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "146% increased [Evasion] and [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+42% to [Resistances|Fire Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+41% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain [Deflect|Deflection Rating] equal to 25% of [Evasion|Evasion Rating]"
+        },
+        {
+          "type": "desecrated",
+          "text": "12% increased [Spirit] [Reservation] [Efficiency] of Skills"
+        }
+      ]
+    },
+    {
+      "id": "963cc2eeeb29505e61477e1aea91964ec19ff9a0761c8f8a847cf5c3963b79d1",
+      "name": "Pain Scratch",
+      "base": "Dueling Wand",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 1,
+      "price_amount": 1000,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+4 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 30% of Damage as Extra [Fire] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "37% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "+186 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+1 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "46% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 11% of [ElementalDamage|Elemental Damage] as Extra [Cold] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "85% increased [ElementalDamage|Elemental Damage]"
+        }
+      ]
+    },
+    {
+      "id": "73c306b175f2fbdc158b8fba9d2728ec52325f7c2bd4d4b82267eaa8e1ca8f6e",
+      "name": "Empyrean Call",
+      "base": "Dueling Wand",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 1000,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+4 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "39% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "42% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 14% of [ElementalDamage|Elemental Damage] as Extra [Cold] Damage"
+        }
+      ]
+    },
+    {
+      "id": "24eb729122e518f9a405d240bc1339a658498030155bb3951d692999f4a3cf8f",
+      "name": "Vortex Claw",
+      "base": "Runeforged Sirenscale Gloves",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 1222,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "29% increased [Projectile] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "40% increased [Projectile] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+2 to Level of all [Projectile] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "29% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "+120 to maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "e014666021f47793b430bc14dab03bad8d6ad44046d455ddcbd2641ef3ec9857",
+      "name": "Blood Finger",
+      "base": "Unset Ring",
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 1222,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Adds 7 to 13 [Cold] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "27% increased [Cold] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+173 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+1 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "23% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "30% increased Cast Speed"
+        }
+      ]
+    },
+    {
+      "id": "a2600c589783ff17533fc652177e931a9fc9f160a795739223a691d3d4a0509c",
+      "name": "Hate Siege",
+      "base": "Obliterator Bow",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 3,
+      "price_amount": 1444,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "179% increased [Physical] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 38 to 66 [Physical|Physical] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "19% increased [Attack] Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "72% increased [Physical] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "+158 to [Accuracy|Accuracy] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "17% increased [Physical] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+2 to Level of all [Attack] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "+10 to all [Attributes]"
+        }
+      ]
+    },
+    {
+      "id": "4f3ec27ab61441eb2fff26ad1c27c5eeda316625cc5826a860502eab1093eabf",
+      "name": "Miracle Gnarl",
+      "base": "Dueling Wand",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 1,
+      "price_amount": 1500,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+4 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 28% of Damage as Extra [Fire] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "37% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "+150 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+1 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "47% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 15% of [ElementalDamage|Elemental Damage] as Extra [Cold] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "88% increased [ElementalDamage|Elemental Damage]"
+        }
+      ]
+    },
+    {
+      "id": "7f51536925cf45637156a03edf56199cdef9401b9a8752888699870c6c2b6e05",
+      "name": "Wrath Song",
+      "base": "Dueling Wand",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 1500,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Gain 28 Mana per enemy killed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 30% of Damage as Extra [Cold] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+4 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "+169 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+1 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "42% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 15% of [ElementalDamage|Elemental Damage] as Extra [Cold] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "78% increased [ElementalDamage|Elemental Damage]"
+        }
+      ]
+    },
+    {
+      "id": "b2b95a5ed0c4d8b3fef183674b4ef3aff49d81a845d3666efb85e4b293b093e4",
+      "name": "Dire Anthem",
+      "base": "Sacred Focus",
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 1,
+      "price_amount": 1500,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+2 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "99% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "76% increased [Lightning] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "58% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "45% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 16% of [ElementalDamage|Elemental Damage] as Extra [Cold] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "71% increased [Spell] Damage"
+        }
+      ]
+    },
+    {
+      "id": "10883d29af894baa1cbc1e920b0d9b7463a181dcdd9709f969d011449cee7dc3",
+      "name": "Empyrean Spell",
+      "base": "Dueling Wand",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 1500,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "19% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "86% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+4 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "+172 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+1 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "45% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 16% of [ElementalDamage|Elemental Damage] as Extra [Cold] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "86% increased [ElementalDamage|Elemental Damage]"
+        }
+      ]
+    },
+    {
+      "id": "3bda590cdef199e1cced632d9df8cf146888d221b8797726b72c494297370c18",
+      "name": "Storm Call",
+      "base": "Dueling Wand",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 2222,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+4 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "114% increased [Lightning] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "32% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "+150 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+1 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "31% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 8% of [ElementalDamage|Elemental Damage] as Extra [Cold] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "108% increased [Spell] Damage"
+        }
+      ]
+    }
+  ]
+}

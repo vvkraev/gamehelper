@@ -26,7 +26,16 @@ public static class WindowTopHelper
 
     public static void ShowTopmostWithoutActivation(Window window)
     {
+        // WPF запрещает Show() с ShowActivated=false когда WindowState=Maximized
+        var savedState = window.WindowState;
+        if (savedState == WindowState.Maximized)
+            window.WindowState = WindowState.Normal;
+
         window.Show();
+
+        if (savedState == WindowState.Maximized)
+            window.WindowState = WindowState.Maximized;
+
         var h = new WindowInteropHelper(window).EnsureHandle();
         SetWindowPos(
             h,

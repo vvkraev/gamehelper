@@ -821,7 +821,16 @@ public partial class CraftConditionWindow : Window
             if (families.Count == 0) { cbTier.ItemsSource = null; lbNames.ItemsSource = null; return; }
 
             AffixComboItem? pick = null;
-            if (!string.IsNullOrEmpty(data.AffixName) && data.AffixTier > 0)
+            // StatTemplate-first: one AffixName can map to different stat families (e.g., two "of Potency" entries).
+            var firstStat = data.Lines.Count > 0 ? data.Lines[0].StatTemplate : "";
+            if (!string.IsNullOrEmpty(firstStat))
+            {
+                pick = families.FirstOrDefault(f =>
+                    f.Entry.AffixStats.Any(s =>
+                        string.Equals(s, firstStat, StringComparison.Ordinal) ||
+                        CraftAffixCascadeHelper.StatMatchesNormalizedTemplate(s, firstStat)));
+            }
+            if (pick is null && !string.IsNullOrEmpty(data.AffixName) && data.AffixTier > 0)
             {
                 var cur = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
                     EffectiveEntries, ic, affixType, data.AffixName, data.AffixTier);
@@ -841,7 +850,23 @@ public partial class CraftConditionWindow : Window
                     e.AffixTier == data.AffixTier &&
                     SameStatFamily(fi.Entry, e))
                 : null;
+            // Preserve user-set MinRolls across the rebuild so that loading a saved condition
+            // or calling RefreshOrAlternativesUi does not reset sliders to the range minimum.
+            var savedWholeMins = data.Lines
+                .Select(l => (l.StatTemplate, l.MinRoll, Rolls: l.MinRolls.ToList()))
+                .ToList();
             SyncWholeModifierFromLibraryEntry(data, bestRef ?? fi.Entry);
+            foreach (var dl in data.Lines)
+            {
+                var saved = savedWholeMins.FirstOrDefault(s =>
+                    string.Equals(s.StatTemplate, dl.StatTemplate, StringComparison.Ordinal) ||
+                    CraftAffixCascadeHelper.StatMatchesNormalizedTemplate(s.StatTemplate, dl.StatTemplate));
+                if (saved.Rolls is { Count: > 0 })
+                {
+                    dl.MinRolls = saved.Rolls.ToList();
+                    dl.MinRoll = saved.MinRoll;
+                }
+            }
 
             RefillTiers(fi.Entry);
             RefillNames();
@@ -1272,19 +1297,21 @@ public partial class CraftConditionWindow : Window
             if (families.Count == 0) { cbTier.ItemsSource = null; lb.ItemsSource = null; return; }
 
             AffixComboItem? pick = null;
-            if (!string.IsNullOrEmpty(data.AffixName) && data.AffixTier > 0)
+            // StatTemplate-first: one AffixName can map to different stat families (e.g., two "of Potency" entries).
+            var firstStat = data.Lines.Count > 0 ? data.Lines[0].StatTemplate : data.StatTemplate;
+            if (!string.IsNullOrEmpty(firstStat))
+            {
+                pick = families.FirstOrDefault(f =>
+                    f.Entry.AffixStats.Any(s =>
+                        string.Equals(s, firstStat, StringComparison.Ordinal) ||
+                        CraftAffixCascadeHelper.StatMatchesNormalizedTemplate(s, firstStat)));
+            }
+            if (pick is null && !string.IsNullOrEmpty(data.AffixName) && data.AffixTier > 0)
             {
                 var cur = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
                     EffectiveEntries, ic, affixType, data.AffixName, data.AffixTier);
                 if (cur != null)
                     pick = families.FirstOrDefault(f => SameStatFamily(f.Entry, cur));
-            }
-            if (pick is null && !string.IsNullOrEmpty(data.StatTemplate))
-            {
-                pick = families.FirstOrDefault(f =>
-                    f.Entry.AffixStats.Any(s =>
-                        string.Equals(s, data.StatTemplate, StringComparison.Ordinal) ||
-                        CraftAffixCascadeHelper.StatMatchesNormalizedTemplate(s, data.StatTemplate)));
             }
             gate[0] = true;
             cbFamily.SelectedItem = pick ?? families[0];

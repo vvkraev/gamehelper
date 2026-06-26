@@ -786,6 +786,74 @@
             </ScrollViewer>
         </TabItem>
 
+        <!-- ═══ ВКЛАДКА ДЕСЕКРЕЙТ ════════════════════════════════════════════ -->
+        <TabItem x:Name="TabDesecrate" Header="Десекрейт">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <StackPanel Margin="16">
+                    <TextBlock Text="Reveal Desecrate — поиск Crit Strike Chance"
+                               FontWeight="Bold" FontSize="14" Margin="0,0,0,12"/>
+
+                    <TextBlock Text="Область (3 варианта Cranium)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button x:Name="DesecratePick" Content="Задать область…" Padding="12,6"
+                                Click="DesecratePick_Click"/>
+                        <TextBlock x:Name="DesecrateAreaInfo" VerticalAlignment="Center"
+                                   Margin="12,0,0,0" Foreground="#555" Text="не задана"/>
+                    </StackPanel>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                        <Button x:Name="DesecrateScreenshot" Content="Скриншот" Padding="12,6"
+                                Click="DesecrateScreenshot_Click"/>
+                        <Button x:Name="DesecrateSave" Content="Сохранить…" Padding="12,6" Margin="8,0,0,0"
+                                IsEnabled="False" Click="DesecrateSave_Click"/>
+                        <TextBlock x:Name="DesecrateSaveInfo" VerticalAlignment="Center"
+                                   Margin="8,0,0,0" Foreground="#555"/>
+                    </StackPanel>
+
+                    <Border BorderBrush="#CCC" BorderThickness="1" HorizontalAlignment="Left" Margin="0,0,0,12">
+                        <Image x:Name="DesecratePreviewImage" Width="360" Height="240"
+                               Stretch="Uniform"
+                               RenderOptions.BitmapScalingMode="NearestNeighbor"/>
+                    </Border>
+
+                    <TextBlock x:Name="DesecrateStateLabel" Text="Цикл 1 — Попытка 1 / 2"
+                               FontWeight="SemiBold" FontSize="14" Margin="0,0,0,12"/>
+
+                    <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
+                        <Button x:Name="DesecrateAccept"
+                                Content="Принять (нашли CHS)" Padding="12,6" Margin="0,0,8,0"
+                                Background="#C8E6C9"
+                                Click="DesecrateAccept_Click"/>
+                        <Button x:Name="DesecrateReroll"
+                                Content="Перебросить (Abyssal Echo)" Padding="12,6" Margin="0,0,8,0"
+                                Click="DesecrateReroll_Click"/>
+                        <Button x:Name="DesecrateResetCycle"
+                                Content="Сбросить цикл (Omen of Light + Annul + Cranium)"
+                                Padding="12,6" Visibility="Collapsed"
+                                Background="#FFCDD2"
+                                Click="DesecrateResetCycle_Click"/>
+                    </StackPanel>
+
+                    <Border BorderBrush="#E0E0E0" BorderThickness="1" CornerRadius="4"
+                            Padding="10" Background="#FAFAFA">
+                        <StackPanel>
+                            <TextBlock Text="Инструкция:" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <TextBlock TextWrapping="Wrap" Margin="0,0,0,4"
+                                       Text="1. В игре: Preserved Cranium → Reveal Desecrate (Abyssal Echo расходуется автоматически)"/>
+                            <TextBlock TextWrapping="Wrap" Margin="0,0,0,4"
+                                       Text="2. Нажми «Скриншот», посмотри 3 варианта"/>
+                            <TextBlock TextWrapping="Wrap" Margin="0,0,0,4"
+                                       Text="3а. Нашёл CHS → «Принять» (предмет готов к следующему шагу)"/>
+                            <TextBlock TextWrapping="Wrap" Margin="0,0,0,4"
+                                       Text="3б. Не нашёл → «Перебросить»: в игре используй Abyssal Echo reroll → «Скриншот»"/>
+                            <TextBlock TextWrapping="Wrap" Margin="0,0,0,4"
+                                       Text="4. Если попытка 2 тоже провалилась → «Сбросить цикл»: Omen of Light → Annul, затем Preserved Cranium + Omen of Dextral Necromancy"/>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </TabItem>
+
         <TabItem x:Name="TabInfoCollection" Header="Сбор информации">
             <ScrollViewer x:Name="InfoCollectionScrollViewer" VerticalScrollBarVisibility="Auto">
                 <StackPanel x:Name="InfoCollectionRootPanel" Margin="16" HorizontalAlignment="Stretch">

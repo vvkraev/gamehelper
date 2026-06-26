@@ -121872,6 +121872,366 @@
       "affixSubClass": null,
       "weight": null,
       "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Potency",
+      "affixTier": 1,
+      "affixTierLevel": 61,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Critical Damage Bonus"
+      ],
+      "affixRanges": [
+        "5-10"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Inuring",
+      "affixTier": 1,
+      "affixTierLevel": 61,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant Gain additional Ailment Threshold equal to % of maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Snowbreathing",
+      "affixTier": 1,
+      "affixTierLevel": 61,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Freeze Threshold"
+      ],
+      "affixRanges": [
+        "2-4"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Serene",
+      "affixTier": 1,
+      "affixTierLevel": 61,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % faster start of Energy Shield Recharge"
+      ],
+      "affixRanges": [
+        "5-7"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Chilling",
+      "affixTier": 1,
+      "affixTierLevel": 61,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Cold Damage"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Focusing",
+      "affixTier": 1,
+      "affixTierLevel": 61,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Energy Shield from Equipped Focus"
+      ],
+      "affixRanges": [
+        "15-25"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Glaciers",
+      "affixTier": 1,
+      "affixTierLevel": 61,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Freeze Buildup with Quarterstaves"
+      ],
+      "affixRanges": [
+        "5-10"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Success",
+      "affixTier": 1,
+      "affixTierLevel": 61,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant Recover 1% of maximum Life on Kill"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Unmaking",
+      "affixTier": 1,
+      "affixTierLevel": 61,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Critical Spell Damage Bonus"
+      ],
+      "affixRanges": [
+        "5-10"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Veiled",
+      "affixTier": 0,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Desecrated Prefix"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Blasting",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Area of Effect"
+      ],
+      "affixRanges": [
+        "2-3"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Suffusion",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Duration of Damaging Ailments on Enemies"
+      ],
+      "affixRanges": [
+        "3-5"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Expanding",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Area of Effect of Curses"
+      ],
+      "affixRanges": [
+        "3-6"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Greater",
+      "affixTier": 2,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Upgrades Radius to Medium \u2014 Unscalable Value"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Generation",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant Meta Skills gain % increased Energy"
+      ],
+      "affixRanges": [
+        "2-4"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Necromantic",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Damage if you have Consumed a Corpse Recently"
+      ],
+      "affixRanges": [
+        "2-3"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Desecrated Suffix Modifier",
+      "affixName": "of Annihilation",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Critical Hit Chance"
+      ],
+      "affixRanges": [
+        "3-7"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Authoritative",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant Minions deal % increased Damage"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Shimmering",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "2-3"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Bestial",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Damage while Shapeshifted"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
     }
   ]
 }

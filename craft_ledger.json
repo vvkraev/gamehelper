@@ -1,0 +1,237 @@
+[
+  {
+    "id": "vile-robe-blight-cloak-001",
+    "createdAt": "2026-06-25",
+    "status": "in_progress",
+    "saleRecordId": null,
+    "item": {
+      "name": "Blight Cloak",
+      "baseType": "Vile Robe",
+      "ilvl": 79,
+      "quality": 21,
+      "sockets": 3,
+      "energyShield": 968
+    },
+    "mods": [
+      {
+        "family": "Unfaltering",
+        "affixType": "Prefix",
+        "tier": 1,
+        "affixTierLevel": 75,
+        "kind": "fractured",
+        "stat": "% increased Energy Shield",
+        "value": 106,
+        "valueRange": "101-110"
+      },
+      {
+        "family": "Resplendent",
+        "affixType": "Prefix",
+        "tier": 1,
+        "affixTierLevel": 79,
+        "kind": "normal",
+        "stat": "+ to maximum Energy Shield",
+        "value": 94,
+        "valueRange": "91-96"
+      },
+      {
+        "family": "Pope's",
+        "affixType": "Prefix",
+        "tier": 1,
+        "affixTierLevel": 78,
+        "kind": "desecrated",
+        "stat": "% increased Energy Shield / + to maximum Life",
+        "value": "42 / 49",
+        "valueRange": "39-42 / 42-49"
+      },
+      {
+        "family": "of the Ice",
+        "affixType": "Suffix",
+        "tier": 2,
+        "affixTierLevel": 71,
+        "kind": "normal",
+        "stat": "% to Cold Resistance",
+        "value": 40,
+        "valueRange": "36-40"
+      },
+      {
+        "family": "of the Volcano",
+        "affixType": "Suffix",
+        "tier": 3,
+        "affixTierLevel": 60,
+        "kind": "normal",
+        "stat": "% to Fire Resistance",
+        "value": 35,
+        "valueRange": "31-35"
+      },
+      {
+        "family": "of the Virtuoso",
+        "affixType": "Suffix",
+        "tier": 1,
+        "affixTierLevel": 74,
+        "kind": "normal",
+        "stat": "+ to Intelligence",
+        "value": 33,
+        "valueRange": "31-33"
+      }
+    ],
+    "emptySlots": {
+      "prefix": 0,
+      "suffix": 0
+    },
+    "runes": [
+      { "type": "Greater Iron Rune", "bonus": "18%", "socket": 1 },
+      { "type": "Greater Iron Rune", "bonus": "18%", "socket": 2 },
+      { "type": "Greater Iron Rune", "bonus": "18%", "socket": 3 }
+    ],
+    "steps": [
+      {
+        "phase": 1,
+        "label": "Покупка базы",
+        "description": "Blue Vile Robe ilvl 79 с Unfaltering T1 magic",
+        "items": [
+          { "name": "Vile Robe (magic, Unfaltering T1)", "qty": 1, "priceDiv": 20.0 }
+        ],
+        "costDiv": 20.0,
+        "resultState": "Magic, 1 prefix (Unfaltering T1 fractured target)"
+      },
+      {
+        "phase": 2,
+        "label": "Regal Orb",
+        "description": "Magic → Rare, +1 random mod",
+        "items": [
+          { "name": "Regal Orb", "qty": 1, "priceDiv": 0.002 }
+        ],
+        "costDiv": 0.002,
+        "resultState": "Rare, 2+ мода"
+      },
+      {
+        "phase": 3,
+        "label": "Desecrate #1 + Fracturing Orb",
+        "description": "Ancient RIB + Omen Sinistral Necromancy → unrevealed Desecrated prefix. Затем Fracturing Orb → Unfaltering T1 зафрактурирован (P=1/3)",
+        "items": [
+          { "name": "Ancient RIB", "qty": 1, "priceDiv": 1.41 },
+          { "name": "Omen of Sinistral Necromancy", "qty": 1, "priceDiv": 0.003 },
+          { "name": "Fracturing Orb", "qty": 1, "priceDiv": 6.42 }
+        ],
+        "costDiv": 7.833,
+        "resultState": "Rare, Unfaltering T1 [fractured], остальные случайные"
+      },
+      {
+        "phase": 4,
+        "label": "Chaos перебор → Resplendent T1",
+        "description": "Chaos Orb × ~43 до появления Resplendent T1 flat ES на префиксе",
+        "items": [
+          { "name": "Chaos Orb", "qty": 43, "priceDiv": 0.115, "totalDiv": 4.945 }
+        ],
+        "costDiv": 4.945,
+        "resultState": "Unfaltering T1 [frac] + Resplendent T1 + 1 prefix пустой + 2-3 суффикса мусор"
+      },
+      {
+        "phase": 5,
+        "label": "Desecrate #2 → Pope's T1",
+        "description": "Ancient RIB + Omen Sinistral Necromancy + Omen Abyssal Echoes → Pope's T1 гибрид (inc ES + Life) на префиксе",
+        "items": [
+          { "name": "Ancient RIB", "qty": 1, "priceDiv": 1.41 },
+          { "name": "Omen of Sinistral Necromancy", "qty": 1, "priceDiv": 0.003 },
+          { "name": "Omen of Abyssal Echoes", "qty": 1, "priceDiv": 0.231 }
+        ],
+        "costDiv": 1.644,
+        "resultState": "Unfaltering T1 [frac] + Resplendent T1 + Pope's T1 [desecrated] — все 3 префикса заняты"
+      },
+      {
+        "phase": 6,
+        "label": "Vaal Armourer's Infuser",
+        "description": "20% → 21% quality (первое применение бесплатно по риску corruption — модель H2 0% на 20%)",
+        "items": [
+          { "name": "Vaal Armourer's Infuser", "qty": 1, "priceDiv": 0.388 }
+        ],
+        "costDiv": 0.388,
+        "resultState": "Quality 21%, ES вырос"
+      },
+      {
+        "phase": 7,
+        "label": "Perfect Exalt + Omen of Greater Exaltation",
+        "description": "Добавляет 2 суффикса: Perfect-слот (50≤level≤79 фильтр, max roll) дал T3 bleed reduction 50%; bonus-слот (нормальные правила) дал of Immortality T2 (29.1-33/s)",
+        "items": [
+          { "name": "Perfect Exalted Orb", "qty": 1, "priceDiv": 3.38 },
+          { "name": "Omen of Greater Exaltation", "qty": 1, "priceDiv": 0.008 }
+        ],
+        "costDiv": 3.388,
+        "resultState": "5 модов: все префиксы + T3 bleed + of Immortality T2; 1 суффикс пустой"
+      },
+      {
+        "phase": 8,
+        "label": "Omen of Whittling + Perfect Chaos Orb",
+        "description": "Whittling таргетирует мод с минимальным affixTierLevel. T3 bleed (level 50) — минимум → Chaos заменяет его. Результат: of the Virtuoso T1 (+33 Int, level 74)",
+        "items": [
+          { "name": "Omen of Whittling", "qty": 1, "priceDiv": 5.63 },
+          { "name": "Perfect Chaos Orb", "qty": 1, "priceDiv": 5.55 }
+        ],
+        "costDiv": 11.18,
+        "resultState": "Unfaltering T1 [frac] + Resplendent T1 + Pope's T1 [desec] + of Immortality T2 + of Virtuoso T1; 1 суффикс пустой"
+      },
+      {
+        "phase": 9,
+        "label": "Greater Iron Rune × 3",
+        "description": "3 руны в 3 сокета, каждая +18% ES",
+        "items": [
+          { "name": "Greater Iron Rune", "qty": 3, "priceDiv": 0.017, "totalDiv": 0.051 }
+        ],
+        "costDiv": 0.051,
+        "resultState": "3 сокета × 18% = +54% к ES; текущий ES=968"
+      },
+      {
+        "phase": 10,
+        "label": "Omen of Dextral Erasure + Perfect Chaos Orb",
+        "description": "50/50 между Life Regen T2 и Intel T1. Повезло — убрал Life Regen. Perfect Chaos добавил of the Ice T2 (+40% Cold Resist, max roll). Лучший возможный исход.",
+        "items": [
+          { "name": "Omen of Dextral Erasure", "qty": 1, "priceDiv": 5.66 },
+          { "name": "Perfect Chaos Orb", "qty": 1, "priceDiv": 2.97 }
+        ],
+        "costDiv": 8.63,
+        "resultState": "Unfaltering T1 [frac] + Resplendent T1 + Pope's T1 [desec] + of the Virtuoso T1 + of the Ice T2; 1 суффикс пустой"
+      },
+      {
+        "phase": 11,
+        "label": "Perfect Exalted Orb → of the Volcano T3",
+        "description": "Последний суффикс. Все префиксы заняты — Perfect Exalt автоматически в suffix-слот. Результат: of the Volcano T3 (+35% Fire Resist, max roll, level 60). Предмет укомплектован.",
+        "items": [
+          { "name": "Perfect Exalted Orb", "qty": 1, "priceDiv": 2.51 }
+        ],
+        "costDiv": 2.51,
+        "resultState": "Unfaltering T1 [frac] + Resplendent T1 + Pope's T1 [desec] + Int T1 + Cold Resist T2 + Fire Resist T3. ES=968 (21% quality). Все слоты заняты."
+      },
+      {
+        "phase": 12,
+        "label": "Masterwork Rune × 3",
+        "description": "Апгрейд сокетов с Greater Iron Rune (18%) на Masterwork (20%). Итого: 3×20% = 60% вместо 54%. ES: 968 → 988.",
+        "items": [
+          { "name": "Masterwork Rune", "qty": 3, "priceDiv": 0.386, "totalDiv": 1.158 }
+        ],
+        "costDiv": 1.158,
+        "resultState": "Rune bonus 60%, ES=988 (21% quality)"
+      },
+      {
+        "phase": 13,
+        "label": "Vaal Armourer's Infuser × 2",
+        "description": "21%→22% (риск 5%, выжил) ES=996. 22%→23% (риск 10%, выжил) ES=1004. Порог 1000 ES взят. P(оба успешно) = 85.5%.",
+        "items": [
+          { "name": "Vaal Armourer's Infuser", "qty": 2, "priceDiv": 0.303, "totalDiv": 0.606 }
+        ],
+        "costDiv": 0.606,
+        "resultState": "ГОТОВ К ПРОДАЖЕ: ES=1004 (23% quality), 60% rune. Не corrupted."
+      }
+    ],
+    "totalCostDiv": 62.335,
+    "status": "listed",
+    "listing": {
+      "listedAt": "2026-06-25",
+      "askPriceDiv": 200,
+      "strategy": "снижать если не продаётся"
+    },
+    "notes": [
+      "Финальный предмет: 1004 ES, Cold T2 +40%, Fire T3 +35%, Int T1 +33, все 3 префикса максимальные.",
+      "После продажи: обновить status → sold, записать finalSalePriceDiv и profitDiv = finalSalePriceDiv - 62.335."
+    ]
+  }
+]

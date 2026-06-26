@@ -1,0 +1,2079 @@
+{
+  "date": "2026-06-26",
+  "crafter": "Lohock#1361",
+  "account_hash": "8abeec8bf64cc574558cc954c87dc288",
+  "trade_search_url": "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/RJd3XveRi7",
+  "filter_note": "price >= 20 divine, account = Lohock#1361 (оригинальные фильтры)",
+  "total_in_search": 56,
+  "fetched": 56,
+  "items": [
+    {
+      "id": "b4bf5756377966644d0fe4cb3e6ac563fd07a3ebbd078f9a3268433aba28a61d",
+      "name": "Plague Paw",
+      "base": "Secured Wraps",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 25,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "33% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "72% increased [Evasion] and [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 13 to 32 [Physical|Physical] Damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "+122 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "17% increased [ItemRarity|Rarity of Items] found"
+        },
+        {
+          "type": "desecrated",
+          "text": "+14% to Fire and Chaos Resistances"
+        }
+      ]
+    },
+    {
+      "id": "4a8ca26efec30361bb9a3f13ee8a1c39f98d87a50891743b69c11d57627b1f8f",
+      "name": "Rathpith Globe",
+      "base": "Sacred Focus",
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": false,
+      "sockets": 2,
+      "price_amount": 25,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "97% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+68 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "Non-[Channelling] [Spell|Spells] deal 6% increased Damage per 100 maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "11% increased Life Cost [Efficiency]"
+        },
+        {
+          "type": "explicit",
+          "text": "[Channelling|Non-Channelling] [Spell|Spells] have 3% increased [BuffMagnitude|Magnitude] of [Ailments] per 100 maximum Life"
+        },
+        {
+          "type": "enchant",
+          "text": "+25 to maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "d026681b9c864620c9d03076e31577a72055a816a547cb4fc08fad551418083e",
+      "name": "Heart of the Well",
+      "base": "Diamond",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 25,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "desecrated",
+          "text": "[Gain] 9% of Damage as Extra [Fire] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "6% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "desecrated",
+          "text": "Recover 2% of maximum Life on Kill"
+        },
+        {
+          "type": "desecrated",
+          "text": "5% increased Skill Effect Duration"
+        },
+        {
+          "type": "desecrated",
+          "text": "17% increased [CooldownRecovery|Cooldown Recovery Rate]"
+        }
+      ]
+    },
+    {
+      "id": "c67342a57d7955d0fdf541adaf69f01f4669a9f1aa9be5f45e4c5b6b1d42dd4c",
+      "name": "Interdimensional Writ",
+      "base": "Breach Tablet",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 30,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "5% increased Pack Size in Map"
+        },
+        {
+          "type": "explicit",
+          "text": "19% increased [MonsterEffectiveness|Effectiveness] of [Rarity|Rare] [ContainsBreach|Breach] Monsters in Map"
+        },
+        {
+          "type": "explicit",
+          "text": "Monsters have 10% increased [MonsterEffectiveness|Effectiveness]"
+        },
+        {
+          "type": "explicit",
+          "text": "Unstable [ContainsBreach|Breaches] in Map spawn 2 additional [Rarity|Rare] Monsters when Stabilised"
+        }
+      ]
+    },
+    {
+      "id": "4c06396118fa0d2d49dfd14bd077588d73ec1155a6054e3960390892b74c64f1",
+      "name": "Heart of the Well",
+      "base": "Diamond",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 45,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "desecrated",
+          "text": "2% increased Movement Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "[Gain] 11% of Damage as Extra [Fire] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "[Gain] 9% of Damage as Extra [Lightning] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "Recover 1% of maximum Life on Kill"
+        }
+      ]
+    },
+    {
+      "id": "c60de6d590f527a478897045661bfe1da0d5602fbe33d6f963ff1feca53038e1",
+      "name": "Vortex Bane",
+      "base": "Obliterator Bow",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 55,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Adds 34 to 65 [Physical|Physical] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 1 to 174 [Lightning|Lightning] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain 62 Life per enemy killed"
+        },
+        {
+          "type": "explicit",
+          "text": "+189% [SurpassChance|Surpassing] chance to fire an additional Arrow"
+        }
+      ]
+    },
+    {
+      "id": "6068be4a97f503792963799231880e03c3258f5468ad62e9bf12ab9a9e9e763d",
+      "name": "Heart of the Well",
+      "base": "Diamond",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 80,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "desecrated",
+          "text": "2% increased Movement Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "[Gain] 15% of Damage as Extra [Cold] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "[Gain] 11% of Damage as Extra [Lightning] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "Recover 2% of maximum Life on Kill"
+        }
+      ]
+    },
+    {
+      "id": "1f5449d068600953ec3c39a1c087acc45c8b8ea938c414a772f1bcc5a760b37a",
+      "name": "Bramble Loop",
+      "base": "Topaz Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 90,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "Adds 20 to 34 [Fire] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 27 to 38 [Cold] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 1 to 54 [Lightning] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "+22% to [Resistances|Fire Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+12% to [Resistances|Chaos Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "+13% to Lightning and Chaos Resistances"
+        }
+      ]
+    },
+    {
+      "id": "af39f0e4db8dec1344675d39e0c9d3ce62f78aa57908497ae95683f3f205f6cd",
+      "name": "Oblivion Breath",
+      "base": "Sapphire",
+      "ilvl": 84,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 150,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "31% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "29% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "13% increased [ElementalDamage|Elemental Damage]"
+        },
+        {
+          "type": "desecrated",
+          "text": "15% increased [Critical|Critical Hit] Chance"
+        },
+        {
+          "type": "explicit",
+          "text": "57% increased Effect of Suffixes"
+        }
+      ]
+    },
+    {
+      "id": "069b163d92a77064faff9a960ef9d457acd59914261f658f47df2ca96da51f19",
+      "name": "Foe Curio",
+      "base": "Sapphire",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 180,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "31% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "9% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "29% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "20% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "57% increased Effect of Suffixes"
+        }
+      ]
+    },
+    {
+      "id": "ac4ece29d17a126c045be4e2adcddd6921fee05b4472067fc90639c57f533c46",
+      "name": "Armageddon Song",
+      "base": "Obliterator Bow",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 180,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+181% [SurpassChance|Surpassing] chance to fire an additional Arrow"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 31 to 65 [Physical|Physical] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 49 to 80 [Fire|Fire] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "17% increased [Attack] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+3.51% to [Critical|Critical Hit] Chance"
+        },
+        {
+          "type": "desecrated",
+          "text": "80% increased [Physical] Damage"
+        }
+      ]
+    },
+    {
+      "id": "0a7689fa94f85b6e90282ab96e36e00929bf2d3a5e25b3210c287b798b2f9e63",
+      "name": "Victory Clutches",
+      "base": "Sirenscale Gloves",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 200,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+55 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "68% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 15 to 24 [Physical|Physical] Damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "+2 to Level of all [Projectile] Skills"
+        }
+      ]
+    },
+    {
+      "id": "2b99b141082b052bb6d9f5cf90603d0ff039bb6eb9278715fdac539c42f366a3",
+      "name": "Plague Shard",
+      "base": "Sapphire",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 220,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "31% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "10% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "28% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "6% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "57% increased Effect of Suffixes"
+        }
+      ]
+    },
+    {
+      "id": "86c64dd4872df28ce177b00f03fc273c9d81b599a6521f9275fa31794ed847e2",
+      "name": "Brood Breath",
+      "base": "Sapphire",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 220,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "30% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "9% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "28% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "6% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "52% increased Effect of Suffixes"
+        }
+      ]
+    },
+    {
+      "id": "f70f18f644fead19c4b4ca1cc2743f2ed0573e1d0607d7c46454d62432ad53e9",
+      "name": "Bramble Sliver",
+      "base": "Sapphire",
+      "ilvl": 66,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 220,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "31% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "11% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "27% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "6% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "55% increased Effect of Suffixes"
+        }
+      ]
+    },
+    {
+      "id": "57d06d47d07a7b683a25842e68d0491405c1f009be1c223308b5de821fe93e7c",
+      "name": "Gloom Edge",
+      "base": "Soaring Spear",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 250,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "29% increased Explicit Speed Modifier magnitudes"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 14 to 24 [Physical|Physical] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "36% increased [Attack] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "24% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+404 to [Accuracy|Accuracy] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased [Attack] Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "10% increased [Spirit] [Reservation] [Efficiency] of Skills"
+        }
+      ]
+    },
+    {
+      "id": "62eba64ce581f7f9e5d8ccd2db56f31c510222a8f60bd94a1977871f61f0fa22",
+      "name": "Hypnotic Call",
+      "base": "Dueling Wand",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "sockets": 0,
+      "price_amount": 250,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "[Gain] 27% of Damage as Extra [Fire] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "68% increased [Lightning] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+5 to Level of all [Lightning|Lightning] [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "37% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "46% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 15% of [ElementalDamage|Elemental Damage] as Extra [Cold] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "[Gain] 22% of Damage as Extra [Cold] Damage"
+        }
+      ]
+    },
+    {
+      "id": "16f6aa3e1fd7f7562d53cedc48c4a7db76dfc50d9f1401c91635531318e32849",
+      "name": "Plague Heart",
+      "base": "Sapphire",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 250,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "31% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "13% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "20% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "Recover 3% of maximum Life on Kill"
+        },
+        {
+          "type": "explicit",
+          "text": "56% increased Effect of Suffixes"
+        }
+      ]
+    },
+    {
+      "id": "eeb3b258a16e86dd4796c1343af82af286e1b0a01a318438f7bf98b7519936f6",
+      "name": "Oblivion Edge",
+      "base": "Soaring Spear",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 250,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "36% increased [Attack] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "30% increased Explicit Speed Modifier magnitudes"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 1 to 4 [Lightning|Lightning] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "25% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+399 to [Accuracy|Accuracy] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased [Attack] Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "10% increased [Spirit] [Reservation] [Efficiency] of Skills"
+        },
+        {
+          "type": "enchant",
+          "text": "24% increased [ElementalDamage|Elemental] Damage with [Attack|Attacks]"
+        }
+      ]
+    },
+    {
+      "id": "ef8d4f7d9615e99a29aaf3d5860c1b15d91c62b4ca37fa11543c08c5901f253b",
+      "name": "Agony Edge",
+      "base": "Soaring Spear",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 250,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "36% increased [Attack] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "29% increased Explicit Speed Modifier magnitudes"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 2 to 74 [Lightning|Lightning] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "27% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+388 to [Accuracy|Accuracy] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased [Attack] Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "10% increased [Spirit] [Reservation] [Efficiency] of Skills"
+        }
+      ]
+    },
+    {
+      "id": "4314088690b295dda1643860361f667ca235bd7665d390c23a2071947e712d53",
+      "name": "Carrion Barb",
+      "base": "Dueling Wand",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 260,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "53% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "76% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+159 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+4 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "desecrated",
+          "text": "[Gain] 27% of Damage as Extra [Cold] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "30% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 8% of [ElementalDamage|Elemental Damage] as Extra [Cold] Damage"
+        }
+      ]
+    },
+    {
+      "id": "fd17bdabc6ac491c467b903fac94e03397b021d4a0a76f96ac4a77c50f26e68d",
+      "name": "Viper Dew",
+      "base": "Sapphire",
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 350,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "34% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "18% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "26% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "6% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "53% increased Effect of Suffixes"
+        }
+      ]
+    },
+    {
+      "id": "0799b56e380b0faa46fa6638d6a273e528fae598662ae66348654c6b76ef31a4",
+      "name": "Dire Star",
+      "base": "Ancestral Tiara",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 380,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+41% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+70 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "42% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+45 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "+42% to [Resistances|Fire Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+39% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "100% increased [EnergyShield|Energy Shield]"
+        }
+      ]
+    },
+    {
+      "id": "1db23b84201f2a56cf5ab9868890c8b74b9d2a395f7d8c8783a7c8a815186ec5",
+      "name": "Hate Edge",
+      "base": "Soaring Spear",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 400,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "36% increased [Attack] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 25 to 38 [Cold|Cold] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+15 to [Accuracy|Accuracy] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "5% increased [LightRadius|Light Radius]"
+        },
+        {
+          "type": "desecrated",
+          "text": "30% increased Explicit Speed Modifier magnitudes"
+        },
+        {
+          "type": "enchant",
+          "text": "12% increased [Attack] Speed"
+        },
+        {
+          "type": "enchant",
+          "text": "Adds 31 to 43 [Chaos] damage"
+        }
+      ]
+    },
+    {
+      "id": "0c8592f68d231ee3843446f1a0ebd8acb85edd347f2e4fa9bf4e6c25fb11d9cb",
+      "name": "Empyrean Drop",
+      "base": "Sapphire",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 400,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "34% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "18% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "30% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "25% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "52% increased Effect of Suffixes"
+        }
+      ]
+    },
+    {
+      "id": "54c2b9087ba9f86439ff3189c9a0d2e3cc7b8dba193535bcb153b7c384c8a459",
+      "name": "Hate Pace",
+      "base": "Sekhema Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 430,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+45% to [Resistances|Fire Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+59 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+43% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+36% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "97% increased [EnergyShield|Energy Shield]"
+        }
+      ]
+    },
+    {
+      "id": "063e4acbde3743c0272948c69bec1a3f124f6d51a4496e3daa20e938873efafa",
+      "name": "Woe Fingers",
+      "base": "Sirenscale Gloves",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 440,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+2 to Level of all [Projectile] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "+47 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "92% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "40% increased [Projectile] Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "12% chance to Gain [ArcaneSurgeDuration|Arcane Surge] when you deal a [Critical|Critical Hit]"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        }
+      ]
+    },
+    {
+      "id": "bcbaa217daf27a309e5209b5e0b4f0422a18fc0ab9567752f43d07492404ac35",
+      "name": "Luminous Hope",
+      "base": "Sapphire",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 450,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "35% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "9% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "23% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "10% [FasterESRechargeStart|faster start of Energy Shield Recharge]"
+        },
+        {
+          "type": "desecrated",
+          "text": "31% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "57% increased Effect of Suffixes"
+        }
+      ]
+    },
+    {
+      "id": "69464498361ef9a24281e3d579c39c630cc298fd3d183ba682dcad029d41806e",
+      "name": "Viper Slippers",
+      "base": "Sekhema Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 450,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+45% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "100% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+27% to [Resistances|Chaos Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "+54 to maximum [EnergyShield|Energy Shield]"
+        }
+      ]
+    },
+    {
+      "id": "66711ded41517c4a88d84c6f08857421ab6d7b4d62d7e19a989894aa7519b2de",
+      "name": "Kraken Bane",
+      "base": "Obliterator Bow",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 500,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+200% [SurpassChance|Surpassing] chance to fire an additional Arrow"
+        },
+        {
+          "type": "explicit",
+          "text": "166% increased [Physical] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 7 to 161 [Lightning|Lightning] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+4.1% to [Critical|Critical Hit] Chance"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain 74 Life per enemy killed"
+        },
+        {
+          "type": "desecrated",
+          "text": "Adds 32 to 66 [Physical|Physical] Damage"
+        }
+      ]
+    },
+    {
+      "id": "48c943e4e3019442a9c34425bf3d03f348e104c7fd3a5bad40bd0a33756df7bd",
+      "name": "Brimstone Star",
+      "base": "Ancestral Tiara",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 550,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "99% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+71 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "41% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+42 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "34% increased [Critical|Critical Hit] Chance"
+        },
+        {
+          "type": "explicit",
+          "text": "+44% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "17% increased [ItemRarity|Rarity of Items] found"
+        }
+      ]
+    },
+    {
+      "id": "3aada928c8a5fa50175d31d4a672eeafcc9131b6eb38f5db90e1c761e65bf9e1",
+      "name": "Apocalypse Cut",
+      "base": "Sapphire",
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 550,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "35% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "12% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "28% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "26% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "58% increased Effect of Suffixes"
+        },
+        {
+          "type": "enchant",
+          "text": "+5% to [Resistances|Lightning Resistance]"
+        }
+      ]
+    },
+    {
+      "id": "ebc10ebde87db9b316a8ba11782e4a710bb09cee6189a9822993db149a319502",
+      "name": "Storm Sole",
+      "base": "Sekhema Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 680,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+45% to [Resistances|Fire Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+50 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "97% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "Skills have 15% chance to not remove [Charges|Charges] but still count as consuming them"
+        },
+        {
+          "type": "desecrated",
+          "text": "+24% to [Resistances|Chaos Resistance]"
+        }
+      ]
+    },
+    {
+      "id": "6d9f1086a5cbb23d6b22ee17784664946ff6b56dd2774dc714e694c3ac7baca7",
+      "name": "Blight Knot",
+      "base": "Refined Breach Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 700,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Adds 6 to 108 [Lightning] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 41 to 73 [Fire] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "18% increased [ItemRarity|Rarity of Items] found"
+        },
+        {
+          "type": "explicit",
+          "text": "+21% to [Resistances|Chaos Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "Adds 25 to 53 [Physical|Physical] Damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "15% increased [Attack] Speed"
+        }
+      ]
+    },
+    {
+      "id": "178f12389a481fd3eb3c054084d9097279cbffa8fdd6a9c80cf8d0971e4b8af6",
+      "name": "Armageddon Spark",
+      "base": "Sekhema Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 700,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "99% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+60 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Fire Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "35% increased Skill Effect Duration"
+        },
+        {
+          "type": "desecrated",
+          "text": "30% increased [CooldownRecovery|Cooldown Recovery Rate]"
+        }
+      ]
+    },
+    {
+      "id": "412a3d3a8bae7f190deee95146b11f1688b0e119596c83e60088941a68f38374",
+      "name": "Empyrean Touch",
+      "base": "Runeforged Sirenscale Gloves",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 700,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+2 to Level of all [Projectile] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "+60 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+117 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "39% increased [Projectile] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "desecrated",
+          "text": "13% chance to Gain [ArcaneSurgeDuration|Arcane Surge] when you deal a [Critical|Critical Hit]"
+        }
+      ]
+    },
+    {
+      "id": "0d7d45b62abafbda6bd5019cff7865d16127c1eb9da82f08744535f3f50e45e3",
+      "name": "Chimeric Claw",
+      "base": "Vaal Wraps",
+      "ilvl": 84,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 700,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+2 to Level of all [Projectile] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 22 to 34 [Fire] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 20 to 30 [Cold] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 1 to 55 [Lightning] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "desecrated",
+          "text": "34% increased [Critical|Critical Hit] Chance"
+        },
+        {
+          "type": "explicit",
+          "text": "26% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        }
+      ]
+    },
+    {
+      "id": "e22a2fc985250be5730f8841ebce47b4c467ce8e5a045c7f67b5dfcad33aae5b",
+      "name": "Skull Grinder",
+      "base": "Shrine Sceptre",
+      "ilvl": 83,
+      "corrupted": true,
+      "fractured": false,
+      "sockets": 1,
+      "price_amount": 700,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "55% increased [Spirit|Spirit]"
+        },
+        {
+          "type": "explicit",
+          "text": "[Allies|Allies] in your [Presence|Presence] deal 21 to 35 added [Attack|Attack] [Cold|Cold] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "[Allies] in your [Presence] have 25% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "[Allies|Allies] in your [Presence|Presence] have +15% to all [ElementalDamage|Elemental] [Resistances|Resistances]"
+        },
+        {
+          "type": "desecrated",
+          "text": "30% increased [Spirit|Spirit]"
+        },
+        {
+          "type": "desecrated",
+          "text": "+35 to maximum Mana"
+        },
+        {
+          "type": "enchant",
+          "text": "43% increased [Spirit|Spirit]"
+        }
+      ]
+    },
+    {
+      "id": "67d67d5f0fe9e91a482ca0df8f82bd2840dffebeab5090c84d0526295c96b12f",
+      "name": "Beast League",
+      "base": "Sekhema Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 750,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "30% increased [CooldownRecovery|Cooldown Recovery Rate]"
+        },
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+53 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "40% increased Skill Effect Duration"
+        },
+        {
+          "type": "desecrated",
+          "text": "100% increased [EnergyShield|Energy Shield]"
+        }
+      ]
+    },
+    {
+      "id": "3a78584e7374e3d98ee8928d696c303ca420014bb270de6c9012470fa8649b3d",
+      "name": "Oblivion Prism",
+      "base": "Sapphire",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 800,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "34% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "16% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "28% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "25% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "50% increased Effect of Suffixes"
+        },
+        {
+          "type": "enchant",
+          "text": "+7% to [Resistances|Lightning Resistance]"
+        }
+      ]
+    },
+    {
+      "id": "fccee7233d4d0e9010a4434986dbcb7e505b2431a0f21fae9714fca8c651a787",
+      "name": "Bramble Circle",
+      "base": "Refined Breach Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 850,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Adds 5 to 116 [Lightning] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 46 to 75 [Fire] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "18% increased [ItemRarity|Rarity of Items] found"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "Adds 25 to 46 [Physical|Physical] Damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "15% increased [Attack] Speed"
+        }
+      ]
+    },
+    {
+      "id": "4b8e52d59db31fcd778351c3bffb18056e400654390b9f60da030a998c4365a3",
+      "name": "Agony Reach",
+      "base": "Obliterator Bow",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 860,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "179% increased [Physical] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 97 to 138 [Fire|Fire] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+4.17% to [Critical|Critical Hit] Chance"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain 64 Life per enemy killed"
+        },
+        {
+          "type": "explicit",
+          "text": "+180% [SurpassChance|Surpassing] chance to fire an additional Arrow"
+        },
+        {
+          "type": "desecrated",
+          "text": "Adds 37 to 66 [Physical|Physical] Damage"
+        }
+      ]
+    },
+    {
+      "id": "2b21dd3659a8adb439a818bd491c18192de20a5c49d2bddcf18ed0011a559e8c",
+      "name": "Corpse Tread",
+      "base": "Sekhema Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 880,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+45% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+49 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "95% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "30% increased [CooldownRecovery|Cooldown Recovery Rate]"
+        }
+      ]
+    },
+    {
+      "id": "7eb5ab604a6b2d5b437797d37407499046771a25fb0101634625f13a08d7d292",
+      "name": "Behemoth Goad",
+      "base": "Sekhema Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 900,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+45% to [Resistances|Fire Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+57 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "99% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "30% increased [CooldownRecovery|Cooldown Recovery Rate]"
+        }
+      ]
+    },
+    {
+      "id": "d642258fbd0d0d8187616a97cbbe434ef1a99d990252360ae9271b8eb2da9a26",
+      "name": "Rune Halo",
+      "base": "Ancestral Tiara",
+      "ilvl": 83,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 900,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+45% to [Resistances|Fire Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+71 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "40% increased [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+47 to maximum Life"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Cold Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+44% to [Resistances|Lightning Resistance]"
+        },
+        {
+          "type": "explicit",
+          "text": "+25% to [Resistances|Chaos Resistance]"
+        },
+        {
+          "type": "desecrated",
+          "text": "100% increased [EnergyShield|Energy Shield]"
+        }
+      ]
+    },
+    {
+      "id": "16a9a9696d661c28e1449433627eb1d632e3e7fabd30b239eefcb42f8d0bafa8",
+      "name": "Rapture Nails",
+      "base": "Runeforged Sirenscale Gloves",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 900,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+117 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "37% increased [Projectile] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+2 to Level of all [Projectile] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "39% increased [Projectile] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "desecrated",
+          "text": "14% chance to Gain [ArcaneSurgeDuration|Arcane Surge] when you deal a [Critical|Critical Hit]"
+        }
+      ]
+    },
+    {
+      "id": "72bed9acf2987963947e71586fbc585295e8cd09f8953883ee467cec4bab8a38",
+      "name": "Phoenix Edge",
+      "base": "Soaring Spear",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 3,
+      "price_amount": 920,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "36% increased [Attack] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "29% increased Explicit Speed Modifier magnitudes"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 2 to 36 [Lightning|Lightning] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "21% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+364 to [Accuracy|Accuracy] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased [Attack] Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "10% increased [Spirit] [Reservation] [Efficiency] of Skills"
+        }
+      ]
+    },
+    {
+      "id": "12aa383e643340548936f601a6d348eeab389425e723460261e899d22a2650f3",
+      "name": "Armageddon Edge",
+      "base": "Soaring Spear",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 3,
+      "price_amount": 920,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Adds 68 to 102 [Cold|Cold] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "29% increased Explicit Speed Modifier magnitudes"
+        },
+        {
+          "type": "explicit",
+          "text": "36% increased [Attack] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "20% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+331 to [Accuracy|Accuracy] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased [Attack] Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "10% increased [Spirit] [Reservation] [Efficiency] of Skills"
+        }
+      ]
+    },
+    {
+      "id": "8291f39f014548b1a2222e611a0acccf36a193b83e4f858caf7737e96e26bd69",
+      "name": "Fulgent Breath",
+      "base": "Sapphire",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 1200,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "35% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+        },
+        {
+          "type": "explicit",
+          "text": "13% increased [Spell] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "31% increased [CriticalDamageBonus|Critical Damage Bonus]"
+        },
+        {
+          "type": "desecrated",
+          "text": "22% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "55% increased Effect of Suffixes"
+        },
+        {
+          "type": "enchant",
+          "text": "+10% to [Resistances|Cold Resistance]"
+        }
+      ]
+    },
+    {
+      "id": "89779a65e580f8e5d65eac9c69642bc3a3b94bb63d45ae75f99df9479b0eb91b",
+      "name": "Dire Chant",
+      "base": "Dueling Wand",
+      "ilvl": 84,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 1200,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "69% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 30% of Damage as Extra [Lightning] Damage"
+        },
+        {
+          "type": "explicit",
+          "text": "+4 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "+185 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "+1 to Level of all [Spell|Spell] Skills"
+        },
+        {
+          "type": "explicit",
+          "text": "30% increased Cast Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "[Gain] 7% of [ElementalDamage|Elemental Damage] as Extra [Cold] Damage"
+        },
+        {
+          "type": "desecrated",
+          "text": "112% increased [Spell] Damage"
+        }
+      ]
+    },
+    {
+      "id": "4de008e9ede0fd0e009a2969999273e78b1477b6a2b6324f96674c51cf91923d",
+      "name": "Glyph Sanctuary",
+      "base": "Slipstrike Vest",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 3,
+      "price_amount": 1200,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+89 to [Evasion] Rating"
+        },
+        {
+          "type": "fractured",
+          "text": "41% increased [Evasion|Evasion] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "+269 to [Evasion] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "108% increased [Evasion|Evasion] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain [Deflect|Deflection Rating] equal to 26% of [Evasion|Evasion Rating]"
+        },
+        {
+          "type": "explicit",
+          "text": "+31% to Cold and Chaos Resistances"
+        },
+        {
+          "type": "desecrated",
+          "text": "[HitDamage|Hits] against you have 92% reduced [CriticalDamageBonus|Critical Damage Bonus]"
+        }
+      ]
+    },
+    {
+      "id": "23bf28b5a154ebed748dc922f0974c62ba80ea7c3128524c4789634e8999a6c5",
+      "name": "Brood Knuckle",
+      "base": "Refined Breach Ring",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 1200,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Adds 46 to 75 [Fire] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 36 to 61 [Cold] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to [Strength|Strength]"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to [Dexterity|Dexterity]"
+        },
+        {
+          "type": "desecrated",
+          "text": "Adds 3 to 111 [Lightning] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "15% increased [Attack] Speed"
+        }
+      ]
+    },
+    {
+      "id": "a3c9753ffaab5b2e808d0e7fa9476ae862544281bb42aec77451286596f5b60c",
+      "name": "Wrath Coil",
+      "base": "Refined Breach Ring",
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "sockets": 0,
+      "price_amount": 2400,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Adds 40 to 64 [Cold] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 7 to 115 [Lightning] damage to [Attack|Attacks]"
+        },
+        {
+          "type": "explicit",
+          "text": "18% increased [ItemRarity|Rarity of Items] found"
+        },
+        {
+          "type": "explicit",
+          "text": "+16% to all [ElementalDamage|Elemental] [Resistances]"
+        },
+        {
+          "type": "explicit",
+          "text": "15% increased [Attack] Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "Adds 50 to 71 [Fire] damage to [Attack|Attacks]"
+        }
+      ]
+    },
+    {
+      "id": "7dc172f77755658819a64d0f31ad878d7f3a96d65962ed145a48a329498acd15",
+      "name": "Viper Palm",
+      "base": "Runeforged Sirenscale Gloves",
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 3,
+      "price_amount": 2800,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "60% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+59 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+123 to maximum Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "40% increased [Projectile] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "+2 to Level of all [Projectile] Skills"
+        },
+        {
+          "type": "desecrated",
+          "text": "10% chance to Gain [ArcaneSurgeDuration|Arcane Surge] when you deal a [Critical|Critical Hit]"
+        }
+      ]
+    },
+    {
+      "id": "07e5cd02e0ecb6db7d6967217ee2695f9b14e3dbece9207651e9267c4fda6232",
+      "name": "Glyph Edge",
+      "base": "Soaring Spear",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "sockets": 2,
+      "price_amount": 3200,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "25% reduced [Attributes|Attribute] Requirements"
+        },
+        {
+          "type": "explicit",
+          "text": "36% increased [Attack] Speed"
+        },
+        {
+          "type": "explicit",
+          "text": "20% increased effect of Socketed [Augment] Items"
+        },
+        {
+          "type": "explicit",
+          "text": "+340 to [Accuracy|Accuracy] Rating"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased [Attack] Speed"
+        },
+        {
+          "type": "desecrated",
+          "text": "29% increased Explicit Speed Modifier magnitudes"
+        },
+        {
+          "type": "enchant",
+          "text": "15% increased [Attack] Speed"
+        },
+        {
+          "type": "enchant",
+          "text": "Adds 2 to 39 [Lightning|Lightning] Damage"
+        }
+      ]
+    },
+    {
+      "id": "f8689ce02a51b6695ffd6f9aa6559c79682d208ea34ad87fc89473a2b051e143",
+      "name": "Temporalis",
+      "base": "Silk Robe",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": false,
+      "sockets": 2,
+      "price_amount": 5000,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+136 to maximum [EnergyShield|Energy Shield]"
+        },
+        {
+          "type": "explicit",
+          "text": "+21% to all [ElementalDamage|Elemental] [Resistances]"
+        },
+        {
+          "type": "explicit",
+          "text": "23% of Damage taken [Recoup|Recouped] as Life"
+        },
+        {
+          "type": "explicit",
+          "text": "7% of Damage taken [Recoup|Recouped] as Mana"
+        },
+        {
+          "type": "explicit",
+          "text": "Skills have -2.05 seconds to Cooldown"
+        }
+      ]
+    }
+  ]
+}

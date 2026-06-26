@@ -514,4 +514,402 @@ public sealed class CraftConditionCountEvaluatorTests
             CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
             $"Fractured-аффикс не должен засчитываться в Count. Объяснение: {expl}");
     }
+
+    // ── StatLineMatchesTemplate: встроенный диапазон тира (N–M) ───────────────────────────
+
+    /// <summary>
+    /// Парсер из «Text N(min-max)% text» кладёт StatText = «Text % text» (число и диапазон исчезают).
+    /// Шаблон библиотеки хранит «Text (min–max)% text».
+    /// StatLineMatchesTemplate должен находить совпадение.
+    ///
+    /// Покрывает шесть структурных категорий:
+    ///   EMBED_BEFORE_PERCENT  — «Notable … grant (5–10)% increased …»  (регрессия попытки 21)
+    ///   LEAD_RANGE_BEFORE_%   — «(25–34)% increased Spell Damage»
+    ///   LEAD_RANGE_SPACE      — «(1–2) Life Regeneration per second»
+    ///   PLUS_RANGE_SPACE      — «+(10–14) to maximum Mana»
+    ///   PLUS_RANGE_PERCENT    — «+(25–50)% Surpassing chance …»
+    ///   EMBED_BEFORE_SPACE    — «Gain (2–3) Mana per enemy killed»
+    /// </summary>
+    [Theory]
+    // EMBED_BEFORE_PERCENT — регрессия попытки 21 (Time-Lost Sapphire «of Unmaking» / «of Potency» CD)
+    [InlineData(
+        "Notable Passive Skills in Radius also grant % increased Critical Spell Damage Bonus",
+        "Notable Passive Skills in Radius also grant (5–10)% increased Critical Spell Damage Bonus")]
+    [InlineData(
+        "Notable Passive Skills in Radius also grant % increased Critical Damage Bonus",
+        "Notable Passive Skills in Radius also grant (5–10)% increased Critical Damage Bonus")]
+    [InlineData(
+        "% increased Effect of Small Passive Skills in Radius",
+        "(15–25)% increased Effect of Small Passive Skills in Radius")]
+    [InlineData(
+        "Gain % of Damage as Extra Lightning Damage",
+        "Gain (13–15)% of Damage as Extra Lightning Damage")]
+    // LEAD_RANGE_BEFORE_% (уже работало через bNoRoll, остаётся покрыто)
+    [InlineData("% increased Spell Damage",              "(25–34)% increased Spell Damage")]
+    [InlineData("% increased Evasion Rating",            "(40–56)% increased Evasion Rating")]
+    // LEAD_RANGE_SPACE
+    [InlineData("Life Regeneration per second",          "(1–2) Life Regeneration per second")]
+    [InlineData("Mana Regeneration per second",          "(3–5) Mana Regeneration per second")]
+    // PLUS_RANGE_SPACE
+    [InlineData("+ to maximum Mana",                     "+(10–14) to maximum Mana")]
+    [InlineData("+ to maximum Life",                     "+(40–60) to maximum Life")]
+    [InlineData("+ to Intelligence",                     "+(5–8) to Intelligence")]
+    // PLUS_RANGE_PERCENT
+    [InlineData(
+        "+% Surpassing chance to fire an additional Arrow",
+        "+(25–50)% Surpassing chance to fire an additional Arrow")]
+    // EMBED_BEFORE_SPACE
+    [InlineData("Gain Mana per enemy killed",            "Gain (2–3) Mana per enemy killed")]
+    public void StatLineMatchesTemplate_EmbeddedTierRange_MatchesParsedStat(string parsedStat, string template)
+    {
+        Assert.True(
+            ParsedItemCraftEvaluator.StatLineMatchesTemplate(parsedStat, template),
+            $"parsedStat='{parsedStat}' template='{template}'");
+    }
+
+    /// <summary>Одна и та же структура с диапазоном, но разный текст стата — не должно совпадать.</summary>
+    [Theory]
+    [InlineData(
+        "Notable Passive Skills in Radius also grant % increased Critical Spell Damage Bonus",
+        "Notable Passive Skills in Radius also grant (5–10)% increased Critical Damage Bonus")]
+    [InlineData("Life Regeneration per second",  "(1–2) Mana Regeneration per second")]
+    [InlineData("+ to maximum Mana",             "+(10–14) to maximum Life")]
+    [InlineData("% increased Spell Damage",      "(25–34)% increased Physical Damage")]
+    [InlineData("Gain Mana per enemy killed",    "Gain (2–3) Life per enemy killed")]
+    public void StatLineMatchesTemplate_EmbeddedTierRange_DoesNotMatchDifferentStat(string parsedStat, string template)
+    {
+        Assert.False(
+            ParsedItemCraftEvaluator.StatLineMatchesTemplate(parsedStat, template),
+            $"Ожидали НЕ совпадение: parsedStat='{parsedStat}' template='{template}'");
+    }
+
+    // ── ItemClassMatches: «Jewels» матчит «Time-Lost Sapphire Jewels» ───────────────────
+
+    /// <summary>
+    /// В игре класс предмета репортируется как «Jewels» для всех суб-типов джувелов.
+    /// Библиотека хранит специфичный класс «Time-Lost Sapphire Jewels».
+    /// ItemClassMatches должен принимать игровой класс как суффикс библиотечного.
+    /// </summary>
+    [Theory]
+    [InlineData("Jewels",        "Time-Lost Sapphire Jewels")]
+    [InlineData("Jewels",        "Sapphire Jewels")]
+    [InlineData("Jewels",        "Jewels")]
+    [InlineData("Rings",         "Rings")]
+    [InlineData("Body Armours",  "Body Armours")]
+    [InlineData("Wands",         "Wands")]
+    public void ItemClassMatches_GameClassMatchesLibrarySubtype(string gameClass, string expectedClass)
+    {
+        var item = new ParsedItem { ItemClass = gameClass };
+        Assert.True(
+            ParsedItemCraftEvaluator.ItemClassMatches(item, expectedClass),
+            $"gameClass='{gameClass}' expectedClass='{expectedClass}'");
+    }
+
+    [Theory]
+    [InlineData("Jewels",   "Rings")]
+    [InlineData("Helmets",  "Body Armours")]
+    [InlineData("Wands",    "Amulets")]
+    [InlineData("Rings",    "Jewels")]
+    public void ItemClassMatches_DifferentClasses_DoNotMatch(string gameClass, string expectedClass)
+    {
+        var item = new ParsedItem { ItemClass = gameClass };
+        Assert.False(
+            ParsedItemCraftEvaluator.ItemClassMatches(item, expectedClass),
+            $"gameClass='{gameClass}' expectedClass='{expectedClass}'");
+    }
+
+    // ── Регрессия попытки 21: Time-Lost Sapphire с «of Unmaking» не засчитывался ─────────
+
+    private const string SapphireAttempt21Clipboard = """
+        Item Class: Jewels
+        Rarity: Rare
+        Oblivion Creed
+        Time-Lost Sapphire
+        --------
+        Radius: Small
+        --------
+        Item Level: 61
+        --------
+        { Fractured Suffix Modifier "of Potency" (Tier: 1) — Damage, Critical }
+        Notable Passive Skills in Radius also grant 10(5-10)% increased Critical Damage Bonus
+        { Suffix Modifier "of Unmaking" (Tier: 1) — Damage, Caster, Critical }
+        Notable Passive Skills in Radius also grant 9(5-10)% increased Critical Spell Damage Bonus
+        --------
+        Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+        --------
+        Fractured Item
+        """;
+
+    private static CraftWholeModifierAffixData SapphireMember(string name, string stat, double minRoll) => new()
+    {
+        AffixType = "Suffix Modifier",
+        AffixName = name,
+        SelectedAffixNames = new List<string> { name },
+        AffixTier = 1,
+        Lines = new List<CraftWholeModifierLine>
+        {
+            new() { StatTemplate = stat, MinRoll = minRoll, MinRolls = new List<double> { minRoll } },
+        },
+    };
+
+    private const string StatOfUnmaking = "Notable Passive Skills in Radius also grant (5–10)% increased Critical Spell Damage Bonus";
+    private const string StatOfPotencyCD = "Notable Passive Skills in Radius also grant (5–10)% increased Critical Damage Bonus";
+
+    /// <summary>
+    /// COUNT≥1 из {of Potency (CD, fractured), of Unmaking (CS, regular)}.
+    /// «of Potency» фрактурный — не засчитывается. «of Unmaking» обычный суффикс — засчитывается.
+    /// Класс в буфере «Jewels», в условии «Time-Lost Sapphire Jewels» — должен проходить после фикса.
+    /// Регрессия: до фикса StatLineMatchesTemplate возвращал false для «(5–10)%» шаблона.
+    /// </summary>
+    [Fact]
+    public void Count_TimeLostSapphire_OfUnmaking_Regular_Satisfies_CountCondition()
+    {
+        var item = ItemParser.Parse(SapphireAttempt21Clipboard);
+        Assert.Equal("Jewels", item.ItemClass);
+        Assert.True(item.Affixes.Any(a => a.IsFractured && a.Name == "of Potency"),
+            "Должен быть fractured of Potency");
+        Assert.True(item.Affixes.Any(a => !a.IsFractured && a.Name == "of Unmaking"),
+            "Должен быть regular of Unmaking");
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Time-Lost Sapphire Jewels",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                Members =
+                                {
+                                    SapphireMember("of Potency",  StatOfPotencyCD,  5),
+                                    SapphireMember("of Unmaking", StatOfUnmaking,   5),
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.True(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"COUNT должен сработать через «of Unmaking» (regular). Объяснение: {expl}");
+    }
+
+    // ── Регрессия попытки 136: фрактурный «of Unmaking», регулярный «of Potency» (CD) ──
+
+    private const string SapphireAttempt136Clipboard = """
+        Item Class: Jewels
+        Rarity: Rare
+        Hypnotic Shine
+        Time-Lost Sapphire
+        --------
+        Radius: Small
+        --------
+        Item Level: 79
+        --------
+        { Fractured Suffix Modifier "of Unmaking" (Tier: 1) — Damage, Caster, Critical }
+        Notable Passive Skills in Radius also grant 10(5-10)% increased Critical Spell Damage Bonus
+        { Suffix Modifier "of Potency" (Tier: 1) — Damage, Critical }
+        Notable Passive Skills in Radius also grant 5(5-10)% increased Critical Damage Bonus
+        --------
+        Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+        --------
+        Fractured Item
+        """;
+
+    /// <summary>
+    /// «of Unmaking» фрактурный — не засчитывается.
+    /// «of Potency» (CD Bonus) регулярный — засчитывается.
+    /// Проблема: FindEntryByNameAndTierTypeCompatible возвращал первую запись «of Potency»
+    /// (Small Passive Skills), а её статшаблон не совпадал с CD Bonus → idx=-1 → false.
+    /// Фикс: перебираем всех кандидатов и выбираем тот, чьи статы совпадают с Lines в условии.
+    /// </summary>
+    [Fact]
+    public void Count_TimeLostSapphire_OfPotencyCD_Regular_Satisfies_CountCondition()
+    {
+        var item = ItemParser.Parse(SapphireAttempt136Clipboard);
+        Assert.True(item.Affixes.Any(a => a.IsFractured && a.Name == "of Unmaking"),
+            "Должен быть fractured of Unmaking");
+        Assert.True(item.Affixes.Any(a => !a.IsFractured && a.Name == "of Potency"),
+            "Должен быть regular of Potency");
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Time-Lost Sapphire Jewels",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                Members =
+                                {
+                                    SapphireMember("of Potency",  StatOfPotencyCD,  5),
+                                    SapphireMember("of Unmaking", StatOfUnmaking,   5),
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.True(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"COUNT должен сработать через «of Potency» (CD, regular). Объяснение: {expl}");
+    }
+
+    /// <summary>
+    /// Тот же предмет, но условие требует «of Unmaking» с порогом 10 (максимум).
+    /// Фактический ролл 9 — не дотягивает.
+    /// </summary>
+    [Fact]
+    public void Count_TimeLostSapphire_OfUnmaking_MinRoll10_DoesNotMatch_Roll9()
+    {
+        var item = ItemParser.Parse(SapphireAttempt21Clipboard);
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Time-Lost Sapphire Jewels",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                Members =
+                                {
+                                    SapphireMember("of Unmaking", StatOfUnmaking, 10),
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.False(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out _),
+            "Ролл 9 < 10, условие не должно сработать");
+    }
+
+    /// <summary>
+    /// Fractured «of Potency» (CD) не засчитывается в COUNT, даже если диапазон правильный.
+    /// </summary>
+    [Fact]
+    public void Count_TimeLostSapphire_FracturedOfPotency_DoesNotSatisfyCountAlone()
+    {
+        var item = ItemParser.Parse(SapphireAttempt21Clipboard);
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Time-Lost Sapphire Jewels",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                Members =
+                                {
+                                    SapphireMember("of Potency", StatOfPotencyCD, 5),
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.False(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out _),
+            "Fractured «of Potency» не должен засчитываться как результат крафта");
+    }
+
+    /// <summary>
+    /// Регрессия попытка 136: «of Potency» (CD) регулярный суффикс + «of Unmaking» (CS) фрактурный.
+    /// Условие COUNT≥1 из {of Potency (CD), of Unmaking (CS)} должно совпасть через of Potency.
+    /// До фикса: FindEntryByNameAndTierTypeCompatible возвращал первую запись «of Potency» (Small Passive Skills),
+    /// ResolveStatIndexInEntry для StatOfPotencyCD возвращал -1 → false.
+    /// </summary>
+    [Fact]
+    public void Count_TimeLostSapphire_OfPotencyCD_TryWholeModifierAnyLine_Disambiguates()
+    {
+        var item = ItemParser.Parse(SapphireAttempt136Clipboard);
+
+        var wholemem = SapphireMember("of Potency", StatOfPotencyCD, 5);
+
+        var lib = AffixLibrary.GetEntries();
+        bool result = ParsedItemCraftEvaluator.TryWholeModifierAnyLineFullySatisfied(
+            wholemem, item, "Time-Lost Sapphire Jewels", lib);
+
+        Assert.True(result,
+            "TryWholeModifierAnyLineFullySatisfied должен найти «of Potency» CD-вариант через disambiguation");
+    }
+
+    /// <summary>
+    /// Тот же сценарий через полный TryEvaluate — итоговая интеграция.
+    /// </summary>
+    [Fact]
+    public void Count_TimeLostSapphire_Attempt136_FullEvaluate_Satisfies()
+    {
+        var item = ItemParser.Parse(SapphireAttempt136Clipboard);
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Time-Lost Sapphire Jewels",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                Members =
+                                {
+                                    SapphireMember("of Potency",  StatOfPotencyCD,  5),
+                                    SapphireMember("of Unmaking", StatOfUnmaking,   5),
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.True(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out _),
+            "Попытка 136: «of Potency» CD должен засчитаться как цель крафта");
+    }
 }

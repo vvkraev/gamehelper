@@ -314,6 +314,10 @@ public sealed class AppSettings
     /// <summary>Модификаторы для «Старт/Стоп переоценки»: Alt=1, Ctrl=2, Shift=4.</summary>
     public int RepricingStartStopModifiers { get; set; }
 
+    // ── Десекрейт (Reveal Desecrate) ─────────────────────────────────────────
+    /// <summary>Область 3 вариантов Cranium Reveal (1 столбец × 3 строки).</summary>
+    public ScreenRect DesecrateCaptureArea { get; set; }
+
 }
 
 /// <summary>Конфигурация одной вкладки торговца для переоценки.</summary>

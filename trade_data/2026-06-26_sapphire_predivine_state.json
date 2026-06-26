@@ -1,0 +1,79 @@
+{
+  "date": "2026-06-26",
+  "stage": "pre-divine",
+  "note": "Desecrate-суффикс не отображается через Ctrl+Alt+C (игровое ограничение) — добавлен вручную по логу reveal-сессии",
+  "items": [
+    {
+      "base": 1,
+      "name": "Oblivion Creed — Time-Lost Sapphire",
+      "item_level": 61,
+      "radius": "Small",
+      "mods": {
+        "prefixes": [
+          { "name": "Mystic", "tier": 1, "type": "normal", "stat": "Small Passive Skills in Radius also grant 2% increased Spell Damage", "roll": 2, "range": "1-2" },
+          { "name": "", "type": "crafted", "stat": "+1 Suffix Modifier allowed" }
+        ],
+        "suffixes": [
+          { "name": "of Potency", "tier": 1, "type": "fractured", "stat": "Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus", "roll": 10, "range": "5-10" },
+          { "name": "of Unmaking", "tier": 1, "type": "normal", "stat": "Notable Passive Skills in Radius also grant 6% increased Critical Spell Damage Bonus", "roll": 6, "range": "5-10" },
+          { "type": "desecrate_revealed", "stat": "Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance", "roll": 7, "source": "desecrate_reveal_log cycle 4 attempt 1" }
+        ]
+      }
+    },
+    {
+      "base": 2,
+      "name": "Oblivion Creed — Time-Lost Sapphire",
+      "item_level": 61,
+      "radius": "Small",
+      "mods": {
+        "prefixes": [
+          { "name": "Mystic", "tier": 1, "type": "normal", "stat": "Small Passive Skills in Radius also grant 2% increased Spell Damage", "roll": 2, "range": "1-2" },
+          { "name": "", "type": "crafted", "stat": "+1 Suffix Modifier allowed" }
+        ],
+        "suffixes": [
+          { "name": "of Potency", "tier": 1, "type": "fractured", "stat": "Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus", "roll": 10, "range": "5-10" },
+          { "name": "of Unmaking", "tier": 1, "type": "normal", "stat": "Notable Passive Skills in Radius also grant 6% increased Critical Spell Damage Bonus", "roll": 6, "range": "5-10" },
+          { "type": "desecrate_revealed", "stat": "Notable Passive Skills in Radius also grant 4% increased Critical Hit Chance for Spells", "roll": 4, "source": "desecrate_reveal_log cycle 3 attempt 2" }
+        ]
+      }
+    },
+    {
+      "base": 3,
+      "name": "Oblivion Creed — Time-Lost Sapphire",
+      "item_level": 61,
+      "radius": "Small",
+      "mods": {
+        "prefixes": [
+          { "name": "Mystic", "tier": 1, "type": "normal", "stat": "Small Passive Skills in Radius also grant 2% increased Spell Damage", "roll": 2, "range": "1-2" },
+          { "name": "", "type": "crafted", "stat": "+1 Suffix Modifier allowed" }
+        ],
+        "suffixes": [
+          { "name": "of Potency", "tier": 1, "type": "fractured", "stat": "Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus", "roll": 10, "range": "5-10" },
+          { "name": "of Unmaking", "tier": 1, "type": "normal", "stat": "Notable Passive Skills in Radius also grant 6% increased Critical Spell Damage Bonus", "roll": 6, "range": "5-10" },
+          { "type": "desecrate_revealed", "stat": "Notable Passive Skills in Radius also grant 4% increased Critical Hit Chance", "roll": 4, "source": "desecrate_reveal_log cycle 5 attempt 2" }
+        ]
+      }
+    },
+    {
+      "base": 4,
+      "name": "Oblivion Creed — Time-Lost Sapphire",
+      "item_level": 61,
+      "radius": "Small",
+      "mods": {
+        "prefixes": [
+          { "name": "Mystic", "tier": 1, "type": "normal", "stat": "Small Passive Skills in Radius also grant 2% increased Spell Damage", "roll": 2, "range": "1-2" },
+          { "name": "", "type": "crafted", "stat": "+1 Suffix Modifier allowed" }
+        ],
+        "suffixes": [
+          { "name": "of Potency", "tier": 1, "type": "fractured", "stat": "Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus", "roll": 10, "range": "5-10" },
+          { "name": "of Unmaking", "tier": 1, "type": "normal", "stat": "Notable Passive Skills in Radius also grant 6% increased Critical Spell Damage Bonus", "roll": 6, "range": "5-10" },
+          { "type": "desecrate_revealed", "stat": "Notable Passive Skills in Radius also grant 3% increased Critical Hit Chance for Spells", "roll": 3, "source": "desecrate_reveal_log cycle 2 attempt 2" }
+        ]
+      }
+    }
+  ],
+  "pending_steps": [
+    "Divine Orb — улучшить роллы CD (of Potency), CHS (of Unmaking), CHS desecrate (всё в диапазоне 5-10%)",
+    "VL — добавить Void Leech через Omen of Melancholy (или аналог)"
+  ]
+}

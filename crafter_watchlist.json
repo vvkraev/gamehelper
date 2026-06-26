@@ -1,0 +1,30 @@
+[
+  {
+    "added": "2026-06-26",
+    "crafter": "Lohock#1361",
+    "account_hash": "8abeec8bf64cc574558cc954c87dc288",
+    "trade_search_url": "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/RJd3XveRi7",
+    "league": "Runes of Aldur",
+    "total_listings": 56,
+    "crafts": "Sapphire fractured (crit/spell), Sekhema Sandals fractured, Soaring Spear (APS), Sirenscale Gloves fractured, Obliterator Bow, Breach Ring, Diamond Desecrated",
+    "price_range": "25–5000 div",
+    "snapshots": [
+      "trade_data/2026-06-26_Lohock_snapshot.json"
+    ],
+    "notes": "Топовые предметы: Temporalis 5000 div, Spear 3200 div, Gloves 2800 div. Специализируется на fractured топ-слотах."
+  },
+  {
+    "added": "2026-06-26",
+    "crafter": "Ucadet#5740",
+    "account_hash": "8abeec8bf64cc574558cc954c87dc288",
+    "trade_search_url": "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/QL74qMJjTw",
+    "league": "Runes of Aldur",
+    "total_listings": 49,
+    "crafts": "Dueling Wands (+4 spell skills, elemental conversion), Bound Sandals (35% MS + ES), Mnemonic Rings, Ancestral Tiaras (ES), Time-Lost Sapphires (jewels)",
+    "price_range": "22–2222 div",
+    "snapshots": [
+      "trade_data/2026-06-26_Ucadet_snapshot.json"
+    ],
+    "notes": "Специализация: спелл-каст билды. Wands 1000–2222 div в целевом диапазоне. Sandals с 35% MS fractured 115–900 div."
+  }
+]
