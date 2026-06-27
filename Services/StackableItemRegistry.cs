@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace GameHelper.Services;
 
-public enum StackableItemKind { Catalyst, SoulCore, Delirium, Rune, Abyss, AncientAugment, Unknown }
+public enum StackableItemKind { Catalyst, SoulCore, Delirium, Rune, Abyss, AncientAugment, Idol, Unknown }
 
 public sealed class StackableItemType
 {
@@ -64,6 +64,7 @@ public static class StackableItemRegistry
         if (name.Contains("Soul Core", StringComparison.OrdinalIgnoreCase)) return StackableItemKind.SoulCore;
         if (name.Contains("Liquid",    StringComparison.OrdinalIgnoreCase)) return StackableItemKind.Delirium;
         if (name.Contains("Rune",      StringComparison.OrdinalIgnoreCase)) return StackableItemKind.Rune;
+        if (name.Contains("Idol",      StringComparison.OrdinalIgnoreCase)) return StackableItemKind.Idol;
         // Abyssal Bones (Stackable Currency) — по ключевым словам
         if (name.Contains("Jawbone",    StringComparison.OrdinalIgnoreCase) ||
             name.Contains("Collarbone", StringComparison.OrdinalIgnoreCase) ||

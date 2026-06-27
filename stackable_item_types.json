@@ -155,9 +155,19 @@
     "Kind": "SoulCore"
   },
   {
+    "Id": "bear_idol",
+    "DisplayName": "Bear Idol",
+    "Kind": "Idol"
+  },
+  {
     "Id": "betrayal_of_aldur",
     "DisplayName": "Betrayal of Aldur",
     "Kind": "Rune"
+  },
+  {
+    "Id": "boar_idol",
+    "DisplayName": "Boar Idol",
+    "Kind": "Idol"
   },
   {
     "Id": "body_rune",
@@ -198,6 +208,11 @@
     "Id": "carved_tenacity",
     "DisplayName": "Carved Tenacity",
     "Kind": "SoulCore"
+  },
+  {
+    "Id": "cat_idol",
+    "DisplayName": "Cat Idol",
+    "Kind": "Idol"
   },
   {
     "Id": "charging_rune",
@@ -345,6 +360,11 @@
     "Kind": "Catalyst"
   },
   {
+    "Id": "fox_idol",
+    "DisplayName": "Fox Idol",
+    "Kind": "Idol"
+  },
+  {
     "Id": "glacial_rune",
     "DisplayName": "Glacial Rune",
     "Kind": "Rune"
@@ -463,6 +483,91 @@
     "Id": "hedgewitch_assandras_rune_of_wisdom",
     "DisplayName": "Hedgewitch Assandra's Rune of Wisdom",
     "Kind": "Rune"
+  },
+  {
+    "Id": "idol_of_alira",
+    "DisplayName": "Idol of Alira",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_eeshta",
+    "DisplayName": "Idol of Eeshta",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_egrin",
+    "DisplayName": "Idol of Egrin",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_eramir",
+    "DisplayName": "Idol of Eramir",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_greust",
+    "DisplayName": "Idol of Greust",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_grold",
+    "DisplayName": "Idol of Grold",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_kraityn",
+    "DisplayName": "Idol of Kraityn",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_maxarius",
+    "DisplayName": "Idol of Maxarius",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_oak",
+    "DisplayName": "Idol of Oak",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_ralakesh",
+    "DisplayName": "Idol of Ralakesh",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_silk",
+    "DisplayName": "Idol of Silk",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_sirrius",
+    "DisplayName": "Idol of Sirrius",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_the_martyr",
+    "DisplayName": "Idol of the Martyr",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_the_pharisee",
+    "DisplayName": "Idol of the Pharisee",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_the_sycophant",
+    "DisplayName": "Idol of the Sycophant",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_thruldana",
+    "DisplayName": "Idol of Thruldana",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "idol_of_yeena",
+    "DisplayName": "Idol of Yeena",
+    "Kind": "Idol"
   },
   {
     "Id": "inspiration_rune",
@@ -620,6 +725,16 @@
     "Kind": "SoulCore"
   },
   {
+    "Id": "owl_idol",
+    "DisplayName": "Owl Idol",
+    "Kind": "Idol"
+  },
+  {
+    "Id": "ox_idol",
+    "DisplayName": "Ox Idol",
+    "Kind": "Idol"
+  },
+  {
     "Id": "passion_of_aldur",
     "DisplayName": "Passion of Aldur",
     "Kind": "Rune"
@@ -690,6 +805,11 @@
     "Kind": "Delirium"
   },
   {
+    "Id": "primate_idol",
+    "DisplayName": "Primate Idol",
+    "Kind": "Idol"
+  },
+  {
     "Id": "quipolatls_soul_core_of_flow",
     "DisplayName": "Quipolatl's Soul Core of Flow",
     "Kind": "SoulCore"
@@ -698,6 +818,11 @@
     "Id": "quipolatls_thesis",
     "DisplayName": "Quipolatl's Thesis",
     "Kind": "SoulCore"
+  },
+  {
+    "Id": "rabbit_idol",
+    "DisplayName": "Rabbit Idol",
+    "Kind": "Idol"
   },
   {
     "Id": "reaver_catalyst",
@@ -758,6 +883,11 @@
     "Id": "skittering_catalyst",
     "DisplayName": "Skittering Catalyst",
     "Kind": "Catalyst"
+  },
+  {
+    "Id": "snake_idol",
+    "DisplayName": "Snake Idol",
+    "Kind": "Idol"
   },
   {
     "Id": "soul_core_of_atmohua",
@@ -833,6 +963,11 @@
     "Id": "soul_core_of_zantipi",
     "DisplayName": "Soul Core of Zantipi",
     "Kind": "SoulCore"
+  },
+  {
+    "Id": "stag_idol",
+    "DisplayName": "Stag Idol",
+    "Kind": "Idol"
   },
   {
     "Id": "storm_rune",
@@ -938,6 +1073,11 @@
     "Id": "warding_rune_of_stability",
     "DisplayName": "Warding Rune of Stability",
     "Kind": "Rune"
+  },
+  {
+    "Id": "wolf_idol",
+    "DisplayName": "Wolf Idol",
+    "Kind": "Idol"
   },
   {
     "Id": "xipocados_soul_core_of_dominion",

@@ -186,7 +186,7 @@
     {
       "step": "annul_after_lc_fail_r3",
       "description": "Orb of Annulment × 2 — снять добавленный префикс и CD.",
-      "spent_div": 1.40,
+      "spent_div": 1.4,
       "detail": {
         "annul_orbs": 2,
         "annul_price_div": 0.6982,
@@ -221,20 +221,40 @@
     },
     {
       "step": "desecrate_reveal",
-      "description": "Abyssal Echo — поиск CHS суффикса через Desecrate на 4 базах. 14 циклов суммарно.",
-      "spent_div": 22.0,
+      "description": "Desecrate reveal — поиск CHS суффикса через Desecrate на 4 базах. 14 циклов суммарно.",
+      "spent_div": 135.4,
       "detail": {
         "abyssal_echo_cycles_total": 14,
         "bases": 4,
         "source_log": "desecrate_reveal_log.jsonl",
-        "per_base_cycles": { "base_1": 4, "base_2": 3, "base_3": 5, "base_4": 2 },
+        "per_base_cycles": {
+          "base_1": 4,
+          "base_2": 3,
+          "base_3": 5,
+          "base_4": 2
+        },
         "chosen_mods": {
           "base_1": "7% increased Critical Hit Chance (T1, 3–7%)",
           "base_2": "4% increased Critical Hit Chance for Spells",
           "base_3": "4% increased Critical Hit Chance",
           "base_4": "3% increased Critical Hit Chance for Spells"
         },
-        "note": "Оценка 22d — точная цена Abyssal Echo не записана"
+        "spent_div_breakdown": {
+          "preserved_cranium_count": 14,
+          "preserved_cranium_price_div": 2.74,
+          "preserved_cranium_total": 38.36,
+          "omen_of_light_count": 10,
+          "omen_of_light_price_div": 8.64,
+          "omen_of_light_total": 86.4,
+          "annulment_reset_count": 10,
+          "annulment_price_div": 0.698,
+          "annulment_total": 6.98,
+          "omen_of_abyssal_echo_count": 12,
+          "omen_of_abyssal_echo_price_div": 0.304,
+          "omen_of_abyssal_echo_total": 3.65,
+          "total": 135.39,
+          "note": "OoLight и Annulment = циклов−1 на базу: в последнем цикле каждой базы мод не сбрасывается (найден нужный). Базы: 4+3+5+2=14 Cranium, 3+2+4+1=10 OoLight/Annulment"
+        }
       }
     },
     {
@@ -255,7 +275,7 @@
         "price_per_attempt_div": 11.79,
         "breakdown": {
           "omen_price_div": 11.09,
-          "annul_orb_price_div": 0.70
+          "annul_orb_price_div": 0.7
         },
         "mechanic": "Orb of Annulment с Omen of Sinistral Annulment → удаляет только PREFIX случайно. При 2 префиксах (Spell Damage T1 + crafted) → P(hit crafted) = 0.5.",
         "p_per_attempt": 0.5,
@@ -267,10 +287,9 @@
     },
     {
       "step": "chaos_orb_2_good_prefixes",
-      "description": "Chaos Orb × 516 на 4 базах — поиск COUNT≥2 T1 префиксов через overflow-механику (хаос не может менять суффиксы).",
-      "spent_div": 53.61,
+      "description": "Chaos Orb на 4 базах — поиск COUNT≥2 T1 префиксов через overflow-механику. ВНИМАНИЕ: 516 — количество кликов, не потреблённых орбов.",
+      "spent_div": null,
       "detail": {
-        "chaos_orbs": 516,
         "chaos_price_div": 0.1039,
         "mechanic": "3 суффикса при лимите 2 (overflow) → Chaos Orb не может применить суффиксную замену → только перекатывает 0–2 PREFIX слота",
         "condition": "COUNT≥2 из 12 T1 префиксов",
@@ -282,7 +301,11 @@
           "craft_2026-06-26_23-54-47": "100 хаосов — MaxAttemptsReached",
           "craft_2026-06-26_23-56-26": "127 хаосов — AffixFound (БАЗА 1 ГОТОВА)"
         },
-        "base_1_result": "Spell Damage 2% T1 + Energy Shield 3% T1 (COUNT=2, условие выполнено)"
+        "base_1_result": "Spell Damage 2% T1 + Energy Shield 3% T1 (COUNT=2, условие выполнено)",
+        "chaos_orbs_clicks": 516,
+        "chaos_orbs_consumed_estimate": "206–258 (60% или 50% reject rate из-за overflow-суффиксов)",
+        "cost_div_estimate": "21.4–26.8d",
+        "logging_error": "Приложение считало нажатия кнопки, а не фактические потребления орба. Игра возвращает орб при попытке применить к overflow-суффиксу."
       }
     },
     {
@@ -308,13 +331,42 @@
       "radius": "Very Large",
       "mods": {
         "prefixes": [
-          { "name": "Mystic", "tier": 1, "stat": "Small Passive Skills in Radius also grant 2% increased Spell Damage", "roll": 2, "range": "1-2" },
-          { "type": "crafted", "stat": "Upgrades Radius to Very Large", "note": "Unscalable Value (C)" }
+          {
+            "name": "Mystic",
+            "tier": 1,
+            "stat": "Small Passive Skills in Radius also grant 2% increased Spell Damage",
+            "roll": 2,
+            "range": "1-2"
+          },
+          {
+            "type": "crafted",
+            "stat": "Upgrades Radius to Very Large",
+            "note": "Unscalable Value (C)"
+          }
         ],
         "suffixes": [
-          { "name": "of Potency", "tier": 1, "type": "fractured", "stat": "Notable Passive Skills also grant increased Critical Damage Bonus", "roll": 10, "range": "5-10" },
-          { "name": "of Unmaking", "tier": 1, "stat": "Notable Passive Skills also grant increased Critical Spell Damage Bonus", "roll": 9, "range": "5-10" },
-          { "tier": 1, "type": "desecrate", "stat": "Notable Passive Skills also grant increased Critical Hit Chance", "roll": 7, "range": "3-7" }
+          {
+            "name": "of Potency",
+            "tier": 1,
+            "type": "fractured",
+            "stat": "Notable Passive Skills also grant increased Critical Damage Bonus",
+            "roll": 10,
+            "range": "5-10"
+          },
+          {
+            "name": "of Unmaking",
+            "tier": 1,
+            "stat": "Notable Passive Skills also grant increased Critical Spell Damage Bonus",
+            "roll": 9,
+            "range": "5-10"
+          },
+          {
+            "tier": 1,
+            "type": "desecrate",
+            "stat": "Notable Passive Skills also grant increased Critical Hit Chance",
+            "roll": 7,
+            "range": "3-7"
+          }
         ]
       },
       "listing_price_div": 215,
@@ -324,13 +376,22 @@
     }
   ],
   "pending_bases": [
-    { "base": 2, "status": "needs_delirium_oil_or_chaos" },
-    { "base": 3, "status": "needs_delirium_oil_or_chaos" },
-    { "base": 4, "status": "needs_delirium_oil_or_chaos" }
+    {
+      "base": 2,
+      "status": "needs_delirium_oil_or_chaos"
+    },
+    {
+      "base": 3,
+      "status": "needs_delirium_oil_or_chaos"
+    },
+    {
+      "base": 4,
+      "status": "needs_delirium_oil_or_chaos"
+    }
   ],
   "totals": {
     "spent_div_tracked": 262.27,
-    "spent_div_desecrate_estimated": 22.0,
+    "spent_div_desecrate_estimated": null,
     "spent_div_sinistral_annulment": 82.53,
     "spent_div_chaos_2prefix": 53.61,
     "spent_div_divine_tbd": null,
@@ -340,7 +401,8 @@
     "margin_div": null,
     "active_bases": 4,
     "completed_bases": 1,
-    "note": "420.41d — известные расходы. Без: Divine orbs (TBD) + масло делириума × 4 (TBD)"
+    "note": "420.41d — известные расходы. Без: Divine orbs (TBD) + масло делириума × 4 (TBD)",
+    "spent_div_desecrate_actual": 135.4
   },
   "status": "in_progress_base1_listed",
   "theory_cost_div_updated": 149.62

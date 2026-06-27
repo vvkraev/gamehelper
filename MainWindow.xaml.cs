@@ -4099,6 +4099,7 @@ public partial class MainWindow : Window
         if (item == null) return "Runes";
         if (item.Kind == Services.StackableItemKind.SoulCore) return "Soul Cores";
         if (item.Kind == Services.StackableItemKind.AncientAugment) return "Ancient Augments";
+        if (item.Kind == Services.StackableItemKind.Idol) return "Idols";
         if (item.Kind == Services.StackableItemKind.Rune)
         {
             var name = item.DisplayName;
@@ -4117,7 +4118,8 @@ public partial class MainWindow : Window
         var all = Services.StackableItemRegistry.Items
             .Where(i => i.Kind == Services.StackableItemKind.Rune
                      || i.Kind == Services.StackableItemKind.SoulCore
-                     || i.Kind == Services.StackableItemKind.AncientAugment)
+                     || i.Kind == Services.StackableItemKind.AncientAugment
+                     || i.Kind == Services.StackableItemKind.Idol)
             .ToList();
 
         if (all.Count == 0)
