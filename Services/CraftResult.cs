@@ -27,4 +27,7 @@ public sealed record CraftResult(
 
     public static CraftResult Failed(int attempts = 0) =>
         new(ChaosCraftResult.Error, attempts);
+
+    public static CraftResult NoAffixes(int attempts = 0) =>
+        new(ChaosCraftResult.AffixesMissing, attempts);
 }

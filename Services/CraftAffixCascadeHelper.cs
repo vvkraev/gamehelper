@@ -474,8 +474,12 @@ public static class CraftAffixCascadeHelper
             var name = (rawName ?? "").Trim();
             if (name.Length == 0)
                 continue;
-            var e = FindMultiStatEntryByNameTierType(itemClass, affixType, name, affixTier, entries);
-            if (e is null || !EntriesShareSameAffixStats(referenceEntry, e))
+            // An affix may have multiple single-stat entries in the library (poe2db splits hybrid mods).
+            // Search ALL matching entries and pick the one whose stats match the reference entry,
+            // rather than returning the first one found (which may be the wrong split variant).
+            var e = AffixCraftPatternBuilder.FindAllByNameAndTierTypeCompatible(entries, itemClass, affixType, name, affixTier)
+                .FirstOrDefault(x => EntriesShareSameAffixStats(referenceEntry, x));
+            if (e is null)
                 continue;
             foundMatch = true;
             var r = statIndex < e.AffixRanges.Count ? e.AffixRanges[statIndex] : null;

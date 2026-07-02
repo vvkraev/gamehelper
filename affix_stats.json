@@ -507,7 +507,8 @@
     "craft_2026-07-01_20-51-25--2026-07-01_20-51-28.txt",
     "craft_2026-07-01_20-51-44--2026-07-01_20-51-53.txt",
     "craft_2026-07-01_20-52-04--2026-07-01_20-54-03.txt",
-    "craft_2026-07-01_21-22-00--2026-07-01_21-22-07.txt"
+    "craft_2026-07-01_21-22-00--2026-07-01_21-22-07.txt",
+    "craft_2026-07-02_13-34-18--2026-07-02_13-34-19.txt"
   ],
   "perClass": {
     "One Hand Maces": {
@@ -2712,12 +2713,12 @@
       }
     },
     "Time-Lost Sapphire Jewels|Chaos Orb": {
-      "totalSnapshots": 6300,
+      "totalSnapshots": 6301,
       "affixCounts": {
         "of Inuring": 104,
-        "Grand": 128,
-        "Authoritative": 258,
-        "of Energy": 210,
+        "Grand": 129,
+        "Authoritative": 259,
+        "of Energy": 211,
         "Mystic": 267,
         "of Generation": 93,
         "Serene": 190,
@@ -2740,7 +2741,7 @@
         "Burning": 121,
         "Prismatic": 133,
         "of Acclimatisation": 157,
-        "of Potency": 69,
+        "of Potency": 70,
         "Expanding": 104,
         "Shimmering": 250,
         "of Paralyzing": 80,
@@ -2777,9 +2778,9 @@
       },
       "statTemplateCounts": {
         "of Inuring|small passive skills in radius also grant gain additional ailment threshold equal to % of maximum energy shield": 104,
-        "Grand|upgrades radius to large": 128,
-        "Authoritative|small passive skills in radius also grant minions deal % increased damage": 258,
-        "of Energy|small passive skills in radius also grant % increased mana regeneration rate": 210,
+        "Grand|upgrades radius to large": 129,
+        "Authoritative|small passive skills in radius also grant minions deal % increased damage": 259,
+        "of Energy|small passive skills in radius also grant % increased mana regeneration rate": 211,
         "Mystic|small passive skills in radius also grant % increased spell damage": 267,
         "of Generation|notable passive skills in radius also grant meta skills gain % increased energy": 93,
         "Serene|notable passive skills in radius also grant % faster start of energy shield recharge": 190,
@@ -2831,7 +2832,7 @@
         "Acrimonious|notable passive skills in radius also grant % increased magnitude of ailments you inflict": 50,
         "Veiled|desecrated prefix": 7,
         "Overgrown|small passive skills in radius also grant % increased damage with plant skills": 89,
-        "of Potency|notable passive skills in radius also grant % increased critical damage bonus": 14,
+        "of Potency|notable passive skills in radius also grant % increased critical damage bonus": 15,
         "Rancorous|notable passive skills in radius also grant % increased magnitude of damaging ailments you inflict with critical hits": 61,
         "Jolting|notable passive skills in radius also grant % increased magnitude of shock you inflict": 45,
         "of Righteousness|small passive skills in radius also grant minions have \u002B% to chaos resistance": 23,

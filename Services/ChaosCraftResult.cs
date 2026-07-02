@@ -6,5 +6,8 @@ public enum ChaosCraftResult
     EmptyCell,
     MaxAttemptsReached,
     Cancelled,
-    Error
+    Error,
+
+    /// <summary>Один или несколько аффиксов из условия отсутствуют на предмете — ячейку пропускаем без трат орба.</summary>
+    AffixesMissing,
 }

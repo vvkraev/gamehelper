@@ -31,6 +31,7 @@ public partial class App : System.Windows.Application
         services.AddSingleton<ExaltationCraftServiceFracturedSide>();
         services.AddSingleton<SharpenService>();
         services.AddSingleton<FracturingOrbService>();
+        services.AddSingleton<DivineCraftService>();
         services.AddSingleton<ReforgeService>();
         services.AddSingleton<AutoReforgeService>();
         services.AddSingleton<RepricingService>();

@@ -1,0 +1,62 @@
+{
+  "name": "Time-Lost Sapphire Jewels Crit bonus divine",
+  "savedAt": "2026-07-02T13:35:08.8996659+03:00",
+  "craftMode": "\u0414\u0438\u0432\u0430\u0439\u043D\u0438\u043D\u0433",
+  "plan": {
+    "expectedItemClass": "Time-Lost Sapphire Jewels",
+    "expectedItemSubType": "",
+    "expectedItemIlvl": 0,
+    "craftOrbName": "Chaos Orb",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "count",
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 1,
+              "members": [
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Potency",
+                  "selectedAffixNames": [
+                    "of Potency"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant (5\u201310)% increased Critical Damage Bonus",
+                      "minRoll": 10,
+                      "minRolls": [
+                        10
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Unmaking",
+                  "selectedAffixNames": [
+                    "of Unmaking"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant (5\u201310)% increased Critical Spell Damage Bonus",
+                      "minRoll": 10,
+                      "minRolls": [
+                        10
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "whole": null
+          }
+        ]
+      }
+    ]
+  }
+}

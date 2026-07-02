@@ -780,6 +780,8 @@ public partial class MainWindow : Window
             CraftModeCombo.SelectedIndex = 3;
         else if (mode.Contains("Фракт", StringComparison.OrdinalIgnoreCase))
             CraftModeCombo.SelectedIndex = 4;
+        else if (mode.Contains("Дивайн", StringComparison.OrdinalIgnoreCase))
+            CraftModeCombo.SelectedIndex = 5;
         else
             CraftModeCombo.SelectedIndex = 0;
         RefreshCraftOrbCombo();
@@ -1364,6 +1366,8 @@ public partial class MainWindow : Window
                 CraftModeCombo.SelectedIndex = 3;
             else if (cm.Contains("Фракт", StringComparison.OrdinalIgnoreCase))
                 CraftModeCombo.SelectedIndex = 4;
+            else if (cm.Contains("Дивайн", StringComparison.OrdinalIgnoreCase))
+                CraftModeCombo.SelectedIndex = 5;
             else
                 CraftModeCombo.SelectedIndex = 0;
             if (!string.IsNullOrEmpty(_craftPlan.CraftOrbName))
@@ -2026,6 +2030,7 @@ public partial class MainWindow : Window
                       || mode.Contains("Аннул", StringComparison.OrdinalIgnoreCase)
                       || mode.Contains("+", StringComparison.OrdinalIgnoreCase);
         var isFractOrb = mode.Contains("Фракт", StringComparison.OrdinalIgnoreCase);
+        var isDivine = mode.Contains("Дивайн", StringComparison.OrdinalIgnoreCase);
 
         if (isSharpen)
         {
@@ -2087,7 +2092,13 @@ public partial class MainWindow : Window
             return;
         }
 
-        if (!isAugAnnul && !isExalt && !isFractOrb && GetCurrencyRect("Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb") is null)
+        if (isDivine && GetCurrencyRect("Divine Orb") is null)
+        {
+            MessageBox.Show(this, "Задайте область Divine Orb в «Настройки областей → Currency».", "Область орба", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        if (!isAugAnnul && !isExalt && !isFractOrb && !isDivine && GetCurrencyRect("Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb") is null)
         {
             MessageBox.Show(this,"Задайте область Chaos Orb в «Настройки областей → Currency».", "Область орба", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
@@ -2231,10 +2242,11 @@ public partial class MainWindow : Window
                     .Task;
         }
 
-        var craftMode = isExalt ? Services.CraftMode.Exaltation
-            : isFractOrb        ? Services.CraftMode.FracturingOrb
-            : isAugAnnul        ? Services.CraftMode.AugAnnul
-            :                     Services.CraftMode.Chaos;
+        var craftMode = isExalt    ? Services.CraftMode.Exaltation
+            : isFractOrb           ? Services.CraftMode.FracturingOrb
+            : isAugAnnul           ? Services.CraftMode.AugAnnul
+            : isDivine             ? Services.CraftMode.Divine
+            :                        Services.CraftMode.Chaos;
 
         var ctx = new Services.CraftSessionContext
         {
@@ -2266,6 +2278,8 @@ public partial class MainWindow : Window
 
         if (craftMode == Services.CraftMode.FracturingOrb)
             ctx = ctx with { OrbRect = GetCurrencyRect("Fracturing Orb") ?? default };
+        if (craftMode == Services.CraftMode.Divine)
+            ctx = ctx with { OrbRect = GetCurrencyRect("Divine Orb") ?? default };
 
         _vm.IsCraftRunning = true;
         TryRegisterCraftCancelHotkey();

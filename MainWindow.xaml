@@ -437,6 +437,7 @@
                         <ComboBoxItem Content="Ауг+Аннул"/>
                         <ComboBoxItem Content="Заточка"/>
                         <ComboBoxItem Content="Фракт. Орб"/>
+                        <ComboBoxItem Content="Дивайнинг"/>
                     </ComboBox>
 
                     <!-- Панель оценки Fracturing Orb — видима только в режиме Фракт. Орб -->

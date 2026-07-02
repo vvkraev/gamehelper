@@ -19,6 +19,9 @@ public enum CraftPrecheckOutcome
     /// <summary>Предмет не Magic (для режимов, где требуется Magic).</summary>
     NonMagicCell,
 
+    /// <summary>Один или несколько аффиксов из условия отсутствуют на предмете — ячейку пропускаем без трат орба.</summary>
+    AffixesMissing,
+
     /// <summary>Нет текста / класс не совпал — сессию по этой ячейке нельзя продолжить.</summary>
     Failed,
 }
