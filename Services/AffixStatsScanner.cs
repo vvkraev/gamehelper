@@ -78,9 +78,27 @@ public static class AffixStatsScanner
                 var item = ItemParser.Parse(snapshot);
                 if (!item.IsValid || string.IsNullOrWhiteSpace(item.ItemClass)) continue;
 
-                // Subtype is only meaningful for armour-slot items (see AffixStatsData.SubTypeClasses).
-                var subType = AffixStatsData.SubTypeClasses.Contains(item.ItemClass) ? item.ItemSubType : "";
-                var cs = data.GetOrCreate(item.ItemClass, subType, orbName);
+                // Armour-slot items: subtype = defence layer (Armour / Evasion / Energy Shield / …).
+                // Jewels: resolve specific library class from the base type name so coloured variants
+                // (Sapphire Jewels, Time-Lost Sapphire Jewels, …) get their own stats bucket.
+                // Generic "Jewel" / "Time-Lost Jewel" stay under "Jewels" but use the base name as subtype.
+                string statsClass, subType;
+                if (item.ItemClass == "Jewels")
+                {
+                    var effectiveBase = string.IsNullOrEmpty(item.Base) ? item.Name : item.Base;
+                    (statsClass, subType) = ResolveJewelClassAndSubType(effectiveBase);
+                }
+                else if (AffixStatsData.SubTypeClasses.Contains(item.ItemClass))
+                {
+                    statsClass = item.ItemClass;
+                    subType = item.ItemSubType;
+                }
+                else
+                {
+                    statsClass = item.ItemClass;
+                    subType = "";
+                }
+                var cs = data.GetOrCreate(statsClass, subType, orbName);
                 cs.TotalSnapshots++;
                 foreach (var affix in item.Affixes)
                 {
@@ -156,4 +174,23 @@ public static class AffixStatsScanner
         var json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
         return File.WriteAllTextAsync(_statsFile, json);
     }
+
+    /// <summary>
+    /// Возвращает (statsClass, subType) для джевела по его базовому типу.
+    /// Цветные варианты (Sapphire Jewel, Time-Lost Sapphire, …) имеют отдельные классы в библиотеке —
+    /// используем их напрямую. Для базовых «Jewel» / «Time-Lost Jewel» subType разделяет статистику.
+    /// </summary>
+    private static (string statsClass, string subType) ResolveJewelClassAndSubType(string effectiveBase) =>
+        effectiveBase switch
+        {
+            "Sapphire Jewel"      => ("Sapphire Jewels",           ""),
+            "Time-Lost Sapphire"  => ("Time-Lost Sapphire Jewels", ""),
+            "Ruby Jewel"          => ("Ruby Jewels",               ""),
+            "Time-Lost Ruby"      => ("Time-Lost Ruby Jewels",     ""),
+            "Emerald Jewel"       => ("Emerald Jewels",            ""),
+            "Time-Lost Emerald"   => ("Time-Lost Emerald Jewels",  ""),
+            "Diamond Jewel"       => ("Diamond Jewels",            ""),
+            "Time-Lost Diamond"   => ("Time-Lost Diamond Jewels",  ""),
+            _                     => ("Jewels",                    effectiveBase),
+        };
 }

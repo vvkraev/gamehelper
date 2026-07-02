@@ -4,9 +4,16 @@ using System.Text.Json;
 namespace GameHelper.Services;
 
 /// <summary>Одна строка наблюдений в справочнике.</summary>
-public sealed record ReferenceEntry(string Outcome, int Count, string? Notes = null);
+public sealed record ReferenceEntry(
+    string Outcome,
+    int Count,
+    string? Notes  = null,
+    decimal Price  = 0m,   // ex-цена (для категории Перековка)
+    decimal Roi    = 0m,   // RoI 3→1 в % (для категории Перековка)
+    bool IsSummary = false // итоговая строка — не участвует в расчёте вероятности
+);
 
-/// <summary>Одна категория — один JSON-файл из docs/stats/.</summary>
+/// <summary>Одна категория — один JSON-файл из docs/stats/ или виртуальная.</summary>
 public sealed record ReferenceCategory(
     string DisplayName,
     string CategoryPath,
@@ -22,21 +29,33 @@ public sealed class ReferenceEntryRow
     public int    Count          { get; init; }
     public string ProbabilityPct { get; init; } = "";
     public string Ci95           { get; init; } = "";
+    public string Price          { get; init; } = "";
+    public string Roi            { get; init; } = "";
     public string Notes          { get; init; } = "";
+
+    // Числовые ключи для корректной сортировки в DataGrid
+    public double ProbabilitySort { get; init; }
+    public double PriceSort       { get; init; }
+    public double RoiSort         { get; init; }
 
     public static ReferenceEntryRow From(ReferenceEntry e, int total)
     {
-        var p  = total == 0 ? 0.0 : e.Count * 100.0 / total;
-        var ci = total > 0 && e.Count > 0
+        var p  = (!e.IsSummary && total > 0) ? e.Count * 100.0 / total : 0.0;
+        var ci = (!e.IsSummary && total > 0 && e.Count > 0)
             ? 1.96 * Math.Sqrt(p / 100.0 * (1.0 - p / 100.0) / total) * 100.0
             : 0.0;
         return new ReferenceEntryRow
         {
-            Outcome        = e.Outcome,
-            Count          = e.Count,
-            ProbabilityPct = $"{p:F1}",
-            Ci95           = ci >= 0.05 ? $"±{ci:F1}" : "",
-            Notes          = e.Notes ?? "",
+            Outcome         = e.Outcome,
+            Count           = e.IsSummary ? 0 : e.Count,
+            ProbabilityPct  = e.IsSummary ? "" : $"{p:F1}",
+            Ci95            = ci >= 0.05 ? $"±{ci:F1}" : "",
+            Price           = e.Price > 0 ? $"{e.Price:0.##}" : "",
+            Roi             = e.Roi   > 0 ? $"{e.Roi:F0}%" : "",
+            Notes           = e.Notes ?? "",
+            ProbabilitySort = e.IsSummary ? -1.0 : p,
+            PriceSort       = (double)e.Price,
+            RoiSort         = (double)e.Roi,
         };
     }
 }

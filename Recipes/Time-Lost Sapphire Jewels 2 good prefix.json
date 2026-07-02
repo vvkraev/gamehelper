@@ -1,6 +1,6 @@
 {
   "name": "Time-Lost Sapphire Jewels 2 good prefix",
-  "savedAt": "2026-06-26T23:36:01.6945648+03:00",
+  "savedAt": "2026-06-28T14:53:53.7730253+03:00",
   "craftMode": "\u0425\u0430\u043E\u0441",
   "plan": {
     "expectedItemClass": "Time-Lost Sapphire Jewels",
@@ -19,23 +19,6 @@
               "members": [
                 {
                   "affixType": "Prefix Modifier",
-                  "affixName": "Serene",
-                  "selectedAffixNames": [
-                    "Serene"
-                  ],
-                  "affixTier": 1,
-                  "lines": [
-                    {
-                      "statTemplate": "Notable Passive Skills in Radius also grant (5\u20137)% faster start of Energy Shield Recharge",
-                      "minRoll": 5,
-                      "minRolls": [
-                        5
-                      ]
-                    }
-                  ]
-                },
-                {
-                  "affixType": "Prefix Modifier",
                   "affixName": "Blasting",
                   "selectedAffixNames": [
                     "Blasting"
@@ -44,9 +27,9 @@
                   "lines": [
                     {
                       "statTemplate": "Notable Passive Skills in Radius also grant (2\u20133)% increased Area of Effect",
-                      "minRoll": 2,
+                      "minRoll": 3,
                       "minRolls": [
-                        2
+                        3
                       ]
                     }
                   ]
@@ -61,9 +44,9 @@
                   "lines": [
                     {
                       "statTemplate": "Notable Passive Skills in Radius also grant (15\u201325)% increased Energy Shield from Equipped Focus",
-                      "minRoll": 15,
+                      "minRoll": 25,
                       "minRolls": [
-                        15
+                        25
                       ]
                     }
                   ]
@@ -78,9 +61,9 @@
                   "lines": [
                     {
                       "statTemplate": "Notable Passive Skills in Radius also grant (3\u20137)% increased Magnitude of Ailments you inflict",
-                      "minRoll": 3,
+                      "minRoll": 7,
                       "minRolls": [
-                        3
+                        7
                       ]
                     }
                   ]
@@ -95,9 +78,9 @@
                   "lines": [
                     {
                       "statTemplate": "Notable Passive Skills in Radius also grant (5\u201310)% increased Magnitude of Damaging Ailments you inflict with Critical Hits",
-                      "minRoll": 5,
+                      "minRoll": 10,
                       "minRolls": [
-                        5
+                        10
                       ]
                     }
                   ]
@@ -112,9 +95,9 @@
                   "lines": [
                     {
                       "statTemplate": "Notable Passive Skills in Radius also grant (5\u20137)% increased Magnitude of Shock you inflict",
-                      "minRoll": 5,
+                      "minRoll": 7,
                       "minRolls": [
-                        5
+                        7
                       ]
                     }
                   ]
@@ -129,9 +112,9 @@
                   "lines": [
                     {
                       "statTemplate": "Small Passive Skills in Radius also grant (1\u20132)% increased Cold Damage",
-                      "minRoll": 1,
+                      "minRoll": 2,
                       "minRolls": [
-                        1
+                        2
                       ]
                     }
                   ]
@@ -146,9 +129,9 @@
                   "lines": [
                     {
                       "statTemplate": "Small Passive Skills in Radius also grant (1\u20132)% increased Damage with Plant Skills",
-                      "minRoll": 1,
+                      "minRoll": 2,
                       "minRolls": [
-                        1
+                        2
                       ]
                     }
                   ]
@@ -163,9 +146,9 @@
                   "lines": [
                     {
                       "statTemplate": "Small Passive Skills in Radius also grant (1\u20132)% increased Elemental Damage",
-                      "minRoll": 1,
+                      "minRoll": 2,
                       "minRolls": [
-                        1
+                        2
                       ]
                     }
                   ]
@@ -180,9 +163,9 @@
                   "lines": [
                     {
                       "statTemplate": "Small Passive Skills in Radius also grant (2\u20133)% increased maximum Energy Shield",
-                      "minRoll": 2,
+                      "minRoll": 3,
                       "minRolls": [
-                        2
+                        3
                       ]
                     }
                   ]
@@ -197,9 +180,9 @@
                   "lines": [
                     {
                       "statTemplate": "Small Passive Skills in Radius also grant (1\u20132)% increased Spell Damage",
-                      "minRoll": 1,
+                      "minRoll": 2,
                       "minRolls": [
-                        1
+                        2
                       ]
                     }
                   ]
@@ -214,9 +197,9 @@
                   "lines": [
                     {
                       "statTemplate": "Small Passive Skills in Radius also grant Triggered Spells deal (2\u20133)% increased Spell Damage",
-                      "minRoll": 2,
+                      "minRoll": 3,
                       "minRolls": [
-                        2
+                        3
                       ]
                     }
                   ]

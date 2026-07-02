@@ -3,11 +3,15 @@ using GameHelper.Native;
 
 namespace GameHelper.Services;
 
+/// <summary>Заточка предметов по сетке: ПКМ по области заточки, затем Shift+ЛКМ по каждой ячейке N раз.</summary>
 public sealed class SharpenService : ISharpenService
 {
     private const double DelayJitterFraction = 0.30;
 
+    /// <summary>Задержка (мс) после каждого перемещения мыши и клика (ЛКМ/ПКМ).</summary>
     public int MouseActionDelayMs { get; set; } = 80;
+
+    /// <summary>В лог попадут шаги: MoveTo, клики. Включайте при отладке.</summary>
     public bool TraceInputToLog { get; set; }
 
     private static int WithJitter(int baseMs)
@@ -45,6 +49,10 @@ public sealed class SharpenService : ISharpenService
             log?.Report($"[Ввод] {label}");
     }
 
+    /// <summary>
+    /// Применяет заточку по всем <paramref name="itemCells"/> ячейкам <paramref name="clicksPerCell"/> раз каждую.
+    /// ПКМ по <paramref name="sharpenArea"/>, затем Shift+ЛКМ по ячейкам. Shift освобождается в <c>finally</c>.
+    /// </summary>
     public async Task RunAsync(
         ScreenRect sharpenArea,
         IReadOnlyList<ScreenRect> itemCells,

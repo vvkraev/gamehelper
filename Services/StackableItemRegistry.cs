@@ -4,7 +4,7 @@ using System.Text.Json.Serialization;
 
 namespace GameHelper.Services;
 
-public enum StackableItemKind { Catalyst, SoulCore, Delirium, Rune, Abyss, AncientAugment, Idol, Unknown }
+public enum StackableItemKind { Catalyst, RefinedCatalyst, SoulCore, Delirium, Rune, Abyss, AncientAugment, Idol, Unknown }
 
 public sealed class StackableItemType
 {
@@ -60,6 +60,8 @@ public static class StackableItemRegistry
     {
         var name = item.Name;
         if (string.IsNullOrWhiteSpace(name)) return StackableItemKind.Unknown;
+        if (name.StartsWith("Refined ", StringComparison.OrdinalIgnoreCase) &&
+            name.Contains("Catalyst",  StringComparison.OrdinalIgnoreCase)) return StackableItemKind.RefinedCatalyst;
         if (name.Contains("Catalyst",  StringComparison.OrdinalIgnoreCase)) return StackableItemKind.Catalyst;
         if (name.Contains("Soul Core", StringComparison.OrdinalIgnoreCase)) return StackableItemKind.SoulCore;
         if (name.Contains("Liquid",    StringComparison.OrdinalIgnoreCase)) return StackableItemKind.Delirium;

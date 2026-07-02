@@ -110,6 +110,7 @@ public sealed class ChaosCraftService : IChaosCraftService
         return second;
     }
 
+    /// <summary>Очищает буфер обмена на UI-потоке, чтобы пустая ячейка не маскировалась старым текстом.</summary>
     public Task ClearClipboardAsync() =>
         System.Windows.Application.Current.Dispatcher.InvokeAsync(ClearClipboardSafe).Task;
 
@@ -225,6 +226,10 @@ public sealed class ChaosCraftService : IChaosCraftService
         return new CraftPrecheckResult(CraftPrecheckOutcome.Ready, "", "", parsed, clip);
     }
 
+    /// <summary>
+    /// Основной цикл Chaos Orb: Shift+ПКМ орб → ЛКМ предмет → Ctrl+Alt+C → проверка условия; повторяет до выполнения
+    /// условия, исчерпания <paramref name="segmentMaxOperations"/> или отмены токена.
+    /// </summary>
     /// <param name="segmentMaxOperations">Сколько попыток разрешено в этом вызове (остаток общего бюджета).</param>
     /// <param name="globalTotal">Общий N сессии — для подписей «попытка k / N».</param>
     /// <param name="globalAttemptOffset">Сколько полных попыток уже сделано ранее в этой сессии (по всем предыдущим ячейкам).</param>
@@ -271,6 +276,11 @@ public sealed class ChaosCraftService : IChaosCraftService
 
         var orbSelected = false;
         var shiftHeld = false;
+        // CRAFT-11: отслеживаем фактическое потребление орбов при overflow.
+        // preClip в начале итерации N = пост-состояние орба из итерации N-1,
+        // поэтому дополнительные clipboard-читы не нужны.
+        string? prevPreClip = null;
+        var orbsActuallyConsumed = 0;
         try
         {
             for (var attempt = 1; attempt <= segmentMaxOperations; attempt++)
@@ -299,6 +309,24 @@ public sealed class ChaosCraftService : IChaosCraftService
                         return CraftResult.Empty(0);
                     }
 
+                    // CRAFT-11: сравниваем текущий preClip с предыдущим.
+                    // Если текст изменился — орб из предыдущей итерации был потреблён.
+                    // Если нет — игра вернула орб (overflow-защита суффиксов).
+                    if (prevPreClip != null)
+                    {
+                        if (preClip != prevPreClip)
+                        {
+                            orbsActuallyConsumed++;
+                        }
+                        else
+                        {
+                            log?.Report(
+                                $"[Overflow] Орб возвращён: предмет не изменился после клика {displayAttempt - 1}. " +
+                                $"Потреблено орбов: {orbsActuallyConsumed} из {attempt - 1} кликов.");
+                        }
+                    }
+                    prevPreClip = preClip;
+
                     var preParsed = ItemParser.Parse(preClip);
                     var alreadyMatch = CraftConditionEvaluator.TryEvaluate(plan, preParsed, out var preExplanation);
                     craftLog?.WriteComparison(displayAttempt, globalTotal, preClip, pattern, alreadyMatch, "[проверка перед орбом] " + preExplanation);
@@ -308,7 +336,7 @@ public sealed class ChaosCraftService : IChaosCraftService
                         log?.Report("Условие уже выполнено — орб не применяется, переходим к следующей ячейке.");
                         if (shiftHeld)
                             Win32Input.ReleaseShift();
-                        return CraftResult.Found(attempt - 1, preClip);
+                        return CraftResult.Found(attempt - 1, preClip, orbsActuallyConsumed);
                     }
 
                     // 2) Условие не выполнено — применяем Chaos Orb (расход попытки), удерживая Shift между попытками.
@@ -375,7 +403,7 @@ public sealed class ChaosCraftService : IChaosCraftService
                     LogAltState(log, "ReleaseCtrlAlt() after cancel");
                     orbSelected = false;
                     log?.Report("Остановлено пользователем.");
-                    return CraftResult.Stopped(attempt - 1);
+                    return CraftResult.Stopped(attempt - 1, orbsActuallyConsumed);
                 }
                 catch (Exception ex)
                 {
@@ -410,7 +438,7 @@ public sealed class ChaosCraftService : IChaosCraftService
             Win32Input.ReleaseShift();
         log?.Report(
             $"Достигнут лимит попыток для текущей ячейки ({segmentMaxOperations} в блоке, всего в сессии не более {globalTotal}), аффикс не найден.");
-        return CraftResult.LimitReached(segmentMaxOperations);
+        return CraftResult.LimitReached(segmentMaxOperations, orbsActuallyConsumed);
     }
 
     private async Task StepPauseIfNeeded(string description, CancellationToken cancellationToken)

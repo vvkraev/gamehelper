@@ -9,11 +9,19 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
 {
     private const double DelayJitterFraction = 0.30;
 
+    /// <summary>Задержка (мс) после каждого перемещения мыши и клика (ЛКМ/ПКМ).</summary>
     public int MouseActionDelayMs { get; set; } = 80;
+
+    /// <summary>Ожидание после Ctrl+Alt+C перед чтением буфера.</summary>
     public int ClipboardDelayMs { get; set; } = 220;
+
+    /// <summary>Пауза после наведения на ячейку перед Ctrl+Alt+C — игра успевает обновить цель копирования при смене ячейки.</summary>
     public int HoverSettleBeforeClipboardMs { get; set; } = 120;
 
+    /// <summary>В лог попадут шаги: MoveTo, клики. Включайте при отладке.</summary>
     public bool TraceInputToLog { get; set; }
+
+    /// <summary>Если задано, после каждого шага ввода показывается модальное окно; закрытие без «Продолжить» — отмена через <see cref="CancellationToken"/>.</summary>
     public Func<string, Task>? StepConfirmAsync { get; set; }
 
     private static int WithJitter(int baseMs)
@@ -29,6 +37,7 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
     private static Task DelayJitterAsync(int baseMs, CancellationToken ct) =>
         Task.Delay(WithJitter(baseMs), ct);
 
+    /// <summary>Очищает буфер обмена на UI-потоке, чтобы пустая ячейка не маскировалась старым текстом.</summary>
     public Task ClearClipboardAsync() =>
         System.Windows.Application.Current.Dispatcher.InvokeAsync(ClearClipboardSafe).Task;
 
@@ -277,6 +286,10 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
         return $"P: {(p.Length > 0 ? p : "—")}  |  S: {(s.Length > 0 ? s : "—")}";
     }
 
+    /// <summary>
+    /// Читает предмет из буфера, проверяет класс и редкость (Magic), сравнивает с условием крафта.
+    /// <see cref="CraftPrecheckOutcome.Ready"/> — запускать <see cref="RunAsync"/>; остальные исходы — ячейку пропустить.
+    /// </summary>
     public async Task<CraftPrecheckResult> PrecheckAsync(ScreenRect itemArea, CraftConditionPlan plan, IProgress<string>? log, CancellationToken ct)
     {
         log?.Report("Предпроверка (Ауг+Аннул): Ctrl+Alt+C…");
@@ -324,6 +337,14 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
         await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
     }
 
+    /// <summary>
+    /// Основной цикл Aug+Annul: Aug если нужный тип аффикса отсутствует, Annul если нужный тип есть но условие не выполнено,
+    /// повторяет до выполнения условия, исчерпания <paramref name="segmentMaxOperations"/> или отмены токена.
+    /// </summary>
+    /// <param name="segmentMaxOperations">Сколько попыток разрешено в этом вызове (остаток общего бюджета).</param>
+    /// <param name="globalTotal">Общий N сессии — для подписей «попытка k / N».</param>
+    /// <param name="globalAttemptOffset">Сколько попыток уже сделано ранее в сессии (по предыдущим ячейкам).</param>
+    /// <returns>Итог и число израсходованных попыток.</returns>
     public async Task<CraftResult> RunAsync(
         ScreenRect augOrbArea,
         ScreenRect annulOrbArea,

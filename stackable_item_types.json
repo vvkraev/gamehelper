@@ -830,6 +830,71 @@
     "Kind": "Catalyst"
   },
   {
+    "Id": "refined_adaptive_catalyst",
+    "DisplayName": "Refined Adaptive Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_carapace_catalyst",
+    "DisplayName": "Refined Carapace Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_chayulas_catalyst",
+    "DisplayName": "Refined Chayula's Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_eshs_catalyst",
+    "DisplayName": "Refined Esh's Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_flesh_catalyst",
+    "DisplayName": "Refined Flesh Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_necrotic_catalyst",
+    "DisplayName": "Refined Necrotic Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_neural_catalyst",
+    "DisplayName": "Refined Neural Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_reaver_catalyst",
+    "DisplayName": "Refined Reaver Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_sibilant_catalyst",
+    "DisplayName": "Refined Sibilant Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_skittering_catalyst",
+    "DisplayName": "Refined Skittering Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_tuls_catalyst",
+    "DisplayName": "Refined Tul's Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_uul_netols_catalyst",
+    "DisplayName": "Refined Uul-Netol's Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
+    "Id": "refined_xophs_catalyst",
+    "DisplayName": "Refined Xoph's Catalyst",
+    "Kind": "RefinedCatalyst"
+  },
+  {
     "Id": "resolve_rune",
     "DisplayName": "Resolve Rune",
     "Kind": "Rune"

@@ -1,6 +1,7 @@
 <Window x:Class="GameHelper.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:GameHelper.ViewModels"
         Icon="pack://application:,,,/app.ico"
         Title="GameHelper — PoE2 Chaos craft (MVP)"
         Height="620"
@@ -10,6 +11,9 @@
         Topmost="True"
         ShowActivated="False"
         PreviewKeyDown="MainWindow_OnPreviewKeyDown">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
     <!-- Вкладки слева: длинные русские заголовки не исчезают из-за нехватки ширины одной строки -->
     <TabControl x:Name="MainTabs" Margin="12" TabStripPlacement="Left">
         <TabItem x:Name="TabRegionSettings" Header="Настройки областей">
@@ -437,7 +441,7 @@
 
                     <!-- Панель оценки Fracturing Orb — видима только в режиме Фракт. Орб -->
                     <Border x:Name="FractOrbEvalPanel"
-                            Visibility="Collapsed"
+                            Visibility="{Binding IsFracturingOrbMode, Converter={StaticResource BoolToVis}}"
                             BorderBrush="#C0C0C0"
                             BorderThickness="1"
                             CornerRadius="4"
@@ -491,7 +495,8 @@
                                        TextWrapping="Wrap"
                                        FontFamily="Consolas"
                                        FontSize="12"
-                                       Margin="0,4,0,0"/>
+                                       Margin="0,4,0,0"
+                                       Text="{Binding FractOrbEvalResult}"/>
                         </StackPanel>
                     </Border>
 
@@ -505,7 +510,8 @@
                     <TextBlock x:Name="CraftConditionSummary"
                                TextWrapping="Wrap"
                                Margin="0,0,0,8"
-                               Foreground="#333"/>
+                               Foreground="#333"
+                               Text="{Binding CraftConditionSummary}"/>
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                         <Button x:Name="CraftConditionBtn"
                                 Content="Настроить условие…"
@@ -540,11 +546,13 @@
                     <TextBox x:Name="MaxOps" Margin="0,0,0,12" Text="20"/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
-                        <Button x:Name="StartBtn" Content="Старт" Width="100" Margin="0,0,8,0" Click="StartBtn_OnClick"/>
+                        <Button x:Name="StartBtn" Content="Старт" Width="100" Margin="0,0,8,0"
+                                IsEnabled="{Binding CanStartCraft}"
+                                Click="StartBtn_OnClick"/>
                         <Button x:Name="StopBtn"
                                 Content="Стоп"
                                 Width="100"
-                                IsEnabled="False"
+                                IsEnabled="{Binding IsCraftRunning}"
                                 Click="StopBtn_OnClick"
                                 ToolTip="Прервать крафт. Во время сессии крафта Esc зарегистрирован глобально (работает без фокуса на этом окне и в трее)."/>
                     </StackPanel>
@@ -639,7 +647,8 @@
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
                         </Grid.ColumnDefinitions>
-                        <TextBlock x:Name="RfCatalystSelectionStatus" VerticalAlignment="Center" FontSize="11" Foreground="#555"/>
+                        <TextBlock x:Name="RfCatalystSelectionStatus" VerticalAlignment="Center" FontSize="11" Foreground="#555"
+                                   Text="{Binding RfCatalystSelectionStatus}"/>
                         <Button Grid.Column="1" Content="Снять все" Padding="8,3" Click="RfDeselectAllCatalysts_Click"/>
                     </Grid>
                     <ListBox x:Name="RfCatalystCheckList" Height="130" BorderBrush="#CCC" BorderThickness="1" Margin="0,0,0,12"/>
@@ -693,14 +702,21 @@
                                 Margin="0,0,8,0" Click="RfScanGridBtn_Click"/>
                         <Button Content="Очистить реестр" Padding="10,6" Click="RfClearRegistryBtn_Click"/>
                         <TextBlock x:Name="RfRegistryScanStatus" VerticalAlignment="Center"
-                                   Margin="12,0,0,0" FontSize="11" Foreground="#555"/>
+                                   Margin="12,0,0,0" FontSize="11" Foreground="#555"
+                                   Text="{Binding RfRegistryScanStatus}"/>
                     </StackPanel>
 
                     <Separator Margin="0,0,0,12"/>
 
                     <!-- Прибыльность (цены загружаются из Настройки приложения) -->
-                    <TextBlock Text="Прибыльность на 100 000 золота" FontWeight="SemiBold" FontSize="12" Margin="0,4,0,4"/>
-                    <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,6"
+                    <StackPanel Orientation="Horizontal" Margin="0,4,0,4">
+                        <TextBlock Text="Прибыльность на 100 000 золота" FontWeight="SemiBold" FontSize="12" VerticalAlignment="Center"/>
+                        <TextBlock Text="Курс зол./div:" VerticalAlignment="Center" Margin="20,0,6,0" Foreground="#555"
+                                   ToolTip="Текущий рыночный курс: сколько золота стоит 1 Divine Orb. Используется для пересчёта прибыльности в дивайнах."/>
+                        <TextBox x:Name="RfGoldPerDivineBox" Text="0" Width="70" Padding="4,2" VerticalAlignment="Center"
+                                 ToolTip="Введите курс золото/дивайн (например: 80000). 0 = не рассчитывать."/>
+                    </StackPanel>
+                    <TextBlock x:Name="RfProfitDescText" TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,6"
                                Text="Покупка за золото → продажа за экзальты на рынке (комиссия: 240 зол./экзальт). Отсортировано по убыванию прибыльности."/>
                     <StackPanel x:Name="ProfitTablePanel" Margin="0,0,0,12"/>
 
@@ -737,15 +753,22 @@
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
                         <CheckBox x:Name="RfCascadeCheckBox" VerticalAlignment="Center" Margin="0,0,8,0"
                                   ToolTip="После перековки основных катализаторов — повторно перековывать дешёвые выходы прямо на станке, пока они не закончатся."/>
-                        <TextBlock Text="Каскад — порог цены (ex/шт.):" VerticalAlignment="Center" Margin="0,0,8,0"
-                                   ToolTip="Катализаторы дороже этой цены не перековываются повторно и уходят в стэш."/>
-                        <TextBox x:Name="RfCascadeThresholdBox" Text="2.0" Width="55" Padding="4,2" VerticalAlignment="Center" Margin="0,0,16,0"/>
-                        <TextBlock Text="Мин. кол-во в стэше (шт.):" VerticalAlignment="Center" Margin="0,0,8,0"
+                        <TextBlock Text="Авто-порог каскада:" VerticalAlignment="Center" Margin="0,0,6,0"
+                                   ToolTip="Порог рассчитывается автоматически: E[выход]/3. Катализаторы дешевле порога перековываются повторно без затрат золота."/>
+                        <TextBlock Text="обычные" VerticalAlignment="Center" Margin="0,0,4,0" Foreground="#555" FontSize="11"/>
+                        <TextBlock x:Name="RfCascadeThresholdRegularLabel" Text="—" FontWeight="SemiBold"
+                                   VerticalAlignment="Center" Margin="0,0,12,0" MinWidth="52"
+                                   ToolTip="Авто-порог для обычных катализаторов = E[выход из пула обычных] / 3"/>
+                        <TextBlock Text="refined" VerticalAlignment="Center" Margin="0,0,4,0" Foreground="#555" FontSize="11"/>
+                        <TextBlock x:Name="RfCascadeThresholdRefinedLabel" Text="—" FontWeight="SemiBold"
+                                   VerticalAlignment="Center" Margin="0,0,16,0" MinWidth="62"
+                                   ToolTip="Авто-порог для Refined-катализаторов = E[выход из пула refined] / 3. При перековке Refined → Refined."/>
+                        <TextBlock Text="Мин. в стэше:" VerticalAlignment="Center" Margin="0,0,8,0"
                                    ToolTip="Если в стэше меньше этого количества катализаторов данного типа — пропустить, не перековывать."/>
                         <TextBox x:Name="RfCascadeMinStashBox" Text="30" Width="55" Padding="4,2" VerticalAlignment="Center"/>
                     </StackPanel>
                     <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,12"
-                               Text="Дешёвые выходы (≤ порога цены) перековываются без затрат золота. Мин. кол-во — минимум в стэше для начала перековки (пропускаем остатки &lt; порога). Оптимальный порог ≈ 1.64 ex."/>
+                               Text="Авто-порог = E[стоимость одного выхода из пула] / 3. При наличии истории рефорджей — из логов; иначе — средняя цена пула. Refined-катализаторы → Refined-выходы (отдельный пул)."/>
 
                     <TextBlock FontWeight="SemiBold" Margin="0,0,0,4"
                                Text="Горячая клавиша «Авто Старт / Стоп» (кликните в поле и нажмите; Esc — сбросить):"/>
@@ -759,9 +782,11 @@
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                         <Button x:Name="RfAutoStartBtn" Content="▶ Авто Старт" Width="130"
                                 Margin="0,0,8,0" Padding="8,6" Click="RfAutoStartBtn_Click"
+                                IsEnabled="{Binding CanStartAutoReforge}"
                                 Background="#2196F3" Foreground="White" FontWeight="Bold"/>
                         <Button x:Name="RfAutoStopBtn" Content="⏹ Авто Стоп" Width="130"
-                                Padding="8,6" Click="RfAutoStopBtn_Click" IsEnabled="False"/>
+                                Padding="8,6" Click="RfAutoStopBtn_Click"
+                                IsEnabled="{Binding IsAutoReforgeRunning}"/>
                     </StackPanel>
 
                     <Separator Margin="0,0,0,12"/>
@@ -770,9 +795,11 @@
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
                         <Button x:Name="RfStartBtn" Content="▶ Старт" Width="100"
                                 Margin="0,0,8,0" Padding="8,6" Click="RfStartBtn_Click"
+                                IsEnabled="{Binding CanStartReforge}"
                                 Background="#4CAF50" Foreground="White" FontWeight="Bold"/>
                         <Button x:Name="RfStopBtn" Content="⏹ Стоп" Width="100"
-                                Padding="8,6" Click="RfStopBtn_Click" IsEnabled="False"/>
+                                Padding="8,6" Click="RfStopBtn_Click"
+                                IsEnabled="{Binding IsReforgeRunning}"/>
                     </StackPanel>
 
                     <!-- Лог -->
@@ -807,7 +834,8 @@
                         <Button x:Name="DesecrateSave" Content="Сохранить…" Padding="12,6" Margin="8,0,0,0"
                                 IsEnabled="False" Click="DesecrateSave_Click"/>
                         <TextBlock x:Name="DesecrateSaveInfo" VerticalAlignment="Center"
-                                   Margin="8,0,0,0" Foreground="#555"/>
+                                   Margin="8,0,0,0" Foreground="#555"
+                                   Text="{Binding DesecrateSaveInfo}"/>
                     </StackPanel>
 
                     <Border BorderBrush="#CCC" BorderThickness="1" HorizontalAlignment="Left" Margin="0,0,0,12">
@@ -816,7 +844,8 @@
                                RenderOptions.BitmapScalingMode="NearestNeighbor"/>
                     </Border>
 
-                    <TextBlock x:Name="DesecrateStateLabel" Text="Цикл 1 — Попытка 1 / 2"
+                    <TextBlock x:Name="DesecrateStateLabel"
+                               Text="{Binding DesecrateStateLabel}"
                                FontWeight="SemiBold" FontSize="14" Margin="0,0,0,12"/>
 
                     <StackPanel Orientation="Horizontal" Margin="0,0,0,16">
@@ -1040,6 +1069,59 @@
                                     ToolTip="Фокус на игру: по очереди выбирает каждую валюту из списка в I WANT и дописывает библиотеку золота."/>
                         </StackPanel>
                     </Expander>
+                    <Expander x:Name="TradeImportExpander" Header="Импорт торговых данных (DevTools fetch)" IsExpanded="True" Margin="0,0,0,12">
+                        <StackPanel>
+                            <TextBlock TextWrapping="Wrap" Margin="0,0,0,8" Foreground="#444"
+                                       Text="DevTools → Network → запрос /api/trade2/fetch/... → правая кнопка → Copy → Copy Response. Вставьте JSON сюда. Слаг задаёт имя файла (необязательно — авто из baseType)."/>
+                            <DockPanel Margin="0,0,0,6">
+                                <TextBlock Text="Слаг:" VerticalAlignment="Center" Margin="0,0,8,0" DockPanel.Dock="Left"/>
+                                <TextBox x:Name="TradeImportSlugTextBox" Width="220" HorizontalAlignment="Left"
+                                         ToolTip="Имя файла без даты, например: sleek_jacket_banshees. Пусто — авто из JSON."/>
+                            </DockPanel>
+                            <TextBox x:Name="TradeImportJsonTextBox"
+                                     Height="110"
+                                     TextWrapping="NoWrap"
+                                     HorizontalScrollBarVisibility="Auto"
+                                     VerticalScrollBarVisibility="Auto"
+                                     AcceptsReturn="True"
+                                     FontFamily="Consolas"
+                                     FontSize="11"
+                                     Margin="0,0,0,8"/>
+                            <Button x:Name="TradeImportBtn"
+                                    Content="Импорт → сохранить trade_data + vault/market"
+                                    HorizontalAlignment="Left"
+                                    Padding="12,6"
+                                    Margin="0,0,0,8"
+                                    Click="TradeImportBtn_OnClick"/>
+                            <Border x:Name="TradeImportResultBorder"
+                                    BorderBrush="#aaccaa" BorderThickness="1" CornerRadius="3"
+                                    Background="#f6fff6" Padding="8" Margin="0,0,0,0"
+                                    Visibility="Collapsed">
+                                <StackPanel>
+                                    <TextBlock Text="Файлы сохранены:" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                                    <DockPanel Margin="0,0,0,4">
+                                        <Button Content="Копировать" DockPanel.Dock="Right" Padding="8,2"
+                                                Click="TradeImportCopyVaultBtn_OnClick"/>
+                                        <TextBlock Text="vault/market: " DockPanel.Dock="Left" VerticalAlignment="Center" Margin="0,0,4,0" FontWeight="SemiBold"/>
+                                        <TextBox x:Name="TradeImportVaultPathTextBox" IsReadOnly="True"
+                                                 Background="#eef6ee" FontFamily="Consolas" FontSize="11"
+                                                 VerticalAlignment="Center"/>
+                                    </DockPanel>
+                                    <DockPanel Margin="0,0,0,4">
+                                        <Button Content="Копировать" DockPanel.Dock="Right" Padding="8,2"
+                                                Click="TradeImportCopyDataBtn_OnClick"/>
+                                        <TextBlock Text="trade_data: " DockPanel.Dock="Left" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                                        <TextBox x:Name="TradeImportDataPathTextBox" IsReadOnly="True"
+                                                 Background="#f0f0f0" FontFamily="Consolas" FontSize="11"
+                                                 VerticalAlignment="Center"/>
+                                    </DockPanel>
+                                    <TextBlock x:Name="TradeImportCountTextBlock" Margin="0,4,0,0" Foreground="#555"/>
+                                </StackPanel>
+                            </Border>
+                            <TextBlock x:Name="TradeImportErrorTextBlock"
+                                       TextWrapping="Wrap" Foreground="Red" Margin="0,4,0,0"/>
+                        </StackPanel>
+                    </Expander>
                     <Button x:Name="StartExchangeRateScanBtn"
                             Content="Запустить сканирование"
                             HorizontalAlignment="Left"
@@ -1050,7 +1132,7 @@
                     <TextBlock x:Name="InfoCollectionStatusTextBlock"
                                TextWrapping="Wrap"
                                Foreground="#555"
-                               Text="Готово к запуску."/>
+                               Text="{Binding InfoCollectionStatus}"/>
                 </StackPanel>
             </ScrollViewer>
         </TabItem>
@@ -1069,18 +1151,19 @@
                                 Content="▶ Сканировать стэш"
                                 Padding="12,6"
                                 Margin="0,0,8,0"
+                                IsEnabled="{Binding CanStartNetWorth}"
                                 Click="NetworthScanBtn_Click"
                                 FontWeight="Bold"/>
                         <Button x:Name="NetworthStopBtn"
                                 Content="■ Стоп"
                                 Padding="12,6"
-                                IsEnabled="False"
+                                IsEnabled="{Binding IsNetWorthRunning}"
                                 Click="NetworthStopBtn_Click"/>
                     </StackPanel>
                     <TextBlock x:Name="NetworthStatusText"
                                FontSize="11"
                                Foreground="#555"
-                               Text="Не сканировалось."/>
+                               Text="{Binding NetworthStatus}"/>
                 </StackPanel>
 
                 <!-- Результаты -->
@@ -1200,11 +1283,12 @@
                                 Padding="12,6"
                                 Margin="0,0,8,0"
                                 FontWeight="Bold"
+                                IsEnabled="{Binding CanStartRepricing}"
                                 Click="RepricingStartBtn_Click"/>
                         <Button x:Name="RepricingStopBtn"
                                 Content="■ Стоп"
                                 Padding="12,6"
-                                IsEnabled="False"
+                                IsEnabled="{Binding IsRepricingRunning}"
                                 Click="RepricingStopBtn_Click"/>
                     </StackPanel>
 
@@ -1212,7 +1296,7 @@
                                FontSize="11"
                                Foreground="#555"
                                Margin="0,0,0,8"
-                               Text="Не запускалось."/>
+                               Text="{Binding RepricingStatus}"/>
 
                     <TextBox x:Name="RepricingLogBox"
                              Height="220"
@@ -1354,12 +1438,13 @@
                                 FontWeight="Bold"
                                 Padding="12,6"
                                 Margin="0,0,8,0"
+                                IsEnabled="{Binding CanStartChancing}"
                                 Click="ChancingStartBtn_Click"/>
                         <Button x:Name="ChancingStopBtn"
                                 Content="■ Стоп"
                                 Padding="12,6"
                                 Margin="0,0,8,0"
-                                IsEnabled="False"
+                                IsEnabled="{Binding IsChancingRunning}"
                                 Click="ChancingStopBtn_Click"/>
                         <Button x:Name="ChancingClearStatsBtn"
                                 Content="Сбросить статистику"
@@ -1370,7 +1455,7 @@
                                FontSize="11"
                                Foreground="#555"
                                Margin="0,0,0,10"
-                               Text="Не запускалось."/>
+                               Text="{Binding ChancingStatus}"/>
 
                     <Separator Margin="0,0,0,10"/>
 
@@ -1431,8 +1516,9 @@
 
                     <StackPanel Grid.Row="0" Margin="8,4,0,8">
                         <TextBlock x:Name="RefCategoryTitle" FontWeight="Bold" FontSize="14"
-                                   Text="Выберите категорию слева"/>
-                        <TextBlock x:Name="RefCategoryMeta" FontSize="11" Foreground="#666" Text=""/>
+                                   Text="{Binding RefCategoryTitle}"/>
+                        <TextBlock x:Name="RefCategoryMeta" FontSize="11" Foreground="#666"
+                                   Text="{Binding RefCategoryMeta}"/>
                     </StackPanel>
 
                     <DataGrid x:Name="RefDataGrid" Grid.Row="1"
@@ -1447,8 +1533,10 @@
                         <DataGrid.Columns>
                             <DataGridTextColumn Header="Исход"     Binding="{Binding Outcome}"        Width="*"  MinWidth="120"/>
                             <DataGridTextColumn Header="Выпало"    Binding="{Binding Count}"           Width="65"/>
-                            <DataGridTextColumn Header="%"         Binding="{Binding ProbabilityPct}"  Width="55"/>
+                            <DataGridTextColumn Header="%"         Binding="{Binding ProbabilityPct}"  Width="55"  SortMemberPath="ProbabilitySort"/>
                             <DataGridTextColumn Header="±95% CI"   Binding="{Binding Ci95}"            Width="75"/>
+                            <DataGridTextColumn Header="Цена (ex)" Binding="{Binding Price}"           Width="70"  SortMemberPath="PriceSort"/>
+                            <DataGridTextColumn Header="RoI 3→1"   Binding="{Binding Roi}"             Width="68"  SortMemberPath="RoiSort"/>
                             <DataGridTextColumn Header="Заметки"   Binding="{Binding Notes}"           Width="*"/>
                         </DataGrid.Columns>
                     </DataGrid>
@@ -1466,6 +1554,9 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="160"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Margin="0,0,0,8">
@@ -1479,6 +1570,7 @@
                         <ColumnDefinition Width="50"/>
                         <ColumnDefinition Width="220"/>
                         <ColumnDefinition Width="140"/>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
                     <TextBlock Text="Лига:" VerticalAlignment="Center"/>
@@ -1489,10 +1581,13 @@
                     <Button Grid.Column="3" Content="Расч. крафт из логов" Padding="6,4" Margin="8,0,0,0"
                             Click="CalcCraftFromLogs_Click"
                             ToolTip="Прочитать лог-файлы за последние 4 дня и авторассчитать стоимость крафта для синих предметов."/>
+                    <Button x:Name="ParseModsBtn" Grid.Column="4" Content="Разобрать моды" Padding="6,4" Margin="8,0,0,0"
+                            Click="ParseModsBtn_Click"
+                            ToolTip="Распознать аффиксы всех продаж через библиотеку. Результат кэшируется в parsed_mods_cache.json."/>
                 </Grid>
 
                 <TextBlock x:Name="TradeHistoryStatusText" Grid.Row="2" FontSize="11" Foreground="#555"
-                           Margin="0,0,0,6" Text="История не загружена."/>
+                           Margin="0,0,0,6" Text="{Binding TradeHistoryStatus}"/>
 
                 <!-- Индивидуальные продажи -->
                 <DataGrid x:Name="TradeHistoryGrid" Grid.Row="3"
@@ -1505,10 +1600,11 @@
                           VerticalScrollBarVisibility="Auto"
                           CellEditEnding="TradeHistoryGrid_CellEditEnding">
                     <DataGrid.Columns>
-                        <DataGridTextColumn Header="Дата"        Binding="{Binding DateStr}"     IsReadOnly="True" Width="110"/>
-                        <DataGridTextColumn Header="Предмет"     Binding="{Binding DisplayName}" IsReadOnly="True" Width="200"/>
-                        <DataGridTextColumn Header="iLvl"        Binding="{Binding ItemLevel}"   IsReadOnly="True" Width="40"/>
-                        <DataGridTextColumn Header="Цена"        Binding="{Binding PriceStr}"    IsReadOnly="True" Width="90"/>
+                        <DataGridTextColumn Header="Дата"        Binding="{Binding DateStr}"          IsReadOnly="True" Width="110" SortMemberPath="DateSort"/>
+                        <DataGridTextColumn Header="Предмет"     Binding="{Binding DisplayName}"      IsReadOnly="True" Width="200"/>
+                        <DataGridTextColumn Header="iLvl"        Binding="{Binding ItemLevel}"        IsReadOnly="True" Width="40"/>
+                        <DataGridTextColumn Header="Цена"        Binding="{Binding PriceAmountNum}"   IsReadOnly="True" Width="65"  SortMemberPath="PriceInDivSort"/>
+                        <DataGridTextColumn Header="Вал."        Binding="{Binding PriceCurrencyDisplay}" IsReadOnly="True" Width="38"/>
                         <DataGridTextColumn Header="Крафт (div)" Width="95">
                             <DataGridTextColumn.Binding>
                                 <Binding Path="CraftCostStr" Mode="TwoWay" UpdateSourceTrigger="LostFocus"/>
@@ -1525,7 +1621,8 @@
                 </DataGrid>
 
                 <TextBlock x:Name="TradeHistorySummaryText" Grid.Row="4"
-                           Margin="0,4,0,0" FontSize="11" Foreground="#555" Text=""/>
+                           Margin="0,4,0,0" FontSize="11" Foreground="#555"
+                           Text="{Binding TradeHistorySummary}"/>
 
                 <!-- Агрегат по синим базам -->
                 <Grid Grid.Row="5" Margin="0,8,0,0">
@@ -1565,7 +1662,59 @@
                 </Grid>
 
                 <TextBlock x:Name="TradeGroupSummaryText" Grid.Row="6"
-                           Margin="0,4,0,0" FontSize="11" Foreground="#555" Text=""/>
+                           Margin="0,4,0,0" FontSize="11" Foreground="#555"
+                           Text="{Binding TradeGroupSummary}"/>
+
+                <!-- Журнал крафта -->
+                <Expander Grid.Row="7" Header="Журнал крафта" Margin="0,8,0,0" IsExpanded="False"/>
+
+                <Grid Grid.Row="8" Margin="0,0,0,0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="2*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <DataGrid x:Name="LedgerGrid" Grid.Column="0"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              GridLinesVisibility="Horizontal"
+                              HeadersVisibility="Column"
+                              SelectionMode="Single"
+                              VerticalScrollBarVisibility="Auto"
+                              SelectionChanged="LedgerGrid_SelectionChanged">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Предмет"    Binding="{Binding DisplayName}" IsReadOnly="True" Width="2*"/>
+                            <DataGridTextColumn Header="Статус"     Binding="{Binding Status}"      IsReadOnly="True" Width="65"/>
+                            <DataGridTextColumn Header="Себест."    Binding="{Binding CostStr}"     IsReadOnly="True" Width="80"/>
+                            <DataGridTextColumn Header="Шагов"      Binding="{Binding StepCount}"   IsReadOnly="True" Width="50"/>
+                            <DataGridTextColumn Header="Продажа"    Binding="{Binding LinkedSale}"  IsReadOnly="True" Width="*"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <Grid Grid.Column="1" Margin="8,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBox x:Name="LedgerDetailText" Grid.Row="0"
+                                 IsReadOnly="True" TextWrapping="Wrap"
+                                 VerticalScrollBarVisibility="Auto"
+                                 FontFamily="Consolas" FontSize="10"
+                                 Background="#F8F8F8"/>
+                        <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,4,0,0">
+                            <Button x:Name="LedgerLinkBtn" Content="Привязать →" Padding="6,3" Margin="0,0,6,0"
+                                    IsEnabled="False"
+                                    Click="LedgerLinkBtn_Click"
+                                    ToolTip="Привязать выбранную запись журнала к выбранной строке продажи. Заполнит CraftCostDiv из totalCostDiv."/>
+                            <Button x:Name="LedgerUnlinkBtn" Content="Отвязать" Padding="6,3"
+                                    IsEnabled="False"
+                                    Click="LedgerUnlinkBtn_Click"
+                                    ToolTip="Снять привязку записи журнала к продаже."/>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+
+                <TextBlock Grid.Row="9" Margin="0,2,0,0" FontSize="11" Foreground="#555"
+                           Text="Выбери запись журнала + строку продажи, затем «Привязать» — заполнит стоимость крафта автоматически."/>
             </Grid>
         </TabItem>
 
@@ -1615,7 +1764,7 @@
                         <TextBox x:Name="PoeNinjaLeagueBox" Grid.Column="1" Padding="4,2" Margin="0,0,8,0" Text="Standard"/>
                         <Button Grid.Column="2" Content="Загрузить цены" Padding="6,4" Click="PoeNinjaFetchBtn_Click"/>
                     </Grid>
-                    <TextBlock x:Name="PoeNinjaStatusText" FontSize="11" Foreground="#555" Margin="0,0,0,12" Text="Цены не загружены."/>
+                    <TextBlock x:Name="PoeNinjaStatusText" FontSize="11" Foreground="#555" Margin="0,0,0,12" Text="{Binding PoeNinjaStatus}"/>
 
                     <Separator Margin="0,0,0,12"/>
 

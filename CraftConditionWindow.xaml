@@ -52,6 +52,11 @@
                     <ComboBox x:Name="ArmourSubTypeCombo"
                               SelectionChanged="ArmourSubTypeCombo_OnSelectionChanged"/>
                 </StackPanel>
+                <StackPanel x:Name="JewelSubTypeRow" Visibility="Collapsed" Margin="0,0,0,10">
+                    <TextBlock Text="Тип джевела" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                    <ComboBox x:Name="JewelSubTypeCombo"
+                              SelectionChanged="JewelSubTypeCombo_OnSelectionChanged"/>
+                </StackPanel>
                 <StackPanel x:Name="RuneRow" Visibility="Collapsed" Margin="0,0,0,10">
                     <TextBlock Text="Вставлена руна" FontWeight="SemiBold" Margin="0,0,0,4"/>
                     <ComboBox x:Name="RuneCombo"

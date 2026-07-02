@@ -33,10 +33,12 @@ public sealed class SaleRecord
     public int ItemLevel { get; set; }
     public List<string> ExplicitMods { get; set; } = [];
     public List<string> FracturedMods { get; set; } = [];
-    /// <summary>Стоимость крафта в div (орбы) — вводится пользователем вручную.</summary>
+    /// <summary>Стоимость крафта в div (орбы) — вводится вручную или копируется из CraftLedger.</summary>
     public decimal CraftCostDiv { get; set; }
     /// <summary>Стоимость базы предмета в div — вводится пользователем вручную.</summary>
     public decimal BaseCostDiv { get; set; }
+    /// <summary>Ссылка на запись журнала крафта (<see cref="CraftLedgerEntry.Id"/>). null — не привязано.</summary>
+    public string? CraftLedgerId { get; set; }
 }
 
 /// <summary>

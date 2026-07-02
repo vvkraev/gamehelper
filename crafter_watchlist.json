@@ -17,14 +17,18 @@
     "added": "2026-06-26",
     "crafter": "Ucadet#5740",
     "account_hash": "8abeec8bf64cc574558cc954c87dc288",
-    "trade_search_url": "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/QL74qMJjTw",
+    "trade_search_url": "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/G67ZV5oWFb",
     "league": "Runes of Aldur",
-    "total_listings": 49,
-    "crafts": "Dueling Wands (+4 spell skills, elemental conversion), Bound Sandals (35% MS + ES), Mnemonic Rings, Ancestral Tiaras (ES), Time-Lost Sapphires (jewels)",
-    "price_range": "22–2222 div",
+    "total_listings_2026-06-27": 220,
+    "crafts_2026-06-26": "Dueling Wands (+4 spell skills, elemental conversion), Bound Sandals (35% MS + ES), Mnemonic Rings, Ancestral Tiaras (ES), Time-Lost Sapphires (jewels)",
+    "crafts_2026-06-27": "Кольца и амулеты массовый крафт (89/100 items) — Spell Damage + Cast Speed + Mana Efficiency. Time-Lost Sapphires 5 шт (без CHS desecrate, без VL).",
+    "price_range_2026-06-27": "11–50 div (массовое производство)",
     "snapshots": [
-      "trade_data/2026-06-26_Ucadet_snapshot.json"
+      "trade_data/2026-06-26_Ucadet_snapshot.json",
+      "trade_data/2026-06-27_Ucadet_snapshot.json"
     ],
-    "notes": "Специализация: спелл-каст билды. Wands 1000–2222 div в целевом диапазоне. Sandals с 35% MS fractured 115–900 div."
+    "notes_2026-06-26": "Специализация: спелл-каст билды. Wands 1000–2222 div в целевом диапазоне. Sandals с 35% MS fractured 115–900 div.",
+    "notes_2026-06-27": "Сдвиг к массовому производству колец по 50d. 220 предметов в листинге (ранее 49). Time-Lost Sapphires только 44–50d — fractured junk + CD без CHS/VL. Прямой конкуренции нашим Sapphires нет.",
+    "ring_pattern_2026-06-27": "Кольца: Spell Damage T0 + Cast Speed T1 + Mana Cost Efficiency T0 (основная тройка). Иногда +20% crafted Quality (Breachlord). 3 из 89 с desecrate модом."
   }
 ]

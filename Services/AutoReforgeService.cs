@@ -23,8 +23,10 @@ public sealed class AutoReforgeService
     public int StashItemsPerClick           { get; set; } = 10;
     /// <summary>Задержка после каждого Ctrl+ЛКМ/ПКМ при переносе предмета (игра обрабатывает перенос), мс.</summary>
     public int ItemTransferDelayMs          { get; set; } = 400;
-    /// <summary>Порог каскада: катализаторы с ценой ≤ этого значения (ex) перековываются повторно. 0 = каскад отключён.</summary>
+    /// <summary>Порог каскада для обычных катализаторов: ≤ этого значения (ex) перековываются повторно. 0 = каскад отключён.</summary>
     public decimal CascadeThresholdEx { get; set; } = 0m;
+    /// <summary>Порог каскада для Refined-катализаторов. При перековке Refined → выход тоже Refined. 0 = использовать CascadeThresholdEx.</summary>
+    public decimal RefinedCascadeThresholdEx { get; set; } = 0m;
     /// <summary>Функция получения текущей ex-цены по отображаемому имени катализатора. Null = каскад отключён.</summary>
     public Func<string, decimal?>? CascadePriceFunc { get; set; }
     /// <summary>Минимум катализаторов в стэше для участия в перековке. Типы с меньшим остатком пропускаются.</summary>
@@ -90,18 +92,21 @@ public sealed class AutoReforgeService
 
         if (selectedTypeIds.Count == 0)
         {
-            // Чисто-каскадный режим: находим самый многочисленный тип с ценой ≤ порога.
+            // Каскадный режим: все типы с ценой ≤ порога (обычные и refined — отдельные пороги).
             typesWithRegion = [];
             if (CascadeThresholdEx > 0 && CascadePriceFunc != null)
             {
-                log?.Report($"[Каскад-стэш] Сканируем стэш (порог ≤ {CascadeThresholdEx} ex)...");
-                string? bestId = null; var bestCount = 0;
+                log?.Report($"[Каскад-стэш] Сканируем стэш (порог обычные ≤ {CascadeThresholdEx} ex, refined ≤ {(RefinedCascadeThresholdEx > 0 ? RefinedCascadeThresholdEx : CascadeThresholdEx)} ex)...");
                 foreach (var (id, region) in catalystStashRegions.Where(kv => kv.Value.Width > 0))
                 {
                     ct.ThrowIfCancellationRequested();
                     var dName = StackableItemRegistry.Items.FirstOrDefault(e => e.Id == id)?.DisplayName ?? id;
                     var price = CascadePriceFunc(dName);
-                    if (!price.HasValue || price.Value > CascadeThresholdEx) continue;
+                    var isRefined = dName.StartsWith("Refined ", StringComparison.OrdinalIgnoreCase);
+                    var effectiveThreshold = isRefined && RefinedCascadeThresholdEx > 0
+                        ? RefinedCascadeThresholdEx
+                        : CascadeThresholdEx;
+                    if (!price.HasValue || price.Value > effectiveThreshold) continue;
                     var txt = await ReadClipboardAtAsync(region, ct);
                     if (string.IsNullOrWhiteSpace(txt)) continue;
                     var p = ItemParser.Parse(txt);
@@ -109,15 +114,11 @@ public sealed class AutoReforgeService
                     var sz = p.StackSize > 0 ? p.StackSize : 0;
                     log?.Report($"[Каскад-стэш]  {dName}: {sz} шт. ({price:F1} ex)");
                     if (sz < MinStashCount) continue;
-                    if (sz > bestCount) { bestId = id; bestCount = sz; }
+                    stashStackSizes[id] = sz;
+                    typesWithRegion.Add(id);
                 }
-                if (bestId != null)
-                {
-                    stashStackSizes[bestId] = bestCount;
-                    typesWithRegion = [bestId];
-                    var bName = StackableItemRegistry.Items.FirstOrDefault(e => e.Id == bestId)?.DisplayName ?? bestId;
-                    log?.Report($"[Каскад-стэш] Выбран: {bName} ({bestCount} шт.) — начинаем цикл");
-                }
+                if (typesWithRegion.Count > 0)
+                    log?.Report($"[Каскад-стэш] Найдено {typesWithRegion.Count} тип(ов) для перековки — начинаем цикл");
             }
             else
             {
@@ -158,6 +159,34 @@ public sealed class AutoReforgeService
                 log?.Report($"[Авто] Стэш: {displayName} — {stackSize} шт.");
             }
             typesWithRegion = [.. typesWithRegion.Where(stashStackSizes.ContainsKey)];
+
+            // Fallback: выбранные типы исчерпаны — переходим к каскадному сканированию
+            if (typesWithRegion.Count == 0 && CascadeThresholdEx > 0 && CascadePriceFunc != null)
+            {
+                log?.Report($"[Авто] Выбранные катализаторы исчерпаны — каскадное сканирование (порог ≤ {CascadeThresholdEx} ex / refined ≤ {(RefinedCascadeThresholdEx > 0 ? RefinedCascadeThresholdEx : CascadeThresholdEx)} ex)...");
+                foreach (var (id, region) in catalystStashRegions.Where(kv => kv.Value.Width > 0))
+                {
+                    ct.ThrowIfCancellationRequested();
+                    var dName = StackableItemRegistry.Items.FirstOrDefault(e => e.Id == id)?.DisplayName ?? id;
+                    var price = CascadePriceFunc(dName);
+                    var isRefined = dName.StartsWith("Refined ", StringComparison.OrdinalIgnoreCase);
+                    var effectiveThreshold = isRefined && RefinedCascadeThresholdEx > 0
+                        ? RefinedCascadeThresholdEx
+                        : CascadeThresholdEx;
+                    if (!price.HasValue || price.Value > effectiveThreshold) continue;
+                    var txt = await ReadClipboardAtAsync(region, ct);
+                    if (string.IsNullOrWhiteSpace(txt)) continue;
+                    var p = ItemParser.Parse(txt);
+                    if (p == null || !p.IsValid) continue;
+                    var sz = p.StackSize > 0 ? p.StackSize : 0;
+                    log?.Report($"[Каскад-стэш]  {dName}: {sz} шт. ({price:F1} ex)");
+                    if (sz < MinStashCount) continue;
+                    stashStackSizes[id] = sz;
+                    typesWithRegion.Add(id);
+                }
+                if (typesWithRegion.Count > 0)
+                    log?.Report($"[Каскад-стэш] Найдено {typesWithRegion.Count} тип(ов) для перековки — продолжаем");
+            }
         }
 
         var totalAvailable = stashStackSizes.Values.Sum();
@@ -230,6 +259,13 @@ public sealed class AutoReforgeService
         Win32Input.PressKey(VkKey3);
         await Task.Delay(WithJitter(1000), ct); // Ждём закрытия UI стэша перед OCR
 
+        // Если инвентарь остался пустым — нет смысла идти к станку.
+        if (totalStacksMoved == 0)
+        {
+            log?.Report("[Авто] Инвентарь пуст — пропускаем поход к станку.");
+            return;
+        }
+
         // ── 6. Открываем станок перековки (OCR) ──────────────────────────
         log?.Report($"[Авто] Ищем «{benchOcrText}» на экране (OCR)...");
         if (!await FindAndClickOcrAsync(benchOcrSearchRect, benchOcrText, log, ct))
@@ -242,7 +278,7 @@ public sealed class AutoReforgeService
 
         // ── 7. Перековка ──────────────────────────────────────────────────
         // Передаём только реально заполненные ячейки: каждый Ctrl+ЛКМ заполнил ровно одну ячейку.
-        var activeCells = totalStacksMoved > 0 && totalStacksMoved < reforgeGrid.Count
+        var activeCells = totalStacksMoved < reforgeGrid.Count
             ? reforgeGrid.Take(totalStacksMoved).ToList()
             : reforgeGrid;
         log?.Report($"[Авто] Запускаем перековку ({activeCells.Count} из {reforgeGrid.Count} ячеек)...");

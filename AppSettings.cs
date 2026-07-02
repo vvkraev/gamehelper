@@ -161,6 +161,8 @@ public sealed class AppSettings
     public decimal ReforgeCascadeThresholdEx { get; set; } = 2.0m;
     /// <summary>Минимальное количество катализаторов в стэше для участия в перековке. Типы с меньшим остатком пропускаются.</summary>
     public int ReforgeCascadeMinStashCount { get; set; } = 30;
+    /// <summary>Текущий курс обмена золото → дивайн (сколько золота стоит 1 divine). 0 = не задан.</summary>
+    public int GoldPerDivine { get; set; } = 0;
     /// <summary>Id катализаторов, выбранных для перековки.</summary>
     public List<string>? ReforgeSelectedCatalystIds { get; set; }
     /// <summary>Ячейки сетки инвентаря для перековки (независимы от ItemCells крафта).</summary>

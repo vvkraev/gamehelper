@@ -122168,7 +122168,7 @@
       "affixType": "Desecrated Suffix Modifier",
       "affixName": "of Annihilation",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 78,
       "affixStats": [
         "Notable Passive Skills in Radius also grant % increased Critical Hit Chance"
       ],
@@ -122228,6 +122228,1812 @@
       ],
       "affixRanges": [
         "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Rancorous",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Magnitude of Damaging Ailments you inflict with Critical Hits"
+      ],
+      "affixRanges": [
+        "5-10"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Overgrown",
+      "affixTier": 1,
+      "affixTierLevel": 78,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Damage with Plant Skills"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Mystic",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Spell Damage"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Diminishing",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant Debuffs on you expire % faster"
+      ],
+      "affixRanges": [
+        "3-5"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Paralyzing",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Shock Duration"
+      ],
+      "affixRanges": [
+        "2-3"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Ignition",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Flammability Magnitude"
+      ],
+      "affixRanges": [
+        "2-3"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Enchanting",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Cast Speed"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Freezing",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Freeze Buildup"
+      ],
+      "affixRanges": [
+        "5-10"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Infusion",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Life"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Chaotic",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Chaos Damage"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Sacrificial",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant Offerings have % increased Maximum Life"
+      ],
+      "affixRanges": [
+        "2-3"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Energy",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Mana Regeneration Rate"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Triggered",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant Triggered Spells deal % increased Spell Damage"
+      ],
+      "affixRanges": [
+        "2-3"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Wild",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Skill Speed while Shapeshifted"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Acrimonious",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Magnitude of Ailments you inflict"
+      ],
+      "affixRanges": [
+        "3-7"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Orchestration",
+      "affixTier": 1,
+      "affixTierLevel": 68,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant Minions have % increased Attack and Cast Speed"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Iconic",
+      "affixTier": 1,
+      "affixTierLevel": 68,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Presence Area of Effect"
+      ],
+      "affixRanges": [
+        "8-12"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Shocking",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased chance to Shock"
+      ],
+      "affixRanges": [
+        "2-3"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Barriers",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant Gain additional Stun Threshold equal to % of maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Frost",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Chill Duration on Enemies"
+      ],
+      "affixRanges": [
+        "6-12"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Burning",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Ignite Magnitude"
+      ],
+      "affixRanges": [
+        "3-7"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Continuation",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Curse Duration"
+      ],
+      "affixRanges": [
+        "2-4"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Acclimatisation",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant Minions have \u002B% to all Elemental Resistances"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Osmosis",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Queen\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Spirit"
+      ],
+      "affixRanges": [
+        "57-61"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Jagged",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "X to Y Physical Thorns damage"
+      ],
+      "affixRanges": [
+        "X(101-151); Y(152-220)"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Suffusion",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield Recharge Rate"
+      ],
+      "affixRanges": [
+        "24-27"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Rotund",
+      "affixTier": 7,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "85-99"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Resolute",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield"
+      ],
+      "affixRanges": [
+        "43-55"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Spiked",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "X to Y Physical Thorns damage"
+      ],
+      "affixRanges": [
+        "X(40-60); Y(61-92)"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Shining",
+      "affixTier": 11,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "10-17"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Platinum Skin",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Stun Threshold"
+      ],
+      "affixRanges": [
+        "125-163"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Prodigy",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "13-16"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Storm",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "16-20"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Lizard",
+      "affixTier": 10,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Life Regeneration per second"
+      ],
+      "affixRanges": [
+        "2.1-3"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Magma",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "36-40"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Prime",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "200-214"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Stalwart",
+      "affixTier": 10,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "40-59"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Stout",
+      "affixTier": 9,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "60-69"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Strong-Willed",
+      "affixTier": 7,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield"
+      ],
+      "affixRanges": [
+        "27-42"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Quenching",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% reduced Ignite Duration on you"
+      ],
+      "affixRanges": [
+        "51-55"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Priest\u0027s",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Energy Shield",
+        "% increased Energy Shield"
+      ],
+      "affixRanges": [
+        "14-16",
+        "21-26"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Glowing",
+      "affixTier": 8,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "31-35"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Convalescence",
+      "affixTier": 5,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Life Regeneration per second"
+      ],
+      "affixRanges": [
+        "13.1-18"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Sanguine",
+      "affixTier": 11,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "30-39"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Barbed",
+      "affixTier": 5,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "X to Y Physical Thorns damage"
+      ],
+      "affixRanges": [
+        "X(11-16); Y(17-23)"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Unassailable",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield"
+      ],
+      "affixRanges": [
+        "92-100"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "High Priest\u0027s",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Energy Shield",
+        "% increased Energy Shield"
+      ],
+      "affixRanges": [
+        "17-20",
+        "27-32"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Pope\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield",
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "39-42",
+        "42-49"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Protective",
+      "affixTier": 8,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield"
+      ],
+      "affixRanges": [
+        "15-26"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Phoenix",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Life Regeneration per second"
+      ],
+      "affixRanges": [
+        "33.1-36"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Medved\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield",
+        "\u002B to Spirit"
+      ],
+      "affixRanges": [
+        "6-52",
+        "1-24"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Edged",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "X to Y Physical Thorns damage"
+      ],
+      "affixRanges": [
+        "X(64-97); Y(98-145)"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Medved\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased maximum Life"
+      ],
+      "affixRanges": [
+        "1-20"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Ardour",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield Recharge Rate"
+      ],
+      "affixRanges": [
+        "20-23"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Corundum Skin",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Stun Threshold"
+      ],
+      "affixRanges": [
+        "207-253"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Steel Skin",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Stun Threshold"
+      ],
+      "affixRanges": [
+        "73-97"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Flatworm",
+      "affixTier": 9,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Life Regeneration per second"
+      ],
+      "affixRanges": [
+        "3.1-4"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Spiny",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "X to Y Physical Thorns damage"
+      ],
+      "affixRanges": [
+        "X(5-7); Y(7-10)"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Granite Skin",
+      "affixTier": 5,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Stun Threshold"
+      ],
+      "affixRanges": [
+        "98-124"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Augur",
+      "affixTier": 5,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "17-20"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Thorny",
+      "affixTier": 7,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "X to Y Physical Thorns damage"
+      ],
+      "affixRanges": [
+        "X(1-2); Y(3-4)"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Troll",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Life Regeneration per second"
+      ],
+      "affixRanges": [
+        "9.1-13"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Exile",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Chaos Resistance"
+      ],
+      "affixRanges": [
+        "20-23"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Volcano",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "31-35"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Lightning",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "36-40"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Yeti",
+      "affixTier": 5,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "21-25"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Stone Skin",
+      "affixTier": 8,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Stun Threshold"
+      ],
+      "affixRanges": [
+        "30-49"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Drake",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Fire Resistance"
+      ],
+      "affixRanges": [
+        "16-20"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Fecund",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "150-174"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Buffering",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield Recharge Rate"
+      ],
+      "affixRanges": [
+        "16-19"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Polar Bear",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "31-35"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Sage",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "25-27"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Abbot\u0027s",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield",
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "21-26",
+        "20-25"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Medved\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Life",
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "19-189",
+        "19-189"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Archon\u0027s",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Energy Shield",
+        "% increased Energy Shield"
+      ],
+      "affixRanges": [
+        "21-25",
+        "33-38"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Glittering",
+      "affixTier": 9,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "25-30"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Ephij",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "41-45"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Pointed",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "X to Y Physical Thorns damage"
+      ],
+      "affixRanges": [
+        "X(24-35); Y(36-53)"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Student",
+      "affixTier": 7,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "9-12"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Athlete\u0027s",
+      "affixTier": 5,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "120-149"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Savant",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to Intelligence"
+      ],
+      "affixRanges": [
+        "28-30"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Virile",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "100-119"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monk\u0027s",
+      "affixTier": 6,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield",
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "6-13",
+        "7-10"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Walrus",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Cold Resistance"
+      ],
+      "affixRanges": [
+        "26-30"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Bishop\u0027s",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield",
+        "\u002B to maximum Life"
+      ],
+      "affixRanges": [
+        "27-32",
+        "26-32"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Maelstrom",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "31-35"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Dauntless",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield"
+      ],
+      "affixRanges": [
+        "68-79"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Thunderhead",
+      "affixTier": 5,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B% to Lightning Resistance"
+      ],
+      "affixRanges": [
+        "21-25"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Cardinal\u0027s",
+      "affixTier": 5,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Energy Shield",
+        "% increased Energy Shield"
+      ],
+      "affixRanges": [
+        "8-13",
+        "14-20"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Resurgence",
+      "affixTier": 3,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "Life Regeneration per second"
+      ],
+      "affixRanges": [
+        "23.1-29"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Quashing",
+      "affixTier": 4,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% reduced Ignite Duration on you"
+      ],
+      "affixRanges": [
+        "41-45"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Divine",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Energy Shield",
+        "% increased Energy Shield"
+      ],
+      "affixRanges": [
+        "26-30",
+        "39-42"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Glimmering",
+      "affixTier": 10,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "\u002B to maximum Energy Shield"
+      ],
+      "affixRanges": [
+        "18-24"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Assuaging",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% reduced Duration of Bleeding on You"
+      ],
+      "affixRanges": [
+        "55-51"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Medved\u0027s",
+      "affixTier": 1,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% increased Energy Shield",
+        "\u002B to maximum Mana"
+      ],
+      "affixRanges": [
+        "6-52",
+        "7-57"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Body Armours"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of the Skilled",
+      "affixTier": 2,
+      "affixTierLevel": 82,
+      "affixStats": [
+        "% reduced Attribute Requirements"
+      ],
+      "affixRanges": [
+        "30"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Numbing",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant Damage Penetrates % Cold Resistance"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Decrepifying",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant Damaging Ailments deal damage % faster"
+      ],
+      "affixRanges": [
+        "2-3"
       ],
       "affixSubClass": null,
       "weight": null,

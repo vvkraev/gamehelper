@@ -1,5 +1,3226 @@
 [
   {
+    "itemId": "b6e8ecac1369fddaa31d4f33caefec0a9f732e21e2170ac639a17a84cc6f435b",
+    "time": "2026-07-02T11:51:41+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Carrion Cut",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant [Debuff|Debuffs] on you expire 4% faster"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 3% increased Area of Effect of [Curse|Curses]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "91dd7d14e6ac4eabc5039791160649f57303b5173352738b3268d2fee3e38c08",
+    "time": "2026-07-02T11:44:09+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Maelstr\u00F6m Curio",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 8% increased [Presence|Presence] Area of Effect",
+      "Notable Passive Skills in Radius also grant 25% increased [EnergyShield|Energy Shield] from Equipped [Focus]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "2dc943e02b21d2b0ed69b3ce98257b6296fd254fec632a3270bed1d5ef017938",
+    "time": "2026-07-02T11:24:38+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Apocalypse Eye",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Cold] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Mana Regeneration Rate"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "e1cd28d9d1529d40aa83122fe87c6796d8c72d2f3e4e0ddf40817610bd2d3d68",
+    "time": "2026-07-02T10:33:12+03:00",
+    "priceAmount": 5,
+    "priceCurrency": "divine",
+    "itemName": "Honour Vessel",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Mana Regeneration Rate"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 6% increased Area of Effect of [Curse|Curses]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6d3498316c4de2e047a675d108da31752e291c9e2bf95f5b4dcdb0ef7ad19a77",
+    "time": "2026-07-02T10:23:03+03:00",
+    "priceAmount": 200,
+    "priceCurrency": "exalted",
+    "itemName": "Pandemonium Heart",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Cold] Damage",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 4% increased [Critical|Critical Hit Chance] for [Spell|Spells]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "f662fbb7ce2eeaa407ef1c87bdbc2b3195650a5e8be48caf2a7bcf2ebeaaf811",
+    "time": "2026-07-02T08:49:09+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Fulgent Cut",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant Recover 1% of maximum Life on Kill",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Damage with [Plant|Plant] Skills",
+      "Upgrades Radius to Large"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "99027feab9b3d11322072ee1cc817e0d2d5f9e8d29984d113a8bd58cc659f5be",
+    "time": "2026-07-02T08:49:07+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Foe Joy",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 62,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased [Curse] Duration",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 1% increased Damage",
+      "Upgrades Radius to Medium",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "036be635fdd571fe43361f3de783dab525ff9c5d0f9ab5f088bcc0e749dcca89",
+    "time": "2026-07-02T07:33:02+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Chimeric Shard",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Upgrades Radius to Medium",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased maximum [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "0ecaacb385c4597b98fc10c6510507e9c0be94ce1fdafad65662454d165bf72d",
+    "time": "2026-07-02T06:54:36+03:00",
+    "priceAmount": 399,
+    "priceCurrency": "divine",
+    "itemName": "Luminous Ornament",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant Recover 1% of maximum Life on Kill"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "c8e25ae5c3ac27654eba0ac745739299bb6d3854b928259f9e8cb6419a2b73fe",
+    "time": "2026-07-02T06:05:57+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Maelstr\u00F6m Ornament",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Spell] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased Damage while [Shapeshift|Shapeshifted]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "91b431df5255bfdf2d39ae6da1fc8c15fc5c2069680e0977dcb4426d7a19d91d",
+    "time": "2026-07-02T05:22:53+03:00",
+    "priceAmount": 179,
+    "priceCurrency": "divine",
+    "itemName": "Bramble Desire",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "2ecfd03945ef7fa96194b731eb4e93c429ae79fe5b1f6e4030ef60e7a2429d40",
+    "time": "2026-07-02T04:25:33+03:00",
+    "priceAmount": 5,
+    "priceCurrency": "divine",
+    "itemName": "Glyph Ruin",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 2% increased Area of Effect"
+    ],
+    "fracturedMods": [
+      "24% increased Effect of [SmallPassive|Small Passive] Skills in Radius"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "4d495cbdb74679a9443dcdd7a3206cbdff10d8547411f4d0799935d8ae81cf85",
+    "time": "2026-07-02T04:23:37+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Sol Splinter",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 9% increased [Freeze|Freeze] Buildup",
+      "Notable Passive Skills in Radius also grant 2% increased Area of Effect"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "974ca9f0df2c496cb3b476752ee51db29f2a07b2cfe901fea509171fd5f31e42",
+    "time": "2026-07-02T04:17:41+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Plague Bliss",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Upgrades Radius to Medium",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 4% increased [Curse] Duration",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased Damage with [Plant|Plant] Skills"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "d6f524a9d09e7fc32087247199a493b23c69f10d01778fb990f98e8b33d460a2",
+    "time": "2026-07-02T03:24:34+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Behemoth Sliver",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 5% [FasterESRechargeStart|faster start of Energy Shield Recharge]",
+      "Notable Passive Skills in Radius also grant [Minion|Minions] have 1% increased [Attack] and Cast Speed",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Damage while [Shapeshift|Shapeshifted]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6954ef21829b956d25c359cb62f1605a7299ccf1ebea05982658be52f91ca8e9",
+    "time": "2026-07-02T03:19:22+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Loath Shard",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Spell] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Shock] Duration"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "18e6cc56b654f25b5ab36e31ddf301fe20a3331661c476b40153f1ae25bb4f91",
+    "time": "2026-07-02T02:51:38+03:00",
+    "priceAmount": 1,
+    "priceCurrency": "divine",
+    "itemName": "Ghoul Hope",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "17% increased Effect of [SmallPassive|Small Passive] Skills in Radius"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "d31c18fa8b4042c6c15673a8f7f1c135483e77bb971cad49f93a797a1926b320",
+    "time": "2026-07-02T02:48:42+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Plague Scar",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Spell] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] have \u002B1% to all Elemental [Resistances]",
+      "Upgrades Radius to Medium",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "0d098e99f0b1ef336e1949e78fa1abd39e5837d418c22869afe13ca099693540",
+    "time": "2026-07-02T02:09:46+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Gale Prism",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased maximum [EnergyShield|Energy Shield]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "9c22de2427ea9981c07705aeed96a13def461f835a1eade14d818ea550a5a9a2",
+    "time": "2026-07-02T01:22:39+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Bramble Curio",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Spell] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Flammability] [BuffMagnitude|Magnitude]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [ElementalDamage|Elemental Damage]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "da674aecbc36d961fae889ee9a00d49e8ba69a6ccf0cb6a88d7f8e3bede8c0db",
+    "time": "2026-07-02T01:20:05+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Oblivion Glimmer",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Spell] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 4% increased [Curse] Duration",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 6% increased [BuffMagnitude|Magnitude] of [Shock|Shock] you inflict"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "77973f30b34db20d02ff98df45cdb1a6c514c9e5e1dff4456f6f7c75889c7cc6",
+    "time": "2026-07-02T01:19:34+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Dusk Wound",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 1% of Damage taken [Recoup|Recouped] as Life",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Chaos] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Offering|Offerings] have 2% increased Maximum Life"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "943deb5d4f89cb4b7d29872338602a6ef9e58ca4a0e9b3af55f5c422439bf669",
+    "time": "2026-07-02T01:18:08+03:00",
+    "priceAmount": 179,
+    "priceCurrency": "divine",
+    "itemName": "Hypnotic Bliss",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 68,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant [Meta] Skills gain 4% increased [Energy]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "26843f1e9357250187470d3c021f6843c79811f360a2ff286f8b0e528844aa09",
+    "time": "2026-07-02T00:35:13+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Gale Splinter",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [Presence|Presence] Area of Effect",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased chance to [Shock]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "5cf1d81970a1dd8494b38b2b54b62367bb38fdae166d92b5440462266d073f38",
+    "time": "2026-07-02T00:19:25+03:00",
+    "priceAmount": 5,
+    "priceCurrency": "divine",
+    "itemName": "Vivid Creed",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant Recover 1% of maximum Life on Kill"
+    ],
+    "fracturedMods": [
+      "Upgrades Radius to Very Large"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6f70166b9bde4bbb7be0f9395152a197a5b24a5fd1b83ec7858ba27245b40b7e",
+    "time": "2026-07-02T00:19:07+03:00",
+    "priceAmount": 5,
+    "priceCurrency": "divine",
+    "itemName": "Bramble Star",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant [Minion|Minions] have 6% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "Upgrades Radius to Very Large"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "51409eb3892b1de2990d917db99d460f2de28445ed7cc75db5a508b7216de442",
+    "time": "2026-07-01T23:28:02+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Carrion Eye",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 1% of Damage taken [Recoup|Recouped] as Life",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Cold] Damage"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "070f2c551893c1b864a780d402a88e36ba9bb9d5b50d2fdf4ec1e021228b7d16",
+    "time": "2026-07-01T23:17:45+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Damnation Heart",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 3% increased Skill Effect Duration",
+      "Notable Passive Skills in Radius also grant 4% increased Area of Effect of [Curse|Curses]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "b9a4b757c4943acfb5e5b07b5584697e9b5d7605a6426b7c2b81850ac2dedc10",
+    "time": "2026-07-01T23:05:08+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Glyph Splinter",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 1% increased Cast Speed",
+      "Notable Passive Skills in Radius also grant 5% [FasterESRechargeStart|faster start of Energy Shield Recharge]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "7ac224a1998981dde052182554d58f9b78170bc84b49d97add9ab1ea3a8d6d7b",
+    "time": "2026-07-01T21:07:11+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Behemoth Essence",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 1% of Damage taken [Recoup|Recouped] as Life",
+      "Notable Passive Skills in Radius also grant 7% increased [BuffMagnitude|Magnitude] of [DamagingAilments|Damaging Ailments] you inflict with [Critical|Critical Hits]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Trigger|Triggered] [Spell|Spells] deal 3% increased [Spell] Damage"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "cd6e116b48b67623666e93efaf03a7620cf75ef820a84b6e4dbdc7e0bb0c0209",
+    "time": "2026-07-01T19:57:30+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Rapture Eye",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Upgrades Radius to Large",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 3% increased Skill Effect Duration",
+      "Notable Passive Skills in Radius also grant 7% increased [BuffMagnitude|Magnitude] of [Shock|Shock] you inflict"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "b72b1dc941c4460746e1b0c4179231b9023ea9e141dae362713e697816388942",
+    "time": "2026-07-01T19:27:28+03:00",
+    "priceAmount": 1,
+    "priceCurrency": "divine",
+    "itemName": "Armageddon Glisten",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Spell] Damage"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "7b3d0a192c165b29f079f3c582b629cdd909b8e535e010c01948b90e438eecbb",
+    "time": "2026-07-01T18:59:00+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Dusk Scar",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 78,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 6% increased [Ignite|Ignite] [BuffMagnitude|Magnitude]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased Mana Regeneration Rate",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Trigger|Triggered] [Spell|Spells] deal 2% increased [Spell] Damage"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "00cc6501ac7be04deba5353f9953d3076b371952c376007e6b2401d30060e85c",
+    "time": "2026-07-01T18:33:03+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Pandemonium Hope",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 6% [FasterESRechargeStart|faster start of Energy Shield Recharge]",
+      "Notable Passive Skills in Radius also grant 1% increased [Curse] [BuffMagnitude|Magnitudes]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "3e380ba79e2c8ba356dd7e9f4bb960142c79bf4401f52a99a152bf923f16e6d7",
+    "time": "2026-07-01T18:32:09+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Foe Shard",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 2% increased Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased Damage while [Shapeshift|Shapeshifted]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "77354d46ed7e9e04a8b56b30e3873d388faeb1b7d8d255f6bcf4f9f8a4b1fea1",
+    "time": "2026-07-01T18:29:06+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Damnation Star",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Chaos] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 1% increased Damage"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "be4a9b66db2f814e5995e617b11b205f5b5052956202122d321d3a3c1cc66fd5",
+    "time": "2026-07-01T18:06:56+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Pandemonium Prism",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 1% increased Damage",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 2% increased Cast Speed",
+      "Notable Passive Skills in Radius also grant 12% increased [Presence|Presence] Area of Effect"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "709282db4a5e064d91a049f2e6b40abf91d0c9869623660c4ae7988d4a528250",
+    "time": "2026-07-01T18:06:50+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Rapture Spark",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Chaos] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [ElementalDamage|Elemental Damage]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "a49e5ce352dd47552e6be57288d331e42a770b67e70eee11336973dc5881bb8c",
+    "time": "2026-07-01T18:06:13+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Glyph Bliss",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Mana Regeneration Rate",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 2% increased Damage",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 5% [FasterESRechargeStart|faster start of Energy Shield Recharge]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "ece0821dc822948942aeadc8b4b3eeb142850ddfba4c0d561e1b2872dad18ad9",
+    "time": "2026-07-01T18:03:19+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Glyph Splinter",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 21% increased [EnergyShield|Energy Shield] from Equipped [Focus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [ElementalDamage|Elemental Damage]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "b632a1d6f9a22298fff6158c00a2a05cd81f135c2c00e86bd61e90057be2f077",
+    "time": "2026-07-01T17:17:45+03:00",
+    "priceAmount": 50,
+    "priceCurrency": "exalted",
+    "itemName": "Rapture Cut",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant [Minion|Minions] have 8% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Offering|Offerings] have 3% increased Maximum Life"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "d53aba1ccef2a0e657a032c691913604bc2bef41e41126983e367d3bb126f334",
+    "time": "2026-07-01T17:07:27+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Armageddon Curio",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Trigger|Triggered] [Spell|Spells] deal 2% increased [Spell] Damage",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 1% increased Cast Speed",
+      "Notable Passive Skills in Radius also grant 3% increased Area of Effect"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "3a5f9d2b64e9c015f05e922ef7af45a0dfded08da6820148644e2e4ee57cc53d",
+    "time": "2026-07-01T17:03:01+03:00",
+    "priceAmount": 50,
+    "priceCurrency": "exalted",
+    "itemName": "Spirit Creed",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Shock] Duration",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 2% increased Damage"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "722f87dd15bbb8d2420c2519347a6d41f3934e3bda3e01d0f71dc4f0ed60aa7b",
+    "time": "2026-07-01T16:49:10+03:00",
+    "priceAmount": 50,
+    "priceCurrency": "exalted",
+    "itemName": "Dusk Glisten",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Trigger|Triggered] [Spell|Spells] deal 3% increased [Spell] Damage"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased [Flammability] [BuffMagnitude|Magnitude]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "b915c3b5192515aa44ffa6a319c70ab1359bff9c6066f5660a5aef63077b63a0",
+    "time": "2026-07-01T16:18:48+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Chimeric Cut",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 4% increased [FreezeThreshold|Freeze Threshold]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "Upgrades Radius to Very Large"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "8500dac6803ecbe7bb3bcd14e6efc77124dbb426e200cd405c94624926a6119a",
+    "time": "2026-07-01T15:51:15+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Entropy Joy",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant Gain additional [AilmentThreshold|Ailment Threshold] equal to 1% of maximum [EnergyShield|Energy Shield]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Offering|Offerings] have 2% increased Maximum Life"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "8b4580ac5398bf5ff08f385d5a76a5ccd0e33d4411ba6a5bdd703affd51b82c2",
+    "time": "2026-07-01T15:36:03+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Spirit Wound",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 1% increased Damage",
+      "Notable Passive Skills in Radius also grant 9% increased [Freeze] Buildup with [Quarterstaff|Quarterstaves]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "3fe9ee6f20d5f75b157d542264928654cf5c6487644f4a149eedeb11ad29156b",
+    "time": "2026-07-01T14:50:13+03:00",
+    "priceAmount": 50,
+    "priceCurrency": "exalted",
+    "itemName": "Cataclysm Curio",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Chaos] Damage"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 4% increased [Curse] Duration"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "dfe6af5a5aa0de142ab01af157c6b336915d0f8c78e882df52c9c186cdfef97b",
+    "time": "2026-07-01T14:39:24+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Dragon Splinter",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Spell] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] have \u002B1% to [Chaos] [Resistances|Resistance]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "b23098b631906e1ae09b3cfd1dde619d8b627c6c944332b696c2fdf5aa3ac870",
+    "time": "2026-07-01T14:36:02+03:00",
+    "priceAmount": 20,
+    "priceCurrency": "divine",
+    "itemName": "Chimeric Curio",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 61,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 6% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased maximum [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant [Minion|Minions] have 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6b57dd93258c0b5799a794142bab96ccd7402e7611f9329507d596e88db01b5f",
+    "time": "2026-07-01T14:12:40+03:00",
+    "priceAmount": 50,
+    "priceCurrency": "exalted",
+    "itemName": "Brood Vessel",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Damage while [Shapeshift|Shapeshifted]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 1% of Damage taken [Recoup|Recouped] as Life"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "16fa0ed4ca7f4f3671cf31a66a0829dbd6b6f829847ef26a07d5cc7e603eddd2",
+    "time": "2026-07-01T13:26:00+03:00",
+    "priceAmount": 50,
+    "priceCurrency": "exalted",
+    "itemName": "Entropy Stone",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 61,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Offering|Offerings] have 3% increased Maximum Life",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant [Meta] Skills gain 4% increased [Energy]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "a3cbf9df7be58d58c8048e22d80e96c80f2f7169bf6ec32eaf1eace0c360d857",
+    "time": "2026-07-01T13:21:48+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Cataclysm Creed",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 62,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 7% [FasterESRechargeStart|faster start of Energy Shield Recharge]",
+      "Notable Passive Skills in Radius also grant Recover 1% of maximum Life on Kill"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "caa5a682bb7ed13c86f1e68db62060b1ef516a6eba3ab93fc5563b752b020e73",
+    "time": "2026-07-01T12:57:49+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Bramble Glisten",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 6% [FasterESRechargeStart|faster start of Energy Shield Recharge]",
+      "Notable Passive Skills in Radius also grant [Minion|Minions] have 2% increased [Attack] and Cast Speed"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "262459d70318333a42904cdad5a47135e4171c02070c264dc365e6737d04b59f",
+    "time": "2026-07-01T12:56:57+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Spirit Eye",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 5% increased Duration of [DamagingAilments|Damaging Ailments] on Enemies",
+      "Upgrades Radius to Medium"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "b24699bb63ac77394082e4f56a8110a785ddd8578893902ce5764aaca5d55ce8",
+    "time": "2026-07-01T12:39:05+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Behemoth Star",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 12% increased [Presence|Presence] Area of Effect",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] have \u002B1% to all Elemental [Resistances]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "5ba1f24042fdf9333f65586de9439834dfb80a261e9e09b1e34461acf4ae268d",
+    "time": "2026-07-01T12:31:33+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Apocalypse Eye",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Cold] Damage",
+      "Notable Passive Skills in Radius also grant [Meta] Skills gain 4% increased [Energy]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "0194ca330c81032d31a207f55c42c01906d15af0da33d21f32bdc484ec650ee1",
+    "time": "2026-07-01T12:17:33+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Viper Stone",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Cold] Damage",
+      "Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "2588f64035cf28d42d3074627c5ecb61880d7f60ba824f91469f46200444adb9",
+    "time": "2026-07-01T11:48:07+03:00",
+    "priceAmount": 50,
+    "priceCurrency": "exalted",
+    "itemName": "Carrion Glisten",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Spell] Damage"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant [Minion|Minions] have 2% increased [Attack] and Cast Speed"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "af771a6ceb19ee645bbd8c7067bc14786e68d18681e2fc6c0d7554774078afff",
+    "time": "2026-07-01T10:42:41+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Empyrean Desire",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Upgrades Radius to Medium"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "b6ed11eb3e5076781984d8c2efe9d695d955be26c60cd869d6b3439c06572eda",
+    "time": "2026-07-01T10:37:38+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Maelstr\u00F6m Shard",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 7% increased [BuffMagnitude|Magnitude] of [Shock|Shock] you inflict"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "c92331fa75c68bde5d23f8feb2cc62632a6eea56ca0a06133095e0cd48c4baf6",
+    "time": "2026-07-01T10:07:41+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Foe Joy",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Cold] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased chance to [Shock]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "d6f6fd00f89f040357d30cd743d2bc25a57deaa066ddcae886ab7e0a2d2760de",
+    "time": "2026-07-01T10:07:36+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Ghoul Ornament",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 61,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 4% increased Duration of [DamagingAilments|Damaging Ailments] on Enemies",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 1% increased Damage"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "c94de8c732d8b191babb6b501f73232c8771a2ef04c47b9889bb29134f4f2b6b",
+    "time": "2026-07-01T10:07:31+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Cataclysm Glisten",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Cold] Damage",
+      "Notable Passive Skills in Radius also grant [Debuff|Debuffs] on you expire 4% faster"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "486fb45c38a3ff3cf8c8e0d019619e48f78f2483e6b7d359c7bb8baea9cfbbb9",
+    "time": "2026-07-01T09:59:37+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Hypnotic Heart",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 61,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant Damage [Penetration|Penetrates] 1% [Resistances|Cold Resistance]",
+      "Notable Passive Skills in Radius also grant Recover 1% of maximum Life on Kill"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "a6e7be12ccc2cb0c6458528453e1ddb1e9ae1a3f1f4d7dfa9e20932a2cef1ce4",
+    "time": "2026-07-01T09:16:20+03:00",
+    "priceAmount": 240,
+    "priceCurrency": "divine",
+    "itemName": "Sol Hold",
+    "typeLine": "Breach Ring",
+    "baseType": "Breach Ring",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Adds 41 to 66 [Fire] damage to [Attack|Attacks]",
+      "\u002B30 to [Intelligence|Intelligence]",
+      "\u002B15% to all [ElementalDamage|Elemental] [Resistances]",
+      "[LifeLeech|Leech] 11.39% of [Physical] [Attack] Damage as Life"
+    ],
+    "fracturedMods": [
+      "Adds 37 to 57 [Cold] damage to [Attack|Attacks]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "736d88497fa705e196ef99d46309fbf2ee95eca5f617d2cc32444bad6d197793",
+    "time": "2026-07-01T08:23:14+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Gale Ruin",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant [Meta] Skills gain 3% increased [Energy]"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Spell] Damage"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "95e9ea5af4404aa98007776e90bc9ef3b010dd917992dacf8f1b01d02168faae",
+    "time": "2026-07-01T08:15:56+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Spirit Ornament",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased Damage if you have Consumed a [Corpse] [Recently]"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased Mana Regeneration Rate"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6f37c55a82777576e6b3745df870432418c7b57b255a6742d65c69591477a7cb",
+    "time": "2026-07-01T06:52:21+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Chimeric Shard",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 65,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased [Shock] Duration",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "Upgrades Radius to Medium"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "9b78fdc6678e4f5e939fdd062c4e108c060578600c5f30cc16c4ff1a82cdbb14",
+    "time": "2026-07-01T06:44:00+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Pandemonium Glimmer",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 10% increased [BuffMagnitude|Magnitude] of [DamagingAilments|Damaging Ailments] you inflict with [Critical|Critical Hits]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Cold] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant Gain additional [AilmentThreshold|Ailment Threshold] equal to 2% of maximum [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "b0fd861f008e09788bfb1ad4fe94260c32c3de3c8f1c91e530f0fb5ad78f196d",
+    "time": "2026-07-01T06:43:59+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Foe Scar",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant Damage [Penetration|Penetrates] 2% [Resistances|Cold Resistance]",
+      "Upgrades Radius to Medium",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "737ba7c8c3f1d0ad55363d64d9e41cb2d3e94ebf078f4d96f3b9ed1551b44f1d",
+    "time": "2026-07-01T06:43:47+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Ghoul Eye",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Chaos] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Flammability] [BuffMagnitude|Magnitude]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 1% increased Damage",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "55f092194cd96f027e7d7289cd537343956f7793304a021b12735dbf7b24f98e",
+    "time": "2026-07-01T06:40:16+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Plague Star",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant [Minion|Minions] have 2% increased [Attack] and Cast Speed"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased Damage if you have Consumed a [Corpse] [Recently]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "8cfce31e1aefe282ff470fe49e51d2afd14a414446fbea2b2170c2d50a6db4d1",
+    "time": "2026-07-01T06:36:38+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Pandemonium Cut",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 9% increased [Presence|Presence] Area of Effect",
+      "Notable Passive Skills in Radius also grant [Minion|Minions] have 10% increased [Critical|Critical Hit Chance]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant Damage [Penetration|Penetrates] 1% [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "586b81bfc8c0ad4f72cf86e4a59f0c0aa3569fc0a4d73e876d5741753e087b90",
+    "time": "2026-07-01T06:14:13+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Soul Eye",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased [Shock] Duration",
+      "[SmallPassive|Small Passive] Skills in Radius also grant Damage [Penetration|Penetrates] 1% [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "fd6d93a5d4a49b750439354cf0fc8254ba1bd32bdb37d303dc2a890932cb579a",
+    "time": "2026-07-01T05:14:07+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Kraken Scar",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 6% [FasterESRechargeStart|faster start of Energy Shield Recharge]",
+      "Notable Passive Skills in Radius also grant Recover 1% of maximum Life on Kill",
+      "Notable Passive Skills in Radius also grant 6% increased Area of Effect of [Curse|Curses]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "95d9a3292eddb3ababc8b266722c989bb70e283d4bbd9f45528ef0d9f13bf1b6",
+    "time": "2026-07-01T04:59:00+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Behemoth Hope",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 6% increased [Chill|Chill] Duration on Enemies"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 6% [FasterESRechargeStart|faster start of Energy Shield Recharge]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "cf873dea06fb46b69bb0cb23f41a58c85faa7065b94dc900e725105d3ca851e2",
+    "time": "2026-07-01T04:52:47+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Blight Essence",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Upgrades Radius to Medium",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 6% increased [Ignite|Ignite] [BuffMagnitude|Magnitude]",
+      "Notable Passive Skills in Radius also grant 8% increased [Chill|Chill] Duration on Enemies"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "8f8f7c10ec75152e32948fbe34d8d98af0b408780af3e5ebf389c96991840de4",
+    "time": "2026-07-01T04:52:45+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Empyrean Glisten",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Upgrades Radius to Medium",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 2% increased Cast Speed",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Chaos] Damage"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "f917137ec0e288360e11c0d3bcd17bdce133de0dbccd1be58699de1367c7c559",
+    "time": "2026-07-01T04:52:44+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Rapture Wound",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] have \u002B1% to all Elemental [Resistances]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant Damage [Penetration|Penetrates] 2% [Resistances|Cold Resistance]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Trigger|Triggered] [Spell|Spells] deal 3% increased [Spell] Damage",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "87e8c0ca7bfc8a06e6a47d94ecb12166b8a8e86159a3d2812a83ad1c5a2f6268",
+    "time": "2026-07-01T04:52:42+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Vivid Prism",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Mana Regeneration Rate",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Trigger|Triggered] [Spell|Spells] deal 3% increased [Spell] Damage",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 9% increased [BuffMagnitude|Magnitude] of [DamagingAilments|Damaging Ailments] you inflict with [Critical|Critical Hits]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "87952ad1de741018d8381701da9dc7a2968b6ca541eee55eaf8c2393d87a524a",
+    "time": "2026-07-01T04:52:38+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Maelstr\u00F6m Eye",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Spell] Damage",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 1% increased Cast Speed",
+      "Notable Passive Skills in Radius also grant 7% [FasterESRechargeStart|faster start of Energy Shield Recharge]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "ef8d9e66e50e29fa31e81ddde3bda338824f103efc06b84703b758c60b32877a",
+    "time": "2026-07-01T04:52:21+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Sol Curio",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant Damage [Penetration|Penetrates] 1% [Resistances|Cold Resistance]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Damage while [Shapeshift|Shapeshifted]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 6% increased [Chill|Chill] Duration on Enemies"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "3c13bcf5f6139c900d4b6a071c2639cc1c9cc8f49561eb021e95fce7106bbb7a",
+    "time": "2026-07-01T04:52:19+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Dusk Scar",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 1% increased Cast Speed",
+      "Notable Passive Skills in Radius also grant 5% [FasterESRechargeStart|faster start of Energy Shield Recharge]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 1% increased Damage"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6a8738b5e2c0d90214e524b5b124f626bacd1d6b80b82fcc2ec7775084c40a03",
+    "time": "2026-07-01T04:52:16+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Kraken Prism",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 1% increased Cast Speed",
+      "Upgrades Radius to Large",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Offering|Offerings] have 3% increased Maximum Life"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "ca9f33ae1a949bd9a1c849d3c404690d230f85b204a333318e62979472637600",
+    "time": "2026-07-01T04:52:09+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Brood Essence",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Cold] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Chaos] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] have \u002B2% to all Elemental [Resistances]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "f91b60be5406580391bdf6d77699d0e1af97142f2ee1bac7cb5cbc1b6cd81aff",
+    "time": "2026-07-01T04:27:32+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Bramble Shine",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 61,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant Recover 1% of maximum Life on Kill",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased maximum [EnergyShield|Energy Shield]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [ElementalDamage|Elemental Damage]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6d56c11d81bb34393b0858fed495ebb77d1d45f39223b1c903cc66b9bbc243cd",
+    "time": "2026-07-01T04:11:43+03:00",
+    "priceAmount": 399,
+    "priceCurrency": "divine",
+    "itemName": "Gale Creed",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 7% increased [Critical|Critical Hit] Chance",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "042904f49ca4542151bd795b375932d5d74d5bc60eaf0e917d21021bfb66bb0f",
+    "time": "2026-07-01T03:21:40+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Apocalypse Essence",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 4% increased [Critical|Critical Hit Chance] for [Spell|Spells]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Upgrades Radius to Medium"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "4e06595067c64d8be2680ed23a28351a9a46c9a9680b2fa07859f246e6cd2a12",
+    "time": "2026-07-01T02:20:34+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Chimeric Cut",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 1% of Damage taken [Recoup|Recouped] as Life",
+      "Notable Passive Skills in Radius also grant 4% increased Area of Effect of [Curse|Curses]",
+      "Notable Passive Skills in Radius also grant 1% increased [Curse] [BuffMagnitude|Magnitudes]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "94f8b6a60c52a98f521ff47273c8af627258c8a4d639efcd83fcbfdac4ac0cfb",
+    "time": "2026-07-01T02:18:01+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Armageddon Curio",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 2% increased [SkillSpeed|Skill Speed] while [Shapeshift|Shapeshifted]",
+      "Upgrades Radius to Medium"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "ab79414fccf5975108bbff02e03f072e6af686c4baa29e9c6a073a544c3c59fd",
+    "time": "2026-07-01T02:09:42+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Loath Stone",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Trigger|Triggered] [Spell|Spells] deal 2% increased [Spell] Damage"
+    ],
+    "fracturedMods": [
+      "15% increased Effect of [SmallPassive|Small Passive] Skills in Radius"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6e9ccbd401fd8e9ddae86c9f8fc95a9a6635cd035db2c2fa0b67db06cbe0bcc8",
+    "time": "2026-07-01T02:09:34+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Loath Hope",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 9% increased [Chill|Chill] Duration on Enemies"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Spell] Damage"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "a80231182072ccd6e623ef2df98bfadbee365e1ca94ed90e5cf57e9fd0642810",
+    "time": "2026-07-01T02:09:18+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Entropy Shard",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 8% increased [BuffMagnitude|Magnitude] of [DamagingAilments|Damaging Ailments] you inflict with [Critical|Critical Hits]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 8% increased [Freeze|Freeze] Buildup"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "2b47cc6a971a5837133c5511499c5f1781b484ff7c9bf5166508158c1645b5bf",
+    "time": "2026-07-01T02:09:08+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Kraken Hope",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 78,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Mana Regeneration Rate",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Chaos] Damage"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "9dd0e9bd29c55c0306067a8ba491b2569055d7c695c90735d1de03c8f28422e2",
+    "time": "2026-07-01T02:08:47+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Bramble Prism",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 1% increased Cast Speed"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant Damage [Penetration|Penetrates] 2% [Resistances|Cold Resistance]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "498638dcfa91c9baea8a807d79bc6e25711d1a62923a9513666b4bc387a09d1f",
+    "time": "2026-07-01T02:08:08+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Honour Star",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Upgrades Radius to Medium"
+    ],
+    "fracturedMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Shock] Duration"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "2b275b67eccb2ac11f43bb7af2aa89b00818076409493ba8bed782d667e71f50",
+    "time": "2026-07-01T02:02:26+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Oblivion Cut",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 62,
+    "explicitMods": [
+      "Upgrades Radius to Medium",
+      "Notable Passive Skills in Radius also grant 1% of Damage taken [Recoup|Recouped] as Life"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "ebcf533fa7cc1d68e8f0b5ace361d298d2da3610b41c700c6e2c91692b850d1d",
+    "time": "2026-07-01T02:00:45+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Rapture Hope",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 5% increased Skill Effect Duration",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Spell] Damage"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6652da267582cd7828298d871b9e2e759bf8e8cfe18913fa54b0a02c8dddae71",
+    "time": "2026-07-01T02:00:09+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Soul Joy",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased maximum [EnergyShield|Energy Shield]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 4% increased [Curse] Duration"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "0523f34253907c92088b0a87d9acf223376ab165195b842b223aff742adc5394",
+    "time": "2026-07-01T01:58:39+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Apocalypse Ruin",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Curse] Duration"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 5% [FasterESRechargeStart|faster start of Energy Shield Recharge]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "3ae8bc97d1c78853f201676dc599758b2ae010b193b36103318d585d037af9f0",
+    "time": "2026-07-01T01:46:38+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Luminous Sliver",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 78,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Mana Regeneration Rate",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased Damage with [Plant|Plant] Skills",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 3% increased [BuffMagnitude|Magnitude] of [Ailments] you inflict"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "11c45dd1be493c91875b2c779ca59d8c68988b97cb3428f6afed234329bb70e5",
+    "time": "2026-07-01T01:46:35+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Apocalypse Solace",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Upgrades Radius to Medium",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased Damage if you have Consumed a [Corpse] [Recently]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 1% increased [SkillSpeed|Skill Speed] while [Shapeshift|Shapeshifted]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "47afa8c6deda01f2189e5ecec777ac69e9e9e9ab83da02ae665b430f0c7e4a62",
+    "time": "2026-07-01T01:46:28+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Viper Stone",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased Mana Regeneration Rate",
+      "[SmallPassive|Small Passive] Skills in Radius also grant Damage [Penetration|Penetrates] 2% [Resistances|Cold Resistance]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 6% increased [BuffMagnitude|Magnitude] of [DamagingAilments|Damaging Ailments] you inflict with [Critical|Critical Hits]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "d55c14affe4b965458984465e8a67db36b501d3b4b23d31517512e9b55a339c5",
+    "time": "2026-07-01T01:46:25+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Entropy Joy",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 9% increased [Chill|Chill] Duration on Enemies",
+      "Notable Passive Skills in Radius also grant 1% increased [Curse] [BuffMagnitude|Magnitudes]",
+      "Notable Passive Skills in Radius also grant 5% increased [BuffMagnitude|Magnitude] of [Shock|Shock] you inflict"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "c80272465285e6e8db2de3eea357f1f6713e4a7fc9ce2140ec20f7e23a09a2dd",
+    "time": "2026-07-01T01:46:12+03:00",
+    "priceAmount": 20,
+    "priceCurrency": "divine",
+    "itemName": "Foe Splinter",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Upgrades Radius to Medium",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant [Minion|Minions] have 12% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "96b75b02a5fa8559f22578c718f01965099a13e458bdb722e0a59c9b8a7750d2",
+    "time": "2026-07-01T01:28:05+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Bramble Essence",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 62,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 6% [FasterESRechargeStart|faster start of Energy Shield Recharge]",
+      "Upgrades Radius to Medium"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "23817c567d73c06af2da91ca80eea688e064dbdd8989badab40fa310cff3496d",
+    "time": "2026-07-01T01:27:55+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Phoenix Spark",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 78,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant [Meta] Skills gain 2% increased [Energy]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Spell] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased maximum [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "24ff02dea877987c1b1afb53a994b6e9c6b320d17060812793ff29eeb48aeb7e",
+    "time": "2026-07-01T01:23:54+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Viper Essence",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 4% increased [FreezeThreshold|Freeze Threshold]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Trigger|Triggered] [Spell|Spells] deal 3% increased [Spell] Damage"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "987a5a7491593b4cd8a8c00e0a1736f6b413a8683147a00f4b922cf1d85747ed",
+    "time": "2026-07-01T01:15:57+03:00",
+    "priceAmount": 70,
+    "priceCurrency": "divine",
+    "itemName": "Pandemonium Sliver",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant Gain additional [AilmentThreshold|Ailment Threshold] equal to 1% of maximum [EnergyShield|Energy Shield]",
+      "Notable Passive Skills in Radius also grant 5% [FasterESRechargeStart|faster start of Energy Shield Recharge]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "87d048f0957c0d21d88cc1b50a92f75f68d90544d032c69646ff6abbdae5c4c6",
+    "time": "2026-07-01T00:35:34+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Entropy Star",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Cold] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 2% increased Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] have \u002B1% to all Elemental [Resistances]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "5ea3cdc4dbbb6b3cb1bd7a1667d58a4ffd66001fcdc6002d66d7adb1839e6eb3",
+    "time": "2026-07-01T00:18:00+03:00",
+    "priceAmount": 259,
+    "priceCurrency": "divine",
+    "itemName": "Foe Splinter",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 3% increased [Critical|Critical Hit] Chance",
+      "Notable Passive Skills in Radius also grant 8% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "a81da20a1d53bce3d0d97cb9a32f60398101a280fd23a4560aa6392678ebcaaf",
+    "time": "2026-07-01T00:15:29+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Vivid Wound",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased maximum [EnergyShield|Energy Shield]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant Gain additional [StunThreshold|Stun Threshold] equal to 2% of maximum [EnergyShield|Energy Shield]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 8% increased [Presence|Presence] Area of Effect"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "17f406a448653f9408cda3fa2810e0c9f5be261f76ed682dc710f426ab8bd5e0",
+    "time": "2026-07-01T00:15:15+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Spirit Heart",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Spell] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 2% increased Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant Gain additional [AilmentThreshold|Ailment Threshold] equal to 2% of maximum [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "2cf45973f778ee6d4d0bca5dbb4f6ae2ad1222e471eefe01cb6ea59bfb960907",
+    "time": "2026-07-01T00:09:56+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Carrion Scar",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 1% of Damage taken [Recoup|Recouped] as Life",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Offering|Offerings] have 3% increased Maximum Life",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Trigger|Triggered] [Spell|Spells] deal 2% increased [Spell] Damage"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6b15c565c495304092f3d48bcab9288e2eb3031f1d94a6bb71aa662fa2785ece",
+    "time": "2026-06-30T23:44:59+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Brood Glimmer",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Spell] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Chaos] Damage"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "050ee6dce335da5ffbd72559125ffd00a7c13ec86c73cf86b88ff2d0f03d2b92",
+    "time": "2026-06-30T23:42:19+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Kraken Wound",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 78,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant [Minion|Minions] have 2% increased [Attack] and Cast Speed",
+      "[SmallPassive|Small Passive] Skills in Radius also grant Damage [Penetration|Penetrates] 2% [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "d59cab5477c8f2e85f188d696aa3007d94946b2aeb425a95c0729181304e868e",
+    "time": "2026-06-30T23:41:56+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Foe Sliver",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 78,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Cold] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Mana Regeneration Rate",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "7ff6260f372b7ddf4a4714b45ce8c99fcc6cb61b35e24faf40b431ce8189da1a",
+    "time": "2026-06-30T23:25:16+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Maelstr\u00F6m Prism",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 11% increased [Presence|Presence] Area of Effect",
+      "Upgrades Radius to Large"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "14720fc3567bc5e89359117a6564c5bfab5097891294a117e3f49c34ac8fca03",
+    "time": "2026-06-30T23:25:12+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Brood Vessel",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 7% [FasterESRechargeStart|faster start of Energy Shield Recharge]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [ElementalDamage|Elemental Damage]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6725d5a0364da07267a402b0688e942b657cc475d767293df61dc094fea639b9",
+    "time": "2026-06-30T23:25:07+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Dragon Joy",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased Mana Regeneration Rate",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 19% increased [EnergyShield|Energy Shield] from Equipped [Focus]",
+      "Upgrades Radius to Medium"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "7a8853762a01531ea359d34640f43bfc322cde740b2bda7c28aacf096c42cd7f",
+    "time": "2026-06-30T23:24:56+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Kraken Scar",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 2% increased Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Trigger|Triggered] [Spell|Spells] deal 3% increased [Spell] Damage",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "813a72226d303747438675422c24e79e70c7300493044b6c6dc519792eeb48d8",
+    "time": "2026-06-30T23:23:14+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Kraken Essence",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Cold] Damage",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 2% increased Cast Speed",
+      "Notable Passive Skills in Radius also grant 3% increased Area of Effect of [Curse|Curses]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "f445e74d51be4b8ba98e796f7e4a3ea75e82b169c6f48e313f86d4d1253c3216",
+    "time": "2026-06-30T23:23:10+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Entropy Spark",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 1% of Damage taken [Recoup|Recouped] as Life",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Cold] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased maximum [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "6cf8d1568ddafc366b8f52b4439dd85ca74cce9d5b57ec6884b96e55bc9726d6",
+    "time": "2026-06-30T23:23:04+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Behemoth Vessel",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant Recover 1% of maximum Life on Kill",
+      "Notable Passive Skills in Radius also grant 15% increased [EnergyShield|Energy Shield] from Equipped [Focus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Chaos] Damage"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "8d0e5674826f2dde81487f53045c822e8e4a86fb3e008f60a7df43ced3f767f8",
+    "time": "2026-06-30T23:10:00+03:00",
+    "priceAmount": 239,
+    "priceCurrency": "divine",
+    "itemName": "Pandemonium Hope",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 9% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "24% increased Effect of Notable Passive Skills in Radius"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "3432d3b8e900e153b6c24c17ffa65fd558b9dd7bac0aeaa58741feca68f6c3a5",
+    "time": "2026-06-30T22:31:34+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Bramble Shard",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant [Minion|Minions] have 1% increased [Attack] and Cast Speed",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased Damage while [Shapeshift|Shapeshifted]",
+      "Upgrades Radius to Large"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "1e95d434e58980f43903568d91a5407a775f7e0c5116555bbd415242110f2780",
+    "time": "2026-06-30T22:31:32+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Vivid Joy",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [ElementalDamage|Elemental Damage]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Offering|Offerings] have 3% increased Maximum Life",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 9% increased [Freeze] Buildup with [Quarterstaff|Quarterstaves]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "bd9bc6c4c94feec9c3d951ff709de20062b7e62953d88e524d877a14f05f0c82",
+    "time": "2026-06-30T22:31:24+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Dusk Ornament",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Upgrades Radius to Large",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 3% increased Duration of [DamagingAilments|Damaging Ailments] on Enemies"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "2cedc64bac8e4dfe9e4d4d38e1a6c896b84a3113e301f26e605aa59b5d3381f5",
+    "time": "2026-06-30T22:28:25+03:00",
+    "priceAmount": 9,
+    "priceCurrency": "divine",
+    "itemName": "Vivid Glimmer",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant Gain additional [AilmentThreshold|Ailment Threshold] equal to 1% of maximum [EnergyShield|Energy Shield]",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 3% increased Area of Effect"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "9050bc79eccc9a573ff7c7a59f48fe9016e28942465a8adf9ed1efcda515924c",
+    "time": "2026-06-28T06:09:16+03:00",
+    "priceAmount": 198,
+    "priceCurrency": "divine",
+    "itemName": "Pandemonium Splinter",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 9% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased [Spell] Damage"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "9871eb30d4fa29a371d9c1a15f9bd26edef3fef1843c82c323b45d6da36e5ce5",
+    "time": "2026-06-28T04:35:58+03:00",
+    "priceAmount": 2,
+    "priceCurrency": "chaos",
+    "itemName": "Maligaro\u0027s Virtuosity",
+    "typeLine": "Fine Bracers",
+    "baseType": "Fine Bracers",
+    "itemLevel": 79,
+    "explicitMods": [
+      "61% increased [Evasion|Evasion] Rating",
+      "26% increased [Critical|Critical Hit] Chance",
+      "5% increased [Attack] Speed",
+      "\u002B16 to [Dexterity|Dexterity]",
+      "Your [Critical|Critical Hit] Chance cannot be [RerollCrit|Rerolled]",
+      "Your [CriticalDamageBonus|Critical Damage Bonus] is 250%"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "b4a6f1a10af1370678d0474e3cff1392367ae64f6c1c7ac7dd122395e68e5e0b",
+    "time": "2026-06-28T03:45:16+03:00",
+    "priceAmount": 2,
+    "priceCurrency": "divine",
+    "itemName": "Oblivion Sliver",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 78,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 4% increased Duration of [DamagingAilments|Damaging Ailments] on Enemies"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "becf93918b370393c1917245a4e56c17b4d4f4d3e7a556e654c5125e84d94f70",
+    "time": "2026-06-28T02:30:05+03:00",
+    "priceAmount": 1,
+    "priceCurrency": "divine",
+    "itemName": "Foe Glisten",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 1% of Damage taken [Recoup|Recouped] as Life",
+      "[SmallPassive|Small Passive] Skills in Radius also grant Damage [Penetration|Penetrates] 1% [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "4a4774e7e94b98d44063bb97412c3db0013d67d817bbf617e5172f0e31a02a81",
+    "time": "2026-06-28T01:59:18+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Graven Intent",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Area has patches of [ShockedGround|Shocked Ground]",
+      "Players are periodically [Curse|Cursed] with [Enfeeble]",
+      "Players are periodically [Curse|Cursed] with [TemporalChains|Temporal Chains]",
+      "Monsters take 26% reduced Extra Damage from [Critical|Critical Hits]",
+      "Monsters are [MonsterExtraArmour1|Armoured]",
+      "Monsters have 70% increased Ailment Threshold",
+      "Monsters have 67% increased Stun Threshold"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "46f272619ab0d3ad398eef60e7a04e27037e9c03898c24fc6c0283d925352669",
+    "time": "2026-06-28T00:32:05+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "divine",
+    "itemName": "Blight Cloak",
+    "typeLine": "Vile Robe",
+    "baseType": "Vile Robe",
+    "itemLevel": 79,
+    "explicitMods": [
+      "\u002B94 to maximum [EnergyShield|Energy Shield]",
+      "\u002B33 to [Intelligence|Intelligence]",
+      "\u002B35% to [Resistances|Fire Resistance]",
+      "\u002B40% to [Resistances|Cold Resistance]"
+    ],
+    "fracturedMods": [
+      "106% increased [EnergyShield|Energy Shield]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "46a8e6374807d6377b123445b161549f1ff2e1f0a3a4007d74778f40a083d26b",
+    "time": "2026-06-27T22:07:30+03:00",
+    "priceAmount": 180,
+    "priceCurrency": "divine",
+    "itemName": "Oblivion Creed",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 61,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 9% increased [CriticalDamageBonus|Critical Spell Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 21% increased [EnergyShield|Energy Shield] from Equipped [Focus]",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 2% increased Damage while [Shapeshift|Shapeshifted]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "8f982dd1829a7bbe1790f91031175051738cfd121d08a9245040ca4d4a978b2d",
+    "time": "2026-06-27T21:34:58+03:00",
+    "priceAmount": 1,
+    "priceCurrency": "divine",
+    "itemName": "The Last Lament",
+    "typeLine": "Desolate Crossbow",
+    "baseType": "Desolate Crossbow",
+    "itemLevel": 79,
+    "explicitMods": [
+      "298% increased [Physical] Damage",
+      "18% increased [Attack] Speed",
+      "53% reduced Reload Speed",
+      "[LifeLeech|Leeches] 8.14% of [Physical|Physical] Damage as Life",
+      "20% chance to load a bolt into all [Crossbow|Crossbow] skills on Kill",
+      "[Sacrifice] 300 Life to not consume the last bolt when firing"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "ccdaae81b0388874e4a47b75962b6f39bbece154113098929fdcfef18760662a",
+    "time": "2026-06-27T21:23:00+03:00",
+    "priceAmount": 225,
+    "priceCurrency": "divine",
+    "itemName": "Headhunter",
+    "typeLine": "Heavy Belt",
+    "baseType": "Heavy Belt",
+    "itemLevel": 79,
+    "explicitMods": [
+      "\u002B41 to maximum Life",
+      "\u002B30 to [Strength|Strength]",
+      "\u002B32 to [Dexterity|Dexterity]",
+      "When you kill a [Rarity|Rare] monster, you gain its [MonsterModifiers|Modifiers] for 60 seconds"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "56d604da3d810f4640305cb214e85ee95efb04c2fd216fd17938c1c5731e81af",
+    "time": "2026-06-27T18:26:46+03:00",
+    "priceAmount": 30,
+    "priceCurrency": "exalted",
+    "itemName": "Shavronne\u0027s Satchel",
+    "typeLine": "Fine Belt",
+    "baseType": "Fine Belt",
+    "itemLevel": 79,
+    "explicitMods": [
+      "22% reduced [Flask] Life Recovery rate",
+      "\u002B21 to [Intelligence|Intelligence]",
+      "28% increased [Flask|Flask] Charges gained",
+      "Life Recovery from [Flask|Flasks] also applies to [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "3b50dc5f164fb1196dafab91bb7c11d8d37f810428e76d9fe7c077c6ce66d96d",
+    "time": "2026-06-27T16:31:44+03:00",
+    "priceAmount": 2,
+    "priceCurrency": "divine",
+    "itemName": "Maligaro\u0027s Virtuosity",
+    "typeLine": "Fine Bracers",
+    "baseType": "Fine Bracers",
+    "itemLevel": 80,
+    "explicitMods": [
+      "70% increased [Evasion|Evasion] Rating",
+      "24% increased [Critical|Critical Hit] Chance",
+      "5% increased [Attack] Speed",
+      "\u002B11 to [Dexterity|Dexterity]",
+      "Your [Critical|Critical Hit] Chance cannot be [RerollCrit|Rerolled]",
+      "Your [CriticalDamageBonus|Critical Damage Bonus] is 250%"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "3372f77f678c6f3f1eb3a7c9554636a380b49eb77448d6112e7bb8ec8babf7fc",
+    "time": "2026-06-27T16:16:57+03:00",
+    "priceAmount": 3,
+    "priceCurrency": "divine",
+    "itemName": "Guiding Palm of the Mind",
+    "typeLine": "Shrine Sceptre",
+    "baseType": "Shrine Sceptre",
+    "itemLevel": 79,
+    "explicitMods": [
+      "[Gain] 25% of Damage as Extra [Lightning] Damage",
+      "[Allies|Allies] in your [Presence|Presence] deal 1 to 69 added [Attack|Attack] [Lightning|Lightning] Damage",
+      "50% of your Base Life Regeneration is granted to [Allies] in your [Presence]",
+      "\u002B23 to [Dexterity|Dexterity]",
+      "25% increased [LightRadius|Light Radius]",
+      "Grants effect of [UniqueShrineLightning|Guided Tempest Shrine]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "bd2d0148ddf331a66b5adeb71b68c432dcd63c3b0f207b41201b20ae7b136a31",
+    "time": "2026-06-27T14:18:08+03:00",
+    "priceAmount": 190,
+    "priceCurrency": "divine",
+    "itemName": "Hypnotic Shine",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 79,
+    "explicitMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]",
+      "Notable Passive Skills in Radius also grant 5% increased [BuffMagnitude|Magnitude] of [Ailments] you inflict",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased maximum [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Spell Damage Bonus]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "be7136c35de98bf6c6ab6cd999462156d66120b1667e394422f4e7bf6e2e2fd7",
+    "time": "2026-06-27T14:16:11+03:00",
+    "priceAmount": 8,
+    "priceCurrency": "chaos",
+    "itemName": "The Hammer of Faith",
+    "typeLine": "Giant Maul",
+    "baseType": "Giant Maul",
+    "itemLevel": 80,
+    "explicitMods": [
+      "344% increased [Physical] Damage",
+      "10% reduced [Attack] Speed",
+      "\u002B10% to all [ElementalDamage|Elemental] [Resistances]",
+      "50% increased Mana Regeneration Rate",
+      "Every 10 seconds, gain a random non-damaging [Shrine] buff for 20 seconds"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "2c23953afad464ff5f087b700a246fbdec05860612ac823289896c90e68ba3a2",
+    "time": "2026-06-27T14:15:35+03:00",
+    "priceAmount": 40,
+    "priceCurrency": "exalted",
+    "itemName": "Chober Chaber",
+    "typeLine": "Leaden Greathammer",
+    "baseType": "Leaden Greathammer",
+    "itemLevel": 79,
+    "explicitMods": [
+      "\u002B100 [Intelligence] Requirement",
+      "Adds 58 to 106 [Physical|Physical] Damage",
+      "\u002B96 to maximum Mana",
+      "\u002B50 to [Spirit|Spirit]",
+      "\u002B3 to Level of all [Minion|Minion] Skills",
+      "Increases and Reductions to [Minion] Damage also affect you"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "92949b25e63aa7ce4d2548b7a2d00866e9c0dfa3635deb2c9d403c7c50bebc29",
+    "time": "2026-06-27T13:49:09+03:00",
+    "priceAmount": 50,
+    "priceCurrency": "exalted",
+    "itemName": "",
+    "typeLine": "Utility Belt",
+    "baseType": "Utility Belt",
+    "itemLevel": 80,
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "708479a4b6746ba659a518e4d523a9f8cc8aba5f85e48e1e63cca00a1ac840b5",
+    "time": "2026-06-27T13:03:18+03:00",
+    "priceAmount": 50,
+    "priceCurrency": "exalted",
+    "itemName": "",
+    "typeLine": "Utility Belt",
+    "baseType": "Utility Belt",
+    "itemLevel": 79,
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "1113e434c4797f1b4f0bdc307c2e0ab2d6c0a4bd236bb01008f7edf51e5be468",
+    "time": "2026-06-27T12:29:50+03:00",
+    "priceAmount": 40,
+    "priceCurrency": "exalted",
+    "itemName": "Lifesprig",
+    "typeLine": "Attuned Wand",
+    "baseType": "Attuned Wand",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B17 to maximum Mana",
+      "\u002B3 to Level of all [Spell|Spell] Skills",
+      "10% increased Cast Speed",
+      "[LifeLeech|Leeches] 1% of maximum Life when you Cast a [Spell|Spell]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "a29db822a94b5399679a812d226672317cf3d06865531ad895117741038112fd",
+    "time": "2026-06-27T11:41:32+03:00",
+    "priceAmount": 100,
+    "priceCurrency": "exalted",
+    "itemName": "Guiding Palm of the Heart",
+    "typeLine": "Shrine Sceptre",
+    "baseType": "Shrine Sceptre",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[Gain] 29% of Damage as Extra [Fire] Damage",
+      "[Allies|Allies] in your [Presence|Presence] deal 21 to 34 added [Attack|Attack] [Fire|Fire] Damage",
+      "60% of your Base Life Regeneration is granted to [Allies] in your [Presence]",
+      "\u002B27 to [Strength|Strength]",
+      "23% increased [LightRadius|Light Radius]",
+      "Grants effect of [UniqueShrineFire|Guided Meteoric Shrine]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "39a5d29096db246db96e6f4f6583d2684af205400b81f0caa8a1590afb44c9f5",
+    "time": "2026-06-27T11:18:20+03:00",
+    "priceAmount": 13,
+    "priceCurrency": "exalted",
+    "itemName": "",
+    "typeLine": "Gold Amulet",
+    "baseType": "Gold Amulet",
+    "itemLevel": 79,
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "86ae7b3b13f01e25dee2caf9efd51fe1c8268f4dd58662b961b4f330a20faac9",
+    "time": "2026-06-27T11:18:14+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "divine",
+    "itemName": "Soul Desire",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant 1% increased [Cold] Damage",
+      "[SmallPassive|Small Passive] Skills in Radius also grant 3% increased [Curse] Duration",
+      "[SmallPassive|Small Passive] Skills in Radius also grant Gain additional [StunThreshold|Stun Threshold] equal to 1% of maximum [EnergyShield|Energy Shield]"
+    ],
+    "fracturedMods": [
+      "Upgrades Radius to Very Large"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "9d0f81768ac89b6e2961476c4b2efcb20fe0542bc3f90e04619ce28acb3d8c56",
+    "time": "2026-06-27T11:09:16+03:00",
+    "priceAmount": 35,
+    "priceCurrency": "exalted",
+    "itemName": "",
+    "typeLine": "Heavy Belt",
+    "baseType": "Heavy Belt",
+    "itemLevel": 79,
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "1d45c45f6c643d044d9b67a312fffbcdd68e4870a7b6e3ebec6dd9aaface0169",
+    "time": "2026-06-27T11:08:56+03:00",
+    "priceAmount": 4,
+    "priceCurrency": "divine",
+    "itemName": "Plague Charm",
+    "typeLine": "Gold Amulet",
+    "baseType": "Gold Amulet",
+    "itemLevel": 79,
+    "explicitMods": [
+      "33% increased [Evasion|Evasion Rating]",
+      "\u002B126 to maximum Mana",
+      "19% increased [ItemRarity|Rarity of Items] found",
+      "\u002B3 to Level of all [Spell|Spell] Skills",
+      "31.9 Life Regeneration per second"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "1fd93d89af754ddcc5a6b79e68732b1fb7af81217d2748888367378d5dbf0bd9",
+    "time": "2026-06-27T02:18:38+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Dire Direction",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 81,
+    "explicitMods": [
+      "Monsters have 210% increased [Critical|Critical Hit] Chance",
+      "Monsters have \u002B21% [CriticalDamageBonus|Critical Damage Bonus]",
+      "17% increased Monster Damage",
+      "Monsters have 12% increased [Attack], Cast and Movement Speed",
+      "Monsters have 18% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "Monsters have 33% chance to [Poison] on [HitDamage|Hit]",
+      "Monsters have 100% increased Stun Buildup"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "0eac6c1c7cd87569c881f8e3b95011a76591cb0f3287bc66d9be4d976c37c9de",
+    "time": "2026-06-26T20:30:22+03:00",
+    "priceAmount": 5,
+    "priceCurrency": "divine",
+    "itemName": "Luminous Bliss",
+    "typeLine": "Time-Lost Sapphire",
+    "baseType": "Time-Lost Sapphire",
+    "itemLevel": 80,
+    "explicitMods": [
+      "[SmallPassive|Small Passive] Skills in Radius also grant [Minion|Minions] deal 1% increased Damage",
+      "Notable Passive Skills in Radius also grant 10% increased [CriticalDamageBonus|Critical Damage Bonus]"
+    ],
+    "fracturedMods": [
+      "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "84d3bbda0e0260076ef0541324f390a823a0ed2cd74bff6c6f4c53a0d5fd2ca3",
+    "time": "2026-06-26T17:46:36+03:00",
+    "priceAmount": 55,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Thrud\u0027s Soaring Spear",
+    "baseType": "Soaring Spear",
+    "itemLevel": 79,
+    "explicitMods": [
+      "29% increased Explicit Speed Modifier magnitudes"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0.7143,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "39aa57a38f956fdcef035287832204cdf8fd36a7bf16b93bb16748ba2083eb3c",
+    "time": "2026-06-26T02:09:37+03:00",
+    "priceAmount": 10,
+    "priceCurrency": "exalted",
+    "itemName": "Ancient Progression",
+    "typeLine": "Waystone (Tier 15)",
+    "baseType": "Waystone (Tier 15)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Players are periodically [Curse|Cursed] with [Enfeeble]",
+      "18% increased Monster Damage",
+      "Monsters have 13% increased [Attack], Cast and Movement Speed",
+      "Monsters are [MonsterExtraEvasion1|Evasive]",
+      "Monsters have 20% chance to inflict [Bleeding] on [HitDamage|Hit]",
+      "Players have 26% less Cooldown Recovery Rate"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "f4c746ad4038e6e2eb23679290fc2492d46db17861b8f779afe094693aa9631e",
+    "time": "2026-06-26T01:21:09+03:00",
+    "priceAmount": 2,
+    "priceCurrency": "exalted",
+    "itemName": "",
+    "typeLine": "Ruby Ring",
+    "baseType": "Ruby Ring",
+    "itemLevel": 80,
+    "explicitMods": [],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "1dcb517a795ed644a8e78f0a1a9ab83ecdd50c1a0fd03176c7369cdfd1ad2724",
+    "time": "2026-06-25T19:40:12+03:00",
+    "priceAmount": 55,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Thrud\u0027s Soaring Spear",
+    "baseType": "Soaring Spear",
+    "itemLevel": 80,
+    "explicitMods": [
+      "27% increased Explicit Speed Modifier magnitudes"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0.7143,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "d49a11f9e15f2659ab804a791b6bc64359f60c0662005c15530d7cab254e0204",
+    "time": "2026-06-25T19:26:56+03:00",
+    "priceAmount": 15,
+    "priceCurrency": "divine",
+    "itemName": "",
+    "typeLine": "Divine Vile Robe of the Lightning",
+    "baseType": "Vile Robe",
+    "itemLevel": 80,
+    "explicitMods": [
+      "\u002B28 to maximum [EnergyShield|Energy Shield]",
+      "41% increased [EnergyShield|Energy Shield]",
+      "\u002B39% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0.7016,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "e43b89740d7c1febd45fa4893ef0ca648cd791b302340a4140e2f9ec065c9cee",
+    "time": "2026-06-25T16:08:46+03:00",
+    "priceAmount": 390,
+    "priceCurrency": "divine",
+    "itemName": "Entropy Knot",
+    "typeLine": "Refined Breach Ring",
+    "baseType": "Refined Breach Ring",
+    "itemLevel": 75,
+    "explicitMods": [
+      "Adds 24 to 41 [Physical|Physical] Damage to [Attack|Attacks]",
+      "16% increased [ItemRarity|Rarity of Items] found",
+      "\u002B38% to [Resistances|Fire Resistance]",
+      "\u002B39% to [Resistances|Lightning Resistance]"
+    ],
+    "fracturedMods": [
+      "Adds 47 to 70 [Fire] damage to [Attack|Attacks]"
+    ],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
+    "itemId": "ad995abdb844375a0c388d716b38633b84ad49e1be706a170f839d5f9e654a8b",
+    "time": "2026-06-25T14:37:13+03:00",
+    "priceAmount": 1,
+    "priceCurrency": "divine",
+    "itemName": "Wraith Edge",
+    "typeLine": "Waystone (Tier 16)",
+    "baseType": "Waystone (Tier 16)",
+    "itemLevel": 82,
+    "explicitMods": [
+      "Area has patches of [ChilledGround|Chilled Ground]",
+      "Monsters have 227% increased [Critical|Critical Hit] Chance",
+      "Monsters have \u002B22% [CriticalDamageBonus|Critical Damage Bonus]",
+      "Monsters [ArmourBreak|Break Armour] equal to 28% of [Physical|Physical Damage] dealt",
+      "Monster have 116% increased [ElementalAilments|Elemental] [AilmentApplication|Ailment Application]",
+      "Monsters gain 25% of maximum Life as Extra maximum [EnergyShield|Energy Shield]",
+      "Monster Damage Penetrates 14% Elemental Resistances"
+    ],
+    "fracturedMods": [],
+    "craftCostDiv": 0,
+    "baseCostDiv": 0,
+    "craftLedgerId": null
+  },
+  {
     "itemId": "ed4a0f0eb1f862db2447c62a772ccb049add2915a0d700b2fe1f6f7c62e86ae9",
     "time": "2026-06-25T03:16:39+03:00",
     "priceAmount": 16,
@@ -13,8 +3234,9 @@
       "\u002B40% to [Resistances|Lightning Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8803,
-    "baseCostDiv": 8
+    "craftCostDiv": 3.8091,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "f6721d54b82d70d36763d085f5ce83a4a9581598ada7fafa3467708a98a79a30",
@@ -30,8 +3252,9 @@
       "\u002B38% to [Resistances|Fire Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8778,
-    "baseCostDiv": 8
+    "craftCostDiv": 2.8048,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "92fb80b1c6931c68b7ca9bb33ade0412ab1014105edac68f2e409d4fdb171ee0",
@@ -52,7 +3275,8 @@
       "\u002B39% to [Resistances|Fire Resistance]"
     ],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "1d2495ef3e9c7dcddceb8a9619c00eccf199e5ab5e602411b390abdd6d37ab9b",
@@ -72,7 +3296,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "19d554ca0c9a921975321f5be8359975a676e2eb306330729b64f97094cc6587",
@@ -95,7 +3320,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "0fcfcf4329bd2e831cf33ef2f8ad8fe7a4ff6a2f54dbc8572982ad4b687eb44a",
@@ -111,8 +3337,9 @@
       "\u002B37% to [Resistances|Cold Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 1.1837,
-    "baseCostDiv": 8
+    "craftCostDiv": 1.7593,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "32354b782f8f3e077c66b44585df4e2b872347194fd9747e6376c5f756fc69a3",
@@ -128,8 +3355,9 @@
       "\u002B36% to [Resistances|Lightning Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8803,
-    "baseCostDiv": 8
+    "craftCostDiv": 3.8091,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "e8867d0846ed917fd2e1a387f9ab42f1e9e8efe6b5e6c270811de19618aaa9e8",
@@ -151,7 +3379,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "7a44ed42a53ad5ea9bd60a1efe51531cfa03d0540dab6c1dc1e2d92f0c482616",
@@ -172,7 +3401,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "331a28017407c8651a128cc27e7cd05d7a5a63ca8440889e866328869aea3d3e",
@@ -188,8 +3418,9 @@
       "\u002B38% to [Resistances|Fire Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8778,
-    "baseCostDiv": 8
+    "craftCostDiv": 2.8048,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "56a5b2052f0f09e6ebfebae4e777748b627f98c35ba0c9958a150e865df893f0",
@@ -205,8 +3436,9 @@
       "\u002B39% to [Resistances|Lightning Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8803,
-    "baseCostDiv": 8
+    "craftCostDiv": 3.8091,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "c9cb6be60390d799b2552b5393bf124df47d09df3c84a71330fa22cb9476dd5e",
@@ -222,8 +3454,9 @@
       "\u002B39% to [Resistances|Lightning Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8803,
-    "baseCostDiv": 8
+    "craftCostDiv": 3.8091,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "837666de4e608d8abbb4d5d07898b14d00dbb5adef0099952eecb71a0c310ff6",
@@ -239,8 +3472,9 @@
       "\u002B36% to [Resistances|Lightning Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8803,
-    "baseCostDiv": 8
+    "craftCostDiv": 3.8091,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "91b565c63df4d174952e0c4a8737fa0ccaf7011326eed785b93b33ecc8b01f9e",
@@ -256,8 +3490,9 @@
       "\u002B36% to [Resistances|Cold Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 0.2491,
-    "baseCostDiv": 8
+    "craftCostDiv": 0.3588,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "417cd61b23dea2d60304532e9c925dc5cf547c568b7b860d2bc011a4dfae82fb",
@@ -278,7 +3513,8 @@
       "48% reduced [Ignite|Ignite] Duration on you"
     ],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "c7952c862f7028d471404470c250616e6e794af6385491f9a4b3ddd831bc4757",
@@ -294,8 +3530,9 @@
       "\u002B40% to [Resistances|Cold Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 0.2491,
-    "baseCostDiv": 8
+    "craftCostDiv": 0.3588,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "73ee7cd725c3b6246b2445532c057c6bbd4c8a046387a273bd593b3bc65ee885",
@@ -311,8 +3548,9 @@
       "\u002B38% to [Resistances|Lightning Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8803,
-    "baseCostDiv": 8
+    "craftCostDiv": 3.8091,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "adf663ef48063b541a8abb016d668a8493c930ca69fe36bc98d0474ece4895fb",
@@ -328,8 +3566,9 @@
       "\u002B37% to [Resistances|Lightning Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8803,
-    "baseCostDiv": 8
+    "craftCostDiv": 3.8091,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "c2cc2b5f88862e39b3be07a1831f225ea5029aa1a11168b27cfbe5c276df4e7f",
@@ -345,8 +3584,9 @@
       "\u002B39% to [Resistances|Lightning Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 1.7226,
-    "baseCostDiv": 8
+    "craftCostDiv": 1.6330,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "ecd5d9e6302c3071e0e5709417deaca9e1380681a122d19d7cbe28fcbc4d193b",
@@ -362,8 +3602,9 @@
       "\u002B40% to [Resistances|Cold Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 1.1837,
-    "baseCostDiv": 8
+    "craftCostDiv": 1.7593,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "f10c9a1b45c7a18a8f0a0f573c75872d8580f8a1c865cd79e63823e06cbd6ad8",
@@ -379,8 +3620,9 @@
       "\u002B36% to [Resistances|Fire Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 0.7386,
-    "baseCostDiv": 8
+    "craftCostDiv": 0.7005,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "a8eced2a6f6687f676a3c7d1523264f5dfdc5504323478722025de76cd856c19",
@@ -399,7 +3641,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "50c4f894a036539938dae4212a7ee63cab8b5fc7db22fd3f90640c049b0a0157",
@@ -414,8 +3657,9 @@
       "25% increased Explicit Speed Modifier magnitudes"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 0.7429,
-    "baseCostDiv": 24
+    "craftCostDiv": 0.7143,
+    "baseCostDiv": 24,
+    "craftLedgerId": null
   },
   {
     "itemId": "9e030d8f6a394d3e90e254415c78f41142173bbafd69acf00fec22f70950b88f",
@@ -431,8 +3675,9 @@
       "\u002B37% to [Resistances|Fire Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8778,
-    "baseCostDiv": 8
+    "craftCostDiv": 2.8048,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "a6b96a25c1347a93033a8bba27b7e15333ae0bdabca182afcc91e6ad95ff1278",
@@ -448,8 +3693,9 @@
       "\u002B36% to [Resistances|Cold Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 1.1837,
-    "baseCostDiv": 8
+    "craftCostDiv": 1.7593,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "6439593005f578f269493aca8bacd4d6e81fa080d6da7005ea6881049c1f6eed",
@@ -469,7 +3715,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "e0ebe4b04aa2ef927d37241650651ed67361e3b1866f9d7695784752219e2873",
@@ -483,7 +3730,8 @@
     "explicitMods": [],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "00696a246e8a47ea97becc62e992fa955d9872e23dc8b689eeec26e3f4808518",
@@ -505,7 +3753,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "17bb398eadf6339e678f2a597572bbcb4ff8ded3c8a08c36fe91fd918ee6bc93",
@@ -524,7 +3773,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "c9d44a5f2715b8999ade8a83abee5bab2c5910f4d9207cbf96e27cf2fae085c6",
@@ -545,7 +3795,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "1ad5eafb01ddb89c7644a426510a82a07794ee5d6ed412e65be6f25117ead067",
@@ -562,8 +3813,9 @@
       "\u002B37% to [Resistances|Lightning Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 1.8462,
-    "baseCostDiv": 8
+    "craftCostDiv": 0.7016,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "d3cd61e6db08596fb78f5dd64625b1fed3ead3005cb5e5429312f11e60c4b7ec",
@@ -584,7 +3836,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "53a2a171146044301c618de379e7972cc6705161f1756735348dc8dcc7d59282",
@@ -603,7 +3856,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "3ee24df6b41b284c68367b9e9ae38c957c646261aac053c9e70cadaa4766de8c",
@@ -626,7 +3880,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "4e89ac9b5b4ece201cb7c307c46d25a5aa9797bc8c2df2a4f3926bfadd2dd1f8",
@@ -640,7 +3895,8 @@
     "explicitMods": [],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 24
+    "baseCostDiv": 24,
+    "craftLedgerId": null
   },
   {
     "itemId": "314a0369052b815cf3c70e9e17702cad887c3340084f26f7218f1e3647000553",
@@ -656,8 +3912,9 @@
       "\u002B40% to [Resistances|Lightning Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8803,
-    "baseCostDiv": 8
+    "craftCostDiv": 3.8091,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "43c3ff7d8f4675f4aeee07da4d3895f2ee988e8cbfcad1e9396d3e44c0ce3e9f",
@@ -673,8 +3930,9 @@
       "\u002B37% to [Resistances|Lightning Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8803,
-    "baseCostDiv": 8
+    "craftCostDiv": 3.8091,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "99cd646b109b124113f0fccdf2ba03378810c8e4dec6729fc9b81dfeb778c349",
@@ -694,7 +3952,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "25764826c2aedeb87dd8df153dd502f34e6f9682ed18323e9ca0c04b4ca0f1c7",
@@ -710,8 +3969,9 @@
       "\u002B36% to [Resistances|Cold Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 1.1837,
-    "baseCostDiv": 8
+    "craftCostDiv": 1.7593,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "d806d995496771b95a4626c0e6f06cccf20161c83ae5dd158cf26574c03a5395",
@@ -727,8 +3987,9 @@
       "\u002B36% to [Resistances|Fire Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 3.8778,
-    "baseCostDiv": 8
+    "craftCostDiv": 2.8048,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "1a44f2b05cbb84a548ffb6f8c4b8f4a7907e29c6cd8a1e9d2d78ef1e892437af",
@@ -744,8 +4005,9 @@
       "\u002B39% to [Resistances|Cold Resistance]"
     ],
     "fracturedMods": [],
-    "craftCostDiv": 0.2491,
-    "baseCostDiv": 8
+    "craftCostDiv": 0.3588,
+    "baseCostDiv": 8,
+    "craftLedgerId": null
   },
   {
     "itemId": "798fd9366350c98e5d7ee984ea27188c79bee58fb6039fcb82562dea49ece630",
@@ -766,7 +4028,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "bc533cf1be60eee2e8c832bfa56b355a2c39fae7f1d7fd11c9d754f72120d252",
@@ -785,7 +4048,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "3598306b64cd726cad04fecc86430ebe4c32344c6ec9cb7aea43e7906e3f984c",
@@ -804,7 +4068,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "be5a76226b27a1bdb55fbfd8a6c5b396524784929ff0b13784911aae551abdf4",
@@ -825,7 +4090,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "1c7b2922384947bb76c83a1a40114bc35af3dbbdf6db7c1ee6743ab4fe6b2816",
@@ -839,7 +4105,8 @@
     "explicitMods": [],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "9f44c13d6fcf42d0b153a7d857be4919f4f78788597768966b7d874189818f60",
@@ -853,7 +4120,8 @@
     "explicitMods": [],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "6934de769f2d9073a78b2c9cc056394ed44900fb0ce271599437bf9ba015edb1",
@@ -867,7 +4135,8 @@
     "explicitMods": [],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "411f3b73e3ac2d19a4e9dfc26341bab65ca348d8728450bdbed03bd959009a70",
@@ -888,7 +4157,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "9a6a28ef2ba0e8952e9ce6d2192be75bf192d1a9fe44bff9faeac9f519050d65",
@@ -904,7 +4174,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "25a51f6d42305d2e403784069448b63acdbfcb44dd310fa755c6150280a37ae9",
@@ -923,7 +4194,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "c9f046784bc128037f27fca9d4b04e04503abd2bd95d9adf54c17e66f31ac090",
@@ -944,7 +4216,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "1b3342a94437153796194036b3e0fc01886376f994d9fb2ed64a8829f63238c9",
@@ -965,7 +4238,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "dc57e002e59386993db56e48c5e5635b955901b6750dad6e3f9fa0a47b242d8f",
@@ -984,7 +4258,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "9dd7fe95155ecaea9f9404f877c083f655776b862890b330d5440d8462c4a108",
@@ -1005,7 +4280,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "6b6ac20273619f2347b3173834f63ca1c62b5f2bcf25cb2047717ae6c470453f",
@@ -1026,7 +4302,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "bf54e9352a0aa9c29eb34ffd658056a491254ee30120ef7016c22f46048071fb",
@@ -1047,7 +4324,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "03790825feceea57fbfe4fb440e56edef5a1fc9dfe452ef79e39ee2456ff6dcd",
@@ -1069,7 +4347,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "be7c610a77cd0e4b229817f7b6f6112ea1780b9c8e4229faab9732b634b6feed",
@@ -1090,7 +4369,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "3de01066f6955a36fe1e98cdfc1a8bf27aefc44d2cdbb2c570081f8f38cfeb1a",
@@ -1112,7 +4392,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "886d96e67770de185d9ef7c5fed7b05803ff171bd99c02f1b2d882cb5c712b6e",
@@ -1135,7 +4416,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "43335a3b974d5390cd11cc0f9d3024c1f2912fe142cca8ffe516c311d992fc0e",
@@ -1156,7 +4438,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "3b47051a3430942b9541525dcfb7ef861318a22accd76a0daeef11467e4d0191",
@@ -1177,7 +4460,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "8f725e48dc58f7d917173462714fc74f08eb94e0345db5df423c83fa47380372",
@@ -1196,7 +4480,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "5fb3f40996c11bd9e35ed55e31603e917ba0b518d7a35481faea2d2e70645bc4",
@@ -1217,7 +4502,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "dae56d0340ca30e6f0376d110a3ccf7579ad36529d45a4150ee8b4f2c0907d8a",
@@ -1238,7 +4524,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "a14827b57277d67fab40b82add8a561e352347189bb08ee0d1ffb675768a8672",
@@ -1259,7 +4546,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "e46c7080774dbfb39f97c422b52c0e04458e8716b6f5f671a769c0221e1e34ab",
@@ -1280,7 +4568,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "6941a14de172476c63a9d19f14f92cd829e554b2d169495849291981ce1685f0",
@@ -1298,7 +4587,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "1ad7b47b87f55c798f50fd7781b2de5a90f1b757d74f0bfe49b5cfd1aed7bc28",
@@ -1321,7 +4611,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "9c4ba93d7f9497165ce8226c6d330c8d9847ca1973d58926c5976f608cb393fd",
@@ -1343,7 +4634,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "831b84b5e317f36f9d582c91b977c2304d8d1e37022a8a375494b15cb0d34897",
@@ -1362,7 +4654,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "ea97248597fbe69a12e207fd0a672222c7405cd8b68edf656c7c859da64a9037",
@@ -1384,7 +4677,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "a1c95f1473bb0b6cff0e1920668bb66632408d80f386a094def9af106f1028f7",
@@ -1407,7 +4701,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "364440e551696e8627f10072db419e6f4ad96e64cb09f7af0111dab697c42600",
@@ -1430,7 +4725,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "37fb7f3e52dc1e35ab20eae1a4042726973c8b15d50c8d119bead9c35db4aa1d",
@@ -1453,7 +4749,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "1a1a7c94af363bcf5577e8481576997450173ff6489d8adf2e38b44b2070962c",
@@ -1472,7 +4769,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "9ae25c5ac464f4f4f1d4845fcfcdc708e04b60175a41eac70d2d8c1f0c7d9f12",
@@ -1495,7 +4793,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "b5fc8f11214544007a62514368f401dcb83a28bd9f63831b84bd71294f56a6a0",
@@ -1519,7 +4818,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "5487d2faf594e24c7da3fa4d6eec8de3608bcced3aaa1e67aa273dd4b8edc140",
@@ -1536,7 +4836,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "18c4d0a54872ba71613e4d30186c57d2e0c7b582adee9f404e5383308d1cb01b",
@@ -1553,7 +4854,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "7c9cae9d757e167d45a81fb7f21a3249a5ea68a914c610b4573869eb53b390e4",
@@ -1577,7 +4879,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "f244d3edecec5a9edaa72bc7218fdeed226498831ba439af72317c80ebfe3e9e",
@@ -1593,7 +4896,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "84fc9cd70d7e39220c21e3ddf236d2de7dd9807fb749d60d77139e7bc89ff6c8",
@@ -1609,7 +4913,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "8bf62eb1a874be3a2e7dcfe24229aac939332014c5bff70bc924713080485285",
@@ -1626,7 +4931,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "18dea9fa81de08aa1f401ff418786de8de8e355611615b1b3b05053f07bfbb38",
@@ -1643,7 +4949,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "ad4b5709b8b2e651c906575168d0eeefc360018c03b9b6d6d3e063bd9f023d26",
@@ -1660,7 +4967,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "a7e5e0c009e5100a9e474e0fce45e5baf88b593aca0d4e9768685cfc72923259",
@@ -1676,7 +4984,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "863080884331daa055728980c81670813e89b9a1f76a4adf8848fa8348879b79",
@@ -1695,7 +5004,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "d3cfcf22f98369d616779a1032cebf6e99d0cddd73eadad02a2f352a3965cf5f",
@@ -1711,7 +5021,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "f5f82d76a4ee19d88efd78a51ab339b219641accc53b456fb386ce6b51762963",
@@ -1727,7 +5038,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "e64b9ba9caab70c91129ae6edf84b30d39e43a181c6331d6c8c430ce26ba0d5f",
@@ -1743,7 +5055,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "8ca1fc1ea4caddec56dc79dc5a088e118bfc4697f1ff047b164e141fca92d683",
@@ -1759,7 +5072,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "ae5f0ef23435f0270ab462c75b8bb3380c5c80a3ac6a73dd5ae7e563a57d8ca1",
@@ -1775,7 +5089,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "6fda617b58228cac03c1306dc7d184d46d27394c6ff1c94bc52f2a6f5130b752",
@@ -1791,7 +5106,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "efee10040017367554baa4d2a637f18c47ff37b56a235b4478342184f735fe1c",
@@ -1810,7 +5126,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "32d2c7724d6e1ba1dc081b6a0e7ae84aebe959e123a47715fbac80ec276ce501",
@@ -1829,7 +5146,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "e1c82a85cc63e9082069b6b7c7b66cb0a36277b2dad87fd90d034f6bb3281033",
@@ -1845,7 +5163,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "2987a68a4e15f4e8d186a236ef0495d41ee974823cd2456b3d7c6a06c432dacf",
@@ -1861,7 +5180,8 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   },
   {
     "itemId": "c7ae1a8ce7f86423594e00edb565df4527268c3103a36bf8aae760eca6e43a9f",
@@ -1878,6 +5198,7 @@
     ],
     "fracturedMods": [],
     "craftCostDiv": 0,
-    "baseCostDiv": 0
+    "baseCostDiv": 0,
+    "craftLedgerId": null
   }
 ]

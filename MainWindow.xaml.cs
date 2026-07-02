@@ -14,15 +14,17 @@ namespace GameHelper;
 
 public partial class MainWindow : Window
 {
-    private readonly ChaosCraftService _craft = new();
-    private readonly AugAnnulCraftService _augAnnulCraft = new();
+    private readonly ChaosCraftService _craft;
+    private readonly AugAnnulCraftService _augAnnulCraft;
     private readonly ExaltationCraftServiceFracturedSide _exaltCraft;
-    private readonly SharpenService _sharpen = new();
-    private readonly FracturingOrbService _fracturingCraft = new();
-    private readonly OmenActivationService _omen = new();
+    private readonly SharpenService _sharpen;
+    private readonly FracturingOrbService _fracturingCraft;
+    private readonly OmenActivationService _omen;
     private CancellationTokenSource? _cts;
     private readonly ReforgeState _reforgeState = new();
     private List<Services.SaleRecord> _tradeHistory = [];
+    private Dictionary<string, List<Services.ParsedModInfo>> _parsedModsCache = [];
+    private List<Services.CraftLedgerEntry> _ledgerEntries = [];
 
     private ScreenRect? _currencyInventoryRegion;
     private ScreenRect? _ritualInventoryRegion;
@@ -76,7 +78,7 @@ public partial class MainWindow : Window
     private CancellationTokenSource? _rfCts;
     private CancellationTokenSource? _rfScanCts;
     private CancellationTokenSource? _autoRfCts;
-    private readonly Services.ReforgeService _rfService = new();
+    private readonly Services.ReforgeService _rfService;
     private readonly Services.AutoReforgeService _autoRfService;
     private Dictionary<string, ScreenRect> _currencyItemRegions = new();
     private Dictionary<string, ScreenRect> _breachCatalystRegions = new();
@@ -98,13 +100,15 @@ public partial class MainWindow : Window
     private ScreenRect _repricingManageShopOcrRect;
     private ScreenRect _repricingGoodsRect;
     private CancellationTokenSource? _repricingCts;
-    private readonly Services.RepricingService _repricingService = new();
+    private readonly Services.RepricingService _repricingService;
+    private readonly Services.CraftOrchestrator _craftOrchestrator;
+    private readonly ViewModels.MainWindowViewModel _vm;
     private bool _repricingStartStopHotkeyRegistered;
     private ScreenRect _chancingOocRect;
     private ScreenRect _chancingOmenRect;
     private List<ScreenRect> _chancingTabletCells = new();
     private CancellationTokenSource? _chancingCts;
-    private readonly Services.ChancingService _chancingService = new();
+    private readonly Services.ChancingService _chancingService;
     private bool _chancingStartStopHotkeyRegistered;
     private int _chancingStartStopVirtualKey;
     private int _chancingStartStopModifiers;
@@ -170,11 +174,34 @@ public partial class MainWindow : Window
         return (wantPrefix, wantSuffix);
     }
 
-    public MainWindow()
+    public MainWindow(
+        ChaosCraftService craft,
+        AugAnnulCraftService augAnnulCraft,
+        ExaltationCraftServiceFracturedSide exaltCraft,
+        SharpenService sharpen,
+        FracturingOrbService fracturingCraft,
+        OmenActivationService omen,
+        Services.ReforgeService rfService,
+        Services.AutoReforgeService autoRfService,
+        Services.RepricingService repricingService,
+        Services.ChancingService chancingService,
+        Services.CraftOrchestrator craftOrchestrator,
+        ViewModels.MainWindowViewModel vm)
     {
+        _craft = craft;
+        _augAnnulCraft = augAnnulCraft;
+        _exaltCraft = exaltCraft;
+        _sharpen = sharpen;
+        _fracturingCraft = fracturingCraft;
+        _omen = omen;
+        _rfService = rfService;
+        _autoRfService = autoRfService;
+        _repricingService = repricingService;
+        _chancingService = chancingService;
+        _craftOrchestrator = craftOrchestrator;
+        _vm = vm;
         InitializeComponent();
-        _autoRfService = new Services.AutoReforgeService(_rfService);
-        _exaltCraft = new ExaltationCraftServiceFracturedSide(_omen);
+        DataContext = _vm;
         WindowGeometryStore.Attach(this, "MainWindow");
         Loaded += MainWindow_OnLoaded;
         Closing += MainWindow_OnClosing;
@@ -377,7 +404,7 @@ public partial class MainWindow : Window
 
         _exchangeRateScanBusy = true;
         StartExchangeRateScanBtn.IsEnabled = false;
-        InfoCollectionStatusTextBlock.Text = "Сканирование выполняется… окно в трее.";
+        _vm.InfoCollectionStatus = "Сканирование выполняется… окно в трее.";
 
         SetupTrayIcon();
         _trayIcon!.Visible = true;
@@ -401,7 +428,7 @@ public partial class MainWindow : Window
                     CancellationToken.None)
                 .ConfigureAwait(true);
 
-            InfoCollectionStatusTextBlock.Text = $"Сканирование завершено ({DateTime.Now:HH:mm:ss}). См. сессионный лог.";
+            _vm.InfoCollectionStatus = $"Сканирование завершено ({DateTime.Now:HH:mm:ss}). См. сессионный лог.";
             try
             {
                 _trayIcon?.ShowBalloonTip(
@@ -418,7 +445,7 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             SessionLogger.Info($"[Сбор курса] Ошибка: {ex.Message}");
-            InfoCollectionStatusTextBlock.Text = "Ошибка — см. лог.";
+            _vm.InfoCollectionStatus = "Ошибка — см. лог.";
             try
             {
                 _trayIcon?.ShowBalloonTip(6000, "GameHelper", "Ошибка сканирования. См. лог.", System.Windows.Forms.ToolTipIcon.Error);
@@ -485,7 +512,7 @@ public partial class MainWindow : Window
 
         _goldFeeLibraryScanBusy = true;
         CollectIWantGoldFeeLibraryBtn.IsEnabled = false;
-        InfoCollectionStatusTextBlock.Text = "Сбор библиотеки золота I WANT…";
+        _vm.InfoCollectionStatus = "Сбор библиотеки золота I WANT…";
 
         try
         {
@@ -506,7 +533,7 @@ public partial class MainWindow : Window
                 $"[Золото I WANT] Итог: всего={result.Total}, добавлено строк={result.Appended}, " +
                 $"пропуск (пара уже есть)={result.SkippedDuplicatePair}, OCR золота не разобрал={result.OcrGoldFailed}, список/OCR валюты={result.PickerFailed}.");
 
-            InfoCollectionStatusTextBlock.Text =
+            _vm.InfoCollectionStatus =
                 $"Библиотека золота: добавлено {result.Appended}, пропуск дубликата {result.SkippedDuplicatePair} ({DateTime.Now:HH:mm:ss}).";
 
             MessageBox.Show(this,
@@ -519,7 +546,7 @@ public partial class MainWindow : Window
         catch (Exception ex)
         {
             SessionLogger.Info($"[Золото I WANT] Ошибка: {ex.Message}");
-            InfoCollectionStatusTextBlock.Text = "Ошибка сбора библиотеки золота — см. лог.";
+            _vm.InfoCollectionStatus = "Ошибка сбора библиотеки золота — см. лог.";
             MessageBox.Show(this,ex.Message, "Библиотека золота I WANT", MessageBoxButton.OK, MessageBoxImage.Error);
         }
         finally
@@ -527,6 +554,47 @@ public partial class MainWindow : Window
             _goldFeeLibraryScanBusy = false;
             CollectIWantGoldFeeLibraryBtn.IsEnabled = true;
         }
+    }
+
+    private void TradeImportBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        TradeImportErrorTextBlock.Text = "";
+        TradeImportResultBorder.Visibility = Visibility.Collapsed;
+
+        var json = TradeImportJsonTextBox.Text.Trim();
+        if (string.IsNullOrEmpty(json))
+        {
+            TradeImportErrorTextBlock.Text = "Вставьте JSON из DevTools.";
+            return;
+        }
+
+        var slug = TradeImportSlugTextBox.Text.Trim();
+        var svc = new TradeImportService(ProjectPaths.GetProjectRoot());
+        var result = svc.Import(json, slug);
+
+        if (!string.IsNullOrEmpty(result.Error))
+        {
+            TradeImportErrorTextBlock.Text = $"Ошибка: {result.Error}";
+            return;
+        }
+
+        TradeImportVaultPathTextBox.Text = result.VaultMdRelPath;
+        TradeImportDataPathTextBox.Text = result.TradeDataFile;
+        TradeImportCountTextBlock.Text = $"Импортировано листингов: {result.ItemCount}";
+        TradeImportResultBorder.Visibility = Visibility.Visible;
+        TradeImportJsonTextBox.Clear();
+    }
+
+    private void TradeImportCopyVaultBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(TradeImportVaultPathTextBox.Text))
+            Clipboard.SetText(TradeImportVaultPathTextBox.Text);
+    }
+
+    private void TradeImportCopyDataBtn_OnClick(object sender, RoutedEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(TradeImportDataPathTextBox.Text))
+            Clipboard.SetText(TradeImportDataPathTextBox.Text);
     }
 
     private void ApplySettings()
@@ -808,8 +876,9 @@ public partial class MainWindow : Window
         RfStashItemsPerClickBox.Text   = s.AutoReforgeStashItemsPerClick.ToString();
         RfItemTransferDelayBox.Text    = s.AutoReforgeItemTransferDelayMs.ToString();
         RfCascadeCheckBox.IsChecked    = s.ReforgeCascadeEnabled;
-        RfCascadeThresholdBox.Text     = s.ReforgeCascadeThresholdEx.ToString("G", System.Globalization.CultureInfo.InvariantCulture);
+        // RfCascadeThresholdEx is now auto-calculated; keep the setting for backward compat but don't restore to UI
         RfCascadeMinStashBox.Text      = s.ReforgeCascadeMinStashCount.ToString();
+        RfGoldPerDivineBox.Text        = s.GoldPerDivine > 0 ? s.GoldPerDivine.ToString() : "0";
         PoeNinjaLeagueBox.Text = string.IsNullOrWhiteSpace(s.PoeNinjaLeague) ? "Standard" : s.PoeNinjaLeague;
 
         RfLoadFromState();
@@ -888,8 +957,11 @@ public partial class MainWindow : Window
         TradeHistoryLeagueBox.Text = string.IsNullOrWhiteSpace(s.TradeHistoryLeague)
             ? (string.IsNullOrWhiteSpace(s.PoeNinjaLeague) ? "Runes of Aldur" : s.PoeNinjaLeague)
             : s.TradeHistoryLeague;
-        _tradeHistory = Services.TradeHistoryService.LoadFromFile();
+        _tradeHistory     = Services.TradeHistoryService.LoadFromFile();
+        _parsedModsCache  = Services.ParsedModsCache.LoadFromFile();
+        _ledgerEntries    = Services.CraftLedgerService.LoadFromFile();
         RebuildTradeHistoryGrid();
+        RebuildLedgerGrid();
 
         RefLoadCategories();
         _isApplyingSettings = false;
@@ -1003,8 +1075,9 @@ public partial class MainWindow : Window
             AutoReforgeStashItemsPerClick = RfParseInt(RfStashItemsPerClickBox.Text, 10),
             AutoReforgeItemTransferDelayMs = RfParseInt(RfItemTransferDelayBox.Text, 400),
             ReforgeCascadeEnabled = RfCascadeCheckBox.IsChecked == true,
-            ReforgeCascadeThresholdEx = RfParseDecimal(RfCascadeThresholdBox.Text, 2.0m),
+            ReforgeCascadeThresholdEx = 0m, // Auto-calculated at cascade start; not persisted manually
             ReforgeCascadeMinStashCount = RfParseInt(RfCascadeMinStashBox.Text, 30),
+            GoldPerDivine = RfParseInt(RfGoldPerDivineBox.Text, 0, allowZero: true),
             PoeNinjaLeague = PoeNinjaLeagueBox.Text.Trim(),
             CatalystGoldPrices = _catalystGoldPrices.Count > 0
                 ? new Dictionary<string, int>(_catalystGoldPrices)
@@ -1052,7 +1125,7 @@ public partial class MainWindow : Window
 
     private void UpdateCraftConditionSummary()
     {
-        CraftConditionSummary.Text = CraftConditionEvaluator.FormatSummary(_craftPlan);
+        _vm.CraftConditionSummary = CraftConditionEvaluator.FormatSummary(_craftPlan);
     }
 
 
@@ -1083,7 +1156,7 @@ public partial class MainWindow : Window
         if (FractOrbEvalPanel is null) return;  // FractOrbEvalPanel определён после CraftModeCombo в XAML — защита от порядка инициализации
         var mode = (CraftModeCombo.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "";
         var isFract = mode.Contains("Фракт", StringComparison.OrdinalIgnoreCase);
-        FractOrbEvalPanel.Visibility = isFract ? Visibility.Visible : Visibility.Collapsed;
+        _vm.IsFracturingOrbMode = isFract;
         if (isFract)
         {
             FillFractOrbPricesFromNinja();
@@ -1111,18 +1184,18 @@ public partial class MainWindow : Window
 
         if (!decimal.TryParse(FractOrbBaseCostInput.Text.Replace(',', '.'), System.Globalization.NumberStyles.Float,
                 System.Globalization.CultureInfo.InvariantCulture, out var baseCost) || baseCost < 0)
-        { FractOrbEvalResult.Text = "Стоимость предмета-основы: неверное значение."; return; }
+        { _vm.FractOrbEvalResult = "Стоимость предмета-основы: неверное значение."; return; }
 
         if (!decimal.TryParse(FractOrbCraniumInput.Text.Replace(',', '.'), System.Globalization.NumberStyles.Float,
                 System.Globalization.CultureInfo.InvariantCulture, out var cranium) || cranium < 0)
-        { FractOrbEvalResult.Text = "Стоимость Preserved Cranium: неверное значение."; return; }
+        { _vm.FractOrbEvalResult = "Стоимость Preserved Cranium: неверное значение."; return; }
 
         if (!decimal.TryParse(FractOrbOrbCostInput.Text.Replace(',', '.'), System.Globalization.NumberStyles.Float,
                 System.Globalization.CultureInfo.InvariantCulture, out var orbCost) || orbCost < 0)
-        { FractOrbEvalResult.Text = "Стоимость Fracturing Orb: неверное значение."; return; }
+        { _vm.FractOrbEvalResult = "Стоимость Fracturing Orb: неверное значение."; return; }
 
         if (!int.TryParse(FractOrbNInput.Text.Trim(), out var n) || n < 1)
-        { FractOrbEvalResult.Text = "N (аффиксов): укажите целое ≥ 1."; return; }
+        { _vm.FractOrbEvalResult = "N (аффиксов): укажите целое ≥ 1."; return; }
 
         decimal.TryParse(FractOrbSalePriceInput.Text.Replace(',', '.'), System.Globalization.NumberStyles.Float,
             System.Globalization.CultureInfo.InvariantCulture, out var salePrice);
@@ -1144,7 +1217,7 @@ public partial class MainWindow : Window
             sb.Append($"Прибыль:       {sign}{profit:F2} div  {(profit >= 0 ? "✓" : "✗")}");
         }
 
-        FractOrbEvalResult.Text = sb.ToString();
+        _vm.FractOrbEvalResult = sb.ToString();
         FractOrbEvalResult.Foreground = salePrice > 0
             ? (salePrice - expected >= 0
                 ? System.Windows.Media.Brushes.DarkGreen
@@ -1978,8 +2051,7 @@ public partial class MainWindow : Window
             _cts?.Dispose();
             _cts = new CancellationTokenSource();
 
-            StartBtn.IsEnabled = false;
-            StopBtn.IsEnabled = true;
+            _vm.IsCraftRunning = true;
             TryRegisterCraftCancelHotkey();
 
             var sharpenLog = new Progress<string>(SessionLogger.Info);
@@ -2000,8 +2072,7 @@ public partial class MainWindow : Window
             finally
             {
                 UnregisterCraftCancelHotkey();
-                StartBtn.IsEnabled = true;
-                StopBtn.IsEnabled = false;
+                _vm.IsCraftRunning = false;
                 MaybeKillPoeProcessAfterCraft();
             }
 
@@ -2142,46 +2213,15 @@ public partial class MainWindow : Window
 
         var conditionSummary = CraftConditionEvaluator.FormatSummary(_craftPlan);
 
-        var trace = TraceInputCheckBox.IsChecked == true;
-        var hoverSettle = Math.Clamp(clipboardDelay / 2, 80, 220);
-
-        _craft.MouseActionDelayMs = mouseDelay;
-        _craft.ClipboardDelayMs = clipboardDelay;
-        _craft.HoverSettleBeforeClipboardMs = hoverSettle;
-        _craft.TraceInputToLog = trace;
-        _craft.StepConfirmAsync = null;
-
-        _augAnnulCraft.MouseActionDelayMs = mouseDelay;
-        _augAnnulCraft.ClipboardDelayMs = clipboardDelay;
-        _augAnnulCraft.HoverSettleBeforeClipboardMs = hoverSettle;
-        _augAnnulCraft.TraceInputToLog = trace;
-        _augAnnulCraft.StepConfirmAsync = null;
-
-        _fracturingCraft.MouseActionDelayMs = mouseDelay;
-        _fracturingCraft.ClipboardDelayMs = clipboardDelay;
-        _fracturingCraft.HoverSettleBeforeClipboardMs = hoverSettle;
-        _fracturingCraft.TraceInputToLog = trace;
-        _fracturingCraft.StepConfirmAsync = null;
-
-        _exaltCraft.MouseActionDelayMs = mouseDelay;
-        _exaltCraft.ClipboardDelayMs = clipboardDelay;
-        _exaltCraft.HoverSettleBeforeClipboardMs = hoverSettle;
-        _exaltCraft.TraceInputToLog = trace;
-        _exaltCraft.SchemaTraceToLog = TraceExaltationSchemaCheckBox.IsChecked == true;
-        _exaltCraft.StepConfirmAsync = null;
-
-        _omen.MouseActionDelayMs = mouseDelay;
-        _omen.ClipboardDelayMs = clipboardDelay;
-        _omen.TraceInputToLog = trace;
-
         _cts?.Cancel();
         _cts?.Dispose();
         _cts = new CancellationTokenSource();
         var runCts = _cts;
 
+        Func<string, Task>? stepConfirm = null;
         if (StepConfirmCheckBox.IsChecked == true)
         {
-            Func<string, Task> confirm = msg =>
+            stepConfirm = msg =>
                 Dispatcher.InvokeAsync(() =>
                     {
                         var dlg = new StepConfirmDialog(msg) { Owner = this };
@@ -2189,291 +2229,80 @@ public partial class MainWindow : Window
                             runCts.Cancel();
                     })
                     .Task;
-
-            _craft.StepConfirmAsync = confirm;
-            _augAnnulCraft.StepConfirmAsync = confirm;
-            _exaltCraft.StepConfirmAsync = confirm;
-            _fracturingCraft.StepConfirmAsync = confirm;
         }
 
-        StartBtn.IsEnabled = false;
-        StopBtn.IsEnabled = true;
+        var craftMode = isExalt ? Services.CraftMode.Exaltation
+            : isFractOrb        ? Services.CraftMode.FracturingOrb
+            : isAugAnnul        ? Services.CraftMode.AugAnnul
+            :                     Services.CraftMode.Chaos;
+
+        var ctx = new Services.CraftSessionContext
+        {
+            Mode             = craftMode,
+            ItemCells        = _itemCellRegions,
+            Plan             = _craftPlan,
+            ConditionSummary = conditionSummary,
+            MaxOps           = maxOps,
+            MouseActionDelayMs  = mouseDelay,
+            ClipboardDelayMs    = clipboardDelay,
+            TraceInputToLog     = TraceInputCheckBox.IsChecked == true,
+            SchemaTraceToLog    = TraceExaltationSchemaCheckBox.IsChecked == true,
+            StepConfirmAsync    = stepConfirm,
+            OrbRect          = GetCurrencyRect("Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb") ?? default,
+            ExaltRect        = GetCurrencyRect("Exalted Orb", "Greater Exalted Orb", "Perfect Exalted Orb") ?? default,
+            AugRect          = GetCurrencyRect("Perfect Orb of Augmentation", "Greater Orb of Augmentation", "Orb of Augmentation") ?? default,
+            AnnulRect        = GetCurrencyRect("Orb of Annulment") ?? default,
+            RitualInventoryRect  = _ritualInventoryRegion ?? default,
+            CurrencyInventoryRect = _currencyInventoryRegion ?? default,
+            OmenSinistralRect = GetRitualItemRect("Omen of Sinistral Exaltation") ?? default,
+            OmenDextralRect   = GetRitualItemRect("Omen of Dextral Exaltation") ?? default,
+            OmenGreaterRect   = GetRitualItemRect("Omen of Greater Exaltation") ?? default,
+            OmenSinistralCells = _omenSinistralCells,
+            OmenDextralCells   = _omenDextralCells,
+            OmenGreaterCells   = _omenGreaterCells,
+            OrbDisplayName   = _chaosOrbName,
+            AugOrbDisplayName = _augOrbName,
+        };
+
+        if (craftMode == Services.CraftMode.FracturingOrb)
+            ctx = ctx with { OrbRect = GetCurrencyRect("Fracturing Orb") ?? default };
+
+        _vm.IsCraftRunning = true;
         TryRegisterCraftCancelHotkey();
 
         var progress = new Progress<string>(SessionLogger.Info);
 
-        CraftRunFileLog? craftFile = null;
         try
         {
-            var orb   = GetCurrencyRect("Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb") ?? default;
-            var exalt = GetCurrencyRect("Exalted Orb", "Greater Exalted Orb", "Perfect Exalted Orb") ?? default;
-            var aug   = GetCurrencyRect("Perfect Orb of Augmentation", "Greater Orb of Augmentation", "Orb of Augmentation") ?? default;
-            var annul = GetCurrencyRect("Orb of Annulment") ?? default;
-            var cells = _itemCellRegions;
+            var sessionResult = await _craftOrchestrator.RunAsync(ctx, progress, _cts.Token);
 
-            SessionLogger.Info(
-                $"--- запуск крафта ({mode}): ячеек предмета {cells.Count}, N={maxOps} общий на сессию, задержка мыши {mouseDelay} мс, после Ctrl+Alt+C {clipboardDelay} мс; лог крафта — в папке Log после завершения ---");
+            _activeCraftLogPath = sessionResult.ActiveCraftLogWipPath;
 
-            ChaosCraftResult result = ChaosCraftResult.MaxAttemptsReached;
-            var remaining = maxOps;
-            var offset = 0;
-            var precheckFailed = false;
-            try
+            if (sessionResult.PrecheckErrorMessage != null)
             {
-                for (var ci = 0; ci < cells.Count; ci++)
-                {
-                    if (remaining < 1)
-                    {
-                        SessionLogger.Info(
-                            $"Общий лимит N={maxOps} исчерпан ({offset} попыток уже сделано); ячейки {ci + 1}…{cells.Count} не обрабатываются.");
-                        result = ChaosCraftResult.MaxAttemptsReached;
-                        break;
-                    }
-
-                    var item = cells[ci];
-                    SessionLogger.Info($"--- ячейка предмета {ci + 1} / {cells.Count}: {FormatRect(item)} (осталось попыток в сессии: {remaining}) ---");
-
-                    var pre =
-                        isExalt
-                            ? await _exaltCraft.PrecheckAsync(item, _craftPlan, progress, _cts.Token)
-                            : isFractOrb
-                                ? await _fracturingCraft.PrecheckAsync(item, _craftPlan, progress, _cts.Token)
-                                : !isAugAnnul
-                                    ? await _craft.PrecheckAsync(item, _craftPlan, progress, _cts.Token)
-                                    : await _augAnnulCraft.PrecheckAsync(item, _craftPlan, progress, _cts.Token);
-                    if (pre.Outcome == CraftPrecheckOutcome.AlreadySatisfied)
-                    {
-                        SessionLogger.Info(
-                            $"Предпроверка: ячейка {ci + 1} — условие остановки уже выполнено, орб не тратим — переход к следующей ячейке.");
-                        if (ci + 1 < cells.Count)
-                            SessionLogger.Info("Следующая ячейка будет проверена так же.");
-                        continue;
-                    }
-
-                    if (pre.Outcome == CraftPrecheckOutcome.EmptyCell)
-                    {
-                        SessionLogger.Info(
-                            $"Предпроверка: ячейка {ci + 1} — буфер пуст после Ctrl+Alt+C, считаем ячейку пустой — переход к следующей ячейке.");
-                        continue;
-                    }
-
-                    if (pre.Outcome == CraftPrecheckOutcome.NonMagicCell)
-                    {
-                        SessionLogger.Info(
-                            $"Предпроверка: ячейка {ci + 1} — предмет не Magic, пропускаем ячейку (режим «Ауг+Аннул»).");
-                        continue;
-                    }
-
-                    if (pre.Outcome == CraftPrecheckOutcome.Failed)
-                    {
-                        precheckFailed = true;
-                        result = ChaosCraftResult.Error;
-                        MessageBox.Show(this,
-                            pre.Message,
-                            string.IsNullOrEmpty(pre.Title) ? "Крафт" : pre.Title,
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Warning);
-                        break;
-                    }
-
-                    if ((isAugAnnul || isExalt) && !isFractOrb && pre.ParsedItem is null)
-                    {
-                        precheckFailed = true;
-                        result = ChaosCraftResult.Error;
-                        MessageBox.Show(this,
-                            "Внутренняя ошибка: предпроверка не вернула ParsedItem.",
-                            "Крафт",
-                            MessageBoxButton.OK,
-                            MessageBoxImage.Warning);
-                        break;
-                    }
-
-                    if (isExalt)
-                    {
-                        craftFile ??= CraftRunFileLog.Begin(
-                            "Orb of Exaltation",
-                            exalt,
-                            annul,
-                            "Orb of Annulment",
-                            cells[0],
-                            maxOps,
-                            conditionSummary,
-                            cells);
-                        _activeCraftLogPath = craftFile.WipPath;
-                        craftFile.SetCurrentCell(ci + 1, cells.Count);
-
-                        var cr = await _exaltCraft.RunAsync(
-                            exalt,
-                            annul,
-                            _ritualInventoryRegion ?? default,
-                            _currencyInventoryRegion ?? default,
-                            GetRitualItemRect("Omen of Sinistral Exaltation") ?? default,
-                            GetRitualItemRect("Omen of Dextral Exaltation") ?? default,
-                            GetRitualItemRect("Omen of Greater Exaltation") ?? default,
-                            _omenSinistralCells,
-                            _omenDextralCells,
-                            _omenGreaterCells,
-                            item,
-                            _craftPlan,
-                            conditionSummary,
-                            pre.ParsedItem!,
-                            pre.ClipboardText,
-                            remaining,
-                            maxOps,
-                            offset,
-                            progress,
-                            _cts.Token,
-                            craftFile);
-
-                        offset += cr.Attempts;
-                        remaining -= cr.Attempts;
-                        result = cr.StopReason;
-                    }
-                    else if (isFractOrb)
-                    {
-                        var fracOrb = GetCurrencyRect("Fracturing Orb") ?? default;
-                        craftFile ??= CraftRunFileLog.Begin(fracOrb, cells[0], maxOps, conditionSummary, cells, "Fracturing Orb");
-                        _activeCraftLogPath = craftFile.WipPath;
-                        craftFile.SetCurrentCell(ci + 1, cells.Count);
-
-                        var cr = await _fracturingCraft.RunAsync(
-                            fracOrb,
-                            item,
-                            _craftPlan,
-                            conditionSummary,
-                            maxOps,
-                            offset,
-                            progress,
-                            _cts.Token,
-                            craftFile);
-
-                        offset += cr.Attempts;
-                        remaining -= cr.Attempts;
-                        result = cr.StopReason;
-                    }
-                    else if (!isAugAnnul)
-                    {
-                        craftFile ??= CraftRunFileLog.Begin(orb, cells[0], maxOps, conditionSummary, cells, _chaosOrbName);
-                        _activeCraftLogPath = craftFile.WipPath;
-                        craftFile.SetCurrentCell(ci + 1, cells.Count);
-                        var cr = await _craft.RunAsync(
-                            orb,
-                            item,
-                            _craftPlan,
-                            conditionSummary,
-                            remaining,
-                            maxOps,
-                            offset,
-                            progress,
-                            _cts.Token,
-                            craftFile);
-
-                        offset += cr.Attempts;
-                        remaining -= cr.Attempts;
-                        result = cr.StopReason;
-                    }
-                    else
-                    {
-                        craftFile ??= CraftRunFileLog.Begin(
-                            "Orb of Augmentation",
-                            aug,
-                            annul,
-                            "Orb of Annulment",
-                            cells[0],
-                            maxOps,
-                            conditionSummary,
-                            cells,
-                            _augOrbName);
-                        _activeCraftLogPath = craftFile.WipPath;
-                        craftFile.SetCurrentCell(ci + 1, cells.Count);
-
-                        var cr = await _augAnnulCraft.RunAsync(
-                            aug,
-                            annul,
-                            item,
-                            _craftPlan,
-                            conditionSummary,
-                            pre.ParsedItem!,
-                            pre.ClipboardText,
-                            remaining,
-                            maxOps,
-                            offset,
-                            progress,
-                            _cts.Token,
-                            craftFile);
-
-                        offset += cr.Attempts;
-                        remaining -= cr.Attempts;
-                        result = cr.StopReason;
-                    }
-
-                    if (result == ChaosCraftResult.Cancelled || result == ChaosCraftResult.Error)
-                        break;
-
-                    if (result == ChaosCraftResult.EmptyCell)
-                    {
-                        SessionLogger.Info(
-                            $"Крафт: ячейка {ci + 1} — буфер пуст после Ctrl+Alt+C, считаем ячейку пустой — переход к следующей ячейке (осталось попыток: {remaining}).");
-                        continue;
-                    }
-
-                    if (result == ChaosCraftResult.AffixFound)
-                    {
-                        if (isFractOrb)
-                        {
-                            SessionLogger.Info($"Нужный аффикс зафиксирован в ячейке {ci + 1} — сессия Fracturing Orb завершена.");
-                            break;
-                        }
-
-                        if (ci + 1 < cells.Count)
-                            SessionLogger.Info(
-                                $"Условие остановки выполнено для ячейки {ci + 1} — автоматически продолжаем со следующей предметной ячейки (осталось попыток: {remaining}).");
-                        else
-                            SessionLogger.Info($"Условие остановки выполнено для ячейки {ci + 1} (последняя в сетке).");
-                    }
-                }
+                MessageBox.Show(this, sessionResult.PrecheckErrorMessage,
+                    sessionResult.PrecheckErrorTitle ?? "Крафт", MessageBoxButton.OK, MessageBoxImage.Warning);
             }
-            catch (OperationCanceledException)
-            {
-                result = ChaosCraftResult.Cancelled;
-            }
-
-            if (craftFile == null && !precheckFailed && result is not ChaosCraftResult.Cancelled)
+            else if (sessionResult.AllCellsAlreadySatisfied)
             {
                 MessageBox.Show(this,
                     "Во всех выбранных ячейках условие остановки уже выполнено. Попытки (N) не расходовались.",
-                    "Крафт",
-                    MessageBoxButton.OK,
-                    MessageBoxImage.Information);
-                SessionLogger.Info("Сессия: все ячейки уже удовлетворяют условию — файл лога крафта не создавался.");
+                    "Крафт", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-            else if (craftFile != null)
-            {
-                craftFile.SetOutcome(result);
-                SessionLogger.Info($"Итог крафта: {result}");
-            }
-            else if (result == ChaosCraftResult.Cancelled)
-                SessionLogger.Info("Итог крафта: отмена (файл лога не создавался).");
 
             SaveSettings();
         }
         catch (Exception ex)
         {
-            craftFile?.SetOutcome(ChaosCraftResult.Error, ex.Message);
             SessionLogger.Info("Ошибка: " + ex.Message);
         }
         finally
         {
             UnregisterCraftCancelHotkey();
-            _craft.StepConfirmAsync = null;
-            _exaltCraft.StepConfirmAsync = null;
-            _fracturingCraft.StepConfirmAsync = null;
-            craftFile?.Dispose();
             _ = Services.AffixStatsScanner.ScanNewLogsAsync()
                 .ContinueWith(_ => Dispatcher.Invoke(RefLoadCategories), TaskScheduler.Default);
             _activeCraftLogPath = null;
-            StartBtn.IsEnabled = true;
-            StopBtn.IsEnabled = false;
+            _vm.IsCraftRunning = false;
             MaybeKillPoeProcessAfterCraft();
         }
     }
@@ -2736,9 +2565,9 @@ public partial class MainWindow : Window
 
     private void ToggleCraftStartStop()
     {
-        if (StopBtn.IsEnabled)
+        if (_vm.IsCraftRunning)
             RequestCraftCancel();
-        else if (StartBtn.IsEnabled)
+        else
             StartBtn_OnClick(StartBtn, new RoutedEventArgs());
     }
 
@@ -2924,7 +2753,7 @@ public partial class MainWindow : Window
     {
         var total    = RfCatalystCheckList.Items.Count;
         var selected = RfCatalystCheckList.Items.Cast<System.Windows.Controls.CheckBox>().Count(cb => cb.IsChecked == true);
-        RfCatalystSelectionStatus.Text = $"Выбрано: {selected} / {total}";
+        _vm.RfCatalystSelectionStatus = $"Выбрано: {selected} / {total}";
     }
 
     private void RfDeselectAllCatalysts_Click(object sender, RoutedEventArgs e)
@@ -2949,7 +2778,7 @@ public partial class MainWindow : Window
         var ct = _rfScanCts.Token;
 
         RfScanGridBtn.IsEnabled = false;
-        RfRegistryScanStatus.Text = "Сканирование…";
+        _vm.RfRegistryScanStatus = "Сканирование…";
 
         var added = 0; var skipped = 0; var empty = 0;
         var mouseMs = RfParseInt(RfMouseDelayBox.Text, 80);
@@ -2992,15 +2821,15 @@ public partial class MainWindow : Window
             RebuildAbyssPanel();
             RebuildSocketablePanel();
             RebuildProfitTable();
-            RfRegistryScanStatus.Text = $"+{added} новых, {skipped} пропущено, {empty} пустых";
+            _vm.RfRegistryScanStatus = $"+{added} новых, {skipped} пропущено, {empty} пустых";
         }
         catch (OperationCanceledException)
         {
-            RfRegistryScanStatus.Text = "Отменено";
+            _vm.RfRegistryScanStatus = "Отменено";
         }
         catch (Exception ex)
         {
-            RfRegistryScanStatus.Text = $"Ошибка: {ex.Message}";
+            _vm.RfRegistryScanStatus = $"Ошибка: {ex.Message}";
             RfLog($"[Scan] {ex.Message}");
         }
         finally
@@ -3034,14 +2863,14 @@ public partial class MainWindow : Window
         if (string.IsNullOrWhiteSpace(league)) league = "Standard";
         SaveSettings();
 
-        PoeNinjaStatusText.Text = "Загрузка цен…";
+        _vm.PoeNinjaStatus = "Загрузка цен…";
         try
         {
             await Services.PoeNinjaPriceService.FetchAsync(league);
         }
         catch (Exception ex)
         {
-            PoeNinjaStatusText.Text = $"Ошибка: {ex.Message}";
+            _vm.PoeNinjaStatus = $"Ошибка: {ex.Message}";
         }
     }
 
@@ -3051,7 +2880,7 @@ public partial class MainWindow : Window
     private void RfUpdatePriceDisplay()
     {
         var at = Services.PoeNinjaPriceService.LastFetchedAt;
-        PoeNinjaStatusText.Text = at.HasValue
+        _vm.PoeNinjaStatus = at.HasValue
             ? $"Актуально на {at.Value:dd.MM HH:mm} · {Services.PoeNinjaPriceService.ItemCount} предметов · {Services.PoeNinjaPriceService.SnapshotCount} снэпшотов"
             : "Цены не загружены.";
         RebuildProfitTable();
@@ -3063,6 +2892,13 @@ public partial class MainWindow : Window
     private void RebuildProfitTable()
     {
         ProfitTablePanel.Children.Clear();
+
+        // Читаем курс золото/дивайн из поля; обновляем подпись
+        int goldPerDivine = RfParseInt(RfGoldPerDivineBox.Text, 0, allowZero: true);
+        RfProfitDescText.Text = goldPerDivine > 0
+            ? $"Покупка за золото → продажа за экзальты на рынке (комиссия: 240 зол./экзальт). " +
+              $"Курс: {goldPerDivine:N0} зол./div · 100к золота ≈ {100_000m / goldPerDivine:F2} div. Отсортировано по убыванию прибыльности."
+            : "Покупка за золото → продажа за экзальты на рынке (комиссия: 240 зол./экзальт). Отсортировано по убыванию прибыльности.";
 
         var catalysts = Services.StackableItemRegistry.Items
             .Where(i => i.Kind == Services.StackableItemKind.Catalyst)
@@ -3129,6 +2965,12 @@ public partial class MainWindow : Window
                 $"{row.Buy900kEx:N0}",
                 $"{row.Sell300kEx:N0}",
                 isHeader: false));
+
+        // Обновляем авто-пороги каскада
+        var threshRegular = ComputeAutoThresholdEx(refined: false);
+        var threshRefined = ComputeAutoThresholdEx(refined: true);
+        RfCascadeThresholdRegularLabel.Text = threshRegular > 0 ? $"{threshRegular} ex" : "—";
+        RfCascadeThresholdRefinedLabel.Text  = threshRefined  > 0 ? $"{threshRefined} ex"  : "—";
     }
 
     private static Dictionary<string, int> ComputeReforgeDistribution()
@@ -3164,6 +3006,100 @@ public partial class MainWindow : Window
             sell += 300_000m * cnt / total * ninja.ExaltedValue;
         }
         return Math.Round(sell);
+    }
+
+    /// <summary>
+    /// Ожидаемая стоимость одного выхода из пула перековки (ex).
+    /// Использует эмпирическое распределение из логов; при отсутствии истории — равномерное по ценам пула.
+    /// </summary>
+    private decimal ComputeEOutputEx(bool refined)
+    {
+        var fullDist = ComputeReforgeDistribution();
+        var poolDist = fullDist
+            .Where(kv => kv.Key.StartsWith("Refined ", StringComparison.OrdinalIgnoreCase) == refined)
+            .ToDictionary(kv => kv.Key, kv => kv.Value, StringComparer.OrdinalIgnoreCase);
+
+        int total = poolDist.Values.Sum();
+        if (total > 0)
+            return ComputeSell300kEx(poolDist) / 300_000m;
+
+        // Фоллбэк: равномерное распределение по зарегистрированным катализаторам пула
+        var kind = refined ? Services.StackableItemKind.RefinedCatalyst : Services.StackableItemKind.Catalyst;
+        var cats = Services.StackableItemRegistry.Items.Where(i => i.Kind == kind).ToList();
+        if (cats.Count == 0) return 0m;
+        decimal sum = 0m; int priced = 0;
+        foreach (var cat in cats)
+        {
+            var p = Services.PoeNinjaPriceService.GetPrice(cat.DisplayName)?.ExaltedValue;
+            if (p is null) continue;
+            sum += p.Value; priced++;
+        }
+        return priced == 0 ? 0m : sum / priced;
+    }
+
+    /// <summary>Авто-порог каскада = E[выход] / 3.</summary>
+    private decimal ComputeAutoThresholdEx(bool refined) =>
+        Math.Round(ComputeEOutputEx(refined) / 3m, 2);
+
+    /// <summary>
+    /// Строит виртуальные категории «Перековка — обычные» и «Перековка — Refined» для Справочника.
+    /// Показывает вероятность каждого выхода, цену из poe.ninja и RoI 3→1.
+    /// </summary>
+    private List<Services.ReferenceCategory> BuildReforgeCategories()
+    {
+        var today  = DateTime.Today.ToString("yyyy-MM-dd");
+        var result = new List<Services.ReferenceCategory>();
+        var fullDist = ComputeReforgeDistribution();
+
+        foreach (var isRefined in new[] { false, true })
+        {
+            var kind = isRefined
+                ? Services.StackableItemKind.RefinedCatalyst
+                : Services.StackableItemKind.Catalyst;
+
+            var poolDist = fullDist
+                .Where(kv => kv.Key.StartsWith("Refined ", StringComparison.OrdinalIgnoreCase) == isRefined)
+                .ToDictionary(kv => kv.Key, kv => kv.Value, StringComparer.OrdinalIgnoreCase);
+
+            int totalSamples = poolDist.Values.Sum();
+            decimal eOutput   = ComputeEOutputEx(isRefined);
+            decimal threshold = Math.Round(eOutput / 3m, 2);
+
+            // Объединяем зарегистрированные катализаторы + упомянутые в логах
+            var names = new SortedSet<string>(
+                Services.StackableItemRegistry.Items
+                    .Where(i => i.Kind == kind)
+                    .Select(i => i.DisplayName),
+                StringComparer.OrdinalIgnoreCase);
+            foreach (var n in poolDist.Keys) names.Add(n);
+
+            var entries = new List<Services.ReferenceEntry>();
+            foreach (var name in names)
+            {
+                poolDist.TryGetValue(name, out var count);
+                decimal price = Services.PoeNinjaPriceService.GetPrice(name)?.ExaltedValue ?? 0m;
+                decimal roi   = price > 0 ? Math.Round(eOutput / (3m * price) * 100m) : 0m;
+                entries.Add(new Services.ReferenceEntry(name, count, null, price, roi));
+            }
+
+            // Итоговая строка: E[выход] и порог каскада
+            if (eOutput > 0)
+                entries.Add(new Services.ReferenceEntry(
+                    Outcome:   "▶ E[выход] · авто-порог",
+                    Count:     0,
+                    Notes:     $"{eOutput:0.##} ex · порог ≤ {threshold:0.##} ex",
+                    IsSummary: true));
+
+            result.Add(new Services.ReferenceCategory(
+                DisplayName:  isRefined ? "Перековка — Refined" : "Перековка — обычные",
+                CategoryPath: isRefined ? "Перековка/Refined катализаторы" : "Перековка/Обычные катализаторы",
+                Updated:      today,
+                TotalSamples: totalSamples,
+                Entries:      entries,
+                FilePath:     ""));
+        }
+
+        return result;
     }
 
     private static System.Windows.UIElement CreateProfitRow(
@@ -3224,8 +3160,7 @@ public partial class MainWindow : Window
         MinimizeToTrayOnStart();
 
         _rfCts = new CancellationTokenSource();
-        RfStartBtn.IsEnabled = false;
-        RfStopBtn.IsEnabled  = true;
+        _vm.IsReforgeRunning = true;
 
         var selectedIds = _reforgeState.SelectedCatalystIds.ToList();
         var maxOps      = _reforgeState.MaxOps;
@@ -3263,8 +3198,7 @@ public partial class MainWindow : Window
                 Native.Win32Input.ReleaseCtrlAlt();
                 await Dispatcher.InvokeAsync(() =>
                 {
-                    RfStartBtn.IsEnabled = true;
-                    RfStopBtn.IsEnabled  = false;
+                    _vm.IsReforgeRunning = false;
                     MaybeKillPoeProcessAfterCraft();
                 });
             }
@@ -3274,12 +3208,11 @@ public partial class MainWindow : Window
     private void RfStopBtn_Click(object sender, RoutedEventArgs e)
     {
         _rfCts?.Cancel();
-        RfStopBtn.IsEnabled = false;
     }
 
     private void RfToggleStartStop()
     {
-        if (RfStopBtn.IsEnabled)
+        if (_vm.IsReforgeRunning)
             RfStopBtn_Click(RfStopBtn, new RoutedEventArgs());
         else
             RfStartBtn_Click(RfStartBtn, new RoutedEventArgs());
@@ -3287,7 +3220,7 @@ public partial class MainWindow : Window
 
     private void RfAutoToggleStartStop()
     {
-        if (RfAutoStopBtn.IsEnabled)
+        if (_vm.IsAutoReforgeRunning)
             RfAutoStopBtn_Click(RfAutoStopBtn, new RoutedEventArgs());
         else
             RfAutoStartBtn_Click(RfAutoStartBtn, new RoutedEventArgs());
@@ -3737,11 +3670,14 @@ public partial class MainWindow : Window
     {
         BreachCatalystRegionsPanel.Children.Clear();
 
-        var catalysts = Services.StackableItemRegistry.Items
+        var regular = Services.StackableItemRegistry.Items
             .Where(i => i.Kind == Services.StackableItemKind.Catalyst)
             .ToList();
+        var refined = Services.StackableItemRegistry.Items
+            .Where(i => i.Kind == Services.StackableItemKind.RefinedCatalyst)
+            .ToList();
 
-        if (catalysts.Count == 0)
+        if (regular.Count == 0 && refined.Count == 0)
         {
             BreachCatalystRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
             {
@@ -3753,43 +3689,59 @@ public partial class MainWindow : Window
             return;
         }
 
-        foreach (var item in catalysts)
+        foreach (var (groupLabel, items) in new[]
+            {
+                ("Обычные катализаторы", regular),
+                ("Refined катализаторы", refined),
+            })
         {
-            _breachCatalystRegions.TryGetValue(item.Id, out var rect);
-            var infoText = new System.Windows.Controls.TextBlock
+            if (items.Count == 0) continue;
+
+            BreachCatalystRegionsPanel.Children.Add(new System.Windows.Controls.TextBlock
             {
-                Text = FormatRect(rect),
-                VerticalAlignment = System.Windows.VerticalAlignment.Center,
-                Foreground = System.Windows.Media.Brushes.Gray,
-                FontSize = 11,
-            };
+                Text = groupLabel,
+                FontWeight = System.Windows.FontWeights.SemiBold,
+                Margin = new System.Windows.Thickness(0, 4, 0, 4),
+            });
 
-            var btn = new System.Windows.Controls.Button
+            foreach (var item in items)
             {
-                Content = "Задать…",
-                Padding = new System.Windows.Thickness(8, 4, 8, 4),
-                Tag = (item.Id, infoText),
-            };
-            btn.Click += BreachCatalystPickBtn_Click;
+                _breachCatalystRegions.TryGetValue(item.Id, out var rect);
+                var infoText = new System.Windows.Controls.TextBlock
+                {
+                    Text = FormatRect(rect),
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                    Foreground = System.Windows.Media.Brushes.Gray,
+                    FontSize = 11,
+                };
 
-            var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
-            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(200) });
-            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
-            row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
+                var btn = new System.Windows.Controls.Button
+                {
+                    Content = "Задать…",
+                    Padding = new System.Windows.Thickness(8, 4, 8, 4),
+                    Tag = (item.Id, infoText),
+                };
+                btn.Click += BreachCatalystPickBtn_Click;
 
-            var label = new System.Windows.Controls.TextBlock
-            {
-                Text = item.DisplayName,
-                VerticalAlignment = System.Windows.VerticalAlignment.Center,
-            };
-            System.Windows.Controls.Grid.SetColumn(label, 0);
-            System.Windows.Controls.Grid.SetColumn(infoText, 1);
-            System.Windows.Controls.Grid.SetColumn(btn, 2);
+                var row = new System.Windows.Controls.Grid { Margin = new System.Windows.Thickness(0, 0, 0, 4) };
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(200) });
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = new System.Windows.GridLength(1, System.Windows.GridUnitType.Star) });
+                row.ColumnDefinitions.Add(new System.Windows.Controls.ColumnDefinition { Width = System.Windows.GridLength.Auto });
 
-            row.Children.Add(label);
-            row.Children.Add(infoText);
-            row.Children.Add(btn);
-            BreachCatalystRegionsPanel.Children.Add(row);
+                var label = new System.Windows.Controls.TextBlock
+                {
+                    Text = item.DisplayName,
+                    VerticalAlignment = System.Windows.VerticalAlignment.Center,
+                };
+                System.Windows.Controls.Grid.SetColumn(label, 0);
+                System.Windows.Controls.Grid.SetColumn(infoText, 1);
+                System.Windows.Controls.Grid.SetColumn(btn, 2);
+
+                row.Children.Add(label);
+                row.Children.Add(infoText);
+                row.Children.Add(btn);
+                BreachCatalystRegionsPanel.Children.Add(row);
+            }
         }
     }
 
@@ -4256,9 +4208,8 @@ public partial class MainWindow : Window
         _nwScanCts = new CancellationTokenSource();
         var ct = _nwScanCts.Token;
 
-        NetworthScanBtn.IsEnabled = false;
-        NetworthStopBtn.IsEnabled = true;
-        NetworthStatusText.Text = "Сканирование…";
+        _vm.IsNetWorthRunning = true;
+        _vm.NetworthStatus = "Сканирование…";
         NetworthResultsPanel.Children.Clear();
 
         var mouseMs = RfParseInt(MouseActionDelayMs.Text, 80);
@@ -4316,16 +4267,15 @@ public partial class MainWindow : Window
         var totalItems = groups.Sum(g => g.Items.Count);
         if (totalItems == 0)
         {
-            NetworthStatusText.Text = "Нет заданных областей предметов. Задайте области в «Настройки областей → Breach» и «→ Delirium».";
+            _vm.NetworthStatus = "Нет заданных областей предметов. Задайте области в «Настройки областей → Breach» и «→ Delirium».";
             Services.SessionLogger.Info("[Networth] Сканирование отменено: ни у одной группы нет заданных областей предметов.");
-            NetworthScanBtn.IsEnabled = true;
-            NetworthStopBtn.IsEnabled = false;
+            _vm.IsNetWorthRunning = false;
             return;
         }
 
         var stashOcrText   = StashOcrTextBox.Text.Trim();
         var stashOpenDelay = RfParseInt(RfStashOpenDelayBox.Text, 3000);
-        var progress = new Progress<string>(msg => NetworthStatusText.Text = msg);
+        var progress = new Progress<string>(msg => _vm.NetworthStatus = msg);
         Services.SessionLogger.Info($"[Networth] Старт сканирования: {groups.Length} групп, {totalItems} предметов.");
 
         MinimizeToTrayOnStart();
@@ -4351,18 +4301,17 @@ public partial class MainWindow : Window
         }
         catch (OperationCanceledException)
         {
-            NetworthStatusText.Text = "Сканирование отменено.";
+            _vm.NetworthStatus = "Сканирование отменено.";
         }
         catch (Exception ex)
         {
-            NetworthStatusText.Text = $"Ошибка: {ex.Message}";
+            _vm.NetworthStatus = $"Ошибка: {ex.Message}";
             Services.SessionLogger.Info($"[Networth] Ошибка: {ex.Message}");
         }
         finally
         {
             Native.Win32Input.ReleaseCtrlAlt();
-            NetworthScanBtn.IsEnabled = true;
-            NetworthStopBtn.IsEnabled = false;
+            _vm.IsNetWorthRunning = false;
             Dispatcher.Invoke(RestoreFromTray);
         }
     }
@@ -4442,10 +4391,10 @@ public partial class MainWindow : Window
         if (results.Count > 0)
         {
             var whenStr = scannedAt.HasValue ? $" (снэпшот от {scannedAt.Value:dd.MM.yyyy HH:mm})" : "";
-            NetworthStatusText.Text = $"Итого: {grandTotal:F3} div по {results.Count} группам.{whenStr}";
+            _vm.NetworthStatus = $"Итого: {grandTotal:F3} div по {results.Count} группам.{whenStr}";
         }
         else
-            NetworthStatusText.Text = "Данных нет — пустые группы или ни одна Ctrl+Alt+C не вернула предмет.";
+            _vm.NetworthStatus = "Данных нет — пустые группы или ни одна Ctrl+Alt+C не вернула предмет.";
 
         Services.SessionLogger.Info($"[Networth] Готово. Итого: {grandTotal:F3} div.");
     }
@@ -4576,7 +4525,8 @@ public partial class MainWindow : Window
         _autoRfService.ItemTransferDelayMs          = RfParseInt(RfItemTransferDelayBox.Text, 400);
 
         var cascadeEnabled = RfCascadeCheckBox.IsChecked == true;
-        _autoRfService.CascadeThresholdEx = cascadeEnabled ? RfParseDecimal(RfCascadeThresholdBox.Text, 0m) : 0m;
+        _autoRfService.CascadeThresholdEx        = cascadeEnabled ? ComputeAutoThresholdEx(refined: false) : 0m;
+        _autoRfService.RefinedCascadeThresholdEx = cascadeEnabled ? ComputeAutoThresholdEx(refined: true)  : 0m;
         _autoRfService.CascadePriceFunc = cascadeEnabled
             ? name => Services.PoeNinjaPriceService.GetPrice(name)?.ExaltedValue
             : null;
@@ -4590,9 +4540,7 @@ public partial class MainWindow : Window
         MinimizeToTrayOnStart();
 
         _autoRfCts = new CancellationTokenSource();
-        RfAutoStartBtn.IsEnabled = false;
-        RfAutoStopBtn.IsEnabled  = true;
-        RfStartBtn.IsEnabled     = false;
+        _vm.IsAutoReforgeRunning = true;
 
         var selectedIds = _reforgeState.SelectedCatalystIds.ToList();
         var maxOps      = _reforgeState.MaxOps;
@@ -4668,9 +4616,7 @@ public partial class MainWindow : Window
                 _ = Services.CatalystReforgeStatsScanner.ScanNewLogsAsync();
                 await Dispatcher.InvokeAsync(() =>
                 {
-                    RfAutoStartBtn.IsEnabled = true;
-                    RfAutoStopBtn.IsEnabled  = false;
-                    RfStartBtn.IsEnabled     = true;
+                    _vm.IsAutoReforgeRunning = false;
                     MaybeKillPoeProcessAfterCraft();
                 });
             }
@@ -4680,7 +4626,6 @@ public partial class MainWindow : Window
     private void RfAutoStopBtn_Click(object sender, RoutedEventArgs e)
     {
         _autoRfCts?.Cancel();
-        RfAutoStopBtn.IsEnabled = false;
     }
 
     // ═══════════════════════════════════════════════════════════════════════
@@ -4717,7 +4662,6 @@ public partial class MainWindow : Window
         if (_repricingCts != null && !_repricingCts.IsCancellationRequested)
         {
             _repricingCts.Cancel();
-            RepricingStopBtn.IsEnabled = false;
         }
         else
         {
@@ -4937,9 +4881,8 @@ public partial class MainWindow : Window
         _repricingCts = new CancellationTokenSource();
         var ct = _repricingCts.Token;
 
-        RepricingStartBtn.IsEnabled = false;
-        RepricingStopBtn.IsEnabled  = true;
-        RepricingStatusText.Text    = "Переоценка…";
+        _vm.IsRepricingRunning = true;
+        _vm.RepricingStatus = "Переоценка…";
         RepricingLogBox.Clear();
 
         _repricingService.MouseActionDelayMs = RfParseInt(MouseActionDelayMs.Text, 80);
@@ -4989,7 +4932,7 @@ public partial class MainWindow : Window
             {
                 var label = tabRepeatCount > 0 ? $"[{tab.Name}] {iter}/{tabRepeatCount}" : $"[{tab.Name}] {iter}";
                 ((IProgress<string>)progress).Report($"── {label} ──");
-                await dispatcher.InvokeAsync(() => RepricingStatusText.Text = $"{label}…");
+                await dispatcher.InvokeAsync(() => _vm.RepricingStatus = $"{label}…");
 
                 await Services.GameInputLock.WaitAsync(ct);
                 try
@@ -5076,21 +5019,20 @@ public partial class MainWindow : Window
         try
         {
             await Task.WhenAll(tabs.Select(tab => Task.Run(() => RunTabScheduleAsync(tab), CancellationToken.None)));
-            RepricingStatusText.Text = "Готово.";
+            _vm.RepricingStatus = "Готово.";
         }
         catch (OperationCanceledException)
         {
-            RepricingStatusText.Text = "Отменено.";
+            _vm.RepricingStatus = "Отменено.";
         }
         catch (Exception ex)
         {
-            RepricingStatusText.Text = $"Ошибка: {ex.Message}";
+            _vm.RepricingStatus = $"Ошибка: {ex.Message}";
         }
         finally
         {
             Native.Win32Input.ReleaseCtrlAlt();
-            RepricingStartBtn.IsEnabled = true;
-            RepricingStopBtn.IsEnabled  = false;
+            _vm.IsRepricingRunning = false;
             Dispatcher.Invoke(RestoreFromTray);
         }
     }
@@ -5098,7 +5040,6 @@ public partial class MainWindow : Window
     private void RepricingStopBtn_Click(object sender, RoutedEventArgs e)
     {
         _repricingCts?.Cancel();
-        RepricingStopBtn.IsEnabled = false;
     }
 
     // ── Шансинг — хоткей ────────────────────────────────────────────────────
@@ -5130,7 +5071,6 @@ public partial class MainWindow : Window
         if (_chancingCts != null && !_chancingCts.IsCancellationRequested)
         {
             _chancingCts.Cancel();
-            ChancingStopBtn.IsEnabled = false;
         }
         else
         {
@@ -5224,7 +5164,7 @@ public partial class MainWindow : Window
         stats.Clear();
         ChancingStatsBox.Clear();
         ChancingLogBox.Clear();
-        ChancingStatusText.Text = "Статистика сброшена.";
+        _vm.ChancingStatus = "Статистика сброшена.";
     }
 
     private async void ChancingStartBtn_Click(object sender, RoutedEventArgs e)
@@ -5245,9 +5185,8 @@ public partial class MainWindow : Window
         _chancingCts = new CancellationTokenSource();
         var ct = _chancingCts.Token;
 
-        ChancingStartBtn.IsEnabled = false;
-        ChancingStopBtn.IsEnabled  = true;
-        ChancingStatusText.Text    = "Шансинг…";
+        _vm.IsChancingRunning = true;
+        _vm.ChancingStatus = "Шансинг…";
         ChancingLogBox.Clear();
 
         var inputBase = (ChancingInputBaseCombo.SelectedItem as System.Windows.Controls.ComboBoxItem)?.Content?.ToString() ?? "Irradiated Tablet";
@@ -5282,24 +5221,23 @@ public partial class MainWindow : Window
                     dispatcher.BeginInvoke(() =>
                     {
                         ChancingStatsBox.Text = stats.FormatSummary(divineEx);
-                        ChancingStatusText.Text = $"{stats.TotalAttempts} поп. | Unique {stats.UniqueRatePct:F1}% | Прибыль {stats.NetProfitEx:F0} ex";
+                        _vm.ChancingStatus = $"{stats.TotalAttempts} поп. | Unique {stats.UniqueRatePct:F1}% | Прибыль {stats.NetProfitEx:F0} ex";
                     });
                 }, ct);
 
-            ChancingStatusText.Text = $"Готово. {_chancingService.SessionStats.TotalAttempts} попыток.";
+            _vm.ChancingStatus = $"Готово. {_chancingService.SessionStats.TotalAttempts} попыток.";
         }
         catch (OperationCanceledException)
         {
-            ChancingStatusText.Text = "Остановлено.";
+            _vm.ChancingStatus = "Остановлено.";
         }
         catch (Exception ex)
         {
-            ChancingStatusText.Text = $"Ошибка: {ex.Message}";
+            _vm.ChancingStatus = $"Ошибка: {ex.Message}";
         }
         finally
         {
-            ChancingStartBtn.IsEnabled = true;
-            ChancingStopBtn.IsEnabled  = false;
+            _vm.IsChancingRunning = false;
             var stats = _chancingService.SessionStats;
             ChancingStatsBox.Text = stats.FormatSummary(divineEx);
             if (stats.TotalAttempts > 0)
@@ -5340,7 +5278,6 @@ public partial class MainWindow : Window
     private void ChancingStopBtn_Click(object sender, RoutedEventArgs e)
     {
         _chancingCts?.Cancel();
-        ChancingStopBtn.IsEnabled = false;
     }
 
     // ── Справочник вероятностей ──────────────────────────────────────────────
@@ -5350,6 +5287,7 @@ public partial class MainWindow : Window
         var statsDir = System.IO.Path.Combine(GetProjectDocsPath(), "stats");
         _referenceCategories = Services.ReferenceStatsService.LoadAll(statsDir);
         _referenceCategories.AddRange(BuildAffixStatCategories());
+        _referenceCategories.AddRange(BuildReforgeCategories());
         RefBuildTree();
     }
 
@@ -5375,9 +5313,11 @@ public partial class MainWindow : Window
             {
                 libByName.TryGetValue(affixName, out var candidates);
 
-                // Предпочитаем запись, совпадающую по классу предмета
+                // cls — составной ключ вида "Time-Lost Sapphire Jewels|Chaos Orb".
+                // Для поиска записи в библиотеке нужен только первый сегмент (класс предмета).
+                var keyItemClass = cls.Contains('|') ? cls[..cls.IndexOf('|')] : cls;
                 var lib = candidates?.FirstOrDefault(e =>
-                              e.ItemClasses.Any(ic => string.Equals(ic, cls, StringComparison.OrdinalIgnoreCase)))
+                              e.ItemClasses.Any(ic => string.Equals(ic, keyItemClass, StringComparison.OrdinalIgnoreCase)))
                           ?? candidates?.FirstOrDefault();
 
                 var statText  = lib?.AffixStats.FirstOrDefault() ?? affixName;
@@ -5472,8 +5412,13 @@ public partial class MainWindow : Window
 
     private void RefShowCategory(Services.ReferenceCategory cat)
     {
-        RefCategoryTitle.Text = cat.DisplayName;
-        RefCategoryMeta.Text  = $"{cat.TotalSamples} наблюдений · обновлено {cat.Updated}";
+        _vm.RefCategoryTitle = cat.DisplayName;
+        bool isReforge = cat.CategoryPath.StartsWith("Перековка/", StringComparison.OrdinalIgnoreCase);
+        _vm.RefCategoryMeta = isReforge
+            ? (cat.TotalSamples > 0
+                ? $"{cat.TotalSamples} рефорджей в логах · цены poe.ninja · {cat.Updated}"
+                : $"Нет истории рефорджей — вероятности равномерные · цены poe.ninja · {cat.Updated}")
+            : $"{cat.TotalSamples} наблюдений · обновлено {cat.Updated}";
         RefDataGrid.ItemsSource = cat.Entries
             .Select(e => Services.ReferenceEntryRow.From(e, cat.TotalSamples))
             .ToList();
@@ -5489,12 +5434,12 @@ public partial class MainWindow : Window
         var league = TradeHistoryLeagueBox.Text.Trim();
         if (string.IsNullOrWhiteSpace(sessid))
         {
-            TradeHistoryStatusText.Text = "Введите POESESSID.";
+            _vm.TradeHistoryStatus = "Введите POESESSID.";
             return;
         }
         if (string.IsNullOrWhiteSpace(league)) league = "Runes of Aldur";
         SaveSettings();
-        TradeHistoryStatusText.Text = "Загрузка…";
+        _vm.TradeHistoryStatus = "Загрузка…";
         try
         {
             var (merged, newCount) = await Services.TradeHistoryService.FetchAndMergeAsync(
@@ -5505,17 +5450,17 @@ public partial class MainWindow : Window
             var countMsg = newCount > 0
                 ? $"Загружено +{newCount} новых. Всего: {_tradeHistory.Count}."
                 : $"Новых нет. Всего: {_tradeHistory.Count}.";
-            TradeHistoryStatusText.Text = countMsg + "  " + BuildRateLimitSummary();
+            _vm.TradeHistoryStatus = countMsg + "  " + BuildRateLimitSummary();
         }
         catch (Exception ex)
         {
-            TradeHistoryStatusText.Text = $"Ошибка: {ex.Message}";
+            _vm.TradeHistoryStatus = $"Ошибка: {ex.Message}";
         }
     }
 
     private void RebuildTradeHistoryGrid()
     {
-        var rows = _tradeHistory.Select(r => new SaleRow(r)).ToList();
+        var rows = _tradeHistory.Select(r => new SaleRow(r, _parsedModsCache)).ToList();
         TradeHistoryGrid.ItemsSource = rows;
         UpdateTradeHistorySummary();
         RebuildTradeGroupGrid();
@@ -5535,7 +5480,7 @@ public partial class MainWindow : Window
                 {
                     Services.TradeHistoryService.Save(_tradeHistory);
                     // Обновляем основной грид чтобы BaseCostDiv отобразился
-                    TradeHistoryGrid.ItemsSource = _tradeHistory.Select(r => new SaleRow(r)).ToList();
+                    TradeHistoryGrid.ItemsSource = _tradeHistory.Select(r => new SaleRow(r, _parsedModsCache)).ToList();
                     UpdateTradeHistorySummary();
                 }, System.Windows.Threading.DispatcherPriority.Background)))
             .ToList();
@@ -5548,13 +5493,13 @@ public partial class MainWindow : Window
                 _tradeHistory.Where(r => string.IsNullOrEmpty(r.ItemName)
                     && r.BaseType == g.BaseType && r.TypeLine != r.BaseType
                     && r.PriceCurrency == "divine").Sum(r => r.PriceAmount));
-            TradeGroupSummaryText.Text = groups.Count > 0
+            _vm.TradeGroupSummary = groups.Count > 0
                 ? $"Синих баз: {groups.Count} типов · {groups.Sum(g => int.Parse(g.CountStr))} продаж · Выручка: {totalRev:0.##} div"
                 : "";
         }
         else
         {
-            TradeGroupSummaryText.Text = "";
+            _vm.TradeGroupSummary = "";
         }
     }
 
@@ -5566,7 +5511,7 @@ public partial class MainWindow : Window
 
     private void CalcCraftFromLogs_Click(object sender, RoutedEventArgs e)
     {
-        TradeHistoryStatusText.Text = "Анализ логов…";
+        _vm.TradeHistoryStatus = "Анализ логов…";
         List<Services.CraftCompletion> completions;
         try
         {
@@ -5574,13 +5519,13 @@ public partial class MainWindow : Window
         }
         catch (Exception ex)
         {
-            TradeHistoryStatusText.Text = $"Ошибка чтения логов: {ex.Message}";
+            _vm.TradeHistoryStatus = $"Ошибка чтения логов: {ex.Message}";
             return;
         }
 
         if (completions.Count == 0)
         {
-            TradeHistoryStatusText.Text = "Логи за 4 дня не найдены или не содержат завершённых крафтов.";
+            _vm.TradeHistoryStatus = "Логи за 4 дня не найдены или не содержат завершённых крафтов.";
             return;
         }
 
@@ -5621,7 +5566,7 @@ public partial class MainWindow : Window
             costByTypeLine.Where(kv => kv.Value > 0)
                           .Select(kv => $"{kv.Key}: {kv.Value:0.####} div"));
 
-        TradeHistoryStatusText.Text =
+        _vm.TradeHistoryStatus =
             $"Логи: {completions.Count} крафтов за 4 дня. Обновлено записей: {updated}."
             + (logsSummary.Length > 0 ? $"  [{logsSummary}]" : " Цены орбов не загружены.");
     }
@@ -5642,7 +5587,7 @@ public partial class MainWindow : Window
     private void UpdateTradeHistorySummary()
     {
         var rows = (TradeHistoryGrid.ItemsSource as List<SaleRow>) ?? [];
-        if (rows.Count == 0) { TradeHistorySummaryText.Text = ""; return; }
+        if (rows.Count == 0) { _vm.TradeHistorySummary = ""; return; }
 
         var divSales = rows.Where(r => r.Record.PriceCurrency == "divine").ToList();
         var sb = new System.Text.StringBuilder();
@@ -5664,7 +5609,7 @@ public partial class MainWindow : Window
                 sb.Append($" · Прибыль: {profit:+0.##;-0.##;0} div");
             }
         }
-        TradeHistorySummaryText.Text = sb.ToString();
+        _vm.TradeHistorySummary = sb.ToString();
     }
 
     private void TradeHistoryGrid_CellEditEnding(object sender, System.Windows.Controls.DataGridCellEditEndingEventArgs e)
@@ -5675,6 +5620,110 @@ public partial class MainWindow : Window
             Services.TradeHistoryService.Save(_tradeHistory);
             UpdateTradeHistorySummary();
         }, System.Windows.Threading.DispatcherPriority.Background);
+    }
+
+    // ── Парсинг модов продаж ──────────────────────────────────────────────────
+
+    private async void ParseModsBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _vm.TradeHistoryStatus = $"Парсинг модов {_tradeHistory.Count} записей…";
+        var entries = Services.AffixLibrary.GetEntries();
+        var cache   = _parsedModsCache;
+
+        await Task.Run(() =>
+        {
+            var total = 0;
+            foreach (var record in _tradeHistory)
+            {
+                if (cache.ContainsKey(record.ItemId)) continue;
+                var mods = Services.SaleModParser.ParseMods(record, entries);
+                lock (cache) cache[record.ItemId] = mods;
+                total++;
+            }
+        });
+
+        Services.ParsedModsCache.Save(cache);
+        RebuildTradeHistoryGrid();
+        var matched = cache.Values.SelectMany(v => v).Count(m => !m.Unmatched);
+        var total2  = cache.Values.Sum(v => v.Count);
+        _vm.TradeHistoryStatus = $"Моды разобраны: {matched}/{total2} совпали с библиотекой.";
+    }
+
+    // ── Журнал крафта (Ledger) ────────────────────────────────────────────────
+
+    private void RebuildLedgerGrid()
+    {
+        LedgerGrid.ItemsSource = _ledgerEntries.Select(e => new LedgerRow(e)).ToList();
+    }
+
+    private void LedgerGrid_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        var ledgerRow = LedgerGrid.SelectedItem as LedgerRow;
+        var saleRow   = TradeHistoryGrid.SelectedItem as SaleRow;
+
+        LedgerLinkBtn.IsEnabled   = ledgerRow is not null && saleRow is not null;
+        LedgerUnlinkBtn.IsEnabled = ledgerRow?.Entry.SaleRecordId is not null;
+
+        if (ledgerRow is not null)
+        {
+            var entry = ledgerRow.Entry;
+            var sb = new System.Text.StringBuilder();
+            sb.AppendLine($"Себестоимость: {entry.TotalCostDiv:0.##} div  ·  Статус: {entry.Status}");
+            foreach (var step in entry.Steps)
+                sb.AppendLine($"  {step.Phase}. {step.Label}  ({step.CostDiv:0.##} div)");
+            LedgerDetailText.Text = sb.ToString();
+        }
+        else
+        {
+            LedgerDetailText.Text = "";
+        }
+    }
+
+    private void LedgerLinkBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var ledgerRow = LedgerGrid.SelectedItem as LedgerRow;
+        var saleRow   = TradeHistoryGrid.SelectedItem as SaleRow;
+        if (ledgerRow is null || saleRow is null) return;
+
+        var entry  = ledgerRow.Entry;
+        var record = saleRow.Record;
+
+        Services.CraftLedgerService.LinkToSale(_ledgerEntries, entry.Id, record.ItemId);
+        record.CraftLedgerId = entry.Id;
+        record.CraftCostDiv  = entry.TotalCostDiv;
+        Services.TradeHistoryService.Save(_tradeHistory);
+
+        RebuildTradeHistoryGrid();
+        RebuildLedgerGrid();
+
+        LedgerLinkBtn.IsEnabled   = false;
+        LedgerUnlinkBtn.IsEnabled = true;
+        _vm.TradeHistoryStatus = $"Привязано: {entry.Id} → {record.ItemId} (крафт {entry.TotalCostDiv:0.##} div).";
+    }
+
+    private void LedgerUnlinkBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var ledgerRow = LedgerGrid.SelectedItem as LedgerRow;
+        if (ledgerRow is null) return;
+
+        var entry = ledgerRow.Entry;
+        var oldSaleId = entry.SaleRecordId;
+        Services.CraftLedgerService.Unlink(_ledgerEntries, entry.Id);
+
+        if (oldSaleId is not null)
+        {
+            var record = _tradeHistory.FirstOrDefault(r => r.ItemId == oldSaleId);
+            if (record is not null)
+            {
+                record.CraftLedgerId = null;
+                Services.TradeHistoryService.Save(_tradeHistory);
+            }
+        }
+
+        RebuildTradeHistoryGrid();
+        RebuildLedgerGrid();
+        LedgerUnlinkBtn.IsEnabled = false;
+        _vm.TradeHistoryStatus = "Привязка снята.";
     }
 
     // ── Десекрейт (Reveal Desecrate) ─────────────────────────────────────────
@@ -5713,7 +5762,7 @@ public partial class MainWindow : Window
             DeleteObject(hBitmap);
         }
         DesecrateSave.IsEnabled = true;
-        DesecrateSaveInfo.Text = "";
+        _vm.DesecrateSaveInfo = "";
     }
 
     private void DesecrateSave_Click(object sender, RoutedEventArgs e)
@@ -5721,7 +5770,7 @@ public partial class MainWindow : Window
         if (_desecrateLastCapture is null) return;
         var path = Path.Combine(ProjectPaths.GetProjectRoot(), "desecrate_last.png");
         _desecrateLastCapture.Save(path, System.Drawing.Imaging.ImageFormat.Png);
-        DesecrateSaveInfo.Text = "Сохранён";
+        _vm.DesecrateSaveInfo = "Сохранён";
     }
 
     private void DesecrateAccept_Click(object sender, RoutedEventArgs e)
@@ -5748,7 +5797,7 @@ public partial class MainWindow : Window
 
     private void UpdateDesecrateState()
     {
-        DesecrateStateLabel.Text = $"Цикл {_desecrateCycle} — Попытка {_desecrateAttempt} / 2";
+        _vm.DesecrateStateLabel = $"Цикл {_desecrateCycle} — Попытка {_desecrateAttempt} / 2";
         DesecrateReroll.Visibility = _desecrateAttempt == 1 ? Visibility.Visible : Visibility.Collapsed;
         DesecrateResetCycle.Visibility = _desecrateAttempt == 2 ? Visibility.Visible : Visibility.Collapsed;
     }
@@ -5770,14 +5819,20 @@ public partial class MainWindow : Window
                 System.Globalization.CultureInfo.InvariantCulture,
                 out var v) ? v : 0;
 
-        public SaleRow(Services.SaleRecord record)
+        private readonly Dictionary<string, List<Services.ParsedModInfo>>? _modsCache;
+
+        public SaleRow(Services.SaleRecord record,
+            Dictionary<string, List<Services.ParsedModInfo>>? modsCache = null)
         {
             Record = record;
+            _modsCache = modsCache;
             _craftCostStr = DecToStr(record.CraftCostDiv);
             _baseCostStr  = DecToStr(record.BaseCostDiv);
         }
 
         public string DateStr => Record.Time.ToLocalTime().ToString("dd.MM.yy HH:mm");
+        // Числовой ключ для корректной сортировки по дате
+        public long DateSort => Record.Time.ToUniversalTime().Ticks;
 
         public string DisplayName
         {
@@ -5791,20 +5846,24 @@ public partial class MainWindow : Window
 
         public int ItemLevel => Record.ItemLevel;
 
-        public string PriceStr
+        public decimal PriceAmountNum => Record.PriceAmount;
+
+        public string PriceCurrencyDisplay => Record.PriceCurrency switch
         {
-            get
-            {
-                var curr = Record.PriceCurrency switch
-                {
-                    "divine" => "div",
-                    "exalted" => "ex",
-                    "chaos" => "c",
-                    _ => Record.PriceCurrency,
-                };
-                return $"{Record.PriceAmount} {curr}";
-            }
-        }
+            "divine"  => "div",
+            "exalted" => "ex",
+            "chaos"   => "c",
+            _         => Record.PriceCurrency,
+        };
+
+        // Цена в div для сравнения между валютами
+        public decimal PriceInDivSort => Record.PriceCurrency switch
+        {
+            "divine"  => Record.PriceAmount,
+            "exalted" => Record.PriceAmount * (Services.PoeNinjaPriceService.GetPrice("exalted")?.DivineValue ?? 0m),
+            "chaos"   => Record.PriceAmount * (Services.PoeNinjaPriceService.GetPrice("chaos")?.DivineValue ?? 0m),
+            _         => 0m,
+        };
 
         public string CraftCostStr
         {
@@ -5846,8 +5905,22 @@ public partial class MainWindow : Window
             }
         }
 
-        public string ModsPreview =>
-            string.Join(" · ", Record.ExplicitMods.Concat(Record.FracturedMods).Take(4));
+        public string ModsPreview
+        {
+            get
+            {
+                if (_modsCache is not null &&
+                    _modsCache.TryGetValue(Record.ItemId, out var parsed) &&
+                    parsed.Count > 0)
+                {
+                    var parts = parsed.Select(m => m.Unmatched
+                        ? m.Stripped[..Math.Min(30, m.Stripped.Length)]
+                        : $"{m.AffixName}{(m.AffixTier > 0 ? $" T{m.AffixTier}" : "")}{(m.IsFractured ? "[F]" : "")}");
+                    return string.Join(" · ", parts.Take(5));
+                }
+                return string.Join(" · ", Record.ExplicitMods.Concat(Record.FracturedMods).Take(4));
+            }
+        }
     }
 
     private sealed class SaleGroupRow : System.ComponentModel.INotifyPropertyChanged
@@ -5945,5 +6018,19 @@ public partial class MainWindow : Window
                 return profit >= 0 ? $"+{profit:0.##} div" : $"{profit:0.##} div";
             }
         }
+    }
+
+    private sealed class LedgerRow
+    {
+        public Services.CraftLedgerEntry Entry { get; }
+
+        public LedgerRow(Services.CraftLedgerEntry entry) => Entry = entry;
+
+        public string Id          => Entry.Id;
+        public string DisplayName => Entry.DisplayName;
+        public string Status      => Entry.Status;
+        public string CostStr     => Entry.TotalCostDiv > 0 ? $"{Entry.TotalCostDiv:0.##} div" : "";
+        public string LinkedSale  => Entry.SaleRecordId ?? "—";
+        public int StepCount      => Entry.Steps.Count;
     }
 }

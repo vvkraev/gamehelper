@@ -70,6 +70,7 @@ public sealed class ExaltationCraftServiceFracturedSide : IExaltationCraftServic
     private static Task DelayJitterAsync(int baseMs, CancellationToken ct) =>
         Task.Delay(WithJitter(baseMs), ct);
 
+    /// <summary>Очищает буфер обмена на UI-потоке, чтобы пустая ячейка не маскировалась старым текстом.</summary>
     public Task ClearClipboardAsync() =>
         System.Windows.Application.Current.Dispatcher.InvokeAsync(ClearClipboardSafe).Task;
 
@@ -1057,6 +1058,10 @@ public sealed class ExaltationCraftServiceFracturedSide : IExaltationCraftServic
             rem.Dextral = Math.Max(0, rem.Dextral - 1);
     }
 
+    /// <summary>
+    /// Читает предмет из буфера, проверяет редкость (Rare) и сравнивает с условием крафта.
+    /// <see cref="CraftPrecheckOutcome.Ready"/> — запускать <see cref="RunAsync"/>; остальные исходы — ячейку пропустить.
+    /// </summary>
     public async Task<CraftPrecheckResult> PrecheckAsync(
         ScreenRect itemArea,
         CraftConditionPlan plan,
@@ -1102,6 +1107,15 @@ public sealed class ExaltationCraftServiceFracturedSide : IExaltationCraftServic
             clip);
     }
 
+    /// <summary>
+    /// Основной цикл Exaltation: Exalt → Ctrl+Alt+C → проверка условия; при неудаче Annul через Sinistral/Dextral/Greater омены
+    /// согласно ASCII-схеме в <c>docs/EXALTATION_CRAFT_SERVICE_FRACTURED_SIDE_FLOW_ASCII.txt</c>.
+    /// Повторяет до выполнения условия, исчерпания <paramref name="remainingAttempts"/> или отмены токена.
+    /// </summary>
+    /// <param name="remainingAttempts">Бюджет попыток для этого вызова.</param>
+    /// <param name="globalTotal">Общий N сессии — для подписей «попытка k / N».</param>
+    /// <param name="globalAttemptOffset">Сколько попыток уже сделано ранее в сессии (по предыдущим ячейкам).</param>
+    /// <returns>Итог и число израсходованных попыток.</returns>
     public async Task<CraftResult> RunAsync(
         ScreenRect exaltArea,
         ScreenRect annulArea,

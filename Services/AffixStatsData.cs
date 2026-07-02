@@ -5,9 +5,9 @@ namespace GameHelper.Services;
 
 public sealed class AffixStatsData
 {
-    // v7: MakeStatKey strips x/y variable placeholders so "adds x to y fire damage" matches
-    //     "adds # to # fire damage" from the library after # removal.
-    public int Version { get; set; } = 7;
+    // v9: Coloured jewels (Sapphire/Ruby/…) now stored under their own library class key
+    //     ("Time-Lost Sapphire Jewels|Chaos Orb") instead of "Jewels|Time-Lost Sapphire|Chaos Orb".
+    public int Version { get; set; } = 9;
 
     /// <summary>
     /// Item classes for which <see cref="MakeClassKey"/> includes the armour subtype segment.

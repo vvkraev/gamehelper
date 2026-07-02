@@ -80,6 +80,10 @@ public partial class CraftConditionWindow : Window
         "Armour/Evasion (Str+Dex)", "Armour/Energy Shield (Str+Int)", "Evasion/Energy Shield (Dex+Int)",
     ];
 
+    // Только для generic-класса «Jewels»; цветные варианты выбираются через item class dropdown.
+    private static readonly string[] JewelSubTypeValues = ["", "Jewel", "Time-Lost Jewel"];
+    private static readonly string[] JewelSubTypeLabels = ["Все", "Jewel", "Time-Lost Jewel"];
+
     /// <summary>
     /// Записи для каскадных дропдаунов: если выбран подтип планшета — фильтруются по подклассу
     /// (специфичные + универсальные); иначе — все записи.
@@ -150,6 +154,7 @@ public partial class CraftConditionWindow : Window
         _tabletSubClass = null;
         RefreshSubClassRow();
         RefreshArmourSubTypeRow();
+        RefreshJewelSubTypeRow();
         RefreshRuneRow();
         RefreshOrAlternativesUi();
     }
@@ -203,7 +208,8 @@ public partial class CraftConditionWindow : Window
         if (ic == null || !ArmourSubTypeClasses.Contains(ic))
         {
             ArmourSubTypeRow.Visibility = System.Windows.Visibility.Collapsed;
-            _plan.ExpectedItemSubType = "";
+            // Don't clear ExpectedItemSubType here — RefreshJewelSubTypeRow handles clearing
+            // for all non-armour, non-jewel classes.
             return;
         }
 
@@ -212,6 +218,34 @@ public partial class CraftConditionWindow : Window
 
         var savedIdx = Array.IndexOf(ArmourSubTypeValues, _plan.ExpectedItemSubType);
         ArmourSubTypeCombo.SelectedIndex = savedIdx >= 0 ? savedIdx : 0;
+    }
+
+    private void RefreshJewelSubTypeRow()
+    {
+        var ic = SelectedItemClass;
+        if (ic != "Jewels")
+        {
+            JewelSubTypeRow.Visibility = System.Windows.Visibility.Collapsed;
+            // Clear subtype for classes that have neither armour nor jewel subtype UI.
+            if (!ArmourSubTypeClasses.Contains(ic ?? ""))
+                _plan.ExpectedItemSubType = "";
+            return;
+        }
+
+        JewelSubTypeRow.Visibility = System.Windows.Visibility.Visible;
+        JewelSubTypeCombo.ItemsSource = JewelSubTypeLabels;
+
+        var savedIdx = Array.IndexOf(JewelSubTypeValues, _plan.ExpectedItemSubType);
+        JewelSubTypeCombo.SelectedIndex = savedIdx >= 0 ? savedIdx : 0;
+    }
+
+    private void JewelSubTypeCombo_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var idx = JewelSubTypeCombo.SelectedIndex;
+        _plan.ExpectedItemSubType = idx >= 0 && idx < JewelSubTypeValues.Length
+            ? JewelSubTypeValues[idx]
+            : "";
+        UpdateCombinedChanceLabel();
     }
 
     private void ArmourSubTypeCombo_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
