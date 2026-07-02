@@ -67,12 +67,20 @@ public static class AffixStatsScanner
         return (nl > idx ? text[(idx + marker.Length)..nl] : text[(idx + marker.Length)..]).Trim();
     }
 
+    // Орбы, которые реролят состав аффиксов — только их снапшоты имеют смысл для весов.
+    // Divine Orb, Fracturing Orb и т.п. меняют только числа или фиксируют аффикс, а не ролят пул.
+    private static bool IsRerollOrb(string orbName) =>
+        string.IsNullOrEmpty(orbName)
+        || orbName.Contains("Chaos", StringComparison.OrdinalIgnoreCase)
+        || orbName.Contains("Augmentation", StringComparison.OrdinalIgnoreCase);
+
     private static async Task ProcessFileAsync(string filePath, AffixStatsData data)
     {
         try
         {
             var text = await File.ReadAllTextAsync(filePath).ConfigureAwait(false);
             var orbName = ExtractOrbName(text);
+            if (!IsRerollOrb(orbName)) return;
             foreach (var snapshot in ExtractSnapshots(text))
             {
                 var item = ItemParser.Parse(snapshot);
