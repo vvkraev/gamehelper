@@ -122114,7 +122114,7 @@
       "affixType": "Prefix Modifier",
       "affixName": "Greater",
       "affixTier": 2,
-      "affixTierLevel": 80,
+      "affixTierLevel": 79,
       "affixStats": [
         "Upgrades Radius to Medium \u2014 Unscalable Value"
       ],
@@ -122186,7 +122186,7 @@
       "affixType": "Prefix Modifier",
       "affixName": "Authoritative",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 62,
       "affixStats": [
         "Small Passive Skills in Radius also grant Minions deal % increased Damage"
       ],
@@ -122204,7 +122204,7 @@
       "affixType": "Prefix Modifier",
       "affixName": "Shimmering",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 79,
       "affixStats": [
         "Small Passive Skills in Radius also grant % increased maximum Energy Shield"
       ],
@@ -122276,7 +122276,7 @@
       "affixType": "Prefix Modifier",
       "affixName": "Mystic",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 79,
       "affixStats": [
         "Small Passive Skills in Radius also grant % increased Spell Damage"
       ],
@@ -122330,7 +122330,7 @@
       "affixType": "Suffix Modifier",
       "affixName": "of Ignition",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 79,
       "affixStats": [
         "Small Passive Skills in Radius also grant % increased Flammability Magnitude"
       ],
@@ -122348,7 +122348,7 @@
       "affixType": "Suffix Modifier",
       "affixName": "of Enchanting",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 62,
       "affixStats": [
         "Notable Passive Skills in Radius also grant % increased Cast Speed"
       ],
@@ -122402,7 +122402,7 @@
       "affixType": "Prefix Modifier",
       "affixName": "Chaotic",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 79,
       "affixStats": [
         "Small Passive Skills in Radius also grant % increased Chaos Damage"
       ],
@@ -122546,7 +122546,7 @@
       "affixType": "Suffix Modifier",
       "affixName": "of Shocking",
       "affixTier": 1,
-      "affixTierLevel": 80,
+      "affixTierLevel": 79,
       "affixStats": [
         "Small Passive Skills in Radius also grant % increased chance to Shock"
       ],
@@ -124034,6 +124034,150 @@
       ],
       "affixRanges": [
         "2-3"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Grand",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Upgrades Radius to Large \u2014 Unscalable Value"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Jolting",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Magnitude of Shock you inflict"
+      ],
+      "affixRanges": [
+        "5-7"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "",
+      "affixName": "of Annihilating",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant % increased Critical Hit Chance for Spells"
+      ],
+      "affixRanges": [
+        "3-7"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Hexing",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant 1% increased Curse Magnitudes"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Righteousness",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant Minions have \u002B% to Chaos Resistance"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Prismatic",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Elemental Damage"
+      ],
+      "affixRanges": [
+        "1-2"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "of Offering",
+      "affixTier": 1,
+      "affixTierLevel": 80,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant Offering Skills have % increased Duration"
+      ],
+      "affixRanges": [
+        "6-12"
+      ],
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": null
+    },
+    {
+      "itemClasses": [
+        "Jewels"
+      ],
+      "affixType": "",
+      "affixName": "Chilling",
+      "affixTier": 1,
+      "affixTierLevel": 79,
+      "affixStats": [
+        "Small Passive Skills in Radius also grant % increased Cold Damage"
+      ],
+      "affixRanges": [
+        "1-2"
       ],
       "affixSubClass": null,
       "weight": null,
