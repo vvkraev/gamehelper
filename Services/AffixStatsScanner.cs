@@ -12,6 +12,9 @@ public static class AffixStatsScanner
     private static readonly string _statsFile =
         Path.Combine(ProjectPaths.GetProjectRoot(), "affix_stats.json");
 
+    private static readonly string _correctedFile =
+        Path.Combine(ProjectPaths.GetProjectRoot(), "affix_stats_corrected.json");
+
     private static readonly SemaphoreSlim _lock = new(1, 1);
     private static volatile AffixStatsData _current = new();
 
@@ -30,6 +33,8 @@ public static class AffixStatsScanner
             var changed = await ScanUnprocessedAsync(data).ConfigureAwait(false);
             if (changed)
                 await SaveAsync(data).ConfigureAwait(false);
+            if (changed || !File.Exists(_correctedFile))
+                await SaveCorrectedAsync(data).ConfigureAwait(false);
             _current = data;
         }
         finally
@@ -108,10 +113,26 @@ public static class AffixStatsScanner
                 }
                 var cs = data.GetOrCreate(statsClass, subType, orbName);
                 cs.TotalSnapshots++;
+
+                var hasFracture = item.Affixes.Any(a => a.IsFractured);
+                if (hasFracture) cs.SnapshotsWithFracture++;
+
                 foreach (var affix in item.Affixes)
                 {
                     if (string.IsNullOrEmpty(affix.Name)) continue;
-                    if (affix.IsFractured) continue; // зафиксирован — не результат хаос-ролла
+                    if (affix.IsFractured)
+                    {
+                        // Ключ по нормализованному стат-шаблону: роллы заменяются на "#",
+                        // чтобы "of Potency 10(5-10)" и "of Potency 9(5-10)" давали одинаковый ключ.
+                        // Это позволяет правильно вычесть "of Potency (Crit Dmg Bonus)" из пула
+                        // независимо от конкретного значения ролла на фрактурированном предмете.
+                        var fracturedKey = affix.EffectDetails.Count > 0
+                            ? ClassStats.MakeStatKey(affix.Name, ClassStats.NormalizeRolls(affix.EffectDetails[0].StatText))
+                            : affix.Name;
+                        cs.SnapshotsByFracturedAffix.TryGetValue(fracturedKey, out var fn);
+                        cs.SnapshotsByFracturedAffix[fracturedKey] = fn + 1;
+                        continue; // зафиксирован — не результат хаос-ролла
+                    }
 
                     cs.AffixCounts.TryGetValue(affix.Name, out var n);
                     cs.AffixCounts[affix.Name] = n + 1;
@@ -120,9 +141,18 @@ public static class AffixStatsScanner
                     foreach (var effect in affix.EffectDetails)
                     {
                         if (string.IsNullOrWhiteSpace(effect.StatText)) continue;
-                        var key = ClassStats.MakeStatKey(affix.Name, effect.StatText);
-                        cs.StatTemplateCounts.TryGetValue(key, out var sn);
-                        cs.StatTemplateCounts[key] = sn + 1;
+                        var statKey = ClassStats.MakeStatKey(affix.Name, effect.StatText);
+                        cs.StatTemplateCounts.TryGetValue(statKey, out var sn);
+                        cs.StatTemplateCounts[statKey] = sn + 1;
+
+                        // Для скорректированных частот: роллы нормализуем к "#", чтобы все варианты
+                        // одного мода суммировались под одним ключом (и совпадали с SnapshotsByFracturedAffix).
+                        if (hasFracture)
+                        {
+                            var fracStatKey = ClassStats.MakeStatKey(affix.Name, ClassStats.NormalizeRolls(effect.StatText));
+                            cs.AffixCountsInFracturedSnapshots.TryGetValue(fracStatKey, out var nf);
+                            cs.AffixCountsInFracturedSnapshots[fracStatKey] = nf + 1;
+                        }
                     }
                 }
             }
@@ -181,6 +211,35 @@ public static class AffixStatsScanner
     {
         var json = JsonSerializer.Serialize(data, new JsonSerializerOptions { WriteIndented = true });
         return File.WriteAllTextAsync(_statsFile, json);
+    }
+
+    private static Task SaveCorrectedAsync(AffixStatsData data)
+    {
+        var perClass = new Dictionary<string, object>(StringComparer.Ordinal);
+        foreach (var (cls, cs) in data.PerClass.OrderBy(kv => kv.Key))
+        {
+            if (cs.SnapshotsWithFracture == 0) continue;
+
+            var entries = cs.AffixCountsInFracturedSnapshots
+                .Select(kv =>
+                {
+                    var sep = kv.Key.IndexOf('|');
+                    var affixName = sep >= 0 ? kv.Key[..sep] : kv.Key;
+                    var statKey   = kv.Key;
+                    var available = cs.GetAvailableSamples(statKey);
+                    var prob      = available > 0 ? Math.Round(kv.Value * 100.0 / available, 2) : 0.0;
+                    return new { affixName, statKey, count = kv.Value, availableSamples = available, probabilityPct = prob };
+                })
+                .OrderByDescending(e => e.probabilityPct)
+                .Cast<object>()
+                .ToList();
+
+            perClass[cls] = new { snapshotsWithFracture = cs.SnapshotsWithFracture, entries };
+        }
+
+        var root = new { generatedAt = DateTime.Now.ToString("yyyy-MM-ddTHH:mm:ss"), perClass };
+        var json = JsonSerializer.Serialize(root, new JsonSerializerOptions { WriteIndented = true });
+        return File.WriteAllTextAsync(_correctedFile, json);
     }
 
     /// <summary>

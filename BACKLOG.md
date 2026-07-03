@@ -226,6 +226,65 @@
     4. При неудаче: сообщить «не тот аффикс заморожен» + счётчик попыток, ожидать следующий предмет-основу
   - **Зависит от**: CRAFT-7 (парсинг Desecrated), CRAFT-4 (модель ожидаемых затрат)
 
+### Пайплайн крафта (CRAFT-12) — многошаговый рецепт с условиями переходов
+
+  Пользователь описывает рецепт крафта декларативно: последовательность шагов, условие входа в шаг, условие цикла внутри шага, переходы `OnSuccess/OnFailure`. Пайплайн — обёртка над существующими сервисами, не замена им.
+
+  **Общая модель** (применяется во всех подзадачах):
+  ```
+  CraftPipeline
+    └─ Name, Description, ItemClass
+    └─ Steps[]
+         └─ CraftPipelineStep
+              ├─ Name
+              ├─ Action (enum: CheckItem | ChaosCraft | AugAnnulCraft | DivineCraft | ExaltCraft | OmenActivation | ManualPause)
+              ├─ ActionConfig  (параметры действия, специфичны для Action)
+              ├─ EntryCondition?  (CraftConditionPlan — проверить до действия; false → OnFailure)
+              ├─ LoopUntil?      (CraftConditionPlan — повторять действие, пока false)
+              ├─ MaxIterations   (защита от бесконечного цикла)
+              ├─ OnSuccess → StepIndex | Next | Done | Abort
+              └─ OnFailure  → StepIndex | Next | Done | Abort
+  ```
+
+- [x] **CRAFT-12a** Модели данных пайплайна и сериализация
+  - Создать `Services/CraftPipelineModels.cs`: `CraftPipeline`, `CraftPipelineStep`, `PipelineAction` (enum), `PipelineTransition` (enum + опциональный индекс шага), `OmenActionConfig` (имя омена, координаты ячейки стэша)
+  - `CraftConditionPlan` уже существует — переиспользовать для `EntryCondition` и `LoopUntil` без изменений
+  - Сериализация в `Recipes/{name}.json` через `System.Text.Json`; `PipelineStore` по образцу `SettingsStore`
+  - Тест: сериализация → десериализация рецепта Time-Lost Sapphire из примера выше; переходы `OnSuccess/OnFailure` с обратным индексом шага сохраняются корректно
+  - **Зависит от**: ничего; чистые POCO + JSON
+
+- [x] **CRAFT-12b** `DivineCraftService` — цикл Divine Orb до условия
+  - Новый сервис `Services/DivineCraftService.cs`, реализует `ICraftService`
+  - Логика: Ctrl+Alt+C → проверить `LoopUntil` через `ParsedItemCraftEvaluator` → если false: кликнуть Divine → повторить; если true или `MaxIterations` исчерпан → вернуть `CraftResult`
+  - `CraftResult.StopReason`: `ConditionMet` | `MaxIterationsReached` | `Cancelled`
+  - Тест (mock Win32): за 3 итерации условие выполняется → `Attempts=3, StopReason=ConditionMet`; за N итераций условие не выполнено → `StopReason=MaxIterationsReached`; отмена по токену → `StopReason=Cancelled`
+  - **Зависит от**: ARCH-1 (`ICraftService`), ARCH-2 (DI)
+
+- [x] **CRAFT-12c** Расширение `OmenActivationService` — взять омен из стэша
+  - Добавить в `OmenActivationService` метод `Task<bool> ActivateFromStashAsync(OmenActionConfig config, CancellationToken ct)`
+  - `OmenActionConfig`: `StashCell (row, col)` — координаты ячейки стэша, `InventoryCell (row, col)` — куда положить
+  - Последовательность: открыть стэш (если не открыт) → Ctrl+клик по ячейке → найти омен в инвентаре → правый клик → «Activate» → дождаться исчезновения иконки с экрана
+  - Тест (mock Win32 + mock clipboard): последовательность кликов совпадает с ожидаемой; при `StashCell` вне допустимого диапазона → `ArgumentException` до любых кликов
+  - **Зависит от**: существующий `OmenActivationService`, ARCH-2
+
+- [x] **CRAFT-12d** `CraftPipelineRunner` — интерпретатор пайплайна
+  - Новый сервис `Services/CraftPipelineRunner.cs`
+  - Алгоритм: взять `Steps[currentIndex]` → выполнить `EntryCondition` (если есть) → запустить сервис шага в цикле `LoopUntil`/`MaxIterations` → по результату выбрать переход → повторить
+  - `ManualPause`: публиковать событие `IProgress<PipelineStatus>` с `WaitingForUser`, ждать внешнего `Resume()` (TaskCompletionSource)
+  - Логировать через `ISessionLogger`: номер шага, итерации, причину перехода
+  - Тест (все сервисы в mock): 5-шаговый рецепт → переход по индексу назад работает корректно; `Abort` на шаге 2 → runner возвращает `PipelineResult { StoppedAtStep=2, Reason=Aborted }`; отмена токена на любом шаге → все mock-сервисы получили токен отменённым
+  - **Зависит от**: CRAFT-12a (модели), CRAFT-12b (DivineCraft), CRAFT-12c (OmenActivation), ARCH-1, ARCH-4
+
+- [x] **CRAFT-12e** UI — редактор и исполнение рецептов
+  - Новая вкладка «Рецепт» в `MainWindow.xaml`
+  - Левая панель: список сохранённых рецептов (load/save/delete); кнопки «Новый рецепт», «Старт», «Стоп»
+  - Правая панель: список шагов текущего рецепта; для каждого шага — строка с `Action` (ComboBox), кнопка «Настроить» (открывает диалог шага), кнопки `↑↓` для переупорядочивания
+  - Диалог шага: `EntryCondition` и `LoopUntil` открываются через существующий `CraftConditionWindow`; `OmenActionConfig` — поля row/col; переходы `OnSuccess/OnFailure` — ComboBox (Next / Done / Abort / Шаг N)
+  - Во время выполнения: текущий шаг подсвечен, счётчик итераций обновляется через `IProgress<PipelineStatus>` → ViewModel
+  - `ManualPause`: кнопка «Продолжить» появляется вместо «Старт»
+  - Тест: ручной (запустить рецепт из 2 шагов, убедиться что статус меняется и кнопки блокируются корректно)
+  - **Зависит от**: CRAFT-12a, CRAFT-12d, ARCH-3 (MVVM)
+
 ---
 
 ## Торговля и флипинг
@@ -413,6 +472,18 @@
   - **Первый шаг**: вручную собрать список 5-10 аккаунтов профессиональных крафтеров (стримеры PoE2).
   - **Зависит от**: TRADE-3 (инфраструктура торгового API), `trade_data/` директория (уже есть)
 
+- [x] **TRADE-8** TradeImportService — поддержка нескольких fetch-ответов в одном снапшоте
+  - **Проблема**: PoE2 `/api/trade2/fetch/` возвращает строго 10 предметов за запрос. Пользователь вручную копирует JSON из DevTools — в MD-файле всегда ровно 10 записей.
+  - **Два варианта решения** (выбрать один после того, как станет ясно, какой workflow удобнее):
+    - **Вариант A — один большой response**: если удастся получить JSON с > 10 предметами (например, через другой эндпойнт или склейку на стороне DevTools-скрипта) — код уже корректно обработает его без изменений.
+    - **Вариант B — несколько response через пустую строку**: пользователь вставляет несколько JSON-объектов, разделённых пустой строкой (`\n\n`); `TradeImportService.Import` разбивает вход по разделителю, парсит каждый блок отдельно и объединяет `result`-массивы перед сохранением. Итог — один JSON-файл и один MD-файл на всю партию.
+  - **Реализация Варианта B** (если выбран):
+    1. В `Import(string rawJson)` — split по `\n\n`, фильтр непустых блоков
+    2. Для каждого блока — `JsonNode.Parse` → взять `result` array
+    3. Объединить все `result` в один `JsonArray` → передать в существующий `ParseItems`
+    4. Остальной pipeline без изменений (slug, сохранение, Markdown)
+  - **Зависит от**: решения пользователя о workflow
+
 - [ ] **TRADE-4** Агрегатный анализ прибыльности по типу базы и редкости
   - **Контекст**: крафт делится на два принципиально разных сценария:
     - **Mass craft синих (полуфабрикаты)**: покупаем N белых баз → крафтим в синие → продаём. Все предметы одного типа с предсказуемым именем (формат: `{prefix} {base} {suffix}`). Средняя прибыль = (Σ продаж − N × стоимость_базы − стоимость_орбов) / M продаж.
@@ -424,6 +495,17 @@
     3. Фильтр по периоду (последние 7/30 дней) чтобы сравнивать разные партии крафта
     4. Опционально: ввод средней стоимости базы на уровне группы (применяется ко всем записям без явного `BaseCostDiv`)
   - **Зависит от**: TRADE-3 (данные уже есть), `BaseCostDiv` в `SaleRecord` (добавлен)
+
+---
+
+## Вкладка «Наблюдение» (TrackingTab)
+
+- [ ] **TRACKING-1** Протестировать вкладку «Наблюдение» — выявить что работает, что нет
+  - Вкладка `TabTracking` (Header="Наблюдение") существует в `MainWindow.xaml`, UI реализован в `TrackingTab.xaml` / `TrackingTab.xaml.cs`
+  - Пользователь не видит вкладку в последних сборках — проверить видимость (Visibility, IsEnabled, порядок вкладок)
+  - Проверить работу со статичным кодом (static test data): создать сессию, добавить предмет вручную, убедиться что предмет отображается в правой панели
+  - Убедиться что вывод предмета (разбор модов, отображение семейств/тиров) работает корректно
+  - Зафиксировать что именно сломано или не подключено — составить список доработок
 
 ---
 
