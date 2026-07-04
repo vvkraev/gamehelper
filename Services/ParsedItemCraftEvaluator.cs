@@ -81,10 +81,12 @@ public static class ParsedItemCraftEvaluator
 
         static bool IsPrefixFamily(string t) =>
             string.Equals(t, "Prefix Modifier", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(t, "Fractured Prefix Modifier", StringComparison.OrdinalIgnoreCase) ||
             string.Equals(t, "Desecrated Prefix Modifier", StringComparison.OrdinalIgnoreCase);
 
         static bool IsSuffixFamily(string t) =>
             string.Equals(t, "Suffix Modifier", StringComparison.OrdinalIgnoreCase) ||
+            string.Equals(t, "Fractured Suffix Modifier", StringComparison.OrdinalIgnoreCase) ||
             string.Equals(t, "Desecrated Suffix Modifier", StringComparison.OrdinalIgnoreCase);
 
         if (IsPrefixFamily(p) && IsPrefixFamily(a))
@@ -187,6 +189,15 @@ public static class ParsedItemCraftEvaluator
                 aNoTierRange = aNoTierRange.Replace("  ", " ", StringComparison.Ordinal);
             if (aNoTierRange.Length >= minLenForPrefixMatch && bNoHash.Length >= minLenForPrefixMatch &&
                 string.Equals(aNoTierRange, bNoHash, StringComparison.Ordinal))
+                return true;
+
+            // Шаблон рецепта хранит «(5–10)%» (до нормализации), а парсер даёт «9(5-10)%».
+            // Убираем диапазон из b → bNoTierRange, убираем диапазон и числа из aNoRoll → сравниваем.
+            var aNoTierRangeNoFixed = FixedNumericInStat.Replace(aNoTierRange, "").Trim();
+            while (aNoTierRangeNoFixed.Contains("  ", StringComparison.Ordinal))
+                aNoTierRangeNoFixed = aNoTierRangeNoFixed.Replace("  ", " ", StringComparison.Ordinal);
+            if (aNoTierRangeNoFixed.Length >= minLenForPrefixMatch && bNoTierRange.Length >= minLenForPrefixMatch &&
+                string.Equals(aNoTierRangeNoFixed, bNoTierRange, StringComparison.Ordinal))
                 return true;
 
             // Мультиролл-стат: ItemParser ставит буквенные плейсхолдеры x/y/z (после нормализации),
