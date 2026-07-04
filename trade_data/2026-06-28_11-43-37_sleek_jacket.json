@@ -1,0 +1,307 @@
+﻿{
+  "_meta": {
+    "date": "2026-06-28",
+    "source": "poe2_trade_fetch_devtools",
+    "base_type": "Sleek Jacket",
+    "slug": "sleek_jacket"
+  },
+  "listings": [
+    {
+      "id": "3ed395215d5b36e922cd2c4883cd5e7c16cc3bad1cca1a2c8bcea25f43b1a99a",
+      "name": "Dusk Salvation",
+      "base_type": "Sleek Jacket",
+      "price_divine": 30,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 83,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 1487,
+      "energy_shield": 462,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Apparition\u0027s P2 \u2014 \u002B136 to Evasion Rating",
+        "Apparition\u0027s P2 \u2014 \u002B42 to maximum Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Rogue\u0027s P2 \u2014 \u002B33 to Evasion Rating",
+        "Rogue\u0027s P2 \u2014 \u002B12 to maximum Energy Shield",
+        "Rogue\u0027s P2 \u2014 137% increased Evasion and Energy Shield",
+        "of Magma S2 \u2014 \u002B39% to Fire Resistance",
+        "of Curvation S4 \u2014 Gain Deflection Rating equal to 15% of Evasion Rating"
+      ],
+      "mods_crafted": [
+        "of the Maelstrom S3 \u2014 \u002B31% to Lightning Resistance"
+      ]
+    },
+    {
+      "id": "355e77d7f2362e27558e848190d7a847c837ee3250bdb7a933373416b6e101f9",
+      "name": "Gloom Suit",
+      "base_type": "Sleek Jacket",
+      "price_divine": 40,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 1483,
+      "energy_shield": 446,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Illusory P2 \u2014 94% increased Evasion and Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Stalker\u0027s P1 \u2014 \u002B171 to Evasion Rating",
+        "Stalker\u0027s P1 \u2014 \u002B50 to maximum Energy Shield",
+        "Stalker\u0027s P1 \u2014 41% increased Evasion and Energy Shield",
+        "of the Lightning S2 \u2014 \u002B40% to Lightning Resistance",
+        "of Diversion S3 \u2014 Gain Deflection Rating equal to 19% of Evasion Rating"
+      ],
+      "mods_crafted": [
+        "of the Polar Bear S3 \u2014 \u002B34% to Cold Resistance"
+      ]
+    },
+    {
+      "id": "f827b84d7f4428744bc31c6c538c5f825e1e0d9fccb08222cb2f16c8c28db846",
+      "name": "Honour Guardian",
+      "base_type": "Sleek Jacket",
+      "price_divine": 60,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 1506,
+      "energy_shield": 446,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Apparition\u0027s P2 \u2014 \u002B140 to Evasion Rating",
+        "Apparition\u0027s P2 \u2014 \u002B39 to maximum Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Incorporeal P1 \u2014 139% increased Evasion and Energy Shield",
+        "Bard\u0027s P3 \u2014 \u002B31 to maximum Life",
+        "of the Lightning S2 \u2014 \u002B38% to Lightning Resistance",
+        "of Flexure S2 \u2014 Gain Deflection Rating equal to 21% of Evasion Rating"
+      ],
+      "mods_crafted": [
+        "of the Volcano S3 \u2014 \u002B32% to Fire Resistance"
+      ]
+    },
+    {
+      "id": "8c0110c2c9d7d9545cd024be8972ba64f987acf882d1fc08266b2ea55125faa3",
+      "name": "Maelstr\u00F6m Cloak",
+      "base_type": "Sleek Jacket",
+      "price_divine": 60,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 1480,
+      "energy_shield": 454,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Phantom\u0027s P3 \u2014 \u002B25 to Evasion Rating",
+        "Phantom\u0027s P3 \u2014 \u002B10 to maximum Energy Shield",
+        "Phantom\u0027s P3 \u2014 27% increased Evasion and Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Apparition\u0027s P2 \u2014 \u002B140 to Evasion Rating",
+        "Apparition\u0027s P2 \u2014 \u002B41 to maximum Energy Shield",
+        "Incorporeal P1 \u2014 107% increased Evasion and Energy Shield",
+        "of the Polar Bear S3 \u2014 \u002B31% to Cold Resistance",
+        "of the Lightning S2 \u2014 \u002B39% to Lightning Resistance",
+        "of Diversion S3 \u2014 Gain Deflection Rating equal to 20% of Evasion Rating"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "b104076e7975012cf164318b0f72e73a532f9138aed55190b3b23f48308b20b6",
+      "name": "Dread Guardian",
+      "base_type": "Rambler Jacket",
+      "price_divine": 60,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 84,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 1450,
+      "energy_shield": 432,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Apparition\u0027s P2 \u2014 \u002B135 to Evasion Rating",
+        "Apparition\u0027s P2 \u2014 \u002B40 to maximum Energy Shield"
+      ],
+      "mods_implicit": [
+        "\u002B10% to Chaos Resistance"
+      ],
+      "mods_explicit": [
+        "Stalker\u0027s P1 \u2014 \u002B50 to Evasion Rating",
+        "Stalker\u0027s P1 \u2014 \u002B13 to maximum Energy Shield",
+        "Illusory P2 \u2014 139% increased Evasion and Energy Shield",
+        "of the Volcano S3 \u2014 \u002B32% to Fire Resistance",
+        "of the Ice S2 \u2014 \u002B38% to Cold Resistance",
+        "of Warping S1 \u2014 Gain Deflection Rating equal to 26% of Evasion Rating"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "a1d50be73eb601069a10f7fd9ea950d45d8afc80b6f94279e852b025d4b1a8b9",
+      "name": "Hate Coat",
+      "base_type": "Sleek Jacket",
+      "price_divine": 60,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 1529,
+      "energy_shield": 457,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Minstrel\u0027s P2 \u2014 38% increased Evasion and Energy Shield",
+        "Minstrel\u0027s P2 \u2014 \u002B38 to maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Banshee\u0027s P1 \u2014 \u002B160 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B46 to maximum Energy Shield",
+        "Incorporeal P1 \u2014 106% increased Evasion and Energy Shield",
+        "of Magma S2 \u2014 \u002B36% to Fire Resistance",
+        "of Curvation S4 \u2014 Gain Deflection Rating equal to 16% of Evasion Rating"
+      ],
+      "mods_crafted": [
+        "of the Polar Bear S3 \u2014 \u002B34% to Cold Resistance"
+      ]
+    },
+    {
+      "id": "fa481e805241497c66a819cec047b718a0fe63815e0bc686cf071fe3ac99f571",
+      "name": "Eagle Wrap",
+      "base_type": "Sleek Jacket",
+      "price_divine": 64,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 1523,
+      "energy_shield": 480,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Stalker\u0027s P1 \u2014 \u002B41 to Evasion Rating",
+        "Stalker\u0027s P1 \u2014 \u002B15 to maximum Energy Shield",
+        "Stalker\u0027s P1 \u2014 39% increased Evasion and Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Eidolon\u0027s P3 \u2014 \u002B102 to Evasion Rating",
+        "Eidolon\u0027s P3 \u2014 \u002B33 to maximum Energy Shield",
+        "Incorporeal P1 \u2014 108% increased Evasion and Energy Shield",
+        "of the Lightning S2 \u2014 \u002B38% to Lightning Resistance",
+        "of Diversion S3 \u2014 Gain Deflection Rating equal to 20% of Evasion Rating"
+      ],
+      "mods_crafted": [
+        "of the Polar Bear S3 \u2014 \u002B33% to Cold Resistance"
+      ]
+    },
+    {
+      "id": "0130935e49288a685e297324c5c56c25d2e269e890617843acc4ddfa3b7efb8a",
+      "name": "Carrion Salvation",
+      "base_type": "Sleek Jacket",
+      "price_divine": 70,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 1475,
+      "energy_shield": 452,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Banshee\u0027s P1 \u2014 \u002B149 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B46 to maximum Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Stalker\u0027s P1 \u2014 \u002B46 to Evasion Rating",
+        "Stalker\u0027s P1 \u2014 \u002B14 to maximum Energy Shield",
+        "Stalker\u0027s P1 \u2014 116% increased Evasion and Energy Shield",
+        "of Tzteosh S1 \u2014 \u002B44% to Fire Resistance",
+        "of Curvation S4 \u2014 Gain Deflection Rating equal to 17% of Evasion Rating"
+      ],
+      "mods_crafted": [
+        "of the Polar Bear S3 \u2014 \u002B33% to Cold Resistance"
+      ]
+    },
+    {
+      "id": "023243d769a9cedb3a2dafb8b7a4409c131cd42806a3374a65bb99aee9467e0e",
+      "name": "Corpse Wrap",
+      "base_type": "Sleek Jacket",
+      "price_divine": 70,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 1483,
+      "energy_shield": 452,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "of Warping S1 \u2014 Gain Deflection Rating equal to 25% of Evasion Rating"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Banshee\u0027s P1 \u2014 \u002B158 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B48 to maximum Energy Shield",
+        "Incorporeal P1 \u2014 139% increased Evasion and Energy Shield",
+        "Bard\u0027s P3 \u2014 \u002B29 to maximum Life",
+        "of the Ice S2 \u2014 \u002B39% to Cold Resistance"
+      ],
+      "mods_crafted": [
+        "of the Volcano S3 \u2014 \u002B34% to Fire Resistance"
+      ]
+    },
+    {
+      "id": "ff6e0102f0e5e2143192cb8f492e9878063846d97f2ebc69e370eb40b7b423c2",
+      "name": "Grim Skin",
+      "base_type": "Sleek Jacket",
+      "price_divine": 70,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 1562,
+      "energy_shield": 480,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Apparition\u0027s P2 \u2014 \u002B135 to Evasion Rating",
+        "Apparition\u0027s P2 \u2014 \u002B42 to maximum Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Incorporeal P1 \u2014 146% increased Evasion and Energy Shield",
+        "Maestro\u0027s P1 \u2014 \u002B42 to maximum Life",
+        "of Tzteosh S1 \u2014 \u002B41% to Fire Resistance",
+        "of the Walrus S4 \u2014 \u002B29% to Cold Resistance",
+        "of Curvation S4 \u2014 Gain Deflection Rating equal to 17% of Evasion Rating"
+      ],
+      "mods_crafted": []
+    }
+  ]
+}

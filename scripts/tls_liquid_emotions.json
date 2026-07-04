@@ -1,0 +1,141 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "itemClasses": [
+        "Time-Lost Diamond Jewels"
+      ],
+      "affixType": "Crafted Prefix Modifier",
+      "affixName": "CraftedJewelRadiusExtraLargeSize",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Upgrades Radius to Very Large<span class=\\"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "JewelRadiusLargerRadius",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Time-Lost Diamond Jewels"
+      ],
+      "affixType": "Crafted Suffix Modifier",
+      "affixName": "CraftedJewelRadiusChaosResistance",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant +(#<span class=\\"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "ChaosResistance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Time-Lost Emerald Jewels"
+      ],
+      "affixType": "Crafted Prefix Modifier",
+      "affixName": "CraftedJewelRadiusExtraLargeSize",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Upgrades Radius to Very Large<span class=\\"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "JewelRadiusLargerRadius",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Time-Lost Emerald Jewels"
+      ],
+      "affixType": "Crafted Suffix Modifier",
+      "affixName": "CraftedJewelRadiusLightningResistance",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant +(#<span class=\\"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "LightningResistance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Time-Lost Ruby Jewels"
+      ],
+      "affixType": "Crafted Prefix Modifier",
+      "affixName": "CraftedJewelRadiusExtraLargeSize",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Upgrades Radius to Very Large<span class=\\"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "JewelRadiusLargerRadius",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Time-Lost Ruby Jewels"
+      ],
+      "affixType": "Crafted Suffix Modifier",
+      "affixName": "CraftedJewelRadiusFireResistance",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant +(#<span class=\\"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "FireResistance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Time-Lost Sapphire Jewels"
+      ],
+      "affixType": "Crafted Prefix Modifier",
+      "affixName": "CraftedJewelRadiusExtraLargeSize",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Upgrades Radius to Very Large<span class=\\"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "JewelRadiusLargerRadius",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Time-Lost Sapphire Jewels"
+      ],
+      "affixType": "Crafted Suffix Modifier",
+      "affixName": "CraftedJewelRadiusColdResistance",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Notable Passive Skills in Radius also grant +(#<span class=\\"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "ColdResistance",
+      "weight": null
+    }
+  ]
+}

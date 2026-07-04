@@ -108,6 +108,69 @@ public static class CraftAffixCascadeHelper
             .ToList();
     }
 
+    // Mapping of armour defence subtype → attributes required to equip that armour.
+    // Source: poe2db.tw crafting tags (armour/evasion/energy_shield) — already encoded in AffixSubClass
+    // for defence-specific affixes; this dict covers attribute-stat affixes (subClass=null).
+    private static readonly HashSet<string> _defenceSubTypes = new(StringComparer.Ordinal)
+    {
+        "Armour", "Evasion", "Energy Shield",
+        "Armour/Evasion", "Armour/Energy Shield", "Evasion/Energy Shield"
+    };
+
+    private static readonly Dictionary<string, HashSet<string>> _allowedAttrsBySubType = new(StringComparer.Ordinal)
+    {
+        ["Armour"]                = new(StringComparer.Ordinal) { "Strength" },
+        ["Evasion"]               = new(StringComparer.Ordinal) { "Dexterity" },
+        ["Energy Shield"]         = new(StringComparer.Ordinal) { "Intelligence" },
+        ["Armour/Evasion"]        = new(StringComparer.Ordinal) { "Strength", "Dexterity" },
+        ["Armour/Energy Shield"]  = new(StringComparer.Ordinal) { "Strength", "Intelligence" },
+        ["Evasion/Energy Shield"] = new(StringComparer.Ordinal) { "Dexterity", "Intelligence" },
+    };
+
+    private static readonly string[] _allAttributes = ["Strength", "Dexterity", "Intelligence"];
+
+    /// <summary>
+    /// Фильтрует записи по типу защиты доспеха (Armour / Evasion / Energy Shield и гибриды).
+    /// <para>
+    /// Два уровня фильтрации:
+    /// <list type="bullet">
+    ///   <item>Записи с непустым <see cref="AffixLibraryEntry.AffixSubClass"/>: разрешены если subClass совпадает
+    ///   с выбранным типом или является одним из его компонентов («Armour» входит в «Armour/Evasion»).
+    ///   Источник разметки — теги armour/evasion/energy_shield с poe2db.tw.</item>
+    ///   <item>Записи с subClass=null и атрибутным статом (Strength/Dexterity/Intelligence):
+    ///   разрешены только если все упомянутые атрибуты покрываются требованиями типа защиты.</item>
+    /// </list>
+    /// </para>
+    /// </summary>
+    public static IReadOnlyList<AffixLibraryEntry> FilterByArmourSubType(
+        IReadOnlyList<AffixLibraryEntry> entries, string? subType)
+    {
+        if (string.IsNullOrEmpty(subType) || !_defenceSubTypes.Contains(subType))
+            return entries;
+
+        // Allowed subClass values: exact match + components of hybrids ("Armour/Evasion" → {"Armour","Evasion","Armour/Evasion"})
+        var allowedSubClasses = new HashSet<string>(StringComparer.Ordinal) { subType };
+        var slashIdx = subType.IndexOf('/');
+        if (slashIdx > 0)
+        {
+            allowedSubClasses.Add(subType[..slashIdx]);
+            allowedSubClasses.Add(subType[(slashIdx + 1)..]);
+        }
+
+        var allowedAttrs = _allowedAttrsBySubType[subType];
+
+        return entries.Where(e =>
+        {
+            if (!string.IsNullOrEmpty(e.AffixSubClass))
+                return allowedSubClasses.Contains(e.AffixSubClass);
+
+            // Universal affix: pass unless it mentions attributes incompatible with this defence type
+            var statText = e.AffixStats.Count > 0 ? e.AffixStats[0] : "";
+            var mentionedAttrs = _allAttributes.Where(a => statText.Contains(a, StringComparison.Ordinal));
+            return mentionedAttrs.All(a => allowedAttrs.Contains(a));
+        }).ToList();
+    }
+
     public static List<string> GetAffixTypesForItemClass(string itemClass, IReadOnlyList<AffixLibraryEntry> entries)
     {
         if (string.IsNullOrEmpty(itemClass))

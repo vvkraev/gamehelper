@@ -1,0 +1,2364 @@
+{
+  "date": "2026-06-27",
+  "crafter": "Ucadet#5740",
+  "account_hash": "8abeec8bf64cc574558cc954c87dc288",
+  "trade_search_url": "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/8rWMYGybcV",
+  "repost_query_id": "EB75qjD4f5",
+  "filter_note": "параметры из ссылки пользователя: securable, price>=20div, non-unique, Ucadet#5740",
+  "total_in_search": 45,
+  "fetched": 45,
+  "items": [
+    {
+      "id": "1a73cc2a383dcc63",
+      "name": "Loath Crest",
+      "base": "Ancestral Tiara",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 1,
+      "price_amount": 22,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+55 to maximum Energy Shield",
+          "tier": "P2",
+          "name": "Blazing"
+        },
+        {
+          "type": "explicit",
+          "text": "+157 to maximum Life",
+          "tier": "P1",
+          "name": "Fecund"
+        },
+        {
+          "type": "explicit",
+          "text": "30% increased Critical Hit Chance",
+          "tier": "S1",
+          "name": "of Ruin"
+        },
+        {
+          "type": "explicit",
+          "text": "+26% to Cold Resistance",
+          "tier": "S4",
+          "name": "of the Walrus"
+        },
+        {
+          "type": "explicit",
+          "text": "+36% to Lightning Resistance",
+          "tier": "S2",
+          "name": "of the Lightning"
+        },
+        {
+          "type": "desecrate",
+          "text": "99% increased Energy Shield",
+          "tier": "P1",
+          "name": "Unassailable"
+        }
+      ]
+    },
+    {
+      "id": "4013c012dcdbdf71",
+      "name": "Miracle Grasp",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "desecrated": false,
+      "sockets": 0,
+      "price_amount": 25,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "31% increased Mana Cost Efficiency of Spells",
+          "tier": "P0",
+          "name": "Sagacious"
+        },
+        {
+          "type": "explicit",
+          "text": "21% increased Cast Speed",
+          "tier": "S2",
+          "name": "of Sortilege"
+        },
+        {
+          "type": "explicit",
+          "text": "80% increased Mana Regeneration Rate",
+          "tier": "S2",
+          "name": "of Euphoria"
+        },
+        {
+          "type": "crafted",
+          "text": "+20% to Maximum Quality",
+          "tier": "P0",
+          "name": "Breachlord's"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "3e1a433bc574edd1",
+      "name": "Chimeric Band",
+      "base": "Unset Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 25,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+105 to maximum Life",
+          "tier": "P1",
+          "name": "Virile"
+        },
+        {
+          "type": "explicit",
+          "text": "15% increased Critical Hit Chance for Spells",
+          "tier": "S0",
+          "name": "of Disaster"
+        },
+        {
+          "type": "explicit",
+          "text": "25% increased Critical Spell Damage Bonus",
+          "tier": "S0",
+          "name": "of Ferocity"
+        },
+        {
+          "type": "explicit",
+          "text": "22% increased Cast Speed",
+          "tier": "S1",
+          "name": "of Legerdemain"
+        },
+        {
+          "type": "crafted",
+          "text": "6% increased maximum Mana",
+          "tier": "P0",
+          "name": "Essences"
+        },
+        {
+          "type": "desecrate",
+          "text": "15% increased Spell Damage while on Full Energy Shield",
+          "tier": "P1",
+          "name": "Kurgal's"
+        },
+        {
+          "type": "explicit",
+          "text": "Grants 1 additional Skill Slot"
+        }
+      ]
+    },
+    {
+      "id": "61f0a5458787a9d9",
+      "name": "Blood Brow",
+      "base": "Ancestral Tiara",
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 1,
+      "price_amount": 27,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+64 to maximum Energy Shield",
+          "tier": "P1",
+          "name": "Dazzling"
+        },
+        {
+          "type": "explicit",
+          "text": "139% increased Energy Shield",
+          "tier": "P1",
+          "name": "Unassailable"
+        },
+        {
+          "type": "explicit",
+          "text": "+37 to maximum Mana",
+          "tier": "P1",
+          "name": "Angel's"
+        },
+        {
+          "type": "explicit",
+          "text": "+25% to Cold Resistance",
+          "tier": "S5",
+          "name": "of the Yeti"
+        },
+        {
+          "type": "explicit",
+          "text": "22.5 Life Regeneration per second",
+          "tier": "S1",
+          "name": "of Recuperation"
+        },
+        {
+          "type": "desecrate",
+          "text": "8% increased Spirit Reservation Efficiency of Skills",
+          "tier": "S1",
+          "name": "of Amanamu"
+        }
+      ]
+    },
+    {
+      "id": "b5fd25378ed90ead",
+      "name": "Loath Trail",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "desecrated": false,
+      "sockets": 2,
+      "price_amount": 27,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "51% reduced Chill Duration on you",
+          "tier": "S2",
+          "name": "of Dissipation"
+        },
+        {
+          "type": "explicit",
+          "text": "+56 to maximum Energy Shield",
+          "tier": "P1",
+          "name": "Blazing"
+        },
+        {
+          "type": "explicit",
+          "text": "99% increased Energy Shield",
+          "tier": "P1",
+          "name": "Unassailable"
+        },
+        {
+          "type": "explicit",
+          "text": "+119 to maximum Life",
+          "tier": "P2",
+          "name": "Virile"
+        },
+        {
+          "type": "explicit",
+          "text": "+27% to Chaos Resistance",
+          "tier": "S1",
+          "name": "of Bameth"
+        },
+        {
+          "type": "crafted",
+          "text": "60% increased effect of Socketed Augment Items",
+          "tier": "S0",
+          "name": "of the Essence"
+        }
+      ]
+    },
+    {
+      "id": "0ef39e1137445881",
+      "name": "Viper Prism",
+      "base": "Time-Lost Sapphire",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 29,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Notable Passive Skills in Radius also grant Minions have 9% increased Critical Damage Bonus",
+          "tier": "S1",
+          "name": "of Gripping"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+          "tier": "S1",
+          "name": "of Unmaking"
+        },
+        {
+          "type": "explicit",
+          "text": "Upgrades Radius to Large",
+          "tier": "P1",
+          "name": "Grand"
+        }
+      ]
+    },
+    {
+      "id": "80c85802b460348d",
+      "name": "Loath Circle",
+      "base": "Amethyst Ring",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 32,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+224 to Evasion Rating",
+          "tier": "P1",
+          "name": "Adroit"
+        },
+        {
+          "type": "explicit",
+          "text": "+179 to maximum Mana",
+          "tier": "P1",
+          "name": "Zaffre"
+        },
+        {
+          "type": "explicit",
+          "text": "16% increased Rarity of Items found",
+          "tier": "P1",
+          "name": "Hoarder's"
+        },
+        {
+          "type": "explicit",
+          "text": "Minions have +26% to all Elemental Resistances",
+          "tier": "S0",
+          "name": "of Conditioning"
+        },
+        {
+          "type": "explicit",
+          "text": "Minions have 57% increased Critical Hit Chance",
+          "tier": "S0",
+          "name": "of Lacinating"
+        },
+        {
+          "type": "desecrate",
+          "text": "17% increased Rarity of Items found",
+          "tier": "S1",
+          "name": "of Archaeology"
+        },
+        {
+          "type": "explicit",
+          "text": "+9% to Chaos Resistance"
+        }
+      ]
+    },
+    {
+      "id": "1f31d66b75ef769c",
+      "name": "Spirit Ward",
+      "base": "Ancestral Tiara",
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 1,
+      "price_amount": 35,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+72 to maximum Energy Shield",
+          "tier": "P1",
+          "name": "Dazzling"
+        },
+        {
+          "type": "explicit",
+          "text": "129% increased Energy Shield",
+          "tier": "P1",
+          "name": "Unassailable"
+        },
+        {
+          "type": "explicit",
+          "text": "+27 to maximum Life",
+          "tier": "P3",
+          "name": "Bishop's"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to Intelligence",
+          "tier": "S3",
+          "name": "of the Savant"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to Cold Resistance",
+          "tier": "S2",
+          "name": "of the Ice"
+        },
+        {
+          "type": "desecrate",
+          "text": "+17% to Cold and Chaos Resistances",
+          "tier": "S1",
+          "name": "of Kurgal"
+        }
+      ]
+    },
+    {
+      "id": "0bd618b815092c00",
+      "name": "Gale Dash",
+      "base": "Luxurious Slippers",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 2,
+      "price_amount": 37,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+53 to maximum Energy Shield",
+          "tier": "P2",
+          "name": "Pulsing"
+        },
+        {
+          "type": "explicit",
+          "text": "68% increased Energy Shield",
+          "tier": "P3",
+          "name": "Dauntless"
+        },
+        {
+          "type": "explicit",
+          "text": "+25% to Cold Resistance",
+          "tier": "S5",
+          "name": "of the Yeti"
+        },
+        {
+          "type": "crafted",
+          "text": "60% increased effect of Socketed Augment Items",
+          "tier": "S0",
+          "name": "of the Essence"
+        },
+        {
+          "type": "crafted",
+          "text": "+15 to Spirit",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "desecrate",
+          "text": "33% increased Movement Speed",
+          "tier": "P1",
+          "name": "Hellion's"
+        }
+      ]
+    },
+    {
+      "id": "f02b18950a871fab",
+      "name": "Maelström Gyre",
+      "base": "Mnemonic Ring",
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 48,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "33% increased Spell Damage",
+          "tier": "P0",
+          "name": "Glyphic"
+        },
+        {
+          "type": "explicit",
+          "text": "+114 to maximum Life",
+          "tier": "P1",
+          "name": "Virile"
+        },
+        {
+          "type": "explicit",
+          "text": "21% increased Cast Speed",
+          "tier": "S2",
+          "name": "of Sortilege"
+        },
+        {
+          "type": "explicit",
+          "text": "+27 to Dexterity",
+          "tier": "S3",
+          "name": "of the Leopard"
+        },
+        {
+          "type": "crafted",
+          "text": "8% increased maximum Mana",
+          "tier": "P0",
+          "name": "Essences"
+        },
+        {
+          "type": "desecrate",
+          "text": "Recover 4% of maximum Mana on Kill",
+          "tier": "S1",
+          "name": "of Kurgal"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "daf794f7f583ec45",
+      "name": "Wrath Spiral",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 48,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+102 to maximum Life",
+          "tier": "P1",
+          "name": "Virile"
+        },
+        {
+          "type": "explicit",
+          "text": "16% increased Critical Spell Damage Bonus",
+          "tier": "S0",
+          "name": "of Rage"
+        },
+        {
+          "type": "explicit",
+          "text": "20% increased Cast Speed",
+          "tier": "S2",
+          "name": "of Sortilege"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain 16 Mana per enemy killed",
+          "tier": "S3",
+          "name": "of Enveloping"
+        },
+        {
+          "type": "crafted",
+          "text": "8% increased maximum Mana",
+          "tier": "P0",
+          "name": "Essences"
+        },
+        {
+          "type": "desecrate",
+          "text": "+126 to maximum Mana",
+          "tier": "P5",
+          "name": "Gentian"
+        },
+        {
+          "type": "explicit",
+          "text": "7% increased maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "1e7763f42ec865ed",
+      "name": "Kraken Band",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 55,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+177 to Evasion Rating",
+          "tier": "P2",
+          "name": "Elusory"
+        },
+        {
+          "type": "explicit",
+          "text": "27% increased Lightning Damage",
+          "tier": "P1",
+          "name": "Smiting"
+        },
+        {
+          "type": "explicit",
+          "text": "+35% to Fire Resistance",
+          "tier": "S3",
+          "name": "of the Volcano"
+        },
+        {
+          "type": "explicit",
+          "text": "68% increased Mana Regeneration Rate",
+          "tier": "S3",
+          "name": "of Bliss"
+        },
+        {
+          "type": "explicit",
+          "text": "36% increased Mana Cost Efficiency of Spells",
+          "tier": "P0",
+          "name": "Calculating"
+        },
+        {
+          "type": "desecrate",
+          "text": "18% increased Rarity of Items found",
+          "tier": "S1",
+          "name": "of Archaeology"
+        },
+        {
+          "type": "explicit",
+          "text": "5% increased maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "56319960e1bc301d",
+      "name": "Vengeance Glance",
+      "base": "Ancestral Tiara",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 1,
+      "price_amount": 77,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+73 to maximum Energy Shield",
+          "tier": "P1",
+          "name": "Dazzling"
+        },
+        {
+          "type": "explicit",
+          "text": "138% increased Energy Shield",
+          "tier": "P1",
+          "name": "Unassailable"
+        },
+        {
+          "type": "explicit",
+          "text": "+38 to maximum Mana",
+          "tier": "P1",
+          "name": "Angel's"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to Intelligence",
+          "tier": "S2",
+          "name": "of the Virtuoso"
+        },
+        {
+          "type": "explicit",
+          "text": "+27% to Chaos Resistance",
+          "tier": "S1",
+          "name": "of Bameth"
+        },
+        {
+          "type": "desecrate",
+          "text": "+37% to Lightning Resistance",
+          "tier": "S2",
+          "name": "of the Lightning"
+        }
+      ]
+    },
+    {
+      "id": "d992aa16ad445455",
+      "name": "Foe Gyre",
+      "base": "Iron Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 88,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "Adds 19 to 32 Fire damage to Attacks",
+          "tier": "P3",
+          "name": "Incinerating"
+        },
+        {
+          "type": "explicit",
+          "text": "+107 to maximum Life",
+          "tier": "P1",
+          "name": "Virile"
+        },
+        {
+          "type": "explicit",
+          "text": "21% increased Critical Hit Chance for Spells",
+          "tier": "S0",
+          "name": "of Disaster"
+        },
+        {
+          "type": "explicit",
+          "text": "23% increased Critical Spell Damage Bonus",
+          "tier": "S0",
+          "name": "of Rage"
+        },
+        {
+          "type": "explicit",
+          "text": "28% increased Cast Speed",
+          "tier": "S2",
+          "name": "of Sortilege"
+        },
+        {
+          "type": "desecrate",
+          "text": "29% increased Lightning Damage",
+          "tier": "P1",
+          "name": "Smiting"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 1 to 4 Physical Damage to Attacks"
+        }
+      ]
+    },
+    {
+      "id": "615e4df118ae5692",
+      "name": "Dire March",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 2,
+      "price_amount": 88,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "93% increased Energy Shield",
+          "tier": "P1",
+          "name": "Unassailable"
+        },
+        {
+          "type": "explicit",
+          "text": "+123 to maximum Mana",
+          "tier": "P1",
+          "name": "Chalybeous"
+        },
+        {
+          "type": "explicit",
+          "text": "+39% to Cold Resistance",
+          "tier": "S2",
+          "name": "of the Ice"
+        },
+        {
+          "type": "crafted",
+          "text": "60% increased effect of Socketed Augment Items",
+          "tier": "S0",
+          "name": "of the Essence"
+        },
+        {
+          "type": "crafted",
+          "text": "+11 to Spirit",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "desecrate",
+          "text": "35% increased Movement Speed",
+          "tier": "P1",
+          "name": "Hellion's"
+        }
+      ]
+    },
+    {
+      "id": "7624820de7a3bc54",
+      "name": "Onslaught Road",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 2,
+      "price_amount": 111,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "30% increased Movement Speed",
+          "tier": "P2",
+          "name": "Cheetah's"
+        },
+        {
+          "type": "explicit",
+          "text": "99% increased Energy Shield",
+          "tier": "P1",
+          "name": "Unassailable"
+        },
+        {
+          "type": "explicit",
+          "text": "+41% to Cold Resistance",
+          "tier": "S1",
+          "name": "of Haast"
+        },
+        {
+          "type": "desecrate",
+          "text": "+60 to maximum Energy Shield",
+          "tier": "P1",
+          "name": "Blazing"
+        },
+        {
+          "type": "crafted",
+          "text": "60% increased effect of Socketed Augment Items",
+          "tier": "S0",
+          "name": "of the Essence"
+        },
+        {
+          "type": "crafted",
+          "text": "+10 to Spirit",
+          "tier": "S0",
+          "name": "of the Stars"
+        }
+      ]
+    },
+    {
+      "id": "1d77efa9795ee9b0",
+      "name": "Tempest Finger",
+      "base": "Amethyst Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": false,
+      "sockets": 0,
+      "price_amount": 111,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "20% increased Lightning Damage",
+          "tier": "P3",
+          "name": "Coursing"
+        },
+        {
+          "type": "explicit",
+          "text": "+127 to maximum Mana",
+          "tier": "P3",
+          "name": "Mazarine"
+        },
+        {
+          "type": "explicit",
+          "text": "34% increased Critical Spell Damage Bonus",
+          "tier": "S0",
+          "name": "of Ferocity"
+        },
+        {
+          "type": "explicit",
+          "text": "34% increased Cast Speed",
+          "tier": "S1",
+          "name": "of Legerdemain"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to Strength",
+          "tier": "S1",
+          "name": "of the Titan"
+        },
+        {
+          "type": "crafted",
+          "text": "5% increased maximum Mana",
+          "tier": "P0",
+          "name": "Essences"
+        },
+        {
+          "type": "explicit",
+          "text": "+11% to Chaos Resistance"
+        }
+      ]
+    },
+    {
+      "id": "49dbb64cf0a7027f",
+      "name": "Demon Tread",
+      "base": "Bound Sandals",
+      "ilvl": 83,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 2,
+      "price_amount": 120,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed",
+          "tier": "P1",
+          "name": "Hellion's"
+        },
+        {
+          "type": "explicit",
+          "text": "97% increased Energy Shield",
+          "tier": "P1",
+          "name": "Unassailable"
+        },
+        {
+          "type": "explicit",
+          "text": "+23% to Lightning Resistance",
+          "tier": "S5",
+          "name": "of the Thunderhead"
+        },
+        {
+          "type": "desecrate",
+          "text": "+59 to maximum Energy Shield",
+          "tier": "P1",
+          "name": "Blazing"
+        },
+        {
+          "type": "crafted",
+          "text": "60% increased effect of Socketed Augment Items",
+          "tier": "S0",
+          "name": "of the Essence"
+        },
+        {
+          "type": "crafted",
+          "text": "+13 to Spirit",
+          "tier": "S0",
+          "name": "of the Stars"
+        }
+      ]
+    },
+    {
+      "id": "9e05d66c8bf436e4",
+      "name": "Rift March",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 2,
+      "price_amount": 122,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed",
+          "tier": "P1",
+          "name": "Hellion's"
+        },
+        {
+          "type": "explicit",
+          "text": "96% increased Energy Shield",
+          "tier": "P1",
+          "name": "Unassailable"
+        },
+        {
+          "type": "explicit",
+          "text": "+24 to Intelligence",
+          "tier": "S4",
+          "name": "of the Philosopher"
+        },
+        {
+          "type": "desecrate",
+          "text": "+60 to maximum Energy Shield",
+          "tier": "P1",
+          "name": "Blazing"
+        },
+        {
+          "type": "crafted",
+          "text": "60% increased effect of Socketed Augment Items",
+          "tier": "S0",
+          "name": "of the Essence"
+        },
+        {
+          "type": "crafted",
+          "text": "+13 to Spirit",
+          "tier": "S0",
+          "name": "of the Stars"
+        }
+      ]
+    },
+    {
+      "id": "6e29affc683deeaa",
+      "name": "Morbid Spark",
+      "base": "Bound Sandals",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 2,
+      "price_amount": 177,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "35% increased Movement Speed",
+          "tier": "P1",
+          "name": "Hellion's"
+        },
+        {
+          "type": "explicit",
+          "text": "100% increased Energy Shield",
+          "tier": "P1",
+          "name": "Unassailable"
+        },
+        {
+          "type": "explicit",
+          "text": "+30 to Intelligence",
+          "tier": "S2",
+          "name": "of the Savant"
+        },
+        {
+          "type": "desecrate",
+          "text": "+58 to maximum Energy Shield",
+          "tier": "P1",
+          "name": "Blazing"
+        },
+        {
+          "type": "crafted",
+          "text": "60% increased effect of Socketed Augment Items",
+          "tier": "S0",
+          "name": "of the Essence"
+        },
+        {
+          "type": "crafted",
+          "text": "+15 to Spirit",
+          "tier": "S0",
+          "name": "of the Stars"
+        }
+      ]
+    },
+    {
+      "id": "ac689b85d8cfbdf9",
+      "name": "Hate Grip",
+      "base": "Mnemonic Ring",
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 177,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "17% increased Critical Hit Chance for Spells",
+          "tier": "S0",
+          "name": "of Calamity"
+        },
+        {
+          "type": "explicit",
+          "text": "+219 to maximum Mana",
+          "tier": "P2",
+          "name": "Blue"
+        },
+        {
+          "type": "explicit",
+          "text": "24% increased Cast Speed",
+          "tier": "S1",
+          "name": "of Legerdemain"
+        },
+        {
+          "type": "explicit",
+          "text": "+32 to Strength",
+          "tier": "S1",
+          "name": "of the Titan"
+        },
+        {
+          "type": "crafted",
+          "text": "8% increased maximum Mana",
+          "tier": "P0",
+          "name": "Essences"
+        },
+        {
+          "type": "desecrate",
+          "text": "Gain 8% of Damage as Extra Fire Damage with Spells",
+          "tier": "P0",
+          "name": "Fire Breather's"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "c54c4ec92f841a38",
+      "name": "Oblivion Vessel",
+      "base": "Sapphire",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 211,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "31% increased Critical Damage Bonus",
+          "tier": "S1",
+          "name": "of Potency"
+        },
+        {
+          "type": "explicit",
+          "text": "23% increased Critical Hit Chance for Spells",
+          "tier": "S1",
+          "name": "of Annihilating"
+        },
+        {
+          "type": "explicit",
+          "text": "11% increased Elemental Damage",
+          "tier": "P1",
+          "name": "Prismatic"
+        },
+        {
+          "type": "desecrate",
+          "text": "30% increased Critical Spell Damage Bonus",
+          "tier": "S1",
+          "name": "of Unmaking"
+        },
+        {
+          "type": "crafted",
+          "text": "58% increased Effect of Suffixes",
+          "tier": "P0",
+          "name": null
+        }
+      ]
+    },
+    {
+      "id": "322b6df0c4700423",
+      "name": "Bramble Essence",
+      "base": "Time-Lost Sapphire",
+      "ilvl": 78,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 229,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+          "tier": "S1",
+          "name": "of Unmaking"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+          "tier": "S1",
+          "name": "of Potency"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 6% increased Magnitude of Ailments you inflict",
+          "tier": "P1",
+          "name": "Acrimonious"
+        },
+        {
+          "type": "desecrate",
+          "text": "Notable Passive Skills in Radius also grant 3% increased Critical Hit Chance",
+          "tier": "S1",
+          "name": "of Annihilation"
+        },
+        {
+          "type": "crafted",
+          "text": "Upgrades Radius to Very Large",
+          "tier": "P0",
+          "name": null
+        }
+      ]
+    },
+    {
+      "id": "7c1bc4024be3d270",
+      "name": "Dragon Shard",
+      "base": "Time-Lost Sapphire",
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 255,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+          "tier": "S1",
+          "name": "of Unmaking"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 5% increased Critical Hit Chance for Spells",
+          "tier": "S1",
+          "name": "of Annihilating"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 5% faster start of Energy Shield Recharge",
+          "tier": "P1",
+          "name": "Serene"
+        },
+        {
+          "type": "desecrate",
+          "text": "Notable Passive Skills in Radius also grant 6% increased Critical Damage Bonus",
+          "tier": "S1",
+          "name": "of Potency"
+        },
+        {
+          "type": "crafted",
+          "text": "Upgrades Radius to Very Large",
+          "tier": "P0",
+          "name": null
+        }
+      ]
+    },
+    {
+      "id": "567409736c6d8a32",
+      "name": "Bramble Lens",
+      "base": "Sapphire",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 277,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "30% increased Critical Spell Damage Bonus",
+          "tier": "S1",
+          "name": "of Unmaking"
+        },
+        {
+          "type": "explicit",
+          "text": "22% increased Critical Hit Chance for Spells",
+          "tier": "S1",
+          "name": "of Annihilating"
+        },
+        {
+          "type": "explicit",
+          "text": "45% increased Energy Shield from Equipped Focus",
+          "tier": "P1",
+          "name": "Focusing"
+        },
+        {
+          "type": "desecrate",
+          "text": "29% increased Critical Damage Bonus",
+          "tier": "S1",
+          "name": "of Potency"
+        },
+        {
+          "type": "crafted",
+          "text": "53% increased Effect of Suffixes",
+          "tier": "P0",
+          "name": null
+        }
+      ]
+    },
+    {
+      "id": "2fbea92031e24c71",
+      "name": "Plague Essence",
+      "base": "Time-Lost Sapphire",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 277,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+          "tier": "S1",
+          "name": "of Unmaking"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+          "tier": "S1",
+          "name": "of Potency"
+        },
+        {
+          "type": "explicit",
+          "text": "Notable Passive Skills in Radius also grant 7% increased Magnitude of Ailments you inflict",
+          "tier": "P1",
+          "name": "Acrimonious"
+        },
+        {
+          "type": "desecrate",
+          "text": "Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+          "tier": "S1",
+          "name": "of Annihilation"
+        },
+        {
+          "type": "crafted",
+          "text": "Upgrades Radius to Very Large",
+          "tier": "P0",
+          "name": null
+        }
+      ]
+    },
+    {
+      "id": "bb70d56da8dcf481",
+      "name": "Soul Star",
+      "base": "Sapphire",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 277,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "31% increased Critical Damage Bonus",
+          "tier": "S1",
+          "name": "of Potency"
+        },
+        {
+          "type": "explicit",
+          "text": "20% increased Critical Hit Chance for Spells",
+          "tier": "S1",
+          "name": "of Annihilating"
+        },
+        {
+          "type": "explicit",
+          "text": "46% increased Energy Shield from Equipped Focus",
+          "tier": "P1",
+          "name": "Focusing"
+        },
+        {
+          "type": "desecrate",
+          "text": "31% increased Critical Spell Damage Bonus",
+          "tier": "S1",
+          "name": "of Unmaking"
+        },
+        {
+          "type": "crafted",
+          "text": "56% increased Effect of Suffixes",
+          "tier": "P0",
+          "name": null
+        }
+      ]
+    },
+    {
+      "id": "0dc2fc60530a615e",
+      "name": "Hate Turn",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 422,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+116 to maximum Life",
+          "tier": "P1",
+          "name": "Virile"
+        },
+        {
+          "type": "explicit",
+          "text": "21% increased Critical Hit Chance for Spells",
+          "tier": "S0",
+          "name": "of Disaster"
+        },
+        {
+          "type": "explicit",
+          "text": "40% increased Critical Spell Damage Bonus",
+          "tier": "S0",
+          "name": "of Destruction"
+        },
+        {
+          "type": "explicit",
+          "text": "29% increased Cast Speed",
+          "tier": "S2",
+          "name": "of Sortilege"
+        },
+        {
+          "type": "crafted",
+          "text": "6% increased maximum Mana",
+          "tier": "P0",
+          "name": "Essences"
+        },
+        {
+          "type": "desecrate",
+          "text": "+174 to maximum Mana",
+          "tier": "P1",
+          "name": "Zaffre"
+        },
+        {
+          "type": "explicit",
+          "text": "5% increased maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "6cdbb22d3382d5b0",
+      "name": "Vengeance Loop",
+      "base": "Prismatic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 422,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "46% increased Spell Damage",
+          "tier": "P0",
+          "name": "Glyphic"
+        },
+        {
+          "type": "explicit",
+          "text": "+116 to maximum Mana",
+          "tier": "P4",
+          "name": "Chalybeous"
+        },
+        {
+          "type": "explicit",
+          "text": "30% increased Critical Spell Damage Bonus",
+          "tier": "S0",
+          "name": "of Ferocity"
+        },
+        {
+          "type": "explicit",
+          "text": "29% increased Cast Speed",
+          "tier": "S2",
+          "name": "of Sortilege"
+        },
+        {
+          "type": "crafted",
+          "text": "5% increased maximum Mana",
+          "tier": "P0",
+          "name": "Essences"
+        },
+        {
+          "type": "desecrate",
+          "text": "Recover 3% of maximum Mana on Kill",
+          "tier": "S1",
+          "name": "of Kurgal"
+        },
+        {
+          "type": "explicit",
+          "text": "+7% to all Elemental Resistances"
+        }
+      ]
+    },
+    {
+      "id": "efd590acfaa44247",
+      "name": "Demon Clasp",
+      "base": "Solar Amulet",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 444,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+130 to maximum Life",
+          "tier": "P2",
+          "name": "Virile"
+        },
+        {
+          "type": "explicit",
+          "text": "+209 to maximum Mana",
+          "tier": "P2",
+          "name": "Zaffre"
+        },
+        {
+          "type": "explicit",
+          "text": "+4 to Level of all Spell Skills",
+          "tier": "S1",
+          "name": "of the Sorcerer"
+        },
+        {
+          "type": "explicit",
+          "text": "38% increased Critical Damage Bonus",
+          "tier": "S1",
+          "name": "of Destruction"
+        },
+        {
+          "type": "explicit",
+          "text": "25% increased Cast Speed",
+          "tier": "S4",
+          "name": "of Expertise"
+        },
+        {
+          "type": "desecrate",
+          "text": "+55 to Spirit",
+          "tier": "P2",
+          "name": "Marchioness'"
+        },
+        {
+          "type": "explicit",
+          "text": "+13 to Spirit"
+        }
+      ]
+    },
+    {
+      "id": "24eb729122e518f9",
+      "name": "Vortex Claw",
+      "base": "Runeforged Sirenscale Gloves",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 2,
+      "price_amount": 455,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "29% increased Projectile Damage",
+          "tier": "P2",
+          "name": "Kolr's"
+        },
+        {
+          "type": "explicit",
+          "text": "40% increased Projectile Speed",
+          "tier": "P1",
+          "name": "Kolr's"
+        },
+        {
+          "type": "explicit",
+          "text": "+2 to Level of all Projectile Skills",
+          "tier": "S1",
+          "name": "of the Hunt"
+        },
+        {
+          "type": "crafted",
+          "text": "60% increased effect of Socketed Augment Items",
+          "tier": "S0",
+          "name": "of the Essence"
+        },
+        {
+          "type": "crafted",
+          "text": "29% increased Critical Damage Bonus",
+          "tier": "S2",
+          "name": "of Fury"
+        },
+        {
+          "type": "desecrate",
+          "text": "+120 to maximum Mana",
+          "tier": "P1",
+          "name": "Chalybeous"
+        }
+      ]
+    },
+    {
+      "id": "bec151a95ac74002",
+      "name": "Tempest Grasp",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 544,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "24% increased Critical Spell Damage Bonus",
+          "tier": "S0",
+          "name": "of Ferocity"
+        },
+        {
+          "type": "explicit",
+          "text": "15% increased Rarity of Items found",
+          "tier": "S1",
+          "name": "of Archaeology"
+        },
+        {
+          "type": "explicit",
+          "text": "79% increased Mana Regeneration Rate",
+          "tier": "S2",
+          "name": "of Euphoria"
+        },
+        {
+          "type": "explicit",
+          "text": "36% increased Mana Cost Efficiency of Spells",
+          "tier": "P0",
+          "name": "Calculating"
+        },
+        {
+          "type": "crafted",
+          "text": "8% increased maximum Mana",
+          "tier": "P0",
+          "name": "Essences"
+        },
+        {
+          "type": "desecrate",
+          "text": "+240 to maximum Mana",
+          "tier": "P1",
+          "name": "Zaffre"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "b39985189a4c84f4",
+      "name": "Hate Strap",
+      "base": "Mail Belt",
+      "ilvl": 83,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 555,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Minions have 48% increased Immobilisation buildup",
+          "tier": "S0",
+          "name": "of Grappling"
+        },
+        {
+          "type": "explicit",
+          "text": "+153 to maximum Life",
+          "tier": "P1",
+          "name": "Fecund"
+        },
+        {
+          "type": "explicit",
+          "text": "+110 to maximum Mana",
+          "tier": "P1",
+          "name": "Chalybeous"
+        },
+        {
+          "type": "explicit",
+          "text": "+2 to Level of all Minion Skills",
+          "tier": "S0",
+          "name": "of the Despot"
+        },
+        {
+          "type": "explicit",
+          "text": "85 to 138 Physical Thorns damage",
+          "tier": "P2",
+          "name": "Edged"
+        },
+        {
+          "type": "desecrate",
+          "text": "Minions' Strikes have Melee Splash",
+          "tier": "S0",
+          "name": "of Ravaging"
+        },
+        {
+          "type": "explicit",
+          "text": "13% reduced Flask Charges used"
+        },
+        {
+          "type": "explicit",
+          "text": "Has 2 Charm Slots"
+        }
+      ]
+    },
+    {
+      "id": "776231b0f33cca47",
+      "name": "Golem Mantle",
+      "base": "Sleek Jacket",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 3,
+      "price_amount": 680,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+161 to Evasion Rating",
+          "tier": "P1",
+          "name": "Banshee's"
+        },
+        {
+          "type": "fractured",
+          "text": "+48 to maximum Energy Shield",
+          "tier": "P1",
+          "name": "Banshee's"
+        },
+        {
+          "type": "explicit",
+          "text": "+44 to Evasion Rating",
+          "tier": "P1",
+          "name": "Stalker's"
+        },
+        {
+          "type": "explicit",
+          "text": "+14 to maximum Energy Shield",
+          "tier": "P1",
+          "name": "Stalker's"
+        },
+        {
+          "type": "explicit",
+          "text": "146% increased Evasion and Energy Shield",
+          "tier": "P1",
+          "name": "Incorporeal"
+        },
+        {
+          "type": "explicit",
+          "text": "+42% to Fire Resistance",
+          "tier": "S1",
+          "name": "of Tzteosh"
+        },
+        {
+          "type": "explicit",
+          "text": "+41% to Lightning Resistance",
+          "tier": "S1",
+          "name": "of Ephij"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain Deflection Rating equal to 25% of Evasion Rating",
+          "tier": "S1",
+          "name": "of Warping"
+        },
+        {
+          "type": "desecrate",
+          "text": "+37% to Cold Resistance",
+          "tier": "S2",
+          "name": "of the Ice"
+        }
+      ]
+    },
+    {
+      "id": "1d28fc118c44a1cc",
+      "name": "Blight Weaver",
+      "base": "Dueling Wand",
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 2,
+      "price_amount": 850,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+4 to Level of all Spell Skills",
+          "tier": "S1",
+          "name": "of the Wizard"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain 30% of Damage as Extra Cold Damage",
+          "tier": "P1",
+          "name": "Frostbound"
+        },
+        {
+          "type": "explicit",
+          "text": "59% increased Critical Hit Chance for Spells",
+          "tier": "S2",
+          "name": "of Ruin"
+        },
+        {
+          "type": "crafted",
+          "text": "+179 to maximum Mana",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "+1 to Level of all Spell Skills",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "28% increased Cast Speed",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "crafted",
+          "text": "Gain 10% of Elemental Damage as Extra Cold Damage",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "desecrate",
+          "text": "86% increased Elemental Damage",
+          "tier": "P1",
+          "name": "Amanamu's"
+        }
+      ]
+    },
+    {
+      "id": "963cc2eeeb29505e",
+      "name": "Pain Scratch",
+      "base": "Dueling Wand",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 1,
+      "price_amount": 1000,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+4 to Level of all Spell Skills",
+          "tier": "S1",
+          "name": "of the Wizard"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain 30% of Damage as Extra Fire Damage",
+          "tier": "P1",
+          "name": "Flamebound"
+        },
+        {
+          "type": "explicit",
+          "text": "37% increased Critical Spell Damage Bonus",
+          "tier": "S1",
+          "name": "of Destruction"
+        },
+        {
+          "type": "crafted",
+          "text": "+186 to maximum Mana",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "+1 to Level of all Spell Skills",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "46% increased Cast Speed",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "crafted",
+          "text": "Gain 11% of Elemental Damage as Extra Cold Damage",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "desecrate",
+          "text": "85% increased Elemental Damage",
+          "tier": "P1",
+          "name": "Amanamu's"
+        }
+      ]
+    },
+    {
+      "id": "73c306b175f2fbdc",
+      "name": "Empyrean Call",
+      "base": "Dueling Wand",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": false,
+      "sockets": 0,
+      "price_amount": 1000,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+4 to Level of all Spell Skills",
+          "tier": "S1",
+          "name": "of the Wizard"
+        },
+        {
+          "type": "explicit",
+          "text": "39% increased Critical Spell Damage Bonus",
+          "tier": "S1",
+          "name": "of Destruction"
+        },
+        {
+          "type": "crafted",
+          "text": "42% increased Cast Speed",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "crafted",
+          "text": "Gain 14% of Elemental Damage as Extra Cold Damage",
+          "tier": "S0",
+          "name": "of the Stars"
+        }
+      ]
+    },
+    {
+      "id": "a2600c589783ff17",
+      "name": "Hate Siege",
+      "base": "Obliterator Bow",
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 3,
+      "price_amount": 1222,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "179% increased Physical Damage",
+          "tier": "P1",
+          "name": "Merciless"
+        },
+        {
+          "type": "explicit",
+          "text": "Adds 38 to 66 Physical Damage",
+          "tier": "P1",
+          "name": "Flaring"
+        },
+        {
+          "type": "explicit",
+          "text": "19% increased Attack Speed",
+          "tier": "S1",
+          "name": "of Acclaim"
+        },
+        {
+          "type": "desecrate",
+          "text": "72% increased Physical Damage",
+          "tier": "P2",
+          "name": "Emperor's"
+        },
+        {
+          "type": "desecrate",
+          "text": "+158 to Accuracy Rating",
+          "tier": "P2",
+          "name": "Emperor's"
+        },
+        {
+          "type": "crafted",
+          "text": "17% increased Physical Damage",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "crafted",
+          "text": "+2 to Level of all Attack Skills",
+          "tier": "S0",
+          "name": "of the Essence"
+        },
+        {
+          "type": "crafted",
+          "text": "+10 to all Attributes",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "explicit",
+          "text": "50% reduced Projectile Range"
+        }
+      ]
+    },
+    {
+      "id": "e014666021f47793",
+      "name": "Blood Finger",
+      "base": "Unset Ring",
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 1300,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Adds 7 to 13 Cold damage to Attacks",
+          "tier": "P6",
+          "name": "Frigid"
+        },
+        {
+          "type": "explicit",
+          "text": "27% increased Cold Damage",
+          "tier": "P1",
+          "name": "Crystalline"
+        },
+        {
+          "type": "explicit",
+          "text": "+173 to maximum Mana",
+          "tier": "P1",
+          "name": "Zaffre"
+        },
+        {
+          "type": "explicit",
+          "text": "+1 to Level of all Spell Skills",
+          "tier": "S0",
+          "name": "of Jordan"
+        },
+        {
+          "type": "explicit",
+          "text": "23% increased Critical Spell Damage Bonus",
+          "tier": "S0",
+          "name": "of Rage"
+        },
+        {
+          "type": "desecrate",
+          "text": "30% increased Cast Speed",
+          "tier": "S1",
+          "name": "of Legerdemain"
+        },
+        {
+          "type": "explicit",
+          "text": "Grants 1 additional Skill Slot"
+        }
+      ]
+    },
+    {
+      "id": "e24694fcdf5e39fc",
+      "name": "Rage Circle",
+      "base": "Mnemonic Ring",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 0,
+      "price_amount": 1300,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "36% increased Mana Cost Efficiency of Spells",
+          "tier": "P0",
+          "name": "Calculating"
+        },
+        {
+          "type": "explicit",
+          "text": "+200 to maximum Mana",
+          "tier": "P3",
+          "name": "Mazarine"
+        },
+        {
+          "type": "explicit",
+          "text": "21% increased Critical Hit Chance for Spells",
+          "tier": "S0",
+          "name": "of Ruin"
+        },
+        {
+          "type": "explicit",
+          "text": "93% increased Mana Regeneration Rate",
+          "tier": "S1",
+          "name": "of Nirvana"
+        },
+        {
+          "type": "desecrate",
+          "text": "23% increased Cast Speed",
+          "tier": "S1",
+          "name": "of Legerdemain"
+        },
+        {
+          "type": "crafted",
+          "text": "8% increased maximum Mana",
+          "tier": "P0",
+          "name": "Essences"
+        },
+        {
+          "type": "explicit",
+          "text": "8% increased maximum Mana"
+        }
+      ]
+    },
+    {
+      "id": "4f3ec27ab61441eb",
+      "name": "Miracle Gnarl",
+      "base": "Dueling Wand",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 1,
+      "price_amount": 1500,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+4 to Level of all Spell Skills",
+          "tier": "S1",
+          "name": "of the Wizard"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain 28% of Damage as Extra Fire Damage",
+          "tier": "P1",
+          "name": "Flamebound"
+        },
+        {
+          "type": "explicit",
+          "text": "37% increased Critical Spell Damage Bonus",
+          "tier": "S1",
+          "name": "of Destruction"
+        },
+        {
+          "type": "crafted",
+          "text": "+150 to maximum Mana",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "+1 to Level of all Spell Skills",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "47% increased Cast Speed",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "crafted",
+          "text": "Gain 15% of Elemental Damage as Extra Cold Damage",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "desecrate",
+          "text": "88% increased Elemental Damage",
+          "tier": "P1",
+          "name": "Amanamu's"
+        }
+      ]
+    },
+    {
+      "id": "10883d29af894baa",
+      "name": "Empyrean Spell",
+      "base": "Dueling Wand",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 2,
+      "price_amount": 1500,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "19% increased Critical Spell Damage Bonus",
+          "tier": "S5",
+          "name": "of Anger"
+        },
+        {
+          "type": "explicit",
+          "text": "86% increased Spell Damage",
+          "tier": "P3",
+          "name": "Incanter's"
+        },
+        {
+          "type": "explicit",
+          "text": "+4 to Level of all Spell Skills",
+          "tier": "S1",
+          "name": "of the Wizard"
+        },
+        {
+          "type": "crafted",
+          "text": "+172 to maximum Mana",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "+1 to Level of all Spell Skills",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "45% increased Cast Speed",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "crafted",
+          "text": "Gain 16% of Elemental Damage as Extra Cold Damage",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "desecrate",
+          "text": "86% increased Elemental Damage",
+          "tier": "P1",
+          "name": "Amanamu's"
+        }
+      ]
+    },
+    {
+      "id": "b2b95a5ed0c4d8b3",
+      "name": "Dire Anthem",
+      "base": "Sacred Focus",
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 1,
+      "price_amount": 1500,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+2 to Level of all Spell Skills",
+          "tier": "S1",
+          "name": "of the Enchanter"
+        },
+        {
+          "type": "explicit",
+          "text": "99% increased Energy Shield",
+          "tier": "P1",
+          "name": "Unassailable"
+        },
+        {
+          "type": "explicit",
+          "text": "76% increased Lightning Damage",
+          "tier": "P1",
+          "name": "Smiting"
+        },
+        {
+          "type": "explicit",
+          "text": "58% increased Critical Hit Chance for Spells",
+          "tier": "S1",
+          "name": "of Ruin"
+        },
+        {
+          "type": "crafted",
+          "text": "45% increased Cast Speed",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "crafted",
+          "text": "Gain 16% of Elemental Damage as Extra Cold Damage",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "desecrate",
+          "text": "71% increased Spell Damage",
+          "tier": "P2",
+          "name": "Occultist's"
+        }
+      ]
+    },
+    {
+      "id": "7f51536925cf4563",
+      "name": "Wrath Song",
+      "base": "Dueling Wand",
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 2,
+      "price_amount": 1500,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Gain 28 Mana per enemy killed",
+          "tier": "S2",
+          "name": "of Devouring"
+        },
+        {
+          "type": "explicit",
+          "text": "Gain 30% of Damage as Extra Cold Damage",
+          "tier": "P1",
+          "name": "Frostbound"
+        },
+        {
+          "type": "explicit",
+          "text": "+4 to Level of all Spell Skills",
+          "tier": "S1",
+          "name": "of the Wizard"
+        },
+        {
+          "type": "crafted",
+          "text": "+169 to maximum Mana",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "+1 to Level of all Spell Skills",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "42% increased Cast Speed",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "crafted",
+          "text": "Gain 15% of Elemental Damage as Extra Cold Damage",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "desecrate",
+          "text": "78% increased Elemental Damage",
+          "tier": "P1",
+          "name": "Amanamu's"
+        }
+      ]
+    },
+    {
+      "id": "3bda590cdef199e1",
+      "name": "Storm Call",
+      "base": "Dueling Wand",
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "desecrated": true,
+      "sockets": 2,
+      "price_amount": 2222,
+      "price_currency": "divine",
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+4 to Level of all Spell Skills",
+          "tier": "S1",
+          "name": "of the Wizard"
+        },
+        {
+          "type": "explicit",
+          "text": "114% increased Lightning Damage",
+          "tier": "P1",
+          "name": "Electromancer's"
+        },
+        {
+          "type": "explicit",
+          "text": "32% increased Critical Spell Damage Bonus",
+          "tier": "S2",
+          "name": "of Ferocity"
+        },
+        {
+          "type": "crafted",
+          "text": "+150 to maximum Mana",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "+1 to Level of all Spell Skills",
+          "tier": "P0",
+          "name": "Verisium"
+        },
+        {
+          "type": "crafted",
+          "text": "31% increased Cast Speed",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "crafted",
+          "text": "Gain 8% of Elemental Damage as Extra Cold Damage",
+          "tier": "S0",
+          "name": "of the Stars"
+        },
+        {
+          "type": "desecrate",
+          "text": "108% increased Spell Damage",
+          "tier": "P1",
+          "name": "Runic"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,2662 @@
+{
+  "search_id": "8rWqXEaVhV",
+  "total": 62,
+  "filters": "ES≥900, totalRes≥60, attr≥20, chest, not corrupted/mirrored",
+  "items": [
+    {
+      "id": "76758e5239389068cccee1c65d7984af983346f09fdbab9f31513afdf39c9784",
+      "name": "Glyph Shroud",
+      "base": "Vile Robe",
+      "ilvl": 81,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 20,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+94 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "38% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "+40 to maximum Life",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "+29 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "crafted",
+          "text": "+33% to [Resistances|Cold Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "93% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "3676c4e8315aeca41dc69546ae164a838c22d855e4a2cbd86f0d21d28c4fa81a",
+      "name": "Torment Veil",
+      "base": "Sacramental Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "23% increased [ESRechargeRate|Energy Shield Recharge Rate]",
+      "price_amount": 25,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+92 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "97% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "+32 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+30% to [Resistances|Fire Resistance]",
+          "tier": "S4"
+        },
+        {
+          "type": "crafted",
+          "text": "+34% to [Resistances|Lightning Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "+25 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "desecrated",
+          "text": "37% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "847d7fef7494c8199cf9d43db6122c8b9cf7d132a93be919fb2443409f150644",
+      "name": "Demon Veil",
+      "base": "Vile Robe",
+      "ilvl": 79,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 40,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+33% to [Resistances|Fire Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+82 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "41% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "110% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "dc11ce283041228eca7101359e9b94b429d7e42d35204b0397c12bac7a6ce88f",
+      "name": "Gloom Cloak",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 48,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+39% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+112 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "36% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "+21 to [Intelligence|Intelligence]",
+          "tier": "S4"
+        },
+        {
+          "type": "explicit",
+          "text": "+29% to [Resistances|Fire Resistance]",
+          "tier": "S4"
+        },
+        {
+          "type": "desecrated",
+          "text": "99% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "e5b634b2118ed4c335f62889aeb61859aef8826f2b293fa67ddc261648519a58",
+      "name": "Sorrow Shelter",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 55,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+42% to [Resistances|Lightning Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "150% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+43 to maximum Life",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+25 to [Intelligence|Intelligence]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+31% to [Resistances|Cold Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "+88 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "a543fe50e59e4d34337f64cb699cfbffe26441041513de44653230daf9e8dc9c",
+      "name": "Doom Shelter",
+      "base": "Sacramental Robe",
+      "ilvl": 83,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "20% increased [ESRechargeRate|Energy Shield Recharge Rate]",
+      "price_amount": 60,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+28 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "137% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+41% to [Resistances|Cold Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+39% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+94 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "a15e65ab7fd7f15eb569c9c79f16bedf8ef3d5767b8211c30d232a6af1705a58",
+      "name": "Gale Curtain",
+      "base": "Flowing Raiment",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "48% increased Mana Regeneration Rate",
+      "price_amount": 65,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "142% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+38 to maximum Life",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+36% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+44% to [Resistances|Cold Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "7b2cdc100a175d83af6e0d0aed3cf9843446a95853721c8bae2ea3df4f418c18",
+      "name": "Carrion Salvation",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 65,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+31% to [Resistances|Cold Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+119 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "34% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "96% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "83fcbf7b1709d27370e3eee9158a217461b20315bbe3b9846dea5df79240331a",
+      "name": "Empyrean Jack",
+      "base": "Ceremonial Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 70,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+123 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "39% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+27 to [Intelligence|Intelligence]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+39% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+42% to [Resistances|Lightning Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "110% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "c88ad4ce6d395740a39689737120c1d8cd8175b949e1df7c195ae20e3c157e24",
+      "name": "Sol Shelter",
+      "base": "Flowing Raiment",
+      "ilvl": 81,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "42% increased Mana Regeneration Rate",
+      "price_amount": 70,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+88 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "107% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+27 to [Intelligence|Intelligence]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+35% to [Resistances|Lightning Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "+21 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "desecrated",
+          "text": "36% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "d17bb07daf2501b1861bc59a8c0772ed0c18bc62db4c3addbd45b73599d069f8",
+      "name": "Pain Salvation",
+      "base": "Vile Robe",
+      "ilvl": 81,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 75,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+32% to [Resistances|Lightning Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+94 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "107% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+32 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+33% to [Resistances|Fire Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "+22 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "desecrated",
+          "text": "34% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "f52ef2c247614dcc092abf4345b1ec7ff7032c97b1dca7b15fa3149dc8f9fb8a",
+      "name": "Bramble Suit",
+      "base": "Flowing Raiment",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "45% increased Mana Regeneration Rate",
+      "price_amount": 75,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+109 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "38% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "+32 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+39% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "91% increased [EnergyShield|Energy Shield]",
+          "tier": "P3"
+        }
+      ]
+    },
+    {
+      "id": "73f748181eeb8ada218149078212045ff7f3f3d8b6aa2bcb32504faa2cef073c",
+      "name": "Storm Shelter",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 80,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+81 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "+23 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "144% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+33% to [Resistances|Lightning Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "+44% to [Resistances|Cold Resistance]",
+          "tier": "S1"
+        }
+      ]
+    },
+    {
+      "id": "5f5e7597545b6dc808943e8207a4ca352121d30ea0ae71a5476a58f57673cc19",
+      "name": "Morbid Shroud",
+      "base": "Sacramental Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "21% increased [ESRechargeRate|Energy Shield Recharge Rate]",
+      "price_amount": 85,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+43% to [Resistances|Lightning Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+120 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "42% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+29% to [Resistances|Cold Resistance]",
+          "tier": "S4"
+        },
+        {
+          "type": "desecrated",
+          "text": "100% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "d05884c36402ec4fe025bdb4d4949a153f10dc09bf9f61d8461597e41eb93ead",
+      "name": "Loath Ward",
+      "base": "Vile Robe",
+      "ilvl": 81,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 90,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+94 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "90% increased [EnergyShield|Energy Shield]",
+          "tier": "P3"
+        },
+        {
+          "type": "explicit",
+          "text": "+25 to [Intelligence|Intelligence]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "crafted",
+          "text": "+31% to [Resistances|Lightning Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "40% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+42 to maximum Life",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "2d5d988970c5549a175f0d73f9f0c2cb68d17f2f6412e21469baab0199e29bfc",
+      "name": "Rage Veil",
+      "base": "Vile Robe",
+      "ilvl": 81,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 95,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+35% to [Resistances|Fire Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+24 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "143% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+85 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "98f4400552b44927997a927e07934fcfb7ad32494ea621cf275d63cba3b12002",
+      "name": "Oblivion Shelter",
+      "base": "Flowing Raiment",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "49% increased Mana Regeneration Rate",
+      "price_amount": 99,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+125 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "42% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+27 to [Intelligence|Intelligence]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "crafted",
+          "text": "+31% to [Resistances|Fire Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "105% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "1a3f7307ec4e76a73eab01f0e9c19ed50119705e8aa740bf040d951ec9e2d0ef",
+      "name": "Torment Cloak",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 100,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+33 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "150% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+44 to maximum Life",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28% to [Resistances|Cold Resistance]",
+          "tier": "S4"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+91 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "2b42b4d44debc1d0535545f9a2645004abe082ef45c992a388c47b4fcea1d0f2",
+      "name": "Rapture Wrap",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 100,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+92 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "107% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+34% to [Resistances|Fire Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+36% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+29 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "41% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "34926260afb9b709ce7361a1a2e1e3743673b200dea7c4c663351241b0f2b7ba",
+      "name": "Maelström Cloak",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 100,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+32% to [Resistances|Lightning Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "150% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+95 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "00825a1ceba9be308feec930d3909d0ae8aa06b9f6a41f2500a448967d69686e",
+      "name": "Pain Jack",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 100,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+95 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "108% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+30 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+31% to [Resistances|Lightning Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "+29 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "40% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "46f272619ab0d3ad398eef60e7a04e27037e9c03898c24fc6c0283d925352669",
+      "name": "Blight Cloak",
+      "base": "Vile Robe",
+      "ilvl": 79,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 110,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "106% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+94 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+35% to [Resistances|Fire Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "42% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+49 to maximum Life",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "621f9e9c5ec1e68f5c4a80a9c587c612fc015ac995d215bc9f889f7355828c1f",
+      "name": "Honour Salvation",
+      "base": "Vile Robe",
+      "ilvl": 81,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 120,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+26 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "fractured",
+          "text": "41% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "crafted",
+          "text": "+34% to [Resistances|Lightning Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+30 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+36% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "108% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "8a4cd46e82d7699ac8682cf14d50d7020e5a85acef8087c67ecf2a00df6c96c9",
+      "name": "Loath Suit",
+      "base": "Feathered Raiment",
+      "ilvl": 81,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "10% of Damage is taken from Mana before Life",
+      "price_amount": 125,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+30 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "147% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+35% to [Resistances|Fire Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "crafted",
+          "text": "+34% to [Resistances|Lightning Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "+92 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "01a8d0b799bd11e1e774567d735aa5b2e89d9620b3027e104afa2e815c98bbbf",
+      "name": "Storm Hide",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 140,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+94 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "42% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+32 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+32% to [Resistances|Fire Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "108% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "4601389fbd366b8e03f106a1d78b20663666583dfa5cfb7a73c3bb14a3c8e443",
+      "name": "Spirit Pelt",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 140,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+40% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "146% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+34% to [Resistances|Cold Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "+91 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "63ec36fb2c48774a92d198d5804f4b8ca28f7cd89fd99371c9d73a834ec21672",
+      "name": "Onslaught Ward",
+      "base": "Flowing Raiment",
+      "ilvl": 83,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "42% increased Mana Regeneration Rate",
+      "price_amount": 150,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+123 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "41% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+26 to [Intelligence|Intelligence]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+42% to [Resistances|Cold Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "109% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "89c7647900e61b244aaf89c9109248ed9ae536c70a6ef76e0fbc44f4c810e66a",
+      "name": "Brood Cloak",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 150,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+42% to [Resistances|Fire Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+80 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P3"
+        },
+        {
+          "type": "explicit",
+          "text": "107% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Lightning Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+28 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "41% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "e2964da28ddfb6fea644fcccdf4b4f126b5bd9f37ea3679e48b6badcdfa0e16b",
+      "name": "Victory Salvation",
+      "base": "Vile Robe",
+      "ilvl": 83,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 165,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+26 to [Intelligence|Intelligence]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+95 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "104% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Fire Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+35% to [Resistances|Lightning Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "+30 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "41% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "d0c986300d5ef026927d97c515b21a853821125e8b140be059457d5c0aaab1ef",
+      "name": "Dread Shelter",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 170,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+31% to [Resistances|Cold Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+29 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "150% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Lightning Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+85 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "43b6a3e1e1c763b49ddeaf2aa1d6feddce413ebbfd3d6d841f50b2beb594b737",
+      "name": "Rift Sanctuary",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 175,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "110% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+36% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+39% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+27 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "41% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "fae8798a9da9f2cdd684ef2319e07148fe952ef59224b17b135adf96366d013b",
+      "name": "Kraken Jack",
+      "base": "Sacramental Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "21% increased [ESRechargeRate|Energy Shield Recharge Rate]",
+      "price_amount": 175,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+29 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "fractured",
+          "text": "39% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+90 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "+29 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+41% to [Resistances|Fire Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+41% to [Resistances|Cold Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "99% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "d40c67e669630973a2640e3630be0627a03b0de0be84d2e72f7749e7b47da3ef",
+      "name": "Vortex Veil",
+      "base": "Vile Robe",
+      "ilvl": 86,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 180,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "108% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+94 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+36% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+43% to [Resistances|Cold Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+29 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "41% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "7dce83840d2df0e296b40e01f58b661829c8bf51a63bf4ea56f5f5fe39346dc9",
+      "name": "Morbid Guardian",
+      "base": "Vile Robe",
+      "ilvl": 84,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 188,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "109% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+30 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "39% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Fire Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+37% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+90 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "a17a4def13b3f6cbead368fbc2e525167c0ac73046f5f5ca2cb954d533ce2128",
+      "name": "Doom Guardian",
+      "base": "Sacramental Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "22% increased [ESRechargeRate|Energy Shield Recharge Rate]",
+      "price_amount": 200,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+33 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+94 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "102% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+36% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+28% to [Resistances|Lightning Resistance]",
+          "tier": "S4"
+        },
+        {
+          "type": "desecrated",
+          "text": "+29 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "41% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "421fde8f3d2c1b96a8d3296fd0d95a63911ba4d7bb5d26b4c76ce437137793a2",
+      "name": "Sol Skin",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 200,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+22 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "144% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+30 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+39% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+39% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+95 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "3cf1709f39c0a41534ea25fb2360b36806799e422328cf28ec47ad3ba1f065cf",
+      "name": "Sorrow Curtain",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 200,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "109% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+95 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+205 to maximum Life",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+32% to [Resistances|Fire Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+33% to [Resistances|Cold Resistance]",
+          "tier": "S3"
+        }
+      ]
+    },
+    {
+      "id": "69c7bf0ed1bc4040e85d95218a3e669222fec28eaa9917e52705839a8dc86f87",
+      "name": "Horror Carapace",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 270,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+35% to [Resistances|Fire Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+95 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "109% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+25 to [Intelligence|Intelligence]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+31% to [Resistances|Cold Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "+29 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "40% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "85a4d8e5d3dc4835b223baa70b563b8f259c1fd2cf66d424786e8fae4e74a2e6",
+      "name": "Gloom Hide",
+      "base": "Vile Robe",
+      "ilvl": 81,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 279,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+95 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "109% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+27 to [Intelligence|Intelligence]",
+          "tier": "S3"
+        },
+        {
+          "type": "explicit",
+          "text": "+39% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+52 to [Spirit|Spirit]",
+          "tier": "P3"
+        }
+      ]
+    },
+    {
+      "id": "ee4e2116c23e8aa1b1086cd42f888ac1c23178e3f18a9667807f13e160d9b24e",
+      "name": "Behemoth Ward",
+      "base": "Vile Robe",
+      "ilvl": 81,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 280,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+27 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "151% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+32 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "1b4a9c66c51ddb42186f2de46bd7df93f85f1c0f4e8ee8bf19ae8b5284c63698",
+      "name": "Dusk Salvation",
+      "base": "Vile Robe",
+      "ilvl": 83,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 299,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+91 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "41% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Fire Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+33% to [Resistances|Lightning Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "109% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "d3e4e4e3b9fb1ccdfd3dcd59be4f4ffced3fb0e3e0b50795bffd5e7ad7facc63",
+      "name": "Pandemonium Shroud",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 360,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+30 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+94 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+205 to maximum Life",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+44% to [Resistances|Fire Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+43% to [Resistances|Lightning Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "108% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "42512b300503ada914d89c4bd654f47564c9fe1ad3f23c7ec0be6e20c4b578ba",
+      "name": "Entropy Pelt",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 380,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "109% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+29 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "42% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+42% to [Resistances|Fire Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+44% to [Resistances|Lightning Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "cee25078e9193c5999d18423e28a693f54b695465fa511570c58a78185c69d00",
+      "name": "Rapture Guardian",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 390,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "39% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+32 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+37% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "100% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "984ae2949b915b82f18d3a45da2f508cec465273efb21a861184f467e6a57bd1",
+      "name": "Rapture Suit",
+      "base": "Vile Robe",
+      "ilvl": 84,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 390,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+27 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "143% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+42% to [Resistances|Cold Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+42% to [Resistances|Lightning Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "b37a27ec67c5e403daf0e732241bd4908a829395ce44aefe3333a10ee5672a42",
+      "name": "Behemoth Guardian",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 400,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "110% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+29 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "42% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+30 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+38% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+92 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "db5efa009a78b21c9e0c3e7344f0e0a691c19633bd6c070c0476dbdb0979b049",
+      "name": "Chimeric Pelt",
+      "base": "Flowing Raiment",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "45% increased Mana Regeneration Rate",
+      "price_amount": 400,
+      "price_currency": "divine",
+      "fractured": false,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "explicit",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "107% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+32 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+41% to [Resistances|Cold Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Lightning Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+28 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "42% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "9ad139073b290054e8760f99a88798e9b0a6d83ae3bfeb8dbe4be2210a993df1",
+      "name": "Grim Pelt",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 420,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+94 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+28 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "42% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+32 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+36% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "106% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "bd1e0295483fbe04c4d5135ffee7180a69ccbb8eab12baf535b8c3b15f53da3f",
+      "name": "Fate Suit",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 628,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "107% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+61 to [Spirit|Spirit]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+32 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+44% to [Resistances|Fire Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Lightning Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+94 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "5dabd03d83a7a90e546e5b92727d71e6dafa62156ba4ebddbf8250fdb36ba80b",
+      "name": "Ghoul Skin",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 650,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+25 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "35% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+43% to [Resistances|Lightning Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "crafted",
+          "text": "+31% to [Resistances|Cold Resistance]",
+          "tier": "S3"
+        },
+        {
+          "type": "desecrated",
+          "text": "100% increased [EnergyShield|Energy Shield]",
+          "tier": "P2"
+        }
+      ]
+    },
+    {
+      "id": "c5bf100db560dcef54aeee1e0c059eedaa76d3e8959641e0909512247a6cd4e7",
+      "name": "Sorrow Sanctuary",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 650,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+27 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "152% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+44% to [Resistances|Fire Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+44% to [Resistances|Cold Resistance]",
+          "tier": "S1"
+        }
+      ]
+    },
+    {
+      "id": "14fdb5180c81d3a92b70c0e87ae22c0e7a38c4e2f716cb3d2dd002a3646514c4",
+      "name": "Spirit Cloak",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 688,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "+44% to [Resistances|Cold Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "109% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+61 to [Spirit|Spirit]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+45% to [Resistances|Fire Resistance]",
+          "tier": "S1"
+        },
+        {
+          "type": "desecrated",
+          "text": "+95 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "cee8561659707640263b2ad3078d61de48d55e99a49e91b7101ed3667eef96ee",
+      "name": "Doom Shelter",
+      "base": "Vile Robe",
+      "ilvl": 82,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 999,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "Allocates [criticals74|Barbaric Strength]",
+          "tier": "P0"
+        },
+        {
+          "type": "explicit",
+          "text": "110% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+31 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Fire Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+24% to [Resistances|Cold Resistance]",
+          "tier": "S5"
+        },
+        {
+          "type": "desecrated",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    },
+    {
+      "id": "af11eb440967bc3a2c41076cded42b31a889c7915dea7b56710c1fb16430f0df",
+      "name": "Torment Hide",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 1000,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "109% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "crafted",
+          "text": "Allocates [area_attacks36|Tribal Fury]",
+          "tier": "P0"
+        },
+        {
+          "type": "desecrated",
+          "text": "+95 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+33 to [Intelligence|Intelligence]",
+          "tier": "S1"
+        },
+        {
+          "type": "explicit",
+          "text": "+39% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+40% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        }
+      ]
+    },
+    {
+      "id": "2960c337bfc5573da01f3eb0c094bc4c4bd3f69e74af33028b7ee1fc245c7dd5",
+      "name": "Hypnotic Jack",
+      "base": "Vile Robe",
+      "ilvl": 80,
+      "quality": 0,
+      "es": 0,
+      "sockets": 3,
+      "runes": "",
+      "price_amount": 2899,
+      "price_currency": "divine",
+      "fractured": true,
+      "corrupted": false,
+      "mods": [
+        {
+          "type": "fractured",
+          "text": "110% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+96 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "explicit",
+          "text": "+29 to [Intelligence|Intelligence]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+37% to [Resistances|Cold Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "explicit",
+          "text": "+36% to [Resistances|Lightning Resistance]",
+          "tier": "S2"
+        },
+        {
+          "type": "desecrated",
+          "text": "+30 to maximum [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        },
+        {
+          "type": "desecrated",
+          "text": "42% increased [EnergyShield|Energy Shield]",
+          "tier": "P1"
+        }
+      ]
+    }
+  ]
+}

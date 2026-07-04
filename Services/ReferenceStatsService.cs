@@ -7,10 +7,11 @@ namespace GameHelper.Services;
 public sealed record ReferenceEntry(
     string Outcome,
     int Count,
-    string? Notes  = null,
-    decimal Price  = 0m,   // ex-цена (для категории Перековка)
-    decimal Roi    = 0m,   // RoI 3→1 в % (для категории Перековка)
-    bool IsSummary = false // итоговая строка — не участвует в расчёте вероятности
+    string? Notes          = null,
+    decimal Price          = 0m,   // ex-цена (для категории Перековка)
+    decimal Roi            = 0m,   // RoI 3→1 в % (для категории Перековка)
+    bool IsSummary         = false, // итоговая строка — не участвует в расчёте вероятности
+    int? AvailableSamples  = null   // если задано — знаменатель для этой строки (скорректировано по фрактурам)
 );
 
 /// <summary>Одна категория — один JSON-файл из docs/stats/ или виртуальная.</summary>
@@ -20,7 +21,9 @@ public sealed record ReferenceCategory(
     string Updated,
     int TotalSamples,
     IReadOnlyList<ReferenceEntry> Entries,
-    string FilePath);
+    string FilePath,
+    bool HasPerEntrySamples = false // true → каждая строка имеет собственный AvailableSamples
+);
 
 /// <summary>View-model строки для DataGrid во вкладке Справочник.</summary>
 public sealed class ReferenceEntryRow
@@ -40,9 +43,10 @@ public sealed class ReferenceEntryRow
 
     public static ReferenceEntryRow From(ReferenceEntry e, int total)
     {
-        var p  = (!e.IsSummary && total > 0) ? e.Count * 100.0 / total : 0.0;
-        var ci = (!e.IsSummary && total > 0 && e.Count > 0)
-            ? 1.96 * Math.Sqrt(p / 100.0 * (1.0 - p / 100.0) / total) * 100.0
+        var n  = e.AvailableSamples ?? total;
+        var p  = (!e.IsSummary && n > 0) ? e.Count * 100.0 / n : 0.0;
+        var ci = (!e.IsSummary && n > 0 && e.Count > 0)
+            ? 1.96 * Math.Sqrt(p / 100.0 * (1.0 - p / 100.0) / n) * 100.0
             : 0.0;
         return new ReferenceEntryRow
         {

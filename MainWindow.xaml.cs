@@ -17,6 +17,7 @@ public partial class MainWindow : Window
     private readonly ChaosCraftService _craft;
     private readonly AugAnnulCraftService _augAnnulCraft;
     private readonly ExaltationCraftServiceFracturedSide _exaltCraft;
+    private readonly DivineCraftService _divineCraft;
     private readonly SharpenService _sharpen;
     private readonly FracturingOrbService _fracturingCraft;
     private readonly OmenActivationService _omen;
@@ -178,6 +179,7 @@ public partial class MainWindow : Window
         ChaosCraftService craft,
         AugAnnulCraftService augAnnulCraft,
         ExaltationCraftServiceFracturedSide exaltCraft,
+        DivineCraftService divineCraft,
         SharpenService sharpen,
         FracturingOrbService fracturingCraft,
         OmenActivationService omen,
@@ -191,6 +193,7 @@ public partial class MainWindow : Window
         _craft = craft;
         _augAnnulCraft = augAnnulCraft;
         _exaltCraft = exaltCraft;
+        _divineCraft = divineCraft;
         _sharpen = sharpen;
         _fracturingCraft = fracturingCraft;
         _omen = omen;
@@ -327,6 +330,9 @@ public partial class MainWindow : Window
         var lastSnapshot = Services.NetworthSnapshotStore.LoadLatest();
         if (lastSnapshot is { Groups.Count: > 0 })
             NwDisplayResults(lastSnapshot.Groups, lastSnapshot.ScannedAt);
+
+        var trackingVm = new ViewModels.TrackingViewModel(ProjectPaths.GetProjectRoot());
+        TrackingTabControl.Initialize(trackingVm);
     }
 
     private void SetupTrayIcon()
@@ -5300,12 +5306,13 @@ public partial class MainWindow : Window
     {
         var statsDir = System.IO.Path.Combine(GetProjectDocsPath(), "stats");
         _referenceCategories = Services.ReferenceStatsService.LoadAll(statsDir);
-        _referenceCategories.AddRange(BuildAffixStatCategories());
+        bool corrected = RefFracCorrectChk?.IsChecked == true;
+        _referenceCategories.AddRange(BuildAffixStatCategories(corrected));
         _referenceCategories.AddRange(BuildReforgeCategories());
         RefBuildTree();
     }
 
-    private List<Services.ReferenceCategory> BuildAffixStatCategories()
+    private List<Services.ReferenceCategory> BuildAffixStatCategories(bool corrected = false)
     {
         var result = new List<Services.ReferenceCategory>();
         var data   = Services.AffixStatsScanner.Current;
@@ -5320,52 +5327,125 @@ public partial class MainWindow : Window
         {
             if (cs.TotalSnapshots == 0) continue;
 
+            // Скорректированный режим: используем только снапшоты с фрактурой.
+            // Для каждого аффикса знаменатель = снапшоты-с-фрактурой минус те, где он сам фрактурирован.
+            // Числитель = AffixCountsInFracturedSnapshots (не включает «нейтральные» снапшоты без фрактур).
+            var hasFractureData = corrected && cs.SnapshotsWithFracture > 0;
+
             var prefixes = new List<Services.ReferenceEntry>();
             var suffixes = new List<Services.ReferenceEntry>();
 
-            foreach (var (affixName, count) in cs.AffixCounts)
+            var keyItemClass = cls.Contains('|') ? cls[..cls.IndexOf('|')] : cls;
+
+            // Нормализованные ключи сканнера содержат "#" вместо числового ролла (9(5-10) → #),
+            // а библиотечные статы хранят диапазоны вида (5–10)%.
+            // StripRanges убирает эти диапазоны, чтобы сравнение работало корректно.
+            static string StripRanges(string s)
             {
-                libByName.TryGetValue(affixName, out var candidates);
+                s = System.Text.RegularExpressions.Regex.Replace(s,
+                    @"\(\d+(?:\.\d+)?[–\-]\d+(?:\.\d+)?\)", "");
+                while (s.Contains("  ", StringComparison.Ordinal))
+                    s = s.Replace("  ", " ", StringComparison.Ordinal);
+                return s.Trim();
+            }
 
-                // cls — составной ключ вида "Time-Lost Sapphire Jewels|Chaos Orb".
-                // Для поиска записи в библиотеке нужен только первый сегмент (класс предмета).
-                var keyItemClass = cls.Contains('|') ? cls[..cls.IndexOf('|')] : cls;
-                var lib = candidates?.FirstOrDefault(e =>
-                              e.ItemClasses.Any(ic => string.Equals(ic, keyItemClass, StringComparison.OrdinalIgnoreCase)))
-                          ?? candidates?.FirstOrDefault();
+            static bool StatKeyMatchesNormalized(string libStat, string normalizedSt)
+            {
+                var libNorm = Services.ClassStats.MakeStatKey("", libStat).TrimStart('|');
+                return libNorm == normalizedSt || StripRanges(libNorm) == normalizedSt;
+            }
 
-                var statText  = lib?.AffixStats.FirstOrDefault() ?? affixName;
-                var isPrefix  = lib?.AffixType.Contains("Prefix", StringComparison.OrdinalIgnoreCase) ?? false;
+            // Поиск lib-записи с приоритетом: item class + стат → только стат → item class → первая.
+            AffixLibraryEntry? FindLib(List<AffixLibraryEntry>? candidates, string nic, string normalizedSt)
+            {
+                var lib = candidates?
+                    .Where(e => e.ItemClasses.Any(ic => string.Equals(ic, nic, StringComparison.OrdinalIgnoreCase)))
+                    .FirstOrDefault(e => e.AffixStats.Any(s => StatKeyMatchesNormalized(s, normalizedSt)));
+                lib ??= candidates?.FirstOrDefault(e => e.AffixStats.Any(s => StatKeyMatchesNormalized(s, normalizedSt)));
+                lib ??= candidates?.FirstOrDefault(e =>
+                    e.ItemClasses.Any(ic => string.Equals(ic, nic, StringComparison.OrdinalIgnoreCase)));
+                lib ??= candidates?.FirstOrDefault();
+                return lib;
+            }
 
-                var entry = new Services.ReferenceEntry(statText, count, affixName);
-                (isPrefix ? prefixes : suffixes).Add(entry);
+            if (hasFractureData)
+            {
+                // Скорректированный режим: итерируем по stat-ключам AffixCountsInFracturedSnapshots.
+                // Ключ вида "AffixName|normalizedStat" → один ряд на каждый стат-вариант (например,
+                // два "of Potency" становятся двумя строками с разными статами и разными частотами).
+                foreach (var (statKey, count) in cs.AffixCountsInFracturedSnapshots)
+                {
+                    var sep = statKey.IndexOf('|');
+                    var affixName    = sep >= 0 ? statKey[..sep] : statKey;
+                    var normalizedSt = sep >= 0 ? statKey[(sep + 1)..] : "";
+
+                    libByName.TryGetValue(affixName, out var candidates);
+                    var lib = FindLib(candidates, keyItemClass, normalizedSt);
+
+                    var statText = lib?.AffixStats.FirstOrDefault(s => StatKeyMatchesNormalized(s, normalizedSt))
+                                   ?? lib?.AffixStats.FirstOrDefault()
+                                   ?? affixName;
+                    var isPrefix = lib?.AffixType.Contains("Prefix", StringComparison.OrdinalIgnoreCase) ?? false;
+
+                    var availSamples = cs.GetAvailableSamples(statKey);
+                    var entry = new Services.ReferenceEntry(statText, count, affixName, AvailableSamples: availSamples);
+                    (isPrefix ? prefixes : suffixes).Add(entry);
+                }
+            }
+            else
+            {
+                // Обычный режим: итерируем по stat-ключам StatTemplateCounts, один ряд на стат-вариант.
+                // Позволяет видеть оба "of Potency" (Crit Dmg Bonus и Effect of Small Passives) раздельно.
+                foreach (var (statKey, count) in cs.StatTemplateCounts)
+                {
+                    var sep = statKey.IndexOf('|');
+                    var affixName    = sep >= 0 ? statKey[..sep] : statKey;
+                    var normalizedSt = sep >= 0 ? statKey[(sep + 1)..] : "";
+
+                    libByName.TryGetValue(affixName, out var candidates);
+                    var lib = FindLib(candidates, keyItemClass, normalizedSt);
+
+                    var statText = lib?.AffixStats.FirstOrDefault(s => StatKeyMatchesNormalized(s, normalizedSt))
+                                   ?? lib?.AffixStats.FirstOrDefault()
+                                   ?? affixName;
+                    var isPrefix = lib?.AffixType.Contains("Prefix", StringComparison.OrdinalIgnoreCase) ?? false;
+
+                    var entry = new Services.ReferenceEntry(statText, count, affixName);
+                    (isPrefix ? prefixes : suffixes).Add(entry);
+                }
             }
 
             // Сортировка по смысловому слову: убираем ведущие +#%()цифры и "to "
             prefixes.Sort((a, b) => string.Compare(StatSortKey(a.Outcome), StatSortKey(b.Outcome), StringComparison.OrdinalIgnoreCase));
             suffixes.Sort((a, b) => string.Compare(StatSortKey(a.Outcome), StatSortKey(b.Outcome), StringComparison.OrdinalIgnoreCase));
 
+            var displayTotal = hasFractureData ? cs.SnapshotsWithFracture : cs.TotalSnapshots;
+
             if (prefixes.Count > 0)
                 result.Add(new Services.ReferenceCategory(
-                    DisplayName:  $"Хаос-крафт → {cls} · Префиксы",
-                    CategoryPath: $"Аффиксы хаос-крафта/{cls} · Префиксы",
-                    Updated:      today,
-                    TotalSamples: cs.TotalSnapshots,
-                    Entries:      prefixes,
-                    FilePath:     ""));
+                    DisplayName:        $"Хаос-крафт → {cls} · Префиксы",
+                    CategoryPath:       $"Аффиксы хаос-крафта/{cls} · Префиксы",
+                    Updated:            today,
+                    TotalSamples:       displayTotal,
+                    Entries:            prefixes,
+                    FilePath:           "",
+                    HasPerEntrySamples: hasFractureData));
 
             if (suffixes.Count > 0)
                 result.Add(new Services.ReferenceCategory(
-                    DisplayName:  $"Хаос-крафт → {cls} · Суффиксы",
-                    CategoryPath: $"Аффиксы хаос-крафта/{cls} · Суффиксы",
-                    Updated:      today,
-                    TotalSamples: cs.TotalSnapshots,
-                    Entries:      suffixes,
-                    FilePath:     ""));
+                    DisplayName:        $"Хаос-крафт → {cls} · Суффиксы",
+                    CategoryPath:       $"Аффиксы хаос-крафта/{cls} · Суффиксы",
+                    Updated:            today,
+                    TotalSamples:       displayTotal,
+                    Entries:            suffixes,
+                    FilePath:           "",
+                    HasPerEntrySamples: hasFractureData));
         }
 
         return result;
     }
+
+    private void RefFracCorrectChk_Changed(object sender, RoutedEventArgs e) => RefLoadCategories();
 
     private void RefBuildTree()
     {
@@ -5432,7 +5512,9 @@ public partial class MainWindow : Window
             ? (cat.TotalSamples > 0
                 ? $"{cat.TotalSamples} рефорджей в логах · цены poe.ninja · {cat.Updated}"
                 : $"Нет истории рефорджей — вероятности равномерные · цены poe.ninja · {cat.Updated}")
-            : $"{cat.TotalSamples} наблюдений · обновлено {cat.Updated}";
+            : cat.HasPerEntrySamples
+                ? $"{cat.TotalSamples} снапшотов · % скорректированы по фрактурам · {cat.Updated}"
+                : $"{cat.TotalSamples} наблюдений · обновлено {cat.Updated}";
         RefDataGrid.ItemsSource = cat.Entries
             .Select(e => Services.ReferenceEntryRow.From(e, cat.TotalSamples))
             .ToList();
@@ -5649,7 +5731,10 @@ public partial class MainWindow : Window
             var total = 0;
             foreach (var record in _tradeHistory)
             {
-                if (cache.ContainsKey(record.ItemId)) continue;
+                // Перепарсим если: старый формат (нет familyId), или есть unmatched моды (библиотека обновилась)
+                if (cache.TryGetValue(record.ItemId, out var cached) &&
+                    !cached.Any(m => !m.Unmatched && m.FamilyId == null) &&
+                    !cached.Any(m => m.Unmatched)) continue;
                 var mods = Services.SaleModParser.ParseMods(record, entries);
                 lock (cache) cache[record.ItemId] = mods;
                 total++;
@@ -5927,9 +6012,16 @@ public partial class MainWindow : Window
                     _modsCache.TryGetValue(Record.ItemId, out var parsed) &&
                     parsed.Count > 0)
                 {
-                    var parts = parsed.Select(m => m.Unmatched
-                        ? m.Stripped[..Math.Min(30, m.Stripped.Length)]
-                        : $"{m.AffixName}{(m.AffixTier > 0 ? $" T{m.AffixTier}" : "")}{(m.IsFractured ? "[F]" : "")}");
+                    var parts = parsed.Select(m =>
+                    {
+                        var s = m.Stripped;
+                        var grantIdx = s.IndexOf(" also grant ", StringComparison.OrdinalIgnoreCase);
+                        if (grantIdx >= 0) s = s[(grantIdx + 12)..];
+                        var text = s[..Math.Min(45, s.Length)];
+                        var tier = m.AffixTier > 0 ? $" T{m.AffixTier}" : "";
+                        var frac = m.IsFractured ? "[F]" : "";
+                        return $"{text}{tier}{frac}";
+                    });
                     return string.Join(" · ", parts.Take(5));
                 }
                 return string.Join(" · ", Record.ExplicitMods.Concat(Record.FracturedMods).Take(4));
@@ -6047,4 +6139,303 @@ public partial class MainWindow : Window
         public string LinkedSale  => Entry.SaleRecordId ?? "—";
         public int StepCount      => Entry.Steps.Count;
     }
+
+    // ═══════════════════════════════════════════════════════════════════════════
+    //  ВКЛАДКА «РЕЦЕПТ» (CraftPipeline / CRAFT-12e)
+    // ═══════════════════════════════════════════════════════════════════════════
+
+    private Services.CraftPipeline _currentPipeline = new() { Name = "Новый рецепт" };
+    private CancellationTokenSource? _pipelineCts;
+
+    // ── DTO для ListView ─────────────────────────────────────────────────────
+
+    private sealed class StepRow
+    {
+        public int    Index          { get; init; }
+        public string Name           { get; init; } = "";
+        public string Action         { get; init; } = "";
+        public string SuccessSummary { get; init; } = "";
+        public string FailureSummary { get; init; } = "";
+    }
+
+    private static string FormatTransition(Services.PipelineTransition t) =>
+        t.Target switch
+        {
+            Services.TransitionTarget.Next  => "Next",
+            Services.TransitionTarget.Done  => string.IsNullOrEmpty(t.Message) ? "Done"  : $"Done: {t.Message}",
+            Services.TransitionTarget.Abort => string.IsNullOrEmpty(t.Message) ? "Abort" : $"Abort: {t.Message}",
+            Services.TransitionTarget.Step  => $"→ [{t.StepIndex}]",
+            _                               => "?",
+        };
+
+    // ── Обновление UI ────────────────────────────────────────────────────────
+
+    private void RefreshPipelineStepsList()
+    {
+        PipelineStepsList.ItemsSource = _currentPipeline.Steps
+            .Select((s, i) => new StepRow
+            {
+                Index          = i,
+                Name           = s.Name,
+                Action         = s.Action.ToString(),
+                SuccessSummary = FormatTransition(s.OnSuccess),
+                FailureSummary = FormatTransition(s.OnFailure),
+            })
+            .ToList();
+    }
+
+    private void RefreshSavedPipelineList()
+    {
+        PipelineSavedList.ItemsSource = PipelineStore.LoadAll();
+    }
+
+    // ── Загрузка при открытии вкладки ────────────────────────────────────────
+
+    private void MainTabs_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (e.AddedItems.Count == 0 || e.AddedItems[0] != TabPipeline) return;
+        RefreshSavedPipelineList();
+        PipelineNameBox.Text = _currentPipeline.Name;
+        RefreshPipelineStepsList();
+    }
+
+    // ── CRUD рецептов ────────────────────────────────────────────────────────
+
+    private void PipelineNewBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        _currentPipeline = new Services.CraftPipeline { Name = "Новый рецепт" };
+        PipelineNameBox.Text = _currentPipeline.Name;
+        RefreshPipelineStepsList();
+    }
+
+    private void PipelineSaveBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(_currentPipeline.Name))
+        {
+            System.Windows.MessageBox.Show("Введите имя рецепта.", "Рецепт", System.Windows.MessageBoxButton.OK);
+            return;
+        }
+        PipelineStore.Save(_currentPipeline);
+        RefreshSavedPipelineList();
+        PipelineLogAppend($"Рецепт «{_currentPipeline.Name}» сохранён.");
+    }
+
+    private void PipelineDeleteBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (PipelineSavedList.SelectedItem is not Services.CraftPipeline selected)
+        {
+            System.Windows.MessageBox.Show("Выберите рецепт для удаления.", "Рецепт", System.Windows.MessageBoxButton.OK);
+            return;
+        }
+        var confirm = System.Windows.MessageBox.Show(
+            $"Удалить рецепт «{selected.Name}»?", "Удаление",
+            System.Windows.MessageBoxButton.YesNo, System.Windows.MessageBoxImage.Question);
+        if (confirm != System.Windows.MessageBoxResult.Yes) return;
+
+        var path = System.IO.Path.Combine(
+            PipelineStore.GetPipelinesDir(),
+            MakeSafeName(selected.Name) + ".json");
+        if (System.IO.File.Exists(path))
+            System.IO.File.Delete(path);
+        RefreshSavedPipelineList();
+    }
+
+    private static string MakeSafeName(string name) =>
+        string.Concat(name.Select(c => System.IO.Path.GetInvalidFileNameChars().Contains(c) ? '_' : c));
+
+    private void PipelineSavedList_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (PipelineSavedList.SelectedItem is not Services.CraftPipeline loaded) return;
+        _currentPipeline = loaded;
+        PipelineNameBox.Text = _currentPipeline.Name;
+        RefreshPipelineStepsList();
+    }
+
+    private void PipelineNameBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
+    {
+        _currentPipeline.Name = PipelineNameBox.Text;
+    }
+
+    // ── Редактирование шагов ─────────────────────────────────────────────────
+
+    private void PipelineAddStepBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var step = new Services.CraftPipelineStep { Name = $"Шаг {_currentPipeline.Steps.Count}" };
+        OpenStepDialog(step, isNew: true);
+    }
+
+    private void PipelineEditStepBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (PipelineStepsList.SelectedIndex < 0) return;
+        var step = _currentPipeline.Steps[PipelineStepsList.SelectedIndex];
+        OpenStepDialog(step, isNew: false);
+    }
+
+    private void PipelineStepsList_MouseDoubleClick(object sender, System.Windows.Input.MouseButtonEventArgs e)
+    {
+        if (PipelineStepsList.SelectedIndex >= 0)
+            PipelineEditStepBtn_Click(sender, e);
+    }
+
+    private void OpenStepDialog(Services.CraftPipelineStep step, bool isNew)
+    {
+        AffixLibrary.ReloadFromDisk();
+        var dlg = new PipelineStepDialog(step, AffixLibrary.GetEntries().ToList(), Services.AffixStatsScanner.Current) { Owner = this };
+        if (dlg.ShowDialog() != true) return;
+        if (isNew) _currentPipeline.Steps.Add(step);
+        RefreshPipelineStepsList();
+    }
+
+    private void PipelineRemoveStepBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var idx = PipelineStepsList.SelectedIndex;
+        if (idx < 0 || idx >= _currentPipeline.Steps.Count) return;
+        _currentPipeline.Steps.RemoveAt(idx);
+        RefreshPipelineStepsList();
+    }
+
+    private void PipelineMoveUpBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var idx = PipelineStepsList.SelectedIndex;
+        if (idx <= 0) return;
+        (_currentPipeline.Steps[idx], _currentPipeline.Steps[idx - 1]) =
+            (_currentPipeline.Steps[idx - 1], _currentPipeline.Steps[idx]);
+        RefreshPipelineStepsList();
+        PipelineStepsList.SelectedIndex = idx - 1;
+    }
+
+    private void PipelineMoveDownBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var idx = PipelineStepsList.SelectedIndex;
+        if (idx < 0 || idx >= _currentPipeline.Steps.Count - 1) return;
+        (_currentPipeline.Steps[idx], _currentPipeline.Steps[idx + 1]) =
+            (_currentPipeline.Steps[idx + 1], _currentPipeline.Steps[idx]);
+        RefreshPipelineStepsList();
+        PipelineStepsList.SelectedIndex = idx + 1;
+    }
+
+    // ── Запуск / Стоп ────────────────────────────────────────────────────────
+
+    private async void PipelineStartBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (_currentPipeline.Steps.Count == 0)
+        {
+            System.Windows.MessageBox.Show("Рецепт пуст — добавьте хотя бы один шаг.", "Рецепт",
+                System.Windows.MessageBoxButton.OK);
+            return;
+        }
+
+        _pipelineCts = new CancellationTokenSource();
+        _vm.IsPipelineRunning = true;
+        _vm.PipelineStatusText = "Выполняется…";
+        PipelineLogBox.Clear();
+
+        var runner = BuildPipelineRunner();
+        var screen = BuildPipelineScreenConfig();
+
+        var s = SettingsStore.Load();
+        var mouseDelay    = int.TryParse(MouseActionDelayMs.Text, out var md) ? md : 80;
+        var clipDelay     = int.TryParse(ClipboardDelayMs.Text,    out var cd) ? cd : 220;
+        var divineHover   = Math.Clamp(clipDelay / 2, 80, 220);
+        var traceInput    = TraceInputCheckBox.IsChecked == true;
+
+        // Настраиваем задержки сервисов
+        _craft.MouseActionDelayMs = mouseDelay;
+        _craft.ClipboardDelayMs   = clipDelay;
+        _craft.TraceInputToLog    = traceInput;
+
+        _divineCraft.MouseActionDelayMs          = mouseDelay;
+        _divineCraft.ClipboardDelayMs            = clipDelay;
+        _divineCraft.HoverSettleBeforeClipboardMs = divineHover;
+        _divineCraft.TraceInputToLog             = traceInput;
+
+        _augAnnulCraft.MouseActionDelayMs = mouseDelay;
+        _augAnnulCraft.ClipboardDelayMs   = clipDelay;
+        _augAnnulCraft.TraceInputToLog    = traceInput;
+
+        _exaltCraft.MouseActionDelayMs = mouseDelay;
+        _exaltCraft.ClipboardDelayMs   = clipDelay;
+        _exaltCraft.TraceInputToLog    = traceInput;
+
+        _omen.MouseActionDelayMs = mouseDelay;
+        _omen.ClipboardDelayMs   = clipDelay;
+        _omen.TraceInputToLog    = traceInput;
+
+        var progress = new Progress<string>(msg =>
+        {
+            SessionLogger.Info(msg);
+            PipelineLogAppend(msg);
+            _vm.PipelineStatusText = msg;
+        });
+
+        Services.PipelineRunResult result;
+        try
+        {
+            result = await runner.RunAsync(_currentPipeline, screen, progress, _pipelineCts.Token);
+        }
+        catch (Exception ex)
+        {
+            result = new Services.PipelineRunResult
+            {
+                Status  = Services.PipelineRunStatus.Error,
+                Message = ex.Message,
+            };
+        }
+        finally
+        {
+            _pipelineCts.Dispose();
+            _pipelineCts = null;
+            _vm.IsPipelineRunning = false;
+        }
+
+        var statusLine = $"[{result.Status}] {result.Message}  (попыток: {result.TotalAttempts})";
+        _vm.PipelineStatusText = statusLine;
+        PipelineLogAppend(statusLine);
+    }
+
+    private void PipelineStopBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        _pipelineCts?.Cancel();
+    }
+
+    // ── Вспомогательные методы ────────────────────────────────────────────────
+
+    private void PipelineClearLogBtn_Click(object sender, System.Windows.RoutedEventArgs e) =>
+        PipelineLogBox.Clear();
+
+    private void PipelineLogAppend(string msg)
+    {
+        Dispatcher.BeginInvoke(() =>
+        {
+            PipelineLogBox.AppendText(msg + Environment.NewLine);
+            PipelineLogBox.ScrollToEnd();
+        });
+    }
+
+    private Services.CraftPipelineRunner BuildPipelineRunner() =>
+        new(_craft, _augAnnulCraft, _divineCraft, _exaltCraft, _omen);
+
+    private Services.PipelineScreenConfig BuildPipelineScreenConfig() =>
+        new()
+        {
+            ItemArea              = SettingsStore.Load().ItemRect,
+            ChaosOrbArea          = GetCurrencyRect("Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb") ?? default,
+            DivineOrbArea         = GetCurrencyRect("Divine Orb") ?? default,
+            AugmentOrbArea        = GetCurrencyRect("Perfect Orb of Augmentation", "Greater Orb of Augmentation", "Orb of Augmentation") ?? default,
+            AnnulOrbArea          = GetCurrencyRect("Orb of Annulment") ?? default,
+            ExaltOrbArea          = GetCurrencyRect("Exalted Orb", "Greater Exalted Orb", "Perfect Exalted Orb") ?? default,
+            RitualInventoryRegion   = _ritualInventoryRegion ?? default,
+            CurrencyInventoryRegion = _currencyInventoryRegion ?? default,
+            OmenSinistralStashCells = GetRitualItemRect("Omen of Sinistral Exaltation") is { } sinR ? new[] { sinR } : Array.Empty<ScreenRect>(),
+            OmenDextralStashCells   = GetRitualItemRect("Omen of Dextral Exaltation")   is { } dexR ? new[] { dexR } : Array.Empty<ScreenRect>(),
+            OmenGreaterStashCells   = GetRitualItemRect("Omen of Greater Exaltation")   is { } greR ? new[] { greR } : Array.Empty<ScreenRect>(),
+            FullInventoryCells      = _fullInventoryCells,
+            InventoryGridColumns    = 12,
+            ExaltOmenSinistralCells  = _omenSinistralCells,
+            ExaltOmenDextralCells    = _omenDextralCells,
+            ExaltOmenGreaterCells    = _omenGreaterCells,
+            ExaltOmenSinistralRegion = GetRitualItemRect("Omen of Sinistral Exaltation") ?? default,
+            ExaltOmenDextralRegion   = GetRitualItemRect("Omen of Dextral Exaltation")   ?? default,
+            ExaltOmenGreaterRegion   = GetRitualItemRect("Omen of Greater Exaltation")   ?? default,
+        };
 }

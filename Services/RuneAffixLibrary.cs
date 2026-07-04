@@ -86,6 +86,41 @@ public static class RuneAffixLibrary
     }
 
     /// <summary>
+    /// Возвращает все аффиксы всех рун в виде AffixLibraryEntry, без фильтра по классу предмета.
+    /// Используется в AffixResolver когда класс предмета неизвестен.
+    /// FamilyId = "rune:{runeGroup}:{index}".
+    /// </summary>
+    public static IReadOnlyList<AffixLibraryEntry> GetAllEntries()
+    {
+        lock (Gate)
+        {
+            EnsureLoaded();
+            if (_data?.Runes == null) return [];
+            var result = new List<AffixLibraryEntry>();
+            foreach (var (runeGroup, rune) in _data.Runes)
+            {
+                for (var i = 0; i < rune.Affixes.Count; i++)
+                {
+                    var a = rune.Affixes[i];
+                    result.Add(new AffixLibraryEntry
+                    {
+                        ItemClasses    = new List<string>(rune.ItemClasses),
+                        AffixType      = a.AffixType,
+                        AffixName      = a.AffixName,
+                        AffixTier      = a.AffixTier,
+                        AffixTierLevel = a.AffixTierLevel,
+                        AffixStats     = new List<string>(a.AffixStats),
+                        AffixRanges    = new List<string?>(a.AffixRanges),
+                        Weight         = a.Weight,
+                        FamilyId       = $"rune:{runeGroup}:{i}",
+                    });
+                }
+            }
+            return result;
+        }
+    }
+
+    /// <summary>
     /// Возвращает аффиксы указанной руны для данного класса предметов в виде AffixLibraryEntry.
     /// Каждая запись получает уникальный FamilyId, чтобы несколько аффиксов из пула руны
     /// могли присутствовать на одном предмете одновременно.

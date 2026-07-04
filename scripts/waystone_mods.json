@@ -1,0 +1,770 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Rare Monsters have # additional Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Rare Monsters have # additional Modifiers",
+        "#% increased number of Rare Monsters",
+        "#% increased Waystones found in Area"
+      ],
+      "affixRanges": [
+        "1",
+        "25",
+        "10"
+      ],
+      "familyId": "Suffix|Rare Monsters have # additional Modifiers|#% increased number of Rare Monsters|#% increased Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters deal #% of Damage as Extra Fire",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters deal #% of Damage as Extra Fire",
+        "Monsters have #% increased Effectiveness",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "5-9",
+        "16",
+        "15"
+      ],
+      "familyId": "Prefix|Monsters deal #% of Damage as Extra Fire|Monsters have #% increased Effectiveness|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters deal #% of Damage as Extra Cold",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters deal #% of Damage as Extra Cold",
+        "#% more Rarity of Items found in this Area",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "5-9",
+        "14",
+        "15"
+      ],
+      "familyId": "Prefix|Monsters deal #% of Damage as Extra Cold|#% more Rarity of Items found in this Area|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters deal #% of Damage as Extra Lightning",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters deal #% of Damage as Extra Lightning",
+        "#% more Pack size",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "5-9",
+        "8",
+        "15"
+      ],
+      "familyId": "Prefix|Monsters deal #% of Damage as Extra Lightning|#% more Pack size|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Monster Damage",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Monster Damage",
+        "#% more Magic and Rare Monsters",
+        "Rare Monsters have #% more chance of Monster Modifiers",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "5-9",
+        "25",
+        "25",
+        "20"
+      ],
+      "familyId": "Prefix|#% increased Monster Damage|#% more Magic and Rare Monsters|Rare Monsters have #% more chance of Monster Modifiers|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Attack, Cast and Movement Speed",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Attack, Cast and Movement Speed",
+        "#% more Pack size",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "10-15",
+        "9",
+        "25"
+      ],
+      "familyId": "Prefix|Monsters have #% increased Attack, Cast and Movement Speed|#% more Pack size|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Critical Hit Chance",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Critical Hit Chance",
+        "Monsters have +#% Critical Damage Bonus",
+        "#% more Pack size",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "80-120",
+        "11-15",
+        "9",
+        "15"
+      ],
+      "familyId": "Prefix|Monsters have #% increased Critical Hit Chance|Monsters have +#% Critical Damage Bonus|#% more Pack size|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% more Monster Life",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% more Monster Life",
+        "#% more Magic and Rare Monsters",
+        "Rare Monsters have #% more chance of Monster Modifiers",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "10-14",
+        "23",
+        "23",
+        "15"
+      ],
+      "familyId": "Prefix|#% more Monster Life|#% more Magic and Rare Monsters|Rare Monsters have #% more chance of Monster Modifiers|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "+#% Monster Elemental Resistances",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "+#% Monster Elemental Resistances",
+        "#% more Rarity of Items found in this Area",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "20-24",
+        "14",
+        "10"
+      ],
+      "familyId": "Suffix|+#% Monster Elemental Resistances|#% more Rarity of Items found in this Area|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Monsters are Armoured",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters are Armoured",
+        "#% more Magic and Rare Monsters",
+        "Rare Monsters have #% more chance of Monster Modifiers",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        null,
+        "18",
+        "18",
+        "15"
+      ],
+      "familyId": "Suffix|Monsters are Armoured|#% more Magic and Rare Monsters|Rare Monsters have #% more chance of Monster Modifiers|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Monsters are Evasive",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters are Evasive",
+        "#% more Pack size",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        null,
+        "6",
+        "15"
+      ],
+      "familyId": "Suffix|Monsters are Evasive|#% more Pack size|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Monsters gain #% of maximum Life as Extra maximum Energy Shield",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters gain #% of maximum Life as Extra maximum Energy Shield",
+        "#% more Rarity of Items found in this Area",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "12-25",
+        "13",
+        "15"
+      ],
+      "familyId": "Suffix|Monsters gain #% of maximum Life as Extra maximum Energy Shield|#% more Rarity of Items found in this Area|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% chance to Poison on Hit",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% chance to Poison on Hit",
+        "#% more Pack size",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "13-19",
+        "7",
+        "10"
+      ],
+      "familyId": "Prefix|Monsters have #% chance to Poison on Hit|#% more Pack size|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% chance to inflict Bleeding on Hit",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% chance to inflict Bleeding on Hit",
+        "Monsters have #% more Effectiveness",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "5-10",
+        "13",
+        "10"
+      ],
+      "familyId": "Prefix|Monsters have #% chance to inflict Bleeding on Hit|Monsters have #% more Effectiveness|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Monsters have #% increased Ailment Threshold",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Ailment Threshold",
+        "Monsters have #% increased Stun Threshold",
+        "Monsters have #% more Effectiveness",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "30-39",
+        "30-39",
+        "13",
+        "10"
+      ],
+      "familyId": "Suffix|Monsters have #% increased Ailment Threshold|Monsters have #% increased Stun Threshold|Monsters have #% more Effectiveness|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters Break Armour equal to #% of Physical Damage dealt",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters Break Armour equal to #% of Physical Damage dealt",
+        "#% more Magic and Rare Monsters",
+        "Rare Monsters have #% more chance of Monster Modifiers",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "15-20",
+        "19",
+        "19",
+        "10"
+      ],
+      "familyId": "Prefix|Monsters Break Armour equal to #% of Physical Damage dealt|#% more Magic and Rare Monsters|Rare Monsters have #% more chance of Monster Modifiers|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Accuracy Rating",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Accuracy Rating",
+        "#% more Pack size",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "10-20",
+        "7",
+        "10"
+      ],
+      "familyId": "Prefix|Monsters have #% increased Accuracy Rating|#% more Pack size|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters deal #% of Damage as Extra Chaos",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters deal #% of Damage as Extra Chaos",
+        "#% more Rarity of Items found in this Area",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "5-9",
+        "15",
+        "15"
+      ],
+      "familyId": "Prefix|Monsters deal #% of Damage as Extra Chaos|#% more Rarity of Items found in this Area|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Stun Buildup",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Stun Buildup",
+        "Monsters have #% more Effectiveness",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "50-60",
+        "13",
+        "15"
+      ],
+      "familyId": "Prefix|Monsters have #% increased Stun Buildup|Monsters have #% more Effectiveness|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Monster have #% increased Elemental Ailment Application",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monster have #% increased Elemental Ailment Application",
+        "#% more Rarity of Items found in this Area",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "60-79",
+        "11",
+        "15"
+      ],
+      "familyId": "Suffix|Monster have #% increased Elemental Ailment Application|#% more Rarity of Items found in this Area|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters fire # additional Projectiles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters fire # additional Projectiles",
+        "#% more Pack size",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "2",
+        "9",
+        "25"
+      ],
+      "familyId": "Prefix|Monsters fire # additional Projectiles|#% more Pack size|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Monsters have #% increased Area of Effect",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Area of Effect",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "50",
+        "20"
+      ],
+      "familyId": "Suffix|Monsters have #% increased Area of Effect|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Players are periodically Cursed with Enfeeble",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Players are periodically Cursed with Enfeeble",
+        "Monsters have #% more Effectiveness",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        null,
+        "16",
+        "20"
+      ],
+      "familyId": "Suffix|Players are periodically Cursed with Enfeeble|Monsters have #% more Effectiveness|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Players are periodically Cursed with Temporal Chains",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Players are periodically Cursed with Temporal Chains",
+        "#% more Pack size",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        null,
+        "8",
+        "20"
+      ],
+      "familyId": "Suffix|Players are periodically Cursed with Temporal Chains|#% more Pack size|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Players are periodically Cursed with Elemental Weakness",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Players are periodically Cursed with Elemental Weakness",
+        "#% more Rarity of Items found in this Area",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        null,
+        "13",
+        "20"
+      ],
+      "familyId": "Suffix|Players are periodically Cursed with Elemental Weakness|#% more Rarity of Items found in this Area|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Area has patches of Ignited Ground",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Area has patches of Ignited Ground",
+        "Monsters have #% more Effectiveness",
+        "#% more Waystones found in Area",
+        "ground fire art variation [#]",
+        "map ground effect patches per # tiles [#]",
+        "map ground effect radius [#]"
+      ],
+      "affixRanges": [
+        null,
+        "15",
+        "15",
+        "1033",
+        "100",
+        "20"
+      ],
+      "familyId": "Suffix|Area has patches of Ignited Ground|Monsters have #% more Effectiveness|#% more Waystones found in Area|ground fire art variation [#]|map ground effect patches per # tiles [#]|map ground effect radius [#]",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Area has patches of Chilled Ground",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Area has patches of Chilled Ground",
+        "#% more Rarity of Items found in this Area",
+        "#% more Waystones found in Area",
+        "ground ice art variation [#]",
+        "map ground effect patches per # tiles [#]",
+        "map ground effect radius [#]"
+      ],
+      "affixRanges": [
+        null,
+        "12",
+        "15",
+        "1014",
+        "100",
+        "26"
+      ],
+      "familyId": "Suffix|Area has patches of Chilled Ground|#% more Rarity of Items found in this Area|#% more Waystones found in Area|ground ice art variation [#]|map ground effect patches per # tiles [#]|map ground effect radius [#]",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Area has patches of Shocked Ground",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Area has patches of Shocked Ground",
+        "#% more Pack size",
+        "#% more Waystones found in Area",
+        "ground lightning art variation [#]",
+        "map ground effect patches per # tiles [#]",
+        "map ground effect radius [#]"
+      ],
+      "affixRanges": [
+        null,
+        "7",
+        "15",
+        "1011",
+        "100",
+        "17"
+      ],
+      "familyId": "Suffix|Area has patches of Shocked Ground|#% more Pack size|#% more Waystones found in Area|ground lightning art variation [#]|map ground effect patches per # tiles [#]|map ground effect radius [#]",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monster Damage Penetrates #% Elemental Resistances",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monster Damage Penetrates #% Elemental Resistances",
+        "#% more Rarity of Items found in this Area",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "6-8",
+        "16",
+        "20"
+      ],
+      "familyId": "Prefix|Monster Damage Penetrates #% Elemental Resistances|#% more Rarity of Items found in this Area|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "(-#—-#)% maximum Player Resistances",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "(-#—-#)% maximum Player Resistances",
+        "#% more Pack size",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "4",
+        "10",
+        "25"
+      ],
+      "familyId": "Suffix|(-#—-#)% maximum Player Resistances|#% more Pack size|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Players gain #% reduced Flask Charges",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Players gain #% reduced Flask Charges",
+        "#% more Pack size",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "20-24",
+        "7",
+        "15"
+      ],
+      "familyId": "Suffix|Players gain #% reduced Flask Charges|#% more Pack size|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Players have #% less Recovery Rate of Life and Energy Shield",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Players have #% less Recovery Rate of Life and Energy Shield",
+        "#% more Rarity of Items found in this Area",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "20-29",
+        "15",
+        "20"
+      ],
+      "familyId": "Suffix|Players have #% less Recovery Rate of Life and Energy Shield|#% more Rarity of Items found in this Area|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Players have #% less Cooldown Recovery Rate",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Players have #% less Cooldown Recovery Rate",
+        "#% more Rarity of Items found in this Area",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "15-20",
+        "12",
+        "15"
+      ],
+      "familyId": "Suffix|Players have #% less Cooldown Recovery Rate|#% more Rarity of Items found in this Area|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Monsters take #% reduced Extra Damage from Critical Hits",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters take #% reduced Extra Damage from Critical Hits",
+        "#% more Magic and Rare Monsters",
+        "Rare Monsters have #% more chance of Monster Modifiers",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "15-19",
+        "18",
+        "18",
+        "10"
+      ],
+      "familyId": "Suffix|Monsters take #% reduced Extra Damage from Critical Hits|#% more Magic and Rare Monsters|Rare Monsters have #% more chance of Monster Modifiers|#% more Waystones found in Area",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Waystones"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% less effect of Curses on Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% less effect of Curses on Monsters",
+        "#% more Rarity of Items found in this Area",
+        "#% more Waystones found in Area"
+      ],
+      "affixRanges": [
+        "20-30",
+        "10",
+        "10"
+      ],
+      "familyId": "Suffix|#% less effect of Curses on Monsters|#% more Rarity of Items found in this Area|#% more Waystones found in Area",
+      "weight": null
+    }
+  ]
+}

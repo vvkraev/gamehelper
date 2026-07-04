@@ -1,0 +1,251 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "itemClasses": [
+        "Gloves"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Maligaro's Virtuosity",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Evasion Rating",
+        "#% increased Critical Hit Chance",
+        "#% increased Attack Speed",
+        "+# to Dexterity",
+        "Your Critical Hit Chance cannot be Rerolled",
+        "Your Critical Damage Bonus is #%"
+      ],
+      "affixRanges": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "familyId": "Maligaro's_Virtuosity",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Crossbows"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "The Last Lament",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Physical Damage",
+        "#% increased Attack Speed",
+        "#% reduced Reload Speed",
+        "Leeches #% of Physical Damage as Life",
+        "#% chance to load a bolt into all Crossbow skills on Kill",
+        "Sacrifice # Life to not consume the last bolt when firing"
+      ],
+      "affixRanges": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "familyId": "The_Last_Lament",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Belts"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Headhunter",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "+# to maximum Life",
+        "+# to Strength",
+        "+# to Dexterity",
+        "When you kill a Rare monster, you gain its Modifiers for # seconds"
+      ],
+      "affixRanges": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "familyId": "Headhunter",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Belts"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Shavronne's Satchel",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% reduced Flask Life Recovery rate",
+        "+# to Intelligence",
+        "#% increased Flask Charges gained",
+        "Life Recovery from Flasks also applies to Energy Shield"
+      ],
+      "affixRanges": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "familyId": "Shavronne's_Satchel",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Sceptres"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Guiding Palm of the Mind",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Gain #% of Damage as Extra Lightning Damage",
+        "Allies in your Presence deal # to # added Attack Lightning Damage",
+        "#% of your Base Life Regeneration is granted to Allies in your Presence",
+        "+# to Dexterity",
+        "#% increased Light Radius",
+        "Grants effect of Guided Tempest Shrine"
+      ],
+      "affixRanges": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "familyId": "Guiding_Palm_of_the_Mind",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Two Hand Maces"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "The Hammer of Faith",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Physical Damage",
+        "#% reduced Attack Speed",
+        "+#% to all Elemental Resistances",
+        "#% increased Mana Regeneration Rate",
+        "Every # seconds, gain a random non-damaging Shrine buff for # seconds"
+      ],
+      "affixRanges": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "familyId": "The_Hammer_of_Faith",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Two Hand Maces"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Chober Chaber",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "+# Intelligence Requirement",
+        "Adds # to # Physical Damage",
+        "+# to maximum Mana",
+        "+# to Spirit",
+        "+# to Level of all Minion Skills",
+        "Increases and Reductions to Minion Damage also affect you"
+      ],
+      "affixRanges": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "familyId": "Chober_Chaber",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Wands"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Lifesprig",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "+# to maximum Mana",
+        "+# to Level of all Spell Skills",
+        "#% increased Cast Speed",
+        "Leeches #% of maximum Life when you Cast a Spell"
+      ],
+      "affixRanges": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "familyId": "Lifesprig",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Sceptres"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Guiding Palm of the Heart",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Gain #% of Damage as Extra Fire Damage",
+        "Allies in your Presence deal # to # added Attack Fire Damage",
+        "#% of your Base Life Regeneration is granted to Allies in your Presence",
+        "+# to Strength",
+        "#% increased Light Radius",
+        "Grants effect of Guided Meteoric Shrine"
+      ],
+      "affixRanges": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "familyId": "Guiding_Palm_of_the_Heart",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Azmeri Spirit",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Azmeri Spirit"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "AzmeriSpirit",
+      "weight": null
+    }
+  ]
+}

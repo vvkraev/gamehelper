@@ -5,9 +5,8 @@ namespace GameHelper.Services;
 
 public sealed class AffixStatsData
 {
-    // v9: Coloured jewels (Sapphire/Ruby/…) now stored under their own library class key
-    //     ("Time-Lost Sapphire Jewels|Chaos Orb") instead of "Jewels|Time-Lost Sapphire|Chaos Orb".
-    public int Version { get; set; } = 9;
+    // v10: ClassStats tracks SnapshotsByFracturedAffix to allow fracture-corrected frequency display.
+    public int Version { get; set; } = 10;
 
     /// <summary>
     /// Item classes for which <see cref="MakeClassKey"/> includes the armour subtype segment.
@@ -73,6 +72,36 @@ public sealed class ClassStats
     [JsonPropertyName("totalSnapshots")]
     public int TotalSnapshots { get; set; }
 
+    /// <summary>
+    /// Снапшоты, где был хотя бы один зафрактурированный аффикс.
+    /// Снапшоты без фрактур исключаются из коррекции — они могут быть из другого крафта.
+    /// </summary>
+    [JsonPropertyName("snapshotsWithFracture")]
+    public int SnapshotsWithFracture { get; set; }
+
+    /// <summary>
+    /// Сколько снапшотов имели данный стат-вариант зафрактурированным.
+    /// Ключ — статный ключ вида "AffixName|normalizedStatText" (как MakeStatKey).
+    /// Позволяет различать "of Potency (Crit Dmg Bonus)" и "of Potency (Effect of Small Passives)".
+    /// </summary>
+    [JsonPropertyName("snapshotsByFracturedAffix")]
+    public Dictionary<string, int> SnapshotsByFracturedAffix { get; set; } = new(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Сколько раз стат-вариант X выпал в снапшотах, где была зафрактурирована ДРУГАЯ позиция.
+    /// Ключ — статный ключ "AffixName|normalizedStatText".
+    /// </summary>
+    [JsonPropertyName("affixCountsInFracturedSnapshots")]
+    public Dictionary<string, int> AffixCountsInFracturedSnapshots { get; set; } = new(StringComparer.Ordinal);
+
+    /// <summary>
+    /// Знаменатель для скорректированной частоты стат-варианта X:
+    /// снапшоты с фрактурой, где X сам не был зафрактурирован.
+    /// <paramref name="statKey"/> — ключ вида "AffixName|normalizedStatText".
+    /// </summary>
+    public int GetAvailableSamples(string statKey) =>
+        SnapshotsWithFracture - SnapshotsByFracturedAffix.GetValueOrDefault(statKey, 0);
+
     /// <summary>Количество предметов, на которых встречался аффикс с данным именем (любой вариант).</summary>
     [JsonPropertyName("affixCounts")]
     public Dictionary<string, int> AffixCounts { get; set; } = new(StringComparer.Ordinal);
@@ -97,6 +126,19 @@ public sealed class ClassStats
 
     // Matches standalone x/y variable tokens used by ItemParser for roll placeholders.
     private static readonly Regex VarTokens = new(@"\b[xy]\b", RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
+    // Matches PoE2 item text roll format: "10(5-10)" or "2.5(1.0-3.0)" → replaces with "#".
+    private static readonly Regex RollPattern = new(
+        @"\d+(?:\.\d+)?\(\d+(?:\.\d+)?-\d+(?:\.\d+)?\)",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
+    /// <summary>
+    /// Заменяет конкретные значения роллов на "#", чтобы все варианты одного мода
+    /// давали одинаковый стат-ключ независимо от выпавшего числа.
+    /// Например: "10(5-10)% increased Crit" → "#% increased Crit".
+    /// </summary>
+    public static string NormalizeRolls(string rawStatText) =>
+        RollPattern.Replace(rawStatText, "#");
 
     /// <summary>Формирует ключ словаря из имени аффикса и шаблона стата.</summary>
     public static string MakeStatKey(string affixName, string statTemplate)

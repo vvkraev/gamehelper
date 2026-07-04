@@ -1,0 +1,2342 @@
+﻿{
+  "_meta": {
+    "date": "2026-07-04",
+    "source": "poe2_trade_fetch_devtools",
+    "base_type": "Time-Lost Sapphire",
+    "slug": "felixfind#9574"
+  },
+  "listings": [
+    {
+      "id": "ec3525d4669e1671bb2d27d3a8a444fed98e7818d4c5d8b2968cff59cc81b359",
+      "name": "Gale Star",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 128,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 55,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+      ],
+      "mods_desecrated": [
+        "Mystic P1 \u2014 Small Passive Skills in Radius also grant 2% increased Spell Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "0fd3da36d60005400882ef29771b32582f28a706249cfc4018f13ddac3b141ea",
+      "name": "Woe Call",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 135,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Stormbound P1 \u2014 Gain 30% of Damage as Extra Lightning Damage"
+      ],
+      "mods_desecrated": [
+        "Amanamu\u0027s P1 \u2014 83% increased Elemental Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Ruthless P2 \u2014 Gain 25% of Damage as Extra Cold Damage",
+        "of Unmaking S1 \u2014 72% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 31% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "7f9798b2af180aab0878cdf08330455bd333bd25fbb9509b05e0cad31735669a",
+      "name": "Foe Thirst",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 136,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Flamebound P1 \u2014 Gain 29% of Damage as Extra Fire Damage"
+      ],
+      "mods_desecrated": [
+        "Amanamu\u0027s P1 \u2014 85% increased Elemental Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Stormbound P1 \u2014 Gain 29% of Damage as Extra Lightning Damage",
+        "of Unmaking S1 \u2014 72% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 27% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 8% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "e2426f7a9f877dd4bcbef6360d7a1e80607ec4356a6d633b41965436392dd9f0",
+      "name": "Storm Edge",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 146,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Malevolent P1 \u2014 116% increased Chaos Damage"
+      ],
+      "mods_desecrated": [
+        "Flamebound P1 \u2014 Gain 30% of Damage as Extra Fire Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells",
+        "of Sortilege S4 \u2014 21% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B157 to maximum Mana",
+        "of the Essence S0 \u2014 \u002B4 to Level of all Spell Skills"
+      ]
+    },
+    {
+      "id": "c50921baa65b54896002f4a5f61a6b63a5aa975861093b27b959f0ddb4c94a92",
+      "name": "Soul Scar",
+      "base_type": "Ruby",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 149,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 76,
+      "corrupted": true,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "of the Abyss S1 \u2014 3% increased Intelligence"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Prismatic P1 \u2014 9% increased Elemental Damage",
+        "of Frenzy S1 \u2014 21% increased amount of Life Leeched",
+        "of Sacrifice S1 \u2014 10% of Skill Mana Costs Converted to Life Costs"
+      ],
+      "mods_crafted": [
+        "57% increased Effect of Suffixes"
+      ]
+    },
+    {
+      "id": "0e4a8147e5f77959c18e996138b629eed1b309a940c45846894edeea7b67fefc",
+      "name": "Maelstr\u00F6m Cut",
+      "base_type": "Ruby",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 149,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "of the Abyss S1 \u2014 3% increased Intelligence"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Prismatic P1 \u2014 10% increased Elemental Damage",
+        "of Frenzy S1 \u2014 24% increased amount of Life Leeched",
+        "of Sacrifice S1 \u2014 10% of Skill Mana Costs Converted to Life Costs"
+      ],
+      "mods_crafted": [
+        "57% increased Effect of Suffixes"
+      ]
+    },
+    {
+      "id": "bc194df4eb6ec4fb7e51af04bbb14af99099b56df463acdeaf1eab29185b394c",
+      "name": "Chimeric Curio",
+      "base_type": "Ruby",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 149,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "of the Abyss S1 \u2014 3% increased Intelligence"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Prismatic P1 \u2014 7% increased Elemental Damage",
+        "of Frenzy S1 \u2014 22% increased amount of Life Leeched",
+        "of Sacrifice S1 \u2014 10% of Skill Mana Costs Converted to Life Costs"
+      ],
+      "mods_crafted": [
+        "50% increased Effect of Suffixes"
+      ]
+    },
+    {
+      "id": "d4b74de4b59e65a7e0f6272ab11940bfa9b6f80c4fe4068cee72eb35304979a2",
+      "name": "Miracle Barb",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 155,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Frostbound P1 \u2014 Gain 30% of Damage as Extra Cold Damage"
+      ],
+      "mods_desecrated": [
+        "Amanamu\u0027s P1 \u2014 85% increased Elemental Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Stormbound P1 \u2014 Gain 30% of Damage as Extra Lightning Damage",
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 26% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "6c66596c6c1ffe77ee521def1d7c7d183dc696acbe12b53c077cb7449c04d6d3",
+      "name": "Sorrow Bane",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 165,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Stormbound P1 \u2014 Gain 28% of Damage as Extra Lightning Damage"
+      ],
+      "mods_desecrated": [
+        "Infernal P2 \u2014 Gain 27% of Damage as Extra Fire Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Arctic P3 \u2014 79% increased Cold Damage",
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 30% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 8% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "af644a127748fe8d6653dd8ea7d37bd01e1e5c2add1d688c859790620732a1a1",
+      "name": "Damnation Scratch",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 168,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Frostbound P1 \u2014 Gain 30% of Damage as Extra Cold Damage"
+      ],
+      "mods_desecrated": [
+        "Zealot\u0027s P3 \u2014 Gain 23% of Damage as Extra Fire Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Electrifying P2 \u2014 Gain 27% of Damage as Extra Lightning Damage",
+        "of Unmaking S1 \u2014 66% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 28% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "b0f9c7d7061c826927235a6acf48d15df147a56a41784f577dd626042b7e376d",
+      "name": "Kraken Fingers",
+      "base_type": "Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 169,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 66,
+      "armour": 0,
+      "mods_fractured": [
+        "of the Volcano S3 \u2014 \u002B34% to Fire Resistance"
+      ],
+      "mods_desecrated": [
+        "Kolr\u0027s P1 \u2014 39% increased Projectile Speed"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Gentian P2 \u2014 \u002B102 to maximum Mana",
+        "Kolr\u0027s P2 \u2014 22% increased Projectile Damage"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items",
+        "of Fury S2 \u2014 26% increased Critical Damage Bonus"
+      ]
+    },
+    {
+      "id": "468e69b00df6f0f06edff8341acc75585aa779fcf3c704fac4736ffb04aa8430",
+      "name": "Sol Cry",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 169,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Legerdemain S3 \u2014 27% increased Cast Speed"
+      ],
+      "mods_desecrated": [
+        "Flamebound P1 \u2014 Gain 28% of Damage as Extra Fire Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Incanter\u0027s P3 \u2014 79% increased Spell Damage",
+        "of Unmaking S1 \u2014 72% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B180 to maximum Mana",
+        "of the Essence S0 \u2014 \u002B4 to Level of all Spell Skills"
+      ]
+    },
+    {
+      "id": "77a83d807637f726e6179602d8a9a8084c072bc755274b3fac7ca16f02cb01b5",
+      "name": "Oblivion Song",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 175,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Ionising P2 \u2014 104% increased Lightning Damage"
+      ],
+      "mods_desecrated": [
+        "Flamebound P1 \u2014 Gain 28% of Damage as Extra Fire Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Lich\u0027s P1 \u2014 46% increased Spell Damage",
+        "Lich\u0027s P1 \u2014 \u002B43 to maximum Mana",
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 30% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "8af8122a520e1f2be4320bd15ee0a8d6051688e5645b341395b9a27e9694b102",
+      "name": "Oblivion Song",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 177,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Frostbound P1 \u2014 Gain 28% of Damage as Extra Cold Damage"
+      ],
+      "mods_desecrated": [
+        "Amanamu\u0027s P1 \u2014 82% increased Elemental Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Flamebound P1 \u2014 Gain 29% of Damage as Extra Fire Damage",
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 29% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 10% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "039b80930965f546d926d74e262788fd794f4906c8c1cef7d5d0f7ddede32acf",
+      "name": "Soul Hand",
+      "base_type": "Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 199,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 114,
+      "armour": 0,
+      "mods_fractured": [
+        "Kolr\u0027s P1 \u2014 40% increased Projectile Speed"
+      ],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Radiating P3 \u2014 \u002B39 to maximum Energy Shield",
+        "Chalybeous P1 \u2014 \u002B123 to maximum Mana",
+        "of the Hunt S1 \u2014 Mark Skills have 77% increased Skill Effect Duration"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items",
+        "of Fury S2 \u2014 29% increased Critical Damage Bonus"
+      ]
+    },
+    {
+      "id": "3ef6b3936fa6d29e8315d19a726758ef194ee4f94743f0fbf43c1cb0d08d6194",
+      "name": "Loath Claw",
+      "base_type": "Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 199,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 269,
+      "armour": 0,
+      "mods_fractured": [
+        "Kolr\u0027s P1 \u2014 40% increased Projectile Speed"
+      ],
+      "mods_desecrated": [
+        "Blazing P1 \u2014 \u002B56 to maximum Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Unassailable P1 \u2014 99% increased Energy Shield",
+        "of the Polar Bear S3 \u2014 \u002B31% to Cold Resistance"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items",
+        "of Fury S2 \u2014 29% increased Critical Damage Bonus"
+      ]
+    },
+    {
+      "id": "082311a88e41cbfe5bc3452fa80ee1765904c835ae25ef09e00c2ab8a4b1ce9d",
+      "name": "Doom Bane",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 199,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 72% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Thunder S1 \u2014 \u002B5 to Level of all Lightning Spell Skills"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "2f724a1471652ccb0e3768e4e269ad189ce0175c3fcdaa21fd9c2c8d77e575e9",
+      "name": "Tempest Goad",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 199,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Stormbound P1 \u2014 Gain 30% of Damage as Extra Lightning Damage"
+      ],
+      "mods_desecrated": [
+        "Frostbound P1 \u2014 Gain 29% of Damage as Extra Cold Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Infernal P2 \u2014 Gain 26% of Damage as Extra Fire Damage",
+        "of Unmaking S1 \u2014 72% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 29% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "61002590fcfbcbcf7cce960d537c248c4290cf2dedca8bd36c6aaa4308a622c8",
+      "name": "Skull Hold",
+      "base_type": "Runeforged Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 199,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 89,
+      "armour": 0,
+      "mods_fractured": [
+        "Kolr\u0027s P1 \u2014 40% increased Projectile Speed"
+      ],
+      "mods_desecrated": [
+        "of Kurgal S1 \u2014 15% chance to Gain Arcane Surge when you deal a Critical Hit"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Blazing P1 \u2014 \u002B52 to maximum Energy Shield",
+        "Razor-sharp P3 \u2014 Adds 11 to 20 Physical Damage to Attacks",
+        "of the Hunt S1 \u2014 \u002B2 to Level of all Projectile Skills",
+        "of the Jaguar S3 \u2014 \u002B28 to Dexterity"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "06d547bca186dae504a669211fd2388eb56a0bb805fcf5a1e8930f9c5d0bb83e",
+      "name": "Sol Branch",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 199,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Flamebound P1 \u2014 Gain 30% of Damage as Extra Fire Damage"
+      ],
+      "mods_desecrated": [
+        "Ulaman\u0027s P1 \u2014 Gain 22% of Damage as Extra Physical Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Frostbound P1 \u2014 Gain 29% of Damage as Extra Cold Damage",
+        "of Unmaking S1 \u2014 72% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 28% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "7552fc01acb1bd1a29294144c16976209c564e9e6ed7c9d00c02984038248306",
+      "name": "Gloom Edge",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 200,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Cryomancer\u0027s P1 \u2014 116% increased Cold Damage"
+      ],
+      "mods_desecrated": [
+        "Stormbound P1 \u2014 Gain 30% of Damage as Extra Lightning Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Flamebound P1 \u2014 Gain 29% of Damage as Extra Fire Damage",
+        "of Unmaking S1 \u2014 70% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 29% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 10% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "495125ae727314741255f45a7780eaaab6a2dd0a223f986ef39861d297076268",
+      "name": "Hypnotic Barb",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 213,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Flamebound P1 \u2014 Gain 30% of Damage as Extra Fire Damage"
+      ],
+      "mods_desecrated": [
+        "Stormbound P1 \u2014 Gain 29% of Damage as Extra Lightning Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Ruthless P2 \u2014 Gain 25% of Damage as Extra Cold Damage",
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 30% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 10% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "8d1007e37ad2d334c4102dd8010270652f9dfc99dcda3980e73229ab44bc831d",
+      "name": "Wrath Spire",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 215,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Flamebound P1 \u2014 Gain 30% of Damage as Extra Fire Damage"
+      ],
+      "mods_desecrated": [
+        "Ulaman\u0027s P1 \u2014 Gain 25% of Damage as Extra Physical Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Stormbound P1 \u2014 Gain 28% of Damage as Extra Lightning Damage",
+        "of Unmaking S1 \u2014 72% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 27% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 7% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "683a01dc44b7327a5de3d68d4ccbaf8e5cbe93a475ee00a2dda66dc0515fadbd",
+      "name": "Ghoul Heart",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 225,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "5f6e5a67c7bc225e1bd478b5497eaa97908d282e91473a742484131beb2efde5",
+      "name": "Chimeric Edge",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 230,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Frostbound P1 \u2014 Gain 29% of Damage as Extra Cold Damage"
+      ],
+      "mods_desecrated": [
+        "Stormbound P1 \u2014 Gain 29% of Damage as Extra Lightning Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Flamebound P1 \u2014 Gain 29% of Damage as Extra Fire Damage",
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 31% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "f96177d59d5d3988ff27f08f3541c2d5de95ce5b872d18058173398d02362895",
+      "name": "Kraken Barb",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 233,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Stormbound P1 \u2014 Gain 29% of Damage as Extra Lightning Damage"
+      ],
+      "mods_desecrated": [
+        "Frostbound P1 \u2014 Gain 30% of Damage as Extra Cold Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Flamebound P1 \u2014 Gain 28% of Damage as Extra Fire Damage",
+        "of Unmaking S1 \u2014 65% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 28% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "10aca69be9b2b3bfa0f740ed7b40f0f1c2e459218c63ff3243610cd0a304801f",
+      "name": "Storm Charm",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 233,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Stormbound P1 \u2014 Gain 30% of Damage as Extra Lightning Damage"
+      ],
+      "mods_desecrated": [
+        "Infernal P2 \u2014 Gain 27% of Damage as Extra Fire Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Malevolent P1 \u2014 117% increased Chaos Damage",
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 28% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "f097c6adb180472d4de4cc4a9093213bdbcff354053396cedd36a9b1b5676996",
+      "name": "Pandemonium Ruin",
+      "base_type": "Emerald",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 245,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Monk\u0027s P1 \u2014 24% increased Damage with Quarterstaves"
+      ],
+      "mods_desecrated": [
+        "Slaying P1 \u2014 30% increased Damage with Hits against Rare and Unique Enemies"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Deadliness S1 \u2014 11% increased Critical Hit Chance for Attacks",
+        "Combat P1 \u2014 22% increased Attack Damage"
+      ],
+      "mods_crafted": [
+        "51% increased Effect of Prefixes"
+      ]
+    },
+    {
+      "id": "ce04b729eb41a732239339cd22c93497a54eff059d3933955eb5d7ab25c5fd42",
+      "name": "Plague Branch",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 245,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Glyphic P2 \u2014 104% increased Spell Damage"
+      ],
+      "mods_desecrated": [
+        "Frostbound P1 \u2014 Gain 29% of Damage as Extra Cold Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Electrifying P2 \u2014 Gain 25% of Damage as Extra Lightning Damage",
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 \u002B3 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 30% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "aef82efb136af13d035f59d526d722fc9c3053419fad31fe54516b39dfbd478a",
+      "name": "Fulgent Desire",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 250,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Generation S1 \u2014 Notable Passive Skills in Radius also grant Meta Skills gain 4% increased Energy"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "f7ceac9f69fe1ade46cf27b168617d348c61ecca4479a8854308e5648b9146bb",
+      "name": "Soul Hope",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 250,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 62,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Generation S1 \u2014 Notable Passive Skills in Radius also grant Meta Skills gain 4% increased Energy"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "2fdac9bcf99d4dafdd89b122e213e18464fb87e7373ac73ca9fc70153a0751d0",
+      "name": "Hypnotic Joy",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 275,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "055ab301ac04653ac2a5fe2295422cced31f2514865bac43f20c3dd9879496ca",
+      "name": "Fate Chant",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 276,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 86,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Frostbite S1 \u2014 \u002B5 to Level of all Cold Spell Skills"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "cd1bc9c1967f9c0007d9feefbd0ef78a55cd57bdfbd49263031df5fb19c1dee9",
+      "name": "Hate Thirst",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 288,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Frostbite S1 \u2014 \u002B5 to Level of all Cold Spell Skills"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "faa90bc4fa2f70878367904c1c38eba0a6296010589189fec58e1d40159124b5",
+      "name": "Glyph Cry",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 299,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Frostbite S1 \u2014 \u002B5 to Level of all Cold Spell Skills"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "2268b27108c2f053db9a88e3977974b2b494aabca92f82243629a395e8f92e9a",
+      "name": "Pandemonium Fist",
+      "base_type": "Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 299,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 66,
+      "armour": 0,
+      "mods_fractured": [
+        "of Buffering S1 \u2014 16% increased Energy Shield Recharge Rate"
+      ],
+      "mods_desecrated": [
+        "Flaring P1 \u2014 Adds 17 to 25 Physical Damage to Attacks"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Polar P2 \u2014 Adds 18 to 29 Cold damage to Attacks",
+        "Kolr\u0027s P1 \u2014 40% increased Projectile Speed"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items",
+        "of Fury S2 \u2014 27% increased Critical Damage Bonus"
+      ]
+    },
+    {
+      "id": "f96ec3890a5824f809ecf167e9e619bf4023c52ff4cc0453cf6a9c187e0f5e69",
+      "name": "Vortex Crown",
+      "base_type": "Ancestral Tiara",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 350,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 267,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Unassailable P1 \u2014 99% increased Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Fecund P1 \u2014 \u002B173 to maximum Life",
+        "Mazarine P1 \u2014 \u002B139 to maximum Mana",
+        "of Ephij S1 \u2014 \u002B45% to Lightning Resistance",
+        "of Bameth S1 \u2014 \u002B26% to Chaos Resistance"
+      ],
+      "mods_crafted": [
+        "of Archaeology S1 \u2014 17% increased Rarity of Items found"
+      ]
+    },
+    {
+      "id": "48d797f707d5113d173e8bc74b97149df8114d5e52ef8b7fbdb0c74bb6fb5c4c",
+      "name": "Luminous Hope",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 399,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "2a848adf47fef4242c96c15956384eb45dd19d9cf9724cd3a96b844ccb40e975",
+      "name": "Tempest Claw",
+      "base_type": "Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 399,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 66,
+      "armour": 0,
+      "mods_fractured": [
+        "Kolr\u0027s P1 \u2014 40% increased Projectile Speed"
+      ],
+      "mods_desecrated": [
+        "Chalybeous P1 \u2014 \u002B119 to maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Athlete\u0027s P1 \u2014 \u002B147 to maximum Life",
+        "of the Hunt S1 \u2014 \u002B2 to Level of all Projectile Skills",
+        "of the Hunt S2 \u2014 Projectiles have 46% chance for an additional Projectile when Forking"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items"
+      ]
+    },
+    {
+      "id": "b367d2fdf3febf43f84eb5f0ae01f1c5c5ecee1531d90aa123fb5fa9d9300d12",
+      "name": "Sorrow Talons",
+      "base_type": "Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 399,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 277,
+      "armour": 0,
+      "mods_fractured": [
+        "Kolr\u0027s P1 \u2014 40% increased Projectile Speed"
+      ],
+      "mods_desecrated": [
+        "Unassailable P1 \u2014 99% increased Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Blazing P1 \u2014 \u002B60 to maximum Energy Shield",
+        "of the Hunt S1 \u2014 \u002B2 to Level of all Projectile Skills"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items",
+        "of Fury S2 \u2014 28% increased Critical Damage Bonus"
+      ]
+    },
+    {
+      "id": "e6d7a68d9d137636c7b93fa9f5f4f3520470050fcf13921cd983dc3945d38fad",
+      "name": "Behemoth Branch",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 450,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "Stormbound P1 \u2014 Gain 29% of Damage as Extra Lightning Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Frostbound P1 \u2014 Gain 30% of Damage as Extra Cold Damage",
+        "of Frostbite S1 \u2014 \u002B5 to Level of all Cold Spell Skills"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B178 to maximum Mana",
+        "Verisium P0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 31% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 10% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "facbed7b340ef1ab43e09ab56c609d12827ffb25500898a2b7c2bc0a73e0ac3e",
+      "name": "Behemoth Glimmer",
+      "base_type": "Emerald",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 499,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 76,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Monk\u0027s P1 \u2014 24% increased Damage with Quarterstaves"
+      ],
+      "mods_desecrated": [
+        "Slaying P1 \u2014 29% increased Damage with Hits against Rare and Unique Enemies"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Demolishing S1 \u2014 15% increased Critical Damage Bonus for Attack Damage",
+        "Combat P1 \u2014 21% increased Attack Damage"
+      ],
+      "mods_crafted": [
+        "53% increased Effect of Prefixes"
+      ]
+    },
+    {
+      "id": "edbcd56eaa6e60e195931a037ea9e7a88ed35e838b6333a81443b264efc5f2c7",
+      "name": "Foe Vessel",
+      "base_type": "Emerald",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 499,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Monk\u0027s P1 \u2014 25% increased Damage with Quarterstaves"
+      ],
+      "mods_desecrated": [
+        "Slaying P1 \u2014 25% increased Damage with Hits against Rare and Unique Enemies"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Demolishing S1 \u2014 17% increased Critical Damage Bonus for Attack Damage",
+        "Combat P1 \u2014 23% increased Attack Damage"
+      ],
+      "mods_crafted": [
+        "57% increased Effect of Prefixes"
+      ]
+    },
+    {
+      "id": "991df3d2b832a134704a0effd6d3b8fe997a3b513f70ba65108e598969fa7a0d",
+      "name": "Kraken Joy",
+      "base_type": "Emerald",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 499,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Monk\u0027s P1 \u2014 25% increased Damage with Quarterstaves"
+      ],
+      "mods_desecrated": [
+        "Slaying P1 \u2014 30% increased Damage with Hits against Rare and Unique Enemies"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Deadliness S1 \u2014 14% increased Critical Hit Chance for Attacks",
+        "Combat P1 \u2014 20% increased Attack Damage"
+      ],
+      "mods_crafted": [
+        "59% increased Effect of Prefixes"
+      ]
+    },
+    {
+      "id": "65b10caeeef4346d8b7f47bc018e94cad459e431fc4851502985cb1046743d1c",
+      "name": "Onslaught Dash",
+      "base_type": "Sekhema Sandals",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 499,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 199,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Unassailable P1 \u2014 95% increased Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Hellion\u0027s P1 \u2014 35% increased Movement Speed",
+        "Chalybeous P1 \u2014 \u002B120 to maximum Mana",
+        "of Ephij S1 \u2014 \u002B45% to Lightning Resistance"
+      ],
+      "mods_crafted": [
+        "of Archaeology S1 \u2014 17% increased Rarity of Items found",
+        "\u002B15 to Spirit"
+      ]
+    },
+    {
+      "id": "9dfbc81cdf95eb6d3666dc4ac3d90ea1e26ff580975e3bb281103dba268c0877",
+      "name": "Oblivion Knuckle",
+      "base_type": "Runeforged Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 499,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 26,
+      "armour": 0,
+      "mods_fractured": [
+        "of the Hunt S1 \u2014 \u002B2 to Level of all Projectile Skills"
+      ],
+      "mods_desecrated": [
+        "of Kurgal S1 \u2014 14% chance to Gain Arcane Surge when you deal a Critical Hit"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Gentian P2 \u2014 \u002B101 to maximum Mana",
+        "Kolr\u0027s P1 \u2014 40% increased Projectile Speed",
+        "Kolr\u0027s P2 \u2014 26% increased Projectile Damage"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items"
+      ]
+    },
+    {
+      "id": "1d5dd44c6d8fa47d25ec9f48c8c80a3495554cd6ccfa400aa9c62c9daddf296a",
+      "name": "Woe Bite",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 555,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 84,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "Stormbound P1 \u2014 Gain 30% of Damage as Extra Lightning Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Flamebound P1 \u2014 Gain 27% of Damage as Extra Fire Damage",
+        "of the Wizard S1 \u2014 \u002B4 to Level of all Spell Skills"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B160 to maximum Mana",
+        "Verisium P0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 26% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 8% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "ea808791ff8ea6a94713f56b3bc840e524111e1bb8430f49b8971203c89bce28",
+      "name": "Hypnotic Branch",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 588,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "Frostbound P1 \u2014 Gain 30% of Damage as Extra Cold Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Stormbound P1 \u2014 Gain 29% of Damage as Extra Lightning Damage",
+        "of the Wizard S1 \u2014 \u002B4 to Level of all Spell Skills"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B180 to maximum Mana",
+        "Verisium P0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 27% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "6bc5d348e0cc9ffe0b301c029fe288d0f2d0073be70859eb5c1cc63166ad5f7f",
+      "name": "Foe Spire",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:54Z",
+      "price_divine": 588,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "Stormbound P1 \u2014 Gain 28% of Damage as Extra Lightning Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Flamebound P1 \u2014 Gain 30% of Damage as Extra Fire Damage",
+        "of the Wizard S1 \u2014 \u002B4 to Level of all Spell Skills"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B173 to maximum Mana",
+        "Verisium P0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 30% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "de4fc3f4e7e26ed07d14e59a155e659487b1ba80b8fd6ad449e087947face103",
+      "name": "Apocalypse Edge",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 588,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 72% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "Frostbound P1 \u2014 Gain 30% of Damage as Extra Cold Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Stormbound P1 \u2014 Gain 30% of Damage as Extra Lightning Damage",
+        "of the Wizard S1 \u2014 \u002B4 to Level of all Spell Skills"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B182 to maximum Mana",
+        "Verisium P0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 28% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "3fde71a2d4d69bd487d810a0e99a40aebc9effdb96e002845b3e7686ea75ed8e",
+      "name": "Woe Spire",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 598,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 72% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "Frostbound P1 \u2014 Gain 29% of Damage as Extra Cold Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Flamebound P1 \u2014 Gain 28% of Damage as Extra Fire Damage",
+        "of the Wizard S1 \u2014 \u002B4 to Level of all Spell Skills"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B180 to maximum Mana",
+        "Verisium P0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 31% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "9f67f0cf496a685254f6e7b7de476e5cb0aed79912393edfb122f01ea58fea1d",
+      "name": "Carrion Glimmer",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 599,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 62,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 12% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 8% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "07c4000aef3330707db5922582011f2d45682779b7e1406262675229114a95fe",
+      "name": "Dire Twirl",
+      "base_type": "Unset Ring",
+      "listed_at": "2026-07-04T11:36:27Z",
+      "price_divine": 599,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Electrocuting P1 \u2014 Adds 4 to 84 Lightning damage to Attacks"
+      ],
+      "mods_desecrated": [
+        "Cremating P1 \u2014 Adds 32 to 54 Fire damage to Attacks"
+      ],
+      "mods_implicit": [
+        "Grants 1 additional Skill Slot"
+      ],
+      "mods_explicit": [
+        "Entombing P1 \u2014 Adds 26 to 42 Cold damage to Attacks",
+        "of Bameth S1 \u2014 \u002B26% to Chaos Resistance",
+        "of the Remora S1 \u2014 Leech 9.31% of Physical Attack Damage as Life",
+        "of the Arid S1 \u2014 Leech 7.56% of Physical Attack Damage as Mana"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "917a474c5a2ed35e419d7d8c5f9e424cdf156dd7a6a9c4cf4cc9e25ed9efd010",
+      "name": "Hypnotic Desire",
+      "base_type": "Diamond",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 599,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Sacrifice S1 \u2014 9% of Skill Mana Costs Converted to Life Costs"
+      ],
+      "mods_desecrated": [
+        "of Potency S1 \u2014 30% increased Critical Damage Bonus"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Mystic P1 \u2014 14% increased Spell Damage",
+        "of Unmaking S1 \u2014 24% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "52% increased Effect of Suffixes"
+      ]
+    },
+    {
+      "id": "c26cd18fe9bd8c6dbb4f0fd98223645d2221450d70e17b1f51bf8c6a7c9e7f08",
+      "name": "Blood Edge",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 615,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "Flamebound P1 \u2014 Gain 30% of Damage as Extra Fire Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Frostbound P1 \u2014 Gain 28% of Damage as Extra Cold Damage",
+        "of the Wizard S1 \u2014 \u002B4 to Level of all Spell Skills"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B187 to maximum Mana",
+        "Verisium P0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 28% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "06a754b05f6f2c8f6b686d833b5aa3c73fba31e42c1f7ac8554f8b673e111ae5",
+      "name": "Horror Road",
+      "base_type": "Sekhema Sandals",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 688,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 426,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Unassailable P1 \u2014 100% increased Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Hellion\u0027s P1 \u2014 35% increased Movement Speed",
+        "Blazing P1 \u2014 \u002B60 to maximum Energy Shield",
+        "of Ephij S1 \u2014 \u002B45% to Lightning Resistance"
+      ],
+      "mods_crafted": [
+        "of Archaeology S1 \u2014 18% increased Rarity of Items found",
+        "\u002B15 to Spirit"
+      ]
+    },
+    {
+      "id": "728ceb65c163444ab5c8d17dbad7179de609a6e77ce7048f9e947d249e03d644",
+      "name": "Loath Spark",
+      "base_type": "Diamond",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 699,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 46,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Sacrifice S1 \u2014 10% of Skill Mana Costs Converted to Life Costs"
+      ],
+      "mods_desecrated": [
+        "of Unmaking S1 \u2014 30% increased Critical Spell Damage Bonus"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Mystic P1 \u2014 15% increased Spell Damage",
+        "of Frenzy S1 \u2014 25% increased amount of Life Leeched"
+      ],
+      "mods_crafted": [
+        "53% increased Effect of Suffixes"
+      ]
+    },
+    {
+      "id": "874e39794dc247c7beded326dae5ca2e20ec65b077b35eb28e85351ecfc01507",
+      "name": "Brimstone Goad",
+      "base_type": "Sekhema Sandals",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 699,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 200,
+      "armour": 0,
+      "mods_fractured": [
+        "of the Virtuoso S1 \u2014 \u002B33 to Intelligence"
+      ],
+      "mods_desecrated": [
+        "Chalybeous P1 \u2014 \u002B124 to maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Hellion\u0027s P1 \u2014 35% increased Movement Speed",
+        "Unassailable P1 \u2014 94% increased Energy Shield"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items",
+        "of the Stars S0 \u2014 \u002B15 to Spirit"
+      ]
+    },
+    {
+      "id": "ef7c256927b8be90ff6627ee4569c2a9d274418998cfcb58d3ed10d4f410b578",
+      "name": "Spirit Star",
+      "base_type": "Diamond",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 699,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 25,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Sacrifice S1 \u2014 10% of Skill Mana Costs Converted to Life Costs"
+      ],
+      "mods_desecrated": [
+        "of Unmaking S1 \u2014 30% increased Critical Spell Damage Bonus"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Mystic P1 \u2014 14% increased Spell Damage",
+        "of Success S1 \u2014 Recover 3% of maximum Life on Kill"
+      ],
+      "mods_crafted": [
+        "59% increased Effect of Suffixes"
+      ]
+    },
+    {
+      "id": "64e25021714405a6fb80d89b3640510c29f11fb4e0ec7882f7cf9ede94354cba",
+      "name": "Fulgent Essence",
+      "base_type": "Diamond",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 699,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Sacrifice S1 \u2014 10% of Skill Mana Costs Converted to Life Costs"
+      ],
+      "mods_desecrated": [
+        "of Osmosis S1 \u2014 Recover 3% of maximum Mana on Kill"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Mystic P1 \u2014 15% increased Spell Damage",
+        "of Success S1 \u2014 Recover 3% of maximum Life on Kill"
+      ],
+      "mods_crafted": [
+        "54% increased Effect of Suffixes"
+      ]
+    },
+    {
+      "id": "d83a85cfd5b05634d3d78de90bced9cdea405ad7836ee0e545ea1b8f5bbe4e4c",
+      "name": "Hypnotic Palm",
+      "base_type": "Runeforged Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 699,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 26,
+      "armour": 0,
+      "mods_fractured": [
+        "Kolr\u0027s P1 \u2014 40% increased Projectile Speed"
+      ],
+      "mods_desecrated": [
+        "of Kurgal S1 \u2014 15% chance to Gain Arcane Surge when you deal a Critical Hit"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Athlete\u0027s P1 \u2014 \u002B137 to maximum Life",
+        "of the Hunt S1 \u2014 \u002B2 to Level of all Projectile Skills",
+        "Kolr\u0027s P1 \u2014 39% increased Projectile Damage"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items"
+      ]
+    },
+    {
+      "id": "179af1a7b0d8c422d488e1c7567a63dbcf0c2189827f9690fd96cd36126554db",
+      "name": "Victory Goad",
+      "base_type": "Sekhema Sandals",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 735,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 83,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 372,
+      "armour": 0,
+      "mods_fractured": [
+        "Blazing P1 \u2014 \u002B57 to maximum Energy Shield"
+      ],
+      "mods_desecrated": [
+        "Unassailable P1 \u2014 96% increased Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Hellion\u0027s P1 \u2014 35% increased Movement Speed",
+        "of Ephij S1 \u2014 \u002B45% to Lightning Resistance",
+        "of Chronomancy S1 \u2014 30% increased Cooldown Recovery Rate"
+      ],
+      "mods_crafted": [
+        "of the Stars S0 \u2014 \u002B15 to Spirit"
+      ]
+    },
+    {
+      "id": "81bfd0affd37044a4fde65be4ab98f3ad7aadc29b6fbda2740fe8fdf0f2050be",
+      "name": "Blight Spell",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 888,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 83,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 72% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "Runic P1 \u2014 94% increased Spell Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Frostbound P1 \u2014 Gain 30% of Damage as Extra Cold Damage",
+        "of the Wizard S1 \u2014 \u002B4 to Level of all Spell Skills"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B189 to maximum Mana",
+        "Verisium P0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 31% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 9% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "919c78960d7d05b877e7ece09c75bf5a83f471d8255f7df6456373acd1fd0769",
+      "name": "Tempest Trail",
+      "base_type": "Sekhema Sandals",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 899,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 374,
+      "armour": 0,
+      "mods_fractured": [
+        "Blazing P1 \u2014 \u002B59 to maximum Energy Shield"
+      ],
+      "mods_desecrated": [
+        "Hellion\u0027s P1 \u2014 35% increased Movement Speed"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Unassailable P1 \u2014 96% increased Energy Shield",
+        "of Haast S1 \u2014 \u002B45% to Cold Resistance",
+        "of Chronomancy S1 \u2014 30% increased Cooldown Recovery Rate"
+      ],
+      "mods_crafted": [
+        "of the Stars S0 \u2014 \u002B15 to Spirit"
+      ]
+    },
+    {
+      "id": "ac3ec2282acbc7fd10255818226f8c3adff56fcb7a0ccb24ee4697b3ceed945d",
+      "name": "Plague Bloom",
+      "base_type": "Emerald",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 999,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 68,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Monk\u0027s P1 \u2014 25% increased Damage with Quarterstaves"
+      ],
+      "mods_desecrated": [
+        "Slaying P1 \u2014 31% increased Damage with Hits against Rare and Unique Enemies"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Deadliness S1 \u2014 16% increased Critical Hit Chance for Attacks",
+        "Combat P1 \u2014 22% increased Attack Damage"
+      ],
+      "mods_crafted": [
+        "58% increased Effect of Prefixes"
+      ]
+    },
+    {
+      "id": "0bb3a8f9738528dffbc7d5a1933d3d016799fde40f8fffe0f161c1fd4059d423",
+      "name": "Maelstr\u00F6m Paw",
+      "base_type": "Runeforged Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 999,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 97,
+      "armour": 0,
+      "mods_fractured": [
+        "Kolr\u0027s P1 \u2014 40% increased Projectile Speed"
+      ],
+      "mods_desecrated": [
+        "of Kurgal S1 \u2014 15% chance to Gain Arcane Surge when you deal a Critical Hit"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Blazing P1 \u2014 \u002B60 to maximum Energy Shield",
+        "Athlete\u0027s P1 \u2014 \u002B144 to maximum Life",
+        "of the Hunt S1 \u2014 \u002B2 to Level of all Projectile Skills"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items"
+      ]
+    },
+    {
+      "id": "8fb5488178df3fb03e83ca1ab75f9c5d2e16670d99902e35f711bea8785c24bc",
+      "name": "Pain Idol",
+      "base_type": "Absent Amulet",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 1099,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Countess\u0027 P1 \u2014 \u002B50 to Spirit"
+      ],
+      "mods_desecrated": [
+        "of Prestidigitation S1 \u2014 41% increased Cast Speed"
+      ],
+      "mods_implicit": [
+        "-1 Prefix Modifier allowed",
+        "-1 Suffix Modifier allowed"
+      ],
+      "mods_explicit": [
+        "Confident P1 \u2014 8% increased maximum Life",
+        "of the Sorcerer S1 \u2014 \u002B4 to Level of all Spell Skills"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "a1c55e0a1a7f7a55fadb96db9679efaf8a099cdf75721687d503ffd03faa01bb",
+      "name": "Wrath Needle",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 1499,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 72% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "Frostbound P1 \u2014 Gain 26% of Damage as Extra Cold Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Runic P1 \u2014 131% increased Spell Damage",
+        "of the Wizard S1 \u2014 \u002B4 to Level of all Spell Skills"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B203 to maximum Mana",
+        "Verisium P0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 25% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 9% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "e9d5fdaa6054accb128cedc39bdc2f73f47fe3ac0018692107c47aa4311a06d3",
+      "name": "Beast Call",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 1688,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "Electromancer\u0027s P1 \u2014 118% increased Lightning Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Runic P1 \u2014 118% increased Spell Damage",
+        "of the Wizard S1 \u2014 \u002B4 to Level of all Spell Skills"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B171 to maximum Mana",
+        "Verisium P0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 31% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 11% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "eacaa3a414bc3c1d7c5d2e81cc045d13b2c0e442c8766778e95fe009ffe7d3c4",
+      "name": "Rage Twirl",
+      "base_type": "Mnemonic Ring",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 1699,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Calculating P0 \u2014 37% increased Mana Cost Efficiency of Spells"
+      ],
+      "mods_desecrated": [
+        "Zaffre P1 \u2014 \u002B254 to maximum Mana"
+      ],
+      "mods_implicit": [
+        "8% increased maximum Mana"
+      ],
+      "mods_explicit": [
+        "of Legerdemain S1 \u2014 24% increased Cast Speed",
+        "of the Rainbow S1 \u2014 \u002B16% to all Elemental Resistances",
+        "of Nirvana S1 \u2014 98% increased Mana Regeneration Rate"
+      ],
+      "mods_crafted": [
+        "Essences P0 \u2014 8% increased maximum Mana"
+      ]
+    },
+    {
+      "id": "ac80da3d721d5c5f98e14575c62ccaca8aed269e6507d647bed33239979c198e",
+      "name": "Chimeric Urge",
+      "base_type": "Sekhema Sandals",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 1750,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 204,
+      "armour": 0,
+      "mods_fractured": [
+        "Unassailable P1 \u2014 98% increased Energy Shield"
+      ],
+      "mods_desecrated": [
+        "of Chronomancy S1 \u2014 30% increased Cooldown Recovery Rate"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Hellion\u0027s P1 \u2014 35% increased Movement Speed",
+        "Chalybeous P1 \u2014 \u002B124 to maximum Mana",
+        "of Archaeology S1 \u2014 17% increased Rarity of Items found",
+        "of Ephij S1 \u2014 \u002B45% to Lightning Resistance"
+      ],
+      "mods_crafted": [
+        "of the Stars S0 \u2014 \u002B14 to Spirit"
+      ]
+    },
+    {
+      "id": "7500428cc992dd2ac40b8a4a7a41c7081e1bea222b1346d72f3df14ae2b72fec",
+      "name": "Grim Idol",
+      "base_type": "Absent Amulet",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 1888,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "Countess\u0027 P1 \u2014 \u002B50 to Spirit"
+      ],
+      "mods_desecrated": [
+        "of Prestidigitation S1 \u2014 36% increased Cast Speed"
+      ],
+      "mods_implicit": [
+        "-1 Prefix Modifier allowed",
+        "-1 Suffix Modifier allowed"
+      ],
+      "mods_explicit": [
+        "Zaffre P2 \u2014 \u002B189 to maximum Mana",
+        "of the Sorcerer S1 \u2014 \u002B4 to Level of all Spell Skills"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "785a56132bdfa2810b437d13d868352472aa33a6f1d0c11fd7116eb958dfa7ba",
+      "name": "Miracle Nails",
+      "base_type": "Runeforged Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 1888,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 98,
+      "armour": 0,
+      "mods_fractured": [
+        "Kolr\u0027s P1 \u2014 40% increased Projectile Speed"
+      ],
+      "mods_desecrated": [
+        "of Kurgal S1 \u2014 15% chance to Gain Arcane Surge when you deal a Critical Hit"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Blazing P1 \u2014 \u002B59 to maximum Energy Shield",
+        "Chalybeous P1 \u2014 \u002B120 to maximum Mana",
+        "of the Hunt S1 \u2014 \u002B2 to Level of all Projectile Skills"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items"
+      ]
+    },
+    {
+      "id": "3e360505504ead158d008d6fcdfde6e5334cecec5e12c4e624599ae9ad4cccbb",
+      "name": "Vortex Goad",
+      "base_type": "Sekhema Sandals",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 1999,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 83,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 101,
+      "armour": 0,
+      "mods_fractured": [
+        "of Ephij S1 \u2014 \u002B45% to Lightning Resistance"
+      ],
+      "mods_desecrated": [
+        "Chalybeous P1 \u2014 \u002B118 to maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Hellion\u0027s P1 \u2014 35% increased Movement Speed",
+        "Athlete\u0027s P1 \u2014 \u002B143 to maximum Life",
+        "of Tzteosh S1 \u2014 \u002B45% to Fire Resistance"
+      ],
+      "mods_crafted": [
+        "of the Stars S0 \u2014 \u002B15 to Spirit"
+      ]
+    },
+    {
+      "id": "2c194ce89f1e54e308ece7e621211965620d296ec972f5916ba98ea36f024203",
+      "name": "Blight Claw",
+      "base_type": "Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 1999,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 264,
+      "armour": 0,
+      "mods_fractured": [
+        "Athlete\u0027s P1 \u2014 \u002B139 to maximum Life"
+      ],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Blazing P1 \u2014 \u002B59 to maximum Energy Shield",
+        "Unassailable P1 \u2014 95% increased Energy Shield",
+        "of the Hunt S1 \u2014 \u002B2 to Level of all Projectile Skills"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items",
+        "of Fury S2 \u2014 28% increased Critical Damage Bonus"
+      ]
+    },
+    {
+      "id": "7ae490252116da47a29ddeb38787cdaa113973b282f4d7321c6bcf0e840cf9cd",
+      "name": "Damnation Chant",
+      "base_type": "Dueling Wand",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 3333,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 73% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "of Nirvana S1 \u2014 66% increased Mana Regeneration Rate"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Frostbound P1 \u2014 Gain 30% of Damage as Extra Cold Damage",
+        "Runic P1 \u2014 118% increased Spell Damage",
+        "of Frostbite S1 \u2014 \u002B5 to Level of all Cold Spell Skills"
+      ],
+      "mods_crafted": [
+        "Verisium P0 \u2014 \u002B188 to maximum Mana",
+        "Verisium P0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of the Stars S0 \u2014 31% increased Cast Speed",
+        "of the Stars S0 \u2014 Gain 8% of Elemental Damage as Extra Cold Damage"
+      ]
+    },
+    {
+      "id": "5033032f880c25d098d19343d0224fe1a22a455dbd16c5a186a6da7a56f2e61a",
+      "name": "Agony Nails",
+      "base_type": "Sirenscale Gloves",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 3888,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 65,
+      "armour": 0,
+      "mods_fractured": [
+        "of the Hunt S1 \u2014 96% chance to Pierce an Enemy"
+      ],
+      "mods_desecrated": [
+        "Kolr\u0027s P1 \u2014 39% increased Projectile Speed"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Athlete\u0027s P1 \u2014 \u002B146 to maximum Life",
+        "Chalybeous P1 \u2014 \u002B120 to maximum Mana",
+        "of the Hunt S1 \u2014 \u002B2 to Level of all Projectile Skills"
+      ],
+      "mods_crafted": [
+        "of the Essence S0 \u2014 60% increased effect of Socketed Augment Items"
+      ]
+    },
+    {
+      "id": "8f07b15790f61e186a32f661c70f5d0289f7165dfb004d8efdc3cccc843e1403",
+      "name": "Ghoul Nail",
+      "base_type": "Breach Ring",
+      "listed_at": "2026-07-04T11:19:47Z",
+      "price_divine": 5555,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "of the Rainbow S1 \u2014 \u002B16% to all Elemental Resistances"
+      ],
+      "mods_implicit": [
+        "\u002B20% to Maximum Quality"
+      ],
+      "mods_explicit": [
+        "Virile P1 \u2014 \u002B116 to maximum Life",
+        "Zaffre P1 \u2014 \u002B283 to maximum Mana",
+        "of Jordan S0 \u2014 \u002B1 to Level of all Spell Skills",
+        "of Legerdemain S1 \u2014 24% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Essences P0 \u2014 9% increased maximum Mana"
+      ]
+    }
+  ]
+}

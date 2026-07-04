@@ -1,0 +1,2907 @@
+﻿{
+  "_meta": {
+    "date": "2026-07-04",
+    "source": "poe2_trade_fetch_devtools",
+    "base_type": "Time-Lost Sapphire",
+    "slug": "time-lost sapphire 3 natural suffix"
+  },
+  "listings": [
+    {
+      "id": "b337e065bbdc587b65f941d38e076891f8adef2685bde40a1cd198caf208ee67",
+      "name": "Spirit Scar",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T02:52:28Z",
+      "price_divine": 85,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Acrimonious P1 \u2014 Notable Passive Skills in Radius also grant 3% increased Magnitude of Ailments you inflict"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Orchestration S1 \u2014 Notable Passive Skills in Radius also grant Minions have 1% increased Attack and Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "1e18febffa4811cfb36f58e288f041d1ff2f7521e893236b711eeff5ac9e2c7a",
+      "name": "Phoenix Scar",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T10:23:34Z",
+      "price_divine": 160,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Mystic P1 \u2014 Small Passive Skills in Radius also grant 2% increased Spell Damage"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 1% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "85f34a30b866c53faccd6341c96485271c11579c9c141070251cad8d1721081b",
+      "name": "Oblivion Solace",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T06:15:35Z",
+      "price_divine": 168,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "f8cc8b04088638a1718ea79f405c49320e09e7da613d7ea9a9a903b62678a6e2",
+      "name": "Armageddon Scar",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T18:20:34Z",
+      "price_divine": 168,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 1% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "42539a1cb800bc8679eee3250437a050e1672e117855898dd1713ebf8528ecbc",
+      "name": "Chimeric Desire",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:53:12Z",
+      "price_divine": 184,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "23681d00e980d7dd189149e0da9911cf2ee4ea9d248e6156abf7d714422895ac",
+      "name": "Entropy Ornament",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T17:38:28Z",
+      "price_divine": 189,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Supremacy S1 \u2014 21% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "27beff2c9bb7666441f8bf1d874670a5cdc126911b7b36332a71f71af293254e",
+      "name": "Plague Vessel",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-02T13:03:49Z",
+      "price_divine": 190,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "6b67b34497807f41651c514da20b762fce728890b705dedbd75a835ab3ae6222",
+      "name": "Gale Star",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T05:39:15Z",
+      "price_divine": 190,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "af1d70dddb30387a666c81efec2a55a3aaa396319c106ea0dac4dac9cdc9cd61",
+      "name": "Vivid Spark",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-02T13:03:49Z",
+      "price_divine": 190,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "4809dc4856a57d2ead276040a25a0931b0f7c4578fa9db8cf0663a74d4e508ba",
+      "name": "Soul Shine",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-06-27T05:25:12Z",
+      "price_divine": 240,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+        "of Potency S1 \u2014 23% increased Effect of Small Passive Skills in Radius",
+        "Mystic P1 \u2014 Small Passive Skills in Radius also grant 2% increased Spell Damage"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "b1e49ba1dbcad170f09e04a815bcd5ea3295dad1c025c49054cfa3bbc6185199",
+      "name": "Brood Curio",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T08:07:39Z",
+      "price_divine": 245,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+        "of Supremacy S1 \u2014 22% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "6530d35f9c70cb6cd6a1673fbac8f2471d648106b23321d31a58b5fc8f72de32",
+      "name": "Pandemonium Shard",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-02T18:14:38Z",
+      "price_divine": 250,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "aef82efb136af13d035f59d526d722fc9c3053419fad31fe54516b39dfbd478a",
+      "name": "Fulgent Desire",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:50:44Z",
+      "price_divine": 250,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Generation S1 \u2014 Notable Passive Skills in Radius also grant Meta Skills gain 4% increased Energy"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "51ad2dba7582c4390a8baa1ab0acac77e2a4f1a847d4349eb505661c0a674da3",
+      "name": "Apocalypse Glisten",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T18:00:34Z",
+      "price_divine": 265,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 12% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "b00a7f902c90bad9a149aab941ce631067fdf878d32f04846d5afa48ba273c3d",
+      "name": "Carrion Bliss",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:56:34Z",
+      "price_divine": 269,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Acrimonious P1 \u2014 Notable Passive Skills in Radius also grant 7% increased Magnitude of Ailments you inflict"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Supremacy S1 \u2014 16% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "dd744162eb83825953bfafdcf91eb9ff8bbeca40c47258a73ebd801810cb445d",
+      "name": "Sol Ruin",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T20:58:31Z",
+      "price_divine": 285,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 12% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "eb57b23a4129562f44005c4101ea65249909b0ff39fe6f1ca839997af44f328d",
+      "name": "Carrion Vessel",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T10:23:34Z",
+      "price_divine": 300,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Supremacy S1 \u2014 22% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "d4e25247701f999de87db1b26f35ea3b89d32aeed2a1934b5e620c4c8523f3ac",
+      "name": "Glyph Joy",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:37:20Z",
+      "price_divine": 308,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Supremacy S1 \u2014 25% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "54b567ce93ed9f3da72e1f9523fe2a3fada6648efc3b272220d792646946c9a1",
+      "name": "Glyph Splinter",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T02:21:35Z",
+      "price_divine": 325,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+        "of Supremacy S1 \u2014 25% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "c61f433fa7a8efa3750b4747c61bb1b1300c6754c6ad0649ded259785733cfcc",
+      "name": "Eagle Heart",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T02:46:18Z",
+      "price_divine": 325,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+        "of Potency S1 \u2014 25% increased Effect of Small Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "f8576ccb8c8ce12078990780f5f275c5056a99f137adf3f0480527ba9e9c8987",
+      "name": "Damnation Stone",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-06-26T11:54:28Z",
+      "price_divine": 325,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Supremacy S1 \u2014 22% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "3d5d918efae341f44e87ef2e81357b4d3457f5a210330a196f42d70210cc6831",
+      "name": "Phoenix Glimmer",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T00:49:12Z",
+      "price_divine": 330,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Supremacy S1 \u2014 25% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "d08c896569f2c9fbca9119d9ac127ab542f9bfea108098ba0b89837dbe960b33",
+      "name": "Vivid Vessel",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:58:13Z",
+      "price_divine": 330,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "841dc505180ff58a61a4b2ae41849b840ed8c7870b95868a88cc7a47ecd3bca0",
+      "name": "Fulgent Vessel",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:55:41Z",
+      "price_divine": 334,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "d5b64fa529ed8d9ea0000d6004e2b295484e7f090d6f4dd500b0923c38feea6c",
+      "name": "Rapture Desire",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:49:25Z",
+      "price_divine": 335,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "66c16002068952c6dab91de04511fa7e2a0ec0d677a2e0eeb60d738e7f54d699",
+      "name": "Honour Shine",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T23:02:22Z",
+      "price_divine": 335,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 6% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "0bb656e76a69062ee72ded53461a2cc13f718865002fd0a7ff0bc3f8937cf3b8",
+      "name": "Behemoth Shard",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T04:30:33Z",
+      "price_divine": 335,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 6% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "1b0132122e9e2a151a9277d1e37005ecbd8387ab74e23f00960d18b6920ee715",
+      "name": "Kraken Essence",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:55:41Z",
+      "price_divine": 336,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "5296f4e397592af70cf0bd0faf1293b178bddeb0178861c8ac66d59d7ef383e9",
+      "name": "Luminous Curio",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T04:30:33Z",
+      "price_divine": 340,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "2a11ac47d6c9b39cbf9c642409df193918ce0e70efff5b3ea0b9a888c51eb7e2",
+      "name": "Fulgent Heart",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T21:08:24Z",
+      "price_divine": 340,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Supremacy S1 \u2014 25% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "cadf9f5a113ca31baaa6e478bf39417eb2cf87e0d7b444ad201219dd6bac00b1",
+      "name": "Rapture Essence",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T04:30:33Z",
+      "price_divine": 340,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "7ff4a6e8d0ff1ea8bbeb6a46c685ca9fc86f24f454c6fb5d40bf0663a845e011",
+      "name": "Rapture Solace",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T04:30:33Z",
+      "price_divine": 340,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 77,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "cba53de12ec92ef257afb52cd7d73d033ceb93de8cebf476b9290503dfb7be41",
+      "name": "Cataclysm Star",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:23:29Z",
+      "price_divine": 340,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 75,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "c8c172d7ab7ea7de74729254686f1850b7160c736492da1d7cdc40fdf9059ecc",
+      "name": "Apocalypse Desire",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:02:25Z",
+      "price_divine": 342,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "68f8141d70cb0ce7873df68ae5867ea8d36b7db383a5092b56fd427d4b1bf22f",
+      "name": "Apocalypse Shard",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T02:53:22Z",
+      "price_divine": 345,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 78,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "7344f3d3d30d99f06d96a8a90af1fe50a8d1a91012333f20baf37f16f0b296c6",
+      "name": "Viper Shine",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T05:53:03Z",
+      "price_divine": 345,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "207816dbaf1d977c520163d2fe15e8be85d0d0752340528023d22d300f2e859c",
+      "name": "Phoenix Wound",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:44:17Z",
+      "price_divine": 350,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Osmosis S1 \u2014 Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "c106fb9fe072eb7176a519bf3367baea764193466f08131c771c31ba59498210",
+      "name": "Spirit Cut",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:52:58Z",
+      "price_divine": 350,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Rancorous P1 \u2014 Notable Passive Skills in Radius also grant 7% increased Magnitude of Damaging Ailments you inflict with Critical Hits"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "e41a7aa7686c224862662412c832c504c711c1c8adc510fd0c8ef67aedb16ff8",
+      "name": "Honour Cut",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-01T16:31:54Z",
+      "price_divine": 365,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 4% increased Critical Hit Chance",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "10c7aeb92db1d643a69fa92bb84de246b23c76f6cbcec2cfc4e3ad7cb4806273",
+      "name": "Gale Ornament",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T05:27:36Z",
+      "price_divine": 369,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "81aa3ae750150c298b889b8ca52658d763ca7e3ccd2464efb01792db087a81ba",
+      "name": "Apocalypse Eye",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T01:07:38Z",
+      "price_divine": 377,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+        "of Supremacy S1 \u2014 25% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "2b44964019f9358195e8ef6eb7e893e514e9de6d40b39dcdc1d69ce94e5677bd",
+      "name": "Dragon Hope",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:53:22Z",
+      "price_divine": 398,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+        "of Success S1 \u2014 Notable Passive Skills in Radius also grant Recover 1% of maximum Life on Kill"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "48d797f707d5113d173e8bc74b97149df8114d5e52ef8b7fbdb0c74bb6fb5c4c",
+      "name": "Luminous Hope",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:50:44Z",
+      "price_divine": 399,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "643dbb9ac11824f7d3851e277bf51fb60c9364325b1c4379fe42f582df911e4e",
+      "name": "Ghoul Essence",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T18:27:06Z",
+      "price_divine": 399,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 12% increased Critical Spell Damage Bonus",
+        "of Supremacy S1 \u2014 20% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "c94868df22772357ebbf6d5f911ae70b03498e85533def6170fe0e0818045665",
+      "name": "Apocalypse Sliver",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T18:54:08Z",
+      "price_divine": 399,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 12% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Enchanting S1 \u2014 Notable Passive Skills in Radius also grant 2% increased Cast Speed"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "9291a8acf96d1faa0f747c427712efa70710bc0ad6212931bfa19789014b36e9",
+      "name": "Plague Stone",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:53:42Z",
+      "price_divine": 400,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+        "of Generation S1 \u2014 Notable Passive Skills in Radius also grant Meta Skills gain 4% increased Energy"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "e1a212653e1ea7b349ba2a4544d42525d1f0e151d3cb66b60891397469016cd3",
+      "name": "Oblivion Glimmer",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T06:09:21Z",
+      "price_divine": 400,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 6% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "c4707390b66ca25670b3e0dd41f332b34e4ba85f2d8639145c544755fc4dab61",
+      "name": "Phoenix Stone",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T12:07:17Z",
+      "price_divine": 420,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Supremacy S1 \u2014 25% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "cab63de70c983d5eafcaea6c866a30b1ce5017779d4088eaea6e486d2ccec7f8",
+      "name": "Viper Eye",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T06:42:54Z",
+      "price_divine": 422,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "92dc90946a490f707690b5ffef30a10ff4fc56353ceab94bbc2b0f6df18307d6",
+      "name": "Maelstr\u00F6m Glimmer",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:53:23Z",
+      "price_divine": 430,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "338e8187da7dd7e57a6635de2e5b65cf69fb7c21b791c7fac47772df67018042",
+      "name": "Armageddon Eye",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:50:34Z",
+      "price_divine": 435,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 3% increased Critical Hit Chance for Spells",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "a89db78d9222169a37ad959f598dda8b6e974124b767e4b641ca59f03542d682",
+      "name": "Luminous Shard",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:16:01Z",
+      "price_divine": 435,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 5% increased Critical Hit Chance for Spells",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "55dcf8165722945136c8e248b6360d5a3d72fdb843bd3bb0aab2ef7c006204f4",
+      "name": "Viper Eye",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T04:54:33Z",
+      "price_divine": 438,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 78,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 5% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "fd23ec6014e67446732259e05861b96e05c7fbe23c096c30cf3f70146452727e",
+      "name": "Armageddon Splinter",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:49:25Z",
+      "price_divine": 445,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "9a1cba0cda9342f4e12e573d06db6e3e2649a637468cb6423d646054b1daa6b3",
+      "name": "Viper Creed",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:55:41Z",
+      "price_divine": 445,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "ed45b50f53ad6a92995ea457b564144b4f38277027d19558e9b8e03442af04da",
+      "name": "Maelstr\u00F6m Ornament",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T06:53:38Z",
+      "price_divine": 445,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 6% increased Critical Hit Chance for Spells",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "101aff6ae3daaf93f30b1f01bcfdf36d752d38f12a857373495c22f781324cc9",
+      "name": "Loath Wound",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T05:07:22Z",
+      "price_divine": 448,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 5% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "c93c1a09a00434e7ad5c828f73f48c398d10abaa8001931b3f6892afa5135b02",
+      "name": "Vivid Shard",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:23:45Z",
+      "price_divine": 448,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 6% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "f7f7039fa2327c007eac4d6d0d96ad8a15b494370838954d0357d022fd5a85bd",
+      "name": "Brood Stone",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T01:57:58Z",
+      "price_divine": 448,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 6% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "74d66a9aba65a9f2112e462dfc198ff4c4d467e2db288a8e787b35b25545337f",
+      "name": "Soul Glimmer",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T04:13:27Z",
+      "price_divine": 449,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 4% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "630fea9860fe3f9ec0fa3f0a38522188f6c6f5aacaaf9a7cc9411affbabbdff4",
+      "name": "Phoenix Glimmer",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:55:40Z",
+      "price_divine": 450,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "23aa6d5deac544f0f62eedb233c91736167f2880a11a6c0ff2447c1920332f9e",
+      "name": "Viper Glisten",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:55:40Z",
+      "price_divine": 450,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "1fde7124fbafccefe726e303918153cb12cb66a787a7344d23e357f255c86dc0",
+      "name": "Viper Vessel",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:42:10Z",
+      "price_divine": 459,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "191dcc3c47654e79babc922f5a7f68f1c0b20d18d3c9c78e5b7943f0d8497f98",
+      "name": "Sol Curio",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:16:16Z",
+      "price_divine": 460,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "3bd6a659a9fb668e5ba11cba3f1823f9ee53f686c618c420a8a5c0b927688557",
+      "name": "Blight Vessel",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-01T14:52:57Z",
+      "price_divine": 465,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "df1e83855f2b6012d2dac2702c2faec3142c1a404650d88f16e1f484c377e4ce",
+      "name": "Bramble Spark",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T05:12:30Z",
+      "price_divine": 488,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Mind S1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "74ff6f90eef4ea79e92021f642ef00256580260e531d3144d24f7854560a2fb3",
+      "name": "Dusk Ruin",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-01T01:30:09Z",
+      "price_divine": 490,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "9ed326406e468e1efb09d17706840729bbf145cca278aeaced8f7d0898cfcfcc",
+      "name": "Glyph Cut",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T06:35:16Z",
+      "price_divine": 499,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "e7452ea5801d4ddb60db681945d7b5cbdc04421b0c11969ebe07701a8c0325f2",
+      "name": "Soul Prism",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-06-29T05:20:38Z",
+      "price_divine": 499,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 12% increased Critical Spell Damage Bonus",
+        "of Frost S1 \u2014 Notable Passive Skills in Radius also grant 8% increased Chill Duration on Enemies"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "677e5b5de20380bca11e460dbc0d88eb9df9d055b2d453e4b8ad430b8b63c9ab",
+      "name": "Chimeric Sliver",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T00:02:20Z",
+      "price_divine": 500,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "ea30b02a065a80dd6902ca33adc679050581fff95370fee0ffdde5b463648464",
+      "name": "Viper Shard",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-06-30T09:29:54Z",
+      "price_divine": 500,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "3bf17fa9f5ebc33afe8196c2abea896d5bc71197edbae3d4d6fe89f078e6d0b4",
+      "name": "Viper Glisten",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T00:02:20Z",
+      "price_divine": 500,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "f0189b0fbd84cf97c2ded4e6e2d3163c893a054a26b78dda44f477893a566d6a",
+      "name": "Blight Shard",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:36:20Z",
+      "price_divine": 538,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Osmosis S1 \u2014 Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "37ded74408dc3744b36ffb0cff6adc434ed3fda8f197a4ed613dde9ee3b9f58a",
+      "name": "Vivid Curio",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:36:20Z",
+      "price_divine": 538,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Osmosis S1 \u2014 Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "b4b13136d56f5c0198748176bbc09149061f84f4b444ca407b9f4518babb936c",
+      "name": "Eagle Vessel",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T18:20:22Z",
+      "price_divine": 540,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Mind S1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "e37d22c7e1d355da508f076392eb5dcb1bce40bcb5d54a2e3a7e67d7af0d1aef",
+      "name": "Bramble Essence",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T02:16:01Z",
+      "price_divine": 550,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Mind S1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "0455baeb8dab74b26ee98363b750a96272378efb34c18203a9a73e2b33e62482",
+      "name": "Phoenix Bliss",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T05:07:22Z",
+      "price_divine": 555,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Mind S1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "6497a3648be9aa9746fab545e8c92ec34a5f5c15caa705e6906aa4f007e73311",
+      "name": "Pandemonium Heart",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T04:58:35Z",
+      "price_divine": 555,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Mind S1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "6dc0f8f130f7a69f25ede8538b78d691b8f20c4765b46a382bb89c930d3f28db",
+      "name": "Behemoth Shine",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T17:13:42Z",
+      "price_divine": 590,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Mind S1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "2db98bed78759fe57a47626ce3e4c8504d8812144a3a4d7705b215499d0cc018",
+      "name": "Dragon Wound",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:57:13Z",
+      "price_divine": 590,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "3d1b6af8138fbab1b879594d56892ef3a7c43faf8fcb55ca9318280e4f140f69",
+      "name": "Phoenix Scar",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-01T20:02:10Z",
+      "price_divine": 599,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+        "of Mind S1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "50829ac50665a6affa9e30713bbef02354ef6540567e80def9189ff596a6edfb",
+      "name": "Plague Star",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-02T23:23:52Z",
+      "price_divine": 600,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 12% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "7375e3b7f38d38d2fd1fe41bf8e129a837c2b4d0979be7b8e9ed1c41a0c37b77",
+      "name": "Phoenix Glimmer",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T12:26:49Z",
+      "price_divine": 600,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Mind S1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "f9055b88d9707a4a6cb98349902718e781b376d8d0df9160f12f929950409571",
+      "name": "Carrion Hope",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T23:48:48Z",
+      "price_divine": 600,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+        "of Osmosis S1 \u2014 Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "e4d262846574d1d6767b21326a8a3b6fcdc5e65837240f96e373966fd7da17b7",
+      "name": "Soul Prism",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T18:01:22Z",
+      "price_divine": 600,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Osmosis S1 \u2014 Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "77fe38cd18b5591bfc6d096ada4e01a77718310f73c05031221b9e477daec89e",
+      "name": "Cataclysm Star",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T21:35:18Z",
+      "price_divine": 665,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 6% increased Critical Hit Chance for Spells",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "3d1d90f134b5864bc3520c1b85ac5a573e03337e68ccf08642e9ac8b06a8554f",
+      "name": "Luminous Eye",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-06-30T01:50:02Z",
+      "price_divine": 666,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "22103eb8dbb4d3cc195995776b14b5685009f79631dae0dadd09c89612664bda",
+      "name": "Brood Heart",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-02T17:40:42Z",
+      "price_divine": 666,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 6% increased Critical Hit Chance for Spells",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "ecc4981666197ba76d47853fc78fa1a9d4869714c876254b9461d7d14afddcf0",
+      "name": "Cataclysm Desire",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T05:37:42Z",
+      "price_divine": 688,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Lengthening S1 \u2014 Notable Passive Skills in Radius also grant 5% increased Skill Effect Duration"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "c18f30938ef2c722106977eb6a14195677dd63fef7cfca26e6dc6e66713dae5c",
+      "name": "Dragon Shine",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:53:29Z",
+      "price_divine": 700,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 8% increased Critical Hit Chance for Spells",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 12% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "8cac500af55408a58c7684af58c26631a8cfa991c1eae56e653607fb51392601",
+      "name": "Maelstr\u00F6m Creed",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T12:50:43Z",
+      "price_divine": 700,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Osmosis S1 \u2014 Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "5200582499ca97ab1a9399b21ab86974d7a61778877e9ee5d4d24346c6f627fa",
+      "name": "Cataclysm Sliver",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T07:33:52Z",
+      "price_divine": 700,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Mind S1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "fc911a1740e34fdfb7aea7e2eb26f353cc2e3b8a788124e404c8f680a20f6752",
+      "name": "Phoenix Star",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T07:55:30Z",
+      "price_divine": 740,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "a4d94e7bc110637b6adf555b9b8dd72c6182bd88ec90089997efeb1c7dba91f4",
+      "name": "Kraken Scar",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-03T04:35:51Z",
+      "price_divine": 800,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Osmosis S1 \u2014 Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "cbea2a40f50ef8e5f3a4a240cd562203847eb2f2ed998a0abba4a5fc4a29b3c0",
+      "name": "Soul Sliver",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T05:10:30Z",
+      "price_divine": 820,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Annihilating S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance for Spells"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "62c3d1b20f7acd45a94935f14c1bc2da6cba5a4f0de00d23c9a229fa450f1ec6",
+      "name": "Armageddon Hope",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-02T19:44:24Z",
+      "price_divine": 850,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Osmosis S1 \u2014 Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "fe4b3c353138922bc6244dfb4889e49c9ac336b4dfd69366f81243250eb43b66",
+      "name": "Damnation Creed",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T06:56:02Z",
+      "price_divine": 880,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 12% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Supremacy S1 \u2014 25% increased Effect of Notable Passive Skills in Radius"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "79c4bffa04307bffda44b503e226eb42a4f4530e547e2f3defa5e4f22c84b9a4",
+      "name": "Apocalypse Essence",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-04T08:53:35Z",
+      "price_divine": 900,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus",
+        "of Osmosis S1 \u2014 Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "e19775d56f1138cdf8ae998c8bd36cac3afa24e510b05e9d93dd290c0db9adb7",
+      "name": "Honour Spark",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-02T19:15:31Z",
+      "price_divine": 1000,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Osmosis S1 \u2014 Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    },
+    {
+      "id": "2842c82b76b5fad52a60ae99340ba1bd7358650c80361dfe478c54627bb4238c",
+      "name": "Empyrean Stone",
+      "base_type": "Time-Lost Sapphire",
+      "listed_at": "2026-07-02T07:15:35Z",
+      "price_divine": 1333,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [
+        "of Annihilation S1 \u2014 Notable Passive Skills in Radius also grant 7% increased Critical Hit Chance"
+      ],
+      "mods_desecrated": [
+        "Lightless P1 \u2014 Notable Passive Skills in Radius also grant 1% increased maximum Mana"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "of Potency S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Damage Bonus",
+        "of Unmaking S1 \u2014 Notable Passive Skills in Radius also grant 10% increased Critical Spell Damage Bonus"
+      ],
+      "mods_crafted": [
+        "Upgrades Radius to Very Large"
+      ]
+    }
+  ]
+}

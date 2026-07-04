@@ -1,0 +1,260 @@
+﻿{
+  "_meta": {
+    "date": "2026-06-28",
+    "source": "poe2_trade_fetch_devtools",
+    "base_type": "Sapphire",
+    "slug": "d1rest"
+  },
+  "listings": [
+    {
+      "id": "e3d253e53595ed93be2a9c56807a5b5d95196bfd242361043ada42db1b750ab9",
+      "name": "Ghoul Eye",
+      "base_type": "Sapphire",
+      "price_divine": 10,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 67,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "{\r\n  \u0022description\u0022: \u002212% increased [Spell] Damage\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_2974417149\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Mystic\u0022,\r\n      \u0022tier\u0022: \u0022P1\u0022,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00225\u0022,\r\n          \u0022max\u0022: \u002215\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u002213% increased maximum [EnergyShield|Energy Shield]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_2482852589\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Shimmering\u0022,\r\n      \u0022tier\u0022: \u0022P1\u0022,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002210\u0022,\r\n          \u0022max\u0022: \u002220\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u002213% increased [Critical|Critical Hit] Chance\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_587431675\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of Annihilation\u0022,\r\n      \u0022tier\u0022: \u0022S1\u0022,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00225\u0022,\r\n          \u0022max\u0022: \u002215\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u002217% increased [CriticalDamageBonus|Critical Spell Damage Bonus]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_274716455\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of Unmaking\u0022,\r\n      \u0022tier\u0022: \u0022S1\u0022,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002210\u0022,\r\n          \u0022max\u0022: \u002220\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "271c22569902fb1bd1df3d34b57896ab47e147dedc670b023b4a473bb105f6ec",
+      "name": "",
+      "base_type": "Emperor\u0027s Striking Quarterstaff of Calamity",
+      "price_divine": 10,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 79,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [],
+      "mods_implicit": [
+        "16% increased [Melee] [Strike] Range with this weapon"
+      ],
+      "mods_explicit": [
+        "{\r\n  \u0022description\u0022: \u002269% increased [Physical] Damage\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_1509134228\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Emperor\\u0027s\u0022,\r\n      \u0022tier\u0022: \u0022P2\u0022,\r\n      \u0022level\u0022: 70,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002265\u0022,\r\n          \u0022max\u0022: \u002274\u0022\r\n        },\r\n        {\r\n          \u0022min\u0022: \u0022150\u0022,\r\n          \u0022max\u0022: \u0022174\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B155 to [Accuracy|Accuracy] Rating\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_691932474\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Emperor\\u0027s\u0022,\r\n      \u0022tier\u0022: \u0022P2\u0022,\r\n      \u0022level\u0022: 70,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002265\u0022,\r\n          \u0022max\u0022: \u002274\u0022\r\n        },\r\n        {\r\n          \u0022min\u0022: \u0022150\u0022,\r\n          \u0022max\u0022: \u0022174\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B3.72% to [Critical|Critical Hit] Chance\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_518292764\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of Calamity\u0022,\r\n      \u0022tier\u0022: \u0022S3\u0022,\r\n      \u0022level\u0022: 44,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00223.11\u0022,\r\n          \u0022max\u0022: \u00223.8\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "e63c48d9d7cecd776643070ebfd6439c9457a25428675703ddfd9f3757a6ec9e",
+      "name": "Corpse Whorl",
+      "base_type": "Prismatic Ring",
+      "price_divine": 10,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 83,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [],
+      "mods_implicit": [
+        "\u002B8% to all [ElementalDamage|Elemental] [Resistances]"
+      ],
+      "mods_explicit": [
+        "{\r\n  \u0022description\u0022: \u0022Adds 18 to 30 [Cold] damage to [Attack|Attacks]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_4067062424\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Polar\u0022,\r\n      \u0022tier\u0022: \u0022P2\u0022,\r\n      \u0022level\u0022: 65,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002216\u0022,\r\n          \u0022max\u0022: \u002220\u0022\r\n        },\r\n        {\r\n          \u0022min\u0022: \u002225\u0022,\r\n          \u0022max\u0022: \u002231\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u002229% increased [Cold] Damage\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_3291658075\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Crystalline\u0022,\r\n      \u0022tier\u0022: \u0022P1\u0022,\r\n      \u0022level\u0022: 75,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002227\u0022,\r\n          \u0022max\u0022: \u002230\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B13% to all [ElementalDamage|Elemental] [Resistances]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_2901986750\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of Variegation\u0022,\r\n      \u0022tier\u0022: \u0022S2\u0022,\r\n      \u0022level\u0022: 54,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002212\u0022,\r\n          \u0022max\u0022: \u002214\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B31% to [Resistances|Fire Resistance]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_3372524247\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of the Volcano\u0022,\r\n      \u0022tier\u0022: \u0022S3\u0022,\r\n      \u0022level\u0022: 60,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002231\u0022,\r\n          \u0022max\u0022: \u002235\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B22% to [Resistances|Lightning Resistance]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_1671376347\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of the Thunderhead\u0022,\r\n      \u0022tier\u0022: \u0022S5\u0022,\r\n      \u0022level\u0022: 37,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002221\u0022,\r\n          \u0022max\u0022: \u002225\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B85 to maximum Mana\u0022,\r\n  \u0022hash\u0022: \u0022stat.desecrated.stat_1050105434\u0022,\r\n  \u0022flags\u0022: {\r\n    \u0022desecrated\u0022: true\r\n  },\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Opalescent\u0022,\r\n      \u0022tier\u0022: \u0022P6\u0022,\r\n      \u0022level\u0022: 46,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002280\u0022,\r\n          \u0022max\u0022: \u002289\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "f4a02e7e3bde79edc9aeb3c214f7b45a279690f783cc6c858e4a748080b8fe37",
+      "name": "",
+      "base_type": "Exceptional Jade Tiara",
+      "price_divine": 12,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 73,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [],
+      "mods_crafted": []
+    },
+    {
+      "id": "83f8e56c063955590db797dec19be36c4454acfdf5d671d651ad0deecb750673",
+      "name": "Heart of the Well",
+      "base_type": "Diamond",
+      "price_divine": 12,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 83,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "{\r\n  \u0022description\u0022: \u00228% increased [Critical|Critical Hit] Chance\u0022,\r\n  \u0022hash\u0022: \u0022stat.desecrated.stat_587431675\u0022,\r\n  \u0022flags\u0022: {\r\n    \u0022desecrated\u0022: true\r\n  },\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00224\u0022,\r\n          \u0022max\u0022: \u00228\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u00228% increased [CriticalDamageBonus|Critical Damage Bonus]\u0022,\r\n  \u0022hash\u0022: \u0022stat.desecrated.stat_3556824919\u0022,\r\n  \u0022flags\u0022: {\r\n    \u0022desecrated\u0022: true\r\n  },\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00226\u0022,\r\n          \u0022max\u0022: \u002212\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u00229% increased Mana Cost [Efficiency]\u0022,\r\n  \u0022hash\u0022: \u0022stat.desecrated.stat_4101445926\u0022,\r\n  \u0022flags\u0022: {\r\n    \u0022desecrated\u0022: true\r\n  },\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00228\u0022,\r\n          \u0022max\u0022: \u002216\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u002216% chance for [Lightning] Damage with [HitDamage|Hits] to be [Lucky]\u0022,\r\n  \u0022hash\u0022: \u0022stat.desecrated.stat_2466011626\u0022,\r\n  \u0022flags\u0022: {\r\n    \u0022desecrated\u0022: true\r\n  },\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002215\u0022,\r\n          \u0022max\u0022: \u002225\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "fa681728aa0897863b13130be5172dc7123fe9507259d6c55b7cea6024dfc6c6",
+      "name": "Entropy Sanctuary",
+      "base_type": "Sleek Jacket",
+      "price_divine": 12,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 884,
+      "energy_shield": 272,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "{\r\n  \u0022description\u0022: \u0022\\u002B40 to [Evasion] Rating\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_53045048\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Stalker\\u0027s\u0022,\r\n      \u0022tier\u0022: \u0022P1\u0022,\r\n      \u0022level\u0022: 78,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002240\u0022,\r\n          \u0022max\u0022: \u002250\u0022\r\n        },\r\n        {\r\n          \u0022min\u0022: \u002213\u0022,\r\n          \u0022max\u0022: \u002215\u0022\r\n        },\r\n        {\r\n          \u0022min\u0022: \u002239\u0022,\r\n          \u0022max\u0022: \u002242\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B13 to maximum [EnergyShield|Energy Shield]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_4052037485\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Stalker\\u0027s\u0022,\r\n      \u0022tier\u0022: \u0022P1\u0022,\r\n      \u0022level\u0022: 78,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002240\u0022,\r\n          \u0022max\u0022: \u002250\u0022\r\n        },\r\n        {\r\n          \u0022min\u0022: \u002213\u0022,\r\n          \u0022max\u0022: \u002215\u0022\r\n        },\r\n        {\r\n          \u0022min\u0022: \u002239\u0022,\r\n          \u0022max\u0022: \u002242\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022136% increased [Evasion] and [EnergyShield|Energy Shield]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_1999113824\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Illusory\u0022,\r\n      \u0022tier\u0022: \u0022P2\u0022,\r\n      \u0022level\u0022: 65,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002292\u0022,\r\n          \u0022max\u0022: \u0022100\u0022\r\n        }\r\n      ]\r\n    },\r\n    {\r\n      \u0022name\u0022: \u0022Stalker\\u0027s\u0022,\r\n      \u0022tier\u0022: \u0022P1\u0022,\r\n      \u0022level\u0022: 78,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002240\u0022,\r\n          \u0022max\u0022: \u002250\u0022\r\n        },\r\n        {\r\n          \u0022min\u0022: \u002213\u0022,\r\n          \u0022max\u0022: \u002215\u0022\r\n        },\r\n        {\r\n          \u0022min\u0022: \u002239\u0022,\r\n          \u0022max\u0022: \u002242\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B36% to [Resistances|Fire Resistance]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_3372524247\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of Magma\u0022,\r\n      \u0022tier\u0022: \u0022S2\u0022,\r\n      \u0022level\u0022: 71,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002236\u0022,\r\n          \u0022max\u0022: \u002240\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u002257% reduced Duration of [Bleeding] on You\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_1692879867\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of Staunching\u0022,\r\n      \u0022tier\u0022: \u0022S1\u0022,\r\n      \u0022level\u0022: 76,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u0022-60\u0022,\r\n          \u0022max\u0022: \u0022-56\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B32% to [Resistances|Cold Resistance]\u0022,\r\n  \u0022hash\u0022: \u0022stat.crafted.stat_4220027924\u0022,\r\n  \u0022flags\u0022: {\r\n    \u0022crafted\u0022: true\r\n  },\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of the Polar Bear\u0022,\r\n      \u0022tier\u0022: \u0022S3\u0022,\r\n      \u0022level\u0022: 60,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002231\u0022,\r\n          \u0022max\u0022: \u002235\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B56 to [Spirit|Spirit]\u0022,\r\n  \u0022hash\u0022: \u0022stat.desecrated.stat_3981240776\u0022,\r\n  \u0022flags\u0022: {\r\n    \u0022desecrated\u0022: true\r\n  },\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Princess\\u0027\u0022,\r\n      \u0022tier\u0022: \u0022P2\u0022,\r\n      \u0022level\u0022: 65,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002254\u0022,\r\n          \u0022max\u0022: \u002256\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "16279133e7a81c6662be0d71b84692593213b32a3c4f8842799810310a3264e3",
+      "name": "Rathpith Globe",
+      "base_type": "Sacred Focus",
+      "price_divine": 14,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 177,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "{\r\n  \u0022description\u0022: \u002282% increased [EnergyShield|Energy Shield]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_4015621042\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002260\u0022,\r\n          \u0022max\u0022: \u0022100\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B90 to maximum Life\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_3299347043\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002260\u0022,\r\n          \u0022max\u0022: \u0022100\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022Non-[Channelling] [Spell|Spells] have 3% increased [Critical|Critical Hit Chance] per 100 maximum Life\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_170426423\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00223\u0022,\r\n          \u0022max\u0022: \u00223\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022Non-[Channelling] [Spell|Spells] deal 6% increased Damage per 100 maximum Life\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_1027889455\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00226\u0022,\r\n          \u0022max\u0022: \u00226\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u00229% increased Life Cost [Efficiency]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_310945763\u0022,\r\n  \u0022flags\u0022: {\r\n    \u0022mutated\u0022: true\r\n  },\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00228\u0022,\r\n          \u0022max\u0022: \u002215\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "03aa5f191c25588180eff29d4093a0db2c9ae6bf5f30bce30b3ad0aa60875c3a",
+      "name": "Vengeance Spire",
+      "base_type": "Primed Quiver",
+      "price_divine": 15,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 0,
+      "energy_shield": 0,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [],
+      "mods_implicit": [
+        "9% increased [Attack] Speed"
+      ],
+      "mods_explicit": [
+        "{\r\n  \u0022description\u0022: \u0022Adds 27 to 43 [Fire] damage to [Attack|Attacks]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_1573130764\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Cremating\u0022,\r\n      \u0022tier\u0022: \u0022P1\u0022,\r\n      \u0022level\u0022: 75,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002225\u0022,\r\n          \u0022max\u0022: \u002229\u0022\r\n        },\r\n        {\r\n          \u0022min\u0022: \u002237\u0022,\r\n          \u0022max\u0022: \u002245\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u002246% increased [Projectile] Speed\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_3759663284\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Nimble\u0022,\r\n      \u0022tier\u0022: \u0022P1\u0022,\r\n      \u0022level\u0022: 82,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002242\u0022,\r\n          \u0022max\u0022: \u002246\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u002227% increased [Critical|Critical Hit Chance] for [Attack|Attacks]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_2194114101\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of Calamity\u0022,\r\n      \u0022tier\u0022: \u0022S3\u0022,\r\n      \u0022level\u0022: 44,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002225\u0022,\r\n          \u0022max\u0022: \u002229\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B30 to [Dexterity|Dexterity]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_3261801346\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of the Jaguar\u0022,\r\n      \u0022tier\u0022: \u0022S2\u0022,\r\n      \u0022level\u0022: 66,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002228\u0022,\r\n          \u0022max\u0022: \u002230\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022Gain 46 Life per enemy killed\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_3695891184\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022of Valour\u0022,\r\n      \u0022tier\u0022: \u0022S1\u0022,\r\n      \u0022level\u0022: 55,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002241\u0022,\r\n          \u0022max\u0022: \u002253\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u002250% increased Damage with Bow Skills\u0022,\r\n  \u0022hash\u0022: \u0022stat.desecrated.stat_1241625305\u0022,\r\n  \u0022flags\u0022: {\r\n    \u0022desecrated\u0022: true\r\n  },\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022name\u0022: \u0022Lacerating\u0022,\r\n      \u0022tier\u0022: \u0022P2\u0022,\r\n      \u0022level\u0022: 60,\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002243\u0022,\r\n          \u0022max\u0022: \u002250\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "2209ac912142eca37e7d6012612ba21158e643e584e55bd5daa43506eb436d39",
+      "name": "Assailum",
+      "base_type": "Closed Helm",
+      "price_divine": 15,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 376,
+      "energy_shield": 0,
+      "armour": 419,
+      "mods_fractured": [],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "{\r\n  \u0022description\u0022: \u0022227% increased [Armour|Armour] and [Evasion|Evasion]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_2451402625\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u0022200\u0022,\r\n          \u0022max\u0022: \u0022300\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B375 to [Accuracy|Accuracy] Rating\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_803737631\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u0022200\u0022,\r\n          \u0022max\u0022: \u0022400\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u002249% increased [Critical|Critical Hit] Chance\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_587431675\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u002230\u0022,\r\n          \u0022max\u0022: \u002250\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022Skills have a 140% longer [PerfectTiming|Perfect Timing] window\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_1373370443\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u0022100\u0022,\r\n          \u0022max\u0022: \u0022150\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022[RavenTouched|Raven-Touched]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_3198163869\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00221\u0022,\r\n          \u0022max\u0022: \u00221\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "a276d773fec44d82a720c99828a5abf930e0911c1179ba7be632f15c3edb06e5",
+      "name": "Thunderfist",
+      "base_type": "Utility Wraps",
+      "price_divine": 15,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 87,
+      "energy_shield": 27,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "{\r\n  \u0022description\u0022: \u00227% increased [Evasion] and [EnergyShield|Energy Shield]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_1999113824\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00221\u0022,\r\n          \u0022max\u0022: \u0022111\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u00229% increased [Attack] Speed\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_681332047\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00221\u0022,\r\n          \u0022max\u0022: \u002211\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B23% to [Resistances|Lightning Resistance]\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_1671376347\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00221\u0022,\r\n          \u0022max\u0022: \u002233\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022Adds 1 to 93 Lightning Damage to Unarmed [Melee] Hits\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_3835522656\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00221\u0022,\r\n          \u0022max\u0022: \u00221\u0022\r\n        },\r\n        {\r\n          \u0022min\u0022: \u002277\u0022,\r\n          \u0022max\u0022: \u0022111\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}",
+        "{\r\n  \u0022description\u0022: \u0022\\u002B0.87% to Unarmed [Melee] [Attack] [Critical|Critical Hit] Chance\u0022,\r\n  \u0022hash\u0022: \u0022stat.explicit.stat_3613173483\u0022,\r\n  \u0022mods\u0022: [\r\n    {\r\n      \u0022magnitudes\u0022: [\r\n        {\r\n          \u0022min\u0022: \u00220.1\u0022,\r\n          \u0022max\u0022: \u00221.1\u0022\r\n        }\r\n      ]\r\n    }\r\n  ]\r\n}"
+      ],
+      "mods_crafted": []
+    }
+  ]
+}

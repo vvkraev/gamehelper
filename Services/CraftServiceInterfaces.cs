@@ -111,6 +111,22 @@ public interface IFracturingOrbService : IPrecheckableCraftService
         CraftRunFileLog? craftLog = null);
 }
 
+/// <summary>Сервис Divine Orb крафта.</summary>
+public interface IDivineCraftService : IPrecheckableCraftService
+{
+    Task<CraftResult> RunAsync(
+        ScreenRect orbArea,
+        ScreenRect itemArea,
+        CraftConditionPlan plan,
+        string conditionSummary,
+        int segmentMaxOperations,
+        int globalTotal,
+        int globalAttemptOffset,
+        IProgress<string>? log,
+        CancellationToken ct,
+        CraftRunFileLog? craftLog = null);
+}
+
 /// <summary>Сервис заточки предметов (не использует план крафта).</summary>
 public interface ISharpenService
 {

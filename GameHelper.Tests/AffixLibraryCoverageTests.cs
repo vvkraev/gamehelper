@@ -66,14 +66,45 @@ public sealed class AffixLibraryCoverageTests
         @"\d+(?:\.\d+)?\(\d+(?:\.\d+)?-\d+(?:\.\d+)?\)",
         RegexOptions.Compiled | RegexOptions.CultureInvariant);
 
-    private static string FormatStatAtMinRoll(string libStat)
+    // Парсит диапазон «lo-hi» из affixRanges (поддерживает отрицательные: «-8--6» → lo=-8, hi=-6)
+    private static readonly Regex RangeSegment = new(
+        @"^(-?\d+(?:\.\d+)?)-(-?\d+(?:\.\d+)?)$",
+        RegexOptions.Compiled | RegexOptions.CultureInvariant);
+
+    private static string FormatStatAtMinRoll(string libStat, string? affixRange = null)
     {
+        // Если стат содержит '#' — библиотека уже нормализована; раскрываем через affixRanges.
+        if (libStat.Contains('#'))
+        {
+            var segments = (affixRange ?? "").Split('|', StringSplitOptions.RemoveEmptyEntries);
+            var ri = new[] { 0 };
+            var s = Regex.Replace(libStat, @"#", _ =>
+            {
+                if (ri[0] < segments.Length)
+                {
+                    var seg = segments[ri[0]++];
+                    var m = RangeSegment.Match(seg);
+                    if (m.Success)
+                        return $"{m.Groups[1].Value}({m.Groups[1].Value}-{m.Groups[2].Value})";
+                }
+                return "1(1-1)";  // fallback для null-диапазонов (уникальные предметы)
+            });
+            // Wrap remaining bare standalone integers
+            s = BareRollNumber.Replace(s, m2 => $"{m2.Groups[1].Value}({m2.Groups[1].Value}-{m2.Groups[1].Value})");
+            return s;
+        }
         // Step 1: replace ALL (MIN–MAX) ranges with MIN(MIN-MAX)
-        var s = ParenRange.Replace(libStat, m2 => $"{m2.Groups[1].Value}({m2.Groups[1].Value}-{m2.Groups[2].Value})");
+        var result = ParenRange.Replace(libStat, m2 => $"{m2.Groups[1].Value}({m2.Groups[1].Value}-{m2.Groups[2].Value})");
         // Step 2: wrap remaining bare standalone integers N as N(N-N) so ItemParser treats them as rolls
-        s = BareRollNumber.Replace(s, m2 => $"{m2.Groups[1].Value}({m2.Groups[1].Value}-{m2.Groups[1].Value})");
-        return s;
+        return BareRollNumber.Replace(result, m2 => $"{m2.Groups[1].Value}({m2.Groups[1].Value}-{m2.Groups[1].Value})");
     }
+
+    private static readonly HashSet<string> SkipAffixTypes = new(StringComparer.Ordinal)
+    {
+        "Unique Modifier",
+        "Crafted Prefix Modifier",
+        "Crafted Suffix Modifier",
+    };
 
     private static string BuildClipboard(string itemClass, AffixLibraryEntry entry, string[] splitStats)
     {
@@ -83,8 +114,11 @@ public sealed class AffixLibraryCoverageTests
         sb.AppendLine("Test Item");
         sb.AppendLine("--------");
         sb.AppendLine($"{{ {entry.AffixType} \"{entry.AffixName}\" (Tier: {entry.AffixTier}) — Test }}");
-        foreach (var s in splitStats)
-            sb.AppendLine(FormatStatAtMinRoll(s));
+        for (var i = 0; i < splitStats.Length; i++)
+        {
+            var range = i < entry.AffixRanges.Count ? entry.AffixRanges[i] : null;
+            sb.AppendLine(FormatStatAtMinRoll(splitStats[i], range));
+        }
         return sb.ToString().TrimEnd();
     }
 
@@ -98,6 +132,12 @@ public sealed class AffixLibraryCoverageTests
         foreach (var e in lib)
         {
             if (string.IsNullOrEmpty(e.FamilyId))
+                continue;
+            // Unique/Crafted модификаторы не проверяются этим тестом — ItemParser их не парсит
+            if (SkipAffixTypes.Contains(e.AffixType))
+                continue;
+            // Внутренние параметры игрового движка ([#] нотация) не попадают в текст клипборда
+            if (e.AffixStats.Any(s => s.Contains("[#]", StringComparison.Ordinal)))
                 continue;
             foreach (var ic in e.ItemClasses)
             {

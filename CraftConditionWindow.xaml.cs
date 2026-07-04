@@ -85,11 +85,21 @@ public partial class CraftConditionWindow : Window
     private static readonly string[] JewelSubTypeLabels = ["Все", "Jewel", "Time-Lost Jewel"];
 
     /// <summary>
-    /// Записи для каскадных дропдаунов: если выбран подтип планшета — фильтруются по подклассу
-    /// (специфичные + универсальные); иначе — все записи.
+    /// Записи для каскадных дропдаунов с двухуровневой фильтрацией:
+    /// 1. По подклассу планшета (Ritual/Breach/…) — если выбран.
+    /// 2. По типу защиты доспеха (Armour/Evasion/…) — если выбран класс брони.
     /// </summary>
-    private IReadOnlyList<AffixLibraryEntry> EffectiveEntries =>
-        CraftAffixCascadeHelper.FilterBySubClass(_entries, _tabletSubClass);
+    private IReadOnlyList<AffixLibraryEntry> EffectiveEntries
+    {
+        get
+        {
+            var filtered = CraftAffixCascadeHelper.FilterBySubClass(_entries, _tabletSubClass);
+            var ic = SelectedItemClass;
+            if (ic != null && ArmourSubTypeClasses.Contains(ic) && !string.IsNullOrEmpty(_plan.ExpectedItemSubType))
+                filtered = CraftAffixCascadeHelper.FilterByArmourSubType(filtered, _plan.ExpectedItemSubType);
+            return filtered;
+        }
+    }
 
     public CraftConditionWindow(CraftConditionPlan plan, List<AffixLibraryEntry> entries,
         Services.AffixStatsData? stats = null)
@@ -254,6 +264,7 @@ public partial class CraftConditionWindow : Window
         _plan.ExpectedItemSubType = idx >= 0 && idx < ArmourSubTypeValues.Length
             ? ArmourSubTypeValues[idx]
             : "";
+        RefreshOrAlternativesUi();
         UpdateCombinedChanceLabel();
     }
 

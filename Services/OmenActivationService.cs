@@ -3,6 +3,14 @@ using GameHelper.Native;
 
 namespace GameHelper.Services;
 
+/// <summary>Описывает перекладывание одного омена из стэша в ячейку инвентаря.</summary>
+public sealed class OmenPlacement
+{
+    public ScreenRect StashCell { get; init; }
+    public ScreenRect InventoryCell { get; init; }
+    public string OmenName { get; init; } = "";
+}
+
 public sealed class OmenActivationService
 {
     public const string OmenSinistralExaltationName = "Omen of Sinistral Exaltation";
@@ -157,6 +165,11 @@ public sealed class OmenActivationService
 
         return best;
     }
+
+    // Test hooks — null в продакшне; устанавливаются только в unit-тестах.
+    internal Func<ScreenRect, CancellationToken, Task<string>>? _testReadClipboard;
+    internal Func<ScreenRect, bool>? _testIsActivatedOverride;
+    internal List<string>? _testActionLog;
 
     private static bool TryGetFourOrthogonalNeighbors(
         IReadOnlyList<ScreenRect> cells,
@@ -791,6 +804,265 @@ public sealed class OmenActivationService
 
         log?.Report($"Нужный омен не найден/не активирован: {omenName}");
         return false;
+    }
+
+    /// <summary>
+    /// Активирует омен из стэша по известным координатам ячейки (row, col).
+    /// В отличие от <see cref="ActivateFirstAsync"/>, не сканирует весь список —
+    /// переходит напрямую к заданной ячейке.
+    /// </summary>
+    /// <param name="config">Имя омена и координаты ячейки (StashRow, StashCol).</param>
+    /// <param name="stashGrid">Ячейки стэша в row-major порядке (как передаются в ActivateAllAsync).</param>
+    /// <param name="gridColumns">Ширина сетки стэша в ячейках (≥1).</param>
+    /// <exception cref="ArgumentException">
+    /// StashRow/StashCol отрицательные, или вычисленный индекс выходит за пределы <paramref name="stashGrid"/>,
+    /// или <paramref name="gridColumns"/> меньше 1. Бросается до любых кликов.
+    /// </exception>
+    public async Task<bool> ActivateFromStashAsync(
+        OmenActionConfig config,
+        IReadOnlyList<ScreenRect> stashCells,
+        IProgress<string>? log,
+        CancellationToken ct)
+    {
+        // Валидация — до любых кликов
+        if (config.StashCellIndex < 0)
+            throw new ArgumentException(
+                $"StashCellIndex ({config.StashCellIndex}) не может быть отрицательным.",
+                nameof(config));
+
+        if (config.StashCellIndex >= stashCells.Count)
+            throw new ArgumentException(
+                $"StashCellIndex [{config.StashCellIndex}] выходит за пределы списка " +
+                $"(ячеек: {stashCells.Count}).",
+                nameof(config));
+
+        var cellIndex = config.StashCellIndex;
+        var cell = stashCells[cellIndex];
+        var omenName = config.OmenName;
+
+        log?.Report($"Омен: активация «{omenName}» из стэша [index={cellIndex}]…");
+
+        // Вывести игру на передний план (пропускается в тестах, когда подменён ридер)
+        if (_testReadClipboard is null)
+        {
+            _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+            await Task.Delay(120, ct).ConfigureAwait(false);
+        }
+
+        // Прочитать содержимое ячейки (Ctrl+C)
+        _testActionLog?.Add($"ReadClipboard[{cellIndex}]");
+        var clip = _testReadClipboard is not null
+            ? await _testReadClipboard(cell, ct).ConfigureAwait(false)
+            : await ReadOmenClipboardWithRetryAsync(
+                cell, log, ct, $"Омен: Ctrl+C [index={cellIndex}]").ConfigureAwait(false);
+
+        if (!ClipboardLooksLikeOmen(clip, omenName))
+        {
+            var preview = (clip ?? "").Split('\n').FirstOrDefault()?.Trim() ?? "(пусто)";
+            log?.Report($"Омен: в ячейке [index={cellIndex}] не найден «{omenName}» (буфер: «{preview}»).");
+            return false;
+        }
+
+        // Уже активирован?
+        var isActive = _testIsActivatedOverride is not null
+            ? _testIsActivatedOverride(cell)
+            : IsOmenCellVisuallyActivated(cell);
+
+        if (isActive)
+        {
+            log?.Report("Омен: уже активирован (красная рамка).");
+            return true;
+        }
+
+        // Правый клик — активация (ПКМ по ячейке стэша)
+        _testActionLog?.Add($"RClick[{cellIndex}]");
+        if (_testReadClipboard is null)
+        {
+            var (x, y) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
+            MoveToRandomInteriorIfOutside(
+                cell, log, $"Омен: MoveTo [index={cellIndex}] перед активацией", x, y);
+            await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+            LogMouse(log, "Омен: ПКМ (активация из стэша)");
+            Win32Input.ClickRight();
+            await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+            await Task.Delay(150, ct).ConfigureAwait(false);
+        }
+
+        // Проверить результат
+        var activated = _testIsActivatedOverride is not null
+            ? _testIsActivatedOverride(cell)
+            : IsOmenCellVisuallyActivated(cell);
+
+        if (activated)
+        {
+            log?.Report("Омен: активирован (красная рамка появилась).");
+            return true;
+        }
+
+        log?.Report("Омен: не удалось подтвердить активацию (красная рамка не появилась).");
+        return false;
+    }
+
+    /// <summary>
+    /// Парсит текущий размер стека из текста буфера обмена ("Stack Size: N/M").
+    /// Возвращает 0, если строка не найдена или не распознана.
+    /// </summary>
+    internal static int ParseStackSize(string? clip)
+    {
+        if (string.IsNullOrEmpty(clip)) return 0;
+        foreach (var rawLine in clip.Split('\n'))
+        {
+            var line = rawLine.Trim();
+            if (!line.StartsWith("Stack Size:", StringComparison.OrdinalIgnoreCase)) continue;
+            var colon = line.IndexOf(':');
+            if (colon < 0) continue;
+            var rest = line[(colon + 1)..].Trim().Split('/')[0].Trim();
+            if (int.TryParse(rest, out var n)) return n;
+        }
+        return 0;
+    }
+
+    private async Task<string> ReadInventoryClipboardAsync(ScreenRect cell, IProgress<string>? log, CancellationToken ct, string tag)
+    {
+        async Task<string> OnceAsync()
+        {
+            await ClearClipboardAsync().ConfigureAwait(false);
+            var (x, y) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
+            MoveToRandomInteriorIfOutside(cell, log, $"{tag}: MoveTo", x, y);
+            await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+            Win32Input.SendCtrlAltC();
+            await DelayJitterAsync(ClipboardDelayMs, ct).ConfigureAwait(false);
+            var text = await ReadClipboardTextAsync().ConfigureAwait(false);
+            SessionLogger.InfoClipboard(tag, text);
+            return text;
+        }
+
+        var first = await OnceAsync().ConfigureAwait(false);
+        if (!string.IsNullOrWhiteSpace(first)) return first;
+
+        log?.Report($"{tag}: буфер пуст, retry через 200ms…");
+        await Task.Delay(200, ct).ConfigureAwait(false);
+        return await OnceAsync().ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Перекладывает каждый омен из ячейки стэша в ячейку инвентаря, затем активирует все омены правым кликом.
+    /// </summary>
+    /// <remarks>
+    /// Порядок: ЛКМ стэш → ЛКМ инвентарь (для каждого омена),
+    /// затем Ctrl+Alt+C по каждой ячейке инвентаря для проверки,
+    /// затем ПКМ для активации и проверка красной рамки.
+    /// </remarks>
+    /// <returns><c>true</c>, если все омены перемещены и активированы.</returns>
+    public async Task<bool> PlaceAndActivateOmensAsync(
+        IReadOnlyList<OmenPlacement> placements,
+        IProgress<string>? log,
+        CancellationToken ct)
+    {
+        if (placements.Count == 0)
+            return true;
+
+        if (_testReadClipboard is null)
+        {
+            _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+            await Task.Delay(120, ct).ConfigureAwait(false);
+        }
+
+        // Шаг 1: ЛКМ стэш → ЛКМ инвентарь (перекладываем каждый омен)
+        for (var i = 0; i < placements.Count; i++)
+        {
+            ct.ThrowIfCancellationRequested();
+            var p = placements[i];
+            log?.Report($"Омен: перекладываем «{p.OmenName}» [{i + 1}/{placements.Count}]…");
+
+            _testActionLog?.Add($"LMB-Stash-{i}");
+            if (_testReadClipboard is null)
+            {
+                var (sx, sy) = p.StashCell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
+                MoveToRandomInteriorIfOutside(p.StashCell, log, $"Омен: MoveTo стэш [{i}]", sx, sy);
+                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+                LogMouse(log, $"Омен: ЛКМ стэш [{i}] (поднять стек)");
+                Win32Input.ClickLeft();
+                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+            }
+
+            _testActionLog?.Add($"LMB-Inventory-{i}");
+            if (_testReadClipboard is null)
+            {
+                var (ix, iy) = p.InventoryCell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
+                MoveToRandomInteriorIfOutside(p.InventoryCell, log, $"Омен: MoveTo инвентарь [{i}]", ix, iy);
+                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+                LogMouse(log, $"Омен: ЛКМ инвентарь [{i}] (положить)");
+                Win32Input.ClickLeft();
+                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+            }
+        }
+
+        // Шаг 2: Ctrl+Alt+C по каждой ячейке инвентаря — проверить наличие омена
+        for (var i = 0; i < placements.Count; i++)
+        {
+            ct.ThrowIfCancellationRequested();
+            var p = placements[i];
+
+            _testActionLog?.Add($"ReadClipboard-Inventory-{i}");
+            var clip = _testReadClipboard is not null
+                ? await _testReadClipboard(p.InventoryCell, ct).ConfigureAwait(false)
+                : await ReadInventoryClipboardAsync(
+                    p.InventoryCell, log, ct, $"Омен: Ctrl+Alt+C инвентарь [{i}]").ConfigureAwait(false);
+
+            if (!ClipboardLooksLikeOmen(clip, p.OmenName))
+            {
+                var preview = (clip ?? "").Split('\n').FirstOrDefault()?.Trim() ?? "(пусто)";
+                log?.Report($"Омен: не найден «{p.OmenName}» в инвентаре [{i}] (буфер: «{preview}»).");
+                return false;
+            }
+
+            var count = ParseStackSize(clip);
+            log?.Report($"Омен: «{p.OmenName}» в инвентаре [{i}], количество: {(count > 0 ? count.ToString() : "?")}.");
+        }
+
+        // Шаг 3: ПКМ по каждой ячейке инвентаря — активировать
+        for (var i = 0; i < placements.Count; i++)
+        {
+            ct.ThrowIfCancellationRequested();
+            var p = placements[i];
+
+            var alreadyActive = _testIsActivatedOverride is not null
+                ? _testIsActivatedOverride(p.InventoryCell)
+                : IsOmenCellVisuallyActivated(p.InventoryCell);
+
+            if (alreadyActive)
+            {
+                log?.Report($"Омен [{i}]: «{p.OmenName}» уже активирован.");
+                continue;
+            }
+
+            _testActionLog?.Add($"RMB-Inventory-{i}");
+            if (_testReadClipboard is null)
+            {
+                var (ix, iy) = p.InventoryCell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
+                MoveToRandomInteriorIfOutside(p.InventoryCell, log, $"Омен: MoveTo инвентарь [{i}] (активация)", ix, iy);
+                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+                LogMouse(log, $"Омен: ПКМ инвентарь [{i}] (активация)");
+                Win32Input.ClickRight();
+                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+                await Task.Delay(150, ct).ConfigureAwait(false);
+            }
+
+            var activated = _testIsActivatedOverride is not null
+                ? _testIsActivatedOverride(p.InventoryCell)
+                : IsOmenCellVisuallyActivated(p.InventoryCell);
+
+            if (!activated)
+            {
+                log?.Report($"Омен [{i}]: «{p.OmenName}» — красная рамка не появилась после активации.");
+                return false;
+            }
+
+            log?.Report($"Омен [{i}]: «{p.OmenName}» активирован (красная рамка).");
+        }
+
+        return true;
     }
 }
 

@@ -25,8 +25,7 @@ public class TradeImportService
     {
         try
         {
-            var doc = JsonNode.Parse(rawJson) ?? throw new InvalidOperationException("Пустой JSON");
-            var resultArr = doc["result"]?.AsArray() ?? throw new InvalidOperationException("Нет поля 'result'");
+            var resultArr = MergeBlocks(rawJson);
             if (resultArr.Count == 0)
                 return new ImportResult("", "", 0, "Список result пустой");
 
@@ -65,6 +64,21 @@ public class TradeImportService
         }
     }
 
+    private static JsonArray MergeBlocks(string rawJson)
+    {
+        var merged = new JsonArray();
+        var normalized = rawJson.Replace("\r\n", "\n").Replace("\r", "\n");
+        foreach (var block in normalized.Split("\n\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries))
+        {
+            var doc = JsonNode.Parse(block) ?? throw new InvalidOperationException("Пустой JSON в блоке");
+            var arr = doc["result"]?.AsArray() ?? throw new InvalidOperationException("Нет поля 'result' в блоке");
+            foreach (var node in arr)
+                if (node is not null)
+                    merged.Add(node.DeepClone());
+        }
+        return merged;
+    }
+
     private static void SaveJson(string path, List<TradeItem> items, string baseType, string date, string slug)
     {
         var payload = new
@@ -75,6 +89,7 @@ public class TradeImportService
                 id = it.Id,
                 name = it.Name,
                 base_type = it.BaseType,
+                listed_at = it.ListedAt,
                 price_divine = it.PriceAmount,
                 price_currency = it.PriceCurrency,
                 quality = it.Quality,
@@ -103,7 +118,8 @@ public class TradeImportService
             var item = node["item"];
             if (item is null) continue;
 
-            var priceNode = node["listing"]?["price"];
+            var listingNode = node["listing"];
+            var priceNode = listingNode?["price"];
             var it = new TradeItem
             {
                 Id = node["id"]?.GetValue<string>() ?? "",
@@ -115,6 +131,7 @@ public class TradeImportService
                 Fractured = item["fractured"]?.GetValue<bool>() ?? false,
                 PriceAmount = priceNode?["amount"]?.GetValue<double>() ?? 0,
                 PriceCurrency = priceNode?["currency"]?.GetValue<string>() ?? "?",
+                ListedAt = listingNode?["indexed"]?.GetValue<string>() ?? "",
             };
 
             ReadProperties(item["properties"]?.AsArray(), it);
@@ -237,8 +254,10 @@ public class TradeImportService
         var maxExpl  = items.Count > 0 ? items.Max(it => it.ExplicitMods.Count)   : 0;
         var maxCraft = items.Count > 0 ? items.Max(it => it.CraftedMods.Count)    : 0;
 
+        var scanDate = DateTime.TryParse(date, out var d) ? d : DateTime.Today;
+
         // Заголовок таблицы — каждый мод в отдельном столбце
-        sb.Append("| Цена | Имя | Q | ilvl | Крп | Evas | ES | Armour |");
+        sb.Append("| Цена | Имя | Q | ilvl | Крп | Выставлен | Дней | Evas | ES | Armour |");
         for (var i = 1; i <= maxFrac;  i++) sb.Append($" Фрак {i} |");
         for (var i = 1; i <= maxImpl;  i++) sb.Append($" Impl {i} |");
         for (var i = 1; i <= maxDes;   i++) sb.Append($" Дес {i} |");
@@ -247,7 +266,7 @@ public class TradeImportService
         sb.AppendLine();
 
         var dynCols = maxFrac + maxImpl + maxDes + maxExpl + maxCraft;
-        sb.Append("|---|---|---|---|---|---|---|---|");
+        sb.Append("|---|---|---|---|---|---|---|---|---|---|");
         for (var i = 0; i < dynCols; i++) sb.Append("---|");
         sb.AppendLine();
 
@@ -255,7 +274,11 @@ public class TradeImportService
         foreach (var it in items)
         {
             var corr = it.Corrupted ? "да" : "нет";
-            sb.Append($"| {it.PriceAmount}{CurrencyShort(it.PriceCurrency)} | {EscapeCell(it.Name)} | {it.Quality}% | {it.Ilvl} | {corr} | {it.Evasion} | {it.EnergyShield} | {it.Armour} |");
+            var listedDate = DateTime.TryParse(it.ListedAt, null, System.Globalization.DateTimeStyles.RoundtripKind, out var ld)
+                ? ld.ToLocalTime() : (DateTime?)null;
+            var listedStr = listedDate.HasValue ? listedDate.Value.ToString("MM-dd HH:mm") : "—";
+            var daysStr = listedDate.HasValue ? ((int)(scanDate - listedDate.Value.ToLocalTime().Date).TotalDays).ToString() : "—";
+            sb.Append($"| {it.PriceAmount}{CurrencyShort(it.PriceCurrency)} | {EscapeCell(it.Name)} | {it.Quality}% | {it.Ilvl} | {corr} | {listedStr} | {daysStr} | {it.Evasion} | {it.EnergyShield} | {it.Armour} |");
             AppendModCells(sb, it.FracturedMods,  maxFrac);
             AppendModCells(sb, it.ImplicitMods,   maxImpl);
             AppendModCells(sb, it.DesecrateMods,  maxDes);
@@ -307,6 +330,7 @@ public class TradeImportService
         public string Id { get; set; } = "";
         public string Name { get; set; } = "";
         public string BaseType { get; set; } = "";
+        public string ListedAt { get; set; } = "";
         public int Ilvl { get; set; }
         public int Quality { get; set; }
         public bool Corrupted { get; set; }

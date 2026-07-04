@@ -1,0 +1,3769 @@
+{
+  "generatedAt": "2026-07-04T16:42:12",
+  "perClass": {
+    "Amulets": {
+      "snapshotsWithFracture": 3316,
+      "entries": [
+        {
+          "affixName": "of the Leviathan",
+          "statKey": "of the Leviathan|\u002B to strength",
+          "count": 127,
+          "availableSamples": 3316,
+          "probabilityPct": 3.83
+        },
+        {
+          "affixName": "of the Savant",
+          "statKey": "of the Savant|\u002B to intelligence",
+          "count": 124,
+          "availableSamples": 3316,
+          "probabilityPct": 3.74
+        },
+        {
+          "affixName": "of the Phantom",
+          "statKey": "of the Phantom|\u002B to dexterity",
+          "count": 120,
+          "availableSamples": 3316,
+          "probabilityPct": 3.62
+        },
+        {
+          "affixName": "of Unmaking",
+          "statKey": "of Unmaking|% increased critical hit chance",
+          "count": 120,
+          "availableSamples": 3316,
+          "probabilityPct": 3.62
+        },
+        {
+          "affixName": "of the Maelstrom",
+          "statKey": "of the Maelstrom|\u002B% to lightning resistance",
+          "count": 115,
+          "availableSamples": 3316,
+          "probabilityPct": 3.47
+        },
+        {
+          "affixName": "of Magma",
+          "statKey": "of Magma|\u002B% to fire resistance",
+          "count": 114,
+          "availableSamples": 3316,
+          "probabilityPct": 3.44
+        },
+        {
+          "affixName": "of the Goliath",
+          "statKey": "of the Goliath|\u002B to strength",
+          "count": 114,
+          "availableSamples": 3316,
+          "probabilityPct": 3.44
+        },
+        {
+          "affixName": "of the Jaguar",
+          "statKey": "of the Jaguar|\u002B to dexterity",
+          "count": 113,
+          "availableSamples": 3316,
+          "probabilityPct": 3.41
+        },
+        {
+          "affixName": "of the Leopard",
+          "statKey": "of the Leopard|\u002B to dexterity",
+          "count": 112,
+          "availableSamples": 3316,
+          "probabilityPct": 3.38
+        },
+        {
+          "affixName": "of Archaeology",
+          "statKey": "of Archaeology|% increased rarity of items found",
+          "count": 112,
+          "availableSamples": 3316,
+          "probabilityPct": 3.38
+        },
+        {
+          "affixName": "of Resurgence",
+          "statKey": "of Resurgence|life regeneration per second",
+          "count": 108,
+          "availableSamples": 3316,
+          "probabilityPct": 3.26
+        },
+        {
+          "affixName": "of Euphoria",
+          "statKey": "of Euphoria|% increased mana regeneration rate",
+          "count": 106,
+          "availableSamples": 3316,
+          "probabilityPct": 3.2
+        },
+        {
+          "affixName": "of the Sage",
+          "statKey": "of the Sage|\u002B to intelligence",
+          "count": 106,
+          "availableSamples": 3316,
+          "probabilityPct": 3.2
+        },
+        {
+          "affixName": "of Immortality",
+          "statKey": "of Immortality|life regeneration per second",
+          "count": 105,
+          "availableSamples": 3316,
+          "probabilityPct": 3.17
+        },
+        {
+          "affixName": "of the Virtuoso",
+          "statKey": "of the Virtuoso|\u002B to intelligence",
+          "count": 105,
+          "availableSamples": 3316,
+          "probabilityPct": 3.17
+        },
+        {
+          "affixName": "of the Titan",
+          "statKey": "of the Titan|\u002B to strength",
+          "count": 103,
+          "availableSamples": 3316,
+          "probabilityPct": 3.11
+        },
+        {
+          "affixName": "of the Multiverse",
+          "statKey": "of the Multiverse|\u002B to all attributes",
+          "count": 102,
+          "availableSamples": 3316,
+          "probabilityPct": 3.08
+        },
+        {
+          "affixName": "of the Polar Bear",
+          "statKey": "of the Polar Bear|\u002B% to cold resistance",
+          "count": 98,
+          "availableSamples": 3316,
+          "probabilityPct": 2.96
+        },
+        {
+          "affixName": "of the Walrus",
+          "statKey": "of the Walrus|\u002B% to cold resistance",
+          "count": 95,
+          "availableSamples": 3316,
+          "probabilityPct": 2.86
+        },
+        {
+          "affixName": "of the Ice",
+          "statKey": "of the Ice|\u002B% to cold resistance",
+          "count": 94,
+          "availableSamples": 3316,
+          "probabilityPct": 2.83
+        },
+        {
+          "affixName": "of the Universe",
+          "statKey": "of the Universe|\u002B to all attributes",
+          "count": 93,
+          "availableSamples": 3316,
+          "probabilityPct": 2.8
+        },
+        {
+          "affixName": "of the Lightning",
+          "statKey": "of the Lightning|\u002B% to lightning resistance",
+          "count": 93,
+          "availableSamples": 3316,
+          "probabilityPct": 2.8
+        },
+        {
+          "affixName": "of the Volcano",
+          "statKey": "of the Volcano|\u002B% to fire resistance",
+          "count": 92,
+          "availableSamples": 3316,
+          "probabilityPct": 2.77
+        },
+        {
+          "affixName": "of Legerdemain",
+          "statKey": "of Legerdemain|% increased cast speed",
+          "count": 89,
+          "availableSamples": 3316,
+          "probabilityPct": 2.68
+        },
+        {
+          "affixName": "of Recuperation",
+          "statKey": "of Recuperation|life regeneration per second",
+          "count": 78,
+          "availableSamples": 3316,
+          "probabilityPct": 2.35
+        },
+        {
+          "affixName": "of the Rainbow",
+          "statKey": "of the Rainbow|\u002B% to all elemental resistances",
+          "count": 77,
+          "availableSamples": 3316,
+          "probabilityPct": 2.32
+        },
+        {
+          "affixName": "of the Galaxy",
+          "statKey": "of the Galaxy|\u002B to all attributes",
+          "count": 76,
+          "availableSamples": 3316,
+          "probabilityPct": 2.29
+        },
+        {
+          "affixName": "of the Sorcerer",
+          "statKey": "of the Sorcerer|\u002B to level of all spell skills",
+          "count": 76,
+          "availableSamples": 3316,
+          "probabilityPct": 2.29
+        },
+        {
+          "affixName": "of Variegation",
+          "statKey": "of Variegation|\u002B% to all elemental resistances",
+          "count": 72,
+          "availableSamples": 3316,
+          "probabilityPct": 2.17
+        },
+        {
+          "affixName": "of Destruction",
+          "statKey": "of Destruction|% increased critical damage bonus",
+          "count": 63,
+          "availableSamples": 3316,
+          "probabilityPct": 1.9
+        },
+        {
+          "affixName": "of Stitching",
+          "statKey": "of Stitching|% of damage taken recouped as life",
+          "count": 62,
+          "availableSamples": 3316,
+          "probabilityPct": 1.87
+        },
+        {
+          "affixName": "of Ephij",
+          "statKey": "of Ephij|\u002B% to lightning resistance",
+          "count": 61,
+          "availableSamples": 3316,
+          "probabilityPct": 1.84
+        },
+        {
+          "affixName": "of Haast",
+          "statKey": "of Haast|\u002B% to cold resistance",
+          "count": 59,
+          "availableSamples": 3316,
+          "probabilityPct": 1.78
+        },
+        {
+          "affixName": "of Tzteosh",
+          "statKey": "of Tzteosh|\u002B% to fire resistance",
+          "count": 58,
+          "availableSamples": 3316,
+          "probabilityPct": 1.75
+        },
+        {
+          "affixName": "of Tranquility",
+          "statKey": "of Tranquility|% of damage taken recouped as mana",
+          "count": 58,
+          "availableSamples": 3316,
+          "probabilityPct": 1.75
+        },
+        {
+          "affixName": "of Nirvana",
+          "statKey": "of Nirvana|% increased mana regeneration rate",
+          "count": 54,
+          "availableSamples": 3316,
+          "probabilityPct": 1.63
+        },
+        {
+          "affixName": "of Serenity",
+          "statKey": "of Serenity|% of damage taken recouped as mana",
+          "count": 51,
+          "availableSamples": 3316,
+          "probabilityPct": 1.54
+        },
+        {
+          "affixName": "of Ruin",
+          "statKey": "of Ruin|% increased critical hit chance",
+          "count": 50,
+          "availableSamples": 3316,
+          "probabilityPct": 1.51
+        },
+        {
+          "affixName": "of Suturing",
+          "statKey": "of Suturing|% of damage taken recouped as life",
+          "count": 49,
+          "availableSamples": 3316,
+          "probabilityPct": 1.48
+        },
+        {
+          "affixName": "of the Span",
+          "statKey": "of the Span|\u002B% to all elemental resistances",
+          "count": 44,
+          "availableSamples": 3316,
+          "probabilityPct": 1.33
+        },
+        {
+          "affixName": "of the Infinite",
+          "statKey": "of the Infinite|\u002B to all attributes",
+          "count": 42,
+          "availableSamples": 3316,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Zen",
+          "statKey": "of Zen|% of damage taken recouped as mana",
+          "count": 33,
+          "availableSamples": 3316,
+          "probabilityPct": 1
+        },
+        {
+          "affixName": "of Fleshbinding",
+          "statKey": "of Fleshbinding|% of damage taken recouped as life",
+          "count": 24,
+          "availableSamples": 3316,
+          "probabilityPct": 0.72
+        },
+        {
+          "affixName": "of Ferocity",
+          "statKey": "of Ferocity|% increased critical damage bonus",
+          "count": 23,
+          "availableSamples": 3316,
+          "probabilityPct": 0.69
+        },
+        {
+          "affixName": "of Bameth",
+          "statKey": "of Bameth|\u002B% to chaos resistance",
+          "count": 23,
+          "availableSamples": 3316,
+          "probabilityPct": 0.69
+        },
+        {
+          "affixName": "of Expulsion",
+          "statKey": "of Expulsion|\u002B% to chaos resistance",
+          "count": 21,
+          "availableSamples": 3316,
+          "probabilityPct": 0.63
+        },
+        {
+          "affixName": "of Exile",
+          "statKey": "of Exile|\u002B% to chaos resistance",
+          "count": 20,
+          "availableSamples": 3316,
+          "probabilityPct": 0.6
+        },
+        {
+          "affixName": "of Battle",
+          "statKey": "of Battle|\u002B to level of all melee skills",
+          "count": 9,
+          "availableSamples": 3316,
+          "probabilityPct": 0.27
+        },
+        {
+          "affixName": "of the Sharpshooter",
+          "statKey": "of the Sharpshooter|\u002B to level of all projectile skills",
+          "count": 7,
+          "availableSamples": 3316,
+          "probabilityPct": 0.21
+        },
+        {
+          "affixName": "of the Overseer",
+          "statKey": "of the Overseer|\u002B to level of all minion skills",
+          "count": 5,
+          "availableSamples": 3316,
+          "probabilityPct": 0.15
+        }
+      ]
+    },
+    "Body Armours|Energy Shield": {
+      "snapshotsWithFracture": 182,
+      "entries": [
+        {
+          "affixName": "Resplendent",
+          "statKey": "Resplendent|\u002B to maximum energy shield",
+          "count": 38,
+          "availableSamples": 182,
+          "probabilityPct": 20.88
+        },
+        {
+          "affixName": "Unfaltering",
+          "statKey": "Unfaltering|% increased energy shield",
+          "count": 16,
+          "availableSamples": 182,
+          "probabilityPct": 8.79
+        },
+        {
+          "affixName": "Pope\u0027s",
+          "statKey": "Pope\u0027s|% increased energy shield",
+          "count": 13,
+          "availableSamples": 182,
+          "probabilityPct": 7.14
+        },
+        {
+          "affixName": "Pope\u0027s",
+          "statKey": "Pope\u0027s|\u002B to maximum life",
+          "count": 13,
+          "availableSamples": 182,
+          "probabilityPct": 7.14
+        },
+        {
+          "affixName": "Divine",
+          "statKey": "Divine|\u002B to maximum energy shield",
+          "count": 12,
+          "availableSamples": 182,
+          "probabilityPct": 6.59
+        },
+        {
+          "affixName": "Divine",
+          "statKey": "Divine|% increased energy shield",
+          "count": 12,
+          "availableSamples": 182,
+          "probabilityPct": 6.59
+        },
+        {
+          "affixName": "Archon\u0027s",
+          "statKey": "Archon\u0027s|\u002B to maximum energy shield",
+          "count": 11,
+          "availableSamples": 182,
+          "probabilityPct": 6.04
+        },
+        {
+          "affixName": "Archon\u0027s",
+          "statKey": "Archon\u0027s|% increased energy shield",
+          "count": 11,
+          "availableSamples": 182,
+          "probabilityPct": 6.04
+        },
+        {
+          "affixName": "Indomitable",
+          "statKey": "Indomitable|% increased energy shield",
+          "count": 10,
+          "availableSamples": 182,
+          "probabilityPct": 5.49
+        },
+        {
+          "affixName": "Virile",
+          "statKey": "Virile|\u002B to maximum life",
+          "count": 9,
+          "availableSamples": 182,
+          "probabilityPct": 4.95
+        },
+        {
+          "affixName": "Dauntless",
+          "statKey": "Dauntless|% increased energy shield",
+          "count": 9,
+          "availableSamples": 182,
+          "probabilityPct": 4.95
+        },
+        {
+          "affixName": "Edged",
+          "statKey": "Edged|to physical thorns damage",
+          "count": 8,
+          "availableSamples": 182,
+          "probabilityPct": 4.4
+        },
+        {
+          "affixName": "Jagged",
+          "statKey": "Jagged|to physical thorns damage",
+          "count": 8,
+          "availableSamples": 182,
+          "probabilityPct": 4.4
+        },
+        {
+          "affixName": "Unassailable",
+          "statKey": "Unassailable|% increased energy shield",
+          "count": 8,
+          "availableSamples": 182,
+          "probabilityPct": 4.4
+        },
+        {
+          "affixName": "Prime",
+          "statKey": "Prime|\u002B to maximum life",
+          "count": 7,
+          "availableSamples": 182,
+          "probabilityPct": 3.85
+        },
+        {
+          "affixName": "Scintillating",
+          "statKey": "Scintillating|\u002B to maximum energy shield",
+          "count": 7,
+          "availableSamples": 182,
+          "probabilityPct": 3.85
+        },
+        {
+          "affixName": "Fecund",
+          "statKey": "Fecund|\u002B to maximum life",
+          "count": 7,
+          "availableSamples": 182,
+          "probabilityPct": 3.85
+        },
+        {
+          "affixName": "Blazing",
+          "statKey": "Blazing|\u002B to maximum energy shield",
+          "count": 7,
+          "availableSamples": 182,
+          "probabilityPct": 3.85
+        },
+        {
+          "affixName": "Vigorous",
+          "statKey": "Vigorous|\u002B to maximum life",
+          "count": 7,
+          "availableSamples": 182,
+          "probabilityPct": 3.85
+        },
+        {
+          "affixName": "Athlete\u0027s",
+          "statKey": "Athlete\u0027s|\u002B to maximum life",
+          "count": 6,
+          "availableSamples": 182,
+          "probabilityPct": 3.3
+        },
+        {
+          "affixName": "Exarch\u0027s",
+          "statKey": "Exarch\u0027s|% increased energy shield",
+          "count": 6,
+          "availableSamples": 182,
+          "probabilityPct": 3.3
+        },
+        {
+          "affixName": "Exarch\u0027s",
+          "statKey": "Exarch\u0027s|\u002B to maximum life",
+          "count": 6,
+          "availableSamples": 182,
+          "probabilityPct": 3.3
+        },
+        {
+          "affixName": "Rapturous",
+          "statKey": "Rapturous|\u002B to maximum life",
+          "count": 5,
+          "availableSamples": 182,
+          "probabilityPct": 2.75
+        },
+        {
+          "affixName": "Dazzling",
+          "statKey": "Dazzling|\u002B to maximum energy shield",
+          "count": 4,
+          "availableSamples": 182,
+          "probabilityPct": 2.2
+        },
+        {
+          "affixName": "Incandescent",
+          "statKey": "Incandescent|\u002B to maximum energy shield",
+          "count": 4,
+          "availableSamples": 182,
+          "probabilityPct": 2.2
+        }
+      ]
+    },
+    "Body Armours|Energy Shield|Chaos Orb": {
+      "snapshotsWithFracture": 157,
+      "entries": [
+        {
+          "affixName": "of the Narwhal",
+          "statKey": "of the Narwhal|\u002B% to cold resistance",
+          "count": 5,
+          "availableSamples": 157,
+          "probabilityPct": 3.18
+        },
+        {
+          "affixName": "of Stone Skin",
+          "statKey": "of Stone Skin|\u002B to stun threshold",
+          "count": 4,
+          "availableSamples": 157,
+          "probabilityPct": 2.55
+        },
+        {
+          "affixName": "of the Lizard",
+          "statKey": "of the Lizard|life regeneration per second",
+          "count": 4,
+          "availableSamples": 157,
+          "probabilityPct": 2.55
+        },
+        {
+          "affixName": "of the Troll",
+          "statKey": "of the Troll|life regeneration per second",
+          "count": 4,
+          "availableSamples": 157,
+          "probabilityPct": 2.55
+        },
+        {
+          "affixName": "Spiked",
+          "statKey": "Spiked|to physical thorns damage",
+          "count": 4,
+          "availableSamples": 157,
+          "probabilityPct": 2.55
+        },
+        {
+          "affixName": "High Priest\u0027s",
+          "statKey": "High Priest\u0027s|\u002B to maximum energy shield",
+          "count": 4,
+          "availableSamples": 157,
+          "probabilityPct": 2.55
+        },
+        {
+          "affixName": "High Priest\u0027s",
+          "statKey": "High Priest\u0027s|% increased energy shield",
+          "count": 4,
+          "availableSamples": 157,
+          "probabilityPct": 2.55
+        },
+        {
+          "affixName": "of Convalescence",
+          "statKey": "of Convalescence|life regeneration per second",
+          "count": 3,
+          "availableSamples": 157,
+          "probabilityPct": 1.91
+        },
+        {
+          "affixName": "Glowing",
+          "statKey": "Glowing|\u002B to maximum energy shield",
+          "count": 3,
+          "availableSamples": 157,
+          "probabilityPct": 1.91
+        },
+        {
+          "affixName": "of the Savant",
+          "statKey": "of the Savant|\u002B to intelligence",
+          "count": 3,
+          "availableSamples": 157,
+          "probabilityPct": 1.91
+        },
+        {
+          "affixName": "of the Augur",
+          "statKey": "of the Augur|\u002B to intelligence",
+          "count": 3,
+          "availableSamples": 157,
+          "probabilityPct": 1.91
+        },
+        {
+          "affixName": "of the Lightning",
+          "statKey": "of the Lightning|\u002B% to lightning resistance",
+          "count": 3,
+          "availableSamples": 157,
+          "probabilityPct": 1.91
+        },
+        {
+          "affixName": "Jagged",
+          "statKey": "Jagged|to physical thorns damage",
+          "count": 3,
+          "availableSamples": 157,
+          "probabilityPct": 1.91
+        },
+        {
+          "affixName": "of Magma",
+          "statKey": "of Magma|\u002B% to fire resistance",
+          "count": 3,
+          "availableSamples": 157,
+          "probabilityPct": 1.91
+        },
+        {
+          "affixName": "of Buffering",
+          "statKey": "of Buffering|% increased energy shield recharge rate",
+          "count": 3,
+          "availableSamples": 157,
+          "probabilityPct": 1.91
+        },
+        {
+          "affixName": "of Obsidian Skin",
+          "statKey": "of Obsidian Skin|\u002B to stun threshold",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Priest\u0027s",
+          "statKey": "Priest\u0027s|\u002B to maximum energy shield",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Priest\u0027s",
+          "statKey": "Priest\u0027s|% increased energy shield",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Thunderhead",
+          "statKey": "of the Thunderhead|\u002B% to lightning resistance",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Pointed",
+          "statKey": "Pointed|to physical thorns damage",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Student",
+          "statKey": "of the Student|\u002B to intelligence",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Virtuoso",
+          "statKey": "of the Virtuoso|\u002B to intelligence",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Spiny",
+          "statKey": "Spiny|to physical thorns damage",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Sanguine",
+          "statKey": "Sanguine|\u002B to maximum life",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Prodigy",
+          "statKey": "of the Prodigy|\u002B to intelligence",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Barbed",
+          "statKey": "Barbed|to physical thorns damage",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Steel Skin",
+          "statKey": "of Steel Skin|\u002B to stun threshold",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Flatworm",
+          "statKey": "of the Flatworm|life regeneration per second",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Resurgence",
+          "statKey": "of Resurgence|life regeneration per second",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Ardour",
+          "statKey": "of Ardour|% increased energy shield recharge rate",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Stout",
+          "statKey": "Stout|\u002B to maximum life",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Sage",
+          "statKey": "of the Sage|\u002B to intelligence",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Prior\u0027s",
+          "statKey": "Prior\u0027s|% increased energy shield",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Prior\u0027s",
+          "statKey": "Prior\u0027s|\u002B to maximum life",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Monk\u0027s",
+          "statKey": "Monk\u0027s|% increased energy shield",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Monk\u0027s",
+          "statKey": "Monk\u0027s|\u002B to maximum life",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Suffusion",
+          "statKey": "of Suffusion|% increased energy shield recharge rate",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Storm",
+          "statKey": "of the Storm|\u002B% to lightning resistance",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Strong-Willed",
+          "statKey": "Strong-Willed|% increased energy shield",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Quenching",
+          "statKey": "of Quenching|% reduced ignite duration on you",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Phoenix",
+          "statKey": "of the Phoenix|life regeneration per second",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Medved\u0027s",
+          "statKey": "Medved\u0027s|% increased energy shield",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Corundum Skin",
+          "statKey": "of Corundum Skin|\u002B to stun threshold",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Thorny",
+          "statKey": "Thorny|to physical thorns damage",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Medved\u0027s",
+          "statKey": "Medved\u0027s|\u002B to maximum mana",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Archon\u0027s",
+          "statKey": "Archon\u0027s|\u002B to maximum energy shield",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Archon\u0027s",
+          "statKey": "Archon\u0027s|% increased energy shield",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Glittering",
+          "statKey": "Glittering|\u002B to maximum energy shield",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Walrus",
+          "statKey": "of the Walrus|\u002B% to cold resistance",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Cardinal\u0027s",
+          "statKey": "Cardinal\u0027s|\u002B to maximum energy shield",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Cardinal\u0027s",
+          "statKey": "Cardinal\u0027s|% increased energy shield",
+          "count": 2,
+          "availableSamples": 157,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Unfaltering",
+          "statKey": "Unfaltering|% increased energy shield",
+          "count": 1,
+          "availableSamples": 100,
+          "probabilityPct": 1
+        },
+        {
+          "affixName": "Robust",
+          "statKey": "Robust|\u002B to maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of Reinforced Skin",
+          "statKey": "of Reinforced Skin|\u002B to stun threshold",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of Alleviation",
+          "statKey": "of Alleviation|% reduced duration of bleeding on you",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Radiating",
+          "statKey": "Radiating|\u002B to maximum energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Pupil",
+          "statKey": "of the Pupil|\u002B to intelligence",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Cure",
+          "statKey": "of the Cure|% reduced poison duration on you",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Furnace",
+          "statKey": "of the Furnace|\u002B% to fire resistance",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Apt",
+          "statKey": "of the Apt|% reduced attribute requirements",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Kiln",
+          "statKey": "of the Kiln|\u002B% to fire resistance",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of Quelling",
+          "statKey": "of Quelling|% reduced ignite duration on you",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Newt",
+          "statKey": "of the Newt|life regeneration per second",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Penguin",
+          "statKey": "of the Penguin|\u002B% to cold resistance",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of Iron Skin",
+          "statKey": "of Iron Skin|\u002B to stun threshold",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Hydra",
+          "statKey": "of the Hydra|life regeneration per second",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Squall",
+          "statKey": "of the Squall|\u002B% to lightning resistance",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Resplendent",
+          "statKey": "Resplendent|\u002B to maximum energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Rotund",
+          "statKey": "Rotund|\u002B to maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Resolute",
+          "statKey": "Resolute|% increased energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Shining",
+          "statKey": "Shining|\u002B to maximum energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of Platinum Skin",
+          "statKey": "of Platinum Skin|\u002B to stun threshold",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Prime",
+          "statKey": "Prime|\u002B to maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Stalwart",
+          "statKey": "Stalwart|\u002B to maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Unassailable",
+          "statKey": "Unassailable|% increased energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Pope\u0027s",
+          "statKey": "Pope\u0027s|% increased energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Pope\u0027s",
+          "statKey": "Pope\u0027s|\u002B to maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Protective",
+          "statKey": "Protective|% increased energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Medved\u0027s",
+          "statKey": "Medved\u0027s|\u002B to spirit",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Edged",
+          "statKey": "Edged|to physical thorns damage",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Medved\u0027s",
+          "statKey": "Medved\u0027s|% increased maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of Granite Skin",
+          "statKey": "of Granite Skin|\u002B to stun threshold",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of Exile",
+          "statKey": "of Exile|\u002B% to chaos resistance",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Volcano",
+          "statKey": "of the Volcano|\u002B% to fire resistance",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Yeti",
+          "statKey": "of the Yeti|\u002B% to cold resistance",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Drake",
+          "statKey": "of the Drake|\u002B% to fire resistance",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Fecund",
+          "statKey": "Fecund|\u002B to maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Polar Bear",
+          "statKey": "of the Polar Bear|\u002B% to cold resistance",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Abbot\u0027s",
+          "statKey": "Abbot\u0027s|% increased energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Abbot\u0027s",
+          "statKey": "Abbot\u0027s|\u002B to maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Medved\u0027s",
+          "statKey": "Medved\u0027s|\u002B to maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of Ephij",
+          "statKey": "of Ephij|\u002B% to lightning resistance",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Athlete\u0027s",
+          "statKey": "Athlete\u0027s|\u002B to maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Virile",
+          "statKey": "Virile|\u002B to maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Bishop\u0027s",
+          "statKey": "Bishop\u0027s|% increased energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Bishop\u0027s",
+          "statKey": "Bishop\u0027s|\u002B to maximum life",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Maelstrom",
+          "statKey": "of the Maelstrom|\u002B% to lightning resistance",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Dauntless",
+          "statKey": "Dauntless|% increased energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of Quashing",
+          "statKey": "of Quashing|% reduced ignite duration on you",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Divine",
+          "statKey": "Divine|\u002B to maximum energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Divine",
+          "statKey": "Divine|% increased energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "Glimmering",
+          "statKey": "Glimmering|\u002B to maximum energy shield",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of Assuaging",
+          "statKey": "of Assuaging|% reduced duration of bleeding on you",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        },
+        {
+          "affixName": "of the Skilled",
+          "statKey": "of the Skilled|% reduced attribute requirements",
+          "count": 1,
+          "availableSamples": 157,
+          "probabilityPct": 0.64
+        }
+      ]
+    },
+    "Rings": {
+      "snapshotsWithFracture": 16,
+      "entries": [
+        {
+          "affixName": "Breachlord\u0027s",
+          "statKey": "Breachlord\u0027s|\u002B% to maximum quality",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "of the Walrus",
+          "statKey": "of the Walrus|\u002B% to cold resistance",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "Frosted",
+          "statKey": "Frosted|adds 1 to cold damage to attacks",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "of the Squall",
+          "statKey": "of the Squall|\u002B% to lightning resistance",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "of Legerdemain",
+          "statKey": "of Legerdemain|% increased cast speed",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "of the Tempest",
+          "statKey": "of the Tempest|\u002B% to lightning resistance",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "Elusory",
+          "statKey": "Elusory|\u002B to evasion rating",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "of the Titan",
+          "statKey": "of the Titan|\u002B to strength",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "Aqua",
+          "statKey": "Aqua|\u002B to maximum mana",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "of the Rainbow",
+          "statKey": "of the Rainbow|\u002B% to all elemental resistances",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "of the Savant",
+          "statKey": "of the Savant|\u002B to intelligence",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "Clouded",
+          "statKey": "Clouded|% increased chaos damage",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "of Sortilege",
+          "statKey": "of Sortilege|% increased cast speed",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "of the Lion",
+          "statKey": "of the Lion|\u002B to strength",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "of the Furnace",
+          "statKey": "of the Furnace|\u002B% to fire resistance",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        },
+        {
+          "affixName": "Flaring",
+          "statKey": "Flaring|adds to physical damage to attacks",
+          "count": 1,
+          "availableSamples": 16,
+          "probabilityPct": 6.25
+        }
+      ]
+    },
+    "Staves": {
+      "snapshotsWithFracture": 79,
+      "entries": [
+        {
+          "affixName": "Caster\u0027s",
+          "statKey": "Caster\u0027s|% increased spell damage",
+          "count": 4,
+          "availableSamples": 79,
+          "probabilityPct": 5.06
+        },
+        {
+          "affixName": "Caster\u0027s",
+          "statKey": "Caster\u0027s|\u002B to maximum mana",
+          "count": 4,
+          "availableSamples": 79,
+          "probabilityPct": 5.06
+        },
+        {
+          "affixName": "of Disaster",
+          "statKey": "of Disaster|% increased critical hit chance for spells",
+          "count": 4,
+          "availableSamples": 79,
+          "probabilityPct": 5.06
+        },
+        {
+          "affixName": "of Bliss",
+          "statKey": "of Bliss|% increased mana regeneration rate",
+          "count": 3,
+          "availableSamples": 79,
+          "probabilityPct": 3.8
+        },
+        {
+          "affixName": "of Expertise",
+          "statKey": "of Expertise|% increased cast speed",
+          "count": 3,
+          "availableSamples": 79,
+          "probabilityPct": 3.8
+        },
+        {
+          "affixName": "of Kindling",
+          "statKey": "of Kindling|% increased mana regeneration rate",
+          "count": 3,
+          "availableSamples": 79,
+          "probabilityPct": 3.8
+        },
+        {
+          "affixName": "of Kindling",
+          "statKey": "of Kindling|% increased light radius",
+          "count": 3,
+          "availableSamples": 79,
+          "probabilityPct": 3.8
+        },
+        {
+          "affixName": "of Enveloping",
+          "statKey": "of Enveloping|gain mana per enemy killed",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "of Devouring",
+          "statKey": "of Devouring|gain mana per enemy killed",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "of Euphoria",
+          "statKey": "of Euphoria|% increased mana regeneration rate",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "of the Augur",
+          "statKey": "of the Augur|\u002B to intelligence",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "Fervent",
+          "statKey": "Fervent|gain % of damage as extra fire damage",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "Cobalt",
+          "statKey": "Cobalt|\u002B to maximum mana",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "Sapphire",
+          "statKey": "Sapphire|\u002B to maximum mana",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "of Nimbleness",
+          "statKey": "of Nimbleness|% increased cast speed",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "of Consumption",
+          "statKey": "of Consumption|gain mana per enemy killed",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "of the Philosopher",
+          "statKey": "of the Philosopher|\u002B to intelligence",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "of Havoc",
+          "statKey": "of Havoc|% increased critical hit chance for spells",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "of the Sage",
+          "statKey": "of the Sage|\u002B to intelligence",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "of Shocking",
+          "statKey": "of Shocking|% increased chance to shock",
+          "count": 2,
+          "availableSamples": 79,
+          "probabilityPct": 2.53
+        },
+        {
+          "affixName": "Warlock\u0027s",
+          "statKey": "Warlock\u0027s|% increased spell damage",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Warlock\u0027s",
+          "statKey": "Warlock\u0027s|\u002B to maximum mana",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Zapping",
+          "statKey": "of Zapping|% increased chance to shock",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Virtuoso",
+          "statKey": "of the Virtuoso|\u002B to intelligence",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Fury",
+          "statKey": "of Fury|% increased critical spell damage bonus",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Pernicious",
+          "statKey": "Pernicious|gain % of damage as extra cold damage",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Azure",
+          "statKey": "Azure|\u002B to maximum mana",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Siphoning",
+          "statKey": "of Siphoning|gain mana per enemy killed",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Electrifying",
+          "statKey": "Electrifying|gain % of damage as extra lightning damage",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Prestidigitation",
+          "statKey": "of Prestidigitation|% increased cast speed",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Worthy",
+          "statKey": "of the Worthy|% reduced attribute requirements",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Warmth",
+          "statKey": "of Warmth|% increased mana regeneration rate",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Warmth",
+          "statKey": "of Warmth|% increased light radius",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Striking",
+          "statKey": "Striking|% increased lightning damage",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Blue",
+          "statKey": "Blue|\u002B to maximum mana",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Absorption",
+          "statKey": "of Absorption|gain mana per enemy killed",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Beryl",
+          "statKey": "Beryl|\u002B to maximum mana",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Conjuror\u0027s",
+          "statKey": "Conjuror\u0027s|% increased spell damage",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Conjuror\u0027s",
+          "statKey": "Conjuror\u0027s|\u002B to maximum mana",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Electrocution",
+          "statKey": "of Electrocution|% increased chance to shock",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Ardent",
+          "statKey": "Ardent|gain % of damage as extra fire damage",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Menace",
+          "statKey": "of Menace|% increased critical hit chance for spells",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Deadly",
+          "statKey": "Deadly|gain % of damage as extra lightning damage",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Osmosis",
+          "statKey": "of Osmosis|gain mana per enemy killed",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Elation",
+          "statKey": "of Elation|% increased mana regeneration rate",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Wizard\u0027s",
+          "statKey": "Wizard\u0027s|% increased spell damage",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Wizard\u0027s",
+          "statKey": "Wizard\u0027s|\u002B to maximum mana",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Coursing",
+          "statKey": "Coursing|% increased lightning damage",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Legend",
+          "statKey": "of Legend|gain life per enemy killed",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Chalybeous",
+          "statKey": "Chalybeous|\u002B to maximum mana",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Skilled",
+          "statKey": "of the Skilled|% reduced attribute requirements",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Savant",
+          "statKey": "of the Savant|\u002B to intelligence",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Aqua",
+          "statKey": "Aqua|\u002B to maximum mana",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Flamebound",
+          "statKey": "Flamebound|gain % of damage as extra fire damage",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Student",
+          "statKey": "of the Student|\u002B to intelligence",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "Ruthless",
+          "statKey": "Ruthless|gain % of damage as extra cold damage",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Hearth",
+          "statKey": "of the Hearth|% increased mana regeneration rate",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Hearth",
+          "statKey": "of the Hearth|% increased light radius",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of the Prodigy",
+          "statKey": "of the Prodigy|\u002B to intelligence",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Triumph",
+          "statKey": "of Triumph|gain life per enemy killed",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Electricity",
+          "statKey": "of Electricity|\u002B to level of all lightning spell skills",
+          "count": 1,
+          "availableSamples": 79,
+          "probabilityPct": 1.27
+        }
+      ]
+    },
+    "Talismans": {
+      "snapshotsWithFracture": 2265,
+      "entries": [
+        {
+          "affixName": "Scorching",
+          "statKey": "Scorching|adds to fire damage",
+          "count": 211,
+          "availableSamples": 2265,
+          "probabilityPct": 9.32
+        },
+        {
+          "affixName": "Frozen",
+          "statKey": "Frozen|adds to cold damage",
+          "count": 174,
+          "availableSamples": 2265,
+          "probabilityPct": 7.68
+        },
+        {
+          "affixName": "Champion\u0027s",
+          "statKey": "Champion\u0027s|% increased physical damage",
+          "count": 130,
+          "availableSamples": 2265,
+          "probabilityPct": 5.74
+        },
+        {
+          "affixName": "Champion\u0027s",
+          "statKey": "Champion\u0027s|\u002B to accuracy rating",
+          "count": 130,
+          "availableSamples": 2265,
+          "probabilityPct": 5.74
+        },
+        {
+          "affixName": "Arcing",
+          "statKey": "Arcing|adds to lightning damage",
+          "count": 126,
+          "availableSamples": 2265,
+          "probabilityPct": 5.56
+        },
+        {
+          "affixName": "Incinerating",
+          "statKey": "Incinerating|adds to fire damage",
+          "count": 123,
+          "availableSamples": 2265,
+          "probabilityPct": 5.43
+        },
+        {
+          "affixName": "Devastating",
+          "statKey": "Devastating|% increased elemental damage with attacks",
+          "count": 113,
+          "availableSamples": 2265,
+          "probabilityPct": 4.99
+        },
+        {
+          "affixName": "Overpowering",
+          "statKey": "Overpowering|% increased elemental damage with attacks",
+          "count": 113,
+          "availableSamples": 2265,
+          "probabilityPct": 4.99
+        },
+        {
+          "affixName": "Glaciated",
+          "statKey": "Glaciated|adds to cold damage",
+          "count": 109,
+          "availableSamples": 2265,
+          "probabilityPct": 4.81
+        },
+        {
+          "affixName": "Tempered",
+          "statKey": "Tempered|adds to physical damage",
+          "count": 104,
+          "availableSamples": 2265,
+          "probabilityPct": 4.59
+        },
+        {
+          "affixName": "Annealed",
+          "statKey": "Annealed|adds to physical damage",
+          "count": 103,
+          "availableSamples": 2265,
+          "probabilityPct": 4.55
+        },
+        {
+          "affixName": "Razor-sharp",
+          "statKey": "Razor-sharp|adds to physical damage",
+          "count": 95,
+          "availableSamples": 2265,
+          "probabilityPct": 4.19
+        },
+        {
+          "affixName": "Shocking",
+          "statKey": "Shocking|adds to lightning damage",
+          "count": 94,
+          "availableSamples": 2265,
+          "probabilityPct": 4.15
+        },
+        {
+          "affixName": "Flaring",
+          "statKey": "Flaring|adds to physical damage",
+          "count": 87,
+          "availableSamples": 2265,
+          "probabilityPct": 3.84
+        },
+        {
+          "affixName": "Blasting",
+          "statKey": "Blasting|adds to fire damage",
+          "count": 85,
+          "availableSamples": 2265,
+          "probabilityPct": 3.75
+        },
+        {
+          "affixName": "Polar",
+          "statKey": "Polar|adds to cold damage",
+          "count": 77,
+          "availableSamples": 2265,
+          "probabilityPct": 3.4
+        },
+        {
+          "affixName": "Conqueror\u0027s",
+          "statKey": "Conqueror\u0027s|% increased physical damage",
+          "count": 75,
+          "availableSamples": 2265,
+          "probabilityPct": 3.31
+        },
+        {
+          "affixName": "Conqueror\u0027s",
+          "statKey": "Conqueror\u0027s|\u002B to accuracy rating",
+          "count": 75,
+          "availableSamples": 2265,
+          "probabilityPct": 3.31
+        },
+        {
+          "affixName": "Hunter\u0027s",
+          "statKey": "Hunter\u0027s|\u002B to accuracy rating",
+          "count": 72,
+          "availableSamples": 2265,
+          "probabilityPct": 3.18
+        },
+        {
+          "affixName": "Ranger\u0027s",
+          "statKey": "Ranger\u0027s|\u002B to accuracy rating",
+          "count": 65,
+          "availableSamples": 2265,
+          "probabilityPct": 2.87
+        },
+        {
+          "affixName": "Electrocuting",
+          "statKey": "Electrocuting|adds to lightning damage",
+          "count": 52,
+          "availableSamples": 2265,
+          "probabilityPct": 2.3
+        },
+        {
+          "affixName": "Cremating",
+          "statKey": "Cremating|adds to fire damage",
+          "count": 51,
+          "availableSamples": 2265,
+          "probabilityPct": 2.25
+        },
+        {
+          "affixName": "Entombing",
+          "statKey": "Entombing|adds to cold damage",
+          "count": 49,
+          "availableSamples": 2265,
+          "probabilityPct": 2.16
+        },
+        {
+          "affixName": "Emperor\u0027s",
+          "statKey": "Emperor\u0027s|% increased physical damage",
+          "count": 49,
+          "availableSamples": 2265,
+          "probabilityPct": 2.16
+        },
+        {
+          "affixName": "Emperor\u0027s",
+          "statKey": "Emperor\u0027s|\u002B to accuracy rating",
+          "count": 49,
+          "availableSamples": 2265,
+          "probabilityPct": 2.16
+        },
+        {
+          "affixName": "Discharging",
+          "statKey": "Discharging|adds to lightning damage",
+          "count": 48,
+          "availableSamples": 2265,
+          "probabilityPct": 2.12
+        },
+        {
+          "affixName": "Amazon\u0027s",
+          "statKey": "Amazon\u0027s|\u002B to accuracy rating",
+          "count": 40,
+          "availableSamples": 2265,
+          "probabilityPct": 1.77
+        },
+        {
+          "affixName": "Dictator\u0027s",
+          "statKey": "Dictator\u0027s|% increased physical damage",
+          "count": 37,
+          "availableSamples": 2265,
+          "probabilityPct": 1.63
+        },
+        {
+          "affixName": "Dictator\u0027s",
+          "statKey": "Dictator\u0027s|\u002B to accuracy rating",
+          "count": 37,
+          "availableSamples": 2265,
+          "probabilityPct": 1.63
+        },
+        {
+          "affixName": "Crystalising",
+          "statKey": "Crystalising|adds to cold damage",
+          "count": 22,
+          "availableSamples": 2265,
+          "probabilityPct": 0.97
+        },
+        {
+          "affixName": "Vapourising",
+          "statKey": "Vapourising|adds to lightning damage",
+          "count": 18,
+          "availableSamples": 2265,
+          "probabilityPct": 0.79
+        },
+        {
+          "affixName": "Carbonising",
+          "statKey": "Carbonising|adds to fire damage",
+          "count": 18,
+          "availableSamples": 2265,
+          "probabilityPct": 0.79
+        },
+        {
+          "affixName": "Cruel",
+          "statKey": "Cruel|% increased physical damage",
+          "count": 14,
+          "availableSamples": 2265,
+          "probabilityPct": 0.62
+        },
+        {
+          "affixName": "Tyrannical",
+          "statKey": "Tyrannical|% increased physical damage",
+          "count": 12,
+          "availableSamples": 2265,
+          "probabilityPct": 0.53
+        },
+        {
+          "affixName": "Merciless",
+          "statKey": "Merciless|% increased physical damage",
+          "count": 11,
+          "availableSamples": 2265,
+          "probabilityPct": 0.49
+        }
+      ]
+    },
+    "Time-Lost Sapphire Jewels|Chaos Orb": {
+      "snapshotsWithFracture": 8991,
+      "entries": [
+        {
+          "affixName": "of Annihilation",
+          "statKey": "of Annihilation|notable passive skills in radius also grant % increased critical hit chance",
+          "count": 531,
+          "availableSamples": 8991,
+          "probabilityPct": 5.91
+        },
+        {
+          "affixName": "of Paralyzing",
+          "statKey": "of Paralyzing|small passive skills in radius also grant % increased shock duration",
+          "count": 464,
+          "availableSamples": 8991,
+          "probabilityPct": 5.16
+        },
+        {
+          "affixName": "of Unmaking",
+          "statKey": "of Unmaking|notable passive skills in radius also grant % increased critical spell damage bonus",
+          "count": 414,
+          "availableSamples": 8058,
+          "probabilityPct": 5.14
+        },
+        {
+          "affixName": "Chilling",
+          "statKey": "Chilling|small passive skills in radius also grant % increased cold damage",
+          "count": 383,
+          "availableSamples": 8991,
+          "probabilityPct": 4.26
+        },
+        {
+          "affixName": "Mystic",
+          "statKey": "Mystic|small passive skills in radius also grant % increased spell damage",
+          "count": 366,
+          "availableSamples": 8991,
+          "probabilityPct": 4.07
+        },
+        {
+          "affixName": "Authoritative",
+          "statKey": "Authoritative|small passive skills in radius also grant minions deal % increased damage",
+          "count": 359,
+          "availableSamples": 8991,
+          "probabilityPct": 3.99
+        },
+        {
+          "affixName": "Shimmering",
+          "statKey": "Shimmering|small passive skills in radius also grant % increased maximum energy shield",
+          "count": 330,
+          "availableSamples": 8991,
+          "probabilityPct": 3.67
+        },
+        {
+          "affixName": "Greater",
+          "statKey": "Greater|upgrades radius to medium",
+          "count": 326,
+          "availableSamples": 8991,
+          "probabilityPct": 3.63
+        },
+        {
+          "affixName": "of Energy",
+          "statKey": "of Energy|small passive skills in radius also grant % increased mana regeneration rate",
+          "count": 298,
+          "availableSamples": 8991,
+          "probabilityPct": 3.31
+        },
+        {
+          "affixName": "of Enchanting",
+          "statKey": "of Enchanting|notable passive skills in radius also grant % increased cast speed",
+          "count": 279,
+          "availableSamples": 8991,
+          "probabilityPct": 3.1
+        },
+        {
+          "affixName": "Iconic",
+          "statKey": "Iconic|notable passive skills in radius also grant % increased presence area of effect",
+          "count": 262,
+          "availableSamples": 8991,
+          "probabilityPct": 2.91
+        },
+        {
+          "affixName": "Numbing",
+          "statKey": "Numbing|small passive skills in radius also grant damage penetrates % cold resistance",
+          "count": 239,
+          "availableSamples": 8991,
+          "probabilityPct": 2.66
+        },
+        {
+          "affixName": "Serene",
+          "statKey": "Serene|notable passive skills in radius also grant % faster start of energy shield recharge",
+          "count": 238,
+          "availableSamples": 8991,
+          "probabilityPct": 2.65
+        },
+        {
+          "affixName": "Chaotic",
+          "statKey": "Chaotic|small passive skills in radius also grant % increased chaos damage",
+          "count": 238,
+          "availableSamples": 8991,
+          "probabilityPct": 2.65
+        },
+        {
+          "affixName": "of Ignition",
+          "statKey": "of Ignition|small passive skills in radius also grant % increased flammability magnitude",
+          "count": 216,
+          "availableSamples": 8991,
+          "probabilityPct": 2.4
+        },
+        {
+          "affixName": "of Acclimatisation",
+          "statKey": "of Acclimatisation|small passive skills in radius also grant minions have \u002B% to all elemental resistances",
+          "count": 216,
+          "availableSamples": 8991,
+          "probabilityPct": 2.4
+        },
+        {
+          "affixName": "of Annihilating",
+          "statKey": "of Annihilating|notable passive skills in radius also grant % increased critical hit chance for spells",
+          "count": 215,
+          "availableSamples": 8991,
+          "probabilityPct": 2.39
+        },
+        {
+          "affixName": "of Success",
+          "statKey": "of Success|notable passive skills in radius also grant recover 1% of maximum life on kill",
+          "count": 212,
+          "availableSamples": 8991,
+          "probabilityPct": 2.36
+        },
+        {
+          "affixName": "of Infusion",
+          "statKey": "of Infusion|notable passive skills in radius also grant 1% of damage taken recouped as life",
+          "count": 202,
+          "availableSamples": 8991,
+          "probabilityPct": 2.25
+        },
+        {
+          "affixName": "of Potency",
+          "statKey": "of Potency|notable passive skills in radius also grant % increased critical damage bonus",
+          "count": 20,
+          "availableSamples": 933,
+          "probabilityPct": 2.14
+        },
+        {
+          "affixName": "of Orchestration",
+          "statKey": "of Orchestration|notable passive skills in radius also grant minions have % increased attack and cast speed",
+          "count": 189,
+          "availableSamples": 8991,
+          "probabilityPct": 2.1
+        },
+        {
+          "affixName": "Focusing",
+          "statKey": "Focusing|notable passive skills in radius also grant % increased energy shield from equipped focus",
+          "count": 186,
+          "availableSamples": 8991,
+          "probabilityPct": 2.07
+        },
+        {
+          "affixName": "Triggered",
+          "statKey": "Triggered|small passive skills in radius also grant triggered spells deal % increased spell damage",
+          "count": 186,
+          "availableSamples": 8991,
+          "probabilityPct": 2.07
+        },
+        {
+          "affixName": "Prismatic",
+          "statKey": "Prismatic|small passive skills in radius also grant % increased elemental damage",
+          "count": 178,
+          "availableSamples": 8991,
+          "probabilityPct": 1.98
+        },
+        {
+          "affixName": "Grand",
+          "statKey": "Grand|upgrades radius to large",
+          "count": 168,
+          "availableSamples": 8991,
+          "probabilityPct": 1.87
+        },
+        {
+          "affixName": "Burning",
+          "statKey": "Burning|notable passive skills in radius also grant % increased ignite magnitude",
+          "count": 164,
+          "availableSamples": 8991,
+          "probabilityPct": 1.82
+        },
+        {
+          "affixName": "of Barriers",
+          "statKey": "of Barriers|small passive skills in radius also grant gain additional stun threshold equal to % of maximum energy shield",
+          "count": 163,
+          "availableSamples": 8991,
+          "probabilityPct": 1.81
+        },
+        {
+          "affixName": "Bestial",
+          "statKey": "Bestial|small passive skills in radius also grant % increased damage while shapeshifted",
+          "count": 152,
+          "availableSamples": 8991,
+          "probabilityPct": 1.69
+        },
+        {
+          "affixName": "of Inuring",
+          "statKey": "of Inuring|small passive skills in radius also grant gain additional ailment threshold equal to % of maximum energy shield",
+          "count": 141,
+          "availableSamples": 8991,
+          "probabilityPct": 1.57
+        },
+        {
+          "affixName": "of Generation",
+          "statKey": "of Generation|notable passive skills in radius also grant meta skills gain % increased energy",
+          "count": 140,
+          "availableSamples": 8991,
+          "probabilityPct": 1.56
+        },
+        {
+          "affixName": "Expanding",
+          "statKey": "Expanding|notable passive skills in radius also grant % increased area of effect of curses",
+          "count": 136,
+          "availableSamples": 8991,
+          "probabilityPct": 1.51
+        },
+        {
+          "affixName": "of Snowbreathing",
+          "statKey": "of Snowbreathing|small passive skills in radius also grant % increased freeze threshold",
+          "count": 132,
+          "availableSamples": 8991,
+          "probabilityPct": 1.47
+        },
+        {
+          "affixName": "Sacrificial",
+          "statKey": "Sacrificial|small passive skills in radius also grant offerings have % increased maximum life",
+          "count": 132,
+          "availableSamples": 8991,
+          "probabilityPct": 1.47
+        },
+        {
+          "affixName": "of Gripping",
+          "statKey": "of Gripping|notable passive skills in radius also grant minions have % increased critical damage bonus",
+          "count": 128,
+          "availableSamples": 8991,
+          "probabilityPct": 1.42
+        },
+        {
+          "affixName": "of Suffusion",
+          "statKey": "of Suffusion|notable passive skills in radius also grant % increased duration of damaging ailments on enemies",
+          "count": 127,
+          "availableSamples": 8991,
+          "probabilityPct": 1.41
+        },
+        {
+          "affixName": "of Freezing",
+          "statKey": "of Freezing|notable passive skills in radius also grant % increased freeze buildup",
+          "count": 127,
+          "availableSamples": 8991,
+          "probabilityPct": 1.41
+        },
+        {
+          "affixName": "Blasting",
+          "statKey": "Blasting|notable passive skills in radius also grant % increased area of effect",
+          "count": 125,
+          "availableSamples": 8991,
+          "probabilityPct": 1.39
+        },
+        {
+          "affixName": "of the Wild",
+          "statKey": "of the Wild|notable passive skills in radius also grant % increased skill speed while shapeshifted",
+          "count": 120,
+          "availableSamples": 8991,
+          "probabilityPct": 1.33
+        },
+        {
+          "affixName": "of Marshalling",
+          "statKey": "of Marshalling|notable passive skills in radius also grant minions have % increased critical hit chance",
+          "count": 113,
+          "availableSamples": 8991,
+          "probabilityPct": 1.26
+        },
+        {
+          "affixName": "Overgrown",
+          "statKey": "Overgrown|small passive skills in radius also grant % increased damage with plant skills",
+          "count": 109,
+          "availableSamples": 8991,
+          "probabilityPct": 1.21
+        },
+        {
+          "affixName": "of Continuation",
+          "statKey": "of Continuation|small passive skills in radius also grant % increased curse duration",
+          "count": 108,
+          "availableSamples": 8991,
+          "probabilityPct": 1.2
+        },
+        {
+          "affixName": "of Osmosis",
+          "statKey": "of Osmosis|notable passive skills in radius also grant recover 1% of maximum mana on kill",
+          "count": 108,
+          "availableSamples": 8991,
+          "probabilityPct": 1.2
+        },
+        {
+          "affixName": "of Shocking",
+          "statKey": "of Shocking|small passive skills in radius also grant % increased chance to shock",
+          "count": 100,
+          "availableSamples": 8991,
+          "probabilityPct": 1.11
+        },
+        {
+          "affixName": "of Frost",
+          "statKey": "of Frost|notable passive skills in radius also grant % increased chill duration on enemies",
+          "count": 94,
+          "availableSamples": 8991,
+          "probabilityPct": 1.05
+        },
+        {
+          "affixName": "Rancorous",
+          "statKey": "Rancorous|notable passive skills in radius also grant % increased magnitude of damaging ailments you inflict with critical hits",
+          "count": 81,
+          "availableSamples": 8991,
+          "probabilityPct": 0.9
+        },
+        {
+          "affixName": "of Potency",
+          "statKey": "of Potency|% increased effect of small passive skills in radius",
+          "count": 78,
+          "availableSamples": 8991,
+          "probabilityPct": 0.87
+        },
+        {
+          "affixName": "of Supremacy",
+          "statKey": "of Supremacy|% increased effect of notable passive skills in radius",
+          "count": 64,
+          "availableSamples": 8991,
+          "probabilityPct": 0.71
+        },
+        {
+          "affixName": "Acrimonious",
+          "statKey": "Acrimonious|notable passive skills in radius also grant % increased magnitude of ailments you inflict",
+          "count": 64,
+          "availableSamples": 8991,
+          "probabilityPct": 0.71
+        },
+        {
+          "affixName": "Jolting",
+          "statKey": "Jolting|notable passive skills in radius also grant % increased magnitude of shock you inflict",
+          "count": 63,
+          "availableSamples": 8991,
+          "probabilityPct": 0.7
+        },
+        {
+          "affixName": "of Glaciers",
+          "statKey": "of Glaciers|notable passive skills in radius also grant % increased freeze buildup with quarterstaves",
+          "count": 59,
+          "availableSamples": 8991,
+          "probabilityPct": 0.66
+        },
+        {
+          "affixName": "of Ailing",
+          "statKey": "of Ailing|notable passive skills in radius also grant % increased chance to inflict ailments",
+          "count": 59,
+          "availableSamples": 8991,
+          "probabilityPct": 0.66
+        },
+        {
+          "affixName": "of Lengthening",
+          "statKey": "of Lengthening|notable passive skills in radius also grant % increased skill effect duration",
+          "count": 55,
+          "availableSamples": 8991,
+          "probabilityPct": 0.61
+        },
+        {
+          "affixName": "Withering",
+          "statKey": "Withering|notable passive skills in radius also grant % increased withered magnitude",
+          "count": 46,
+          "availableSamples": 8991,
+          "probabilityPct": 0.51
+        },
+        {
+          "affixName": "of Diminishing",
+          "statKey": "of Diminishing|notable passive skills in radius also grant debuffs on you expire % faster",
+          "count": 46,
+          "availableSamples": 8991,
+          "probabilityPct": 0.51
+        },
+        {
+          "affixName": "Hexing",
+          "statKey": "Hexing|notable passive skills in radius also grant 1% increased curse magnitudes",
+          "count": 42,
+          "availableSamples": 8991,
+          "probabilityPct": 0.47
+        },
+        {
+          "affixName": "Necromantic",
+          "statKey": "Necromantic|small passive skills in radius also grant % increased damage if you have consumed a corpse recently",
+          "count": 38,
+          "availableSamples": 8991,
+          "probabilityPct": 0.42
+        },
+        {
+          "affixName": "of Righteousness",
+          "statKey": "of Righteousness|small passive skills in radius also grant minions have \u002B% to chaos resistance",
+          "count": 31,
+          "availableSamples": 8991,
+          "probabilityPct": 0.34
+        },
+        {
+          "affixName": "of Offering",
+          "statKey": "of Offering|notable passive skills in radius also grant offering skills have % increased duration",
+          "count": 28,
+          "availableSamples": 8991,
+          "probabilityPct": 0.31
+        },
+        {
+          "affixName": "of Decrepifying",
+          "statKey": "of Decrepifying|notable passive skills in radius also grant damaging ailments deal damage % faster",
+          "count": 24,
+          "availableSamples": 8991,
+          "probabilityPct": 0.27
+        },
+        {
+          "affixName": "of Mind",
+          "statKey": "of Mind|notable passive skills in radius also grant 1% of damage is taken from mana before life",
+          "count": 24,
+          "availableSamples": 8991,
+          "probabilityPct": 0.27
+        },
+        {
+          "affixName": "Veiled",
+          "statKey": "Veiled|desecrated prefix",
+          "count": 10,
+          "availableSamples": 8991,
+          "probabilityPct": 0.11
+        }
+      ]
+    },
+    "Wands": {
+      "snapshotsWithFracture": 2465,
+      "entries": [
+        {
+          "affixName": "of Agony",
+          "statKey": "of Agony|\u002B to level of all physical spell skills",
+          "count": 35,
+          "availableSamples": 2465,
+          "probabilityPct": 1.42
+        },
+        {
+          "affixName": "of Warmth",
+          "statKey": "of Warmth|% increased mana regeneration rate",
+          "count": 33,
+          "availableSamples": 2465,
+          "probabilityPct": 1.34
+        },
+        {
+          "affixName": "of Warmth",
+          "statKey": "of Warmth|% increased light radius",
+          "count": 33,
+          "availableSamples": 2465,
+          "probabilityPct": 1.34
+        },
+        {
+          "affixName": "of Shocking",
+          "statKey": "of Shocking|% increased chance to shock",
+          "count": 32,
+          "availableSamples": 2465,
+          "probabilityPct": 1.3
+        },
+        {
+          "affixName": "Conjuror\u0027s",
+          "statKey": "Conjuror\u0027s|% increased spell damage",
+          "count": 31,
+          "availableSamples": 2465,
+          "probabilityPct": 1.26
+        },
+        {
+          "affixName": "Conjuror\u0027s",
+          "statKey": "Conjuror\u0027s|\u002B to maximum mana",
+          "count": 31,
+          "availableSamples": 2465,
+          "probabilityPct": 1.26
+        },
+        {
+          "affixName": "of Coals",
+          "statKey": "of Coals|\u002B to level of all fire spell skills",
+          "count": 30,
+          "availableSamples": 2465,
+          "probabilityPct": 1.22
+        },
+        {
+          "affixName": "Caster\u0027s",
+          "statKey": "Caster\u0027s|% increased spell damage",
+          "count": 30,
+          "availableSamples": 2465,
+          "probabilityPct": 1.22
+        },
+        {
+          "affixName": "Caster\u0027s",
+          "statKey": "Caster\u0027s|\u002B to maximum mana",
+          "count": 30,
+          "availableSamples": 2465,
+          "probabilityPct": 1.22
+        },
+        {
+          "affixName": "of Nirvana",
+          "statKey": "of Nirvana|% increased mana regeneration rate",
+          "count": 29,
+          "availableSamples": 2465,
+          "probabilityPct": 1.18
+        },
+        {
+          "affixName": "of the Sage",
+          "statKey": "of the Sage|\u002B to intelligence",
+          "count": 29,
+          "availableSamples": 2465,
+          "probabilityPct": 1.18
+        },
+        {
+          "affixName": "of Scorching",
+          "statKey": "of Scorching|% increased flammability magnitude",
+          "count": 29,
+          "availableSamples": 2465,
+          "probabilityPct": 1.18
+        },
+        {
+          "affixName": "of the Prodigy",
+          "statKey": "of the Prodigy|\u002B to intelligence",
+          "count": 28,
+          "availableSamples": 2465,
+          "probabilityPct": 1.14
+        },
+        {
+          "affixName": "of Excitement",
+          "statKey": "of Excitement|% increased mana regeneration rate",
+          "count": 28,
+          "availableSamples": 2465,
+          "probabilityPct": 1.14
+        },
+        {
+          "affixName": "Cerulean",
+          "statKey": "Cerulean|\u002B to maximum mana",
+          "count": 28,
+          "availableSamples": 2465,
+          "probabilityPct": 1.14
+        },
+        {
+          "affixName": "Beryl",
+          "statKey": "Beryl|\u002B to maximum mana",
+          "count": 27,
+          "availableSamples": 2465,
+          "probabilityPct": 1.1
+        },
+        {
+          "affixName": "of Expertise",
+          "statKey": "of Expertise|% increased cast speed",
+          "count": 27,
+          "availableSamples": 2465,
+          "probabilityPct": 1.1
+        },
+        {
+          "affixName": "Chalybeous",
+          "statKey": "Chalybeous|\u002B to maximum mana",
+          "count": 26,
+          "availableSamples": 2465,
+          "probabilityPct": 1.05
+        },
+        {
+          "affixName": "of Ire",
+          "statKey": "of Ire|% increased critical spell damage bonus",
+          "count": 26,
+          "availableSamples": 2465,
+          "probabilityPct": 1.05
+        },
+        {
+          "affixName": "of Sparks",
+          "statKey": "of Sparks|\u002B to level of all lightning spell skills",
+          "count": 26,
+          "availableSamples": 2465,
+          "probabilityPct": 1.05
+        },
+        {
+          "affixName": "Azure",
+          "statKey": "Azure|\u002B to maximum mana",
+          "count": 26,
+          "availableSamples": 2465,
+          "probabilityPct": 1.05
+        },
+        {
+          "affixName": "of Talent",
+          "statKey": "of Talent|% increased cast speed",
+          "count": 26,
+          "availableSamples": 2465,
+          "probabilityPct": 1.05
+        },
+        {
+          "affixName": "of the Philosopher",
+          "statKey": "of the Philosopher|\u002B to intelligence",
+          "count": 25,
+          "availableSamples": 2465,
+          "probabilityPct": 1.01
+        },
+        {
+          "affixName": "of Sortilege",
+          "statKey": "of Sortilege|% increased cast speed",
+          "count": 25,
+          "availableSamples": 2465,
+          "probabilityPct": 1.01
+        },
+        {
+          "affixName": "of the Student",
+          "statKey": "of the Student|\u002B to intelligence",
+          "count": 25,
+          "availableSamples": 2465,
+          "probabilityPct": 1.01
+        },
+        {
+          "affixName": "of the Savant",
+          "statKey": "of the Savant|\u002B to intelligence",
+          "count": 25,
+          "availableSamples": 2465,
+          "probabilityPct": 1.01
+        },
+        {
+          "affixName": "of Rage",
+          "statKey": "of Rage|% increased critical spell damage bonus",
+          "count": 25,
+          "availableSamples": 2465,
+          "probabilityPct": 1.01
+        },
+        {
+          "affixName": "of Euphoria",
+          "statKey": "of Euphoria|% increased mana regeneration rate",
+          "count": 25,
+          "availableSamples": 2465,
+          "probabilityPct": 1.01
+        },
+        {
+          "affixName": "of the Virtuoso",
+          "statKey": "of the Virtuoso|\u002B to intelligence",
+          "count": 25,
+          "availableSamples": 2465,
+          "probabilityPct": 1.01
+        },
+        {
+          "affixName": "of Anarchy",
+          "statKey": "of Anarchy|\u002B to level of all chaos spell skills",
+          "count": 24,
+          "availableSamples": 2465,
+          "probabilityPct": 0.97
+        },
+        {
+          "affixName": "of Anger",
+          "statKey": "of Anger|% increased critical spell damage bonus",
+          "count": 24,
+          "availableSamples": 2465,
+          "probabilityPct": 0.97
+        },
+        {
+          "affixName": "of Snow",
+          "statKey": "of Snow|\u002B to level of all cold spell skills",
+          "count": 24,
+          "availableSamples": 2465,
+          "probabilityPct": 0.97
+        },
+        {
+          "affixName": "of the Proficient",
+          "statKey": "of the Proficient|% reduced attribute requirements",
+          "count": 23,
+          "availableSamples": 2465,
+          "probabilityPct": 0.93
+        },
+        {
+          "affixName": "of Kindling",
+          "statKey": "of Kindling|% increased mana regeneration rate",
+          "count": 23,
+          "availableSamples": 2465,
+          "probabilityPct": 0.93
+        },
+        {
+          "affixName": "of Kindling",
+          "statKey": "of Kindling|% increased light radius",
+          "count": 23,
+          "availableSamples": 2465,
+          "probabilityPct": 0.93
+        },
+        {
+          "affixName": "of the Skilled",
+          "statKey": "of the Skilled|% reduced attribute requirements",
+          "count": 23,
+          "availableSamples": 2465,
+          "probabilityPct": 0.93
+        },
+        {
+          "affixName": "of Bliss",
+          "statKey": "of Bliss|% increased mana regeneration rate",
+          "count": 23,
+          "availableSamples": 2465,
+          "probabilityPct": 0.93
+        },
+        {
+          "affixName": "of the Apt",
+          "statKey": "of the Apt|% reduced attribute requirements",
+          "count": 23,
+          "availableSamples": 2465,
+          "probabilityPct": 0.93
+        },
+        {
+          "affixName": "of Elation",
+          "statKey": "of Elation|% increased mana regeneration rate",
+          "count": 22,
+          "availableSamples": 2465,
+          "probabilityPct": 0.89
+        },
+        {
+          "affixName": "of Disaster",
+          "statKey": "of Disaster|% increased critical hit chance for spells",
+          "count": 22,
+          "availableSamples": 2465,
+          "probabilityPct": 0.89
+        },
+        {
+          "affixName": "Teal",
+          "statKey": "Teal|\u002B to maximum mana",
+          "count": 22,
+          "availableSamples": 2465,
+          "probabilityPct": 0.89
+        },
+        {
+          "affixName": "Gentian",
+          "statKey": "Gentian|\u002B to maximum mana",
+          "count": 22,
+          "availableSamples": 2465,
+          "probabilityPct": 0.89
+        },
+        {
+          "affixName": "of Triumph",
+          "statKey": "of Triumph|gain life per enemy killed",
+          "count": 22,
+          "availableSamples": 2465,
+          "probabilityPct": 0.89
+        },
+        {
+          "affixName": "of Incineration",
+          "statKey": "of Incineration|% increased flammability magnitude",
+          "count": 21,
+          "availableSamples": 2465,
+          "probabilityPct": 0.85
+        },
+        {
+          "affixName": "of Suffering",
+          "statKey": "of Suffering|\u002B to level of all physical spell skills",
+          "count": 21,
+          "availableSamples": 2465,
+          "probabilityPct": 0.85
+        },
+        {
+          "affixName": "of Vanquishing",
+          "statKey": "of Vanquishing|gain life per enemy killed",
+          "count": 21,
+          "availableSamples": 2465,
+          "probabilityPct": 0.85
+        },
+        {
+          "affixName": "of the Augur",
+          "statKey": "of the Augur|\u002B to intelligence",
+          "count": 21,
+          "availableSamples": 2465,
+          "probabilityPct": 0.85
+        },
+        {
+          "affixName": "of Ignition",
+          "statKey": "of Ignition|% increased flammability magnitude",
+          "count": 21,
+          "availableSamples": 2465,
+          "probabilityPct": 0.85
+        },
+        {
+          "affixName": "Blue",
+          "statKey": "Blue|\u002B to maximum mana",
+          "count": 21,
+          "availableSamples": 2465,
+          "probabilityPct": 0.85
+        },
+        {
+          "affixName": "of Havoc",
+          "statKey": "of Havoc|% increased critical hit chance for spells",
+          "count": 21,
+          "availableSamples": 2465,
+          "probabilityPct": 0.85
+        },
+        {
+          "affixName": "of the Worthy",
+          "statKey": "of the Worthy|% reduced attribute requirements",
+          "count": 21,
+          "availableSamples": 2465,
+          "probabilityPct": 0.85
+        },
+        {
+          "affixName": "Cobalt",
+          "statKey": "Cobalt|\u002B to maximum mana",
+          "count": 21,
+          "availableSamples": 2465,
+          "probabilityPct": 0.85
+        },
+        {
+          "affixName": "Aqua",
+          "statKey": "Aqua|\u002B to maximum mana",
+          "count": 20,
+          "availableSamples": 2465,
+          "probabilityPct": 0.81
+        },
+        {
+          "affixName": "of Joy",
+          "statKey": "of Joy|% increased mana regeneration rate",
+          "count": 20,
+          "availableSamples": 2465,
+          "probabilityPct": 0.81
+        },
+        {
+          "affixName": "of Legerdemain",
+          "statKey": "of Legerdemain|% increased cast speed",
+          "count": 20,
+          "availableSamples": 2465,
+          "probabilityPct": 0.81
+        },
+        {
+          "affixName": "of Zapping",
+          "statKey": "of Zapping|% increased chance to shock",
+          "count": 20,
+          "availableSamples": 2465,
+          "probabilityPct": 0.81
+        },
+        {
+          "affixName": "of the Talented",
+          "statKey": "of the Talented|% reduced attribute requirements",
+          "count": 19,
+          "availableSamples": 2465,
+          "probabilityPct": 0.77
+        },
+        {
+          "affixName": "of Bleakness",
+          "statKey": "of Bleakness|% increased freeze buildup",
+          "count": 19,
+          "availableSamples": 2465,
+          "probabilityPct": 0.77
+        },
+        {
+          "affixName": "Opalescent",
+          "statKey": "Opalescent|\u002B to maximum mana",
+          "count": 19,
+          "availableSamples": 2465,
+          "probabilityPct": 0.77
+        },
+        {
+          "affixName": "of Menace",
+          "statKey": "of Menace|% increased critical hit chance for spells",
+          "count": 19,
+          "availableSamples": 2465,
+          "probabilityPct": 0.77
+        },
+        {
+          "affixName": "Ardent",
+          "statKey": "Ardent|gain % of damage as extra fire damage",
+          "count": 18,
+          "availableSamples": 2465,
+          "probabilityPct": 0.73
+        },
+        {
+          "affixName": "of Osmosis",
+          "statKey": "of Osmosis|gain mana per enemy killed",
+          "count": 18,
+          "availableSamples": 2465,
+          "probabilityPct": 0.73
+        },
+        {
+          "affixName": "of the Glacier",
+          "statKey": "of the Glacier|% increased freeze buildup",
+          "count": 18,
+          "availableSamples": 2465,
+          "probabilityPct": 0.73
+        },
+        {
+          "affixName": "Wizard\u0027s",
+          "statKey": "Wizard\u0027s|% increased spell damage",
+          "count": 18,
+          "availableSamples": 2465,
+          "probabilityPct": 0.73
+        },
+        {
+          "affixName": "Wizard\u0027s",
+          "statKey": "Wizard\u0027s|\u002B to maximum mana",
+          "count": 18,
+          "availableSamples": 2465,
+          "probabilityPct": 0.73
+        },
+        {
+          "affixName": "of Victory",
+          "statKey": "of Victory|gain life per enemy killed",
+          "count": 18,
+          "availableSamples": 2465,
+          "probabilityPct": 0.73
+        },
+        {
+          "affixName": "of the Pupil",
+          "statKey": "of the Pupil|\u002B to intelligence",
+          "count": 18,
+          "availableSamples": 2465,
+          "probabilityPct": 0.73
+        },
+        {
+          "affixName": "of Nimbleness",
+          "statKey": "of Nimbleness|% increased cast speed",
+          "count": 18,
+          "availableSamples": 2465,
+          "probabilityPct": 0.73
+        },
+        {
+          "affixName": "of the Hearth",
+          "statKey": "of the Hearth|% increased mana regeneration rate",
+          "count": 17,
+          "availableSamples": 2465,
+          "probabilityPct": 0.69
+        },
+        {
+          "affixName": "of the Hearth",
+          "statKey": "of the Hearth|% increased light radius",
+          "count": 17,
+          "availableSamples": 2465,
+          "probabilityPct": 0.69
+        },
+        {
+          "affixName": "of Consumption",
+          "statKey": "of Consumption|gain mana per enemy killed",
+          "count": 17,
+          "availableSamples": 2465,
+          "probabilityPct": 0.69
+        },
+        {
+          "affixName": "Unforgiving",
+          "statKey": "Unforgiving|% increased spell physical damage",
+          "count": 17,
+          "availableSamples": 2465,
+          "probabilityPct": 0.69
+        },
+        {
+          "affixName": "of Enveloping",
+          "statKey": "of Enveloping|gain mana per enemy killed",
+          "count": 17,
+          "availableSamples": 2465,
+          "probabilityPct": 0.69
+        },
+        {
+          "affixName": "Electrifying",
+          "statKey": "Electrifying|gain % of damage as extra lightning damage",
+          "count": 17,
+          "availableSamples": 2465,
+          "probabilityPct": 0.69
+        },
+        {
+          "affixName": "of Conquest",
+          "statKey": "of Conquest|gain life per enemy killed",
+          "count": 17,
+          "availableSamples": 2465,
+          "probabilityPct": 0.69
+        },
+        {
+          "affixName": "Mazarine",
+          "statKey": "Mazarine|\u002B to maximum mana",
+          "count": 17,
+          "availableSamples": 2465,
+          "probabilityPct": 0.69
+        },
+        {
+          "affixName": "of Ice",
+          "statKey": "of Ice|\u002B to level of all cold spell skills",
+          "count": 16,
+          "availableSamples": 2465,
+          "probabilityPct": 0.65
+        },
+        {
+          "affixName": "of the Hyperboreal",
+          "statKey": "of the Hyperboreal|% increased freeze buildup",
+          "count": 16,
+          "availableSamples": 2465,
+          "probabilityPct": 0.65
+        },
+        {
+          "affixName": "of Devouring",
+          "statKey": "of Devouring|gain mana per enemy killed",
+          "count": 16,
+          "availableSamples": 2465,
+          "probabilityPct": 0.65
+        },
+        {
+          "affixName": "of Siphoning",
+          "statKey": "of Siphoning|gain mana per enemy killed",
+          "count": 16,
+          "availableSamples": 2465,
+          "probabilityPct": 0.65
+        },
+        {
+          "affixName": "of Absorption",
+          "statKey": "of Absorption|gain mana per enemy killed",
+          "count": 16,
+          "availableSamples": 2465,
+          "probabilityPct": 0.65
+        },
+        {
+          "affixName": "of Glory",
+          "statKey": "of Glory|gain life per enemy killed",
+          "count": 16,
+          "availableSamples": 2465,
+          "probabilityPct": 0.65
+        },
+        {
+          "affixName": "Hissing",
+          "statKey": "Hissing|% increased lightning damage",
+          "count": 15,
+          "availableSamples": 2465,
+          "probabilityPct": 0.61
+        },
+        {
+          "affixName": "of Turmoil",
+          "statKey": "of Turmoil|\u002B to level of all chaos spell skills",
+          "count": 15,
+          "availableSamples": 2465,
+          "probabilityPct": 0.61
+        },
+        {
+          "affixName": "Pernicious",
+          "statKey": "Pernicious|gain % of damage as extra cold damage",
+          "count": 15,
+          "availableSamples": 2465,
+          "probabilityPct": 0.61
+        },
+        {
+          "affixName": "of Prestidigitation",
+          "statKey": "of Prestidigitation|% increased cast speed",
+          "count": 15,
+          "availableSamples": 2465,
+          "probabilityPct": 0.61
+        },
+        {
+          "affixName": "of Freezing",
+          "statKey": "of Freezing|% increased freeze buildup",
+          "count": 15,
+          "availableSamples": 2465,
+          "probabilityPct": 0.61
+        },
+        {
+          "affixName": "Fervent",
+          "statKey": "Fervent|gain % of damage as extra fire damage",
+          "count": 15,
+          "availableSamples": 2465,
+          "probabilityPct": 0.61
+        },
+        {
+          "affixName": "Vorpal",
+          "statKey": "Vorpal|gain % of damage as extra lightning damage",
+          "count": 14,
+          "availableSamples": 2465,
+          "probabilityPct": 0.57
+        },
+        {
+          "affixName": "of Cinders",
+          "statKey": "of Cinders|\u002B to level of all fire spell skills",
+          "count": 14,
+          "availableSamples": 2465,
+          "probabilityPct": 0.57
+        },
+        {
+          "affixName": "of Electrocution",
+          "statKey": "of Electrocution|% increased chance to shock",
+          "count": 14,
+          "availableSamples": 2465,
+          "probabilityPct": 0.57
+        },
+        {
+          "affixName": "of Flames",
+          "statKey": "of Flames|\u002B to level of all fire spell skills",
+          "count": 13,
+          "availableSamples": 2465,
+          "probabilityPct": 0.53
+        },
+        {
+          "affixName": "Destructive",
+          "statKey": "Destructive|gain % of damage as extra cold damage",
+          "count": 13,
+          "availableSamples": 2465,
+          "probabilityPct": 0.53
+        },
+        {
+          "affixName": "of Legend",
+          "statKey": "of Legend|gain life per enemy killed",
+          "count": 13,
+          "availableSamples": 2465,
+          "probabilityPct": 0.53
+        },
+        {
+          "affixName": "of Torment",
+          "statKey": "of Torment|\u002B to level of all physical spell skills",
+          "count": 13,
+          "availableSamples": 2465,
+          "probabilityPct": 0.53
+        },
+        {
+          "affixName": "of Valour",
+          "statKey": "of Valour|gain life per enemy killed",
+          "count": 13,
+          "availableSamples": 2465,
+          "probabilityPct": 0.53
+        },
+        {
+          "affixName": "Malignant",
+          "statKey": "Malignant|gain % of damage as extra cold damage",
+          "count": 13,
+          "availableSamples": 2465,
+          "probabilityPct": 0.53
+        },
+        {
+          "affixName": "Warlock\u0027s",
+          "statKey": "Warlock\u0027s|% increased spell damage",
+          "count": 13,
+          "availableSamples": 2465,
+          "probabilityPct": 0.53
+        },
+        {
+          "affixName": "Warlock\u0027s",
+          "statKey": "Warlock\u0027s|\u002B to maximum mana",
+          "count": 13,
+          "availableSamples": 2465,
+          "probabilityPct": 0.53
+        },
+        {
+          "affixName": "Mage\u0027s",
+          "statKey": "Mage\u0027s|% increased spell damage",
+          "count": 12,
+          "availableSamples": 2465,
+          "probabilityPct": 0.49
+        },
+        {
+          "affixName": "Mage\u0027s",
+          "statKey": "Mage\u0027s|\u002B to maximum mana",
+          "count": 12,
+          "availableSamples": 2465,
+          "probabilityPct": 0.49
+        },
+        {
+          "affixName": "Bolting",
+          "statKey": "Bolting|% increased lightning damage",
+          "count": 12,
+          "availableSamples": 2465,
+          "probabilityPct": 0.49
+        },
+        {
+          "affixName": "Alpine",
+          "statKey": "Alpine|% increased cold damage",
+          "count": 12,
+          "availableSamples": 2465,
+          "probabilityPct": 0.49
+        },
+        {
+          "affixName": "Punishing",
+          "statKey": "Punishing|% increased spell physical damage",
+          "count": 12,
+          "availableSamples": 2465,
+          "probabilityPct": 0.49
+        },
+        {
+          "affixName": "of Infusion",
+          "statKey": "of Infusion|gain mana per enemy killed",
+          "count": 12,
+          "availableSamples": 2465,
+          "probabilityPct": 0.49
+        },
+        {
+          "affixName": "Impure",
+          "statKey": "Impure|% increased chaos damage",
+          "count": 12,
+          "availableSamples": 2465,
+          "probabilityPct": 0.49
+        },
+        {
+          "affixName": "Lethal",
+          "statKey": "Lethal|gain % of damage as extra lightning damage",
+          "count": 12,
+          "availableSamples": 2465,
+          "probabilityPct": 0.49
+        },
+        {
+          "affixName": "Bitter",
+          "statKey": "Bitter|% increased cold damage",
+          "count": 12,
+          "availableSamples": 2465,
+          "probabilityPct": 0.49
+        },
+        {
+          "affixName": "of Sleet",
+          "statKey": "of Sleet|\u002B to level of all cold spell skills",
+          "count": 11,
+          "availableSamples": 2465,
+          "probabilityPct": 0.45
+        },
+        {
+          "affixName": "Frostbound",
+          "statKey": "Frostbound|gain % of damage as extra cold damage",
+          "count": 11,
+          "availableSamples": 2465,
+          "probabilityPct": 0.45
+        },
+        {
+          "affixName": "Searing",
+          "statKey": "Searing|% increased fire damage",
+          "count": 11,
+          "availableSamples": 2465,
+          "probabilityPct": 0.45
+        },
+        {
+          "affixName": "Flamebound",
+          "statKey": "Flamebound|gain % of damage as extra fire damage",
+          "count": 11,
+          "availableSamples": 2465,
+          "probabilityPct": 0.45
+        },
+        {
+          "affixName": "Snowy",
+          "statKey": "Snowy|% increased cold damage",
+          "count": 11,
+          "availableSamples": 2465,
+          "probabilityPct": 0.45
+        },
+        {
+          "affixName": "Clouded",
+          "statKey": "Clouded|% increased chaos damage",
+          "count": 11,
+          "availableSamples": 2465,
+          "probabilityPct": 0.45
+        },
+        {
+          "affixName": "of Success",
+          "statKey": "of Success|gain life per enemy killed",
+          "count": 11,
+          "availableSamples": 2465,
+          "probabilityPct": 0.45
+        },
+        {
+          "affixName": "of Electricity",
+          "statKey": "of Electricity|\u002B to level of all lightning spell skills",
+          "count": 11,
+          "availableSamples": 2465,
+          "probabilityPct": 0.45
+        },
+        {
+          "affixName": "Ruthless",
+          "statKey": "Ruthless|gain % of damage as extra cold damage",
+          "count": 11,
+          "availableSamples": 2465,
+          "probabilityPct": 0.45
+        },
+        {
+          "affixName": "of Calamity",
+          "statKey": "of Calamity|% increased critical hit chance for spells",
+          "count": 11,
+          "availableSamples": 2465,
+          "probabilityPct": 0.45
+        },
+        {
+          "affixName": "Zealot\u0027s",
+          "statKey": "Zealot\u0027s|gain % of damage as extra fire damage",
+          "count": 10,
+          "availableSamples": 2465,
+          "probabilityPct": 0.41
+        },
+        {
+          "affixName": "of the Arctic",
+          "statKey": "of the Arctic|% increased freeze buildup",
+          "count": 10,
+          "availableSamples": 2465,
+          "probabilityPct": 0.41
+        },
+        {
+          "affixName": "Sizzling",
+          "statKey": "Sizzling|% increased fire damage",
+          "count": 10,
+          "availableSamples": 2465,
+          "probabilityPct": 0.41
+        },
+        {
+          "affixName": "Fatal",
+          "statKey": "Fatal|gain % of damage as extra lightning damage",
+          "count": 10,
+          "availableSamples": 2465,
+          "probabilityPct": 0.41
+        },
+        {
+          "affixName": "of Combustion",
+          "statKey": "of Combustion|% increased flammability magnitude",
+          "count": 9,
+          "availableSamples": 2465,
+          "probabilityPct": 0.37
+        },
+        {
+          "affixName": "Infernal",
+          "statKey": "Infernal|gain % of damage as extra fire damage",
+          "count": 9,
+          "availableSamples": 2465,
+          "probabilityPct": 0.37
+        },
+        {
+          "affixName": "Charged",
+          "statKey": "Charged|% increased lightning damage",
+          "count": 9,
+          "availableSamples": 2465,
+          "probabilityPct": 0.37
+        },
+        {
+          "affixName": "Darkened",
+          "statKey": "Darkened|% increased chaos damage",
+          "count": 9,
+          "availableSamples": 2465,
+          "probabilityPct": 0.37
+        },
+        {
+          "affixName": "Biting",
+          "statKey": "Biting|% increased cold damage",
+          "count": 8,
+          "availableSamples": 2465,
+          "probabilityPct": 0.32
+        },
+        {
+          "affixName": "of Assimilation",
+          "statKey": "of Assimilation|gain mana per enemy killed",
+          "count": 8,
+          "availableSamples": 2465,
+          "probabilityPct": 0.32
+        },
+        {
+          "affixName": "of Static",
+          "statKey": "of Static|\u002B to level of all lightning spell skills",
+          "count": 8,
+          "availableSamples": 2465,
+          "probabilityPct": 0.32
+        },
+        {
+          "affixName": "of Fury",
+          "statKey": "of Fury|% increased critical spell damage bonus",
+          "count": 8,
+          "availableSamples": 2465,
+          "probabilityPct": 0.32
+        },
+        {
+          "affixName": "Malicious",
+          "statKey": "Malicious|gain % of damage as extra cold damage",
+          "count": 8,
+          "availableSamples": 2465,
+          "probabilityPct": 0.32
+        },
+        {
+          "affixName": "of the Thunderbolt",
+          "statKey": "of the Thunderbolt|% increased chance to shock",
+          "count": 8,
+          "availableSamples": 2465,
+          "probabilityPct": 0.32
+        },
+        {
+          "affixName": "Deadly",
+          "statKey": "Deadly|gain % of damage as extra lightning damage",
+          "count": 8,
+          "availableSamples": 2465,
+          "probabilityPct": 0.32
+        },
+        {
+          "affixName": "of Ruin",
+          "statKey": "of Ruin|\u002B to level of all chaos spell skills",
+          "count": 8,
+          "availableSamples": 2465,
+          "probabilityPct": 0.32
+        },
+        {
+          "affixName": "Fanatic\u0027s",
+          "statKey": "Fanatic\u0027s|gain % of damage as extra fire damage",
+          "count": 8,
+          "availableSamples": 2465,
+          "probabilityPct": 0.32
+        },
+        {
+          "affixName": "Vengeful",
+          "statKey": "Vengeful|% increased spell physical damage",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "Blistering",
+          "statKey": "Blistering|% increased fire damage",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "Cauterising",
+          "statKey": "Cauterising|% increased fire damage",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "Tainted",
+          "statKey": "Tainted|% increased chaos damage",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "Coursing",
+          "statKey": "Coursing|% increased lightning damage",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "of Voltages",
+          "statKey": "of Voltages|% increased chance to shock",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "Magmatic",
+          "statKey": "Magmatic|% increased fire damage",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "of Voltage",
+          "statKey": "of Voltage|\u002B to level of all lightning spell skills",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "Stormbound",
+          "statKey": "Stormbound|gain % of damage as extra lightning damage",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "Arctic",
+          "statKey": "Arctic|% increased cold damage",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "Sadistic",
+          "statKey": "Sadistic|% increased spell physical damage",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "of Rime",
+          "statKey": "of Rime|\u002B to level of all cold spell skills",
+          "count": 7,
+          "availableSamples": 2465,
+          "probabilityPct": 0.28
+        },
+        {
+          "affixName": "Pitiless",
+          "statKey": "Pitiless|% increased spell physical damage",
+          "count": 6,
+          "availableSamples": 2465,
+          "probabilityPct": 0.24
+        },
+        {
+          "affixName": "Hailing",
+          "statKey": "Hailing|% increased cold damage",
+          "count": 6,
+          "availableSamples": 2465,
+          "probabilityPct": 0.24
+        },
+        {
+          "affixName": "Smoldering",
+          "statKey": "Smoldering|% increased fire damage",
+          "count": 6,
+          "availableSamples": 2465,
+          "probabilityPct": 0.24
+        },
+        {
+          "affixName": "Agonising",
+          "statKey": "Agonising|% increased spell physical damage",
+          "count": 6,
+          "availableSamples": 2465,
+          "probabilityPct": 0.24
+        },
+        {
+          "affixName": "Striking",
+          "statKey": "Striking|% increased lightning damage",
+          "count": 5,
+          "availableSamples": 2465,
+          "probabilityPct": 0.2
+        },
+        {
+          "affixName": "Archmage\u0027s",
+          "statKey": "Archmage\u0027s|% increased spell damage",
+          "count": 5,
+          "availableSamples": 2465,
+          "probabilityPct": 0.2
+        },
+        {
+          "affixName": "Archmage\u0027s",
+          "statKey": "Archmage\u0027s|\u002B to maximum mana",
+          "count": 5,
+          "availableSamples": 2465,
+          "probabilityPct": 0.2
+        },
+        {
+          "affixName": "of Desolation",
+          "statKey": "of Desolation|\u002B to level of all physical spell skills",
+          "count": 5,
+          "availableSamples": 2465,
+          "probabilityPct": 0.2
+        },
+        {
+          "affixName": "Malignant",
+          "statKey": "Malignant|% increased chaos damage",
+          "count": 5,
+          "availableSamples": 2465,
+          "probabilityPct": 0.2
+        },
+        {
+          "affixName": "of Destruction",
+          "statKey": "of Destruction|% increased critical spell damage bonus",
+          "count": 4,
+          "availableSamples": 2465,
+          "probabilityPct": 0.16
+        },
+        {
+          "affixName": "of Ferocity",
+          "statKey": "of Ferocity|% increased critical spell damage bonus",
+          "count": 4,
+          "availableSamples": 2465,
+          "probabilityPct": 0.16
+        },
+        {
+          "affixName": "of Ruin",
+          "statKey": "of Ruin|% increased critical hit chance for spells",
+          "count": 4,
+          "availableSamples": 2465,
+          "probabilityPct": 0.16
+        },
+        {
+          "affixName": "of Inferno",
+          "statKey": "of Inferno|\u002B to level of all fire spell skills",
+          "count": 4,
+          "availableSamples": 2465,
+          "probabilityPct": 0.16
+        },
+        {
+          "affixName": "of Conflagration",
+          "statKey": "of Conflagration|% increased flammability magnitude",
+          "count": 4,
+          "availableSamples": 2465,
+          "probabilityPct": 0.16
+        },
+        {
+          "affixName": "of Immolation",
+          "statKey": "of Immolation|\u002B to level of all fire spell skills",
+          "count": 4,
+          "availableSamples": 2465,
+          "probabilityPct": 0.16
+        },
+        {
+          "affixName": "Vile",
+          "statKey": "Vile|% increased chaos damage",
+          "count": 4,
+          "availableSamples": 2465,
+          "probabilityPct": 0.16
+        },
+        {
+          "affixName": "of the Enchanter",
+          "statKey": "of the Enchanter|\u002B to level of all spell skills",
+          "count": 4,
+          "availableSamples": 2465,
+          "probabilityPct": 0.16
+        },
+        {
+          "affixName": "of the Mage",
+          "statKey": "of the Mage|\u002B to level of all spell skills",
+          "count": 4,
+          "availableSamples": 2465,
+          "probabilityPct": 0.16
+        },
+        {
+          "affixName": "of Havoc",
+          "statKey": "of Havoc|\u002B to level of all chaos spell skills",
+          "count": 4,
+          "availableSamples": 2465,
+          "probabilityPct": 0.16
+        },
+        {
+          "affixName": "of Unmaking",
+          "statKey": "of Unmaking|% increased critical hit chance for spells",
+          "count": 3,
+          "availableSamples": 2465,
+          "probabilityPct": 0.12
+        },
+        {
+          "affixName": "of Frostbite",
+          "statKey": "of Frostbite|\u002B to level of all cold spell skills",
+          "count": 3,
+          "availableSamples": 2465,
+          "probabilityPct": 0.12
+        },
+        {
+          "affixName": "Smiting",
+          "statKey": "Smiting|% increased lightning damage",
+          "count": 3,
+          "availableSamples": 2465,
+          "probabilityPct": 0.12
+        },
+        {
+          "affixName": "Volcanic",
+          "statKey": "Volcanic|% increased fire damage",
+          "count": 2,
+          "availableSamples": 2465,
+          "probabilityPct": 0.08
+        },
+        {
+          "affixName": "of Finesse",
+          "statKey": "of Finesse|% increased cast speed",
+          "count": 2,
+          "availableSamples": 2465,
+          "probabilityPct": 0.08
+        },
+        {
+          "affixName": "Ionising",
+          "statKey": "Ionising|% increased lightning damage",
+          "count": 2,
+          "availableSamples": 2465,
+          "probabilityPct": 0.08
+        },
+        {
+          "affixName": "of Armageddon",
+          "statKey": "of Armageddon|\u002B to level of all chaos spell skills",
+          "count": 2,
+          "availableSamples": 2465,
+          "probabilityPct": 0.08
+        },
+        {
+          "affixName": "Crystalline",
+          "statKey": "Crystalline|% increased cold damage",
+          "count": 2,
+          "availableSamples": 2465,
+          "probabilityPct": 0.08
+        },
+        {
+          "affixName": "Oppressor\u0027s",
+          "statKey": "Oppressor\u0027s|% increased spell physical damage",
+          "count": 2,
+          "availableSamples": 2465,
+          "probabilityPct": 0.08
+        },
+        {
+          "affixName": "Lich\u0027s",
+          "statKey": "Lich\u0027s|% increased spell damage",
+          "count": 2,
+          "availableSamples": 2465,
+          "probabilityPct": 0.08
+        },
+        {
+          "affixName": "Lich\u0027s",
+          "statKey": "Lich\u0027s|\u002B to maximum mana",
+          "count": 2,
+          "availableSamples": 2465,
+          "probabilityPct": 0.08
+        },
+        {
+          "affixName": "of Grief",
+          "statKey": "of Grief|\u002B to level of all physical spell skills",
+          "count": 1,
+          "availableSamples": 2465,
+          "probabilityPct": 0.04
+        },
+        {
+          "affixName": "of Thunder",
+          "statKey": "of Thunder|\u002B to level of all lightning spell skills",
+          "count": 1,
+          "availableSamples": 2465,
+          "probabilityPct": 0.04
+        },
+        {
+          "affixName": "Torturer\u0027s",
+          "statKey": "Torturer\u0027s|% increased spell physical damage",
+          "count": 1,
+          "availableSamples": 2465,
+          "probabilityPct": 0.04
+        }
+      ]
+    }
+  }
+}

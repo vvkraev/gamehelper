@@ -1,0 +1,301 @@
+﻿{
+  "_meta": {
+    "date": "2026-06-28",
+    "source": "poe2_trade_fetch_devtools",
+    "base_type": "Sleek Jacket",
+    "slug": "sleek_jacket"
+  },
+  "listings": [
+    {
+      "id": "4cefd54c1c0442612af837da7327218f9e019882f6c94dfbccf82d47db98df88",
+      "name": "Horror Mantle",
+      "base_type": "Sleek Jacket",
+      "price_divine": 325,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 1495,
+      "energy_shield": 456,
+      "armour": 0,
+      "mods_fractured": [
+        "of Ephij S1 \u2014 \u002B41% to Lightning Resistance"
+      ],
+      "mods_desecrated": [
+        "Queen\u0027s P1 \u2014 \u002B57 to Spirit"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Banshee\u0027s P1 \u2014 \u002B158 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B48 to maximum Energy Shield",
+        "Incorporeal P1 \u2014 110% increased Evasion and Energy Shield",
+        "of Magma S2 \u2014 \u002B36% to Fire Resistance",
+        "of Flexure S2 \u2014 Gain Deflection Rating equal to 22% of Evasion Rating"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "8c2da426b49846dc08207257c6c13f80efa4ed7afa231d3c2e278b182530ed00",
+      "name": "Mind Skin",
+      "base_type": "Sleek Jacket",
+      "price_divine": 333,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 80,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 1452,
+      "energy_shield": 429,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Illusory P2 \u2014 98% increased Evasion and Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Banshee\u0027s P1 \u2014 \u002B158 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B44 to maximum Energy Shield",
+        "Princess\u0027 P2 \u2014 \u002B54 to Spirit",
+        "of Magma S2 \u2014 \u002B39% to Fire Resistance",
+        "of Flexure S2 \u2014 Gain Deflection Rating equal to 22% of Evasion Rating"
+      ],
+      "mods_crafted": [
+        "of the Maelstrom S3 \u2014 \u002B33% to Lightning Resistance"
+      ]
+    },
+    {
+      "id": "a25e563bd1ebb1acf440105e54496d3c44fda2bf4e7a44b020f2694cbc0fefad",
+      "name": "Loath Carapace",
+      "base_type": "Sleek Jacket",
+      "price_divine": 360,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 81,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 1451,
+      "energy_shield": 458,
+      "armour": 0,
+      "mods_fractured": [
+        "of Warping S1 \u2014 Gain Deflection Rating equal to 24% of Evasion Rating"
+      ],
+      "mods_desecrated": [
+        "Incorporeal P1 \u2014 107% increased Evasion and Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Banshee\u0027s P1 \u2014 \u002B143 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B48 to maximum Energy Shield",
+        "Queen\u0027s P1 \u2014 \u002B61 to Spirit",
+        "of the Polar Bear S3 \u2014 \u002B35% to Cold Resistance",
+        "of the Lightning S2 \u2014 \u002B36% to Lightning Resistance"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "85df998797641bc1f8b4544666f88d16307e9283877919f162fe149818522469",
+      "name": "Onslaught Hide",
+      "base_type": "Sleek Jacket",
+      "price_divine": 370,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 83,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 1493,
+      "energy_shield": 439,
+      "armour": 0,
+      "mods_fractured": [
+        "of the Lightning S2 \u2014 \u002B39% to Lightning Resistance"
+      ],
+      "mods_desecrated": [
+        "Princess\u0027 P2 \u2014 \u002B56 to Spirit"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Banshee\u0027s P1 \u2014 \u002B160 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B44 to maximum Energy Shield",
+        "Illusory P2 \u2014 98% increased Evasion and Energy Shield",
+        "of Warping S1 \u2014 Gain Deflection Rating equal to 26% of Evasion Rating"
+      ],
+      "mods_crafted": [
+        "of the Volcano S3 \u2014 \u002B33% to Fire Resistance"
+      ]
+    },
+    {
+      "id": "54ac4d8d94e7ab9f46f48cbfe5d2b027ea93593e6f6f0255addf257327fa60e8",
+      "name": "Behemoth Suit",
+      "base_type": "Sleek Jacket",
+      "price_divine": 385,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 86,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 1457,
+      "energy_shield": 452,
+      "armour": 0,
+      "mods_fractured": [
+        "Banshee\u0027s P1 \u2014 \u002B150 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B48 to maximum Energy Shield"
+      ],
+      "mods_desecrated": [
+        "Princess\u0027 P2 \u2014 \u002B55 to Spirit"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Incorporeal P1 \u2014 108% increased Evasion and Energy Shield",
+        "of Haast S1 \u2014 \u002B44% to Cold Resistance",
+        "of Ephij S1 \u2014 \u002B43% to Lightning Resistance",
+        "of Warping S1 \u2014 Gain Deflection Rating equal to 25% of Evasion Rating"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "be81e3a932551be287003aa3afe28e127e9413920bc3e237736944ad5ccb2a20",
+      "name": "Cataclysm Curtain",
+      "base_type": "Sleek Jacket",
+      "price_divine": 398,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 1440,
+      "energy_shield": 439,
+      "armour": 0,
+      "mods_fractured": [
+        "of Tzteosh S1 \u2014 \u002B43% to Fire Resistance"
+      ],
+      "mods_desecrated": [
+        "Incorporeal P1 \u2014 110% increased Evasion and Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Apparition\u0027s P2 \u2014 \u002B135 to Evasion Rating",
+        "Apparition\u0027s P2 \u2014 \u002B41 to maximum Energy Shield",
+        "Princess\u0027 P2 \u2014 \u002B56 to Spirit",
+        "of Ephij S1 \u2014 \u002B43% to Lightning Resistance",
+        "of Warping S1 \u2014 Gain Deflection Rating equal to 26% of Evasion Rating"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "822175a90891cab76215a39129ea4d41a028632eca8a9e73cd00c13961022ef9",
+      "name": "Horror Shell",
+      "base_type": "Sleek Jacket",
+      "price_divine": 410,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 1513,
+      "energy_shield": 458,
+      "armour": 0,
+      "mods_fractured": [
+        "of Ephij S1 \u2014 \u002B43% to Lightning Resistance"
+      ],
+      "mods_desecrated": [
+        "Queen\u0027s P1 \u2014 \u002B60 to Spirit"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Banshee\u0027s P1 \u2014 \u002B158 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B47 to maximum Energy Shield",
+        "Incorporeal P1 \u2014 109% increased Evasion and Energy Shield",
+        "of Flexure S2 \u2014 Gain Deflection Rating equal to 21% of Evasion Rating"
+      ],
+      "mods_crafted": [
+        "of the Polar Bear S3 \u2014 \u002B33% to Cold Resistance"
+      ]
+    },
+    {
+      "id": "2d6c5c976049ec9968259ffe813379887752aaef381aef7037b4dbc3b281ad7a",
+      "name": "Victory Suit",
+      "base_type": "Sleek Jacket",
+      "price_divine": 438,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": true,
+      "evasion": 1475,
+      "energy_shield": 444,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Banshee\u0027s P1 \u2014 \u002B160 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B47 to maximum Energy Shield"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Illusory P2 \u2014 99% increased Evasion and Energy Shield",
+        "Princess\u0027 P2 \u2014 \u002B55 to Spirit",
+        "of Ephij S1 \u2014 \u002B45% to Lightning Resistance",
+        "of Flexure S2 \u2014 Gain Deflection Rating equal to 22% of Evasion Rating"
+      ],
+      "mods_crafted": [
+        "of the Polar Bear S3 \u2014 \u002B34% to Cold Resistance"
+      ]
+    },
+    {
+      "id": "18ab753173c968519209195d9339a197f4e8653093a5591a0cec8b90135ecb42",
+      "name": "Hypnotic Keep",
+      "base_type": "Sleek Jacket",
+      "price_divine": 449,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": false,
+      "fractured": false,
+      "evasion": 1424,
+      "energy_shield": 420,
+      "armour": 0,
+      "mods_fractured": [],
+      "mods_desecrated": [
+        "Princess\u0027 P2 \u2014 \u002B56 to Spirit"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Banshee\u0027s P1 \u2014 \u002B156 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B43 to maximum Energy Shield",
+        "Incorporeal P1 \u2014 109% increased Evasion and Energy Shield",
+        "of Haast S1 \u2014 \u002B43% to Cold Resistance",
+        "of Ephij S1 \u2014 \u002B45% to Lightning Resistance",
+        "of Warping S1 \u2014 Gain Deflection Rating equal to 24% of Evasion Rating"
+      ],
+      "mods_crafted": []
+    },
+    {
+      "id": "2a75cc4ba5e51a1000ec44e76113ab89d4f4621e4310bfde5426436f0c83554b",
+      "name": "Entropy Coat",
+      "base_type": "Sleek Jacket",
+      "price_divine": 460,
+      "price_currency": "divine",
+      "quality": 0,
+      "ilvl": 82,
+      "corrupted": true,
+      "fractured": true,
+      "evasion": 1493,
+      "energy_shield": 444,
+      "armour": 0,
+      "mods_fractured": [
+        "Incorporeal P1 \u2014 109% increased Evasion and Energy Shield"
+      ],
+      "mods_desecrated": [
+        "Princess\u0027 P2 \u2014 \u002B56 to Spirit"
+      ],
+      "mods_implicit": [],
+      "mods_explicit": [
+        "Banshee\u0027s P1 \u2014 \u002B159 to Evasion Rating",
+        "Banshee\u0027s P1 \u2014 \u002B45 to maximum Energy Shield",
+        "of Tzteosh S1 \u2014 \u002B42% to Fire Resistance",
+        "of the Polar Bear S3 \u2014 \u002B35% to Cold Resistance",
+        "of Warping S1 \u2014 Gain Deflection Rating equal to 26% of Evasion Rating"
+      ],
+      "mods_crafted": []
+    }
+  ]
+}

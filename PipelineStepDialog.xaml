@@ -1,0 +1,152 @@
+<Window x:Class="GameHelper.PipelineStepDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Шаг пайплайна"
+        Height="530"
+        Width="490"
+        MinHeight="420"
+        MinWidth="420"
+        WindowStartupLocation="CenterOwner"
+        ShowInTaskbar="False">
+
+    <DockPanel Margin="14">
+
+        <!-- OK / Отмена -->
+        <StackPanel DockPanel.Dock="Bottom"
+                    Orientation="Horizontal"
+                    HorizontalAlignment="Right"
+                    Margin="0,10,0,0">
+            <Button Content="OK"      Width="84" Margin="0,0,8,0" IsDefault="True" Click="OkBtn_Click"/>
+            <Button Content="Отмена"  Width="84" IsCancel="True"/>
+        </StackPanel>
+
+        <ScrollViewer VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+
+                <!-- Название -->
+                <TextBlock Text="Название шага" FontWeight="SemiBold" Margin="0,0,0,3"/>
+                <TextBox x:Name="StepNameBox" Margin="0,0,0,10" Padding="4,3"/>
+
+                <!-- Действие -->
+                <TextBlock Text="Действие" FontWeight="SemiBold" Margin="0,0,0,3"/>
+                <ComboBox x:Name="ActionCombo" Margin="0,0,0,10"
+                          SelectionChanged="ActionCombo_SelectionChanged">
+                    <ComboBoxItem Content="CheckItem — проверить предмет (Ctrl+Alt+C)"/>
+                    <ComboBoxItem Content="ChaosCraft — цикл Chaos Orb"/>
+                    <ComboBoxItem Content="AugAnnulCraft — цикл Aug + Annul"/>
+                    <ComboBoxItem Content="DivineCraft — цикл Divine Orb"/>
+                    <ComboBoxItem Content="ExaltCraft — цикл Exalted Orb"/>
+                    <ComboBoxItem Content="OmenActivation — переложить омен и активировать"/>
+                    <ComboBoxItem Content="ManualPause — пауза (успех без действий)"/>
+                </ComboBox>
+
+                <!-- Максимум итераций -->
+                <TextBlock Text="Максимум итераций (MaxIterations)" FontWeight="SemiBold" Margin="0,0,0,3"/>
+                <TextBox x:Name="MaxIterBox" Width="100" HorizontalAlignment="Left"
+                         Margin="0,0,0,10" Padding="4,3" Text="100"/>
+
+                <!-- OmenConfig (только для OmenActivation) -->
+                <Border x:Name="OmenConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Конфигурация омена" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock Text="Ячейки омена берутся из уже настроенных областей (Настройки областей → Omen Sinistral/Dextral/Greater)."
+                                   FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Row="0" Text="Омен:" VerticalAlignment="Center"/>
+                            <ComboBox  Grid.Row="0" Grid.Column="1" x:Name="OmenNameCombo" Margin="0,3">
+                                <ComboBoxItem Content="Omen of Sinistral Exaltation"/>
+                                <ComboBoxItem Content="Omen of Dextral Exaltation"/>
+                                <ComboBoxItem Content="Omen of Greater Exaltation"/>
+                            </ComboBox>
+
+                            <TextBlock Grid.Row="1" Text="Инвентарь строка (0=верх):" VerticalAlignment="Center"/>
+                            <TextBox   Grid.Row="1" Grid.Column="1" x:Name="OmenInvRowBox" Text="0" Width="60"
+                                       HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
+
+                            <TextBlock Grid.Row="2" Text="Инвентарь столбец (0=лево):" VerticalAlignment="Center"/>
+                            <TextBox   Grid.Row="2" Grid.Column="1" x:Name="OmenInvColBox" Text="0" Width="60"
+                                       HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- Условия: EntryCondition / LoopUntil -->
+                <TextBlock Text="Условия" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                    <Button x:Name="EditEntryBtn" Content="✎ EntryCondition…" Padding="8,4"
+                            Margin="0,0,8,0" Click="EditEntryBtn_Click"
+                            ToolTip="Условие, проверяемое ДО действия. Если не выполнено → OnFailure."/>
+                    <Button x:Name="EditLoopBtn" Content="✎ LoopUntil…" Padding="8,4"
+                            Click="EditLoopBtn_Click"
+                            ToolTip="Условие остановки цикла. Пока не выполнено — повторяем до MaxIterations."/>
+                </StackPanel>
+                <TextBlock x:Name="EntryCondSummary" FontSize="11" Foreground="#666"
+                           Margin="0,0,0,2" TextWrapping="Wrap" Text="EntryCondition: (нет)"/>
+                <TextBlock x:Name="LoopUntilSummary" FontSize="11" Foreground="#666"
+                           Margin="0,0,0,12" TextWrapping="Wrap" Text="LoopUntil: (нет)"/>
+
+                <!-- OnSuccess -->
+                <TextBlock Text="При успехе (OnSuccess)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <Grid Margin="0,0,0,6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="SuccessCombo" SelectionChanged="SuccessCombo_SelectionChanged">
+                        <ComboBoxItem Content="Next — следующий шаг"/>
+                        <ComboBoxItem Content="Done — завершить"/>
+                        <ComboBoxItem Content="Abort — прервать"/>
+                        <ComboBoxItem Content="Step — перейти к шагу"/>
+                    </ComboBox>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="8,0,0,0" VerticalAlignment="Center">
+                        <TextBlock x:Name="SuccessStepLbl" Text="Шаг №:" Visibility="Collapsed"
+                                   VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBox x:Name="SuccessStepBox" Text="0" Width="48" Visibility="Collapsed" Padding="3,2"/>
+                        <TextBox x:Name="SuccessMsgBox" Width="170" Visibility="Collapsed" Padding="3,2"
+                                 ToolTip="Сообщение (отображается в статусе при Done/Abort)"/>
+                    </StackPanel>
+                </Grid>
+
+                <!-- OnFailure -->
+                <TextBlock Text="При неудаче (OnFailure)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                <Grid Margin="0,0,0,4">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="160"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ComboBox x:Name="FailureCombo" SelectionChanged="FailureCombo_SelectionChanged">
+                        <ComboBoxItem Content="Next — следующий шаг"/>
+                        <ComboBoxItem Content="Done — завершить"/>
+                        <ComboBoxItem Content="Abort — прервать"/>
+                        <ComboBoxItem Content="Step — перейти к шагу"/>
+                    </ComboBox>
+                    <StackPanel Grid.Column="1" Orientation="Horizontal" Margin="8,0,0,0" VerticalAlignment="Center">
+                        <TextBlock x:Name="FailureStepLbl" Text="Шаг №:" Visibility="Collapsed"
+                                   VerticalAlignment="Center" Margin="0,0,4,0"/>
+                        <TextBox x:Name="FailureStepBox" Text="0" Width="48" Visibility="Collapsed" Padding="3,2"/>
+                        <TextBox x:Name="FailureMsgBox" Width="170" Visibility="Collapsed" Padding="3,2"
+                                 ToolTip="Сообщение"/>
+                    </StackPanel>
+                </Grid>
+
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>

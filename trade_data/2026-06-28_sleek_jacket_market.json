@@ -1,0 +1,259 @@
+{
+  "_meta": {
+    "date": "2026-06-28",
+    "league": "Runes of Aldur",
+    "query_url": "https://www.pathofexile.com/trade2/search/poe2/Runes%20of%20Aldur/MdmXJwKPFJ",
+    "item_class": "Body Armours",
+    "base": "Sleek Jacket",
+    "notes": "Поиск: Banshee's T1 fractured + Incorporeal P1 + Spirit + Evasion+ES hybrid 30q ilvl82"
+  },
+  "market_context": {
+    "white_base_ilvl82": { "price_exalt": 10, "price_divine": 0.059 },
+    "vaal_armour_infuser_30q": { "price_exalt": 270, "price_divine": 1.59 },
+    "cheapest_rare_30q_ilvl82": [22, 23]
+  },
+  "listings": [
+    {
+      "id": "fb3757d7",
+      "name": "Plague Veil",
+      "price_divine": 565,
+      "quality": 28,
+      "corrupted": true,
+      "fractured": false,
+      "ilvl": 82,
+      "evasion": 1523,
+      "energy_shield": 453,
+      "mods_explicit": [
+        "Incorporeal P1 — 108% increased Evasion and ES",
+        "Queen's P1 — +61 Spirit",
+        "of Tzteosh S1 — +44% Fire Resistance",
+        "of the Ice S2 — +40% Cold Resistance",
+        "of Warping S1 — Deflection: 26% Evasion"
+      ],
+      "mods_desecrated": ["Banshee's P1 — +159 Evasion, +45 ES"],
+      "mods_fractured": [],
+      "runes": "3x Perfect Iron Rune",
+      "notes": "Нет фрактуры, corrupted, S2 Cold = дешевле пола"
+    },
+    {
+      "id": "d0ce926c",
+      "name": "Rage Curtain",
+      "price_divine": 600,
+      "quality": 20,
+      "corrupted": true,
+      "fractured": true,
+      "ilvl": 82,
+      "evasion": 1469,
+      "energy_shield": 446,
+      "mods_fractured": ["of Tzteosh S1 — +42% Fire Resistance"],
+      "mods_explicit": [
+        "Apparition's P2 — +140 Evasion, +42 ES (P2, не P1!)",
+        "Incorporeal P1 — 108% increased Evasion and ES",
+        "of the Lightning S2 — +40% Lightning Resistance",
+        "of Warping S1 — Deflection: 26% Evasion"
+      ],
+      "mods_desecrated": ["Queen's P1 — +60 Spirit"],
+      "runes": "4x Perfect Iron Rune",
+      "notes": "Apparition's P2 вместо P1 — дисконт, corrupted"
+    },
+    {
+      "id": "a5125563",
+      "name": "Onslaught Cloak",
+      "price_divine": 700,
+      "quality": 26,
+      "corrupted": true,
+      "fractured": true,
+      "ilvl": 82,
+      "evasion": 1485,
+      "energy_shield": 454,
+      "mods_fractured": ["of Haast S1 — +44% Cold Resistance"],
+      "mods_explicit": [
+        "Banshee's P1 — +153 Evasion, +47 ES",
+        "Incorporeal P1 — 109% increased Evasion and ES",
+        "of Ephij S1 — +44% Lightning Resistance",
+        "of Warping S1 — Deflection: 26% Evasion"
+      ],
+      "mods_desecrated": ["Queen's P1 — +61 Spirit"],
+      "notes": "Banshee's explicit (не fractured), Spirit desecrated — corrupted"
+    },
+    {
+      "id": "0f15c8da",
+      "name": "Rage Keep",
+      "price_divine": 850,
+      "quality": 26,
+      "corrupted": false,
+      "fractured": true,
+      "ilvl": 83,
+      "evasion": 1503,
+      "energy_shield": 439,
+      "mods_fractured": ["Banshee's P1 — +160 Evasion, +43 ES"],
+      "mods_explicit": [
+        "Queen's P1 — +60 Spirit",
+        "of Haast S1 — +45% Cold Resistance",
+        "of Ephij S1 — +44% Lightning Resistance",
+        "of Warping S1 — Deflection: 26% Evasion"
+      ],
+      "mods_desecrated": ["Incorporeal P1 — 108% increased Evasion and ES"],
+      "notes": "ПРЯМОЙ КОМ для Oblivion Shell. Banshee's frac + Incorporeal desecrated. Не corrupted."
+    },
+    {
+      "id": "7c37d03f",
+      "name": "Corpse Carapace",
+      "price_divine": 880,
+      "quality": 30,
+      "corrupted": false,
+      "fractured": true,
+      "ilvl": 82,
+      "evasion": 1547,
+      "energy_shield": 463,
+      "mods_fractured": ["Banshee's P1 — +159 Evasion, +46 ES"],
+      "mods_explicit": [
+        "Queen's P1 — +61 Spirit",
+        "of Tzteosh S1 — +45% Fire Resistance",
+        "of Haast S1 — +42% Cold Resistance",
+        "of Warping S1 — Deflection: 26% Evasion"
+      ],
+      "mods_desecrated": ["Incorporeal P1 — 108% increased Evasion and ES"],
+      "notes": "ПРЯМОЙ КОМ. +30q, Banshee's frac + Incorporeal desecrated. Не corrupted. ИДЕАЛ для сравнения."
+    },
+    {
+      "id": "aa46658d",
+      "name": "Havoc Hide",
+      "price_divine": 1000,
+      "quality": 30,
+      "corrupted": false,
+      "fractured": true,
+      "ilvl": 82,
+      "evasion": 1505,
+      "energy_shield": 465,
+      "mods_fractured": ["of Warping S1 — Deflection: 26% Evasion"],
+      "mods_explicit": [
+        "Incorporeal P1 — 105% increased Evasion and ES (sub-max)",
+        "Queen's P1 — +61 Spirit",
+        "of Tzteosh S1 — +42% Fire Resistance",
+        "of Ephij S1 — +45% Lightning Resistance"
+      ],
+      "mods_desecrated": ["Banshee's P1 — +152 Evasion, +48 ES"],
+      "notes": "Warping fractured — другой архетип. Incorporeal sub-max (105%). Banshee's desecrated."
+    },
+    {
+      "id": "21722fd6",
+      "name": "Mind Veil",
+      "price_divine": 1188,
+      "quality": 30,
+      "corrupted": false,
+      "fractured": true,
+      "ilvl": 82,
+      "evasion": 1560,
+      "energy_shield": 458,
+      "mods_fractured": ["of Warping S1 — Deflection: 26% Evasion"],
+      "mods_explicit": [
+        "Banshee's P1 — +161 Evasion, +44 ES (max Evasion!)",
+        "Queen's P1 — +59 Spirit",
+        "of Tzteosh S1 — +45% Fire Resistance",
+        "of Haast S1 — +45% Cold Resistance"
+      ],
+      "mods_desecrated": ["Incorporeal P1 — 109% increased Evasion and ES"],
+      "notes": "Warping fractured + Banshee's max roll explicit. Другой архетип. Лучший evasion в листинге."
+    },
+    {
+      "id": "b37d7fcc",
+      "name": "Demon Guardian",
+      "price_divine": 1188,
+      "quality": 30,
+      "corrupted": true,
+      "fractured": true,
+      "ilvl": 82,
+      "evasion": 1547,
+      "energy_shield": 463,
+      "mods_fractured": ["Queen's P1 — +61 Spirit (max)"],
+      "mods_explicit": [
+        "Incorporeal P1 — 108% increased Evasion and ES",
+        "of Tzteosh S1 — +44% Fire Resistance",
+        "of the Ice S2 — +39% Cold Resistance (S2!)",
+        "of Warping S1 — Deflection: 26% Evasion"
+      ],
+      "mods_desecrated": ["Banshee's P1 — +159 Evasion, +46 ES"],
+      "notes": "Spirit fractured — другой архетип. Corrupted + S2 Cold = на уровне 1000d без коррупта"
+    },
+    {
+      "id": "204dbbe5",
+      "name": "Rune Mantle",
+      "price_divine": 1688,
+      "quality": 30,
+      "corrupted": false,
+      "fractured": true,
+      "ilvl": 82,
+      "evasion": 1551,
+      "energy_shield": 463,
+      "mods_fractured": ["Queen's P1 — +61 Spirit (max)"],
+      "mods_explicit": [
+        "Incorporeal P1 — 110% increased Evasion and ES (near-max)",
+        "of Tzteosh S1 — +45% Fire Resistance (max)",
+        "of Haast S1 — +42% Cold Resistance",
+        "of Warping S1 — Deflection: 26% Evasion"
+      ],
+      "mods_desecrated": ["Banshee's P1 — +157 Evasion, +45 ES"],
+      "notes": "Spirit fractured, не corrupted, 2×S1 Res = 1688d. Топ не-corrupted вариант."
+    },
+    {
+      "id": "b128ee1f",
+      "name": "Doom Skin",
+      "price_divine": 1950,
+      "quality": 23,
+      "corrupted": true,
+      "fractured": true,
+      "ilvl": 82,
+      "evasion": 1484,
+      "energy_shield": 447,
+      "sockets": 4,
+      "mods_fractured": ["Queen's P1 — +60 Spirit"],
+      "mods_explicit": [
+        "Banshee's P1 — +157 Evasion, +46 ES",
+        "Illusory P2 — 93% increased Evasion and ES (P2!)",
+        "of Magma S2 — +40% Fire Resistance (S2!)",
+        "of Warping S1 — Deflection: 26% Evasion"
+      ],
+      "mods_desecrated": ["of the Ice S2 — +40% Cold Resistance (S2!)"],
+      "notes": "1950d = 4 сокетов премия, не качество модов (P2+S2+S2). Выброс вверх из-за сокетов."
+    }
+  ],
+  "analysis": {
+    "universal_6_mods_required": [
+      "Banshee's P1 — всегда (любой слот)",
+      "Incorporeal P1 — всегда (P2 = дисконт 30%+)",
+      "Queen's P1 (Spirit) — всегда",
+      "of Warping S1 (Deflection 26%) — всегда",
+      "T1 Resistance #1",
+      "T1 Resistance #2"
+    ],
+    "fractured_mod_price_premium": {
+      "Banshee's_fractured": "850-880d (если остальные 5 модов T1, не corrupted)",
+      "Warping_fractured": "1000-1188d",
+      "Spirit_fractured_corrupted": "1188d",
+      "Spirit_fractured_clean": "1688d",
+      "Spirit_fractured_4sockets_corrupted": "1950d"
+    },
+    "corruption_penalty": "~150-300d дисконт за corrupted (зависит от базовой цены)",
+    "oblivion_shell_assessment": {
+      "fractured_mod": "Banshee's P1 (+158 Evasion +43 ES) — sub-max rolls",
+      "desecrated_veiled": "НЕИЗВЕСТНО — критически важно для оценки",
+      "if_veiled_is_incorporeal": {
+        "direct_comp": "Corpse Carapace 880d (30q) / Rage Keep 850d (26q)",
+        "needs_to_complete": ["Queen's P1 (Spirit) в open prefix", "of Warping S1 в suffix", "2nd T1 Res в suffix"],
+        "target_price": "800-900d при полном комплекте T1 модов",
+        "note": "30% quality = +30d к comp (Rage Keep 26q = 850d, Corpse Carapace 30q = 880d)"
+      },
+      "if_veiled_is_spirit": {
+        "direct_comp": "Нет прямого, ближайший Rune Mantle 1688d (Spirit frac)",
+        "needs_to_complete": ["Incorporeal P1 в open prefix", "of Warping S1 в suffix", "2nd T1 Res в suffix"],
+        "target_price": "1200-1688d (Spirit fractured → разные архетипы)",
+        "note": "МАЛОВЕРОЯТНО: Veiled добавлялся через Ancient Rib desecrate — пул десекрейт-модов для префикса брони"
+      },
+      "if_veiled_is_other": {
+        "target_price": "Зависит от мода, но скорее ниже 500d",
+        "note": "Большой риск — надо смотреть пул десекрейт-модов Sleek Jacket"
+      }
+    }
+  }
+}

@@ -1,0 +1,209 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Unforeseen Consequences",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Map is overrun by the Abyssal",
+        "Map contains # additional Abysses"
+      ],
+      "affixRanges": [
+        null,
+        null
+      ],
+      "affixSubClass": "Abyss",
+      "familyId": "Unforeseen_Consequences",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Wraeclast Besieged",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Breach Hives in Map have # additional waves of Hiveborn Monsters",
+        "Breaches in Map have #% reduced Pack Size",
+        "Unstable Breaches in Map take # additional seconds to collapse after timer is filled",
+        "Unstable Breaches in Map spawn # additional Rare Monsters when Stabilised"
+      ],
+      "affixRanges": [
+        null,
+        null,
+        null,
+        null
+      ],
+      "affixSubClass": "Breach",
+      "familyId": "Wraeclast_Besieged",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Clear Skies",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Delirium Fog in your Maps never dissipates",
+        "Delirium Fog in Map applies #% increased Deliriousness to Players"
+      ],
+      "affixRanges": [
+        null,
+        null
+      ],
+      "affixSubClass": "Delirium",
+      "familyId": "Clear_Skies",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Forgotten By Time",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Expedition Monsters in your Maps spawn with half of their Life missing",
+        "Runic Monsters in your Maps are Duplicated"
+      ],
+      "affixRanges": [
+        null,
+        null
+      ],
+      "affixSubClass": "Expedition",
+      "familyId": "Forgotten_By_Time",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "The Grand Project",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Can only be applied to Precursor Tower Maps\nCompleting the Tower makes all nearby Maps accessible"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": "Irradiated",
+      "familyId": "The_Grand_Project",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Visions of Paradise",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "If Map was not previously Irradiated, completing Map adds Irradiation instead"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": "Irradiated",
+      "familyId": "Visions_of_Paradise",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Mastered Domain",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Map also counts as a Water Map",
+        "Map also counts as a Mountain Map",
+        "Map also counts as a Grass Map",
+        "Map also counts as a Forest Map",
+        "Map also counts as a Swamp Map",
+        "Map also counts as a Desert Map"
+      ],
+      "affixRanges": [
+        null,
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "affixSubClass": "Irradiated",
+      "familyId": "Mastered_Domain",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Season of the Hunt",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Map Bosses are Hunted by Azmeri Spirits"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": "Overseer",
+      "familyId": "Season_of_the_Hunt",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Cruel Hegemony",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Map Bosses have # additional Modifier"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "affixSubClass": "Overseer",
+      "familyId": "Cruel_Hegemony",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Tablet"
+      ],
+      "affixType": "Unique Modifier",
+      "affixName": "Freedom of Faith",
+      "affixTier": 1,
+      "affixTierLevel": 65,
+      "affixStats": [
+        "Favours at Ritual Altars in Area costs #% increased Tribute",
+        "Can Reroll Favours at Ritual Altars in your Maps twice as many times"
+      ],
+      "affixRanges": [
+        null,
+        null
+      ],
+      "affixSubClass": "Ritual",
+      "familyId": "Freedom_of_Faith",
+      "weight": null
+    }
+  ]
+}

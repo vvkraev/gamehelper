@@ -2,6 +2,7 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:vm="clr-namespace:GameHelper.ViewModels"
+        xmlns:local="clr-namespace:GameHelper"
         Icon="pack://application:,,,/app.ico"
         Title="GameHelper — PoE2 Chaos craft (MVP)"
         Height="620"
@@ -15,7 +16,8 @@
         <BooleanToVisibilityConverter x:Key="BoolToVis"/>
     </Window.Resources>
     <!-- Вкладки слева: длинные русские заголовки не исчезают из-за нехватки ширины одной строки -->
-    <TabControl x:Name="MainTabs" Margin="12" TabStripPlacement="Left">
+    <TabControl x:Name="MainTabs" Margin="12" TabStripPlacement="Left"
+                SelectionChanged="MainTabs_SelectionChanged">
         <TabItem x:Name="TabRegionSettings" Header="Настройки областей">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="16" HorizontalAlignment="Stretch">
@@ -1496,10 +1498,18 @@
 
                 <!-- Левая панель: дерево категорий -->
                 <DockPanel Grid.Column="0">
-                    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="0,4,0,6">
-                        <TextBlock Text="Категории" FontWeight="SemiBold" VerticalAlignment="Center"/>
-                        <Button x:Name="RefReloadBtn" Content="⟳" Padding="6,2" Margin="8,0,0,0"
-                                Click="RefReloadBtn_Click" ToolTip="Перезагрузить из docs/stats/"/>
+                    <StackPanel DockPanel.Dock="Top" Margin="0,4,0,6">
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <TextBlock Text="Категории" FontWeight="SemiBold" VerticalAlignment="Center"/>
+                            <Button x:Name="RefReloadBtn" Content="⟳" Padding="6,2" Margin="8,0,0,0"
+                                    Click="RefReloadBtn_Click" ToolTip="Перезагрузить из docs/stats/"/>
+                        </StackPanel>
+                        <CheckBox x:Name="RefFracCorrectChk"
+                                  Content="Скорректировать по фрактурам"
+                                  FontSize="11"
+                                  Checked="RefFracCorrectChk_Changed"
+                                  Unchecked="RefFracCorrectChk_Changed"
+                                  ToolTip="Показывать частоту аффикса относительно роллов, где он участвовал в пуле (не был зафрактурирован)"/>
                     </StackPanel>
                     <TreeView x:Name="RefCategoryTree"
                               SelectedItemChanged="RefCategoryTree_SelectedItemChanged"
@@ -1719,6 +1729,139 @@
             </Grid>
         </TabItem>
 
+        <!-- ═══ ВКЛАДКА ПАЙПЛАЙН ═════════════════════════════════════════════ -->
+        <TabItem x:Name="TabPipeline" Header="Рецепт">
+            <Grid Margin="8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="210" MinWidth="160"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <!-- ── Левая панель: список рецептов ── -->
+                <DockPanel Grid.Column="0" Margin="0,0,8,0">
+
+                    <TextBlock DockPanel.Dock="Top"
+                               Text="Рецепты"
+                               FontWeight="SemiBold"
+                               FontSize="13"
+                               Margin="0,0,0,6"/>
+
+                    <!-- CRUD-кнопки -->
+                    <UniformGrid DockPanel.Dock="Top" Columns="3" Margin="0,0,0,4">
+                        <Button x:Name="PipelineNewBtn"    Content="Новый"    Margin="0,0,3,0"
+                                Click="PipelineNewBtn_Click"
+                                ToolTip="Создать пустой рецепт"/>
+                        <Button x:Name="PipelineSaveBtn"   Content="Сохранить" Margin="0,0,3,0"
+                                Click="PipelineSaveBtn_Click"
+                                ToolTip="Сохранить текущий рецепт в файл (Pipelines/)"/>
+                        <Button x:Name="PipelineDeleteBtn" Content="Удалить"
+                                Click="PipelineDeleteBtn_Click"
+                                ToolTip="Удалить выбранный файл рецепта"/>
+                    </UniformGrid>
+
+                    <Separator DockPanel.Dock="Top" Margin="0,6"/>
+
+                    <!-- Старт / Стоп -->
+                    <Button DockPanel.Dock="Top"
+                            x:Name="PipelineStartBtn"
+                            Content="▶  Старт"
+                            Margin="0,0,0,4"
+                            Padding="8,5"
+                            IsEnabled="{Binding CanStartPipeline}"
+                            Click="PipelineStartBtn_Click"/>
+                    <Button DockPanel.Dock="Top"
+                            x:Name="PipelineStopBtn"
+                            Content="■  Стоп"
+                            Margin="0,0,0,8"
+                            Padding="8,5"
+                            IsEnabled="{Binding IsPipelineRunning}"
+                            Click="PipelineStopBtn_Click"/>
+
+                    <!-- Список сохранённых рецептов -->
+                    <ListBox x:Name="PipelineSavedList"
+                             DisplayMemberPath="Name"
+                             SelectionChanged="PipelineSavedList_SelectionChanged"/>
+                </DockPanel>
+
+                <!-- ── Правая панель: редактор рецепта ── -->
+                <Grid Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="110"/>
+                    </Grid.RowDefinitions>
+
+                    <!-- Имя рецепта -->
+                    <Grid Grid.Row="0" Margin="0,0,0,8">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Имя рецепта:" VerticalAlignment="Center" Margin="0,0,8,0" FontWeight="SemiBold"/>
+                        <TextBox Grid.Column="1" x:Name="PipelineNameBox" Padding="4,3"
+                                 TextChanged="PipelineNameBox_TextChanged"/>
+                    </Grid>
+
+                    <!-- Панель инструментов для шагов -->
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,4">
+                        <Button Content="+ Шаг"     Padding="8,4" Margin="0,0,4,0" Click="PipelineAddStepBtn_Click"
+                                ToolTip="Добавить шаг в конец рецепта"/>
+                        <Button Content="↑"          Width="28"    Margin="0,0,4,0" Click="PipelineMoveUpBtn_Click"
+                                ToolTip="Переместить шаг вверх"/>
+                        <Button Content="↓"          Width="28"    Margin="0,0,4,0" Click="PipelineMoveDownBtn_Click"
+                                ToolTip="Переместить шаг вниз"/>
+                        <Button Content="✎ Изменить" Padding="8,4" Margin="0,0,4,0" Click="PipelineEditStepBtn_Click"
+                                ToolTip="Открыть редактор выбранного шага"/>
+                        <Button Content="✕ Удалить"  Padding="8,4" Click="PipelineRemoveStepBtn_Click"
+                                ToolTip="Удалить выбранный шаг"/>
+                    </StackPanel>
+
+                    <!-- Список шагов -->
+                    <ListView x:Name="PipelineStepsList" Grid.Row="2"
+                              MouseDoubleClick="PipelineStepsList_MouseDoubleClick">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="#"          Width="32"
+                                                DisplayMemberBinding="{Binding Index}"/>
+                                <GridViewColumn Header="Название"   Width="155"
+                                                DisplayMemberBinding="{Binding Name}"/>
+                                <GridViewColumn Header="Действие"   Width="110"
+                                                DisplayMemberBinding="{Binding Action}"/>
+                                <GridViewColumn Header="При успехе" Width="120"
+                                                DisplayMemberBinding="{Binding SuccessSummary}"/>
+                                <GridViewColumn Header="При неудаче" Width="120"
+                                                DisplayMemberBinding="{Binding FailureSummary}"/>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <!-- Статус выполнения -->
+                    <Grid Grid.Row="3" Margin="0,6,0,3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock FontWeight="SemiBold" VerticalAlignment="Center"
+                                   Text="{Binding PipelineStatusText}"/>
+                        <Button Grid.Column="1" Content="Очистить лог" Padding="6,2"
+                                Click="PipelineClearLogBtn_Click"/>
+                    </Grid>
+
+                    <!-- Лог -->
+                    <TextBox Grid.Row="4"
+                             x:Name="PipelineLogBox"
+                             IsReadOnly="True"
+                             TextWrapping="Wrap"
+                             VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Disabled"
+                             FontFamily="Consolas"
+                             FontSize="11"/>
+                </Grid>
+            </Grid>
+        </TabItem>
+
         <TabItem x:Name="TabAppSettings" Header="Настройки приложения">
             <ScrollViewer VerticalScrollBarVisibility="Auto">
                 <StackPanel Margin="16">
@@ -1846,6 +1989,10 @@
                              SnapsToDevicePixels="True"/>
                 </StackPanel>
             </ScrollViewer>
+        </TabItem>
+
+        <TabItem x:Name="TabTracking" Header="Наблюдение">
+            <local:TrackingTab x:Name="TrackingTabControl"/>
         </TabItem>
     </TabControl>
 </Window>

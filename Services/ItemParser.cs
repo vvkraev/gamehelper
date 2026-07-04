@@ -487,7 +487,7 @@ public static class ItemParser
                 }
                 else
                 {
-                    var sep = before == "+" && after.StartsWith("%", StringComparison.Ordinal) ? "" : " ";
+                    var sep = (before == "+" || before == "-") && after.StartsWith("%", StringComparison.Ordinal) ? "" : " ";
                     statText = before + sep + after;
                 }
             }

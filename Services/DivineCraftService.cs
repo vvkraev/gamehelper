@@ -8,7 +8,7 @@ namespace GameHelper.Services;
 /// Перед каждым применением проверяет, что все аффиксы из условия присутствуют на предмете
 /// (если какой-либо отсутствует — ячейка пропускается без трат орба).
 /// </summary>
-public sealed class DivineCraftService
+public sealed class DivineCraftService : IDivineCraftService
 {
     private const double DelayJitterFraction = 0.30;
 
@@ -17,6 +17,11 @@ public sealed class DivineCraftService
     public int HoverSettleBeforeClipboardMs { get; set; } = 120;
     public bool TraceInputToLog { get; set; }
     public Func<string, Task>? StepConfirmAsync { get; set; }
+
+    // Test hooks — null в продакшне; устанавливаются только в unit-тестах.
+    // Позволяют изолировать цикл RunAsync от WPF Dispatcher и AffixLibrary.
+    internal Queue<string>? _testClipboardSequence;
+    internal Func<CraftConditionPlan, ParsedItem?, (bool matched, string explanation)>? _testEvaluatorOverride;
 
     private static int WithJitter(int baseMs)
     {
@@ -31,7 +36,7 @@ public sealed class DivineCraftService
 
     // ── Буфер обмена ────────────────────────────────────────────────────────
 
-    private Task ClearClipboardAsync() =>
+    public Task ClearClipboardAsync() =>
         System.Windows.Application.Current.Dispatcher.InvokeAsync(ClearClipboardSafe).Task;
 
     private static void ClearClipboardSafe()
@@ -172,13 +177,21 @@ public sealed class DivineCraftService
                 {
                     ct.ThrowIfCancellationRequested();
 
-                    _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
-                    await Task.Delay(80, ct).ConfigureAwait(false);
-
                     // 1) Читаем предмет до применения орба.
-                    var preClip = await ReadClipboardAfterCtrlAltCAsync(
-                        itemArea, log, ct,
-                        $"divine: чтение предмета, попытка {displayAttempt}/{globalTotal}").ConfigureAwait(false);
+                    //    В тестах: берём следующий текст из очереди вместо WPF Dispatcher.
+                    string preClip;
+                    if (_testClipboardSequence is not null)
+                    {
+                        preClip = _testClipboardSequence.Count > 0 ? _testClipboardSequence.Dequeue() : "";
+                    }
+                    else
+                    {
+                        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+                        await Task.Delay(80, ct).ConfigureAwait(false);
+                        preClip = await ReadClipboardAfterCtrlAltCAsync(
+                            itemArea, log, ct,
+                            $"divine: чтение предмета, попытка {displayAttempt}/{globalTotal}").ConfigureAwait(false);
+                    }
 
                     if (string.IsNullOrWhiteSpace(preClip))
                     {
@@ -190,7 +203,18 @@ public sealed class DivineCraftService
                     var preParsed = ItemParser.Parse(preClip);
 
                     // 2) Условие уже выполнено?
-                    var alreadyMatch = CraftConditionEvaluator.TryEvaluate(plan, preParsed, out var explanation);
+                    //    В тестах: используем инжектированный evaluator вместо реального (с AffixLibrary).
+                    bool alreadyMatch;
+                    string explanation;
+                    if (_testEvaluatorOverride is not null)
+                    {
+                        (alreadyMatch, explanation) = _testEvaluatorOverride(plan, preParsed);
+                    }
+                    else
+                    {
+                        alreadyMatch = CraftConditionEvaluator.TryEvaluate(plan, preParsed, out explanation);
+                    }
+
                     craftLog?.WriteComparison(displayAttempt, globalTotal, preClip, pattern, alreadyMatch, explanation);
                     log?.Report($"Проверка (попытка {displayAttempt}): {explanation}");
 
@@ -202,7 +226,8 @@ public sealed class DivineCraftService
                     }
 
                     // 3) Все аффиксы условия присутствуют?
-                    if (!AreAllConditionAffixesPresent(plan, preParsed))
+                    //    В тестах с _testEvaluatorOverride: пропускаем проверку — evaluator сам решает.
+                    if (_testEvaluatorOverride is null && !AreAllConditionAffixesPresent(plan, preParsed))
                     {
                         var desc = DescribeMissingAffixes(plan, preParsed);
                         log?.Report($"Не все аффиксы из условия найдены на предмете — ячейку пропускаем (Divine не тратится). {desc}");

@@ -1,0 +1,3966 @@
+{
+  "version": 1,
+  "entries": [
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Effectiveness",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Effectiveness"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterEffectiveness",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Rarity of Items found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Rarity of Items found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedItemRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapPackSizeIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Magic Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Magic Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMagicPackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased number of Rare Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased number of Rare Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapRarePackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Monster Rarity",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Monster Rarity"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Gold found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Gold found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedGoldIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Experience gain in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Experience gain in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapExperienceGainIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Rare Chests",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Rare Chests"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalChests",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedMapsIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Shrines",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Shrines"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "% reduced Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% reduced Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Strongboxes",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Strongboxes"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStrongbox",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Azmeri Spirits",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Azmeri Spirits"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalSpirit",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalAzmeriWisp",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Rogue Exiles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Rogue Exiles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalExile",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Summoning Circles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Summoning Circles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain a Summoning Circle",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain a Summoning Circle"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has # additional random Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has # additional random Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Unique Monsters have # additional Rare Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Unique Monsters have # additional Rare Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalUniqueMonsterModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Abysses in Map spawn #% increased Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Abysses in Map spawn #% increased Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "AbyssMonsterIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "# additional Rare Monsters are spawned from Abysses in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "# additional Rare Monsters are spawned from Abysses in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "AbyssRareMonsterIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Abyssal Monsters have #% increased Effectiveness for each closed Pit, up to #%",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Abyssal Monsters have #% increased Effectiveness for each closed Pit, up to #%"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "AbyssEnhancedMonstersPerChasm",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Abysses in Map have #% increased chance to lead to an Abyssal Depths",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Abysses in Map have #% increased chance to lead to an Abyssal Depths"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "AbyssDepthsChance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map contains # additional Abysses",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Abysses"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "AbyssAdditionalChance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Abyss Pits in Map are twice as likely to have Rewards",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Abyss Pits in Map are twice as likely to have Rewards"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "AbyssIncreasedRewards",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% chance to contain four additional Abysses",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% chance to contain four additional Abysses"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "Abyss4AdditionalChance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased chance for Abyssal monsters in Map to have Abyssal Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased chance for Abyssal monsters in Map to have Abyssal Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "AbyssExtraModifiers",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Abyss Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased chance for Desecrated Currency from Abysses in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased chance for Desecrated Currency from Abysses in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "AbyssExtraTickets",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Effectiveness",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Effectiveness"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterEffectiveness",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Rarity of Items found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Rarity of Items found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedItemRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapPackSizeIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Magic Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Magic Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMagicPackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased number of Rare Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased number of Rare Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapRarePackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Monster Rarity",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Monster Rarity"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Gold found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Gold found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedGoldIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Experience gain in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Experience gain in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapExperienceGainIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Rare Chests",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Rare Chests"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalChests",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedMapsIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Shrines",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Shrines"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "% reduced Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% reduced Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Strongboxes",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Strongboxes"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStrongbox",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Azmeri Spirits",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Azmeri Spirits"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalSpirit",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalAzmeriWisp",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Rogue Exiles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Rogue Exiles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalExile",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Summoning Circles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Summoning Circles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain a Summoning Circle",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain a Summoning Circle"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has # additional random Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has # additional random Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Unique Monsters have # additional Rare Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Unique Monsters have # additional Rare Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalUniqueMonsterModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Hiveblood found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Hiveblood found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "BreachHivebloodQuantity",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Wombgifts found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Wombgifts found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "BreachWombgiftQuantity",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Wombgifts have #% chance to drop one Level higher in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Wombgifts have #% chance to drop one Level higher in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "BreachWombgiftLevelChance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Unstable Breaches in Map have #% increased chance to contain Vruun, Marshal of Xesht",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Unstable Breaches in Map have #% increased chance to contain Vruun, Marshal of Xesht"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "BreachBossChance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Unstable Breaches in Map spawn # additional Rare Monsters when Stabilised",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Unstable Breaches in Map spawn # additional Rare Monsters when Stabilised"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "BreachAdditionalRares",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Effectiveness of Rare Breach Monsters in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Effectiveness of Rare Breach Monsters in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "BreachRareMonsterPotency",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Breach Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Breaches in Map have #% increased Pack Size",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Breaches in Map have #% increased Pack Size"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "BreachMonsterQuantity",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Effectiveness",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Effectiveness"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterEffectiveness",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Rarity of Items found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Rarity of Items found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedItemRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapPackSizeIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Magic Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Magic Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMagicPackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased number of Rare Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased number of Rare Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapRarePackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Monster Rarity",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Monster Rarity"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Gold found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Gold found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedGoldIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Experience gain in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Experience gain in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapExperienceGainIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Rare Chests",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Rare Chests"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalChests",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedMapsIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Shrines",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Shrines"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "% reduced Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% reduced Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Strongboxes",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Strongboxes"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStrongbox",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Azmeri Spirits",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Azmeri Spirits"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalSpirit",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalAzmeriWisp",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Rogue Exiles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Rogue Exiles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalExile",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Summoning Circles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Summoning Circles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain a Summoning Circle",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain a Summoning Circle"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has # additional random Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has # additional random Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Unique Monsters have # additional Rare Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Unique Monsters have # additional Rare Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalUniqueMonsterModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Stack size of Simulacrum Splinters found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Stack size of Simulacrum Splinters found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "DeliriumMonsterSplinterIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Delirium Fog in Map lasts # additional seconds before dissipating",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Delirium Fog in Map lasts # additional seconds before dissipating"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "DeliriumFogDissipationDelay",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Delirium Fog in Map dissipates #% slower",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Delirium Fog in Map dissipates #% slower"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "DeliriumFogPersistence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Delirium Fog in Map applies #% increased Deliriousness to Players",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Delirium Fog in Map applies #% increased Deliriousness to Players"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "DeliriumDifficultyIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Delirium Monsters in Map have #% increased Pack Size",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Delirium Monsters in Map have #% increased Pack Size"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "DeliriumPackSizeIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Delirium Fog in Map spawns #% increased Fracturing Mirrors",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Delirium Fog in Map spawns #% increased Fracturing Mirrors"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "DeliriumDoodadsIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Slaying Rare Monsters in Map pauses the Delirium Mirror Timer for # seconds",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Slaying Rare Monsters in Map pauses the Delirium Mirror Timer for # seconds"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "DeliriumRareMonsterPause",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Delirium Encounters in Map are #% more likely to spawn Unique Bosses",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Delirium Encounters in Map are #% more likely to spawn Unique Bosses"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "DeliriumBossChance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Delirium Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Delirium Fog in Map spawns #% increased MirrorShards",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Delirium Fog in Map spawns #% increased MirrorShards"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "DeliriumAdditionalShardsChance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Effectiveness",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Effectiveness"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterEffectiveness",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Rarity of Items found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Rarity of Items found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedItemRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapPackSizeIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Magic Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Magic Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMagicPackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased number of Rare Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased number of Rare Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapRarePackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Monster Rarity",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Monster Rarity"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Gold found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Gold found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedGoldIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Experience gain in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Experience gain in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapExperienceGainIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Rare Chests",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Rare Chests"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalChests",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedMapsIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Shrines",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Shrines"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "% reduced Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% reduced Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Strongboxes",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Strongboxes"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStrongbox",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Azmeri Spirits",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Azmeri Spirits"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalSpirit",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalAzmeriWisp",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Rogue Exiles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Rogue Exiles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalExile",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Summoning Circles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Summoning Circles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain a Summoning Circle",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain a Summoning Circle"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has # additional random Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has # additional random Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Unique Monsters have # additional Rare Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Unique Monsters have # additional Rare Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalUniqueMonsterModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased quantity of Expedition Artifacts dropped by Monsters in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased quantity of Expedition Artifacts dropped by Monsters in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "ExpeditionArtifactIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Expedition Explosive Placement Range in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Expedition Explosive Placement Range in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "ExpeditionExplosionPlacement",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Expeditions in Map have +# Remnants",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Expeditions in Map have +# Remnants"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "ExpeditionRelicIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Expedition Explosive Radius in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Expedition Explosive Radius in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "ExpeditionExplosionRadius",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Expedition Logbooks dropped by Runic Monsters in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Expedition Logbooks dropped by Runic Monsters in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "ExpeditionLogbookIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased number of Rare Expedition Monsters in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased number of Rare Expedition Monsters in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "ExpeditionRareMonsters",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Effect of Expedition Remnants in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Effect of Expedition Remnants in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "ExpeditionRelicModEffect",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Expedition Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map contains #% increased number of Runic Monster Markers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains #% increased number of Runic Monster Markers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "ExpeditionRunicMonsters",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Effectiveness",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Effectiveness"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterEffectiveness",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Rarity of Items found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Rarity of Items found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedItemRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapPackSizeIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Magic Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Magic Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMagicPackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased number of Rare Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased number of Rare Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapRarePackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Monster Rarity",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Monster Rarity"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Gold found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Gold found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedGoldIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Experience gain in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Experience gain in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapExperienceGainIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Rare Chests",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Rare Chests"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalChests",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedMapsIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Shrines",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Shrines"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "% reduced Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% reduced Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Strongboxes",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Strongboxes"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStrongbox",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Azmeri Spirits",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Azmeri Spirits"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalSpirit",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalAzmeriWisp",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Rogue Exiles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Rogue Exiles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalExile",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Summoning Circles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Summoning Circles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain a Summoning Circle",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain a Summoning Circle"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has # additional random Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has # additional random Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Irradiated Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Unique Monsters have # additional Rare Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Unique Monsters have # additional Rare Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalUniqueMonsterModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Effectiveness",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Effectiveness"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterEffectiveness",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Rarity of Items found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Rarity of Items found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedItemRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapPackSizeIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Magic Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Magic Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMagicPackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased number of Rare Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased number of Rare Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapRarePackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Monster Rarity",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Monster Rarity"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Gold found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Gold found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedGoldIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Experience gain in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Experience gain in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapExperienceGainIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Rare Chests",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Rare Chests"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalChests",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedMapsIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Shrines",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Shrines"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "% reduced Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% reduced Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Strongboxes",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Strongboxes"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStrongbox",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Azmeri Spirits",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Azmeri Spirits"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalSpirit",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalAzmeriWisp",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Rogue Exiles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Rogue Exiles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalExile",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Summoning Circles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Summoning Circles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain a Summoning Circle",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain a Summoning Circle"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has # additional random Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has # additional random Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Unique Monsters have # additional Rare Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Unique Monsters have # additional Rare Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalUniqueMonsterModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map contains # additional Strongboxes",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Strongboxes"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapBossAdditionalStrongbox",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map contains # additional Shrines",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Shrines"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapBossAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map contains # additional Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapBossAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map contains # additional Azmeri Spirits",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Azmeri Spirits"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapBossAdditionalSpirit",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Waystones dropped by Map Bosses",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Waystones dropped by Map Bosses"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapBossWaystoneChance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map Bosses grant #% increased Experience",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map Bosses grant #% increased Experience"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapBossExperience",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Rarity of Items dropped by Map Bosses",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Rarity of Items dropped by Map Bosses"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapBossRarity",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Overseer Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Items dropped by Map Bosses",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Items dropped by Map Bosses"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapBossQuantity",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Effectiveness",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Effectiveness"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterEffectiveness",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Rarity of Items found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Rarity of Items found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedItemRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapPackSizeIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Magic Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Magic Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMagicPackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased number of Rare Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased number of Rare Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapRarePackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Monster Rarity",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Monster Rarity"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Gold found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Gold found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedGoldIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Experience gain in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Experience gain in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapExperienceGainIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Rare Chests",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Rare Chests"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalChests",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedMapsIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Shrines",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Shrines"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "% reduced Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% reduced Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Strongboxes",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Strongboxes"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStrongbox",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Azmeri Spirits",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Azmeri Spirits"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalSpirit",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalAzmeriWisp",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Rogue Exiles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Rogue Exiles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalExile",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Summoning Circles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Summoning Circles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain a Summoning Circle",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain a Summoning Circle"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has # additional random Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has # additional random Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Unique Monsters have # additional Rare Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Unique Monsters have # additional Rare Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalUniqueMonsterModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Monsters Sacrificed at Ritual Altars in Map grant #% increased Tribute",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters Sacrificed at Ritual Altars in Map grant #% increased Tribute"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "RitualTributeIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Rerolling Favours at Ritual Altars in Map costs #% reduced Tribute",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Rerolling Favours at Ritual Altars in Map costs #% reduced Tribute"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "RitualRerollCostIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Deferring Favours at Ritual Altars in Map costs #% reduced Tribute",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Deferring Favours at Ritual Altars in Map costs #% reduced Tribute"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "RitualDeferCostIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Favours Deferred at Ritual Altars in Map reappear #% sooner",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Favours Deferred at Ritual Altars in Map reappear #% sooner"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "RitualDeferSpeed",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Ritual Altars in Map allow rerolling Favours # additional times",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Ritual Altars in Map allow rerolling Favours # additional times"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "RitualAdditionalReroll",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Favours Rerolled at Ritual Altars in Map have #% chance to cost no Tribute",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Favours Rerolled at Ritual Altars in Map have #% chance to cost no Tribute"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "RitualChanceForNoCost",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Revived Monsters from Ritual Altars in Map have #% increased chance to be Magic",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Revived Monsters from Ritual Altars in Map have #% increased chance to be Magic"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "RitualRareMonsters",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Revived Monsters from Ritual Altars in Map have #% increased chance to be Rare",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Revived Monsters from Ritual Altars in Map have #% increased chance to be Rare"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "RitualMagicMonsters",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Ritual Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Ritual Favours in Map have #% increased chance to be Omens",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Ritual Favours in Map have #% increased chance to be Omens"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "RitualOmenChance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Monsters have #% increased Effectiveness",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Monsters have #% increased Effectiveness"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterEffectiveness",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Rarity of Items found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Rarity of Items found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedItemRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapPackSizeIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Magic Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Magic Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMagicPackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased number of Rare Monsters",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased number of Rare Monsters"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapRarePackIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map has #% increased Monster Rarity",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased Monster Rarity"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapMonsterRarityIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Gold found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Gold found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedGoldIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "#% increased Experience gain in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Experience gain in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapExperienceGainIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Rare Chests",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Rare Chests"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalChests",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapDroppedMapsIncrease",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Shrines",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Shrines"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "% reduced Pack Size in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% reduced Pack Size in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalShrine",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Strongboxes",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Strongboxes"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStrongbox",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Essences",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Essences"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalEssence",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Azmeri Spirits",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Azmeri Spirits"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalSpirit",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "% increased Quantity of Waystones found in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "% increased Quantity of Waystones found in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalAzmeriWisp",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain Rogue Exiles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain Rogue Exiles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalExile",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Prefix Modifier",
+      "affixName": "Map contains # additional Summoning Circles",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map contains # additional Summoning Circles"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has #% increased chance to contain a Summoning Circle",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has #% increased chance to contain a Summoning Circle"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalStoneCircle",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Map has # additional random Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Map has # additional random Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "Unique Monsters have # additional Rare Modifiers",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "Unique Monsters have # additional Rare Modifiers"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "MapAdditionalUniqueMonsterModifier",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased Pack Size for Monsters around Vaal Beacons in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased Pack Size for Monsters around Vaal Beacons in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "IncursionPackSize",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "# extra packs of Monsters around Vaal Beacons in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "# extra packs of Monsters around Vaal Beacons in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "IncursionExtraPacks",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% chance for an extra packs of Monsters around Vaal Beacons in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% chance for an extra packs of Monsters around Vaal Beacons in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "IncursionExtraPacks",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased chance Vaal Beacons summon additional Monsters in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased chance Vaal Beacons summon additional Monsters in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "IncursionSecondaryEncounters",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% chance to gain an additional Crystal from Vaal Beacons in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% chance to gain an additional Crystal from Vaal Beacons in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "IncursionTokenChance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% chance to add a Vaal Beacon Unique Monster to the Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% chance to add a Vaal Beacon Unique Monster to the Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "IncursionBossChance",
+      "weight": null
+    },
+    {
+      "itemClasses": [
+        "Temple Tablets"
+      ],
+      "affixType": "Suffix Modifier",
+      "affixName": "#% increased chance Vaal Beacon Chests are Rare in Map",
+      "affixTier": 1,
+      "affixTierLevel": 1,
+      "affixStats": [
+        "#% increased chance Vaal Beacon Chests are Rare in Map"
+      ],
+      "affixRanges": [
+        null
+      ],
+      "familyId": "IncursionRareChestChance",
+      "weight": null
+    }
+  ]
+}

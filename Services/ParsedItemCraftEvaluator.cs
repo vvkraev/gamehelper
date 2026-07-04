@@ -180,6 +180,15 @@ public static class ParsedItemCraftEvaluator
             if (bNoTierRange.Length > 0 && string.Equals(aNoRoll, bNoTierRange, StringComparison.Ordinal))
                 return true;
 
+            // После нормализации библиотека хранит '#' вместо диапазона, а план или тест-шаблон
+            // может всё ещё содержать «(5–10)%». Убираем диапазоны из a и сравниваем с bNoHash.
+            var aNoTierRange = EmbeddedTierRange.Replace(aNoRoll, "").Trim();
+            while (aNoTierRange.Contains("  ", StringComparison.Ordinal))
+                aNoTierRange = aNoTierRange.Replace("  ", " ", StringComparison.Ordinal);
+            if (aNoTierRange.Length >= minLenForPrefixMatch && bNoHash.Length >= minLenForPrefixMatch &&
+                string.Equals(aNoTierRange, bNoHash, StringComparison.Ordinal))
+                return true;
+
             // Мультиролл-стат: ItemParser ставит буквенные плейсхолдеры x/y/z (после нормализации),
             // рецепт хранит '#'. Убираем буквы-плейсхолдеры из a и сравниваем с bNoHash.
             var aNoLetters = LetterRollPlaceholder.Replace(a, "").Trim();
