@@ -30,6 +30,23 @@
 
             <!-- Импорт снимка + список снимков -->
             <StackPanel Grid.Row="0" Margin="0,0,0,8">
+                <!-- Авто-листнер -->
+                <DockPanel Margin="0,0,0,6">
+                    <Button x:Name="BtnListenerToggle" Content="▶ Слушать" Width="90"
+                            Click="BtnListenerToggle_Click" DockPanel.Dock="Left" Padding="6,3"/>
+                    <Button x:Name="BtnCommitSnapshot" Content="Снимок" Width="70"
+                            Click="BtnCommitSnapshot_Click" DockPanel.Dock="Left"
+                            Margin="4,0,0,0" Padding="6,3" IsEnabled="False"
+                            Background="#E8F5E9" FontWeight="Bold"/>
+                    <Button x:Name="BtnDiscardBatches" Content="Сбросить" Width="70"
+                            Click="BtnDiscardBatches_Click" DockPanel.Dock="Left"
+                            Margin="4,0,0,0" Padding="6,3" Visibility="Collapsed"
+                            Foreground="#AA2200"/>
+                    <TextBlock x:Name="TxtListenerStatus" VerticalAlignment="Center"
+                               Margin="8,0,0,0" Foreground="#555555" FontSize="11"
+                               Text="Листнер выключен"/>
+                </DockPanel>
+
                 <Expander x:Name="ImportExpander"
                           Header="Добавить снимок (DevTools JSON)" Margin="0,0,0,4">
                     <StackPanel Margin="4,4,0,0">
@@ -70,7 +87,6 @@
                 <Button x:Name="BtnFilterReturned"  Content="Вернулись"   Margin="2,0" Padding="8,2" Click="FilterBtn_Click" Tag="Вернулись"/>
                 <Button x:Name="BtnFilterNew"       Content="Новые"       Margin="2,0" Padding="8,2" Click="FilterBtn_Click" Tag="Новые"/>
                 <Button x:Name="BtnFilterLingering" Content="Висят"       Margin="2,0" Padding="8,2" Click="FilterBtn_Click" Tag="Висят"/>
-                <Button x:Name="BtnFilterStable"    Content="Стабильные"  Margin="2,0" Padding="8,2" Click="FilterBtn_Click" Tag="Стабильные"/>
             </StackPanel>
 
             <!-- Таблица предметов -->
@@ -82,6 +98,20 @@
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Статус"  Binding="{Binding StatusLabel}" Width="170"/>
                     <DataGridTextColumn Header="Цена"    Binding="{Binding PriceLabel}"  Width="80"/>
+                    <DataGridTextColumn Header="Δ"       Binding="{Binding PriceDeltaLabel}" Width="70">
+                        <DataGridTextColumn.ElementStyle>
+                            <Style TargetType="TextBlock">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding PriceDeltaDir}" Value="Up">
+                                        <Setter Property="Foreground" Value="#006600"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding PriceDeltaDir}" Value="Down">
+                                        <Setter Property="Foreground" Value="#CC2200"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </DataGridTextColumn.ElementStyle>
+                    </DataGridTextColumn>
                     <DataGridTextColumn Header="Имя"     Binding="{Binding Name}"         Width="*"/>
                     <DataGridTextColumn Header="Снимки"  Binding="{Binding PresenceStr}"  Width="Auto"
                                         FontFamily="Consolas"/>

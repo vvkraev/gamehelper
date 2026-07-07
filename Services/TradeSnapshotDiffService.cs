@@ -39,6 +39,7 @@ public class TradeSnapshotDiffService
         {
             var presence = new bool[n];
             TrackingItemDetail? lastDetail = null;
+            var priceHistory = new List<PricePoint>();
 
             for (int i = 0; i < n; i++)
             {
@@ -46,6 +47,10 @@ public class TradeSnapshotDiffService
                 {
                     presence[i] = true;
                     lastDetail = detail;
+                    priceHistory.Add(new PricePoint(
+                        session.Snapshots[i].ImportedAt,
+                        detail.PriceAmount,
+                        detail.PriceCurrency));
                 }
             }
 
@@ -60,6 +65,7 @@ public class TradeSnapshotDiffService
                 StatusLabel = BuildStatusLabel(status, presence, session.Snapshots),
                 Presence = presence,
                 Detail = lastDetail,
+                PriceHistory = priceHistory,
             };
             rows.Add(row);
         }
@@ -79,7 +85,13 @@ public class TradeSnapshotDiffService
         bool first = presence[0];
         bool last = presence[n - 1];
 
-        // Вернулся: был, потом пропадал, потом снова есть
+        // Ушёл: нет в последнем снимке
+        if (!last) return ItemStatus.Gone;
+
+        // Единственный снимок — всё новое
+        if (n == 1) return ItemStatus.New;
+
+        // Вернулся: был → пропадал → снова есть
         bool wasAbsent = false;
         bool wasPresent = false;
         for (int i = 0; i < n - 1; i++)
@@ -87,24 +99,13 @@ public class TradeSnapshotDiffService
             if (presence[i]) wasPresent = true;
             if (wasPresent && !presence[i]) wasAbsent = true;
         }
-        if (wasAbsent && last) return ItemStatus.Returned;
+        if (wasAbsent) return ItemStatus.Returned;
 
-        // Новый: только в последних снимках, не был в начале
-        if (!first && last) return ItemStatus.New;
+        // Новый: не было в предпоследнем снимке, появился в последнем
+        if (!presence[n - 2]) return ItemStatus.New;
 
-        // Ушёл: был, последний снимок — нет
-        if (!last) return ItemStatus.Gone;
-
-        // Висит N+: присутствует во всех снимках начиная с появления
-        int consecutiveFromEnd = 0;
-        for (int i = n - 1; i >= 0; i--)
-        {
-            if (presence[i]) consecutiveFromEnd++;
-            else break;
-        }
-        if (consecutiveFromEnd >= 2) return ItemStatus.Lingering;
-
-        return ItemStatus.Stable;
+        // Висит: присутствует 2+ подряд (независимо от того, был ли в первом снимке)
+        return ItemStatus.Lingering;
     }
 
     private static string BuildStatusLabel(ItemStatus status, bool[] presence, List<SnapshotRef> snapshots)
@@ -201,17 +202,22 @@ public class TradeSnapshotDiffService
                     Name = node["name"]?.GetValue<string>() ?? "",
                     BaseType = node["base_type"]?.GetValue<string>() ?? "",
                     ListedAt = node["listed_at"]?.GetValue<string>() ?? "",
+                    SellerAccount = node["seller_account"]?.GetValue<string>() ?? "",
                     PriceAmount = node["price_divine"]?.GetValue<double>() ?? 0,
                     PriceCurrency = node["price_currency"]?.GetValue<string>() ?? "",
                     Quality = node["quality"]?.GetValue<int>() ?? 0,
                     Ilvl = node["ilvl"]?.GetValue<int>() ?? 0,
                     Corrupted = node["corrupted"]?.GetValue<bool>() ?? false,
+                    Sockets = node["sockets"]?.GetValue<int>() ?? 0,
                     ModsFractured = ReadStringList(node["mods_fractured"]?.AsArray()),
                     ModsDesecrated = ReadStringList(node["mods_desecrated"]?.AsArray()),
                     ModsImplicit = ReadStringList(node["mods_implicit"]?.AsArray()),
                     ModsExplicit = ReadStringList(node["mods_explicit"]?.AsArray()),
                     ModsCrafted = ReadStringList(node["mods_crafted"]?.AsArray()),
                 };
+                // Sanctified: read from JSON field (new files) or detect from S0/P0 crafted mods (existing files)
+                result[id].Sanctified = node["sanctified"]?.GetValue<bool>()
+                    ?? result[id].ModsCrafted.Any(m => Regex.IsMatch(m, @"\s[SP]0[\s—]"));
             }
         }
         catch { }

@@ -86,6 +86,10 @@ public sealed class AffixLibraryCoverageTests
                     var m = RangeSegment.Match(seg);
                     if (m.Success)
                         return $"{m.Groups[1].Value}({m.Groups[1].Value}-{m.Groups[2].Value})";
+                    // Single fixed value (e.g. "4" stored without a range) — treat as N(N-N)
+                    var mFixed = Regex.Match(seg, @"^(-?\d+(?:\.\d+)?)$");
+                    if (mFixed.Success)
+                        return $"{mFixed.Groups[1].Value}({mFixed.Groups[1].Value}-{mFixed.Groups[1].Value})";
                 }
                 return "1(1-1)";  // fallback для null-диапазонов (уникальные предметы)
             });

@@ -3,8 +3,10 @@
   <ItemGroup>
     <Compile Remove="GameHelper.Tests\**\*" />
     <Compile Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
+    <Compile Remove="OcrTest\**\*" />
     <Page Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
     <None Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
+    <None Remove="OcrTest\**\*" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +40,9 @@
     <!-- Явная архитектура снижает риск «битого» apphost и путаницы x86/x64 -->
     <PlatformTarget>AnyCPU</PlatformTarget>
     <Prefer32Bit>false</Prefer32Bit>
+    <!-- WPF temp project дублирует AssemblyInfo атрибуты при автогенерации -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
   </PropertyGroup>
 
 </Project>

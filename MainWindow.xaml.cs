@@ -324,6 +324,7 @@ public partial class MainWindow : Window
         RefreshGoldFeeLibraryPathHints();
         _ = Services.AffixStatsScanner.InitializeAsync();
         _ = Services.CatalystReforgeStatsScanner.InitializeAsync();
+        _ = Services.DesecrateStatsScanner.InitializeAsync();
         Services.PoeNinjaPriceService.PricesUpdated += OnPoeNinjaPricesUpdated;
         Services.PoeNinjaPriceService.LoadFromFile();
 
@@ -6022,9 +6023,9 @@ public partial class MainWindow : Window
                         var frac = m.IsFractured ? "[F]" : "";
                         return $"{text}{tier}{frac}";
                     });
-                    return string.Join(" · ", parts.Take(5));
+                    return string.Join(" · ", parts);
                 }
-                return string.Join(" · ", Record.ExplicitMods.Concat(Record.FracturedMods).Take(4));
+                return string.Join(" · ", Record.ExplicitMods.Concat(Record.FracturedMods).Concat(Record.DesecrateMods).Concat(Record.CraftedMods).Concat(Record.ImplicitMods));
             }
         }
     }

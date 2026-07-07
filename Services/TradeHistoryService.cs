@@ -33,6 +33,9 @@ public sealed class SaleRecord
     public int ItemLevel { get; set; }
     public List<string> ExplicitMods { get; set; } = [];
     public List<string> FracturedMods { get; set; } = [];
+    public List<string> DesecrateMods { get; set; } = [];
+    public List<string> CraftedMods { get; set; } = [];
+    public List<string> ImplicitMods { get; set; } = [];
     /// <summary>Стоимость крафта в div (орбы) — вводится вручную или копируется из CraftLedger.</summary>
     public decimal CraftCostDiv { get; set; }
     /// <summary>Стоимость базы предмета в div — вводится пользователем вручную.</summary>
@@ -163,6 +166,9 @@ public static class TradeHistoryService
                 ItemLevel = item.TryGetProperty("ilvl", out var il) ? il.GetInt32() : 0,
                 ExplicitMods = GetStringList(item, "explicitMods"),
                 FracturedMods = GetStringList(item, "fracturedMods"),
+                DesecrateMods = GetStringList(item, "desecrateMods"),
+                CraftedMods = GetStringList(item, "craftedMods"),
+                ImplicitMods = GetStringList(item, "implicitMods"),
             });
         }
 

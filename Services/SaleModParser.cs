@@ -51,13 +51,16 @@ public static class SaleModParser
         return null;
     }
 
-    /// <summary>Разбирает все explicit и fractured моды SaleRecord против библиотеки аффиксов.</summary>
+    /// <summary>Разбирает все моды SaleRecord (explicit, fractured, desecrate, crafted) против библиотеки аффиксов.</summary>
     public static List<ParsedModInfo> ParseMods(SaleRecord record, IReadOnlyList<AffixLibraryEntry> entries)
     {
         var runeEntries = RuneAffixLibrary.GetAllEntries();
         var result = new List<ParsedModInfo>();
         result.AddRange(AffixResolver.Resolve(record.ExplicitMods, isFractured: false, entries, runeEntries));
         result.AddRange(AffixResolver.Resolve(record.FracturedMods, isFractured: true, entries, runeEntries));
+        result.AddRange(AffixResolver.Resolve(record.DesecrateMods, isFractured: false, entries, runeEntries));
+        result.AddRange(AffixResolver.Resolve(record.CraftedMods, isFractured: false, entries, runeEntries));
+        result.AddRange(AffixResolver.Resolve(record.ImplicitMods, isFractured: false, entries, runeEntries));
         return result;
     }
 }

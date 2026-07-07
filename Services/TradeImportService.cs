@@ -90,12 +90,15 @@ public class TradeImportService
                 name = it.Name,
                 base_type = it.BaseType,
                 listed_at = it.ListedAt,
+                seller_account = it.SellerAccount,
                 price_divine = it.PriceAmount,
                 price_currency = it.PriceCurrency,
                 quality = it.Quality,
                 ilvl = it.Ilvl,
                 corrupted = it.Corrupted,
                 fractured = it.Fractured,
+                sanctified = it.Sanctified,
+                sockets = it.Sockets,
                 evasion = it.Evasion,
                 energy_shield = it.EnergyShield,
                 armour = it.Armour,
@@ -129,20 +132,31 @@ public class TradeImportService
                 Quality = item["quality"]?.GetValue<int>() ?? 0,
                 Corrupted = item["corrupted"]?.GetValue<bool>() ?? false,
                 Fractured = item["fractured"]?.GetValue<bool>() ?? false,
+                Sanctified = item["sanctified"]?.GetValue<bool>() ?? false,
+                Sockets = item["sockets"]?.AsArray()?.Count ?? 0,
                 PriceAmount = priceNode?["amount"]?.GetValue<double>() ?? 0,
                 PriceCurrency = priceNode?["currency"]?.GetValue<string>() ?? "?",
                 ListedAt = listingNode?["indexed"]?.GetValue<string>() ?? "",
+                SellerAccount = listingNode?["account"]?["name"]?.GetValue<string>() ?? "",
             };
 
             ReadProperties(item["properties"]?.AsArray(), it);
 
             // implicitMods и fracturedMods — обычно простые строки с [Tag|Display] разметкой
-            it.ImplicitMods = PlainStringList(item["implicitMods"]?.AsArray());
-            it.FracturedMods = PlainStringList(item["fracturedMods"]?.AsArray());
+            it.ImplicitMods = SortPrefixFirst(PlainStringList(item["implicitMods"]?.AsArray()));
+            it.FracturedMods = SortPrefixFirst(PlainStringList(item["fracturedMods"]?.AsArray()));
 
             // explicitMods в PoE2 API — массив объектов; desecrated/crafted идут туда же,
             // определяются по flags.desecrated / flags.crafted / prefix хеша
             ClassifyExplicitMods(item["explicitMods"]?.AsArray(), it);
+            it.ExplicitMods  = SortPrefixFirst(it.ExplicitMods);
+            it.DesecrateMods = SortPrefixFirst(it.DesecrateMods);
+            it.CraftedMods   = SortPrefixFirst(it.CraftedMods);
+
+            // Fallback: detect Sanctified via S0/P0 tier in crafted mods
+            // (GGG API may use item["sanctified"] flag not yet confirmed in raw captures)
+            if (!it.Sanctified)
+                it.Sanctified = it.CraftedMods.Any(m => Regex.IsMatch(m, @"\s[SP]0[\s—]"));
 
             list.Add(it);
         }
@@ -230,6 +244,21 @@ public class TradeImportService
             : desc;
     }
 
+    private static List<string> SortPrefixFirst(List<string> mods)
+    {
+        mods.Sort((a, b) =>
+        {
+            static int Key(string m)
+            {
+                var match = Regex.Match(m, @"\s([SP])\d+\s+—");
+                if (!match.Success) return 2;
+                return match.Groups[1].Value == "P" ? 0 : 1;
+            }
+            return Key(a).CompareTo(Key(b));
+        });
+        return mods;
+    }
+
     // Убирает [Tag|Display] → Display, [Tag] → убирает скобки
     private static string CleanMarkup(string s) =>
         Regex.Replace(s, @"\[([^\|\]]+)\|([^\]]+)\]", "$2")
@@ -257,7 +286,7 @@ public class TradeImportService
         var scanDate = DateTime.TryParse(date, out var d) ? d : DateTime.Today;
 
         // Заголовок таблицы — каждый мод в отдельном столбце
-        sb.Append("| Цена | Имя | Q | ilvl | Крп | Выставлен | Дней | Evas | ES | Armour |");
+        sb.Append("| Цена | Имя | Q | ilvl | Sock | Освящён | Крп | Выставлен | Дней | Evas | ES | Armour |");
         for (var i = 1; i <= maxFrac;  i++) sb.Append($" Фрак {i} |");
         for (var i = 1; i <= maxImpl;  i++) sb.Append($" Impl {i} |");
         for (var i = 1; i <= maxDes;   i++) sb.Append($" Дес {i} |");
@@ -266,7 +295,7 @@ public class TradeImportService
         sb.AppendLine();
 
         var dynCols = maxFrac + maxImpl + maxDes + maxExpl + maxCraft;
-        sb.Append("|---|---|---|---|---|---|---|---|---|---|");
+        sb.Append("|---|---|---|---|---|---|---|---|---|---|---|---|");
         for (var i = 0; i < dynCols; i++) sb.Append("---|");
         sb.AppendLine();
 
@@ -278,7 +307,9 @@ public class TradeImportService
                 ? ld.ToLocalTime() : (DateTime?)null;
             var listedStr = listedDate.HasValue ? listedDate.Value.ToString("MM-dd HH:mm") : "—";
             var daysStr = listedDate.HasValue ? ((int)(scanDate - listedDate.Value.ToLocalTime().Date).TotalDays).ToString() : "—";
-            sb.Append($"| {it.PriceAmount}{CurrencyShort(it.PriceCurrency)} | {EscapeCell(it.Name)} | {it.Quality}% | {it.Ilvl} | {corr} | {listedStr} | {daysStr} | {it.Evasion} | {it.EnergyShield} | {it.Armour} |");
+            var sockStr = it.Sockets > 0 ? it.Sockets.ToString() : "—";
+            var sanctStr = it.Sanctified ? "да" : "";
+            sb.Append($"| {it.PriceAmount}{CurrencyShort(it.PriceCurrency)} | {EscapeCell(it.Name)} | {it.Quality}% | {it.Ilvl} | {sockStr} | {sanctStr} | {corr} | {listedStr} | {daysStr} | {it.Evasion} | {it.EnergyShield} | {it.Armour} |");
             AppendModCells(sb, it.FracturedMods,  maxFrac);
             AppendModCells(sb, it.ImplicitMods,   maxImpl);
             AppendModCells(sb, it.DesecrateMods,  maxDes);
@@ -331,10 +362,13 @@ public class TradeImportService
         public string Name { get; set; } = "";
         public string BaseType { get; set; } = "";
         public string ListedAt { get; set; } = "";
+        public string SellerAccount { get; set; } = "";
         public int Ilvl { get; set; }
         public int Quality { get; set; }
         public bool Corrupted { get; set; }
         public bool Fractured { get; set; }
+        public bool Sanctified { get; set; }
+        public int Sockets { get; set; }
         public int Evasion { get; set; }
         public int EnergyShield { get; set; }
         public int Armour { get; set; }

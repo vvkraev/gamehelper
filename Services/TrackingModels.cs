@@ -3,6 +3,8 @@ using System.Collections.Generic;
 
 namespace GameHelper.Services;
 
+public record PricePoint(DateTime Time, double Price, string Currency);
+
 public class SoldLogEntry
 {
     public Guid SessionId { get; set; }
@@ -54,11 +56,14 @@ public class TrackingItemDetail
     public string Name { get; set; } = "";
     public string BaseType { get; set; } = "";
     public string ListedAt { get; set; } = "";
+    public string SellerAccount { get; set; } = "";
     public double PriceAmount { get; set; }
     public string PriceCurrency { get; set; } = "";
     public int Quality { get; set; }
     public int Ilvl { get; set; }
     public bool Corrupted { get; set; }
+    public bool Sanctified { get; set; }
+    public int Sockets { get; set; }
     public List<string> ModsFractured { get; set; } = new();
     public List<string> ModsDesecrated { get; set; } = new();
     public List<string> ModsImplicit { get; set; } = new();
@@ -81,12 +86,37 @@ public class TrackingItemRow
     /// <summary>Детали из последнего снимка, где предмет присутствует.</summary>
     public TrackingItemDetail? Detail { get; set; }
 
+    /// <summary>Все точки цены по снимкам (только там, где предмет присутствовал).</summary>
+    public List<PricePoint> PriceHistory { get; set; } = new();
+
     // Вычисляемые свойства для привязки XAML
     public string PriceLabel => Currency == "divine" ? $"{Price}d"
                               : Currency == "mirror"  ? $"{Price}m"
                               : $"{Price} {Currency}";
 
     public string PresenceStr => string.Join("", System.Linq.Enumerable.Select(Presence, p => p ? "✓" : "—"));
+
+    public string PriceDeltaLabel
+    {
+        get
+        {
+            if (PriceHistory.Count < 2) return "";
+            var delta = PriceHistory[^1].Price - PriceHistory[^2].Price;
+            if (Math.Abs(delta) < 0.001) return "";
+            return delta > 0 ? $"+{delta:0.#}d" : $"−{Math.Abs(delta):0.#}d";
+        }
+    }
+
+    public string PriceDeltaDir
+    {
+        get
+        {
+            if (PriceHistory.Count < 2) return "None";
+            var delta = PriceHistory[^1].Price - PriceHistory[^2].Price;
+            if (Math.Abs(delta) < 0.001) return "None";
+            return delta > 0 ? "Up" : "Down";
+        }
+    }
 
     public string StatusColor => Status switch
     {

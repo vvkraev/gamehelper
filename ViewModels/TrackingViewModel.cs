@@ -220,8 +220,7 @@ public class TrackingViewModel : INotifyPropertyChanged
             "Ушли"       => _allRows.Where(r => r.Status == ItemStatus.Gone),
             "Вернулись"  => _allRows.Where(r => r.Status == ItemStatus.Returned),
             "Новые"      => _allRows.Where(r => r.Status == ItemStatus.New),
-            "Висят"      => _allRows.Where(r => r.Status == ItemStatus.Lingering),
-            "Стабильные" => _allRows.Where(r => r.Status == ItemStatus.Stable),
+            "Висят"      => _allRows.Where(r => r.Status == ItemStatus.Lingering || r.Status == ItemStatus.Stable),
             _            => _allRows.AsEnumerable(),
         };
         foreach (var r in filtered)

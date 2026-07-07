@@ -78,8 +78,10 @@ public static class WindowsOcrTextLocator
 
     private static OcrEngine? TryCreateOcrEngine(IProgress<string>? log)
     {
-        var engine = OcrEngine.TryCreateFromUserProfileLanguages()
-                     ?? OcrEngine.TryCreateFromLanguage(new Language("en-US"));
+        // English first: PoE2 UI text is always Latin; user profile may be Russian,
+        // which causes Cyrillic substitutions (ТО→TO, СПЕАТЕ→CREATE) even with post-hoc fixes.
+        var engine = OcrEngine.TryCreateFromLanguage(new Language("en-US"))
+                     ?? OcrEngine.TryCreateFromUserProfileLanguages();
         if (engine == null)
             log?.Report("OCR: не удалось создать OcrEngine (языковые пакеты Windows?).");
         return engine;
