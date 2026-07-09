@@ -150,13 +150,15 @@ public partial class PipelineStepDialog : Window
         // TravelConfig
         if (Step.TravelConfig is { } tc)
         {
-            TravelWpX.Text        = tc.WaypointSearchArea.X.ToString();
-            TravelWpY.Text        = tc.WaypointSearchArea.Y.ToString();
-            TravelWpW.Text        = tc.WaypointSearchArea.Width.ToString();
-            TravelWpH.Text        = tc.WaypointSearchArea.Height.ToString();
-            TravelLocX.Text       = tc.LocationButtonX.ToString();
-            TravelLocY.Text       = tc.LocationButtonY.ToString();
-            TravelWpDelayBox.Text = tc.AfterWaypointDelayMs.ToString();
+            TravelWpX.Text          = tc.WaypointSearchArea.X.ToString();
+            TravelWpY.Text          = tc.WaypointSearchArea.Y.ToString();
+            TravelWpW.Text          = tc.WaypointSearchArea.Width.ToString();
+            TravelWpH.Text          = tc.WaypointSearchArea.Height.ToString();
+            TravelLocX.Text         = tc.LocationButtonArea.X.ToString();
+            TravelLocY.Text         = tc.LocationButtonArea.Y.ToString();
+            TravelLocW.Text         = tc.LocationButtonArea.Width.ToString();
+            TravelLocH.Text         = tc.LocationButtonArea.Height.ToString();
+            TravelWpDelayBox.Text   = tc.AfterWaypointDelayMs.ToString();
             TravelLoadDelayBox.Text = tc.LoadingDelayMs.ToString();
         }
 
@@ -222,10 +224,13 @@ public partial class PipelineStepDialog : Window
                     int.TryParse(TravelWpY.Text, out var wpy) ? wpy : 0,
                     int.TryParse(TravelWpW.Text, out var wpw) ? wpw : 400,
                     int.TryParse(TravelWpH.Text, out var wph) ? wph : 200),
-                LocationButtonX     = int.TryParse(TravelLocX.Text, out var lx) ? lx : 0,
-                LocationButtonY     = int.TryParse(TravelLocY.Text, out var ly) ? ly : 0,
-                AfterWaypointDelayMs = int.TryParse(TravelWpDelayBox.Text, out var wdms) ? wdms : 800,
-                LoadingDelayMs      = int.TryParse(TravelLoadDelayBox.Text, out var ldms) ? ldms : 3000,
+                LocationButtonArea = new ScreenRect(
+                    int.TryParse(TravelLocX.Text, out var lx) ? lx : 0,
+                    int.TryParse(TravelLocY.Text, out var ly) ? ly : 0,
+                    int.TryParse(TravelLocW.Text, out var lw) ? lw : 100,
+                    int.TryParse(TravelLocH.Text, out var lh) ? lh : 40),
+                AfterWaypointDelayMs = int.TryParse(TravelWpDelayBox.Text, out var wdms) ? wdms : 10000,
+                LoadingDelayMs       = int.TryParse(TravelLoadDelayBox.Text, out var ldms) ? ldms : 15000,
             };
         }
         else
@@ -357,23 +362,16 @@ public partial class PipelineStepDialog : Window
         TravelWpH.Text = r.Height.ToString();
     }
 
-    private async void TravelPickLocBtn_Click(object sender, RoutedEventArgs e)
+    private void TravelPickLocBtn_Click(object sender, RoutedEventArgs e)
     {
-        TravelPickLocBtn.IsEnabled = false;
-        for (var i = 3; i >= 1; i--)
-        {
-            TravelPickLocHint.Text = $"Наведите курсор… {i}";
-            await Task.Delay(1000);
-        }
-
-        TravelPickLocHint.Text = "";
-        TravelPickLocBtn.IsEnabled = true;
-
-        if (!GameHelper.Native.Win32Input.TryGetCursorPos(out var x, out var y))
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r)
             return;
 
-        TravelLocX.Text = x.ToString();
-        TravelLocY.Text = y.ToString();
+        TravelLocX.Text = r.X.ToString();
+        TravelLocY.Text = r.Y.ToString();
+        TravelLocW.Text = r.Width.ToString();
+        TravelLocH.Text = r.Height.ToString();
     }
 
     // ── OK ────────────────────────────────────────────────────────────────────

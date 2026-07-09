@@ -72,11 +72,8 @@ public sealed class TravelActionConfig
     /// <summary>Область экрана, в которой ищем надпись «Waypoint» через OCR.</summary>
     public ScreenRect WaypointSearchArea { get; set; }
 
-    /// <summary>X-координата кнопки перехода к нужной локации (абсолютные экранные координаты).</summary>
-    public int LocationButtonX { get; set; }
-
-    /// <summary>Y-координата кнопки перехода к нужной локации (абсолютные экранные координаты).</summary>
-    public int LocationButtonY { get; set; }
+    /// <summary>Область кнопки перехода к нужной локации — клик по центру.</summary>
+    public ScreenRect LocationButtonArea { get; set; }
 
     /// <summary>Задержка после клика по Waypoint (мс): ждём открытия меню.</summary>
     public int AfterWaypointDelayMs { get; set; } = 10000;

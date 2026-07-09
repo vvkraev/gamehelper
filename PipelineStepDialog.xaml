@@ -155,9 +155,13 @@
                                 Click="TravelPickWaypointAreaBtn_Click"/>
 
                         <!-- Кнопка локации -->
-                        <TextBlock Text="Кнопка перехода к локации" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock Text="Область кнопки перехода к локации" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <Grid Margin="0,0,0,4">
                             <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="70"/>
                                 <ColumnDefinition Width="60"/>
                                 <ColumnDefinition Width="70"/>
                                 <ColumnDefinition Width="60"/>
@@ -167,15 +171,15 @@
                             <TextBox   Grid.Column="1" x:Name="TravelLocX" Text="0" Margin="0,2" Padding="4,2"/>
                             <TextBlock Grid.Column="2" Text="Y:" VerticalAlignment="Center" Margin="4,0,0,0"/>
                             <TextBox   Grid.Column="3" x:Name="TravelLocY" Text="0" Margin="0,2" Padding="4,2"/>
+                            <TextBlock Grid.Column="4" Text="Шир.:" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            <TextBox   Grid.Column="5" x:Name="TravelLocW" Text="100" Margin="0,2" Padding="4,2"/>
+                            <TextBlock Grid.Column="6" Text="Выс.:" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            <TextBox   Grid.Column="7" x:Name="TravelLocH" Text="40" Margin="0,2" Padding="4,2"/>
                         </Grid>
-                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
-                            <Button x:Name="TravelPickLocBtn"
-                                    Content="🖱 Запомнить позицию курсора (3 сек.)"
-                                    Padding="8,4" Margin="0,0,8,0"
-                                    Click="TravelPickLocBtn_Click"/>
-                            <TextBlock x:Name="TravelPickLocHint" Text="" VerticalAlignment="Center"
-                                       FontSize="11" Foreground="#888"/>
-                        </StackPanel>
+                        <Button x:Name="TravelPickLocBtn"
+                                Content="🖱 Выделить область кнопки локации…"
+                                HorizontalAlignment="Left" Padding="8,4" Margin="0,0,0,10"
+                                Click="TravelPickLocBtn_Click"/>
 
                         <!-- Задержки -->
                         <Grid>

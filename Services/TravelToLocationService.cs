@@ -49,9 +49,10 @@ public sealed class TravelToLocationService
 
         ct.ThrowIfCancellationRequested();
 
-        // Кликаем по кнопке перехода к локации
-        log?.Report($"[Travel] Клик по кнопке локации ({config.LocationButtonX}, {config.LocationButtonY})…");
-        Win32Input.MoveTo(config.LocationButtonX, config.LocationButtonY);
+        // Кликаем по кнопке перехода к локации (центр области)
+        var (lx, ly) = config.LocationButtonArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+        log?.Report($"[Travel] Клик по кнопке локации ({lx}, {ly})…");
+        Win32Input.MoveTo(lx, ly);
         await DelayAsync(_mouseDelayMs, ct).ConfigureAwait(false);
         Win32Input.ClickLeft();
 
