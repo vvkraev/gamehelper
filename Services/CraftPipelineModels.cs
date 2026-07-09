@@ -19,6 +19,11 @@ public enum PipelineAction
     DeliriumLiquid,
     /// <summary>Показывает сообщение пользователю и ждёт нажатия «Продолжить».</summary>
     ManualPause,
+    /// <summary>
+    /// Переход между локациями: ищет «Waypoint» через OCR в заданной области → клик,
+    /// задержка, клик по кнопке перехода (фиксированные координаты), задержка загрузки.
+    /// </summary>
+    TravelToLocation,
 }
 
 public enum TransitionTarget
@@ -61,6 +66,25 @@ public sealed class OmenActionConfig
     public int InventoryCol { get; set; }
 }
 
+/// <summary>Конфигурация перехода между локациями через Waypoint.</summary>
+public sealed class TravelActionConfig
+{
+    /// <summary>Область экрана, в которой ищем надпись «Waypoint» через OCR.</summary>
+    public ScreenRect WaypointSearchArea { get; set; }
+
+    /// <summary>X-координата кнопки перехода к нужной локации (абсолютные экранные координаты).</summary>
+    public int LocationButtonX { get; set; }
+
+    /// <summary>Y-координата кнопки перехода к нужной локации (абсолютные экранные координаты).</summary>
+    public int LocationButtonY { get; set; }
+
+    /// <summary>Задержка после клика по Waypoint (мс): ждём открытия меню.</summary>
+    public int AfterWaypointDelayMs { get; set; } = 800;
+
+    /// <summary>Задержка после клика по кнопке локации (мс): ждём загрузки карты.</summary>
+    public int LoadingDelayMs { get; set; } = 3000;
+}
+
 public sealed class CraftPipelineStep
 {
     public string Name { get; set; } = "";
@@ -71,6 +95,9 @@ public sealed class CraftPipelineStep
 
     /// <summary>Параметры масла делириума — используется только при <see cref="PipelineAction.DeliriumLiquid"/>.</summary>
     public DeliriumLiquidActionConfig? DeliriumLiquidConfig { get; set; }
+
+    /// <summary>Параметры перехода между локациями — используется только при <see cref="PipelineAction.TravelToLocation"/>.</summary>
+    public TravelActionConfig? TravelConfig { get; set; }
 
     /// <summary>Проверяется до выполнения действия. Если false → переход по <see cref="OnFailure"/>.</summary>
     public CraftConditionPlan? EntryCondition { get; set; }

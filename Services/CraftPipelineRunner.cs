@@ -85,6 +85,7 @@ public sealed class CraftPipelineRunner
     private readonly IDivineCraftService? _divine;
     private readonly IExaltationCraftService? _exalt;
     private readonly OmenActivationService? _omen;
+    private readonly TravelToLocationService _travel = new();
 
     // Текущая активная вкладка стэша в рамках одного RunAsync; default = неизвестно.
     private ScreenRect _currentStashTab;
@@ -264,6 +265,7 @@ public sealed class CraftPipelineRunner
             PipelineAction.SimpleChaos => await ExecuteSimpleChaosAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.OmenActivation => await ExecuteOmenActivationAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.DeliriumLiquid => await ExecuteDeliriumLiquidAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.TravelToLocation => await ExecuteTravelAsync(step, log, ct).ConfigureAwait(false),
             PipelineAction.ManualPause => StepOutcome.Success(),
             _ => StepOutcome.Failure(),
         };
@@ -515,6 +517,20 @@ public sealed class CraftPipelineRunner
         await Task.Delay(300, ct).ConfigureAwait(false);
 
         return StepOutcome.Success(1);
+    }
+
+    private async Task<StepOutcome> ExecuteTravelAsync(
+        CraftPipelineStep step, IProgress<string>? log, CancellationToken ct)
+    {
+        var cfg = step.TravelConfig;
+        if (cfg is null)
+        {
+            log?.Report("[Travel] Конфигурация перехода не задана. Настройте шаг.");
+            return StepOutcome.Failure();
+        }
+
+        var ok = await _travel.TravelAsync(cfg, log, ct).ConfigureAwait(false);
+        return ok ? StepOutcome.Success(1) : StepOutcome.Failure();
     }
 
     /// <summary>

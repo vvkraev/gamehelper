@@ -77,6 +77,7 @@ public partial class PipelineStepDialog : Window
         PipelineAction.OmenActivation,
         PipelineAction.DeliriumLiquid,
         PipelineAction.ManualPause,
+        PipelineAction.TravelToLocation,
     ];
 
     // Mapping: ComboBox index → TransitionTarget
@@ -146,6 +147,19 @@ public partial class PipelineStepDialog : Window
         var savedId = Step.DeliriumLiquidConfig?.LiquidName ?? "";
         DeliriumLiquidCombo.SelectedItem = deliriumItems.FirstOrDefault(i => i.Id == savedId);
 
+        // TravelConfig
+        if (Step.TravelConfig is { } tc)
+        {
+            TravelWpX.Text        = tc.WaypointSearchArea.X.ToString();
+            TravelWpY.Text        = tc.WaypointSearchArea.Y.ToString();
+            TravelWpW.Text        = tc.WaypointSearchArea.Width.ToString();
+            TravelWpH.Text        = tc.WaypointSearchArea.Height.ToString();
+            TravelLocX.Text       = tc.LocationButtonX.ToString();
+            TravelLocY.Text       = tc.LocationButtonY.ToString();
+            TravelWpDelayBox.Text = tc.AfterWaypointDelayMs.ToString();
+            TravelLoadDelayBox.Text = tc.LoadingDelayMs.ToString();
+        }
+
         EntryNegateChk.IsChecked = _entry.Negate;
         LoopNegateChk.IsChecked  = _loop.Negate;
         RefreshConditionSummaries();
@@ -199,6 +213,26 @@ public partial class PipelineStepDialog : Window
             Step.DeliriumLiquidConfig = null;
         }
 
+        if (Step.Action == PipelineAction.TravelToLocation)
+        {
+            Step.TravelConfig = new Services.TravelActionConfig
+            {
+                WaypointSearchArea = new ScreenRect(
+                    int.TryParse(TravelWpX.Text, out var wpx) ? wpx : 0,
+                    int.TryParse(TravelWpY.Text, out var wpy) ? wpy : 0,
+                    int.TryParse(TravelWpW.Text, out var wpw) ? wpw : 400,
+                    int.TryParse(TravelWpH.Text, out var wph) ? wph : 200),
+                LocationButtonX     = int.TryParse(TravelLocX.Text, out var lx) ? lx : 0,
+                LocationButtonY     = int.TryParse(TravelLocY.Text, out var ly) ? ly : 0,
+                AfterWaypointDelayMs = int.TryParse(TravelWpDelayBox.Text, out var wdms) ? wdms : 800,
+                LoadingDelayMs      = int.TryParse(TravelLoadDelayBox.Text, out var ldms) ? ldms : 3000,
+            };
+        }
+        else
+        {
+            Step.TravelConfig = null;
+        }
+
         _entry.Negate = EntryNegateChk.IsChecked == true;
         _loop.Negate  = LoopNegateChk.IsChecked  == true;
         Step.EntryCondition = HasClauses(_entry) ? _entry : null;
@@ -229,6 +263,9 @@ public partial class PipelineStepDialog : Window
             ? Visibility.Visible
             : Visibility.Collapsed;
         DeliriumLiquidConfigPanel.Visibility = action == PipelineAction.DeliriumLiquid
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        TravelConfigPanel.Visibility = action == PipelineAction.TravelToLocation
             ? Visibility.Visible
             : Visibility.Collapsed;
     }
