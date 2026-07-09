@@ -63,6 +63,20 @@ public partial class PipelineStepDialog : Window
         "Omen of Secret Compartments",
     ];
 
+    internal static readonly (string Id, string DisplayName)[] AbyssKnownBones =
+    [
+        ("ancient_jawbone",    "Ancient Jawbone"),
+        ("gnawed_jawbone",     "Gnawed Jawbone"),
+        ("preserved_jawbone",  "Preserved Jawbone"),
+        ("ancient_collarbone", "Ancient Collarbone"),
+        ("gnawed_collarbone",  "Gnawed Collarbone"),
+        ("preserved_collarbone", "Preserved Collarbone"),
+        ("ancient_rib",        "Ancient Rib"),
+        ("gnawed_rib",         "Gnawed Rib"),
+        ("preserved_rib",      "Preserved Rib"),
+        ("preserved_cranium",  "Preserved Cranium"),
+    ];
+
     // Mapping: ComboBox index → PipelineAction
     private static readonly PipelineAction[] ActionMap =
     [
@@ -78,6 +92,7 @@ public partial class PipelineStepDialog : Window
         PipelineAction.DeliriumLiquid,
         PipelineAction.ManualPause,
         PipelineAction.TravelToLocation,
+        PipelineAction.SimpleAbyssalBone,
     ];
 
     // Mapping: ComboBox index → TransitionTarget
@@ -146,6 +161,11 @@ public partial class PipelineStepDialog : Window
         DeliriumLiquidCombo.ItemsSource = deliriumItems;
         var savedId = Step.DeliriumLiquidConfig?.LiquidName ?? "";
         DeliriumLiquidCombo.SelectedItem = deliriumItems.FirstOrDefault(i => i.Id == savedId);
+
+        // AbyssalBone
+        var bones = AbyssKnownBones;
+        AbyssalBoneCombo.ItemsSource = bones;
+        AbyssalBoneCombo.SelectedItem = bones.FirstOrDefault(b => b.Id == (Step.AbyssalBoneId ?? ""));
 
         // TravelConfig
         if (Step.TravelConfig is { } tc)
@@ -216,6 +236,10 @@ public partial class PipelineStepDialog : Window
             Step.DeliriumLiquidConfig = null;
         }
 
+        Step.AbyssalBoneId = Step.Action == PipelineAction.SimpleAbyssalBone
+            ? (AbyssalBoneCombo.SelectedItem as (string Id, string DisplayName)?)?.Id ?? ""
+            : null;
+
         if (Step.Action == PipelineAction.TravelToLocation)
         {
             Step.TravelConfig = new Services.TravelActionConfig
@@ -273,6 +297,9 @@ public partial class PipelineStepDialog : Window
             ? Visibility.Visible
             : Visibility.Collapsed;
         TravelConfigPanel.Visibility = action == PipelineAction.TravelToLocation
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        AbyssalBoneConfigPanel.Visibility = action == PipelineAction.SimpleAbyssalBone
             ? Visibility.Visible
             : Visibility.Collapsed;
     }

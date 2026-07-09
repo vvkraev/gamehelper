@@ -6757,5 +6757,9 @@ public partial class MainWindow : Window
             DeliriumItemRegions      = _deliriumItemRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_deliriumItemRegions)
                 : new Dictionary<string, ScreenRect>(),
+            AbyssInventoryRegion     = _abyssInventoryRect,
+            AbyssItemRegions         = _abyssItemRegions.Count > 0
+                ? new Dictionary<string, ScreenRect>(_abyssItemRegions)
+                : new Dictionary<string, ScreenRect>(),
         };
 }

@@ -43,6 +43,7 @@
                     <ComboBoxItem Content="DeliriumLiquid — применить масло делириума"/>
                     <ComboBoxItem Content="ManualPause — пауза (успех без действий)"/>
                     <ComboBoxItem Content="TravelToLocation — переход между локациями через Waypoint"/>
+                    <ComboBoxItem Content="SimpleAbyssalBone — применить одну Abyssal Bone"/>
                 </ComboBox>
 
                 <!-- Максимум итераций -->
@@ -210,6 +211,31 @@
                             <TextBlock Grid.Row="1" Text="Задержка загрузки (мс):" VerticalAlignment="Center"/>
                             <TextBox   Grid.Row="1" Grid.Column="1" x:Name="TravelLoadDelayBox" Text="15000"
                                        Width="80" HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- AbyssalBone (только для SimpleAbyssalBone) -->
+                <Border x:Name="AbyssalBoneConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Конфигурация Abyssal Bone" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock Text="Кость берётся из вкладки Abyss стэша. Область задаётся в «Настройки областей → Abyss»."
+                                   FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Кость:" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Column="1" x:Name="AbyssalBoneCombo"
+                                      Margin="0,3" DisplayMemberPath="DisplayName"/>
                         </Grid>
                     </StackPanel>
                 </Border>

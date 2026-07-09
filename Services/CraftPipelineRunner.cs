@@ -55,6 +55,11 @@ public sealed record PipelineScreenConfig
     public IReadOnlyList<ScreenRect> FullInventoryCells { get; init; } = Array.Empty<ScreenRect>();
     public int InventoryGridColumns { get; init; } = 12;
 
+    // Abyss-вкладка и ячейки предметов (кости, некоторые омены)
+    public ScreenRect AbyssInventoryRegion { get; init; }
+    public IReadOnlyDictionary<string, ScreenRect> AbyssItemRegions { get; init; } =
+        new Dictionary<string, ScreenRect>(StringComparer.OrdinalIgnoreCase);
+
     // Omen-регионы для ExaltCraft (опционально)
     public IReadOnlyList<ScreenRect> ExaltOmenSinistralCells { get; init; } = Array.Empty<ScreenRect>();
     public IReadOnlyList<ScreenRect> ExaltOmenDextralCells { get; init; } = Array.Empty<ScreenRect>();
@@ -270,6 +275,7 @@ public sealed class CraftPipelineRunner
             PipelineAction.OmenActivation => await ExecuteOmenActivationAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.DeliriumLiquid => await ExecuteDeliriumLiquidAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.TravelToLocation => await ExecuteTravelAsync(step, log, ct).ConfigureAwait(false),
+            PipelineAction.SimpleAbyssalBone => await ExecuteSimpleAbyssalBoneAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.ManualPause => StepOutcome.Success(),
             _ => StepOutcome.Failure(),
         };
@@ -516,6 +522,44 @@ public sealed class CraftPipelineRunner
         // ЛКМ на предмет
         var (ix, iy) = screen.ItemArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
         log?.Report($"[Delirium] ЛКМ предмет ({ix},{iy})…");
+        Win32Input.MoveTo(ix, iy);
+        await Task.Delay(150, ct).ConfigureAwait(false);
+        Win32Input.ClickLeft();
+        await Task.Delay(300, ct).ConfigureAwait(false);
+
+        return StepOutcome.Success(1);
+    }
+
+    private async Task<StepOutcome> ExecuteSimpleAbyssalBoneAsync(
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+    {
+        var boneId = step.AbyssalBoneId;
+        if (string.IsNullOrWhiteSpace(boneId))
+        {
+            log?.Report("[Bone] Не выбрана кость. Настройте шаг.");
+            return StepOutcome.Failure();
+        }
+
+        if (!screen.AbyssItemRegions.TryGetValue(boneId, out var boneRect) || boneRect == default)
+        {
+            log?.Report($"[Bone] Кость «{boneId}» не настроена (нет в AbyssItemRegions). Настройте область в «Настройки областей → Abyss».");
+            return StepOutcome.Failure();
+        }
+
+        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
+            return StepOutcome.Failure();
+
+        await SwitchStashTabAsync(screen.AbyssInventoryRegion, log, ct, "Abyss").ConfigureAwait(false);
+
+        var (bx, by) = boneRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+        log?.Report($"[Bone] ПКМ кость «{boneId}» ({bx},{by})…");
+        Win32Input.MoveTo(bx, by);
+        await Task.Delay(150, ct).ConfigureAwait(false);
+        Win32Input.ClickRight();
+        await Task.Delay(300, ct).ConfigureAwait(false);
+
+        var (ix, iy) = screen.ItemArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+        log?.Report($"[Bone] ЛКМ предмет ({ix},{iy})…");
         Win32Input.MoveTo(ix, iy);
         await Task.Delay(150, ct).ConfigureAwait(false);
         Win32Input.ClickLeft();

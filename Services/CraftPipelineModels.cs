@@ -24,6 +24,8 @@ public enum PipelineAction
     /// задержка, клик по кнопке перехода (фиксированные координаты), задержка загрузки.
     /// </summary>
     TravelToLocation,
+    /// <summary>ПКМ на Abyssal Bone из вкладки Abyss стэша, ЛКМ на предмет.</summary>
+    SimpleAbyssalBone,
 }
 
 public enum TransitionTarget
@@ -101,6 +103,9 @@ public sealed class CraftPipelineStep
 
     /// <summary>Параметры перехода между локациями — используется только при <see cref="PipelineAction.TravelToLocation"/>.</summary>
     public TravelActionConfig? TravelConfig { get; set; }
+
+    /// <summary>Id кости (из AbyssKnownItems) — используется только при <see cref="PipelineAction.SimpleAbyssalBone"/>.</summary>
+    public string? AbyssalBoneId { get; set; }
 
     /// <summary>Проверяется до выполнения действия. Если false → переход по <see cref="OnFailure"/>.</summary>
     public CraftConditionPlan? EntryCondition { get; set; }
