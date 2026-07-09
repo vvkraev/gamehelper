@@ -6356,32 +6356,7 @@ public partial class MainWindow : Window
 
         var runner = BuildPipelineRunner();
 
-        var mouseDelay    = int.TryParse(MouseActionDelayMs.Text, out var md) ? md : 80;
-        var clipDelay     = int.TryParse(ClipboardDelayMs.Text,    out var cd) ? cd : 220;
-        var divineHover   = Math.Clamp(clipDelay / 2, 80, 220);
-        var traceInput    = TraceInputCheckBox.IsChecked == true;
-
-        // Настраиваем задержки сервисов
-        _craft.MouseActionDelayMs = mouseDelay;
-        _craft.ClipboardDelayMs   = clipDelay;
-        _craft.TraceInputToLog    = traceInput;
-
-        _divineCraft.MouseActionDelayMs          = mouseDelay;
-        _divineCraft.ClipboardDelayMs            = clipDelay;
-        _divineCraft.HoverSettleBeforeClipboardMs = divineHover;
-        _divineCraft.TraceInputToLog             = traceInput;
-
-        _augAnnulCraft.MouseActionDelayMs = mouseDelay;
-        _augAnnulCraft.ClipboardDelayMs   = clipDelay;
-        _augAnnulCraft.TraceInputToLog    = traceInput;
-
-        _exaltCraft.MouseActionDelayMs = mouseDelay;
-        _exaltCraft.ClipboardDelayMs   = clipDelay;
-        _exaltCraft.TraceInputToLog    = traceInput;
-
-        _omen.MouseActionDelayMs = mouseDelay;
-        _omen.ClipboardDelayMs   = clipDelay;
-        _omen.TraceInputToLog    = traceInput;
+        ApplyCraftServiceDelays();
 
         IProgress<string> progress = new Progress<string>(msg =>
         {
@@ -6438,6 +6413,114 @@ public partial class MainWindow : Window
     private void PipelineStopBtn_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         _pipelineCts?.Cancel();
+    }
+
+    private async void PipelineBatchStartBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (_currentPipeline.Steps.Count == 0)
+        {
+            System.Windows.MessageBox.Show("Рецепт пуст — добавьте хотя бы один шаг.", "Батч",
+                System.Windows.MessageBoxButton.OK);
+            return;
+        }
+        if (_pipelineItemCells.Count == 0)
+        {
+            System.Windows.MessageBox.Show("Задайте сетку предметов (кнопка «Задать сетку»).", "Батч",
+                System.Windows.MessageBoxButton.OK);
+            return;
+        }
+
+        _pipelineCts = new CancellationTokenSource();
+        _vm.IsPipelineRunning = true;
+        _vm.PipelineStatusText = "Батч…";
+        TryRegisterCraftCancelHotkey();
+        PipelineLogBox.Clear();
+        PipelineBatchStatusText.Text = $"0 Done / 0 Failed / {_pipelineItemCells.Count} Active";
+        MinimizeToTrayOnStart();
+
+        ApplyCraftServiceDelays();
+
+        var batchRunner = new Services.BatchPipelineRunner(BuildPipelineRunner(), _craft);
+        var screenTemplate = BuildPipelineScreenConfig();
+
+        var doneCount   = 0;
+        var failedCount = 0;
+        var total       = _pipelineItemCells.Count;
+
+        IProgress<string> progress = new Progress<string>(msg =>
+        {
+            SessionLogger.Info(msg);
+            PipelineLogAppend(msg);
+            _vm.PipelineStatusText = msg;
+
+            if (msg.Contains("]: Done"))
+                System.Threading.Interlocked.Increment(ref doneCount);
+            else if (msg.Contains("]: Failed"))
+                System.Threading.Interlocked.Increment(ref failedCount);
+
+            var d = doneCount; var f = failedCount;
+            Dispatcher.BeginInvoke(() =>
+                PipelineBatchStatusText.Text = $"{d} Done / {f} Failed / {total - d - f} Active");
+        });
+
+        Services.BatchRunResult result = new() { Items = Array.Empty<Services.BatchItem>() };
+        try
+        {
+            await Task.Delay(600, _pipelineCts.Token).ConfigureAwait(false);
+            ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+            await Task.Delay(300, _pipelineCts.Token).ConfigureAwait(false);
+
+            result = await batchRunner.RunAsync(
+                _currentPipeline, screenTemplate, _pipelineItemCells, progress, _pipelineCts.Token)
+                .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            PipelineLogAppend($"[Ошибка] {ex.Message}");
+        }
+        finally
+        {
+            UnregisterCraftCancelHotkey();
+            _pipelineCts!.Dispose();
+            _pipelineCts = null;
+            _vm.IsPipelineRunning = false;
+        }
+
+        var summary = $"Батч завершён: Done={result.DoneCount}, Failed={result.FailedCount}, Итого={total}";
+        _vm.PipelineStatusText = summary;
+        PipelineLogAppend(summary);
+        Dispatcher.BeginInvoke(() =>
+            PipelineBatchStatusText.Text = $"{result.DoneCount} Done / {result.FailedCount} Failed / {total} итого");
+    }
+
+    private void ApplyCraftServiceDelays()
+    {
+        var mouseDelay  = int.TryParse(MouseActionDelayMs.Text, out var md) ? md : 80;
+        var clipDelay   = int.TryParse(ClipboardDelayMs.Text,   out var cd) ? cd : 220;
+        var divineHover = Math.Clamp(clipDelay / 2, 80, 220);
+        var traceInput  = TraceInputCheckBox.IsChecked == true;
+
+        _craft.MouseActionDelayMs = mouseDelay;
+        _craft.ClipboardDelayMs   = clipDelay;
+        _craft.TraceInputToLog    = traceInput;
+
+        _divineCraft.MouseActionDelayMs           = mouseDelay;
+        _divineCraft.ClipboardDelayMs             = clipDelay;
+        _divineCraft.HoverSettleBeforeClipboardMs = divineHover;
+        _divineCraft.TraceInputToLog              = traceInput;
+
+        _augAnnulCraft.MouseActionDelayMs = mouseDelay;
+        _augAnnulCraft.ClipboardDelayMs   = clipDelay;
+        _augAnnulCraft.TraceInputToLog    = traceInput;
+
+        _exaltCraft.MouseActionDelayMs = mouseDelay;
+        _exaltCraft.ClipboardDelayMs   = clipDelay;
+        _exaltCraft.TraceInputToLog    = traceInput;
+
+        _omen.MouseActionDelayMs = mouseDelay;
+        _omen.ClipboardDelayMs   = clipDelay;
+        _omen.TraceInputToLog    = traceInput;
     }
 
     private async void PipelineDetectStepBtn_Click(object sender, System.Windows.RoutedEventArgs e)
