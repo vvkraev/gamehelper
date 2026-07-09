@@ -23,6 +23,10 @@ public sealed class TravelToLocationService
     {
         ct.ThrowIfCancellationRequested();
 
+        // Отпускаем Ctrl/Alt перед навигацией — иначе на экране остаётся всплывающее окно предмета
+        Win32Input.ReleaseCtrlAlt();
+        await DelayAsync(_mouseDelayMs, ct).ConfigureAwait(false);
+
         // Логируем оба прохода OCR (1× и 2×) для диагностики
         log?.Report("[Travel] Поиск «Waypoint» через OCR…");
         var raw1 = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(
