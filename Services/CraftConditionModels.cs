@@ -61,6 +61,16 @@ public enum CraftClauseKind
 
     /// <summary>Счётчик аффиксов на предмете: общих, префиксов или суффиксов — должно быть ≥ Min (и ≤ Max, если задан).</summary>
     AffixCount,
+
+    /// <summary>На предмете есть нераскрытый десекрейт-слот (Prefix "Veiled" + "Desecrated Prefix/Suffix").</summary>
+    HasDesecrate,
+}
+
+public enum DesecrateSide
+{
+    Any,
+    Prefix,
+    Suffix,
 }
 
 public enum AffixCountScope
@@ -105,6 +115,9 @@ public sealed class CraftClause
     public CraftWholeModifierAffixData? Whole { get; set; }
 
     public AffixCountData? AffixCount { get; set; }
+
+    /// <summary>Для Kind=HasDesecrate: какой слот проверять — Prefix, Suffix или Any.</summary>
+    public DesecrateSide DesecrateSide { get; set; } = DesecrateSide.Any;
 }
 
 public sealed class CraftSingleAffixData

@@ -555,11 +555,27 @@ public partial class CraftConditionWindow : Window
             _plan.OrAlternatives.RemoveAt(orIndex);
             RefreshOrAlternativesUi();
         };
+        var addDesecrate = new WpfButton
+        {
+            Content = "Десекрейт",
+            Margin = new Thickness(0, 0, 8, 0),
+            Padding = new Thickness(8, 4, 8, 4),
+        };
+        addDesecrate.Click += (_, _) =>
+        {
+            group.Clauses.Add(new CraftClause
+            {
+                Kind = CraftClauseKind.HasDesecrate,
+                DesecrateSide = DesecrateSide.Any,
+            });
+            RefreshOrAlternativesUi();
+        };
         btns.Children.Add(addSingle);
         btns.Children.Add(addSum);
         btns.Children.Add(addCount);
         btns.Children.Add(addWhole);
         btns.Children.Add(addAffixCount);
+        btns.Children.Add(addDesecrate);
         btns.Children.Add(removeOr);
         sp.Children.Add(btns);
         gb.Content = sp;
@@ -809,6 +825,42 @@ public partial class CraftConditionWindow : Window
                 RefreshOrAlternativesUi();
             };
             panel.Children.Add(removeAcClause);
+        }
+        else if (clause.Kind == CraftClauseKind.HasDesecrate)
+        {
+            panel.Children.Add(new WpfTextBlock
+            {
+                Text = "Нераскрытый десекрейт-слот",
+                FontWeight = FontWeights.SemiBold,
+                Margin = new Thickness(0, 0, 0, 6),
+            });
+
+            var sideRow = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 6) };
+            sideRow.Children.Add(new WpfTextBlock { Text = "Слот:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 0) });
+            var rbAny = new System.Windows.Controls.RadioButton { Content = "любой",   IsChecked = clause.DesecrateSide == DesecrateSide.Any,    Margin = new Thickness(0, 0, 12, 0), VerticalAlignment = VerticalAlignment.Center };
+            var rbPre = new System.Windows.Controls.RadioButton { Content = "префикс", IsChecked = clause.DesecrateSide == DesecrateSide.Prefix, Margin = new Thickness(0, 0, 12, 0), VerticalAlignment = VerticalAlignment.Center };
+            var rbSuf = new System.Windows.Controls.RadioButton { Content = "суффикс", IsChecked = clause.DesecrateSide == DesecrateSide.Suffix, VerticalAlignment = VerticalAlignment.Center };
+            rbAny.Checked += (_, _) => clause.DesecrateSide = DesecrateSide.Any;
+            rbPre.Checked += (_, _) => clause.DesecrateSide = DesecrateSide.Prefix;
+            rbSuf.Checked += (_, _) => clause.DesecrateSide = DesecrateSide.Suffix;
+            sideRow.Children.Add(rbAny);
+            sideRow.Children.Add(rbPre);
+            sideRow.Children.Add(rbSuf);
+            panel.Children.Add(sideRow);
+
+            var removeDesClause = new WpfButton
+            {
+                Content = "Удалить условие «Десекрейт»",
+                Margin = new Thickness(0, 4, 0, 0),
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                Padding = new Thickness(8, 2, 8, 2),
+            };
+            removeDesClause.Click += (_, _) =>
+            {
+                group.Clauses.Remove(clause);
+                RefreshOrAlternativesUi();
+            };
+            panel.Children.Add(removeDesClause);
         }
 
         return new WpfBorder { BorderBrush = System.Windows.Media.Brushes.LightGray, BorderThickness = new Thickness(1), Padding = new Thickness(8), Child = panel };

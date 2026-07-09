@@ -258,6 +258,10 @@ public static class CraftConditionEvaluator
                         return false;
                     }
                 }
+                else if (c.Kind == CraftClauseKind.HasDesecrate)
+                {
+                    // Нет дополнительных данных для валидации — DesecrateSide достаточно.
+                }
                 else
                 {
                     error = $"Неизвестный тип клоза в варианте {altIndex}.";
@@ -461,6 +465,26 @@ public static class CraftConditionEvaluator
                 var rangeStr = ac.Max > 0 ? $"{ac.Min}–{ac.Max}" : $"≥{ac.Min}";
                 rawDetail = $"Количество {scopeName}: {cnt} ({(inRange ? "выполнено" : $"нужно {rangeStr}")})";
                 sbEntry = $"{(ac.Scope == AffixCountScope.Prefixes ? "P" : ac.Scope == AffixCountScope.Suffixes ? "S" : "A")}({cnt}){rangeStr}";
+            }
+            else if (clause.Kind == CraftClauseKind.HasDesecrate)
+            {
+                var side = clause.DesecrateSide;
+                rawOk = item.Affixes.Any(a => a.IsUnrevealedDesecrate && side switch
+                {
+                    DesecrateSide.Prefix => a.Type.Contains("Prefix", StringComparison.OrdinalIgnoreCase),
+                    DesecrateSide.Suffix => a.Type.Contains("Suffix", StringComparison.OrdinalIgnoreCase),
+                    _                    => true,
+                });
+                var sideLabel = side switch
+                {
+                    DesecrateSide.Prefix => "префикс",
+                    DesecrateSide.Suffix => "суффикс",
+                    _                    => "любой слот",
+                };
+                rawDetail = rawOk
+                    ? $"Нераскрытый десекрейт ({sideLabel}) — обнаружен"
+                    : $"Нераскрытый десекрейт ({sideLabel}) — не обнаружен";
+                sbEntry = $"Desecrate({sideLabel})";
             }
             else
             {
@@ -820,6 +844,16 @@ public static class CraftConditionEvaluator
                     };
                     var rangeStr = ac.Max > 0 ? $"{ac.Min}–{ac.Max}" : $"≥{ac.Min}";
                     sb.Append($"{scopeLabel} {rangeStr}");
+                }
+                else if (c.Kind == CraftClauseKind.HasDesecrate)
+                {
+                    var sideLabel = c.DesecrateSide switch
+                    {
+                        DesecrateSide.Prefix => "P",
+                        DesecrateSide.Suffix => "S",
+                        _                    => "P|S",
+                    };
+                    sb.Append($"Desecrate({sideLabel})");
                 }
                 else
                     sb.Append('?');

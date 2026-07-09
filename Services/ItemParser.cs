@@ -14,6 +14,8 @@ public class AffixInfo
     public string Name { get; set; } = "";
     public int Tier { get; set; }
     public bool IsFractured { get; set; }
+    /// <summary>Нераскрытый десекрейт-слот: { Prefix/Suffix Modifier "Veiled" } + эффект "Desecrated Prefix/Suffix".</summary>
+    public bool IsUnrevealedDesecrate { get; set; }
     public List<string> Tags { get; set; } = new();
     public List<string> Effects { get; set; } = new();
     /// <summary>Разбор строк эффектов: значение, диапазон в скобках, текст стата.</summary>
@@ -317,6 +319,9 @@ public static class ItemParser
             {
                 currentAffix.Effects.Add(line);
                 currentAffix.EffectDetails.Add(ParseAffixEffectLine(line));
+                if (currentAffix.Name == "Veiled" &&
+                    (line == "Desecrated Prefix" || line == "Desecrated Suffix"))
+                    currentAffix.IsUnrevealedDesecrate = true;
             }
         }
 
