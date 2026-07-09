@@ -71,6 +71,34 @@ CraftConditionPlan
 
 ---
 
+## Пакетный крафт (BATCH-2) — архитектурное решение
+
+**Модель: барьерная синхронизация по стадиям.** Решение принято 2026-07-09.
+
+Предметы проходят пайплайн группами (stage-by-stage) с барьером на каждой стадии:
+- Все активные предметы проходят стадию N прежде чем любой из них переходит к N+1
+- Предмет, ушедший назад (OnFailure → StepIndex < N), ждёт на целевой стадии пока остальные активные предметы не придут туда же или не станут Done/Failed
+- «Вехи» (Desecrate, смена локации) — жёсткий барьер: все предметы должны быть готовы к этой стадии прежде чем делать переход; цель — одна поездка на весь батч
+
+**Алгоритм `BatchPipelineRunner`:**
+```
+while есть активные предметы (не Done/Failed):
+  for n in 0..N:
+    targetItems = items где DetectStep(item) == n
+    if empty: continue
+    if любой активный предмет на стадии < n: skip  ← барьер
+    setupOnce(n)   // открыть вкладку стеша / поехать в локацию
+    for item in targetItems:
+      result = runStep(item, n)
+      updateItemStage(item, result)  // с учётом OnSuccess/OnFailure переходов
+```
+
+**Статусы `BatchItem`:** `Pending` | `WaitingAt(stageIndex)` | `Done` | `Failed`
+
+**Реализация:** `Services/BatchPipelineRunner.cs` (BATCH-2b)
+
+---
+
 ## Git-ветки
 
 **Крупные задачи — в feature-ветке, не в `main`.**
