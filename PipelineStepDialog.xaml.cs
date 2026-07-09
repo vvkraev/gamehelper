@@ -158,6 +158,7 @@ public partial class PipelineStepDialog : Window
             TravelLocY.Text         = tc.LocationButtonArea.Y.ToString();
             TravelLocW.Text         = tc.LocationButtonArea.Width.ToString();
             TravelLocH.Text         = tc.LocationButtonArea.Height.ToString();
+            TravelWpOcrText.Text    = tc.WaypointOcrText;
             TravelWpDelayBox.Text   = tc.AfterWaypointDelayMs.ToString();
             TravelLoadDelayBox.Text = tc.LoadingDelayMs.ToString();
         }
@@ -229,6 +230,7 @@ public partial class PipelineStepDialog : Window
                     int.TryParse(TravelLocY.Text, out var ly) ? ly : 0,
                     int.TryParse(TravelLocW.Text, out var lw) ? lw : 100,
                     int.TryParse(TravelLocH.Text, out var lh) ? lh : 40),
+                WaypointOcrText      = TravelWpOcrText.Text.Trim(),
                 AfterWaypointDelayMs = int.TryParse(TravelWpDelayBox.Text, out var wdms) ? wdms : 10000,
                 LoadingDelayMs       = int.TryParse(TravelLoadDelayBox.Text, out var ldms) ? ldms : 15000,
             };

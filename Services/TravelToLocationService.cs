@@ -23,15 +23,21 @@ public sealed class TravelToLocationService
     {
         ct.ThrowIfCancellationRequested();
 
-        // Логируем сырой текст OCR для диагностики
+        // Логируем оба прохода OCR (1× и 2×) для диагностики
         log?.Report("[Travel] Поиск «Waypoint» через OCR…");
-        var rawText = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(
+        var raw1 = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(
             config.WaypointSearchArea, log: null, cancellationToken: ct).ConfigureAwait(false);
-        log?.Report($"[Travel] OCR видит: «{rawText.Replace('\n', ' ').Trim()}»");
+        log?.Report($"[Travel] OCR 1×: «{raw1.Replace('\n', ' ').Trim()}»");
 
+        using var bmp2 = Services.ScreenCaptureHelper.CaptureRegion(config.WaypointSearchArea);
+        using var bmp2x = Services.ScreenCaptureHelper.ScaleByIntegerFactor(bmp2, 2);
+        var raw2 = await WindowsOcrTextLocator.RecognizeBitmapCollapsedAsync(bmp2x, ct).ConfigureAwait(false);
+        log?.Report($"[Travel] OCR 2×: «{raw2.Replace('\n', ' ').Trim()}»");
+
+        var searchText = string.IsNullOrWhiteSpace(config.WaypointOcrText) ? "waypoint" : config.WaypointOcrText;
         var match = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(
             config.WaypointSearchArea,
-            "waypoint",
+            searchText,
             log: null,
             cancellationToken: ct).ConfigureAwait(false);
 

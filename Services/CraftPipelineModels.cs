@@ -75,6 +75,12 @@ public sealed class TravelActionConfig
     /// <summary>Область кнопки перехода к нужной локации — клик по центру.</summary>
     public ScreenRect LocationButtonArea { get; set; }
 
+    /// <summary>
+    /// Текст, который OCR ищет в <see cref="WaypointSearchArea"/> (нормализованный, без учёта регистра).
+    /// По умолчанию «waypoint». Изменить если в игре другая надпись.
+    /// </summary>
+    public string WaypointOcrText { get; set; } = "waypoint";
+
     /// <summary>Задержка после клика по Waypoint (мс): ждём открытия меню.</summary>
     public int AfterWaypointDelayMs { get; set; } = 10000;
 

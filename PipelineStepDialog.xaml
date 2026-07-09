@@ -149,10 +149,16 @@
                             <TextBlock Grid.Column="6" Text="Выс.:" VerticalAlignment="Center" Margin="4,0,0,0"/>
                             <TextBox   Grid.Column="7" x:Name="TravelWpH" Text="200" Margin="0,2" Padding="4,2"/>
                         </Grid>
-                        <Button x:Name="TravelPickWaypointAreaBtn"
-                                Content="🖱 Выделить область Waypoint…"
-                                HorizontalAlignment="Left" Padding="8,4" Margin="0,0,0,10"
-                                Click="TravelPickWaypointAreaBtn_Click"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <Button x:Name="TravelPickWaypointAreaBtn"
+                                    Content="🖱 Выделить область Waypoint…"
+                                    Padding="8,4" Margin="0,0,12,0"
+                                    Click="TravelPickWaypointAreaBtn_Click"/>
+                            <TextBlock Text="OCR текст:" VerticalAlignment="Center" Margin="0,0,4,0"/>
+                            <TextBox x:Name="TravelWpOcrText" Text="waypoint" Width="110" Padding="4,2"
+                                     VerticalAlignment="Center"
+                                     ToolTip="Текст, который OCR ищет в области. Без учёта регистра."/>
+                        </StackPanel>
 
                         <!-- Кнопка локации -->
                         <TextBlock Text="Область кнопки перехода к локации" FontWeight="SemiBold" Margin="0,0,0,4"/>
