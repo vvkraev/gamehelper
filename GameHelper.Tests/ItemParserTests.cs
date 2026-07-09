@@ -640,4 +640,67 @@ public sealed class ItemParserTests
 
         return ItemParser.Parse(text)!;
     }
+
+    // ── Крафтованные моды (Crafted Prefix/Suffix Modifier) ───────────────────
+
+    private const string SapphireWithCraftedSuffixSlotClipboard = """
+        Item Class: Jewels
+        Rarity: Rare
+        Gale Spark
+        Time-Lost Sapphire
+        --------
+        Radius: Small
+        --------
+        Item Level: 79
+        --------
+        { Fractured Suffix Modifier "of Potency" (Tier: 1) — Damage, Critical }
+        Notable Passive Skills in Radius also grant 7(5-10)% increased Critical Damage Bonus
+        { Suffix Modifier "of Osmosis" (Tier: 1) — Mana }
+        Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill
+        { Crafted Prefix Modifier }
+        +1 Suffix Modifier allowed
+        --------
+        Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+        --------
+        Fractured Item
+        """;
+
+    /// <summary>
+    /// Регрессия: ItemParser не распознавал «Crafted Prefix Modifier» → тип оставался пустым.
+    /// Фикс: добавлена обработка Crafted Prefix/Suffix Modifier в ParseAffixHeader.
+    /// </summary>
+    [Fact]
+    public void Parse_CraftedPrefixModifier_TypeSetCorrectly()
+    {
+        var item = ItemParser.Parse(SapphireWithCraftedSuffixSlotClipboard)!;
+
+        var crafted = item.Affixes.FirstOrDefault(a => a.Type == "Crafted Prefix Modifier");
+        Assert.NotNull(crafted);
+        Assert.Equal("+1 Suffix Modifier allowed", crafted.Effects[0]);
+    }
+
+    [Fact]
+    public void Parse_CraftedPrefixModifier_NameIsEmpty()
+    {
+        var item = ItemParser.Parse(SapphireWithCraftedSuffixSlotClipboard)!;
+
+        var crafted = item.Affixes.First(a => a.Type == "Crafted Prefix Modifier");
+        Assert.Equal("", crafted.Name);
+    }
+
+    [Fact]
+    public void Parse_CraftedPrefixModifier_TierIsZero()
+    {
+        var item = ItemParser.Parse(SapphireWithCraftedSuffixSlotClipboard)!;
+
+        var crafted = item.Affixes.First(a => a.Type == "Crafted Prefix Modifier");
+        Assert.Equal(0, crafted.Tier);
+    }
+
+    [Fact]
+    public void Parse_SapphireWithCraftedMod_HasThreeAffixes()
+    {
+        var item = ItemParser.Parse(SapphireWithCraftedSuffixSlotClipboard)!;
+        Assert.Equal(3, item.Affixes.Count);
+    }
 }

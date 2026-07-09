@@ -661,6 +661,19 @@ public partial class CraftConditionWindow : Window
             });
             panel.Children.Add(countRow);
 
+            var fracRow = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 8) };
+            var cbFrac = new System.Windows.Controls.CheckBox
+            {
+                Content = "Считать фрактурные моды",
+                IsChecked = cnt.IncludeFractured,
+                ToolTip = "Фрактурные аффиксы также засчитываются при подсчёте.\nВключайте, если фрактурный мод — один из желаемых целей (например, фрактурный CDS на TLS).",
+                VerticalAlignment = VerticalAlignment.Center,
+            };
+            cbFrac.Checked   += (_, _) => cnt.IncludeFractured = true;
+            cbFrac.Unchecked += (_, _) => cnt.IncludeFractured = false;
+            fracRow.Children.Add(cbFrac);
+            panel.Children.Add(fracRow);
+
             foreach (var mem in cnt.Members.ToList())
             {
                 var memPanel = new WpfStackPanel { Margin = new Thickness(0, 0, 0, 8) };

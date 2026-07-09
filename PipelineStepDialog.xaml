@@ -36,7 +36,10 @@
                     <ComboBoxItem Content="AugAnnulCraft — цикл Aug + Annul"/>
                     <ComboBoxItem Content="DivineCraft — цикл Divine Orb"/>
                     <ComboBoxItem Content="ExaltCraft — цикл Exalted Orb"/>
+                    <ComboBoxItem Content="SimpleExalt — применить экзальт один раз"/>
+                    <ComboBoxItem Content="SimpleAnnul — применить аннуль один раз"/>
                     <ComboBoxItem Content="OmenActivation — переложить омен и активировать"/>
+                    <ComboBoxItem Content="DeliriumLiquid — применить масло делириума"/>
                     <ComboBoxItem Content="ManualPause — пауза (успех без действий)"/>
                 </ComboBox>
 
@@ -87,18 +90,63 @@
                     </StackPanel>
                 </Border>
 
+                <!-- DeliriumLiquidConfig (только для DeliriumLiquid) -->
+                <Border x:Name="DeliriumLiquidConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Конфигурация масла делириума" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock Text="Выберите масло из списка настроенных предметов делириума."
+                                   FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Row="0" Text="Масло делириума:" VerticalAlignment="Center"/>
+                            <ComboBox  Grid.Row="0" Grid.Column="1" x:Name="DeliriumLiquidCombo"
+                                       Margin="0,3" DisplayMemberPath="DisplayName"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
                 <!-- Условия: EntryCondition / LoopUntil -->
                 <TextBlock Text="Условия" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
                     <Button x:Name="EditEntryBtn" Content="✎ EntryCondition…" Padding="8,4"
-                            Margin="0,0,8,0" Click="EditEntryBtn_Click"
+                            Margin="0,0,6,0" Click="EditEntryBtn_Click"
                             ToolTip="Условие, проверяемое ДО действия. Если не выполнено → OnFailure."/>
-                    <Button x:Name="EditLoopBtn" Content="✎ LoopUntil…" Padding="8,4"
-                            Click="EditLoopBtn_Click"
-                            ToolTip="Условие остановки цикла. Пока не выполнено — повторяем до MaxIterations."/>
+                    <Button x:Name="ClearEntryBtn" Content="✕" Padding="8,4" Margin="0,0,6,0"
+                            Click="ClearEntryBtn_Click" ToolTip="Убрать EntryCondition — шаг выполняется всегда"/>
+                    <Button x:Name="CopyEntryBtn" Content="Копировать" Padding="8,4" Margin="0,0,6,0"
+                            Click="CopyEntryBtn_Click" ToolTip="Скопировать EntryCondition в буфер"/>
+                    <Button x:Name="PasteEntryBtn" Content="Вставить" Padding="8,4"
+                            Click="PasteEntryBtn_Click" ToolTip="Вставить условие из буфера в EntryCondition"/>
                 </StackPanel>
+                <CheckBox x:Name="EntryNegateChk" Content="НЕ (инвертировать результат)"
+                          Margin="0,2,0,4"
+                          ToolTip="Когда включено — шаг выполняется, если условие НЕ выполнено (OnFailure — если выполнено)"/>
                 <TextBlock x:Name="EntryCondSummary" FontSize="11" Foreground="#666"
-                           Margin="0,0,0,2" TextWrapping="Wrap" Text="EntryCondition: (нет)"/>
+                           Margin="0,0,0,8" TextWrapping="Wrap" Text="EntryCondition: (нет)"/>
+                <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                    <Button x:Name="EditLoopBtn" Content="✎ LoopUntil…" Padding="8,4"
+                            Margin="0,0,6,0" Click="EditLoopBtn_Click"
+                            ToolTip="Условие остановки цикла. Пока не выполнено — повторяем до MaxIterations."/>
+                    <Button x:Name="ClearLoopBtn" Content="✕" Padding="8,4" Margin="0,0,6,0"
+                            Click="ClearLoopBtn_Click" ToolTip="Убрать LoopUntil — цикл идёт до MaxIterations без проверки"/>
+                    <Button x:Name="CopyLoopBtn" Content="Копировать" Padding="8,4" Margin="0,0,6,0"
+                            Click="CopyLoopBtn_Click" ToolTip="Скопировать LoopUntil в буфер"/>
+                    <Button x:Name="PasteLoopBtn" Content="Вставить" Padding="8,4"
+                            Click="PasteLoopBtn_Click" ToolTip="Вставить условие из буфера в LoopUntil"/>
+                </StackPanel>
+                <CheckBox x:Name="LoopNegateChk" Content="НЕ (инвертировать результат)"
+                          Margin="0,2,0,4"
+                          ToolTip="Когда включено — цикл продолжается, пока условие ВЫПОЛНЕНО (останов — когда не выполнено)"/>
                 <TextBlock x:Name="LoopUntilSummary" FontSize="11" Foreground="#666"
                            Margin="0,0,0,12" TextWrapping="Wrap" Text="LoopUntil: (нет)"/>
 

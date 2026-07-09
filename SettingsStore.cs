@@ -23,7 +23,7 @@ public static class SettingsStore
             return new CraftConditionPlan();
         var json = JsonSerializer.Serialize(p, JsonOptions);
         var plan = JsonSerializer.Deserialize<CraftConditionPlan>(json, JsonOptions) ?? new CraftConditionPlan();
-        CraftConditionPlanNormalizer.NormalizeInPlace(plan, AffixLibrary.GetEntries());
+        CraftConditionPlanNormalizer.NormalizeInPlace(plan, AffixLibrary.GetEntriesWithCrafted());
         return plan;
     }
 

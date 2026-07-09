@@ -164,6 +164,16 @@ public static class ParsedItemCraftEvaluator
             if (bNoHash.Length > 0 && string.Equals(aNoRoll, bNoHash, StringComparison.Ordinal))
                 return true;
 
+            // Шаблон содержит фиксированное число встроенное в текст (напр. "+1 Suffix Modifier allowed"),
+            // а парсер извлёк его в RolledValue, оставив StatText = "+ Suffix Modifier allowed".
+            // Удаляем числа из шаблона и сравниваем с aNoRoll.
+            var bNoHashNoFixed = FixedNumericInStat.Replace(bNoHash, "").Trim();
+            while (bNoHashNoFixed.Contains("  ", StringComparison.Ordinal))
+                bNoHashNoFixed = bNoHashNoFixed.Replace("  ", " ", StringComparison.Ordinal);
+            if (bNoHashNoFixed.Length >= minLenForPrefixMatch && aNoRoll.Length >= minLenForPrefixMatch &&
+                string.Equals(aNoRoll, bNoHashNoFixed, StringComparison.Ordinal))
+                return true;
+
             // Stat вида "+N(range)%" теряет знак в StatText (aNoRoll = "% to X"),
             // шаблон хранит его (bNoHash = "+% to X"). Пробуем сравнение без ведущего знака из шаблона.
             if (bNoHash.Length > 1 && (bNoHash[0] == '+' || bNoHash[0] == '-'))
@@ -308,7 +318,8 @@ public static class ParsedItemCraftEvaluator
         string statTemplate,
         int expectedSlotCount,
         out List<double> values,
-        out string explanation)
+        out string explanation,
+        bool includeFractured = false)
     {
         values = new List<double>();
         explanation = "";
@@ -336,12 +347,13 @@ public static class ParsedItemCraftEvaluator
         var foundByNameTier = false;
         foreach (var affix in item.Affixes)
         {
-            if (affix.IsFractured) continue;
+            if (affix.IsFractured && !includeFractured) continue;
             if (!AffixTypesCompatibleForNamedMatch(affixType, affix.Type))
                 continue;
             if (!string.Equals(affix.Name, affixName.Trim(), StringComparison.Ordinal))
                 continue;
-            if (affix.Tier != affixTier)
+            // Tier=0 means the header didn't contain "(Tier: N)" (e.g. crafted mods)
+            if (affix.Tier != 0 && affix.Tier != affixTier)
                 continue;
 
             foundByNameTier = true;
@@ -353,8 +365,20 @@ public static class ParsedItemCraftEvaluator
 
                 if (!TryGetOrderedRollValues(line, out var vals, out var rollNote))
                 {
-                    explanation = $"Строка стата найдена, но не удалось извлечь числа. {rollNote}";
-                    return false;
+                    // Fallback: фиксированный стат без переката (affixRanges: null в библиотеке).
+                    // Число вшито в текст стата (напр. «Recover 1% of Mana on Kill»).
+                    var fixedMatches = FixedNumericInStat.Matches(line.StatText ?? "");
+                    if (fixedMatches.Count == 1 &&
+                        double.TryParse(fixedMatches[0].Value, System.Globalization.NumberStyles.Float,
+                            System.Globalization.CultureInfo.InvariantCulture, out var fixedVal))
+                    {
+                        vals = new List<double> { fixedVal };
+                    }
+                    else
+                    {
+                        explanation = $"Строка стата найдена, но не удалось извлечь числа. {rollNote}";
+                        return false;
+                    }
                 }
 
                 if (vals.Count < expectedSlotCount)
@@ -704,7 +728,8 @@ public static class ParsedItemCraftEvaluator
         string expectedItemClass,
         IReadOnlyList<AffixLibraryEntry> lib,
         out string detail,
-        string? affixNameOverride = null)
+        string? affixNameOverride = null,
+        bool includeFractured = false)
     {
         detail = "";
         if (whole.Lines.Count == 0)
@@ -754,7 +779,8 @@ public static class ParsedItemCraftEvaluator
                     line.StatTemplate,
                     slots,
                     out var actual,
-                    out var expl))
+                    out var expl,
+                    includeFractured))
             {
                 detail = string.IsNullOrEmpty(expl) ? $"Нет модификатора «{useName}» со строкой «{line.StatTemplate}»." : expl;
                 return false;

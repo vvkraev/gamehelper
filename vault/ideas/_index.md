@@ -11,3 +11,6 @@
 | Высокий порог входа как защита ниши | new | [[high_barrier_niche]] |
 | Патч-ноуты как источник раннего сигнала | new | [[patchnotes_signal]] |
 | Видимость листинга: моды с сужающим словом теряют охват поиска | validated | [[trade_search_visibility]] |
+| FRAC CHS Wand + 2x Elemental → 566-599d без крафт-модов, маржа ~200-250d | new | [[frac_chs_wand_elemental]] |
+| Sapphire FRAC CDS + крит-суффиксы → 299-499d, маржа ~85-400d | new | [[sapphire_crit_craft]] |
+| Diamond FRAC Sacrifice + CDS/CD → 666d, ликвидный нишевый продукт | new | [[diamond_sacrifice_crit]] |

@@ -1777,6 +1777,26 @@
                             IsEnabled="{Binding IsPipelineRunning}"
                             Click="PipelineStopBtn_Click"/>
 
+                    <Separator DockPanel.Dock="Top" Margin="0,0,0,6"/>
+
+                    <!-- Сетка предметов -->
+                    <Button DockPanel.Dock="Top"
+                            x:Name="PipelineSetGridBtn"
+                            Content="⊞ Задать сетку"
+                            Padding="8,4"
+                            Margin="0,0,0,4"
+                            Click="PipelineSetGridBtn_Click"
+                            ToolTip="Задать сетку предметов — рецепт применяется к каждой ячейке по порядку"/>
+                    <TextBlock DockPanel.Dock="Top"
+                               x:Name="PipelineGridInfo"
+                               Text="Сетка: не задана"
+                               FontSize="11"
+                               Foreground="#666"
+                               Margin="0,0,0,8"
+                               TextWrapping="Wrap"/>
+
+                    <Separator DockPanel.Dock="Top" Margin="0,0,0,6"/>
+
                     <!-- Список сохранённых рецептов -->
                     <ListBox x:Name="PipelineSavedList"
                              DisplayMemberPath="Name"

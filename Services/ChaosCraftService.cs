@@ -333,7 +333,8 @@ public sealed class ChaosCraftService : IChaosCraftService
                     var preParsed = ItemParser.Parse(preClip);
                     var alreadyMatch = CraftConditionEvaluator.TryEvaluate(plan, preParsed, out var preExplanation);
                     craftLog?.WriteComparison(displayAttempt, globalTotal, preClip, pattern, alreadyMatch, "[проверка перед орбом] " + preExplanation);
-                    log?.Report($"Проверка (попытка {displayAttempt}): {preExplanation}");
+                    log?.Report(preClip);
+                    log?.Report($"Проверка (попытка {displayAttempt}): {(alreadyMatch ? "выполнено" : "не выполнено")}.");
                     if (alreadyMatch)
                     {
                         log?.Report("Условие уже выполнено — орб не применяется, переходим к следующей ячейке.");

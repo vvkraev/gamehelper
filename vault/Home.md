@@ -10,6 +10,14 @@
 | Базы 3–4 (незавершённые) | Выставлены | 190d |
 | [[blight_cloak]] | Статус неизвестен — уточнить | ? |
 
+## Ближайшие крафты / идеи в очереди
+
+| Идея | Маржа (оценка) | Неизвестное | Файл |
+|---|---|---|---|
+| FRAC CHS Wand + 2x Elemental (Frostbound/Stormbound) | ~200-250d | пул десекрейта вандов | [[frac_chs_wand_elemental]] |
+| Sapphire FRAC CDS + крит-суффиксы (CHS/CH/CD/Enchanting) | ~85–400d | цена базы, пул десекрейта | [[sapphire_crit_craft]] |
+| Diamond FRAC Sacrifice + CDS/CD | неизвестна | цена базы, стоимость крафта | [[diamond_sacrifice_crit]] |
+
 ## Пайплайны
 
 - [[sapphire_v1_desecrate]] — Time-Lost Sapphire (CS+CD+CHS через Desecrate)

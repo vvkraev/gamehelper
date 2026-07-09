@@ -8,7 +8,13 @@ public enum PipelineAction
     AugAnnulCraft,
     DivineCraft,
     ExaltCraft,
+    /// <summary>Применяет один Exalted Orb к предмету без управления оменами и всегда переходит дальше.</summary>
+    SimpleExalt,
+    /// <summary>Применяет один Annulment Orb к предмету и всегда переходит дальше.</summary>
+    SimpleAnnul,
     OmenActivation,
+    /// <summary>ПКМ на масло делириума из стэша, затем ЛКМ на предмет.</summary>
+    DeliriumLiquid,
     /// <summary>Показывает сообщение пользователю и ждёт нажатия «Продолжить».</summary>
     ManualPause,
 }
@@ -36,6 +42,12 @@ public sealed class PipelineTransition
     public string Message { get; set; } = "";
 }
 
+public sealed class DeliriumLiquidActionConfig
+{
+    /// <summary>Идентификатор масла делириума — ключ в <c>AppSettings.DeliriumItemRegions</c>.</summary>
+    public string LiquidName { get; set; } = "";
+}
+
 public sealed class OmenActionConfig
 {
     public string OmenName { get; set; } = OmenActivationService.OmenSinistralExaltationName;
@@ -54,6 +66,9 @@ public sealed class CraftPipelineStep
 
     /// <summary>Параметры омена — используется только при <see cref="PipelineAction.OmenActivation"/>.</summary>
     public OmenActionConfig? OmenConfig { get; set; }
+
+    /// <summary>Параметры масла делириума — используется только при <see cref="PipelineAction.DeliriumLiquid"/>.</summary>
+    public DeliriumLiquidActionConfig? DeliriumLiquidConfig { get; set; }
 
     /// <summary>Проверяется до выполнения действия. Если false → переход по <see cref="OnFailure"/>.</summary>
     public CraftConditionPlan? EntryCondition { get; set; }

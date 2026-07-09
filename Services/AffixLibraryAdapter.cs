@@ -7,7 +7,7 @@ namespace GameHelper.Services;
 public sealed class AffixLibraryAdapter : IAffixLibrary
 {
     public string FilePath => AffixLibrary.FilePath;
-    public IReadOnlyList<AffixLibraryEntry> GetEntries() => AffixLibrary.GetEntries();
+    public IReadOnlyList<AffixLibraryEntry> GetEntries() => AffixLibrary.GetEntriesWithCrafted();
     public int EntryCount => AffixLibrary.EntryCount;
     public int MergeFromParsedItem(ParsedItem? item) => AffixLibrary.MergeFromParsedItem(item);
     public void ReloadFromDisk() => AffixLibrary.ReloadFromDisk();

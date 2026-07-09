@@ -1,12 +1,12 @@
 {
-  "name": "Time-Lost Sapphire Jewels Crit bonus",
-  "savedAt": "2026-07-09T02:27:34.807194+03:00",
+  "name": "Sapphire Jewels CH CB",
+  "savedAt": "2026-07-08T10:00:39.3070635+03:00",
   "craftMode": "\u0425\u0430\u043E\u0441",
   "plan": {
-    "expectedItemClass": "Time-Lost Sapphire Jewels",
+    "expectedItemClass": "Sapphire Jewels",
     "expectedItemSubType": "",
     "expectedItemIlvl": 0,
-    "craftOrbName": "Chaos Orb",
+    "craftOrbName": "",
     "orAlternatives": [
       {
         "clauses": [
@@ -19,14 +19,14 @@
               "members": [
                 {
                   "affixType": "Suffix Modifier",
-                  "affixName": "of Potency",
+                  "affixName": "of Annihilating",
                   "selectedAffixNames": [
-                    "of Potency"
+                    "of Annihilating"
                   ],
                   "affixTier": 1,
                   "lines": [
                     {
-                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus",
+                      "statTemplate": "#% increased Critical Hit Chance for Spells",
                       "minRoll": 5,
                       "minRolls": [
                         5
@@ -36,17 +36,17 @@
                 },
                 {
                   "affixType": "Suffix Modifier",
-                  "affixName": "of Unmaking",
+                  "affixName": "of Potency",
                   "selectedAffixNames": [
-                    "of Unmaking"
+                    "of Potency"
                   ],
                   "affixTier": 1,
                   "lines": [
                     {
-                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
-                      "minRoll": 5,
+                      "statTemplate": "#% increased Critical Damage Bonus",
+                      "minRoll": 10,
                       "minRolls": [
-                        5
+                        10
                       ]
                     }
                   ]

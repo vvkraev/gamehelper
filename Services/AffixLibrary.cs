@@ -76,6 +76,23 @@ public static class AffixLibrary
             return _entries.ToList();
     }
 
+    /// <summary>
+    /// Объединённый снимок: натуральные моды из <c>affix_library.json</c>
+    /// + крафтед-моды из <c>crafted_mods.json</c>.
+    /// Используется там, где нужно распознавать/строить условия для крафтед-модов.
+    /// </summary>
+    public static IReadOnlyList<AffixLibraryEntry> GetEntriesWithCrafted()
+    {
+        var natural = GetEntries();
+        var crafted = CraftedModLibrary.GetEntries();
+        if (crafted.Count == 0)
+            return natural;
+        var combined = new List<AffixLibraryEntry>(natural.Count + crafted.Count);
+        combined.AddRange(natural);
+        combined.AddRange(crafted);
+        return combined;
+    }
+
     public static int EntryCount
     {
         get

@@ -1,3 +1,5 @@
+using GameHelper.Native;
+
 namespace GameHelper.Services;
 
 public enum PipelineRunStatus
@@ -53,6 +55,10 @@ public sealed class PipelineScreenConfig
     public ScreenRect ExaltOmenSinistralRegion { get; init; }
     public ScreenRect ExaltOmenDextralRegion { get; init; }
     public ScreenRect ExaltOmenGreaterRegion { get; init; }
+
+    // Delirium
+    public ScreenRect DeliriumInventoryRect { get; init; }
+    public IReadOnlyDictionary<string, ScreenRect> DeliriumItemRegions { get; init; } = new Dictionary<string, ScreenRect>();
 }
 
 /// <summary>Результат выполнения одного шага пайплайна — внутренний тип для диспетчера.</summary>
@@ -76,6 +82,9 @@ public sealed class CraftPipelineRunner
     private readonly IDivineCraftService? _divine;
     private readonly IExaltationCraftService? _exalt;
     private readonly OmenActivationService? _omen;
+
+    // Текущая активная вкладка стэша в рамках одного RunAsync; default = неизвестно.
+    private ScreenRect _currentStashTab;
 
     /// <summary>
     /// Тест-хук: если установлен, вызывается вместо <c>ExecuteStepAsync</c>.
@@ -111,6 +120,8 @@ public sealed class CraftPipelineRunner
         if (pipeline.Steps.Count == 0)
             return new PipelineRunResult { Status = PipelineRunStatus.Done, Message = "Пайплайн пуст." };
 
+        _currentStashTab = default;
+
         log?.Report($"[Конфиг] Инвентарь: {screen.FullInventoryCells.Count} ячеек (12 колонок → строки 0–{screen.FullInventoryCells.Count / screen.InventoryGridColumns - 1}, столбцы 0–{screen.InventoryGridColumns - 1})");
         log?.Report($"[Конфиг] Omen Sinistral стэш: {screen.OmenSinistralStashCells.Count} яч. | Dextral: {screen.OmenDextralStashCells.Count} яч. | Greater: {screen.OmenGreaterStashCells.Count} яч.");
 
@@ -118,6 +129,9 @@ public sealed class CraftPipelineRunner
         var totalAttempts = 0;
         string? finalItem = null;
         var executionCount = 0;
+
+        try
+        {
 
         while (true)
         {
@@ -205,6 +219,13 @@ public sealed class CraftPipelineRunner
                     break;
             }
         }
+
+        } // try
+        finally
+        {
+            Win32Input.ReleaseShift();
+            Win32Input.ReleaseCtrlAlt();
+        }
     }
 
     private async Task<StepOutcome> ExecuteStepAsync(
@@ -217,7 +238,10 @@ public sealed class CraftPipelineRunner
             PipelineAction.AugAnnulCraft => await ExecuteAugAnnulAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.DivineCraft => await ExecuteDivineCraftAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.ExaltCraft => await ExecuteExaltCraftAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.SimpleExalt => await ExecuteSimpleExaltAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.SimpleAnnul => await ExecuteSimpleAnnulAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.OmenActivation => await ExecuteOmenActivationAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.DeliriumLiquid => await ExecuteDeliriumLiquidAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.ManualPause => StepOutcome.Success(),
             _ => StepOutcome.Failure(),
         };
@@ -237,7 +261,8 @@ public sealed class CraftPipelineRunner
             return StepOutcome.Success(0, text);
 
         var parsed = ItemParser.Parse(text);
-        var matched = CraftConditionEvaluator.TryEvaluate(step.EntryCondition, parsed, out _);
+        var matched = CraftConditionEvaluator.TryEvaluate(step.EntryCondition, parsed, out var detail);
+        log?.Report($"[CheckItem] {(matched ? "выполнено" : "не выполнено")}: {detail}");
         return matched ? StepOutcome.Success(0, text) : StepOutcome.Failure(0, text);
     }
 
@@ -247,6 +272,7 @@ public sealed class CraftPipelineRunner
         if (_chaos is null)
             return StepOutcome.Failure();
 
+        await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
         var plan = step.LoopUntil ?? new CraftConditionPlan { ExpectedItemClass = "" };
         var result = await _chaos.RunAsync(
             screen.ChaosOrbArea, screen.ItemArea, plan, step.Name,
@@ -260,6 +286,7 @@ public sealed class CraftPipelineRunner
         if (_divine is null)
             return StepOutcome.Failure();
 
+        await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
         var plan = step.LoopUntil ?? new CraftConditionPlan { ExpectedItemClass = "" };
         var result = await _divine.RunAsync(
             screen.DivineOrbArea, screen.ItemArea, plan, step.Name,
@@ -273,6 +300,7 @@ public sealed class CraftPipelineRunner
         if (_augAnnul is null || _chaos is null)
             return StepOutcome.Failure();
 
+        await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
         var initialText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
         var initialParsed = ItemParser.Parse(initialText);
         if (initialParsed is null)
@@ -305,13 +333,72 @@ public sealed class CraftPipelineRunner
             screen.ExaltOmenSinistralCells, screen.ExaltOmenDextralCells, screen.ExaltOmenGreaterCells,
             screen.ItemArea, plan, step.Name, initialParsed, initialText,
             step.MaxIterations, step.MaxIterations, 0, log, ct, null).ConfigureAwait(false);
+        // ExaltCraft переключает вкладки самостоятельно — текущая вкладка неизвестна после завершения
+        _currentStashTab = default;
         return new StepOutcome(result.Success, result.Attempts, result.FinalItem);
+    }
+
+    private async Task<StepOutcome> ExecuteSimpleAnnulAsync(
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+    {
+        if (_divine is null)
+            return StepOutcome.Failure();
+
+        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
+            return StepOutcome.Failure();
+
+        await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
+        var plan = new CraftConditionPlan { ExpectedItemClass = "" };
+        var result = await _divine.RunAsync(
+            screen.AnnulOrbArea, screen.ItemArea, plan, step.Name,
+            1, 1, 0, log, ct).ConfigureAwait(false);
+        return StepOutcome.Success(result.Attempts, result.FinalItem);
+    }
+
+    private async Task<StepOutcome> ExecuteSimpleExaltAsync(
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+    {
+        if (_divine is null)
+            return StepOutcome.Failure();
+
+        await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
+        var plan = new CraftConditionPlan { ExpectedItemClass = "" };
+        var result = await _divine.RunAsync(
+            screen.ExaltOrbArea, screen.ItemArea, plan, step.Name,
+            1, 1, 0, log, ct).ConfigureAwait(false);
+        return StepOutcome.Success(result.Attempts, result.FinalItem);
+    }
+
+    /// <summary>
+    /// Проверяет <see cref="CraftPipelineStep.EntryCondition"/> перед выполнением шага.
+    /// Возвращает false (и логирует причину) если условие не выполнено.
+    /// </summary>
+    private async Task<bool> CheckEntryConditionAsync(
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+    {
+        if (step.EntryCondition is null)
+            return true;
+        if (_chaos is null)
+            return false;
+        var text = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            log?.Report($"[entryCondition] буфер пуст — условие не проверить.");
+            return false;
+        }
+        var parsed = ItemParser.Parse(text);
+        var matched = CraftConditionEvaluator.TryEvaluate(step.EntryCondition, parsed, out var detail);
+        log?.Report($"[entryCondition] {(matched ? "выполнено" : "не выполнено")}: {detail}");
+        return matched;
     }
 
     private async Task<StepOutcome> ExecuteOmenActivationAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
     {
         if (_omen is null || step.OmenConfig is null)
+            return StepOutcome.Failure();
+
+        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
             return StepOutcome.Failure();
 
         var cfg = step.OmenConfig;
@@ -347,7 +434,59 @@ public sealed class CraftPipelineRunner
             OmenName      = cfg.OmenName,
         };
 
-        var activated = await _omen.PlaceAndActivateOmensAsync(new[] { placement }, log, ct).ConfigureAwait(false);
+        var activated = await _omen.PlaceAndActivateOmensAsync(new[] { placement }, log, ct, screen.RitualInventoryRegion).ConfigureAwait(false);
+        // OmenActivation переключает вкладки самостоятельно — текущая вкладка неизвестна после завершения
+        _currentStashTab = default;
         return activated ? StepOutcome.Success() : StepOutcome.Failure();
+    }
+
+    private async Task<StepOutcome> ExecuteDeliriumLiquidAsync(
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+    {
+        var cfg = step.DeliriumLiquidConfig;
+        if (cfg is null || string.IsNullOrWhiteSpace(cfg.LiquidName))
+        {
+            log?.Report("[Delirium] Не задано название масла. Настройте шаг.");
+            return StepOutcome.Failure();
+        }
+
+        if (!screen.DeliriumItemRegions.TryGetValue(cfg.LiquidName, out var liquidRect) || liquidRect == default)
+        {
+            log?.Report($"[Delirium] Масло «{cfg.LiquidName}» не настроено (нет в DeliriumItemRegions). Настройте область в «Настройки областей».");
+            return StepOutcome.Failure();
+        }
+
+        await SwitchStashTabAsync(screen.DeliriumInventoryRect, log, ct, "Делириум").ConfigureAwait(false);
+
+        // ПКМ на ячейке масла
+        var (lx, ly) = liquidRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+        log?.Report($"[Delirium] ПКМ масло «{cfg.LiquidName}» ({lx},{ly})…");
+        Win32Input.MoveTo(lx, ly);
+        await Task.Delay(150, ct).ConfigureAwait(false);
+        Win32Input.ClickRight();
+        await Task.Delay(300, ct).ConfigureAwait(false);
+
+        // ЛКМ на предмет
+        var (ix, iy) = screen.ItemArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+        log?.Report($"[Delirium] ЛКМ предмет ({ix},{iy})…");
+        Win32Input.MoveTo(ix, iy);
+        await Task.Delay(150, ct).ConfigureAwait(false);
+        Win32Input.ClickLeft();
+        await Task.Delay(300, ct).ConfigureAwait(false);
+
+        return StepOutcome.Success(1);
+    }
+
+    private async Task SwitchStashTabAsync(ScreenRect tabRegion, IProgress<string>? log, CancellationToken ct, string label)
+    {
+        if (tabRegion == default) return;
+        if (tabRegion == _currentStashTab) return;
+        var (tx, ty) = tabRegion.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
+        log?.Report($"[Пайплайн] Переключаемся на вкладку «{label}» ({tx},{ty})…");
+        Win32Input.MoveTo(tx, ty);
+        await Task.Delay(300, ct).ConfigureAwait(false);
+        Win32Input.ClickLeft();
+        await Task.Delay(1600, ct).ConfigureAwait(false);
+        _currentStashTab = tabRegion;
     }
 }

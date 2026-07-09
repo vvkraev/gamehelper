@@ -9,6 +9,7 @@ public sealed class CraftConditionCountEvaluatorTests
     static CraftConditionCountEvaluatorTests()
     {
         AffixLibrary.ReloadFromDisk(FindRepoFile("affix_library.json"));
+        CraftedModLibrary.ReloadFromDisk(FindRepoFile("crafted_mods.json"));
     }
 
     private static string FindRepoFile(string name)
@@ -911,5 +912,267 @@ public sealed class CraftConditionCountEvaluatorTests
         Assert.True(
             CraftConditionEvaluator.TryEvaluate(plan, item, out _),
             "Попытка 136: «of Potency» CD должен засчитаться как цель крафта");
+    }
+
+    // ── Регрессия: «+1 Suffix Modifier allowed» в шаблоне StatLineMatchesTemplate ────────────
+
+    /// <summary>
+    /// Парсер извлекает «1» из «+1 Suffix Modifier allowed» в RolledValue,
+    /// оставляя StatText = «+ Suffix Modifier allowed».
+    /// Шаблон в библиотеке/условии: «+1 Suffix Modifier allowed» (без «#»).
+    /// StatLineMatchesTemplate должен вернуть true через bNoHashNoFixed-ветку.
+    /// </summary>
+    [Theory]
+    [InlineData("+ Suffix Modifier allowed", "+1 Suffix Modifier allowed")]
+    [InlineData("+ Prefix Modifier allowed", "+1 Prefix Modifier allowed")]
+    public void StatLineMatchesTemplate_FixedNumericInTemplate_MatchesParsedStat(string parsedStat, string template)
+    {
+        Assert.True(
+            ParsedItemCraftEvaluator.StatLineMatchesTemplate(parsedStat, template),
+            $"parsedStat='{parsedStat}' template='{template}'");
+    }
+
+    // ── Регрессия: «of Osmosis» / «of Mind» не засчитывались в COUNT ────────────────────────
+
+    private const string SapphireWithOsmosisClipboard = """
+        Item Class: Jewels
+        Rarity: Rare
+        Oblivion Creed
+        Time-Lost Sapphire
+        --------
+        Radius: Small
+        --------
+        Item Level: 79
+        --------
+        { Fractured Suffix Modifier "of Potency" (Tier: 1) — Damage, Critical }
+        Notable Passive Skills in Radius also grant 7(5-10)% increased Critical Damage Bonus
+        { Suffix Modifier "of Osmosis" (Tier: 1) — Mana }
+        Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill
+        --------
+        Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+        --------
+        Fractured Item
+        """;
+
+    private const string SapphireWithMindClipboard = """
+        Item Class: Jewels
+        Rarity: Rare
+        Oblivion Creed
+        Time-Lost Sapphire
+        --------
+        Radius: Small
+        --------
+        Item Level: 79
+        --------
+        { Fractured Suffix Modifier "of Potency" (Tier: 1) — Damage, Critical }
+        Notable Passive Skills in Radius also grant 7(5-10)% increased Critical Damage Bonus
+        { Suffix Modifier "of Mind" (Tier: 1) — Mana }
+        Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life
+        --------
+        Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+        --------
+        Fractured Item
+        """;
+
+    /// <summary>
+    /// Регрессия: «of Osmosis» имеет фиксированный стат без переката (affixRanges: null),
+    /// парсер ставит RolledValue=null → TryGetOrderedRollValues возвращал false → COUNT не засчитывал.
+    /// Фикс: fallback-извлечение числа из StatText через FixedNumericInStat.
+    /// </summary>
+    [Fact]
+    public void Count_TimeLostSapphire_OfOsmosis_FixedValueStat_CountsInCountCondition()
+    {
+        var item = ItemParser.Parse(SapphireWithOsmosisClipboard);
+        Assert.True(item.Affixes.Any(a => a.Name == "of Osmosis"),
+            "Должен быть «of Osmosis» в парсенном предмете");
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Time-Lost Sapphire Jewels",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                IncludeFractured = true,
+                                Members =
+                                {
+                                    SapphireMember("of Potency",  StatOfPotencyCD,   5),
+                                    SapphireMember("of Osmosis",
+                                        "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill",
+                                        1),
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.True(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"COUNT должен сработать через «of Osmosis» (fixed-value stat). Объяснение: {expl}");
+    }
+
+    [Fact]
+    public void Count_TimeLostSapphire_OfMind_FixedValueStat_CountsInCountCondition()
+    {
+        var item = ItemParser.Parse(SapphireWithMindClipboard);
+        Assert.True(item.Affixes.Any(a => a.Name == "of Mind"),
+            "Должен быть «of Mind» в парсенном предмете");
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Time-Lost Sapphire Jewels",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = 1,
+                                IncludeFractured = true,
+                                Members =
+                                {
+                                    SapphireMember("of Potency", StatOfPotencyCD, 5),
+                                    SapphireMember("of Mind",
+                                        "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                                        1),
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.True(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"COUNT должен сработать через «of Mind» (fixed-value stat). Объяснение: {expl}");
+    }
+
+    // ── Регрессия: entryCondition Single с «Crafted Prefix Modifier» и «+1 Suffix Modifier allowed» ──
+
+    private const string SapphireWithCraftedSuffixSlotClipboard = """
+        Item Class: Jewels
+        Rarity: Rare
+        Gale Spark
+        Time-Lost Sapphire
+        --------
+        Radius: Small
+        --------
+        Item Level: 79
+        --------
+        { Fractured Suffix Modifier "of Potency" (Tier: 1) — Damage, Critical }
+        Notable Passive Skills in Radius also grant 7(5-10)% increased Critical Damage Bonus
+        { Suffix Modifier "of Osmosis" (Tier: 1) — Mana }
+        Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill
+        { Crafted Prefix Modifier }
+        +1 Suffix Modifier allowed
+        --------
+        Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+        --------
+        Fractured Item
+        """;
+
+    /// <summary>
+    /// Регрессия: entryCondition для шага OmenActivation с Single-клозом «+1 Suffix Modifier allowed»
+    /// (Crafted Prefix Modifier, пустое имя) всегда возвращал false — уходил в ветку провала (аннул).
+    /// Причины: 1) ItemParser не распознавал «Crafted Prefix Modifier» → тип пустой → AffixTypesCompatible false;
+    ///           2) Если бы тип стал «Crafted Prefix Modifier» — Tier=0 ≠ 1 → тоже skip.
+    /// Фикс: ParseAffixHeader обрабатывает Crafted-типы; TryGetRollValuesForNamedAffix принимает Tier=0 как «неизвестен».
+    /// </summary>
+    [Fact]
+    public void Single_CraftedPrefixModifier_SuffixSlot_Matches_WhenOnItem()
+    {
+        var item = ItemParser.Parse(SapphireWithCraftedSuffixSlotClipboard);
+        Assert.NotNull(item);
+        Assert.True(item.Affixes.Any(a => a.Type == "Crafted Prefix Modifier"),
+            "Парсер должен распознать «Crafted Prefix Modifier»");
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Time-Lost Sapphire Jewels",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Single,
+                            Single = new CraftSingleAffixData
+                            {
+                                AffixType = "Crafted Prefix Modifier",
+                                AffixName = "",
+                                SelectedAffixNames = new List<string> { "" },
+                                AffixTier = 1,
+                                Lines = new List<CraftWholeModifierLine>
+                                {
+                                    new() { StatTemplate = "+1 Suffix Modifier allowed", MinRoll = 0, MinRolls = new List<double> { 0 } },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.True(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"Single «Crafted Prefix Modifier» с «+1 Suffix Modifier allowed» должно совпасть. Объяснение: {expl}");
+    }
+
+    [Fact]
+    public void Single_CraftedPrefixModifier_SuffixSlot_DoesNotMatch_WhenAbsent()
+    {
+        // Предмет без крафтованного мода
+        var item = ItemParser.Parse(SapphireAttempt21Clipboard);
+
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Time-Lost Sapphire Jewels",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Single,
+                            Single = new CraftSingleAffixData
+                            {
+                                AffixType = "Crafted Prefix Modifier",
+                                AffixName = "",
+                                SelectedAffixNames = new List<string> { "" },
+                                AffixTier = 1,
+                                Lines = new List<CraftWholeModifierLine>
+                                {
+                                    new() { StatTemplate = "+1 Suffix Modifier allowed", MinRoll = 0, MinRolls = new List<double> { 0 } },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+        Assert.False(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out _),
+            "Без крафтованного мода условие не должно выполняться");
     }
 }

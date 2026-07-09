@@ -11,6 +11,9 @@ public partial class PipelineStepDialog : Window
     private CraftConditionPlan _entry;
     private CraftConditionPlan _loop;
 
+    /// <summary>Общий буфер для копирования условий между шагами пайплайна.</summary>
+    private static CraftConditionPlan? _conditionClipboard;
+
     private readonly List<AffixLibraryEntry> _affixEntries;
     private readonly Services.AffixStatsData? _stats;
 
@@ -22,7 +25,10 @@ public partial class PipelineStepDialog : Window
         PipelineAction.AugAnnulCraft,
         PipelineAction.DivineCraft,
         PipelineAction.ExaltCraft,
+        PipelineAction.SimpleExalt,
+        PipelineAction.SimpleAnnul,
         PipelineAction.OmenActivation,
+        PipelineAction.DeliriumLiquid,
         PipelineAction.ManualPause,
     ];
 
@@ -88,6 +94,17 @@ public partial class PipelineStepDialog : Window
             OmenNameCombo.SelectedIndex = 0;
         }
 
+        // DeliriumLiquidConfig
+        var deliriumItems = Services.StackableItemRegistry.Items
+            .Where(i => i.Kind == Services.StackableItemKind.Delirium)
+            .OrderBy(i => i.DisplayName)
+            .ToList();
+        DeliriumLiquidCombo.ItemsSource = deliriumItems;
+        var savedId = Step.DeliriumLiquidConfig?.LiquidName ?? "";
+        DeliriumLiquidCombo.SelectedItem = deliriumItems.FirstOrDefault(i => i.Id == savedId);
+
+        EntryNegateChk.IsChecked = _entry.Negate;
+        LoopNegateChk.IsChecked  = _loop.Negate;
         RefreshConditionSummaries();
     }
 
@@ -131,6 +148,21 @@ public partial class PipelineStepDialog : Window
             Step.OmenConfig = null;
         }
 
+        if (Step.Action == PipelineAction.DeliriumLiquid)
+        {
+            var selectedLiquid = DeliriumLiquidCombo.SelectedItem as Services.StackableItemType;
+            Step.DeliriumLiquidConfig = new DeliriumLiquidActionConfig
+            {
+                LiquidName = selectedLiquid?.Id ?? "",
+            };
+        }
+        else
+        {
+            Step.DeliriumLiquidConfig = null;
+        }
+
+        _entry.Negate = EntryNegateChk.IsChecked == true;
+        _loop.Negate  = LoopNegateChk.IsChecked  == true;
         Step.EntryCondition = HasClauses(_entry) ? _entry : null;
         Step.LoopUntil = HasClauses(_loop) ? _loop : null;
     }
@@ -156,6 +188,9 @@ public partial class PipelineStepDialog : Window
         if (ActionCombo.SelectedIndex < 0) return;
         var action = ActionMap[Math.Clamp(ActionCombo.SelectedIndex, 0, ActionMap.Length - 1)];
         OmenConfigPanel.Visibility = action == PipelineAction.OmenActivation
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        DeliriumLiquidConfigPanel.Visibility = action == PipelineAction.DeliriumLiquid
             ? Visibility.Visible
             : Visibility.Collapsed;
     }
@@ -186,10 +221,50 @@ public partial class PipelineStepDialog : Window
         RefreshConditionSummaries();
     }
 
+    private void ClearEntryBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _entry = new CraftConditionPlan();
+        EntryNegateChk.IsChecked = false;
+        RefreshConditionSummaries();
+    }
+
     private void EditLoopBtn_Click(object sender, RoutedEventArgs e)
     {
         var dlg = new CraftConditionWindow(_loop, _affixEntries, _stats) { Owner = this };
         dlg.ShowDialog();
+        RefreshConditionSummaries();
+    }
+
+    private void ClearLoopBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _loop = new CraftConditionPlan();
+        LoopNegateChk.IsChecked = false;
+        RefreshConditionSummaries();
+    }
+
+    private void CopyEntryBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _conditionClipboard = SettingsStore.CloneCraftConditionPlan(_entry);
+    }
+
+    private void PasteEntryBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (_conditionClipboard is null) return;
+        _entry = SettingsStore.CloneCraftConditionPlan(_conditionClipboard);
+        EntryNegateChk.IsChecked = _entry.Negate;
+        RefreshConditionSummaries();
+    }
+
+    private void CopyLoopBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _conditionClipboard = SettingsStore.CloneCraftConditionPlan(_loop);
+    }
+
+    private void PasteLoopBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (_conditionClipboard is null) return;
+        _loop = SettingsStore.CloneCraftConditionPlan(_conditionClipboard);
+        LoopNegateChk.IsChecked = _loop.Negate;
         RefreshConditionSummaries();
     }
 

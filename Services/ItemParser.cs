@@ -344,6 +344,16 @@ public static class ItemParser
             affix.Type = "Desecrated Suffix Modifier";
             content = content["Desecrated Suffix Modifier".Length..].Trim();
         }
+        else if (content.StartsWith("Crafted Prefix Modifier", StringComparison.Ordinal))
+        {
+            affix.Type = "Crafted Prefix Modifier";
+            content = content["Crafted Prefix Modifier".Length..].Trim();
+        }
+        else if (content.StartsWith("Crafted Suffix Modifier", StringComparison.Ordinal))
+        {
+            affix.Type = "Crafted Suffix Modifier";
+            content = content["Crafted Suffix Modifier".Length..].Trim();
+        }
         else if (content.StartsWith("Fractured Prefix Modifier", StringComparison.Ordinal))
         {
             affix.Type = "Prefix Modifier";

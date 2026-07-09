@@ -29,6 +29,12 @@ public sealed class CraftConditionPlan
     /// </summary>
     public string CraftOrbName { get; set; } = "";
 
+    /// <summary>
+    /// Если true — результат условия инвертируется: остановка/успех когда OrAlternatives НЕ выполнены.
+    /// Применяется к результату проверки OrAlternatives; ошибки парсера и несовпадение класса не инвертируются.
+    /// </summary>
+    public bool Negate { get; set; } = false;
+
     /// <summary>Варианты ИЛИ: достаточно полностью выполнить один <see cref="CraftAndGroup"/>.</summary>
     public List<CraftAndGroup> OrAlternatives { get; set; } = new();
 }
@@ -238,6 +244,13 @@ public sealed class CraftCountAffixData
     public int MinMatchCount { get; set; } = 1;
 
     public List<CraftWholeModifierAffixData> Members { get; set; } = new();
+
+    /// <summary>
+    /// Когда true — фрактурные аффиксы тоже засчитываются при подсчёте совпадений.
+    /// По умолчанию false (фрактурные моды игнорируются, считается только результат крафта).
+    /// Нужно включать, если фрактурный суффикс/префикс сам является одним из желаемых целей.
+    /// </summary>
+    public bool IncludeFractured { get; set; } = false;
 }
 
 public sealed class CraftAffixRef

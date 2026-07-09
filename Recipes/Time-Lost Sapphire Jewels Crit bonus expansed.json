@@ -1,0 +1,130 @@
+{
+  "name": "Time-Lost Sapphire Jewels Crit bonus expansed",
+  "savedAt": "2026-07-05T20:40:35.2215169+03:00",
+  "craftMode": "\u0425\u0430\u043E\u0441",
+  "plan": {
+    "expectedItemClass": "Time-Lost Sapphire Jewels",
+    "expectedItemSubType": "",
+    "expectedItemIlvl": 0,
+    "craftOrbName": "Chaos Orb",
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "count",
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 1,
+              "members": [
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Potency",
+                  "selectedAffixNames": [
+                    "of Potency"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "#% increased Effect of Small Passive Skills in Radius",
+                      "minRoll": 15,
+                      "minRolls": [
+                        15
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Unmaking",
+                  "selectedAffixNames": [
+                    "of Unmaking"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
+                      "minRoll": 5,
+                      "minRolls": [
+                        5
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Annihilating",
+                  "selectedAffixNames": [
+                    "of Annihilating"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance for Spells",
+                      "minRoll": 3,
+                      "minRolls": [
+                        3
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Osmosis",
+                  "selectedAffixNames": [
+                    "of Osmosis"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Mind",
+                  "selectedAffixNames": [
+                    "of Mind"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Lengthening",
+                  "selectedAffixNames": [
+                    "of Lengthening"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Skill Effect Duration",
+                      "minRoll": 3,
+                      "minRolls": [
+                        3
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "whole": null
+          }
+        ]
+      }
+    ]
+  }
+}

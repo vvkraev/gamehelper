@@ -37,6 +37,7 @@ public partial class MainWindow : Window
     private List<ScreenRect> _itemCellRegions = new();
     private List<ScreenRect> _omenSinistralCells = new();
     private List<ScreenRect> _omenDextralCells = new();
+    private List<ScreenRect> _pipelineItemCells = new();
     private List<ScreenRect> _omenGreaterCells = new();
     private ScreenRect? _traderNameOcrRegion;
     private ScreenRect? _marketRatioIHaveRect;
@@ -758,6 +759,11 @@ public partial class MainWindow : Window
         if (_itemCellRegions.Count > 0)
             ItemInfo.Text = FormatItemCellsSummary(_itemCellRegions);
 
+        _pipelineItemCells = s.PipelineItemCells is { Count: > 0 } pic ? pic.ToList() : new();
+        PipelineGridInfo.Text = _pipelineItemCells.Count > 0
+            ? FormatItemCellsSummary(_pipelineItemCells)
+            : "Сетка: не задана";
+
         MouseActionDelayMs.Text = s.MouseActionDelayMs.ToString();
         ClipboardDelayMs.Text = s.ClipboardDelayMs.ToString();
         MaxOps.Text = s.MaxOps.ToString();
@@ -1074,6 +1080,7 @@ public partial class MainWindow : Window
             SocketableItemRegions = _socketableItemRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_socketableItemRegions)
                 : null,
+            PipelineItemCells = _pipelineItemCells.Count > 0 ? _pipelineItemCells : null,
             FullInventoryCells = _fullInventoryCells.Count > 0 ? _fullInventoryCells : null,
             StashOcrSearchRect = _stashOcrSearchRect,
             StashOcrText = StashOcrTextBox.Text.Trim(),
@@ -1250,7 +1257,7 @@ public partial class MainWindow : Window
     private void CraftConditionBtn_OnClick(object sender, RoutedEventArgs e)
     {
         AffixLibrary.ReloadFromDisk();
-        _affixEntries = AffixLibrary.GetEntries().ToList();
+        _affixEntries = AffixLibrary.GetEntriesWithCrafted().ToList();
         var editCopy = SettingsStore.CloneCraftConditionPlan(_craftPlan);
         if (string.IsNullOrEmpty(editCopy.CraftOrbName))
             editCopy.CraftOrbName = MainCraftOrbCombo.SelectedItem as string ?? "";
@@ -1397,7 +1404,7 @@ public partial class MainWindow : Window
     private void RefreshAffixLibraryIntoCombos()
     {
         AffixLibrary.ReloadFromDisk();
-        _affixEntries = AffixLibrary.GetEntries().ToList();
+        _affixEntries = AffixLibrary.GetEntriesWithCrafted().ToList();
 
         var s = SettingsStore.Load();
         _craftPlan = s.CraftCondition is { } cc
@@ -2344,6 +2351,7 @@ public partial class MainWindow : Window
     private void RequestCancelAll()
     {
         _cts?.Cancel();
+        _pipelineCts?.Cancel();
         _nwScanCts?.Cancel();
         _repricingCts?.Cancel();
         _rfCts?.Cancel();
@@ -5724,7 +5732,7 @@ public partial class MainWindow : Window
     private async void ParseModsBtn_Click(object sender, RoutedEventArgs e)
     {
         _vm.TradeHistoryStatus = $"Парсинг модов {_tradeHistory.Count} записей…";
-        var entries = Services.AffixLibrary.GetEntries();
+        var entries = Services.AffixLibrary.GetEntriesWithCrafted();
         var cache   = _parsedModsCache;
 
         await Task.Run(() =>
@@ -6281,7 +6289,7 @@ public partial class MainWindow : Window
     private void OpenStepDialog(Services.CraftPipelineStep step, bool isNew)
     {
         AffixLibrary.ReloadFromDisk();
-        var dlg = new PipelineStepDialog(step, AffixLibrary.GetEntries().ToList(), Services.AffixStatsScanner.Current) { Owner = this };
+        var dlg = new PipelineStepDialog(step, AffixLibrary.GetEntriesWithCrafted().ToList(), Services.AffixStatsScanner.Current) { Owner = this };
         if (dlg.ShowDialog() != true) return;
         if (isNew) _currentPipeline.Steps.Add(step);
         RefreshPipelineStepsList();
@@ -6329,12 +6337,12 @@ public partial class MainWindow : Window
         _pipelineCts = new CancellationTokenSource();
         _vm.IsPipelineRunning = true;
         _vm.PipelineStatusText = "Выполняется…";
+        TryRegisterCraftCancelHotkey();
         PipelineLogBox.Clear();
+        MinimizeToTrayOnStart();
 
         var runner = BuildPipelineRunner();
-        var screen = BuildPipelineScreenConfig();
 
-        var s = SettingsStore.Load();
         var mouseDelay    = int.TryParse(MouseActionDelayMs.Text, out var md) ? md : 80;
         var clipDelay     = int.TryParse(ClipboardDelayMs.Text,    out var cd) ? cd : 220;
         var divineHover   = Math.Clamp(clipDelay / 2, 80, 220);
@@ -6362,21 +6370,40 @@ public partial class MainWindow : Window
         _omen.ClipboardDelayMs   = clipDelay;
         _omen.TraceInputToLog    = traceInput;
 
-        var progress = new Progress<string>(msg =>
+        IProgress<string> progress = new Progress<string>(msg =>
         {
             SessionLogger.Info(msg);
             PipelineLogAppend(msg);
             _vm.PipelineStatusText = msg;
         });
 
-        Services.PipelineRunResult result;
+        var cells = _pipelineItemCells.Count > 0
+            ? _pipelineItemCells
+            : new List<ScreenRect> { SettingsStore.Load().ItemRect };
+
+        Services.PipelineRunResult lastResult = new() { Status = Services.PipelineRunStatus.Done, Message = "Нет ячеек." };
+        var totalAttempts = 0;
         try
         {
-            result = await runner.RunAsync(_currentPipeline, screen, progress, _pipelineCts.Token);
+            await Task.Delay(600, _pipelineCts.Token).ConfigureAwait(false);
+            ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+            await Task.Delay(300, _pipelineCts.Token).ConfigureAwait(false);
+
+            for (var i = 0; i < cells.Count; i++)
+            {
+                if (_pipelineCts!.Token.IsCancellationRequested) break;
+                if (cells.Count > 1)
+                    progress.Report($"[Ячейка {i + 1}/{cells.Count}]");
+                var screen = BuildPipelineScreenConfig(cells[i]);
+                lastResult = await runner.RunAsync(_currentPipeline, screen, progress, _pipelineCts.Token);
+                totalAttempts += lastResult.TotalAttempts;
+                if (lastResult.Status is Services.PipelineRunStatus.Cancelled or Services.PipelineRunStatus.Error)
+                    break;
+            }
         }
         catch (Exception ex)
         {
-            result = new Services.PipelineRunResult
+            lastResult = new Services.PipelineRunResult
             {
                 Status  = Services.PipelineRunStatus.Error,
                 Message = ex.Message,
@@ -6384,12 +6411,13 @@ public partial class MainWindow : Window
         }
         finally
         {
-            _pipelineCts.Dispose();
+            UnregisterCraftCancelHotkey();
+            _pipelineCts!.Dispose();
             _pipelineCts = null;
             _vm.IsPipelineRunning = false;
         }
 
-        var statusLine = $"[{result.Status}] {result.Message}  (попыток: {result.TotalAttempts})";
+        var statusLine = $"[{lastResult.Status}] {lastResult.Message}  (попыток: {totalAttempts})";
         _vm.PipelineStatusText = statusLine;
         PipelineLogAppend(statusLine);
     }
@@ -6397,6 +6425,20 @@ public partial class MainWindow : Window
     private void PipelineStopBtn_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         _pipelineCts?.Cancel();
+    }
+
+    private void PipelineSetGridBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var dimDlg = new ItemGridDimensionsDialog { Owner = this };
+        if (dimDlg.ShowDialog() != true) return;
+        var picker = new RegionPickerWindow(dimDlg.GridColumns, dimDlg.GridRows) { Owner = this };
+        var region = picker.ShowDialog() == true ? picker.SelectedRegion : null;
+        if (region is null) return;
+        _pipelineItemCells = picker.SelectedCells is { Count: > 0 } c
+            ? c.ToList()
+            : new List<ScreenRect> { region.Value };
+        PipelineGridInfo.Text = FormatItemCellsSummary(_pipelineItemCells);
+        SaveSettings();
     }
 
     // ── Вспомогательные методы ────────────────────────────────────────────────
@@ -6416,10 +6458,10 @@ public partial class MainWindow : Window
     private Services.CraftPipelineRunner BuildPipelineRunner() =>
         new(_craft, _augAnnulCraft, _divineCraft, _exaltCraft, _omen);
 
-    private Services.PipelineScreenConfig BuildPipelineScreenConfig() =>
+    private Services.PipelineScreenConfig BuildPipelineScreenConfig(ScreenRect itemArea = default) =>
         new()
         {
-            ItemArea              = SettingsStore.Load().ItemRect,
+            ItemArea              = itemArea != default ? itemArea : SettingsStore.Load().ItemRect,
             ChaosOrbArea          = GetCurrencyRect("Chaos Orb", "Greater Chaos Orb", "Perfect Chaos Orb") ?? default,
             DivineOrbArea         = GetCurrencyRect("Divine Orb") ?? default,
             AugmentOrbArea        = GetCurrencyRect("Perfect Orb of Augmentation", "Greater Orb of Augmentation", "Orb of Augmentation") ?? default,
@@ -6438,5 +6480,9 @@ public partial class MainWindow : Window
             ExaltOmenSinistralRegion = GetRitualItemRect("Omen of Sinistral Exaltation") ?? default,
             ExaltOmenDextralRegion   = GetRitualItemRect("Omen of Dextral Exaltation")   ?? default,
             ExaltOmenGreaterRegion   = GetRitualItemRect("Omen of Greater Exaltation")   ?? default,
+            DeliriumInventoryRect    = _deliriumInventoryRect,
+            DeliriumItemRegions      = _deliriumItemRegions.Count > 0
+                ? new Dictionary<string, ScreenRect>(_deliriumItemRegions)
+                : new Dictionary<string, ScreenRect>(),
         };
 }

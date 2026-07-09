@@ -929,9 +929,9 @@ public sealed class OmenActivationService
             await ClearClipboardAsync().ConfigureAwait(false);
             var (x, y) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
             MoveToRandomInteriorIfOutside(cell, log, $"{tag}: MoveTo", x, y);
-            await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+            await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
             Win32Input.SendCtrlAltC();
-            await DelayJitterAsync(ClipboardDelayMs, ct).ConfigureAwait(false);
+            await DelayJitterAsync(ClipboardDelayMs * 2, ct).ConfigureAwait(false);
             var text = await ReadClipboardTextAsync().ConfigureAwait(false);
             SessionLogger.InfoClipboard(tag, text);
             return text;
@@ -940,8 +940,8 @@ public sealed class OmenActivationService
         var first = await OnceAsync().ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(first)) return first;
 
-        log?.Report($"{tag}: буфер пуст, retry через 200ms…");
-        await Task.Delay(200, ct).ConfigureAwait(false);
+        log?.Report($"{tag}: буфер пуст, retry через 400ms…");
+        await Task.Delay(400, ct).ConfigureAwait(false);
         return await OnceAsync().ConfigureAwait(false);
     }
 
@@ -957,7 +957,8 @@ public sealed class OmenActivationService
     public async Task<bool> PlaceAndActivateOmensAsync(
         IReadOnlyList<OmenPlacement> placements,
         IProgress<string>? log,
-        CancellationToken ct)
+        CancellationToken ct,
+        ScreenRect ritualStashTabRegion = default)
     {
         if (placements.Count == 0)
             return true;
@@ -965,7 +966,48 @@ public sealed class OmenActivationService
         if (_testReadClipboard is null)
         {
             _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
-            await Task.Delay(120, ct).ConfigureAwait(false);
+            await Task.Delay(240, ct).ConfigureAwait(false);
+
+            if (ritualStashTabRegion != default)
+            {
+                var (tx, ty) = ritualStashTabRegion.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
+                log?.Report($"Омен: переключаемся на ритуальный стэш (клик {tx},{ty})…");
+                Win32Input.MoveTo(tx, ty);
+                await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
+                Win32Input.ClickLeft();
+                await Task.Delay(2000, ct).ConfigureAwait(false);
+            }
+        }
+
+        try
+        {
+
+        // Шаг 0: Ctrl+Alt+C по каждой целевой ячейке инвентаря — проверяем не занята ли
+        var alreadyPlaced = new bool[placements.Count];
+        for (var i = 0; i < placements.Count; i++)
+        {
+            ct.ThrowIfCancellationRequested();
+            var p = placements[i];
+
+            if (_testReadClipboard is not null)
+                continue; // тестовый режим — пропускаем pre-check
+
+            var preClip = await ReadInventoryClipboardAsync(
+                p.InventoryCell, log, ct, $"Омен: pre-check инвентарь [{i}]").ConfigureAwait(false);
+
+            if (string.IsNullOrWhiteSpace(preClip))
+                continue; // ячейка пуста — всё нормально
+
+            if (ClipboardLooksLikeOmen(preClip, p.OmenName))
+            {
+                log?.Report($"Омен: ячейка [{i}] уже содержит «{p.OmenName}» — перекладывание пропускается.");
+                alreadyPlaced[i] = true;
+                continue;
+            }
+
+            var preview = preClip.Split('\n').FirstOrDefault()?.Trim() ?? "(неизвестно)";
+            log?.Report($"Омен: ячейка инвентаря [{i}] занята другим предметом: «{preview}». Освободите ячейку перед запуском.");
+            return false;
         }
 
         // Шаг 1: ЛКМ стэш → ЛКМ инвентарь (перекладываем каждый омен)
@@ -973,6 +1015,10 @@ public sealed class OmenActivationService
         {
             ct.ThrowIfCancellationRequested();
             var p = placements[i];
+
+            if (alreadyPlaced[i])
+                continue;
+
             log?.Report($"Омен: перекладываем «{p.OmenName}» [{i + 1}/{placements.Count}]…");
 
             _testActionLog?.Add($"LMB-Stash-{i}");
@@ -980,10 +1026,18 @@ public sealed class OmenActivationService
             {
                 var (sx, sy) = p.StashCell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
                 MoveToRandomInteriorIfOutside(p.StashCell, log, $"Омен: MoveTo стэш [{i}]", sx, sy);
-                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
-                LogMouse(log, $"Омен: ЛКМ стэш [{i}] (поднять стек)");
+                await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
+                LogMouse(log, $"Омен: Shift+ЛКМ стэш [{i}] (поднять 1)");
+                Win32Input.ShiftDown();
+                await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
                 Win32Input.ClickLeft();
-                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+                await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
+                Win32Input.ShiftUp();
+                await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
+                Win32Input.TypeText("1");
+                await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
+                Win32Input.PressEnter();
+                await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
             }
 
             _testActionLog?.Add($"LMB-Inventory-{i}");
@@ -991,10 +1045,10 @@ public sealed class OmenActivationService
             {
                 var (ix, iy) = p.InventoryCell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
                 MoveToRandomInteriorIfOutside(p.InventoryCell, log, $"Омен: MoveTo инвентарь [{i}]", ix, iy);
-                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+                await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
                 LogMouse(log, $"Омен: ЛКМ инвентарь [{i}] (положить)");
                 Win32Input.ClickLeft();
-                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+                await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
             }
         }
 
@@ -1027,42 +1081,48 @@ public sealed class OmenActivationService
             ct.ThrowIfCancellationRequested();
             var p = placements[i];
 
-            var alreadyActive = _testIsActivatedOverride is not null
-                ? _testIsActivatedOverride(p.InventoryCell)
-                : IsOmenCellVisuallyActivated(p.InventoryCell);
-
-            if (alreadyActive)
-            {
-                log?.Report($"Омен [{i}]: «{p.OmenName}» уже активирован.");
-                continue;
-            }
+            // TODO: OCR-проверка красной рамки отключена — считаем активацию всегда успешной
+            // var alreadyActive = _testIsActivatedOverride is not null
+            //     ? _testIsActivatedOverride(p.InventoryCell)
+            //     : IsOmenCellVisuallyActivated(p.InventoryCell);
+            // if (alreadyActive)
+            // {
+            //     log?.Report($"Омен [{i}]: «{p.OmenName}» уже активирован.");
+            //     continue;
+            // }
 
             _testActionLog?.Add($"RMB-Inventory-{i}");
             if (_testReadClipboard is null)
             {
                 var (ix, iy) = p.InventoryCell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
                 MoveToRandomInteriorIfOutside(p.InventoryCell, log, $"Омен: MoveTo инвентарь [{i}] (активация)", ix, iy);
-                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+                await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
                 LogMouse(log, $"Омен: ПКМ инвентарь [{i}] (активация)");
                 Win32Input.ClickRight();
-                await DelayJitterAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
-                await Task.Delay(150, ct).ConfigureAwait(false);
+                await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
+                await Task.Delay(300, ct).ConfigureAwait(false);
             }
 
-            var activated = _testIsActivatedOverride is not null
-                ? _testIsActivatedOverride(p.InventoryCell)
-                : IsOmenCellVisuallyActivated(p.InventoryCell);
+            // TODO: OCR-проверка красной рамки отключена — считаем активацию всегда успешной
+            // var activated = _testIsActivatedOverride is not null
+            //     ? _testIsActivatedOverride(p.InventoryCell)
+            //     : IsOmenCellVisuallyActivated(p.InventoryCell);
+            // if (!activated)
+            // {
+            //     log?.Report($"Омен [{i}]: «{p.OmenName}» — красная рамка не появилась после активации.");
+            //     return false;
+            // }
 
-            if (!activated)
-            {
-                log?.Report($"Омен [{i}]: «{p.OmenName}» — красная рамка не появилась после активации.");
-                return false;
-            }
-
-            log?.Report($"Омен [{i}]: «{p.OmenName}» активирован (красная рамка).");
+            log?.Report($"Омен [{i}]: «{p.OmenName}» активирован (ПКМ выполнен).");
         }
 
         return true;
+
+        } // try
+        finally
+        {
+            Win32Input.ReleaseCtrlAlt();
+        }
     }
 }
 

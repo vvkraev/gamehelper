@@ -168,6 +168,9 @@ public sealed class AppSettings
     /// <summary>Ячейки сетки инвентаря для перековки (независимы от ItemCells крафта).</summary>
     public List<ScreenRect>? ReforgeItemCells { get; set; }
 
+    /// <summary>Ячейки сетки предметов для рецептурного крафта (независимы от ItemCells).</summary>
+    public List<ScreenRect>? PipelineItemCells { get; set; }
+
     /// <summary>Virtual key code для горячей клавиши «Старт/Стоп перековки» (0 = не задано).</summary>
     public int ReforgeStartStopVirtualKey { get; set; }
     /// <summary>Модификаторы для «Старт/Стоп перековки»: Alt=1, Ctrl=2, Shift=4.</summary>

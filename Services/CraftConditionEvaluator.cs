@@ -60,7 +60,7 @@ public static class CraftConditionEvaluator
                         return false;
                     }
 
-                    var libV = AffixLibrary.GetEntries();
+                    var libV = AffixLibrary.GetEntriesWithCrafted();
                     var statsToCheck = c.Single.Lines.Count > 0
                         ? c.Single.Lines.Select(l => l.StatTemplate).ToList()
                         : new List<string> { c.Single.StatTemplate };
@@ -185,7 +185,7 @@ public static class CraftConditionEvaluator
                         return false;
                     }
 
-                    var lib = AffixLibrary.GetEntries();
+                    var lib = AffixLibrary.GetEntriesWithCrafted();
                     AffixLibraryEntry? firstEnt = null;
                     foreach (var nm in wn)
                     {
@@ -273,18 +273,34 @@ public static class CraftConditionEvaluator
         }
 
         var orIndex = 0;
+        var failDetails = new System.Text.StringBuilder();
+        bool orResult = false;
+        string orExplanation = "";
         foreach (var alt in plan.OrAlternatives)
         {
             orIndex++;
             if (TryEvaluateAndGroup(alt, item, plan.ExpectedItemClass, out var sub))
             {
-                explanation = $"Выполнен вариант {orIndex} (ИЛИ): {sub}";
-                return true;
+                orExplanation = $"Выполнен вариант {orIndex} (ИЛИ): {sub}";
+                orResult = true;
+                break;
             }
+            if (failDetails.Length > 0) failDetails.Append(" | ");
+            failDetails.Append($"[{orIndex}]: {sub}");
+        }
+        if (!orResult)
+            orExplanation = $"Ни один вариант условия (ИЛИ) не выполнен. {failDetails}";
+
+        if (plan.Negate)
+        {
+            explanation = orResult
+                ? $"НЕ (инвертировано, условие выполнено → false): {orExplanation}"
+                : $"НЕ (инвертировано, условие не выполнено → true): {orExplanation}";
+            return !orResult;
         }
 
-        explanation = "Ни один вариант условия (ИЛИ) не выполнен.";
-        return false;
+        explanation = orExplanation;
+        return orResult;
     }
 
     private static bool TryEvaluateAndGroup(
@@ -299,7 +315,7 @@ public static class CraftConditionEvaluator
             return false;
         }
 
-        var lib = AffixLibrary.GetEntries();
+        var lib = AffixLibrary.GetEntriesWithCrafted();
         var sb = new StringBuilder();
         foreach (var clause in group.Clauses)
         {
@@ -438,7 +454,7 @@ public static class CraftConditionEvaluator
         ParsedItem item,
         string expectedItemClass,
         out string detail) =>
-        TryMatchSingleAffix(s, item, expectedItemClass, AffixLibrary.GetEntries(), out detail);
+        TryMatchSingleAffix(s, item, expectedItemClass, AffixLibrary.GetEntriesWithCrafted(), out detail);
 
     private static int CountMatchedMembers(
         CraftCountAffixData cnt,
@@ -449,7 +465,7 @@ public static class CraftConditionEvaluator
         var matched = 0;
         foreach (var m in cnt.Members)
         {
-            if (TryMatchCountMember(m, item, expectedItemClass, lib, out _))
+            if (TryMatchCountMember(m, item, expectedItemClass, lib, out _, cnt.IncludeFractured))
                 matched++;
         }
 
@@ -461,7 +477,8 @@ public static class CraftConditionEvaluator
         ParsedItem item,
         string expectedItemClass,
         IReadOnlyList<AffixLibraryEntry> lib,
-        out string detail)
+        out string detail,
+        bool includeFractured = false)
     {
         detail = "";
         if (m.Lines.Count == 0)
@@ -479,11 +496,11 @@ public static class CraftConditionEvaluator
 
         foreach (var nm in names)
         {
-            if (ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(m, item, expectedItemClass, lib, out _, nm))
+            if (ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(m, item, expectedItemClass, lib, out _, nm, includeFractured))
                 return true;
         }
 
-        ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(m, item, expectedItemClass, lib, out detail, names[0]);
+        ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(m, item, expectedItemClass, lib, out detail, names[0], includeFractured);
         return false;
     }
 
@@ -503,14 +520,15 @@ public static class CraftConditionEvaluator
         foreach (var m in cnt.Members)
         {
             var label = FormatCountMemberLabel(m);
-            if (TryMatchCountMember(m, item, expectedItemClass, lib, out var fail))
+            if (TryMatchCountMember(m, item, expectedItemClass, lib, out var fail, cnt.IncludeFractured))
                 parts.Add($"{label}: OK");
             else
                 parts.Add($"{label}: {fail}");
         }
 
         detail =
-            $"набор COUNT: выполнено {matched} из {cnt.Members.Count} (нужно ≥ {cnt.MinMatchCount}). " +
+            $"набор COUNT: выполнено {matched} из {cnt.Members.Count} (нужно ≥ {cnt.MinMatchCount})" +
+            (cnt.IncludeFractured ? " [+фрактура]" : "") + ". " +
             string.Join("; ", parts);
         return false;
     }
@@ -676,8 +694,10 @@ public static class CraftConditionEvaluator
         if (plan.OrAlternatives.Count == 0)
             return $"Класс: {plan.ExpectedItemClass} — нет вариантов ИЛИ.";
 
-        var lib = AffixLibrary.GetEntries();
+        var lib = AffixLibrary.GetEntriesWithCrafted();
         var sb = new StringBuilder();
+        if (plan.Negate)
+            sb.Append("НЕ: ");
         sb.Append("Класс: ").Append(plan.ExpectedItemClass).Append(". ИЛИ: ");
         var oi = 0;
         foreach (var alt in plan.OrAlternatives)

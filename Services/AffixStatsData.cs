@@ -5,8 +5,8 @@ namespace GameHelper.Services;
 
 public sealed class AffixStatsData
 {
-    // v10: ClassStats tracks SnapshotsByFracturedAffix to allow fracture-corrected frequency display.
-    public int Version { get; set; } = 10;
+    // v11: десекрейт-моды исключены из подсчёта аффиксов хаос-крафта.
+    public int Version { get; set; } = 11;
 
     /// <summary>
     /// Item classes for which <see cref="MakeClassKey"/> includes the armour subtype segment.

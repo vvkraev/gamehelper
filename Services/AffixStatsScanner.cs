@@ -120,6 +120,7 @@ public static class AffixStatsScanner
                 foreach (var affix in item.Affixes)
                 {
                     if (string.IsNullOrEmpty(affix.Name)) continue;
+                    if (affix.Type.StartsWith("Desecrated", StringComparison.Ordinal)) continue;
                     if (affix.IsFractured)
                     {
                         // Ключ по нормализованному стат-шаблону: роллы заменяются на "#",

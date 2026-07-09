@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-07-04T18:54:16",
+  "generatedAt": "2026-07-08T20:04:42",
   "perClass": {
     "Amulets": {
       "snapshotsWithFracture": 3316,
@@ -1269,6 +1269,109 @@
         }
       ]
     },
+    "Jewels|Sapphire|Chaos Orb": {
+      "snapshotsWithFracture": 18,
+      "entries": [
+        {
+          "affixName": "of Annihilating",
+          "statKey": "of Annihilating|% increased critical hit chance for spells",
+          "count": 6,
+          "availableSamples": 18,
+          "probabilityPct": 33.33
+        },
+        {
+          "affixName": "Chilling",
+          "statKey": "Chilling|% increased cold damage",
+          "count": 4,
+          "availableSamples": 18,
+          "probabilityPct": 22.22
+        },
+        {
+          "affixName": "Necromantic",
+          "statKey": "Necromantic|% increased damage if you have consumed a corpse recently",
+          "count": 4,
+          "availableSamples": 18,
+          "probabilityPct": 22.22
+        },
+        {
+          "affixName": "of Inuring",
+          "statKey": "of Inuring|gain additional ailment threshold equal to % of maximum energy shield",
+          "count": 2,
+          "availableSamples": 18,
+          "probabilityPct": 11.11
+        },
+        {
+          "affixName": "Mystic",
+          "statKey": "Mystic|% increased spell damage",
+          "count": 2,
+          "availableSamples": 18,
+          "probabilityPct": 11.11
+        },
+        {
+          "affixName": "Triggered",
+          "statKey": "Triggered|triggered spells deal % increased spell damage",
+          "count": 2,
+          "availableSamples": 18,
+          "probabilityPct": 11.11
+        },
+        {
+          "affixName": "Veiled",
+          "statKey": "Veiled|desecrated prefix",
+          "count": 1,
+          "availableSamples": 18,
+          "probabilityPct": 5.56
+        },
+        {
+          "affixName": "of Gripping",
+          "statKey": "of Gripping|minions have % increased critical damage bonus",
+          "count": 1,
+          "availableSamples": 18,
+          "probabilityPct": 5.56
+        },
+        {
+          "affixName": "Prismatic",
+          "statKey": "Prismatic|% increased elemental damage",
+          "count": 1,
+          "availableSamples": 18,
+          "probabilityPct": 5.56
+        },
+        {
+          "affixName": "of Suffusion",
+          "statKey": "of Suffusion|% increased duration of damaging ailments on enemies",
+          "count": 1,
+          "availableSamples": 18,
+          "probabilityPct": 5.56
+        },
+        {
+          "affixName": "of Paralyzing",
+          "statKey": "of Paralyzing|% increased shock duration",
+          "count": 1,
+          "availableSamples": 18,
+          "probabilityPct": 5.56
+        },
+        {
+          "affixName": "Serene",
+          "statKey": "Serene|% faster start of energy shield recharge",
+          "count": 1,
+          "availableSamples": 18,
+          "probabilityPct": 5.56
+        },
+        {
+          "affixName": "Bestial",
+          "statKey": "Bestial|% increased damage while shapeshifted",
+          "count": 1,
+          "availableSamples": 18,
+          "probabilityPct": 5.56
+        },
+        {
+          "affixName": "Chaotic",
+          "statKey": "Chaotic|% increased chaos damage",
+          "count": 1,
+          "availableSamples": 18,
+          "probabilityPct": 5.56
+        }
+      ]
+    },
     "Rings": {
       "snapshotsWithFracture": 16,
       "entries": [
@@ -1528,20 +1631,6 @@
           "count": 2,
           "availableSamples": 79,
           "probabilityPct": 2.53
-        },
-        {
-          "affixName": "Warlock\u0027s",
-          "statKey": "Warlock\u0027s|% increased spell damage",
-          "count": 1,
-          "availableSamples": 79,
-          "probabilityPct": 1.27
-        },
-        {
-          "affixName": "Warlock\u0027s",
-          "statKey": "Warlock\u0027s|\u002B to maximum mana",
-          "count": 1,
-          "availableSamples": 79,
-          "probabilityPct": 1.27
         },
         {
           "affixName": "of Zapping",
@@ -2069,147 +2158,147 @@
       ]
     },
     "Time-Lost Sapphire Jewels|Chaos Orb": {
-      "snapshotsWithFracture": 10564,
+      "snapshotsWithFracture": 11134,
       "entries": [
-        {
-          "affixName": "of Annihilation",
-          "statKey": "of Annihilation|notable passive skills in radius also grant % increased critical hit chance",
-          "count": 565,
-          "availableSamples": 10564,
-          "probabilityPct": 5.35
-        },
         {
           "affixName": "of Paralyzing",
           "statKey": "of Paralyzing|small passive skills in radius also grant % increased shock duration",
-          "count": 483,
-          "availableSamples": 10564,
-          "probabilityPct": 4.57
+          "count": 488,
+          "availableSamples": 11134,
+          "probabilityPct": 4.38
         },
         {
           "affixName": "of Unmaking",
           "statKey": "of Unmaking|notable passive skills in radius also grant % increased critical spell damage bonus",
-          "count": 432,
-          "availableSamples": 9631,
-          "probabilityPct": 4.49
+          "count": 438,
+          "availableSamples": 10201,
+          "probabilityPct": 4.29
         },
         {
           "affixName": "Chilling",
           "statKey": "Chilling|small passive skills in radius also grant % increased cold damage",
-          "count": 447,
-          "availableSamples": 10564,
-          "probabilityPct": 4.23
+          "count": 466,
+          "availableSamples": 11134,
+          "probabilityPct": 4.19
         },
         {
           "affixName": "Authoritative",
           "statKey": "Authoritative|small passive skills in radius also grant minions deal % increased damage",
-          "count": 426,
-          "availableSamples": 10564,
-          "probabilityPct": 4.03
+          "count": 457,
+          "availableSamples": 11134,
+          "probabilityPct": 4.1
         },
         {
           "affixName": "Mystic",
           "statKey": "Mystic|small passive skills in radius also grant % increased spell damage",
-          "count": 419,
-          "availableSamples": 10564,
-          "probabilityPct": 3.97
+          "count": 439,
+          "availableSamples": 11134,
+          "probabilityPct": 3.94
         },
         {
           "affixName": "Shimmering",
           "statKey": "Shimmering|small passive skills in radius also grant % increased maximum energy shield",
-          "count": 391,
-          "availableSamples": 10564,
-          "probabilityPct": 3.7
+          "count": 407,
+          "availableSamples": 11134,
+          "probabilityPct": 3.66
         },
         {
           "affixName": "Greater",
           "statKey": "Greater|upgrades radius to medium",
-          "count": 385,
-          "availableSamples": 10564,
-          "probabilityPct": 3.64
+          "count": 403,
+          "availableSamples": 11134,
+          "probabilityPct": 3.62
         },
         {
           "affixName": "of Energy",
           "statKey": "of Energy|small passive skills in radius also grant % increased mana regeneration rate",
-          "count": 352,
-          "availableSamples": 10564,
-          "probabilityPct": 3.33
+          "count": 369,
+          "availableSamples": 11134,
+          "probabilityPct": 3.31
         },
         {
           "affixName": "of Enchanting",
           "statKey": "of Enchanting|notable passive skills in radius also grant % increased cast speed",
-          "count": 335,
-          "availableSamples": 10564,
-          "probabilityPct": 3.17
+          "count": 346,
+          "availableSamples": 11134,
+          "probabilityPct": 3.11
         },
         {
           "affixName": "Iconic",
           "statKey": "Iconic|notable passive skills in radius also grant % increased presence area of effect",
-          "count": 299,
-          "availableSamples": 10564,
-          "probabilityPct": 2.83
+          "count": 314,
+          "availableSamples": 11134,
+          "probabilityPct": 2.82
         },
         {
           "affixName": "Serene",
           "statKey": "Serene|notable passive skills in radius also grant % faster start of energy shield recharge",
-          "count": 281,
-          "availableSamples": 10564,
-          "probabilityPct": 2.66
+          "count": 295,
+          "availableSamples": 11134,
+          "probabilityPct": 2.65
         },
         {
           "affixName": "Chaotic",
           "statKey": "Chaotic|small passive skills in radius also grant % increased chaos damage",
-          "count": 280,
-          "availableSamples": 10564,
-          "probabilityPct": 2.65
-        },
-        {
-          "affixName": "Numbing",
-          "statKey": "Numbing|small passive skills in radius also grant damage penetrates % cold resistance",
-          "count": 265,
-          "availableSamples": 10564,
-          "probabilityPct": 2.51
+          "count": 294,
+          "availableSamples": 11134,
+          "probabilityPct": 2.64
         },
         {
           "affixName": "of Acclimatisation",
           "statKey": "of Acclimatisation|small passive skills in radius also grant minions have \u002B% to all elemental resistances",
-          "count": 262,
-          "availableSamples": 10564,
-          "probabilityPct": 2.48
+          "count": 283,
+          "availableSamples": 11134,
+          "probabilityPct": 2.54
         },
         {
-          "affixName": "of Success",
-          "statKey": "of Success|notable passive skills in radius also grant recover 1% of maximum life on kill",
-          "count": 248,
-          "availableSamples": 10564,
-          "probabilityPct": 2.35
+          "affixName": "of Annihilation",
+          "statKey": "of Annihilation|notable passive skills in radius also grant % increased critical hit chance",
+          "count": 279,
+          "availableSamples": 11134,
+          "probabilityPct": 2.51
         },
         {
-          "affixName": "of Annihilating",
-          "statKey": "of Annihilating|notable passive skills in radius also grant % increased critical hit chance for spells",
-          "count": 247,
-          "availableSamples": 10564,
-          "probabilityPct": 2.34
-        },
-        {
-          "affixName": "of Ignition",
-          "statKey": "of Ignition|small passive skills in radius also grant % increased flammability magnitude",
-          "count": 242,
-          "availableSamples": 10564,
-          "probabilityPct": 2.29
-        },
-        {
-          "affixName": "of Infusion",
-          "statKey": "of Infusion|notable passive skills in radius also grant 1% of damage taken recouped as life",
-          "count": 237,
-          "availableSamples": 10564,
-          "probabilityPct": 2.24
+          "affixName": "Numbing",
+          "statKey": "Numbing|small passive skills in radius also grant damage penetrates % cold resistance",
+          "count": 277,
+          "availableSamples": 11134,
+          "probabilityPct": 2.49
         },
         {
           "affixName": "of Orchestration",
           "statKey": "of Orchestration|notable passive skills in radius also grant minions have % increased attack and cast speed",
-          "count": 236,
-          "availableSamples": 10564,
-          "probabilityPct": 2.23
+          "count": 263,
+          "availableSamples": 11134,
+          "probabilityPct": 2.36
+        },
+        {
+          "affixName": "of Annihilating",
+          "statKey": "of Annihilating|notable passive skills in radius also grant % increased critical hit chance for spells",
+          "count": 260,
+          "availableSamples": 11134,
+          "probabilityPct": 2.34
+        },
+        {
+          "affixName": "of Success",
+          "statKey": "of Success|notable passive skills in radius also grant recover 1% of maximum life on kill",
+          "count": 254,
+          "availableSamples": 11134,
+          "probabilityPct": 2.28
+        },
+        {
+          "affixName": "of Ignition",
+          "statKey": "of Ignition|small passive skills in radius also grant % increased flammability magnitude",
+          "count": 252,
+          "availableSamples": 11134,
+          "probabilityPct": 2.26
+        },
+        {
+          "affixName": "of Infusion",
+          "statKey": "of Infusion|notable passive skills in radius also grant 1% of damage taken recouped as life",
+          "count": 252,
+          "availableSamples": 11134,
+          "probabilityPct": 2.26
         },
         {
           "affixName": "of Potency",
@@ -2219,284 +2308,284 @@
           "probabilityPct": 2.14
         },
         {
-          "affixName": "Focusing",
-          "statKey": "Focusing|notable passive skills in radius also grant % increased energy shield from equipped focus",
-          "count": 213,
-          "availableSamples": 10564,
-          "probabilityPct": 2.02
-        },
-        {
           "affixName": "Grand",
           "statKey": "Grand|upgrades radius to large",
-          "count": 208,
-          "availableSamples": 10564,
-          "probabilityPct": 1.97
+          "count": 224,
+          "availableSamples": 11134,
+          "probabilityPct": 2.01
+        },
+        {
+          "affixName": "Focusing",
+          "statKey": "Focusing|notable passive skills in radius also grant % increased energy shield from equipped focus",
+          "count": 222,
+          "availableSamples": 11134,
+          "probabilityPct": 1.99
         },
         {
           "affixName": "Triggered",
           "statKey": "Triggered|small passive skills in radius also grant triggered spells deal % increased spell damage",
-          "count": 207,
-          "availableSamples": 10564,
-          "probabilityPct": 1.96
+          "count": 220,
+          "availableSamples": 11134,
+          "probabilityPct": 1.98
         },
         {
           "affixName": "Prismatic",
           "statKey": "Prismatic|small passive skills in radius also grant % increased elemental damage",
-          "count": 206,
-          "availableSamples": 10564,
-          "probabilityPct": 1.95
+          "count": 216,
+          "availableSamples": 11134,
+          "probabilityPct": 1.94
         },
         {
           "affixName": "Burning",
           "statKey": "Burning|notable passive skills in radius also grant % increased ignite magnitude",
-          "count": 195,
-          "availableSamples": 10564,
-          "probabilityPct": 1.85
+          "count": 208,
+          "availableSamples": 11134,
+          "probabilityPct": 1.87
         },
         {
           "affixName": "Bestial",
           "statKey": "Bestial|small passive skills in radius also grant % increased damage while shapeshifted",
-          "count": 187,
-          "availableSamples": 10564,
-          "probabilityPct": 1.77
+          "count": 194,
+          "availableSamples": 11134,
+          "probabilityPct": 1.74
         },
         {
           "affixName": "of Barriers",
           "statKey": "of Barriers|small passive skills in radius also grant gain additional stun threshold equal to % of maximum energy shield",
-          "count": 186,
-          "availableSamples": 10564,
-          "probabilityPct": 1.76
+          "count": 192,
+          "availableSamples": 11134,
+          "probabilityPct": 1.72
         },
         {
           "affixName": "of Inuring",
           "statKey": "of Inuring|small passive skills in radius also grant gain additional ailment threshold equal to % of maximum energy shield",
-          "count": 173,
-          "availableSamples": 10564,
-          "probabilityPct": 1.64
+          "count": 182,
+          "availableSamples": 11134,
+          "probabilityPct": 1.63
         },
         {
           "affixName": "of Snowbreathing",
           "statKey": "of Snowbreathing|small passive skills in radius also grant % increased freeze threshold",
-          "count": 161,
-          "availableSamples": 10564,
-          "probabilityPct": 1.52
+          "count": 170,
+          "availableSamples": 11134,
+          "probabilityPct": 1.53
         },
         {
           "affixName": "Sacrificial",
           "statKey": "Sacrificial|small passive skills in radius also grant offerings have % increased maximum life",
-          "count": 161,
-          "availableSamples": 10564,
-          "probabilityPct": 1.52
+          "count": 170,
+          "availableSamples": 11134,
+          "probabilityPct": 1.53
         },
         {
           "affixName": "Expanding",
           "statKey": "Expanding|notable passive skills in radius also grant % increased area of effect of curses",
-          "count": 158,
-          "availableSamples": 10564,
-          "probabilityPct": 1.5
+          "count": 165,
+          "availableSamples": 11134,
+          "probabilityPct": 1.48
         },
         {
           "affixName": "of Generation",
           "statKey": "of Generation|notable passive skills in radius also grant meta skills gain % increased energy",
-          "count": 157,
-          "availableSamples": 10564,
-          "probabilityPct": 1.49
-        },
-        {
-          "affixName": "of Gripping",
-          "statKey": "of Gripping|notable passive skills in radius also grant minions have % increased critical damage bonus",
-          "count": 149,
-          "availableSamples": 10564,
-          "probabilityPct": 1.41
-        },
-        {
-          "affixName": "of Suffusion",
-          "statKey": "of Suffusion|notable passive skills in radius also grant % increased duration of damaging ailments on enemies",
-          "count": 146,
-          "availableSamples": 10564,
-          "probabilityPct": 1.38
+          "count": 164,
+          "availableSamples": 11134,
+          "probabilityPct": 1.47
         },
         {
           "affixName": "of the Wild",
           "statKey": "of the Wild|notable passive skills in radius also grant % increased skill speed while shapeshifted",
-          "count": 146,
-          "availableSamples": 10564,
-          "probabilityPct": 1.38
+          "count": 162,
+          "availableSamples": 11134,
+          "probabilityPct": 1.46
         },
         {
-          "affixName": "Blasting",
-          "statKey": "Blasting|notable passive skills in radius also grant % increased area of effect",
-          "count": 141,
-          "availableSamples": 10564,
-          "probabilityPct": 1.33
+          "affixName": "of Gripping",
+          "statKey": "of Gripping|notable passive skills in radius also grant minions have % increased critical damage bonus",
+          "count": 161,
+          "availableSamples": 11134,
+          "probabilityPct": 1.45
+        },
+        {
+          "affixName": "of Suffusion",
+          "statKey": "of Suffusion|notable passive skills in radius also grant % increased duration of damaging ailments on enemies",
+          "count": 154,
+          "availableSamples": 11134,
+          "probabilityPct": 1.38
         },
         {
           "affixName": "of Freezing",
           "statKey": "of Freezing|notable passive skills in radius also grant % increased freeze buildup",
-          "count": 140,
-          "availableSamples": 10564,
-          "probabilityPct": 1.33
+          "count": 147,
+          "availableSamples": 11134,
+          "probabilityPct": 1.32
+        },
+        {
+          "affixName": "Blasting",
+          "statKey": "Blasting|notable passive skills in radius also grant % increased area of effect",
+          "count": 144,
+          "availableSamples": 11134,
+          "probabilityPct": 1.29
         },
         {
           "affixName": "of Marshalling",
           "statKey": "of Marshalling|notable passive skills in radius also grant minions have % increased critical hit chance",
-          "count": 139,
-          "availableSamples": 10564,
-          "probabilityPct": 1.32
-        },
-        {
-          "affixName": "of Continuation",
-          "statKey": "of Continuation|small passive skills in radius also grant % increased curse duration",
-          "count": 133,
-          "availableSamples": 10564,
-          "probabilityPct": 1.26
+          "count": 141,
+          "availableSamples": 11134,
+          "probabilityPct": 1.27
         },
         {
           "affixName": "of Osmosis",
           "statKey": "of Osmosis|notable passive skills in radius also grant recover 1% of maximum mana on kill",
-          "count": 128,
-          "availableSamples": 10564,
+          "count": 141,
+          "availableSamples": 11134,
+          "probabilityPct": 1.27
+        },
+        {
+          "affixName": "of Continuation",
+          "statKey": "of Continuation|small passive skills in radius also grant % increased curse duration",
+          "count": 140,
+          "availableSamples": 11134,
+          "probabilityPct": 1.26
+        },
+        {
+          "affixName": "Overgrown",
+          "statKey": "Overgrown|small passive skills in radius also grant % increased damage with plant skills",
+          "count": 135,
+          "availableSamples": 11134,
           "probabilityPct": 1.21
         },
         {
           "affixName": "of Frost",
           "statKey": "of Frost|notable passive skills in radius also grant % increased chill duration on enemies",
-          "count": 126,
-          "availableSamples": 10564,
-          "probabilityPct": 1.19
+          "count": 131,
+          "availableSamples": 11134,
+          "probabilityPct": 1.18
         },
         {
           "affixName": "of Shocking",
           "statKey": "of Shocking|small passive skills in radius also grant % increased chance to shock",
-          "count": 126,
-          "availableSamples": 10564,
-          "probabilityPct": 1.19
-        },
-        {
-          "affixName": "Overgrown",
-          "statKey": "Overgrown|small passive skills in radius also grant % increased damage with plant skills",
-          "count": 126,
-          "availableSamples": 10564,
-          "probabilityPct": 1.19
-        },
-        {
-          "affixName": "Rancorous",
-          "statKey": "Rancorous|notable passive skills in radius also grant % increased magnitude of damaging ailments you inflict with critical hits",
-          "count": 95,
-          "availableSamples": 10564,
-          "probabilityPct": 0.9
+          "count": 130,
+          "availableSamples": 11134,
+          "probabilityPct": 1.17
         },
         {
           "affixName": "of Potency",
           "statKey": "of Potency|% increased effect of small passive skills in radius",
-          "count": 92,
-          "availableSamples": 10564,
+          "count": 99,
+          "availableSamples": 11134,
+          "probabilityPct": 0.89
+        },
+        {
+          "affixName": "Rancorous",
+          "statKey": "Rancorous|notable passive skills in radius also grant % increased magnitude of damaging ailments you inflict with critical hits",
+          "count": 97,
+          "availableSamples": 11134,
           "probabilityPct": 0.87
         },
         {
           "affixName": "of Supremacy",
           "statKey": "of Supremacy|% increased effect of notable passive skills in radius",
-          "count": 84,
-          "availableSamples": 10564,
-          "probabilityPct": 0.8
+          "count": 90,
+          "availableSamples": 11134,
+          "probabilityPct": 0.81
         },
         {
           "affixName": "Jolting",
           "statKey": "Jolting|notable passive skills in radius also grant % increased magnitude of shock you inflict",
-          "count": 74,
-          "availableSamples": 10564,
-          "probabilityPct": 0.7
+          "count": 76,
+          "availableSamples": 11134,
+          "probabilityPct": 0.68
         },
         {
           "affixName": "Acrimonious",
           "statKey": "Acrimonious|notable passive skills in radius also grant % increased magnitude of ailments you inflict",
-          "count": 72,
-          "availableSamples": 10564,
-          "probabilityPct": 0.68
+          "count": 75,
+          "availableSamples": 11134,
+          "probabilityPct": 0.67
         },
         {
           "affixName": "of Ailing",
           "statKey": "of Ailing|notable passive skills in radius also grant % increased chance to inflict ailments",
-          "count": 69,
-          "availableSamples": 10564,
-          "probabilityPct": 0.65
+          "count": 74,
+          "availableSamples": 11134,
+          "probabilityPct": 0.66
         },
         {
           "affixName": "of Lengthening",
           "statKey": "of Lengthening|notable passive skills in radius also grant % increased skill effect duration",
-          "count": 68,
-          "availableSamples": 10564,
-          "probabilityPct": 0.64
+          "count": 72,
+          "availableSamples": 11134,
+          "probabilityPct": 0.65
         },
         {
           "affixName": "of Glaciers",
           "statKey": "of Glaciers|notable passive skills in radius also grant % increased freeze buildup with quarterstaves",
-          "count": 66,
-          "availableSamples": 10564,
-          "probabilityPct": 0.62
+          "count": 72,
+          "availableSamples": 11134,
+          "probabilityPct": 0.65
         },
         {
           "affixName": "of Diminishing",
           "statKey": "of Diminishing|notable passive skills in radius also grant debuffs on you expire % faster",
-          "count": 56,
-          "availableSamples": 10564,
-          "probabilityPct": 0.53
+          "count": 62,
+          "availableSamples": 11134,
+          "probabilityPct": 0.56
         },
         {
           "affixName": "Withering",
           "statKey": "Withering|notable passive skills in radius also grant % increased withered magnitude",
           "count": 47,
-          "availableSamples": 10564,
-          "probabilityPct": 0.44
+          "availableSamples": 11134,
+          "probabilityPct": 0.42
         },
         {
           "affixName": "Hexing",
           "statKey": "Hexing|notable passive skills in radius also grant 1% increased curse magnitudes",
           "count": 45,
-          "availableSamples": 10564,
-          "probabilityPct": 0.43
+          "availableSamples": 11134,
+          "probabilityPct": 0.4
         },
         {
           "affixName": "Necromantic",
           "statKey": "Necromantic|small passive skills in radius also grant % increased damage if you have consumed a corpse recently",
           "count": 42,
-          "availableSamples": 10564,
-          "probabilityPct": 0.4
-        },
-        {
-          "affixName": "of Righteousness",
-          "statKey": "of Righteousness|small passive skills in radius also grant minions have \u002B% to chaos resistance",
-          "count": 36,
-          "availableSamples": 10564,
-          "probabilityPct": 0.34
+          "availableSamples": 11134,
+          "probabilityPct": 0.38
         },
         {
           "affixName": "of Mind",
           "statKey": "of Mind|notable passive skills in radius also grant 1% of damage is taken from mana before life",
-          "count": 35,
-          "availableSamples": 10564,
-          "probabilityPct": 0.33
+          "count": 40,
+          "availableSamples": 11134,
+          "probabilityPct": 0.36
+        },
+        {
+          "affixName": "of Righteousness",
+          "statKey": "of Righteousness|small passive skills in radius also grant minions have \u002B% to chaos resistance",
+          "count": 38,
+          "availableSamples": 11134,
+          "probabilityPct": 0.34
         },
         {
           "affixName": "of Offering",
           "statKey": "of Offering|notable passive skills in radius also grant offering skills have % increased duration",
-          "count": 32,
-          "availableSamples": 10564,
+          "count": 33,
+          "availableSamples": 11134,
           "probabilityPct": 0.3
         },
         {
           "affixName": "of Decrepifying",
           "statKey": "of Decrepifying|notable passive skills in radius also grant damaging ailments deal damage % faster",
           "count": 25,
-          "availableSamples": 10564,
-          "probabilityPct": 0.24
+          "availableSamples": 11134,
+          "probabilityPct": 0.22
         },
         {
           "affixName": "Veiled",
           "statKey": "Veiled|desecrated prefix",
-          "count": 10,
-          "availableSamples": 10564,
-          "probabilityPct": 0.09
+          "count": 11,
+          "availableSamples": 11134,
+          "probabilityPct": 0.1
         }
       ]
     },
@@ -2922,13 +3011,6 @@
           "count": 19,
           "availableSamples": 2465,
           "probabilityPct": 0.77
-        },
-        {
-          "affixName": "Ardent",
-          "statKey": "Ardent|gain % of damage as extra fire damage",
-          "count": 18,
-          "availableSamples": 2465,
-          "probabilityPct": 0.73
         },
         {
           "affixName": "of Osmosis",
@@ -3416,6 +3498,13 @@
         {
           "affixName": "Malicious",
           "statKey": "Malicious|gain % of damage as extra cold damage",
+          "count": 8,
+          "availableSamples": 2465,
+          "probabilityPct": 0.32
+        },
+        {
+          "affixName": "Ardent",
+          "statKey": "Ardent|gain % of damage as extra fire damage",
           "count": 8,
           "availableSamples": 2465,
           "probabilityPct": 0.32

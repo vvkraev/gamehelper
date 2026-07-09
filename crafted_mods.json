@@ -15,8 +15,9 @@
       "affixRanges": [
         null
       ],
-      "familyId": "JewelRadiusLargerRadius",
-      "weight": null
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": "JewelRadiusLargerRadius"
     },
     {
       "itemClasses": [
@@ -32,8 +33,9 @@
       "affixRanges": [
         null
       ],
-      "familyId": "ChaosResistance",
-      "weight": null
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": "ChaosResistance"
     },
     {
       "itemClasses": [
@@ -49,8 +51,9 @@
       "affixRanges": [
         null
       ],
-      "familyId": "JewelRadiusLargerRadius",
-      "weight": null
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": "JewelRadiusLargerRadius"
     },
     {
       "itemClasses": [
@@ -66,8 +69,9 @@
       "affixRanges": [
         null
       ],
-      "familyId": "LightningResistance",
-      "weight": null
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": "LightningResistance"
     },
     {
       "itemClasses": [
@@ -83,8 +87,9 @@
       "affixRanges": [
         null
       ],
-      "familyId": "JewelRadiusLargerRadius",
-      "weight": null
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": "JewelRadiusLargerRadius"
     },
     {
       "itemClasses": [
@@ -100,8 +105,9 @@
       "affixRanges": [
         null
       ],
-      "familyId": "FireResistance",
-      "weight": null
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": "FireResistance"
     },
     {
       "itemClasses": [
@@ -117,8 +123,9 @@
       "affixRanges": [
         null
       ],
-      "familyId": "JewelRadiusLargerRadius",
-      "weight": null
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": "JewelRadiusLargerRadius"
     },
     {
       "itemClasses": [
@@ -134,8 +141,9 @@
       "affixRanges": [
         null
       ],
-      "familyId": "ColdResistance",
-      "weight": null
+      "affixSubClass": null,
+      "weight": null,
+      "familyId": "ColdResistance"
     },
     {
       "itemClasses": [

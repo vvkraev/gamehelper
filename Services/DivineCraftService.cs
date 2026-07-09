@@ -227,7 +227,7 @@ public sealed class DivineCraftService : IDivineCraftService
 
                     // 3) Все аффиксы условия присутствуют?
                     //    В тестах с _testEvaluatorOverride: пропускаем проверку — evaluator сам решает.
-                    if (_testEvaluatorOverride is null && !AreAllConditionAffixesPresent(plan, preParsed))
+                    if (_testEvaluatorOverride is null && plan.OrAlternatives.Count > 0 && !AreAllConditionAffixesPresent(plan, preParsed))
                     {
                         var desc = DescribeMissingAffixes(plan, preParsed);
                         log?.Report($"Не все аффиксы из условия найдены на предмете — ячейку пропускаем (Divine не тратится). {desc}");
