@@ -126,57 +126,73 @@
                         <TextBlock Text="Конфигурация перехода через Waypoint" FontWeight="SemiBold" Margin="0,0,0,6"/>
                         <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,8"
                                    Text="Область поиска Waypoint — прямоугольник, в котором OCR ищет надпись «Waypoint» на экране. Кнопка локации — фиксированные координаты нужного пункта перехода."/>
+
+                        <!-- Область поиска Waypoint -->
+                        <TextBlock Text="Область поиска «Waypoint»" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="70"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="X:" VerticalAlignment="Center"/>
+                            <TextBox   Grid.Column="1" x:Name="TravelWpX" Text="0" Margin="0,2" Padding="4,2"/>
+                            <TextBlock Grid.Column="2" Text="Y:" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            <TextBox   Grid.Column="3" x:Name="TravelWpY" Text="0" Margin="0,2" Padding="4,2"/>
+                            <TextBlock Grid.Column="4" Text="Шир.:" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            <TextBox   Grid.Column="5" x:Name="TravelWpW" Text="400" Margin="0,2" Padding="4,2"/>
+                            <TextBlock Grid.Column="6" Text="Выс.:" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            <TextBox   Grid.Column="7" x:Name="TravelWpH" Text="200" Margin="0,2" Padding="4,2"/>
+                        </Grid>
+                        <Button x:Name="TravelPickWaypointAreaBtn"
+                                Content="🖱 Выделить область Waypoint…"
+                                HorizontalAlignment="Left" Padding="8,4" Margin="0,0,0,10"
+                                Click="TravelPickWaypointAreaBtn_Click"/>
+
+                        <!-- Кнопка локации -->
+                        <TextBlock Text="Кнопка перехода к локации" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="70"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="X:" VerticalAlignment="Center"/>
+                            <TextBox   Grid.Column="1" x:Name="TravelLocX" Text="0" Margin="0,2" Padding="4,2"/>
+                            <TextBlock Grid.Column="2" Text="Y:" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            <TextBox   Grid.Column="3" x:Name="TravelLocY" Text="0" Margin="0,2" Padding="4,2"/>
+                        </Grid>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,10">
+                            <Button x:Name="TravelPickLocBtn"
+                                    Content="🖱 Запомнить позицию курсора (3 сек.)"
+                                    Padding="8,4" Margin="0,0,8,0"
+                                    Click="TravelPickLocBtn_Click"/>
+                            <TextBlock x:Name="TravelPickLocHint" Text="" VerticalAlignment="Center"
+                                       FontSize="11" Foreground="#888"/>
+                        </StackPanel>
+
+                        <!-- Задержки -->
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200"/>
+                                <ColumnDefinition Width="220"/>
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="30"/>
                                 <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
                             </Grid.RowDefinitions>
-
-                            <TextBlock Grid.Row="0" Text="Поиск Waypoint — X:" VerticalAlignment="Center"/>
-                            <TextBox   Grid.Row="0" Grid.Column="1" x:Name="TravelWpX" Text="0" Width="80"
-                                       HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
-
-                            <TextBlock Grid.Row="1" Text="Поиск Waypoint — Y:" VerticalAlignment="Center"/>
-                            <TextBox   Grid.Row="1" Grid.Column="1" x:Name="TravelWpY" Text="0" Width="80"
-                                       HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
-
-                            <TextBlock Grid.Row="2" Text="Поиск Waypoint — Ширина:" VerticalAlignment="Center"/>
-                            <TextBox   Grid.Row="2" Grid.Column="1" x:Name="TravelWpW" Text="400" Width="80"
-                                       HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
-
-                            <TextBlock Grid.Row="3" Text="Поиск Waypoint — Высота:" VerticalAlignment="Center"/>
-                            <TextBox   Grid.Row="3" Grid.Column="1" x:Name="TravelWpH" Text="200" Width="80"
-                                       HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
-
-                            <TextBlock Grid.Row="4" Text="Кнопка локации — X:" VerticalAlignment="Center"/>
-                            <TextBox   Grid.Row="4" Grid.Column="1" x:Name="TravelLocX" Text="0" Width="80"
-                                       HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
-
-                            <TextBlock Grid.Row="5" Text="Кнопка локации — Y:" VerticalAlignment="Center"/>
-                            <TextBox   Grid.Row="5" Grid.Column="1" x:Name="TravelLocY" Text="0" Width="80"
-                                       HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
-
-                            <TextBlock Grid.Row="6" Text="Задержка после Waypoint (мс):" VerticalAlignment="Center"/>
-                            <TextBox   Grid.Row="6" Grid.Column="1" x:Name="TravelWpDelayBox" Text="10000" Width="80"
-                                       HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
-                        </Grid>
-                        <Grid Margin="0,6,0,0">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="200"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Text="Задержка загрузки (мс):" VerticalAlignment="Center"/>
-                            <TextBox Grid.Column="1" x:Name="TravelLoadDelayBox" Text="15000" Width="80"
-                                     HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
+                            <TextBlock Grid.Row="0" Text="Задержка после Waypoint (мс):" VerticalAlignment="Center"/>
+                            <TextBox   Grid.Row="0" Grid.Column="1" x:Name="TravelWpDelayBox" Text="10000"
+                                       Width="80" HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
+                            <TextBlock Grid.Row="1" Text="Задержка загрузки (мс):" VerticalAlignment="Center"/>
+                            <TextBox   Grid.Row="1" Grid.Column="1" x:Name="TravelLoadDelayBox" Text="15000"
+                                       Width="80" HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
                         </Grid>
                     </StackPanel>
                 </Border>

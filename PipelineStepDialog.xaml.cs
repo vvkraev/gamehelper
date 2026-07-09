@@ -343,6 +343,39 @@ public partial class PipelineStepDialog : Window
         RefreshConditionSummaries();
     }
 
+    // ── TravelToLocation — захват координат ──────────────────────────────────
+
+    private void TravelPickWaypointAreaBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r)
+            return;
+
+        TravelWpX.Text = r.X.ToString();
+        TravelWpY.Text = r.Y.ToString();
+        TravelWpW.Text = r.Width.ToString();
+        TravelWpH.Text = r.Height.ToString();
+    }
+
+    private async void TravelPickLocBtn_Click(object sender, RoutedEventArgs e)
+    {
+        TravelPickLocBtn.IsEnabled = false;
+        for (var i = 3; i >= 1; i--)
+        {
+            TravelPickLocHint.Text = $"Наведите курсор… {i}";
+            await Task.Delay(1000);
+        }
+
+        TravelPickLocHint.Text = "";
+        TravelPickLocBtn.IsEnabled = true;
+
+        if (!GameHelper.Native.Win32Input.TryGetCursorPos(out var x, out var y))
+            return;
+
+        TravelLocX.Text = x.ToString();
+        TravelLocY.Text = y.ToString();
+    }
+
     // ── OK ────────────────────────────────────────────────────────────────────
 
     private void OkBtn_Click(object sender, RoutedEventArgs e)
