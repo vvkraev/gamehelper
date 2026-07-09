@@ -238,6 +238,26 @@ public static class CraftConditionEvaluator
                         }
                     }
                 }
+                else if (c.Kind == CraftClauseKind.AffixCount)
+                {
+                    if (c.AffixCount is null)
+                    {
+                        error = $"В варианте {altIndex}, клоз {cIndex}: AffixCount не задан.";
+                        return false;
+                    }
+
+                    if (c.AffixCount.Min < 0)
+                    {
+                        error = $"В варианте {altIndex}, клоз {cIndex}: Min не может быть отрицательным.";
+                        return false;
+                    }
+
+                    if (c.AffixCount.Max > 0 && c.AffixCount.Max < c.AffixCount.Min)
+                    {
+                        error = $"В варианте {altIndex}, клоз {cIndex}: Max ({c.AffixCount.Max}) меньше Min ({c.AffixCount.Min}).";
+                        return false;
+                    }
+                }
                 else
                 {
                     error = $"Неизвестный тип клоза в варианте {altIndex}.";
@@ -319,6 +339,10 @@ public static class CraftConditionEvaluator
         var sb = new StringBuilder();
         foreach (var clause in group.Clauses)
         {
+            bool rawOk;
+            string rawDetail;
+            string sbEntry;
+
             if (clause.Kind == CraftClauseKind.Single)
             {
                 if (clause.Single is null)
@@ -327,21 +351,20 @@ public static class CraftConditionEvaluator
                     return false;
                 }
 
-                if (!TryMatchSingleAffix(clause.Single, item, expectedItemClass, lib, out detail))
-                    return false;
-
                 var s = clause.Single;
+                rawOk = TryMatchSingleAffix(s, item, expectedItemClass, lib, out rawDetail);
+
                 if (s.Lines.Count > 0)
                 {
                     var minsStr = string.Join(", ", s.Lines.Select(l =>
                         $"{l.StatTemplate.Split(' ').FirstOrDefault() ?? "?"}≥{string.Join("/", l.GetEffectiveMinRolls(1).Select(FormatNum))}"));
-                    sb.Append($"[{s.AffixType}]({minsStr}); ");
+                    sbEntry = $"[{s.AffixType}]({minsStr})";
                 }
                 else
                 {
                     var slots = CraftAffixCascadeHelper.GetRollSlotCountForStat(expectedItemClass, s.AffixType, s.StatTemplate, lib);
                     var mins = s.GetEffectiveMinRolls(slots);
-                    sb.Append($"[{s.AffixType}]≥{string.Join("/", mins.Select(FormatNum))}; ");
+                    sbEntry = $"[{s.AffixType}]≥{string.Join("/", mins.Select(FormatNum))}";
                 }
             }
             else if (clause.Kind == CraftClauseKind.Sum)
@@ -373,14 +396,9 @@ public static class CraftConditionEvaluator
                     parts.Add($"{contrib:0.##}");
                 }
 
-                if (sum < clause.Sum.MinSum)
-                {
-                    detail =
-                        $"сумма по группе = {sum:0.##} (части {string.Join("+", parts)}), нужно ≥ {FormatNum(clause.Sum.MinSum)}.";
-                    return false;
-                }
-
-                sb.Append($"Σ({string.Join("+", parts)})≥{FormatNum(clause.Sum.MinSum)}; ");
+                rawOk = sum >= clause.Sum.MinSum;
+                rawDetail = $"сумма по группе = {sum:0.##} (части {string.Join("+", parts)}), нужно ≥ {FormatNum(clause.Sum.MinSum)}.";
+                sbEntry = $"Σ({string.Join("+", parts)})≥{FormatNum(clause.Sum.MinSum)}";
             }
             else if (clause.Kind == CraftClauseKind.Count)
             {
@@ -390,14 +408,9 @@ public static class CraftConditionEvaluator
                     return false;
                 }
 
-                if (!TryEvaluateCountClause(clause.Count, item, expectedItemClass, lib, out var countDetail))
-                {
-                    detail = countDetail;
-                    return false;
-                }
-
+                rawOk = TryEvaluateCountClause(clause.Count, item, expectedItemClass, lib, out rawDetail);
                 var matched = CountMatchedMembers(clause.Count, item, expectedItemClass, lib);
-                sb.Append($"COUNT≥{clause.Count.MinMatchCount}({matched}/{clause.Count.Members.Count}); ");
+                sbEntry = $"COUNT≥{clause.Count.MinMatchCount}({matched}/{clause.Count.Members.Count})";
             }
             else if (clause.Kind == CraftClauseKind.WholeModifier)
             {
@@ -413,35 +426,61 @@ public static class CraftConditionEvaluator
                 foreach (var nm in w.EffectiveWholeAffixNames())
                 {
                     if (ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(
-                            w,
-                            item,
-                            expectedItemClass,
-                            lib,
-                            out var subWhole,
-                            nm))
+                            w, item, expectedItemClass, lib, out var subWhole, nm))
                     {
                         okWhole = true;
                         break;
                     }
-
                     lastWholeFail = subWhole;
                 }
 
-                if (!okWhole)
+                rawOk = okWhole;
+                rawDetail = string.IsNullOrEmpty(lastWholeFail)
+                    ? "целый модификатор: ни одно из выбранных имён не удовлетворяет всем строкам."
+                    : lastWholeFail;
+                sbEntry = $"[целый:{string.Join('|', w.EffectiveWholeAffixNames())}]";
+            }
+            else if (clause.Kind == CraftClauseKind.AffixCount)
+            {
+                if (clause.AffixCount is null)
                 {
-                    detail = string.IsNullOrEmpty(lastWholeFail)
-                        ? "целый модификатор: ни одно из выбранных имён не удовлетворяет всем строкам."
-                        : lastWholeFail;
+                    detail = "внутренняя ошибка: AffixCount.";
                     return false;
                 }
 
-                sb.Append($"[целый:{string.Join('|', w.EffectiveWholeAffixNames())}] ");
+                var ac = clause.AffixCount;
+                var cnt = CountAffixesByScope(item, ac.Scope);
+                var inRange = cnt >= ac.Min && (ac.Max <= 0 || cnt <= ac.Max);
+                rawOk = inRange;
+                var scopeName = ac.Scope switch
+                {
+                    AffixCountScope.Prefixes => "префиксов",
+                    AffixCountScope.Suffixes => "суффиксов",
+                    _                        => "аффиксов",
+                };
+                var rangeStr = ac.Max > 0 ? $"{ac.Min}–{ac.Max}" : $"≥{ac.Min}";
+                rawDetail = $"Количество {scopeName}: {cnt} ({(inRange ? "выполнено" : $"нужно {rangeStr}")})";
+                sbEntry = $"{(ac.Scope == AffixCountScope.Prefixes ? "P" : ac.Scope == AffixCountScope.Suffixes ? "S" : "A")}({cnt}){rangeStr}";
             }
             else
             {
                 detail = "неизвестный тип клоза в варианте ИЛИ.";
                 return false;
             }
+
+            bool finalOk = clause.Negate ? !rawOk : rawOk;
+            if (!finalOk)
+            {
+                detail = clause.Negate
+                    ? $"НЕ: аффикс/условие обнаружено (ожидалось отсутствие) — {rawDetail}"
+                    : rawDetail;
+                return false;
+            }
+
+            if (clause.Negate)
+                sb.Append($"НЕ {sbEntry}; ");
+            else
+                sb.Append($"{sbEntry}; ");
         }
 
         detail = sb.ToString().TrimEnd(' ', ';');
@@ -686,6 +725,14 @@ public static class CraftConditionEvaluator
     private static string FormatNum(double v) =>
         v == Math.Truncate(v) ? ((long)v).ToString(CultureInfo.InvariantCulture) : v.ToString(CultureInfo.InvariantCulture);
 
+    private static int CountAffixesByScope(ParsedItem item, AffixCountScope scope) =>
+        item.Affixes.Count(a => scope switch
+        {
+            AffixCountScope.Prefixes => a.Type.Contains("Prefix", StringComparison.OrdinalIgnoreCase),
+            AffixCountScope.Suffixes => a.Type.Contains("Suffix", StringComparison.OrdinalIgnoreCase),
+            _                        => true,
+        });
+
     /// <summary>Краткое текстовое описание для главного окна и логов.</summary>
     public static string FormatSummary(CraftConditionPlan plan)
     {
@@ -712,6 +759,8 @@ public static class CraftConditionEvaluator
                 if (!first)
                     sb.Append(" И ");
                 first = false;
+                if (c.Negate)
+                    sb.Append("НЕ(");
                 if (c.Kind == CraftClauseKind.Single && c.Single is { } s)
                 {
                     s.EnsureLinesFromLegacy();
@@ -761,8 +810,21 @@ public static class CraftConditionEvaluator
                         wn = wn[..33] + "…";
                     sb.Append($"целый «{wn}» T{w.AffixTier} ({w.Lines.Count}стр.)");
                 }
+                else if (c.Kind == CraftClauseKind.AffixCount && c.AffixCount is { } ac)
+                {
+                    var scopeLabel = ac.Scope switch
+                    {
+                        AffixCountScope.Prefixes => "префиксов",
+                        AffixCountScope.Suffixes => "суффиксов",
+                        _                        => "аффиксов",
+                    };
+                    var rangeStr = ac.Max > 0 ? $"{ac.Min}–{ac.Max}" : $"≥{ac.Min}";
+                    sb.Append($"{scopeLabel} {rangeStr}");
+                }
                 else
                     sb.Append('?');
+                if (c.Negate)
+                    sb.Append(')');
             }
 
             sb.Append(')');

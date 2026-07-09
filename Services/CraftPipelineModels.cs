@@ -8,15 +8,26 @@ public enum PipelineAction
     AugAnnulCraft,
     DivineCraft,
     ExaltCraft,
-    /// <summary>Применяет один Exalted Orb к предмету без управления оменами и всегда переходит дальше.</summary>
+    /// <summary>Применяет один Exalted Orb к предмету. Устаревший — используйте <see cref="SimpleCurrency"/>.</summary>
     SimpleExalt,
-    /// <summary>Применяет один Annulment Orb к предмету и всегда переходит дальше.</summary>
+    /// <summary>Применяет один Annulment Orb к предмету. Устаревший — используйте <see cref="SimpleCurrency"/>.</summary>
     SimpleAnnul,
+    /// <summary>Применяет один Chaos Orb к предмету. Устаревший — используйте <see cref="SimpleCurrency"/>.</summary>
+    SimpleChaos,
+    /// <summary>ПКМ на орб из вкладки Currency стэша (выбирается в настройках шага), ЛКМ на предмет.</summary>
+    SimpleCurrency,
     OmenActivation,
     /// <summary>ПКМ на масло делириума из стэша, затем ЛКМ на предмет.</summary>
     DeliriumLiquid,
     /// <summary>Показывает сообщение пользователю и ждёт нажатия «Продолжить».</summary>
     ManualPause,
+    /// <summary>
+    /// Переход между локациями: ищет «Waypoint» через OCR в заданной области → клик,
+    /// задержка, клик по кнопке перехода (фиксированные координаты), задержка загрузки.
+    /// </summary>
+    TravelToLocation,
+    /// <summary>ПКМ на Abyssal Bone из вкладки Abyss стэша, ЛКМ на предмет.</summary>
+    SimpleAbyssalBone,
 }
 
 public enum TransitionTarget
@@ -59,6 +70,28 @@ public sealed class OmenActionConfig
     public int InventoryCol { get; set; }
 }
 
+/// <summary>Конфигурация перехода между локациями через Waypoint.</summary>
+public sealed class TravelActionConfig
+{
+    /// <summary>Область экрана, в которой ищем надпись «Waypoint» через OCR.</summary>
+    public ScreenRect WaypointSearchArea { get; set; }
+
+    /// <summary>Область кнопки перехода к нужной локации — клик по центру.</summary>
+    public ScreenRect LocationButtonArea { get; set; }
+
+    /// <summary>
+    /// Текст, который OCR ищет в <see cref="WaypointSearchArea"/> (нормализованный, без учёта регистра).
+    /// По умолчанию «waypoint». Изменить если в игре другая надпись.
+    /// </summary>
+    public string WaypointOcrText { get; set; } = "waypoint";
+
+    /// <summary>Задержка после клика по Waypoint (мс): ждём открытия меню.</summary>
+    public int AfterWaypointDelayMs { get; set; } = 10000;
+
+    /// <summary>Задержка после клика по кнопке локации (мс): ждём загрузки карты.</summary>
+    public int LoadingDelayMs { get; set; } = 15000;
+}
+
 public sealed class CraftPipelineStep
 {
     public string Name { get; set; } = "";
@@ -69,6 +102,15 @@ public sealed class CraftPipelineStep
 
     /// <summary>Параметры масла делириума — используется только при <see cref="PipelineAction.DeliriumLiquid"/>.</summary>
     public DeliriumLiquidActionConfig? DeliriumLiquidConfig { get; set; }
+
+    /// <summary>Параметры перехода между локациями — используется только при <see cref="PipelineAction.TravelToLocation"/>.</summary>
+    public TravelActionConfig? TravelConfig { get; set; }
+
+    /// <summary>Id кости (из AbyssKnownItems) — используется только при <see cref="PipelineAction.SimpleAbyssalBone"/>.</summary>
+    public string? AbyssalBoneId { get; set; }
+
+    /// <summary>Имя орба из Currency stash — используется только при <see cref="PipelineAction.SimpleCurrency"/>.</summary>
+    public string? CurrencyId { get; set; }
 
     /// <summary>Проверяется до выполнения действия. Если false → переход по <see cref="OnFailure"/>.</summary>
     public CraftConditionPlan? EntryCondition { get; set; }

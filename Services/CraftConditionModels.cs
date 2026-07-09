@@ -58,12 +58,43 @@ public enum CraftClauseKind
     /// выполняться на одном аффиксе на предмете (логическое И по строкам).
     /// </summary>
     WholeModifier,
+
+    /// <summary>Счётчик аффиксов на предмете: общих, префиксов или суффиксов — должно быть ≥ Min (и ≤ Max, если задан).</summary>
+    AffixCount,
+}
+
+public enum AffixCountScope
+{
+    /// <summary>Все аффиксы (префиксы + суффиксы).</summary>
+    All,
+    /// <summary>Только префиксы (Prefix Modifier, Fractured Prefix Modifier, Crafted Prefix Modifier, …).</summary>
+    Prefixes,
+    /// <summary>Только суффиксы (Suffix Modifier, Fractured Suffix Modifier, Crafted Suffix Modifier, …).</summary>
+    Suffixes,
+}
+
+/// <summary>Проверяет количество аффиксов заданного типа на предмете.</summary>
+public sealed class AffixCountData
+{
+    public AffixCountScope Scope { get; set; } = AffixCountScope.All;
+
+    /// <summary>Минимальное количество аффиксов (включительно).</summary>
+    public int Min { get; set; } = 1;
+
+    /// <summary>Максимальное количество аффиксов (включительно). 0 = без верхней границы.</summary>
+    public int Max { get; set; } = 0;
 }
 
 /// <summary>Одиночный аффикс, сумма по частям или набор с COUNT.</summary>
 public sealed class CraftClause
 {
     public CraftClauseKind Kind { get; set; }
+
+    /// <summary>
+    /// Когда true — результат клоза инвертируется: клоз выполнен, если условие НЕ выполнено.
+    /// Например: «НЕ имеет аффикс X» или «НЕ выполняется условие COUNT».
+    /// </summary>
+    public bool Negate { get; set; } = false;
 
     public CraftSingleAffixData? Single { get; set; }
 
@@ -72,6 +103,8 @@ public sealed class CraftClause
     public CraftCountAffixData? Count { get; set; }
 
     public CraftWholeModifierAffixData? Whole { get; set; }
+
+    public AffixCountData? AffixCount { get; set; }
 }
 
 public sealed class CraftSingleAffixData

@@ -124,7 +124,7 @@ public sealed class PipelineStepDetectorTests
         Assert.Equal(1, result.StepIndex);
     }
 
-    // ── Правило n-1: CheckItem перед совпавшим шагом ─────────────────────────
+    // ── Правило n-1: CheckItem / OmenActivation перед совпавшим шагом ──────────
 
     [Fact]
     public void NMinus1Rule_CheckItemBeforeMatch_ReturnsCheckItem()
@@ -161,10 +161,27 @@ public sealed class PipelineStepDetectorTests
     }
 
     [Fact]
+    public void NMinus1Rule_OmenActivationBeforeMatch_ReturnsOmenStep()
+    {
+        // Шаги: [0] OmenActivation «Omen» (тег X)  [1] AugAnnul «Annul» (тег X)
+        // OmenActivation не меняет предмет → правило n-1 применяется → возвращает 0
+        var pipeline = new CraftPipeline
+        {
+            Steps =
+            [
+                TaggedStep("Omen",  PipelineAction.OmenActivation, "X"),
+                TaggedStep("Annul", PipelineAction.AugAnnulCraft,  "X"),
+            ]
+        };
+        var result = PipelineStepDetector.DetectCore(pipeline, AnyItem, MatchTags("X"));
+        Assert.Equal(0, result.StepIndex);
+    }
+
+    [Fact]
     public void NMinus1Rule_PrevStepIsNotCheckItem_ReturnsN()
     {
         // Шаги: [0] ChaosCraft (тег X)  [1] AugAnnul (тег X)
-        // n=1, n-1=0, но 0 — ChaosCraft, не CheckItem → правило n-1 не применяется → возвращает 1
+        // n=1, n-1=0, но 0 — ChaosCraft, не state-preserving → правило n-1 не применяется → возвращает 1
         var pipeline = new CraftPipeline
         {
             Steps =

@@ -17,6 +17,105 @@ public partial class PipelineStepDialog : Window
     private readonly List<AffixLibraryEntry> _affixEntries;
     private readonly Services.AffixStatsData? _stats;
 
+    // Полный список оменов в порядке RitualItemGroups (только предметы-омены)
+    internal static readonly string[] AllOmenNames =
+    [
+        // Экзальтация
+        "Omen of Sinistral Exaltation",
+        "Omen of Dextral Exaltation",
+        "Omen of Greater Exaltation",
+        "Omen of Catalysing Exaltation",
+        // Аннулирование / Стирание
+        "Omen of Sinistral Annulment",
+        "Omen of Dextral Annulment",
+        "Omen of Sinistral Erasure",
+        "Omen of Dextral Erasure",
+        "Omen of Whittling",
+        // Некромантия / Кристаллизация
+        "Omen of Sinistral Necromancy",
+        "Omen of Dextral Necromancy",
+        "Omen of Sinistral Crystallisation",
+        "Omen of Dextral Crystallisation",
+        // Хаос
+        "Omen of Chaotic Quantity",
+        "Omen of Chaotic Effectiveness",
+        "Omen of Chaotic Monsters",
+        "Omen of Chaotic Rarity",
+        "Omen of Gambling",
+        "Omen of Chance",
+        // Другое
+        "Omen of Amelioration",
+        "Omen of Answered Prayers",
+        "Omen of Bartering",
+        "Omen of Refreshment",
+        "Omen of Reinforcements",
+        "Omen of Resurgence",
+        "Omen of Sanctification",
+        "Omen of Putrefaction",
+        "Omen of Abyssal Echoes",
+        "Omen of Light",
+        "Omen of the Hunt",
+        "Omen of the Liege",
+        "Omen of the Ancients",
+        "Omen of the Blackblooded",
+        "Omen of the Blessed",
+        "Omen of the Sovereign",
+        "Omen of Secret Compartments",
+    ];
+
+    // Полный список валют из Currency stash — имена совпадают с ключами в _currencyItemRegions
+    internal static readonly string[] CurrencyKnownItems =
+    [
+        "Divine Orb",
+        "Fracturing Orb",
+        "Orb of Annulment",
+        "Orb of Extraction",
+        "Crystallised Corruption",
+        "Architect's Orb",
+        "Vaal Orb",
+        "Orb of Chance",
+        "Orb of Alchemy",
+        "Hinekora's Lock",
+        "Chaos Orb",
+        "Greater Chaos Orb",
+        "Perfect Chaos Orb",
+        "Exalted Orb",
+        "Greater Exalted Orb",
+        "Perfect Exalted Orb",
+        "Orb of Augmentation",
+        "Greater Orb of Augmentation",
+        "Perfect Orb of Augmentation",
+        "Orb of Transmutation",
+        "Greater Orb of Transmutation",
+        "Perfect Orb of Transmutation",
+        "Regal Orb",
+        "Greater Regal Orb",
+        "Perfect Regal Orb",
+        "Lesser Jeweller's Orb",
+        "Greater Jeweller's Orb",
+        "Perfect Jeweller's Orb",
+        "Arcanist's Etcher",
+        "Artificer's Orb",
+        "Blacksmith's Whetstone",
+        "Glassblower's Bauble",
+        "Armourer's Scrap",
+        "Gemcutter's Prism",
+    ];
+
+    internal static readonly (string Id, string DisplayName)[] AbyssKnownBones =
+    [
+        ("ancient_jawbone",    "Ancient Jawbone"),
+        ("gnawed_jawbone",     "Gnawed Jawbone"),
+        ("preserved_jawbone",  "Preserved Jawbone"),
+        ("ancient_collarbone", "Ancient Collarbone"),
+        ("gnawed_collarbone",  "Gnawed Collarbone"),
+        ("preserved_collarbone", "Preserved Collarbone"),
+        ("ancient_rib",        "Ancient Rib"),
+        ("gnawed_rib",         "Gnawed Rib"),
+        ("preserved_rib",      "Preserved Rib"),
+        ("preserved_cranium",  "Preserved Cranium"),
+    ];
+
     // Mapping: ComboBox index → PipelineAction
     private static readonly PipelineAction[] ActionMap =
     [
@@ -25,11 +124,12 @@ public partial class PipelineStepDialog : Window
         PipelineAction.AugAnnulCraft,
         PipelineAction.DivineCraft,
         PipelineAction.ExaltCraft,
-        PipelineAction.SimpleExalt,
-        PipelineAction.SimpleAnnul,
+        PipelineAction.SimpleCurrency,
         PipelineAction.OmenActivation,
         PipelineAction.DeliriumLiquid,
         PipelineAction.ManualPause,
+        PipelineAction.TravelToLocation,
+        PipelineAction.SimpleAbyssalBone,
     ];
 
     // Mapping: ComboBox index → TransitionTarget
@@ -52,6 +152,7 @@ public partial class PipelineStepDialog : Window
         _entry = SettingsStore.CloneCraftConditionPlan(step.EntryCondition ?? new CraftConditionPlan());
         _loop = SettingsStore.CloneCraftConditionPlan(step.LoopUntil ?? new CraftConditionPlan());
         InitializeComponent();
+        OmenNameCombo.ItemsSource = AllOmenNames;
         LoadFromStep();
     }
 
@@ -79,13 +180,8 @@ public partial class PipelineStepDialog : Window
         // OmenConfig
         if (Step.OmenConfig is { } cfg)
         {
-            var omenIdx = cfg.OmenName switch
-            {
-                Services.OmenActivationService.OmenDextralExaltationName => 1,
-                Services.OmenActivationService.OmenGreaterExaltationName => 2,
-                _ => 0,
-            };
-            OmenNameCombo.SelectedIndex = omenIdx;
+            var omenIdx = Array.IndexOf(AllOmenNames, cfg.OmenName);
+            OmenNameCombo.SelectedIndex = omenIdx >= 0 ? omenIdx : 0;
             OmenInvRowBox.Text = cfg.InventoryRow.ToString();
             OmenInvColBox.Text = cfg.InventoryCol.ToString();
         }
@@ -102,6 +198,31 @@ public partial class PipelineStepDialog : Window
         DeliriumLiquidCombo.ItemsSource = deliriumItems;
         var savedId = Step.DeliriumLiquidConfig?.LiquidName ?? "";
         DeliriumLiquidCombo.SelectedItem = deliriumItems.FirstOrDefault(i => i.Id == savedId);
+
+        // SimpleCurrency
+        CurrencyCombo.ItemsSource = CurrencyKnownItems;
+        CurrencyCombo.SelectedItem = CurrencyKnownItems.FirstOrDefault(c => c == (Step.CurrencyId ?? ""));
+
+        // AbyssalBone
+        var bones = AbyssKnownBones;
+        AbyssalBoneCombo.ItemsSource = bones;
+        AbyssalBoneCombo.SelectedItem = bones.FirstOrDefault(b => b.Id == (Step.AbyssalBoneId ?? ""));
+
+        // TravelConfig
+        if (Step.TravelConfig is { } tc)
+        {
+            TravelWpX.Text          = tc.WaypointSearchArea.X.ToString();
+            TravelWpY.Text          = tc.WaypointSearchArea.Y.ToString();
+            TravelWpW.Text          = tc.WaypointSearchArea.Width.ToString();
+            TravelWpH.Text          = tc.WaypointSearchArea.Height.ToString();
+            TravelLocX.Text         = tc.LocationButtonArea.X.ToString();
+            TravelLocY.Text         = tc.LocationButtonArea.Y.ToString();
+            TravelLocW.Text         = tc.LocationButtonArea.Width.ToString();
+            TravelLocH.Text         = tc.LocationButtonArea.Height.ToString();
+            TravelWpOcrText.Text    = tc.WaypointOcrText;
+            TravelWpDelayBox.Text   = tc.AfterWaypointDelayMs.ToString();
+            TravelLoadDelayBox.Text = tc.LoadingDelayMs.ToString();
+        }
 
         EntryNegateChk.IsChecked = _entry.Negate;
         LoopNegateChk.IsChecked  = _loop.Negate;
@@ -129,12 +250,7 @@ public partial class PipelineStepDialog : Window
 
         if (Step.Action == PipelineAction.OmenActivation)
         {
-            var omenName = OmenNameCombo.SelectedIndex switch
-            {
-                1 => Services.OmenActivationService.OmenDextralExaltationName,
-                2 => Services.OmenActivationService.OmenGreaterExaltationName,
-                _ => Services.OmenActivationService.OmenSinistralExaltationName,
-            };
+            var omenName = OmenNameCombo.SelectedItem as string ?? AllOmenNames[0];
             Step.OmenConfig = new OmenActionConfig
             {
                 OmenName       = omenName,
@@ -159,6 +275,38 @@ public partial class PipelineStepDialog : Window
         else
         {
             Step.DeliriumLiquidConfig = null;
+        }
+
+        Step.CurrencyId = Step.Action == PipelineAction.SimpleCurrency
+            ? CurrencyCombo.SelectedItem as string ?? ""
+            : null;
+
+        Step.AbyssalBoneId = Step.Action == PipelineAction.SimpleAbyssalBone
+            ? (AbyssalBoneCombo.SelectedItem as (string Id, string DisplayName)?)?.Id ?? ""
+            : null;
+
+        if (Step.Action == PipelineAction.TravelToLocation)
+        {
+            Step.TravelConfig = new Services.TravelActionConfig
+            {
+                WaypointSearchArea = new ScreenRect(
+                    int.TryParse(TravelWpX.Text, out var wpx) ? wpx : 0,
+                    int.TryParse(TravelWpY.Text, out var wpy) ? wpy : 0,
+                    int.TryParse(TravelWpW.Text, out var wpw) ? wpw : 400,
+                    int.TryParse(TravelWpH.Text, out var wph) ? wph : 200),
+                LocationButtonArea = new ScreenRect(
+                    int.TryParse(TravelLocX.Text, out var lx) ? lx : 0,
+                    int.TryParse(TravelLocY.Text, out var ly) ? ly : 0,
+                    int.TryParse(TravelLocW.Text, out var lw) ? lw : 100,
+                    int.TryParse(TravelLocH.Text, out var lh) ? lh : 40),
+                WaypointOcrText      = TravelWpOcrText.Text.Trim(),
+                AfterWaypointDelayMs = int.TryParse(TravelWpDelayBox.Text, out var wdms) ? wdms : 10000,
+                LoadingDelayMs       = int.TryParse(TravelLoadDelayBox.Text, out var ldms) ? ldms : 15000,
+            };
+        }
+        else
+        {
+            Step.TravelConfig = null;
         }
 
         _entry.Negate = EntryNegateChk.IsChecked == true;
@@ -191,6 +339,15 @@ public partial class PipelineStepDialog : Window
             ? Visibility.Visible
             : Visibility.Collapsed;
         DeliriumLiquidConfigPanel.Visibility = action == PipelineAction.DeliriumLiquid
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        TravelConfigPanel.Visibility = action == PipelineAction.TravelToLocation
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        AbyssalBoneConfigPanel.Visibility = action == PipelineAction.SimpleAbyssalBone
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        CurrencyConfigPanel.Visibility = action == PipelineAction.SimpleCurrency
             ? Visibility.Visible
             : Visibility.Collapsed;
     }
@@ -266,6 +423,64 @@ public partial class PipelineStepDialog : Window
         _loop = SettingsStore.CloneCraftConditionPlan(_conditionClipboard);
         LoopNegateChk.IsChecked = _loop.Negate;
         RefreshConditionSummaries();
+    }
+
+    // ── TravelToLocation — захват координат ──────────────────────────────────
+
+    private void TravelPickWaypointAreaBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r)
+            return;
+
+        TravelWpX.Text = r.X.ToString();
+        TravelWpY.Text = r.Y.ToString();
+        TravelWpW.Text = r.Width.ToString();
+        TravelWpH.Text = r.Height.ToString();
+    }
+
+    private void TravelPickLocBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r)
+            return;
+
+        TravelLocX.Text = r.X.ToString();
+        TravelLocY.Text = r.Y.ToString();
+        TravelLocW.Text = r.Width.ToString();
+        TravelLocH.Text = r.Height.ToString();
+    }
+
+    private void TravelSnapshotWpBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (!int.TryParse(TravelWpX.Text, out var x) ||
+            !int.TryParse(TravelWpY.Text, out var y) ||
+            !int.TryParse(TravelWpW.Text, out var w) ||
+            !int.TryParse(TravelWpH.Text, out var h) ||
+            w <= 0 || h <= 0)
+        {
+            System.Windows.MessageBox.Show("Сначала задайте область поиска (X/Y/W/H).", "Скриншот", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        var area = new ScreenRect(x, y, w, h);
+        try
+        {
+            using var bmp = Services.ScreenCaptureHelper.CaptureRegion(area);
+            var path = System.IO.Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                $"travel_waypoint_snapshot_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+            bmp.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+            System.Windows.MessageBox.Show(
+                $"Скриншот области сохранён:\n{path}",
+                "Скриншот",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show($"Ошибка: {ex.Message}", "Скриншот", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
     }
 
     // ── OK ────────────────────────────────────────────────────────────────────

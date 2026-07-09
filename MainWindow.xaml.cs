@@ -6356,32 +6356,7 @@ public partial class MainWindow : Window
 
         var runner = BuildPipelineRunner();
 
-        var mouseDelay    = int.TryParse(MouseActionDelayMs.Text, out var md) ? md : 80;
-        var clipDelay     = int.TryParse(ClipboardDelayMs.Text,    out var cd) ? cd : 220;
-        var divineHover   = Math.Clamp(clipDelay / 2, 80, 220);
-        var traceInput    = TraceInputCheckBox.IsChecked == true;
-
-        // Настраиваем задержки сервисов
-        _craft.MouseActionDelayMs = mouseDelay;
-        _craft.ClipboardDelayMs   = clipDelay;
-        _craft.TraceInputToLog    = traceInput;
-
-        _divineCraft.MouseActionDelayMs          = mouseDelay;
-        _divineCraft.ClipboardDelayMs            = clipDelay;
-        _divineCraft.HoverSettleBeforeClipboardMs = divineHover;
-        _divineCraft.TraceInputToLog             = traceInput;
-
-        _augAnnulCraft.MouseActionDelayMs = mouseDelay;
-        _augAnnulCraft.ClipboardDelayMs   = clipDelay;
-        _augAnnulCraft.TraceInputToLog    = traceInput;
-
-        _exaltCraft.MouseActionDelayMs = mouseDelay;
-        _exaltCraft.ClipboardDelayMs   = clipDelay;
-        _exaltCraft.TraceInputToLog    = traceInput;
-
-        _omen.MouseActionDelayMs = mouseDelay;
-        _omen.ClipboardDelayMs   = clipDelay;
-        _omen.TraceInputToLog    = traceInput;
+        ApplyCraftServiceDelays();
 
         IProgress<string> progress = new Progress<string>(msg =>
         {
@@ -6440,6 +6415,131 @@ public partial class MainWindow : Window
         _pipelineCts?.Cancel();
     }
 
+    private async void PipelineBatchStartBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (_currentPipeline.Steps.Count == 0)
+        {
+            System.Windows.MessageBox.Show("Рецепт пуст — добавьте хотя бы один шаг.", "Батч",
+                System.Windows.MessageBoxButton.OK);
+            return;
+        }
+        if (_pipelineItemCells.Count == 0)
+        {
+            System.Windows.MessageBox.Show("Задайте сетку предметов (кнопка «Задать сетку»).", "Батч",
+                System.Windows.MessageBoxButton.OK);
+            return;
+        }
+
+        _pipelineCts = new CancellationTokenSource();
+        _vm.IsPipelineRunning = true;
+        _vm.PipelineStatusText = "Батч…";
+        TryRegisterCraftCancelHotkey();
+        PipelineLogBox.Clear();
+        PipelineBatchStatusText.Text = $"0 Done / 0 Failed / {_pipelineItemCells.Count} Active";
+        MinimizeToTrayOnStart();
+
+        ApplyCraftServiceDelays();
+
+        var batchRunner = new Services.BatchPipelineRunner(BuildPipelineRunner(), _craft);
+        var screenTemplate = BuildPipelineScreenConfig();
+
+        var doneCount   = 0;
+        var failedCount = 0;
+        var total       = _pipelineItemCells.Count;
+
+        IProgress<string> progress = new Progress<string>(msg =>
+        {
+            SessionLogger.Info(msg);
+            PipelineLogAppend(msg);
+            _vm.PipelineStatusText = msg;
+
+            if (msg.Contains("]: Done"))
+                System.Threading.Interlocked.Increment(ref doneCount);
+            else if (msg.Contains("]: Failed"))
+                System.Threading.Interlocked.Increment(ref failedCount);
+
+            var d = doneCount; var f = failedCount;
+            Dispatcher.BeginInvoke(() =>
+                PipelineBatchStatusText.Text = $"{d} Done / {f} Failed / {total - d - f} Active");
+        });
+
+        Services.BatchRunResult result = new() { Items = Array.Empty<Services.BatchItem>() };
+        try
+        {
+            await Task.Delay(600, _pipelineCts.Token).ConfigureAwait(false);
+            ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+            await Task.Delay(300, _pipelineCts.Token).ConfigureAwait(false);
+
+            result = await batchRunner.RunAsync(
+                _currentPipeline, screenTemplate, _pipelineItemCells, progress, _pipelineCts.Token)
+                .ConfigureAwait(false);
+        }
+        catch (OperationCanceledException) { }
+        catch (Exception ex)
+        {
+            PipelineLogAppend($"[Ошибка] {ex.Message}");
+        }
+        finally
+        {
+            UnregisterCraftCancelHotkey();
+            _pipelineCts!.Dispose();
+            _pipelineCts = null;
+            _vm.IsPipelineRunning = false;
+        }
+
+        var summary = $"Батч завершён: Done={result.DoneCount}, Failed={result.FailedCount}, Итого={total}, Расход≈{result.TotalCostDiv:F2}d";
+        _vm.PipelineStatusText = summary;
+        PipelineLogAppend(summary);
+        Dispatcher.BeginInvoke(() =>
+            PipelineBatchStatusText.Text = $"{result.DoneCount} Done / {result.FailedCount} Failed / {total} итого");
+
+        if (result.DoneCount > 0)
+        {
+            var batchName = Dispatcher.Invoke(() => BatchNameBox.Text.Trim());
+            if (!string.IsNullOrEmpty(batchName))
+            {
+                try
+                {
+                    var ledger = Services.BatchLedgerService.AppendRun(batchName, result);
+                    PipelineLogAppend($"[Батч] Всего Done={ledger.TotalDoneCount}, Расход={ledger.TotalCostDiv:F2}d, Средняя={ledger.AvgCostPerItemDiv:F2}d/предмет");
+                }
+                catch (Exception ex)
+                {
+                    PipelineLogAppend($"[Батч] Ошибка сохранения леджера: {ex.Message}");
+                }
+            }
+        }
+    }
+
+    private void ApplyCraftServiceDelays()
+    {
+        var mouseDelay  = int.TryParse(MouseActionDelayMs.Text, out var md) ? md : 80;
+        var clipDelay   = int.TryParse(ClipboardDelayMs.Text,   out var cd) ? cd : 220;
+        var divineHover = Math.Clamp(clipDelay / 2, 80, 220);
+        var traceInput  = TraceInputCheckBox.IsChecked == true;
+
+        _craft.MouseActionDelayMs = mouseDelay;
+        _craft.ClipboardDelayMs   = clipDelay;
+        _craft.TraceInputToLog    = traceInput;
+
+        _divineCraft.MouseActionDelayMs           = mouseDelay;
+        _divineCraft.ClipboardDelayMs             = clipDelay;
+        _divineCraft.HoverSettleBeforeClipboardMs = divineHover;
+        _divineCraft.TraceInputToLog              = traceInput;
+
+        _augAnnulCraft.MouseActionDelayMs = mouseDelay;
+        _augAnnulCraft.ClipboardDelayMs   = clipDelay;
+        _augAnnulCraft.TraceInputToLog    = traceInput;
+
+        _exaltCraft.MouseActionDelayMs = mouseDelay;
+        _exaltCraft.ClipboardDelayMs   = clipDelay;
+        _exaltCraft.TraceInputToLog    = traceInput;
+
+        _omen.MouseActionDelayMs = mouseDelay;
+        _omen.ClipboardDelayMs   = clipDelay;
+        _omen.TraceInputToLog    = traceInput;
+    }
+
     private async void PipelineDetectStepBtn_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         if (_currentPipeline.Steps.Count == 0)
@@ -6448,59 +6548,101 @@ public partial class MainWindow : Window
             return;
         }
 
-        var clipDelay = int.TryParse(ClipboardDelayMs.Text, out var cd) ? cd : 220;
+        var clipDelay  = int.TryParse(ClipboardDelayMs.Text,  out var cd) ? cd : 220;
+        var mouseDelay = int.TryParse(MouseActionDelayMs.Text, out var md) ? md : 80;
+
+        PipelineLogBox.Clear();
 
         if (!ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName))
             PipelineLogAppend("[ДетектШага] Окно PoE2 не найдено — убедитесь, что игра запущена.");
 
-        await Task.Delay(120);
-        Win32Input.SendCtrlAltC();
-        await Task.Delay(clipDelay);
-        Win32Input.ReleaseCtrlAlt();
+        if (_pipelineItemCells.Count > 0)
+        {
+            // Режим сетки: наводим курсор на каждую ячейку и читаем предмет
+            await Task.Delay(400);
+            for (int i = 0; i < _pipelineItemCells.Count; i++)
+            {
+                var cell = _pipelineItemCells[i];
+                var (cx, cy) = cell.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+                Win32Input.MoveTo(cx, cy);
+                await Task.Delay(mouseDelay + 80);
+                Win32Input.SendCtrlAltC();
+                await Task.Delay(clipDelay);
+                Win32Input.ReleaseCtrlAlt();
 
-        string clipText;
+                var text = ReadClipboardText();
+                if (string.IsNullOrWhiteSpace(text))
+                {
+                    PipelineLogAppend($"[{i}] Буфер пуст");
+                    continue;
+                }
+                var parsed = Services.ItemParser.Parse(text);
+                if (parsed == null || !parsed.IsValid)
+                {
+                    PipelineLogAppend($"[{i}] Не удалось распарсить предмет");
+                    continue;
+                }
+                var r = Services.PipelineStepDetector.Detect(_currentPipeline, parsed);
+                if (r.StepIndex is { } idx)
+                    PipelineLogAppend($"[{i}] → Шаг {idx} «{_currentPipeline.Steps[idx].Name}»");
+                else
+                    PipelineLogAppend($"[{i}] Не распознан");
+                foreach (var line in r.Explanation.Split('\n'))
+                {
+                    var l = line.Trim();
+                    if (!string.IsNullOrEmpty(l))
+                        PipelineLogAppend($"  {l}");
+                }
+            }
+            PipelineLogAppend($"[ДетектШага] Проверено {_pipelineItemCells.Count} ячеек.");
+        }
+        else
+        {
+            // Одиночный режим: предмет под курсором (Ctrl+Alt+C без перемещения)
+            await Task.Delay(120);
+            Win32Input.SendCtrlAltC();
+            await Task.Delay(clipDelay);
+            Win32Input.ReleaseCtrlAlt();
+
+            var clipText = ReadClipboardText();
+            if (string.IsNullOrWhiteSpace(clipText))
+            {
+                PipelineLogAppend("[ДетектШага] Буфер пуст — наведите курсор на предмет в игре.");
+                return;
+            }
+            var parsedItem = Services.ItemParser.Parse(clipText);
+            if (parsedItem == null || !parsedItem.IsValid)
+            {
+                PipelineLogAppend("[ДетектШага] Не удалось распарсить предмет из буфера.");
+                return;
+            }
+            var result = Services.PipelineStepDetector.Detect(_currentPipeline, parsedItem);
+            if (result.StepIndex is { } stepIdx)
+                PipelineLogAppend($"[ДетектШага] → Шаг {stepIdx} «{_currentPipeline.Steps[stepIdx].Name}»");
+            else
+                PipelineLogAppend("[ДетектШага] Предмет не распознан ни на одном шаге пайплайна.");
+
+            foreach (var line in result.Explanation.Split('\n'))
+            {
+                var l = line.Trim();
+                if (!string.IsNullOrEmpty(l))
+                    PipelineLogAppend($"  {l}");
+            }
+        }
+    }
+
+    private string ReadClipboardText()
+    {
         try
         {
             var dataObject = System.Windows.Clipboard.GetDataObject();
-            clipText = dataObject?.GetDataPresent(System.Windows.DataFormats.Text) == true
+            return dataObject?.GetDataPresent(System.Windows.DataFormats.Text) == true
                 ? (string)dataObject.GetData(System.Windows.DataFormats.Text)!
                 : "";
         }
         catch (System.Runtime.InteropServices.COMException)
         {
-            PipelineLogAppend("[ДетектШага] Ошибка чтения буфера обмена.");
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(clipText))
-        {
-            PipelineLogAppend("[ДетектШага] Буфер пуст — наведите курсор на предмет в игре.");
-            return;
-        }
-
-        var parsedItem = Services.ItemParser.Parse(clipText);
-        if (parsedItem == null || !parsedItem.IsValid)
-        {
-            PipelineLogAppend("[ДетектШага] Не удалось распарсить предмет из буфера.");
-            return;
-        }
-
-        var result = Services.PipelineStepDetector.Detect(_currentPipeline, parsedItem);
-        if (result.StepIndex is { } idx)
-        {
-            var stepName = _currentPipeline.Steps[idx].Name;
-            PipelineLogAppend($"[ДетектШага] → Шаг {idx} «{stepName}»");
-        }
-        else
-        {
-            PipelineLogAppend("[ДетектШага] Предмет не распознан ни на одном шаге пайплайна.");
-        }
-
-        foreach (var line in result.Explanation.Split('\n'))
-        {
-            var l = line.Trim();
-            if (!string.IsNullOrEmpty(l))
-                PipelineLogAppend($"  {l}");
+            return "";
         }
     }
 
@@ -6557,6 +6699,53 @@ public partial class MainWindow : Window
     private Services.CraftPipelineRunner BuildPipelineRunner() =>
         new(_craft, _augAnnulCraft, _divineCraft, _exaltCraft, _omen);
 
+    private IReadOnlyDictionary<string, IReadOnlyList<ScreenRect>> BuildOmenStashCellsByName()
+    {
+        var dict = new Dictionary<string, IReadOnlyList<ScreenRect>>(StringComparer.OrdinalIgnoreCase);
+
+        // Ritual-омены (кроме трёх Exaltation — у них выделенные поля)
+        foreach (var kv in _ritualItemRegions)
+        {
+            if (!kv.Key.StartsWith("Omen ", StringComparison.OrdinalIgnoreCase)) continue;
+            if (kv.Key.Equals(OmenActivationService.OmenSinistralExaltationName, StringComparison.OrdinalIgnoreCase)) continue;
+            if (kv.Key.Equals(OmenActivationService.OmenDextralExaltationName,   StringComparison.OrdinalIgnoreCase)) continue;
+            if (kv.Key.Equals(OmenActivationService.OmenGreaterExaltationName,   StringComparison.OrdinalIgnoreCase)) continue;
+            dict[kv.Key] = new[] { kv.Value };
+        }
+
+        // Abyss-омены (Necromancy, Light, Abyssal Echoes, Putrefaction…)
+        foreach (var (id, displayName, group) in AbyssKnownItems)
+        {
+            if (group != "Omens") continue;
+            if (!_abyssItemRegions.TryGetValue(id, out var rect) || rect == default) continue;
+            dict[displayName] = new[] { rect };
+        }
+
+        return dict;
+    }
+
+    private IReadOnlyDictionary<string, ScreenRect> BuildOmenStashTabByName()
+    {
+        var dict = new Dictionary<string, ScreenRect>(StringComparer.OrdinalIgnoreCase);
+
+        // Ritual-омены → вкладка Ritual
+        foreach (var kv in _ritualItemRegions)
+        {
+            if (!kv.Key.StartsWith("Omen ", StringComparison.OrdinalIgnoreCase)) continue;
+            if (_ritualInventoryRegion is { } r) dict[kv.Key] = r;
+        }
+
+        // Abyss-омены → вкладка Abyss
+        foreach (var (id, displayName, group) in AbyssKnownItems)
+        {
+            if (group != "Omens") continue;
+            if (!_abyssItemRegions.TryGetValue(id, out var rect) || rect == default) continue;
+            dict[displayName] = _abyssInventoryRect;
+        }
+
+        return dict;
+    }
+
     private Services.PipelineScreenConfig BuildPipelineScreenConfig(ScreenRect itemArea = default) =>
         new()
         {
@@ -6571,6 +6760,8 @@ public partial class MainWindow : Window
             OmenSinistralStashCells = GetRitualItemRect("Omen of Sinistral Exaltation") is { } sinR ? new[] { sinR } : Array.Empty<ScreenRect>(),
             OmenDextralStashCells   = GetRitualItemRect("Omen of Dextral Exaltation")   is { } dexR ? new[] { dexR } : Array.Empty<ScreenRect>(),
             OmenGreaterStashCells   = GetRitualItemRect("Omen of Greater Exaltation")   is { } greR ? new[] { greR } : Array.Empty<ScreenRect>(),
+            OmenStashCellsByName = BuildOmenStashCellsByName(),
+            OmenStashTabByName   = BuildOmenStashTabByName(),
             FullInventoryCells      = _fullInventoryCells,
             InventoryGridColumns    = 12,
             ExaltOmenSinistralCells  = _omenSinistralCells,
@@ -6582,6 +6773,13 @@ public partial class MainWindow : Window
             DeliriumInventoryRect    = _deliriumInventoryRect,
             DeliriumItemRegions      = _deliriumItemRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_deliriumItemRegions)
+                : new Dictionary<string, ScreenRect>(),
+            CurrencyItemRegions      = _currencyItemRegions.Count > 0
+                ? new Dictionary<string, ScreenRect>(_currencyItemRegions)
+                : new Dictionary<string, ScreenRect>(),
+            AbyssInventoryRegion     = _abyssInventoryRect,
+            AbyssItemRegions         = _abyssItemRegions.Count > 0
+                ? new Dictionary<string, ScreenRect>(_abyssItemRegions)
                 : new Dictionary<string, ScreenRect>(),
         };
 }

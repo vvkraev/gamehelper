@@ -19,8 +19,9 @@ public static class PipelineStepDetector
     /// Алгоритм:
     /// 1. Сканировать шаги с конца к началу.
     /// 2. Найти последний (наибольший индекс) шаг, чей EntryCondition совпадает с предметом.
-    /// 3. Если у шага n-1 Action == CheckItem и его EntryCondition тоже совпадает → вернуть n-1.
-    ///    Обоснование: CheckItem — безопасная точка верификации, предпочтительнее при неопределённости.
+    /// 3. Если у шага n-1 Action == CheckItem или OmenActivation и его EntryCondition тоже совпадает → вернуть n-1.
+    ///    Обоснование: эти шаги не меняют состояние предмета, поэтому их условие входа идентично следующему шагу;
+    ///    предпочитаем более ранний шаг при неопределённости.
     /// 4. Иначе вернуть n.
     /// 5. Если ни один шаг не совпал → null.
     /// </summary>
@@ -47,14 +48,16 @@ public static class PipelineStepDetector
 
             sb.AppendLine($"[{i}] «{step.Name}»: совпал — {detail}");
 
-            // Правило n-1: если предыдущий шаг — CheckItem и его условие тоже совпадает
+            // Правило n-1: если предыдущий шаг не меняет состояние предмета (CheckItem / OmenActivation)
+            // и его условие тоже совпадает — предпочитаем более ранний шаг.
             if (i > 0
-                && steps[i - 1].Action == PipelineAction.CheckItem
                 && steps[i - 1].EntryCondition != null
+                && IsStatePreservingAction(steps[i - 1].Action)
                 && eval(steps[i - 1].EntryCondition!, item, out var prevDetail))
             {
-                sb.AppendLine($"[{i - 1}] «{steps[i - 1].Name}» (CheckItem n-1): тоже совпал — {prevDetail}");
-                sb.AppendLine($"→ Шаг {i - 1} «{steps[i - 1].Name}» (правило CheckItem n-1)");
+                var prevActionLabel = steps[i - 1].Action == PipelineAction.CheckItem ? "CheckItem" : "OmenActivation";
+                sb.AppendLine($"[{i - 1}] «{steps[i - 1].Name}» ({prevActionLabel} n-1): тоже совпал — {prevDetail}");
+                sb.AppendLine($"→ Шаг {i - 1} «{steps[i - 1].Name}» (правило n-1)");
                 return new DetectResult(i - 1, sb.ToString().TrimEnd());
             }
 
@@ -65,4 +68,8 @@ public static class PipelineStepDetector
         sb.AppendLine("Предмет не распознан ни на одном шаге пайплайна");
         return new DetectResult(null, sb.ToString().TrimEnd());
     }
+
+    /// <summary>Шаги, которые не меняют состояние предмета и могут быть пропущены правилом n-1.</summary>
+    private static bool IsStatePreservingAction(PipelineAction action) =>
+        action is PipelineAction.CheckItem or PipelineAction.OmenActivation;
 }
