@@ -399,7 +399,8 @@ public sealed class CraftPipelineRunner
 
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
         await ApplyCurrencyToItemAsync(orbRect, screen.ItemArea, currencyId, log, ct).ConfigureAwait(false);
-        return StepOutcome.Success(1);
+        var itemText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+        return StepOutcome.Success(1, itemText);
     }
 
     // Устаревшие Simple-действия — редиректят на единую логику ApplyCurrencyToItemAsync
@@ -599,7 +600,8 @@ public sealed class CraftPipelineRunner
         Win32Input.ClickLeft();
         await Task.Delay(300, ct).ConfigureAwait(false);
 
-        return StepOutcome.Success(1);
+        var itemText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+        return StepOutcome.Success(1, itemText);
     }
 
     private async Task<StepOutcome> ExecuteTravelAsync(

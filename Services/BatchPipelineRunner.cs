@@ -162,6 +162,7 @@ public sealed class BatchPipelineRunner
                         item.TotalAttempts += outcome.Attempts;
                         if (outcome.Succeeded)
                             AccumulateCost(item, step, outcome.Attempts);
+                        LogItemState(item.CellIndex, step.Name, outcome);
                         ApplyTransition(item, step, outcome.Succeeded, n, pipeline.Steps.Count, log);
 
                         // OmenActivation кладёт омен в ячейку — расходуется следующим шагом.
@@ -185,6 +186,7 @@ public sealed class BatchPipelineRunner
                                 item.TotalAttempts += fusedOutcome.Attempts;
                                 if (fusedOutcome.Succeeded)
                                     AccumulateCost(item, fusedStep, fusedOutcome.Attempts);
+                                LogItemState(item.CellIndex, fusedStep.Name, fusedOutcome);
                                 ApplyTransition(item, fusedStep, fusedOutcome.Succeeded, fusedN, pipeline.Steps.Count, log);
                             }
                         }
@@ -249,6 +251,14 @@ public sealed class BatchPipelineRunner
                 log?.Report($"[Батч] [{item.CellIndex}]: → стадия {transition.StepIndex}");
                 break;
         }
+    }
+
+    private static void LogItemState(int cellIndex, string stepName, StepOutcome outcome)
+    {
+        var result = outcome.Succeeded ? "OK" : "FAIL";
+        SessionLogger.WriteFileOnly($"[Батч] [{cellIndex}] «{stepName}» → {result}");
+        if (!string.IsNullOrWhiteSpace(outcome.FinalItemText))
+            SessionLogger.InfoClipboard($"Батч [{cellIndex}] после «{stepName}»", outcome.FinalItemText);
     }
 
     private static void AccumulateCost(BatchItem item, CraftPipelineStep step, int attempts)
