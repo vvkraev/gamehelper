@@ -23,25 +23,26 @@ public sealed class TravelToLocationService
     {
         ct.ThrowIfCancellationRequested();
 
-        // Ищем надпись «Waypoint» через OCR в заданной области
+        // Логируем сырой текст OCR для диагностики
         log?.Report("[Travel] Поиск «Waypoint» через OCR…");
+        var rawText = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(
+            config.WaypointSearchArea, log: null, cancellationToken: ct).ConfigureAwait(false);
+        log?.Report($"[Travel] OCR видит: «{rawText.Replace('\n', ' ').Trim()}»");
+
         var match = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(
             config.WaypointSearchArea,
             "waypoint",
             log: null,
             cancellationToken: ct).ConfigureAwait(false);
 
-        int wx, wy;
-        if (match is not null)
+        if (match is null)
         {
-            (wx, wy) = match.Value.BoundsOnScreen.Center;
-            log?.Report($"[Travel] «Waypoint» найден OCR на ({wx}, {wy}), кликаем…");
+            log?.Report("[Travel] «Waypoint» не найден в указанной области. Проверьте область поиска и текст на экране.");
+            return false;
         }
-        else
-        {
-            (wx, wy) = config.WaypointSearchArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
-            log?.Report($"[Travel] «Waypoint» OCR не нашёл — кликаем по центру области ({wx}, {wy})…");
-        }
+
+        var (wx, wy) = match.Value.BoundsOnScreen.Center;
+        log?.Report($"[Travel] «Waypoint» найден на ({wx}, {wy}), кликаем…");
 
         Win32Input.MoveTo(wx, wy);
         await DelayAsync(_mouseDelayMs, ct).ConfigureAwait(false);
