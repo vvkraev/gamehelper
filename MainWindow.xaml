@@ -1786,6 +1786,18 @@
                             IsEnabled="{Binding IsPipelineRunning}"
                             Click="PipelineStopBtn_Click"/>
 
+                    <Grid DockPanel.Dock="Top" Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Батч:" VerticalAlignment="Center" Margin="0,0,4,0" FontSize="11"/>
+                        <TextBox Grid.Column="1" x:Name="BatchNameBox"
+                                 Text="batch-1"
+                                 Padding="4,3"
+                                 FontSize="11"
+                                 ToolTip="Имя батча — одинаковое для всех перезапусков. Расходы накапливаются по этому имени в batch_ledger.json"/>
+                    </Grid>
                     <Button DockPanel.Dock="Top"
                             x:Name="PipelineBatchStartBtn"
                             Content="▶▶ Батч"

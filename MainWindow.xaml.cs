@@ -6494,49 +6494,20 @@ public partial class MainWindow : Window
             PipelineBatchStatusText.Text = $"{result.DoneCount} Done / {result.FailedCount} Failed / {total} итого");
 
         if (result.DoneCount > 0)
-            SaveBatchLedgerEntries(result);
-    }
-
-    private void SaveBatchLedgerEntries(Services.BatchRunResult result)
-    {
-        try
         {
-            var entries = Services.CraftLedgerService.LoadFromFile();
-            var now = DateTime.Now.ToString("yyyy-MM-dd");
-
-            foreach (var item in result.Items.Where(i => i.Status == Services.BatchItemStatus.Done))
+            var batchName = Dispatcher.Invoke(() => BatchNameBox.Text.Trim());
+            if (!string.IsNullOrEmpty(batchName))
             {
-                var steps = item.CostRecords.Select((r, idx) => new Services.LedgerStep
+                try
                 {
-                    Phase       = idx + 1,
-                    Label       = r.StepName,
-                    Description = $"{r.Attempts}× {r.CurrencyName}",
-                    CostDiv     = r.CostDiv,
-                    ResultState = "done",
-                }).ToList();
-
-                var entry = new Services.CraftLedgerEntry
+                    var ledger = Services.BatchLedgerService.AppendRun(batchName, result);
+                    PipelineLogAppend($"[Батч] Всего Done={ledger.TotalDoneCount}, Расход={ledger.TotalCostDiv:F2}d, Средняя={ledger.AvgCostPerItemDiv:F2}d/предмет");
+                }
+                catch (Exception ex)
                 {
-                    Id           = $"{result.BatchId}_cell{item.CellIndex}",
-                    CreatedAt    = now,
-                    Status       = "crafted",
-                    TotalCostDiv = item.TotalCostDiv,
-                    BatchId      = result.BatchId,
-                    CellIndex    = item.CellIndex,
-                    Steps        = steps,
-                    Notes        = [$"Батч: {result.PipelineName}", $"Попыток: {item.TotalAttempts}"],
-                };
-                entries.Add(entry);
-                PipelineLogAppend($"[Леджер] Ячейка {item.CellIndex}: стоимость {item.TotalCostDiv:F2}d → {entry.Id}");
+                    PipelineLogAppend($"[Батч] Ошибка сохранения леджера: {ex.Message}");
+                }
             }
-
-            Services.CraftLedgerService.Save(entries);
-            _ledgerEntries = entries;
-            PipelineLogAppend($"[Леджер] {result.DoneCount} записей сохранено (batchId={result.BatchId})");
-        }
-        catch (Exception ex)
-        {
-            PipelineLogAppend($"[Леджер] Ошибка сохранения: {ex.Message}");
         }
     }
 
