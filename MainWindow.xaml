@@ -1761,6 +1761,15 @@
 
                     <Separator DockPanel.Dock="Top" Margin="0,6"/>
 
+                    <!-- Определить шаг -->
+                    <Button DockPanel.Dock="Top"
+                            x:Name="PipelineDetectStepBtn"
+                            Content="🔍 Определить шаг"
+                            Margin="0,0,0,4"
+                            Padding="8,4"
+                            ToolTip="Читает предмет (Ctrl+Alt+C) и определяет, на каком шаге пайплайна он находится. Без кликов."
+                            Click="PipelineDetectStepBtn_Click"/>
+
                     <!-- Старт / Стоп -->
                     <Button DockPanel.Dock="Top"
                             x:Name="PipelineStartBtn"

@@ -6427,6 +6427,70 @@ public partial class MainWindow : Window
         _pipelineCts?.Cancel();
     }
 
+    private async void PipelineDetectStepBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        if (_currentPipeline.Steps.Count == 0)
+        {
+            PipelineLogAppend("[ДетектШага] Рецепт пуст — добавьте хотя бы один шаг.");
+            return;
+        }
+
+        var clipDelay = int.TryParse(ClipboardDelayMs.Text, out var cd) ? cd : 220;
+
+        if (!ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName))
+            PipelineLogAppend("[ДетектШага] Окно PoE2 не найдено — убедитесь, что игра запущена.");
+
+        await Task.Delay(120);
+        Win32Input.SendCtrlAltC();
+        await Task.Delay(clipDelay);
+        Win32Input.ReleaseCtrlAlt();
+
+        string clipText;
+        try
+        {
+            var dataObject = System.Windows.Clipboard.GetDataObject();
+            clipText = dataObject?.GetDataPresent(System.Windows.DataFormats.Text) == true
+                ? (string)dataObject.GetData(System.Windows.DataFormats.Text)!
+                : "";
+        }
+        catch (System.Runtime.InteropServices.COMException)
+        {
+            PipelineLogAppend("[ДетектШага] Ошибка чтения буфера обмена.");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(clipText))
+        {
+            PipelineLogAppend("[ДетектШага] Буфер пуст — наведите курсор на предмет в игре.");
+            return;
+        }
+
+        var parsedItem = Services.ItemParser.Parse(clipText);
+        if (parsedItem == null || !parsedItem.IsValid)
+        {
+            PipelineLogAppend("[ДетектШага] Не удалось распарсить предмет из буфера.");
+            return;
+        }
+
+        var result = Services.PipelineStepDetector.Detect(_currentPipeline, parsedItem);
+        if (result.StepIndex is { } idx)
+        {
+            var stepName = _currentPipeline.Steps[idx].Name;
+            PipelineLogAppend($"[ДетектШага] → Шаг {idx} «{stepName}»");
+        }
+        else
+        {
+            PipelineLogAppend("[ДетектШага] Предмет не распознан ни на одном шаге пайплайна.");
+        }
+
+        foreach (var line in result.Explanation.Split('\n'))
+        {
+            var l = line.Trim();
+            if (!string.IsNullOrEmpty(l))
+                PipelineLogAppend($"  {l}");
+        }
+    }
+
     private void PipelineSetGridBtn_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         var dimDlg = new ItemGridDimensionsDialog { Owner = this };
