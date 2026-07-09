@@ -34,7 +34,8 @@ public sealed class TravelToLocationService
         var raw2 = await WindowsOcrTextLocator.RecognizeBitmapCollapsedAsync(bmp2x, ct).ConfigureAwait(false);
         log?.Report($"[Travel] OCR 2×: «{raw2.Replace('\n', ' ').Trim()}»");
 
-        var searchText = string.IsNullOrWhiteSpace(config.WaypointOcrText) ? "waypoint" : config.WaypointOcrText;
+        var rawSearch = string.IsNullOrWhiteSpace(config.WaypointOcrText) ? "waypoint" : config.WaypointOcrText;
+        var searchText = WindowsOcrTextLocator.NormalizeForMatch(rawSearch);
         var match = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(
             config.WaypointSearchArea,
             searchText,

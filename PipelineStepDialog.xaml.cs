@@ -376,6 +376,38 @@ public partial class PipelineStepDialog : Window
         TravelLocH.Text = r.Height.ToString();
     }
 
+    private void TravelSnapshotWpBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (!int.TryParse(TravelWpX.Text, out var x) ||
+            !int.TryParse(TravelWpY.Text, out var y) ||
+            !int.TryParse(TravelWpW.Text, out var w) ||
+            !int.TryParse(TravelWpH.Text, out var h) ||
+            w <= 0 || h <= 0)
+        {
+            System.Windows.MessageBox.Show("Сначала задайте область поиска (X/Y/W/H).", "Скриншот", MessageBoxButton.OK, MessageBoxImage.Warning);
+            return;
+        }
+
+        var area = new ScreenRect(x, y, w, h);
+        try
+        {
+            using var bmp = Services.ScreenCaptureHelper.CaptureRegion(area);
+            var path = System.IO.Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                $"travel_waypoint_snapshot_{DateTime.Now:yyyyMMdd_HHmmss}.png");
+            bmp.Save(path, System.Drawing.Imaging.ImageFormat.Png);
+            System.Windows.MessageBox.Show(
+                $"Скриншот области сохранён:\n{path}",
+                "Скриншот",
+                MessageBoxButton.OK,
+                MessageBoxImage.Information);
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show($"Ошибка: {ex.Message}", "Скриншот", MessageBoxButton.OK, MessageBoxImage.Error);
+        }
+    }
+
     // ── OK ────────────────────────────────────────────────────────────────────
 
     private void OkBtn_Click(object sender, RoutedEventArgs e)
