@@ -106,14 +106,35 @@ public sealed class BatchPipelineRunner
                     if (active.Any(i => i.CurrentStage < n)) continue;
 
                     anyProgress = true;
-                    log?.Report($"[Батч] Стадия {n} «{pipeline.Steps[n].Name}»: {targetItems.Count} предм.");
+                    var step = pipeline.Steps[n];
+
+                    // Веха: действие выполняется один раз для всей группы предметов,
+                    // переход применяется ко всем (барьер уже гарантирует, что все дошли).
+                    if (IsMilestoneAction(step.Action))
+                    {
+                        executionCount++;
+                        ct.ThrowIfCancellationRequested();
+                        log?.Report($"[Батч] Веха: стадия {n} «{step.Name}» — 1 раз для {targetItems.Count} предм.");
+                        StepOutcome milestoneOutcome;
+                        if (_testStepExecutor is not null)
+                            milestoneOutcome = await _testStepExecutor(targetItems[0], step, ct).ConfigureAwait(false);
+                        else
+                            milestoneOutcome = await _runner.ExecuteStepAsync(step, screenTemplate, log, ct).ConfigureAwait(false);
+                        foreach (var mi in targetItems)
+                        {
+                            mi.TotalAttempts++;
+                            ApplyTransition(mi, step, milestoneOutcome.Succeeded, n, pipeline.Steps.Count, log);
+                        }
+                        continue;
+                    }
+
+                    log?.Report($"[Батч] Стадия {n} «{step.Name}»: {targetItems.Count} предм.");
 
                     foreach (var item in targetItems)
                     {
                         executionCount++;
                         ct.ThrowIfCancellationRequested();
 
-                        var step = pipeline.Steps[n];
                         var screen = screenTemplate with { ItemArea = itemCells[item.CellIndex] };
 
                         StepOutcome outcome;
@@ -206,6 +227,13 @@ public sealed class BatchPipelineRunner
                 break;
         }
     }
+
+    /// <summary>
+    /// Веха: выполняется один раз для всей группы предметов, достигших этой стадии.
+    /// Не требует итерации по предметам — не зависит от конкретного предмета.
+    /// </summary>
+    private static bool IsMilestoneAction(PipelineAction action) =>
+        action == PipelineAction.TravelToLocation;
 
     private async Task InitializeStagesAsync(
         List<BatchItem> items, CraftPipeline pipeline,

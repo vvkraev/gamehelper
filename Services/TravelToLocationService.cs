@@ -31,14 +31,17 @@ public sealed class TravelToLocationService
             log: null,
             cancellationToken: ct).ConfigureAwait(false);
 
-        if (match is null)
+        int wx, wy;
+        if (match is not null)
         {
-            log?.Report("[Travel] «Waypoint» не найден в указанной области.");
-            return false;
+            (wx, wy) = match.Value.BoundsOnScreen.Center;
+            log?.Report($"[Travel] «Waypoint» найден OCR на ({wx}, {wy}), кликаем…");
         }
-
-        var (wx, wy) = match.Value.BoundsOnScreen.Center;
-        log?.Report($"[Travel] «Waypoint» найден на ({wx}, {wy}), кликаем…");
+        else
+        {
+            (wx, wy) = config.WaypointSearchArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+            log?.Report($"[Travel] «Waypoint» OCR не нашёл — кликаем по центру области ({wx}, {wy})…");
+        }
 
         Win32Input.MoveTo(wx, wy);
         await DelayAsync(_mouseDelayMs, ct).ConfigureAwait(false);
