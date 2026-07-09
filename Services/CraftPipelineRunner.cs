@@ -22,7 +22,7 @@ public sealed class PipelineRunResult
 /// Область экрана для каждого источника действий пайплайна.
 /// Используется как единый объект конфигурации при вызове <see cref="CraftPipelineRunner.RunAsync"/>.
 /// </summary>
-public sealed class PipelineScreenConfig
+public sealed record PipelineScreenConfig
 {
     public static readonly PipelineScreenConfig Empty = new();
 
@@ -246,7 +246,7 @@ public sealed class CraftPipelineRunner
         }
     }
 
-    private async Task<StepOutcome> ExecuteStepAsync(
+    internal async Task<StepOutcome> ExecuteStepAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
     {
         return step.Action switch
