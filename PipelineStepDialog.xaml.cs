@@ -63,6 +63,45 @@ public partial class PipelineStepDialog : Window
         "Omen of Secret Compartments",
     ];
 
+    // Полный список валют из Currency stash — имена совпадают с ключами в _currencyItemRegions
+    internal static readonly string[] CurrencyKnownItems =
+    [
+        "Divine Orb",
+        "Fracturing Orb",
+        "Orb of Annulment",
+        "Orb of Extraction",
+        "Crystallised Corruption",
+        "Architect's Orb",
+        "Vaal Orb",
+        "Orb of Chance",
+        "Orb of Alchemy",
+        "Hinekora's Lock",
+        "Chaos Orb",
+        "Greater Chaos Orb",
+        "Perfect Chaos Orb",
+        "Exalted Orb",
+        "Greater Exalted Orb",
+        "Perfect Exalted Orb",
+        "Orb of Augmentation",
+        "Greater Orb of Augmentation",
+        "Perfect Orb of Augmentation",
+        "Orb of Transmutation",
+        "Greater Orb of Transmutation",
+        "Perfect Orb of Transmutation",
+        "Regal Orb",
+        "Greater Regal Orb",
+        "Perfect Regal Orb",
+        "Lesser Jeweller's Orb",
+        "Greater Jeweller's Orb",
+        "Perfect Jeweller's Orb",
+        "Arcanist's Etcher",
+        "Artificer's Orb",
+        "Blacksmith's Whetstone",
+        "Glassblower's Bauble",
+        "Armourer's Scrap",
+        "Gemcutter's Prism",
+    ];
+
     internal static readonly (string Id, string DisplayName)[] AbyssKnownBones =
     [
         ("ancient_jawbone",    "Ancient Jawbone"),
@@ -85,9 +124,7 @@ public partial class PipelineStepDialog : Window
         PipelineAction.AugAnnulCraft,
         PipelineAction.DivineCraft,
         PipelineAction.ExaltCraft,
-        PipelineAction.SimpleExalt,
-        PipelineAction.SimpleAnnul,
-        PipelineAction.SimpleChaos,
+        PipelineAction.SimpleCurrency,
         PipelineAction.OmenActivation,
         PipelineAction.DeliriumLiquid,
         PipelineAction.ManualPause,
@@ -161,6 +198,10 @@ public partial class PipelineStepDialog : Window
         DeliriumLiquidCombo.ItemsSource = deliriumItems;
         var savedId = Step.DeliriumLiquidConfig?.LiquidName ?? "";
         DeliriumLiquidCombo.SelectedItem = deliriumItems.FirstOrDefault(i => i.Id == savedId);
+
+        // SimpleCurrency
+        CurrencyCombo.ItemsSource = CurrencyKnownItems;
+        CurrencyCombo.SelectedItem = CurrencyKnownItems.FirstOrDefault(c => c == (Step.CurrencyId ?? ""));
 
         // AbyssalBone
         var bones = AbyssKnownBones;
@@ -236,6 +277,10 @@ public partial class PipelineStepDialog : Window
             Step.DeliriumLiquidConfig = null;
         }
 
+        Step.CurrencyId = Step.Action == PipelineAction.SimpleCurrency
+            ? CurrencyCombo.SelectedItem as string ?? ""
+            : null;
+
         Step.AbyssalBoneId = Step.Action == PipelineAction.SimpleAbyssalBone
             ? (AbyssalBoneCombo.SelectedItem as (string Id, string DisplayName)?)?.Id ?? ""
             : null;
@@ -300,6 +345,9 @@ public partial class PipelineStepDialog : Window
             ? Visibility.Visible
             : Visibility.Collapsed;
         AbyssalBoneConfigPanel.Visibility = action == PipelineAction.SimpleAbyssalBone
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        CurrencyConfigPanel.Visibility = action == PipelineAction.SimpleCurrency
             ? Visibility.Visible
             : Visibility.Collapsed;
     }

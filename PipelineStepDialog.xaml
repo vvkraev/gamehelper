@@ -36,9 +36,7 @@
                     <ComboBoxItem Content="AugAnnulCraft — цикл Aug + Annul"/>
                     <ComboBoxItem Content="DivineCraft — цикл Divine Orb"/>
                     <ComboBoxItem Content="ExaltCraft — цикл Exalted Orb"/>
-                    <ComboBoxItem Content="SimpleExalt — применить экзальт один раз"/>
-                    <ComboBoxItem Content="SimpleAnnul — применить аннуль один раз"/>
-                    <ComboBoxItem Content="SimpleChaos — применить хаос один раз"/>
+                    <ComboBoxItem Content="SimpleCurrency — применить орб из вкладки Currency"/>
                     <ComboBoxItem Content="OmenActivation — переложить омен и активировать"/>
                     <ComboBoxItem Content="DeliriumLiquid — применить масло делириума"/>
                     <ComboBoxItem Content="ManualPause — пауза (успех без действий)"/>
@@ -211,6 +209,30 @@
                             <TextBlock Grid.Row="1" Text="Задержка загрузки (мс):" VerticalAlignment="Center"/>
                             <TextBox   Grid.Row="1" Grid.Column="1" x:Name="TravelLoadDelayBox" Text="15000"
                                        Width="80" HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- CurrencyConfig (только для SimpleCurrency) -->
+                <Border x:Name="CurrencyConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Конфигурация Currency" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock Text="Орб берётся из вкладки Currency стэша. Область задаётся в «Настройки областей → Currency»."
+                                   FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,6"/>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Орб:" VerticalAlignment="Center"/>
+                            <ComboBox Grid.Column="1" x:Name="CurrencyCombo" Margin="0,3"/>
                         </Grid>
                     </StackPanel>
                 </Border>

@@ -55,6 +55,10 @@ public sealed record PipelineScreenConfig
     public IReadOnlyList<ScreenRect> FullInventoryCells { get; init; } = Array.Empty<ScreenRect>();
     public int InventoryGridColumns { get; init; } = 12;
 
+    // Currency-вкладка и ячейки орбов (для SimpleCurrency)
+    public IReadOnlyDictionary<string, ScreenRect> CurrencyItemRegions { get; init; } =
+        new Dictionary<string, ScreenRect>(StringComparer.OrdinalIgnoreCase);
+
     // Abyss-вкладка и ячейки предметов (кости, некоторые омены)
     public ScreenRect AbyssInventoryRegion { get; init; }
     public IReadOnlyDictionary<string, ScreenRect> AbyssItemRegions { get; init; } =
@@ -269,6 +273,8 @@ public sealed class CraftPipelineRunner
             PipelineAction.AugAnnulCraft => await ExecuteAugAnnulAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.DivineCraft => await ExecuteDivineCraftAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.ExaltCraft => await ExecuteExaltCraftAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.SimpleCurrency => await ExecuteSimpleCurrencyAsync(step, screen, log, ct).ConfigureAwait(false),
+            // Устаревшие — оставлены для совместимости сохранённых JSON-пайплайнов
             PipelineAction.SimpleExalt => await ExecuteSimpleExaltAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.SimpleAnnul => await ExecuteSimpleAnnulAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.SimpleChaos => await ExecuteSimpleChaosAsync(step, screen, log, ct).ConfigureAwait(false),
@@ -372,52 +378,80 @@ public sealed class CraftPipelineRunner
         return new StepOutcome(result.Success, result.Attempts, result.FinalItem);
     }
 
-    private async Task<StepOutcome> ExecuteSimpleAnnulAsync(
+    private async Task<StepOutcome> ExecuteSimpleCurrencyAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
     {
-        if (_divine is null)
+        var currencyId = step.CurrencyId;
+        if (string.IsNullOrWhiteSpace(currencyId))
+        {
+            log?.Report("[Currency] Не выбран орб. Настройте шаг.");
             return StepOutcome.Failure();
+        }
+
+        if (!screen.CurrencyItemRegions.TryGetValue(currencyId, out var orbRect) || orbRect == default)
+        {
+            log?.Report($"[Currency] Орб «{currencyId}» не настроен в «Настройки областей → Currency».");
+            return StepOutcome.Failure();
+        }
 
         if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
             return StepOutcome.Failure();
 
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
-        var plan = new CraftConditionPlan { ExpectedItemClass = "" };
-        var result = await _divine.RunAsync(
-            screen.AnnulOrbArea, screen.ItemArea, plan, step.Name,
-            1, 1, 0, log, ct).ConfigureAwait(false);
-        return StepOutcome.Success(result.Attempts, result.FinalItem);
+        await ApplyCurrencyToItemAsync(orbRect, screen.ItemArea, currencyId, log, ct).ConfigureAwait(false);
+        return StepOutcome.Success(1);
+    }
+
+    // Устаревшие Simple-действия — редиректят на единую логику ApplyCurrencyToItemAsync
+    private async Task<StepOutcome> ExecuteSimpleAnnulAsync(
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+    {
+        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
+            return StepOutcome.Failure();
+        if (screen.AnnulOrbArea == default) { log?.Report("[Currency] Область Annulment Orb не настроена."); return StepOutcome.Failure(); }
+        await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
+        await ApplyCurrencyToItemAsync(screen.AnnulOrbArea, screen.ItemArea, "Orb of Annulment", log, ct).ConfigureAwait(false);
+        return StepOutcome.Success(1);
     }
 
     private async Task<StepOutcome> ExecuteSimpleChaosAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
     {
-        if (_chaos is null)
-            return StepOutcome.Failure();
-
         if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
             return StepOutcome.Failure();
-
+        if (screen.ChaosOrbArea == default) { log?.Report("[Currency] Область Chaos Orb не настроена."); return StepOutcome.Failure(); }
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
-        var plan = new CraftConditionPlan { ExpectedItemClass = "" };
-        var result = await _chaos.RunAsync(
-            screen.ChaosOrbArea, screen.ItemArea, plan, step.Name,
-            1, 1, 0, log, ct).ConfigureAwait(false);
-        return StepOutcome.Success(result.Attempts, result.FinalItem);
+        await ApplyCurrencyToItemAsync(screen.ChaosOrbArea, screen.ItemArea, "Chaos Orb", log, ct).ConfigureAwait(false);
+        return StepOutcome.Success(1);
     }
 
     private async Task<StepOutcome> ExecuteSimpleExaltAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
     {
-        if (_divine is null)
+        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
             return StepOutcome.Failure();
-
+        if (screen.ExaltOrbArea == default) { log?.Report("[Currency] Область Exalted Orb не настроена."); return StepOutcome.Failure(); }
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
-        var plan = new CraftConditionPlan { ExpectedItemClass = "" };
-        var result = await _divine.RunAsync(
-            screen.ExaltOrbArea, screen.ItemArea, plan, step.Name,
-            1, 1, 0, log, ct).ConfigureAwait(false);
-        return StepOutcome.Success(result.Attempts, result.FinalItem);
+        await ApplyCurrencyToItemAsync(screen.ExaltOrbArea, screen.ItemArea, "Exalted Orb", log, ct).ConfigureAwait(false);
+        return StepOutcome.Success(1);
+    }
+
+    private async Task ApplyCurrencyToItemAsync(
+        ScreenRect orbRect, ScreenRect itemRect, string displayName, IProgress<string>? log, CancellationToken ct)
+    {
+        var (ox, oy) = orbRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+        log?.Report($"[Currency] ПКМ «{displayName}» ({ox},{oy})…");
+        Win32Input.MoveTo(ox, oy);
+        await Task.Delay(150, ct).ConfigureAwait(false);
+        Win32Input.ClickRight();
+        await Task.Delay(300, ct).ConfigureAwait(false);
+
+        var (ix, iy) = itemRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+        log?.Report($"[Currency] ЛКМ предмет ({ix},{iy})…");
+        Win32Input.MoveTo(ix, iy);
+        await Task.Delay(150, ct).ConfigureAwait(false);
+        Win32Input.ClickLeft();
+        await Task.Delay(300, ct).ConfigureAwait(false);
     }
 
     /// <summary>

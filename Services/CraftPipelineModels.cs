@@ -8,12 +8,14 @@ public enum PipelineAction
     AugAnnulCraft,
     DivineCraft,
     ExaltCraft,
-    /// <summary>Применяет один Exalted Orb к предмету без управления оменами и всегда переходит дальше.</summary>
+    /// <summary>Применяет один Exalted Orb к предмету. Устаревший — используйте <see cref="SimpleCurrency"/>.</summary>
     SimpleExalt,
-    /// <summary>Применяет один Annulment Orb к предмету и всегда переходит дальше.</summary>
+    /// <summary>Применяет один Annulment Orb к предмету. Устаревший — используйте <see cref="SimpleCurrency"/>.</summary>
     SimpleAnnul,
-    /// <summary>Применяет один Chaos Orb к предмету и всегда переходит дальше.</summary>
+    /// <summary>Применяет один Chaos Orb к предмету. Устаревший — используйте <see cref="SimpleCurrency"/>.</summary>
     SimpleChaos,
+    /// <summary>ПКМ на орб из вкладки Currency стэша (выбирается в настройках шага), ЛКМ на предмет.</summary>
+    SimpleCurrency,
     OmenActivation,
     /// <summary>ПКМ на масло делириума из стэша, затем ЛКМ на предмет.</summary>
     DeliriumLiquid,
@@ -106,6 +108,9 @@ public sealed class CraftPipelineStep
 
     /// <summary>Id кости (из AbyssKnownItems) — используется только при <see cref="PipelineAction.SimpleAbyssalBone"/>.</summary>
     public string? AbyssalBoneId { get; set; }
+
+    /// <summary>Имя орба из Currency stash — используется только при <see cref="PipelineAction.SimpleCurrency"/>.</summary>
+    public string? CurrencyId { get; set; }
 
     /// <summary>Проверяется до выполнения действия. Если false → переход по <see cref="OnFailure"/>.</summary>
     public CraftConditionPlan? EntryCondition { get; set; }
