@@ -11,6 +11,16 @@ public sealed class BatchItem
     public int CurrentStage { get; set; }
     public string? LastMessage { get; set; }
     public int TotalAttempts { get; set; }
+    public decimal TotalCostDiv { get; set; }
+    public List<BatchCostRecord> CostRecords { get; } = [];
+}
+
+public sealed class BatchCostRecord
+{
+    public string StepName { get; init; } = "";
+    public string CurrencyName { get; init; } = "";
+    public int Attempts { get; init; }
+    public decimal CostDiv { get; init; }
 }
 
 public sealed class BatchRunResult
@@ -18,6 +28,9 @@ public sealed class BatchRunResult
     public IReadOnlyList<BatchItem> Items { get; init; } = Array.Empty<BatchItem>();
     public int DoneCount => Items.Count(i => i.Status == BatchItemStatus.Done);
     public int FailedCount => Items.Count(i => i.Status == BatchItemStatus.Failed);
+    public string BatchId { get; init; } = "";
+    public string PipelineName { get; init; } = "";
+    public decimal TotalCostDiv => Items.Sum(i => i.TotalCostDiv);
 }
 
 /// <summary>
@@ -57,7 +70,9 @@ public sealed class BatchPipelineRunner
         CancellationToken ct)
     {
         if (pipeline.Steps.Count == 0 || itemCells.Count == 0)
-            return new BatchRunResult { Items = Array.Empty<BatchItem>() };
+            return new BatchRunResult { Items = Array.Empty<BatchItem>(), BatchId = "", PipelineName = pipeline.Name };
+
+        var batchId = DateTime.Now.ToString("yyyyMMdd_HHmmss") + "_batch";
 
         var items = new List<BatchItem>(itemCells.Count);
         for (int i = 0; i < itemCells.Count; i++)
@@ -66,7 +81,7 @@ public sealed class BatchPipelineRunner
         if (_chaos is not null && _testStepExecutor is null)
             await InitializeStagesAsync(items, pipeline, screenTemplate, itemCells, log, ct).ConfigureAwait(false);
 
-        return await RunCoreAsync(pipeline, screenTemplate, itemCells, items, log, ct).ConfigureAwait(false);
+        return await RunCoreAsync(pipeline, screenTemplate, itemCells, items, log, ct, batchId).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -79,7 +94,8 @@ public sealed class BatchPipelineRunner
         IReadOnlyList<ScreenRect> itemCells,
         List<BatchItem> items,
         IProgress<string>? log,
-        CancellationToken ct)
+        CancellationToken ct,
+        string? batchId = null)
     {
         var executionCount = 0;
 
@@ -144,6 +160,8 @@ public sealed class BatchPipelineRunner
                             outcome = await _runner.ExecuteStepAsync(step, screen, log, ct).ConfigureAwait(false);
 
                         item.TotalAttempts += outcome.Attempts;
+                        if (outcome.Succeeded)
+                            AccumulateCost(item, step, outcome.Attempts);
                         ApplyTransition(item, step, outcome.Succeeded, n, pipeline.Steps.Count, log);
 
                         // OmenActivation кладёт омен в ячейку — расходуется следующим шагом.
@@ -165,6 +183,8 @@ public sealed class BatchPipelineRunner
                                 else
                                     fusedOutcome = await _runner.ExecuteStepAsync(fusedStep, screen, log, ct).ConfigureAwait(false);
                                 item.TotalAttempts += fusedOutcome.Attempts;
+                                if (fusedOutcome.Succeeded)
+                                    AccumulateCost(item, fusedStep, fusedOutcome.Attempts);
                                 ApplyTransition(item, fusedStep, fusedOutcome.Succeeded, fusedN, pipeline.Steps.Count, log);
                             }
                         }
@@ -184,8 +204,11 @@ public sealed class BatchPipelineRunner
             Win32Input.ReleaseCtrlAlt();
         }
 
-        log?.Report($"[Батч] Итог: Done={items.Count(i => i.Status == BatchItemStatus.Done)}, Failed={items.Count(i => i.Status == BatchItemStatus.Failed)}");
-        return new BatchRunResult { Items = items };
+        var doneCount   = items.Count(i => i.Status == BatchItemStatus.Done);
+        var failedCount = items.Count(i => i.Status == BatchItemStatus.Failed);
+        var totalCost   = items.Sum(i => i.TotalCostDiv);
+        log?.Report($"[Батч] Итог: Done={doneCount}, Failed={failedCount}, Расход≈{totalCost:F2}d");
+        return new BatchRunResult { Items = items, BatchId = batchId ?? "", PipelineName = pipeline.Name };
     }
 
     private static void ApplyTransition(
@@ -226,6 +249,56 @@ public sealed class BatchPipelineRunner
                 log?.Report($"[Батч] [{item.CellIndex}]: → стадия {transition.StepIndex}");
                 break;
         }
+    }
+
+    private static void AccumulateCost(BatchItem item, CraftPipelineStep step, int attempts)
+    {
+        var currencyName = ResolveStepCurrencyName(step);
+        if (string.IsNullOrEmpty(currencyName)) return;
+
+        var pricePerUnit = PoeNinjaPriceService.GetPrice(currencyName)?.DivineValue ?? 0m;
+        var cost = pricePerUnit * attempts;
+        item.TotalCostDiv += cost;
+        item.CostRecords.Add(new BatchCostRecord
+        {
+            StepName     = step.Name,
+            CurrencyName = currencyName,
+            Attempts     = attempts,
+            CostDiv      = cost,
+        });
+    }
+
+    private static string? ResolveStepCurrencyName(CraftPipelineStep step) => step.Action switch
+    {
+        PipelineAction.SimpleCurrency  => step.CurrencyId,
+        PipelineAction.SimpleChaos     => "Chaos Orb",
+        PipelineAction.SimpleAnnul     => "Orb of Annulment",
+        PipelineAction.SimpleExalt     => "Exalted Orb",
+        PipelineAction.ChaosCraft      => "Chaos Orb",
+        PipelineAction.AugAnnulCraft   => "Orb of Annulment",
+        PipelineAction.ExaltCraft      => "Exalted Orb",
+        PipelineAction.DivineCraft     => "Divine Orb",
+        PipelineAction.OmenActivation  => step.OmenConfig?.OmenName,
+        PipelineAction.DeliriumLiquid  => ResolveDeliriumName(step.DeliriumLiquidConfig?.LiquidName),
+        PipelineAction.SimpleAbyssalBone => ResolveBoneName(step.AbyssalBoneId),
+        _                              => null,
+    };
+
+    private static string? ResolveDeliriumName(string? liquidId)
+    {
+        if (string.IsNullOrEmpty(liquidId)) return null;
+        var item = Services.StackableItemRegistry.Items
+            .FirstOrDefault(i => i.Id == liquidId);
+        return item?.DisplayName;
+    }
+
+    private static string? ResolveBoneName(string? boneId)
+    {
+        if (string.IsNullOrEmpty(boneId)) return null;
+        // AbyssKnownItems живёт в MainWindow — используем нормализацию по Id
+        // Id вида "ancient_jawbone" → "Ancient Jawbone"
+        return System.Globalization.CultureInfo.InvariantCulture.TextInfo
+            .ToTitleCase(boneId.Replace('_', ' '));
     }
 
     /// <summary>

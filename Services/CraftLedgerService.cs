@@ -17,6 +17,11 @@ public sealed class CraftLedgerEntry
     [JsonPropertyName("listing")]      public LedgerListing? Listing { get; set; }
     [JsonPropertyName("notes")]        public List<string> Notes { get; set; } = [];
 
+    /// <summary>ID батча — одинаковый для всех предметов одного запуска BatchPipelineRunner.</summary>
+    [JsonPropertyName("batchId")]      public string? BatchId { get; set; }
+    /// <summary>Индекс ячейки стэша в батче (0-based).</summary>
+    [JsonPropertyName("cellIndex")]    public int? CellIndex { get; set; }
+
     [JsonExtensionData]
     public Dictionary<string, JsonElement>? Extra { get; set; }
 
