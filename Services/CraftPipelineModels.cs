@@ -79,10 +79,10 @@ public sealed class TravelActionConfig
     public int LocationButtonY { get; set; }
 
     /// <summary>Задержка после клика по Waypoint (мс): ждём открытия меню.</summary>
-    public int AfterWaypointDelayMs { get; set; } = 800;
+    public int AfterWaypointDelayMs { get; set; } = 10000;
 
     /// <summary>Задержка после клика по кнопке локации (мс): ждём загрузки карты.</summary>
-    public int LoadingDelayMs { get; set; } = 3000;
+    public int LoadingDelayMs { get; set; } = 15000;
 }
 
 public sealed class CraftPipelineStep
