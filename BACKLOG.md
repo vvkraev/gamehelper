@@ -577,7 +577,7 @@ while есть активные предметы (не Done/Failed):
 **Зависит от:** BATCH-1a (DetectStep), CRAFT-12d (CraftPipelineRunner)
 
 - [x] **BATCH-2a** Принять архитектурное решение и зафиксировать в CLAUDE.md
-- [ ] **BATCH-2b** Реализовать `BatchPipelineRunner`: барьерная синхронизация, DetectStep для определения стадии, статус per-item (Pending/WaitingAt/Done/Failed)
+- [x] **BATCH-2b** Реализовать `BatchPipelineRunner`: барьерная синхронизация, DetectStep для определения стадии, статус per-item (Active/Done/Failed)
 
 ---
 
