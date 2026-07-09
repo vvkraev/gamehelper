@@ -43,6 +43,9 @@ public sealed record PipelineScreenConfig
     public IReadOnlyList<ScreenRect> OmenSinistralStashCells { get; init; } = Array.Empty<ScreenRect>();
     public IReadOnlyList<ScreenRect> OmenDextralStashCells { get; init; } = Array.Empty<ScreenRect>();
     public IReadOnlyList<ScreenRect> OmenGreaterStashCells { get; init; } = Array.Empty<ScreenRect>();
+    // Произвольные омены: имя → одна ячейка стэша (из _ritualItemRegions)
+    public IReadOnlyDictionary<string, IReadOnlyList<ScreenRect>> OmenStashCellsByName { get; init; } =
+        new Dictionary<string, IReadOnlyList<ScreenRect>>(StringComparer.OrdinalIgnoreCase);
 
     // Полный инвентарь (12×5) для размещения омена
     public IReadOnlyList<ScreenRect> FullInventoryCells { get; init; } = Array.Empty<ScreenRect>();
@@ -258,6 +261,7 @@ public sealed class CraftPipelineRunner
             PipelineAction.ExaltCraft => await ExecuteExaltCraftAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.SimpleExalt => await ExecuteSimpleExaltAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.SimpleAnnul => await ExecuteSimpleAnnulAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.SimpleChaos => await ExecuteSimpleChaosAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.OmenActivation => await ExecuteOmenActivationAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.DeliriumLiquid => await ExecuteDeliriumLiquidAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.ManualPause => StepOutcome.Success(),
@@ -373,6 +377,23 @@ public sealed class CraftPipelineRunner
         return StepOutcome.Success(result.Attempts, result.FinalItem);
     }
 
+    private async Task<StepOutcome> ExecuteSimpleChaosAsync(
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+    {
+        if (_chaos is null)
+            return StepOutcome.Failure();
+
+        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
+            return StepOutcome.Failure();
+
+        await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
+        var plan = new CraftConditionPlan { ExpectedItemClass = "" };
+        var result = await _chaos.RunAsync(
+            screen.ChaosOrbArea, screen.ItemArea, plan, step.Name,
+            1, 1, 0, log, ct).ConfigureAwait(false);
+        return StepOutcome.Success(result.Attempts, result.FinalItem);
+    }
+
     private async Task<StepOutcome> ExecuteSimpleExaltAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
     {
@@ -425,6 +446,7 @@ public sealed class CraftPipelineRunner
             OmenActivationService.OmenSinistralExaltationName => screen.OmenSinistralStashCells,
             OmenActivationService.OmenDextralExaltationName   => screen.OmenDextralStashCells,
             OmenActivationService.OmenGreaterExaltationName   => screen.OmenGreaterStashCells,
+            _ when screen.OmenStashCellsByName.TryGetValue(cfg.OmenName, out var cells) => cells,
             _ => (IReadOnlyList<ScreenRect>)Array.Empty<ScreenRect>(),
         };
 

@@ -12,6 +12,8 @@ public enum PipelineAction
     SimpleExalt,
     /// <summary>Применяет один Annulment Orb к предмету и всегда переходит дальше.</summary>
     SimpleAnnul,
+    /// <summary>Применяет один Chaos Orb к предмету и всегда переходит дальше.</summary>
+    SimpleChaos,
     OmenActivation,
     /// <summary>ПКМ на масло делириума из стэша, затем ЛКМ на предмет.</summary>
     DeliriumLiquid,

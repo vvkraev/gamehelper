@@ -124,6 +124,29 @@ public sealed class BatchPipelineRunner
 
                         item.TotalAttempts += outcome.Attempts;
                         ApplyTransition(item, step, outcome.Succeeded, n, pipeline.Steps.Count, log);
+
+                        // OmenActivation кладёт омен в ячейку — расходуется следующим шагом.
+                        // Чтобы ячейка не была занята при обработке следующего предмета,
+                        // выполняем следующий шаг для ЭТОГО предмета сразу (атомарная сшивка).
+                        if (outcome.Succeeded && step.Action == PipelineAction.OmenActivation
+                            && item.Status == BatchItemStatus.Active)
+                        {
+                            var fusedN = item.CurrentStage;
+                            if (fusedN < pipeline.Steps.Count)
+                            {
+                                executionCount++;
+                                ct.ThrowIfCancellationRequested();
+                                var fusedStep = pipeline.Steps[fusedN];
+                                log?.Report($"[Батч] [{item.CellIndex}]: сшивка → стадия {fusedN} «{fusedStep.Name}»");
+                                StepOutcome fusedOutcome;
+                                if (_testStepExecutor is not null)
+                                    fusedOutcome = await _testStepExecutor(item, fusedStep, ct).ConfigureAwait(false);
+                                else
+                                    fusedOutcome = await _runner.ExecuteStepAsync(fusedStep, screen, log, ct).ConfigureAwait(false);
+                                item.TotalAttempts += fusedOutcome.Attempts;
+                                ApplyTransition(item, fusedStep, fusedOutcome.Succeeded, fusedN, pipeline.Steps.Count, log);
+                            }
+                        }
                     }
                 }
 

@@ -38,6 +38,7 @@
                     <ComboBoxItem Content="ExaltCraft — цикл Exalted Orb"/>
                     <ComboBoxItem Content="SimpleExalt — применить экзальт один раз"/>
                     <ComboBoxItem Content="SimpleAnnul — применить аннуль один раз"/>
+                    <ComboBoxItem Content="SimpleChaos — применить хаос один раз"/>
                     <ComboBoxItem Content="OmenActivation — переложить омен и активировать"/>
                     <ComboBoxItem Content="DeliriumLiquid — применить масло делириума"/>
                     <ComboBoxItem Content="ManualPause — пауза (успех без действий)"/>
@@ -73,11 +74,7 @@
                             </Grid.RowDefinitions>
 
                             <TextBlock Grid.Row="0" Text="Омен:" VerticalAlignment="Center"/>
-                            <ComboBox  Grid.Row="0" Grid.Column="1" x:Name="OmenNameCombo" Margin="0,3">
-                                <ComboBoxItem Content="Omen of Sinistral Exaltation"/>
-                                <ComboBoxItem Content="Omen of Dextral Exaltation"/>
-                                <ComboBoxItem Content="Omen of Greater Exaltation"/>
-                            </ComboBox>
+                            <ComboBox  Grid.Row="0" Grid.Column="1" x:Name="OmenNameCombo" Margin="0,3"/>
 
                             <TextBlock Grid.Row="1" Text="Инвентарь строка (0=верх):" VerticalAlignment="Center"/>
                             <TextBox   Grid.Row="1" Grid.Column="1" x:Name="OmenInvRowBox" Text="0" Width="60"

@@ -17,6 +17,52 @@ public partial class PipelineStepDialog : Window
     private readonly List<AffixLibraryEntry> _affixEntries;
     private readonly Services.AffixStatsData? _stats;
 
+    // Полный список оменов в порядке RitualItemGroups (только предметы-омены)
+    internal static readonly string[] AllOmenNames =
+    [
+        // Экзальтация
+        "Omen of Sinistral Exaltation",
+        "Omen of Dextral Exaltation",
+        "Omen of Greater Exaltation",
+        "Omen of Catalysing Exaltation",
+        // Аннулирование / Стирание
+        "Omen of Sinistral Annulment",
+        "Omen of Dextral Annulment",
+        "Omen of Sinistral Erasure",
+        "Omen of Dextral Erasure",
+        "Omen of Whittling",
+        // Некромантия / Кристаллизация
+        "Omen of Sinistral Necromancy",
+        "Omen of Dextral Necromancy",
+        "Omen of Sinistral Crystallisation",
+        "Omen of Dextral Crystallisation",
+        // Хаос
+        "Omen of Chaotic Quantity",
+        "Omen of Chaotic Effectiveness",
+        "Omen of Chaotic Monsters",
+        "Omen of Chaotic Rarity",
+        "Omen of Gambling",
+        "Omen of Chance",
+        // Другое
+        "Omen of Amelioration",
+        "Omen of Answered Prayers",
+        "Omen of Bartering",
+        "Omen of Refreshment",
+        "Omen of Reinforcements",
+        "Omen of Resurgence",
+        "Omen of Sanctification",
+        "Omen of Putrefaction",
+        "Omen of Abyssal Echoes",
+        "Omen of Light",
+        "Omen of the Hunt",
+        "Omen of the Liege",
+        "Omen of the Ancients",
+        "Omen of the Blackblooded",
+        "Omen of the Blessed",
+        "Omen of the Sovereign",
+        "Omen of Secret Compartments",
+    ];
+
     // Mapping: ComboBox index → PipelineAction
     private static readonly PipelineAction[] ActionMap =
     [
@@ -27,6 +73,7 @@ public partial class PipelineStepDialog : Window
         PipelineAction.ExaltCraft,
         PipelineAction.SimpleExalt,
         PipelineAction.SimpleAnnul,
+        PipelineAction.SimpleChaos,
         PipelineAction.OmenActivation,
         PipelineAction.DeliriumLiquid,
         PipelineAction.ManualPause,
@@ -52,6 +99,7 @@ public partial class PipelineStepDialog : Window
         _entry = SettingsStore.CloneCraftConditionPlan(step.EntryCondition ?? new CraftConditionPlan());
         _loop = SettingsStore.CloneCraftConditionPlan(step.LoopUntil ?? new CraftConditionPlan());
         InitializeComponent();
+        OmenNameCombo.ItemsSource = AllOmenNames;
         LoadFromStep();
     }
 
@@ -79,13 +127,8 @@ public partial class PipelineStepDialog : Window
         // OmenConfig
         if (Step.OmenConfig is { } cfg)
         {
-            var omenIdx = cfg.OmenName switch
-            {
-                Services.OmenActivationService.OmenDextralExaltationName => 1,
-                Services.OmenActivationService.OmenGreaterExaltationName => 2,
-                _ => 0,
-            };
-            OmenNameCombo.SelectedIndex = omenIdx;
+            var omenIdx = Array.IndexOf(AllOmenNames, cfg.OmenName);
+            OmenNameCombo.SelectedIndex = omenIdx >= 0 ? omenIdx : 0;
             OmenInvRowBox.Text = cfg.InventoryRow.ToString();
             OmenInvColBox.Text = cfg.InventoryCol.ToString();
         }
@@ -129,12 +172,7 @@ public partial class PipelineStepDialog : Window
 
         if (Step.Action == PipelineAction.OmenActivation)
         {
-            var omenName = OmenNameCombo.SelectedIndex switch
-            {
-                1 => Services.OmenActivationService.OmenDextralExaltationName,
-                2 => Services.OmenActivationService.OmenGreaterExaltationName,
-                _ => Services.OmenActivationService.OmenSinistralExaltationName,
-            };
+            var omenName = OmenNameCombo.SelectedItem as string ?? AllOmenNames[0];
             Step.OmenConfig = new OmenActionConfig
             {
                 OmenName       = omenName,

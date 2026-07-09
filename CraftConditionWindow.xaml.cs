@@ -534,6 +534,21 @@ public partial class CraftConditionWindow : Window
             group.Clauses.Add(cl);
             RefreshOrAlternativesUi();
         };
+        var addAffixCount = new WpfButton
+        {
+            Content = "Счётчик аффиксов",
+            Margin = new Thickness(0, 0, 8, 0),
+            Padding = new Thickness(8, 4, 8, 4),
+        };
+        addAffixCount.Click += (_, _) =>
+        {
+            group.Clauses.Add(new CraftClause
+            {
+                Kind = CraftClauseKind.AffixCount,
+                AffixCount = new AffixCountData { Scope = AffixCountScope.All, Min = 1, Max = 0 },
+            });
+            RefreshOrAlternativesUi();
+        };
         var removeOr = new WpfButton { Content = "Удалить вариант", Padding = new Thickness(8, 4, 8, 4) };
         removeOr.Click += (_, _) =>
         {
@@ -544,6 +559,7 @@ public partial class CraftConditionWindow : Window
         btns.Children.Add(addSum);
         btns.Children.Add(addCount);
         btns.Children.Add(addWhole);
+        btns.Children.Add(addAffixCount);
         btns.Children.Add(removeOr);
         sp.Children.Add(btns);
         gb.Content = sp;
@@ -553,6 +569,17 @@ public partial class CraftConditionWindow : Window
     private UIElement BuildClauseUi(CraftAndGroup group, CraftClause clause, int orIndex, int clauseIndex)
     {
         var panel = new WpfStackPanel { Margin = new Thickness(0, 0, 0, 8) };
+
+        // NOT-чекбокс: инвертирует результат клоза (предмет не должен иметь этот аффикс)
+        var negateChk = new System.Windows.Controls.CheckBox
+        {
+            Content = "NOT (инвертировать — предмет НЕ должен иметь это условие)",
+            IsChecked = clause.Negate,
+            Margin = new Thickness(0, 0, 0, 4),
+        };
+        negateChk.Checked   += (_, _) => clause.Negate = true;
+        negateChk.Unchecked += (_, _) => clause.Negate = false;
+        panel.Children.Add(negateChk);
 
         if (clause.Kind == CraftClauseKind.Single && clause.Single is { } s)
         {
@@ -721,6 +748,67 @@ public partial class CraftConditionWindow : Window
                 RefreshOrAlternativesUi();
             };
             panel.Children.Add(removeCountClause);
+        }
+        else if (clause.Kind == CraftClauseKind.AffixCount && clause.AffixCount is { } ac)
+        {
+            panel.Children.Add(new WpfTextBlock
+            {
+                Text = "Счётчик аффиксов",
+                FontWeight = FontWeights.SemiBold,
+                Margin = new Thickness(0, 0, 0, 6),
+            });
+
+            // Что считаем
+            var scopeRow = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 6) };
+            scopeRow.Children.Add(new WpfTextBlock { Text = "Считать:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 0) });
+            var rbAll = new System.Windows.Controls.RadioButton { Content = "все аффиксы", IsChecked = ac.Scope == AffixCountScope.All, Margin = new Thickness(0, 0, 12, 0), VerticalAlignment = VerticalAlignment.Center };
+            var rbPre = new System.Windows.Controls.RadioButton { Content = "префиксы",    IsChecked = ac.Scope == AffixCountScope.Prefixes, Margin = new Thickness(0, 0, 12, 0), VerticalAlignment = VerticalAlignment.Center };
+            var rbSuf = new System.Windows.Controls.RadioButton { Content = "суффиксы",    IsChecked = ac.Scope == AffixCountScope.Suffixes, VerticalAlignment = VerticalAlignment.Center };
+            rbAll.Checked += (_, _) => { ac.Scope = AffixCountScope.All; };
+            rbPre.Checked += (_, _) => { ac.Scope = AffixCountScope.Prefixes; };
+            rbSuf.Checked += (_, _) => { ac.Scope = AffixCountScope.Suffixes; };
+            scopeRow.Children.Add(rbAll);
+            scopeRow.Children.Add(rbPre);
+            scopeRow.Children.Add(rbSuf);
+            panel.Children.Add(scopeRow);
+
+            // Min / Max
+            var rangeRow = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 6) };
+            rangeRow.Children.Add(new WpfTextBlock { Text = "Мин.:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 4, 0) });
+            var tbMin = new WpfTextBox { Width = 48, Text = ac.Min.ToString(CultureInfo.InvariantCulture), Margin = new Thickness(0, 0, 12, 0) };
+            tbMin.LostFocus += (_, _) =>
+            {
+                if (int.TryParse(tbMin.Text.Trim(), out var v) && v >= 0)
+                    ac.Min = v;
+                else
+                    tbMin.Text = ac.Min.ToString(CultureInfo.InvariantCulture);
+            };
+            rangeRow.Children.Add(tbMin);
+            rangeRow.Children.Add(new WpfTextBlock { Text = "Макс. (0 = без ограничения):", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 4, 0) });
+            var tbMax = new WpfTextBox { Width = 48, Text = ac.Max.ToString(CultureInfo.InvariantCulture) };
+            tbMax.LostFocus += (_, _) =>
+            {
+                if (int.TryParse(tbMax.Text.Trim(), out var v) && v >= 0)
+                    ac.Max = v;
+                else
+                    tbMax.Text = ac.Max.ToString(CultureInfo.InvariantCulture);
+            };
+            rangeRow.Children.Add(tbMax);
+            panel.Children.Add(rangeRow);
+
+            var removeAcClause = new WpfButton
+            {
+                Content = "Удалить условие «Счётчик аффиксов»",
+                Margin = new Thickness(0, 4, 0, 0),
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                Padding = new Thickness(8, 2, 8, 2),
+            };
+            removeAcClause.Click += (_, _) =>
+            {
+                group.Clauses.Remove(clause);
+                RefreshOrAlternativesUi();
+            };
+            panel.Children.Add(removeAcClause);
         }
 
         return new WpfBorder { BorderBrush = System.Windows.Media.Brushes.LightGray, BorderThickness = new Thickness(1), Padding = new Thickness(8), Child = panel };
@@ -1966,6 +2054,12 @@ public partial class CraftConditionWindow : Window
 
     private static bool CheckClauseOnItem(CraftClause clause, List<AffixLibraryEntry> item)
     {
+        bool raw = CheckClauseRawOnItem(clause, item);
+        return clause.Negate ? !raw : raw;
+    }
+
+    private static bool CheckClauseRawOnItem(CraftClause clause, List<AffixLibraryEntry> item)
+    {
         switch (clause.Kind)
         {
             case CraftClauseKind.Single when clause.Single is { } s:
@@ -1987,6 +2081,8 @@ public partial class CraftConditionWindow : Window
                 });
                 return matched >= cnt.MinMatchCount;
             }
+            case CraftClauseKind.AffixCount:
+                return true; // Псевдо-условие: не зависит от наличия аффикса в библиотеке
             default:
                 return true; // Sum и неизвестные: не блокируют
         }
