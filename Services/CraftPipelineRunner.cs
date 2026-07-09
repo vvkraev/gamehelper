@@ -43,9 +43,13 @@ public sealed record PipelineScreenConfig
     public IReadOnlyList<ScreenRect> OmenSinistralStashCells { get; init; } = Array.Empty<ScreenRect>();
     public IReadOnlyList<ScreenRect> OmenDextralStashCells { get; init; } = Array.Empty<ScreenRect>();
     public IReadOnlyList<ScreenRect> OmenGreaterStashCells { get; init; } = Array.Empty<ScreenRect>();
-    // Произвольные омены: имя → одна ячейка стэша (из _ritualItemRegions)
+    // Произвольные омены: имя → одна ячейка стэша (из _ritualItemRegions или _abyssItemRegions)
     public IReadOnlyDictionary<string, IReadOnlyList<ScreenRect>> OmenStashCellsByName { get; init; } =
         new Dictionary<string, IReadOnlyList<ScreenRect>>(StringComparer.OrdinalIgnoreCase);
+
+    // Вкладка стэша для каждого омена по имени (Ritual или Abyss и т.д.)
+    public IReadOnlyDictionary<string, ScreenRect> OmenStashTabByName { get; init; } =
+        new Dictionary<string, ScreenRect>(StringComparer.OrdinalIgnoreCase);
 
     // Полный инвентарь (12×5) для размещения омена
     public IReadOnlyList<ScreenRect> FullInventoryCells { get; init; } = Array.Empty<ScreenRect>();
@@ -476,7 +480,8 @@ public sealed class CraftPipelineRunner
             OmenName      = cfg.OmenName,
         };
 
-        var activated = await _omen.PlaceAndActivateOmensAsync(new[] { placement }, log, ct, screen.RitualInventoryRegion).ConfigureAwait(false);
+        var tabRegion = screen.OmenStashTabByName.TryGetValue(cfg.OmenName, out var t) ? t : screen.RitualInventoryRegion;
+        var activated = await _omen.PlaceAndActivateOmensAsync(new[] { placement }, log, ct, tabRegion).ConfigureAwait(false);
         // OmenActivation переключает вкладки самостоятельно — текущая вкладка неизвестна после завершения
         _currentStashTab = default;
         return activated ? StepOutcome.Success() : StepOutcome.Failure();

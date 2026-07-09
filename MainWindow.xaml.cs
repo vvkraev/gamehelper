@@ -6682,6 +6682,53 @@ public partial class MainWindow : Window
     private Services.CraftPipelineRunner BuildPipelineRunner() =>
         new(_craft, _augAnnulCraft, _divineCraft, _exaltCraft, _omen);
 
+    private IReadOnlyDictionary<string, IReadOnlyList<ScreenRect>> BuildOmenStashCellsByName()
+    {
+        var dict = new Dictionary<string, IReadOnlyList<ScreenRect>>(StringComparer.OrdinalIgnoreCase);
+
+        // Ritual-омены (кроме трёх Exaltation — у них выделенные поля)
+        foreach (var kv in _ritualItemRegions)
+        {
+            if (!kv.Key.StartsWith("Omen ", StringComparison.OrdinalIgnoreCase)) continue;
+            if (kv.Key.Equals(OmenActivationService.OmenSinistralExaltationName, StringComparison.OrdinalIgnoreCase)) continue;
+            if (kv.Key.Equals(OmenActivationService.OmenDextralExaltationName,   StringComparison.OrdinalIgnoreCase)) continue;
+            if (kv.Key.Equals(OmenActivationService.OmenGreaterExaltationName,   StringComparison.OrdinalIgnoreCase)) continue;
+            dict[kv.Key] = new[] { kv.Value };
+        }
+
+        // Abyss-омены (Necromancy, Light, Abyssal Echoes, Putrefaction…)
+        foreach (var (id, displayName, group) in AbyssKnownItems)
+        {
+            if (group != "Omens") continue;
+            if (!_abyssItemRegions.TryGetValue(id, out var rect) || rect == default) continue;
+            dict[displayName] = new[] { rect };
+        }
+
+        return dict;
+    }
+
+    private IReadOnlyDictionary<string, ScreenRect> BuildOmenStashTabByName()
+    {
+        var dict = new Dictionary<string, ScreenRect>(StringComparer.OrdinalIgnoreCase);
+
+        // Ritual-омены → вкладка Ritual
+        foreach (var kv in _ritualItemRegions)
+        {
+            if (!kv.Key.StartsWith("Omen ", StringComparison.OrdinalIgnoreCase)) continue;
+            if (_ritualInventoryRegion is { } r) dict[kv.Key] = r;
+        }
+
+        // Abyss-омены → вкладка Abyss
+        foreach (var (id, displayName, group) in AbyssKnownItems)
+        {
+            if (group != "Omens") continue;
+            if (!_abyssItemRegions.TryGetValue(id, out var rect) || rect == default) continue;
+            dict[displayName] = _abyssInventoryRect;
+        }
+
+        return dict;
+    }
+
     private Services.PipelineScreenConfig BuildPipelineScreenConfig(ScreenRect itemArea = default) =>
         new()
         {
@@ -6696,15 +6743,8 @@ public partial class MainWindow : Window
             OmenSinistralStashCells = GetRitualItemRect("Omen of Sinistral Exaltation") is { } sinR ? new[] { sinR } : Array.Empty<ScreenRect>(),
             OmenDextralStashCells   = GetRitualItemRect("Omen of Dextral Exaltation")   is { } dexR ? new[] { dexR } : Array.Empty<ScreenRect>(),
             OmenGreaterStashCells   = GetRitualItemRect("Omen of Greater Exaltation")   is { } greR ? new[] { greR } : Array.Empty<ScreenRect>(),
-            OmenStashCellsByName = _ritualItemRegions
-                .Where(kv => kv.Key.StartsWith("Omen ", StringComparison.OrdinalIgnoreCase)
-                          && !string.Equals(kv.Key, OmenActivationService.OmenSinistralExaltationName, StringComparison.OrdinalIgnoreCase)
-                          && !string.Equals(kv.Key, OmenActivationService.OmenDextralExaltationName,   StringComparison.OrdinalIgnoreCase)
-                          && !string.Equals(kv.Key, OmenActivationService.OmenGreaterExaltationName,   StringComparison.OrdinalIgnoreCase))
-                .ToDictionary(
-                    kv => kv.Key,
-                    kv => (IReadOnlyList<ScreenRect>)new[] { kv.Value },
-                    StringComparer.OrdinalIgnoreCase),
+            OmenStashCellsByName = BuildOmenStashCellsByName(),
+            OmenStashTabByName   = BuildOmenStashTabByName(),
             FullInventoryCells      = _fullInventoryCells,
             InventoryGridColumns    = 12,
             ExaltOmenSinistralCells  = _omenSinistralCells,
