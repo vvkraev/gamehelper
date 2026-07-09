@@ -212,6 +212,72 @@ public sealed class CraftPipelineModelsTests
         Assert.Empty(result);
     }
 
+    // ── BATCH-1c / 1d: GuardCondition + EnableStepRecognition ────────────────
+
+    [Fact]
+    public void RoundTrip_GuardCondition_IsPreserved()
+    {
+        var pipeline = new CraftPipeline
+        {
+            Name = "Test",
+            GuardCondition = new CraftConditionPlan
+            {
+                ExpectedItemClass = "Jewels",
+                OrAlternatives =
+                {
+                    new CraftAndGroup
+                    {
+                        Clauses =
+                        {
+                            new CraftClause
+                            {
+                                Kind = CraftClauseKind.Single,
+                                Single = new CraftSingleAffixData { AffixName = "Piercing" },
+                            }
+                        }
+                    }
+                }
+            }
+        };
+
+        var restored = RoundTrip(pipeline);
+
+        Assert.NotNull(restored.GuardCondition);
+        Assert.Equal("Jewels", restored.GuardCondition!.ExpectedItemClass);
+        Assert.Single(restored.GuardCondition.OrAlternatives);
+        Assert.Equal("Piercing", restored.GuardCondition.OrAlternatives[0].Clauses[0].Single!.AffixName);
+    }
+
+    [Fact]
+    public void RoundTrip_GuardCondition_Null_StaysNull()
+    {
+        var pipeline = new CraftPipeline { Name = "NoGuard" };
+        var restored = RoundTrip(pipeline);
+        Assert.Null(restored.GuardCondition);
+    }
+
+    [Fact]
+    public void RoundTrip_EnableStepRecognition_True_IsPreserved()
+    {
+        var pipeline = new CraftPipeline { Name = "Rec", EnableStepRecognition = true };
+        var restored = RoundTrip(pipeline);
+        Assert.True(restored.EnableStepRecognition);
+    }
+
+    [Fact]
+    public void Default_EnableStepRecognition_IsFalse()
+    {
+        var pipeline = new CraftPipeline();
+        Assert.False(pipeline.EnableStepRecognition);
+    }
+
+    [Fact]
+    public void Default_GuardCondition_IsNull()
+    {
+        var pipeline = new CraftPipeline();
+        Assert.Null(pipeline.GuardCondition);
+    }
+
     // ── Вспомогательные методы ────────────────────────────────────────────────
 
     private static CraftPipeline RoundTrip(CraftPipeline pipeline)

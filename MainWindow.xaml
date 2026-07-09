@@ -1822,16 +1822,47 @@
                         <RowDefinition Height="110"/>
                     </Grid.RowDefinitions>
 
-                    <!-- Имя рецепта -->
-                    <Grid Grid.Row="0" Margin="0,0,0,8">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock Text="Имя рецепта:" VerticalAlignment="Center" Margin="0,0,8,0" FontWeight="SemiBold"/>
-                        <TextBox Grid.Column="1" x:Name="PipelineNameBox" Padding="4,3"
-                                 TextChanged="PipelineNameBox_TextChanged"/>
-                    </Grid>
+                    <!-- Шапка рецепта: имя + предохранитель -->
+                    <StackPanel Grid.Row="0" Margin="0,0,0,6">
+
+                        <!-- Имя рецепта -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Имя рецепта:" VerticalAlignment="Center" Margin="0,0,8,0" FontWeight="SemiBold"/>
+                            <TextBox Grid.Column="1" x:Name="PipelineNameBox" Padding="4,3"
+                                     TextChanged="PipelineNameBox_TextChanged"/>
+                        </Grid>
+
+                        <!-- Предохранитель (BATCH-1c): GuardCondition -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
+                            <Button x:Name="PipelineEditGuardBtn"
+                                    Content="✎ GuardCondition…"
+                                    Padding="8,3" Margin="0,0,6,0"
+                                    Click="PipelineEditGuardBtn_Click"
+                                    ToolTip="Условие, проверяемое перед каждым шагом. При невыполнении — крафт прерывается."/>
+                            <Button x:Name="PipelineClearGuardBtn"
+                                    Content="✕"
+                                    Padding="8,3"
+                                    Click="PipelineClearGuardBtn_Click"
+                                    ToolTip="Убрать GuardCondition"/>
+                        </StackPanel>
+                        <TextBlock x:Name="PipelineGuardSummary"
+                                   FontSize="11" Foreground="#666"
+                                   Margin="0,0,0,4" TextWrapping="Wrap"
+                                   Text="GuardCondition: (нет)"/>
+
+                        <!-- Проверять распознаваемость (BATCH-1d) -->
+                        <CheckBox x:Name="PipelineRecognitionChk"
+                                  Content="Прерывать если предмет не распознан ни на одном шаге"
+                                  Margin="0,0,0,0"
+                                  ToolTip="Перед каждым шагом проверяет, что entryCondition хотя бы одного шага совпадает с предметом. Если нет — крафт прерывается."
+                                  Checked="PipelineRecognitionChk_Changed"
+                                  Unchecked="PipelineRecognitionChk_Changed"/>
+
+                    </StackPanel>
 
                     <!-- Панель инструментов для шагов -->
                     <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,4">

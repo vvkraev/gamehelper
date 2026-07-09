@@ -88,5 +88,20 @@ public sealed class CraftPipeline
     public string Name { get; set; } = "";
     public string Description { get; set; } = "";
     public string ItemClass { get; set; } = "";
+
+    /// <summary>
+    /// BATCH-1c: Условие, проверяемое перед каждым шагом пайплайна.
+    /// Если условие не выполнено — крафт прерывается.
+    /// null = предохранитель не задан.
+    /// </summary>
+    public CraftConditionPlan? GuardCondition { get; set; }
+
+    /// <summary>
+    /// BATCH-1d: Когда true — перед каждым шагом проверяется, что предмет
+    /// распознаётся хотя бы одним entryCondition пайплайна.
+    /// Если не распознан — крафт прерывается.
+    /// </summary>
+    public bool EnableStepRecognition { get; set; } = false;
+
     public List<CraftPipelineStep> Steps { get; set; } = new();
 }

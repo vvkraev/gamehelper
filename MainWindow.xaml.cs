@@ -6206,6 +6206,17 @@ public partial class MainWindow : Window
         RefreshSavedPipelineList();
         PipelineNameBox.Text = _currentPipeline.Name;
         RefreshPipelineStepsList();
+        RefreshGuardSummary();
+    }
+
+    private void RefreshGuardSummary()
+    {
+        var plan = _currentPipeline.GuardCondition;
+        var hasClauses = plan?.OrAlternatives?.Any(g => g.Clauses?.Count > 0) == true;
+        PipelineGuardSummary.Text = hasClauses
+            ? $"GuardCondition: {Services.CraftConditionEvaluator.FormatSummary(plan!)}"
+            : "GuardCondition: (нет)";
+        PipelineRecognitionChk.IsChecked = _currentPipeline.EnableStepRecognition;
     }
 
     // ── CRUD рецептов ────────────────────────────────────────────────────────
@@ -6215,6 +6226,7 @@ public partial class MainWindow : Window
         _currentPipeline = new Services.CraftPipeline { Name = "Новый рецепт" };
         PipelineNameBox.Text = _currentPipeline.Name;
         RefreshPipelineStepsList();
+        RefreshGuardSummary();
     }
 
     private void PipelineSaveBtn_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -6258,6 +6270,7 @@ public partial class MainWindow : Window
         _currentPipeline = loaded;
         PipelineNameBox.Text = _currentPipeline.Name;
         RefreshPipelineStepsList();
+        RefreshGuardSummary();
     }
 
     private void PipelineNameBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
@@ -6489,6 +6502,28 @@ public partial class MainWindow : Window
             if (!string.IsNullOrEmpty(l))
                 PipelineLogAppend($"  {l}");
         }
+    }
+
+    private void PipelineEditGuardBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        _currentPipeline.GuardCondition ??= new Services.CraftConditionPlan();
+        var dlg = new CraftConditionWindow(
+            _currentPipeline.GuardCondition,
+            AffixLibrary.GetEntriesWithCrafted().ToList(),
+            Services.AffixStatsScanner.Current) { Owner = this };
+        dlg.ShowDialog();
+        RefreshGuardSummary();
+    }
+
+    private void PipelineClearGuardBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        _currentPipeline.GuardCondition = null;
+        RefreshGuardSummary();
+    }
+
+    private void PipelineRecognitionChk_Changed(object sender, System.Windows.RoutedEventArgs e)
+    {
+        _currentPipeline.EnableStepRecognition = PipelineRecognitionChk.IsChecked == true;
     }
 
     private void PipelineSetGridBtn_Click(object sender, System.Windows.RoutedEventArgs e)

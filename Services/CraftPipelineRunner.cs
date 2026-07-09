@@ -154,6 +154,24 @@ public sealed class CraftPipelineRunner
                 };
 
             var step = pipeline.Steps[stepIdx];
+
+            // Предохранитель (BATCH-1c / BATCH-1d): читаем предмет и проверяем гард
+            if (_testStepExecutor is null && (
+                    (pipeline.GuardCondition is { } gc && gc.OrAlternatives.Any(g => g.Clauses.Count > 0))
+                    || pipeline.EnableStepRecognition))
+            {
+                ct.ThrowIfCancellationRequested();
+                var (guardOk, guardReason) = await CheckPreStepGuardsAsync(pipeline, screen, log, ct).ConfigureAwait(false);
+                if (!guardOk)
+                    return new PipelineRunResult
+                    {
+                        Status = PipelineRunStatus.Aborted,
+                        Message = guardReason,
+                        TotalAttempts = totalAttempts,
+                        FinalItemText = finalItem,
+                    };
+            }
+
             log?.Report($"[Шаг {stepIdx}] «{step.Name}»: выполнение {step.Action}…");
 
             StepOutcome outcome;
@@ -475,6 +493,54 @@ public sealed class CraftPipelineRunner
         await Task.Delay(300, ct).ConfigureAwait(false);
 
         return StepOutcome.Success(1);
+    }
+
+    /// <summary>
+    /// BATCH-1c / BATCH-1d: Предварительная проверка предмета перед шагом.
+    /// Один Ctrl+Alt+C — результаты обеих проверок из одного чтения.
+    /// </summary>
+    private async Task<(bool ok, string reason)> CheckPreStepGuardsAsync(
+        CraftPipeline pipeline, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+    {
+        if (_chaos is null)
+            return (true, "");
+
+        var text = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            const string msg = "[Предохранитель] Буфер пуст — не удалось прочитать предмет.";
+            log?.Report(msg);
+            return (false, msg);
+        }
+
+        var item = ItemParser.Parse(text);
+
+        // BATCH-1c: GuardCondition
+        if (pipeline.GuardCondition is { } guard && guard.OrAlternatives.Any(g => g.Clauses.Count > 0))
+        {
+            if (!CraftConditionEvaluator.TryEvaluate(guard, item, out var detail))
+            {
+                var msg = $"[Предохранитель] GuardCondition не выполнен: {detail}";
+                log?.Report(msg);
+                return (false, msg);
+            }
+            log?.Report($"[Предохранитель] GuardCondition OK: {detail}");
+        }
+
+        // BATCH-1d: recognizability — предмет должен совпадать хотя бы с одним entryCondition
+        if (pipeline.EnableStepRecognition)
+        {
+            var detect = PipelineStepDetector.Detect(pipeline, item);
+            if (detect.StepIndex is null)
+            {
+                const string msg = "[Предохранитель] Предмет не распознан ни на одном шаге пайплайна — крафт прерван.";
+                log?.Report(msg);
+                return (false, msg);
+            }
+            log?.Report($"[Предохранитель] Предмет распознан: шаг {detect.StepIndex} «{pipeline.Steps[detect.StepIndex.Value].Name}»");
+        }
+
+        return (true, "");
     }
 
     private async Task SwitchStashTabAsync(ScreenRect tabRegion, IProgress<string>? log, CancellationToken ct, string label)
