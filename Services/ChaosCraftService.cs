@@ -164,7 +164,11 @@ public sealed class ChaosCraftService : IChaosCraftService
             SessionLogger.InfoClipboard("предпроверка / чтение предмета", text);
             return text;
         }
-        finally { }
+        finally
+        {
+            // Гарантированный сброс Alt/Ctrl после чтения буфера
+            Win32Input.ReleaseCtrlAlt();
+        }
     }
 
     /// <summary>

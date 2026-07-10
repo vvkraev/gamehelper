@@ -146,16 +146,26 @@ public static class Win32Input
     /// <summary>Ctrl+Alt+C (копирование описания предмета в PoE2).</summary>
     public static void SendCtrlAltC()
     {
-        InputTrace?.Invoke("[Key] Ctrl DOWN");
-        keybd_event(VkControl, 0, 0, UIntPtr.Zero);
-        AltDown();
-        InputTrace?.Invoke("[Key] C DOWN");
-        keybd_event(VkC, 0, 0, UIntPtr.Zero);
-        InputTrace?.Invoke("[Key] C UP");
-        keybd_event(VkC, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
-        AltUp();
-        InputTrace?.Invoke("[Key] Ctrl UP");
-        keybd_event(VkControl, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+        try
+        {
+            InputTrace?.Invoke("[Key] Ctrl DOWN");
+            keybd_event(VkControl, 0, 0, UIntPtr.Zero);
+            AltDown();
+            InputTrace?.Invoke("[Key] C DOWN");
+            keybd_event(VkC, 0, 0, UIntPtr.Zero);
+            InputTrace?.Invoke("[Key] C UP");
+            keybd_event(VkC, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+            AltUp();
+            InputTrace?.Invoke("[Key] Ctrl UP");
+            keybd_event(VkControl, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+        }
+        finally
+        {
+            // Гарантированный сброс — даже если исключение бросилось между DOWN и UP
+            keybd_event(VkC, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+            keybd_event(VkMenu, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+            keybd_event(VkControl, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+        }
     }
 
     /// <summary>Ctrl+C (копирование текста / описания в PoE2 для валюты/омена).</summary>
