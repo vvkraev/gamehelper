@@ -69,8 +69,8 @@ public static class SaleModParser
     /// </summary>
     private static readonly (string Template, string AffixName, string FamilyId)[] KnownCraftedTemplates =
     [
-        ("#% increased Effect of Suffixes", "Potent Liquid of Feelings",  "DeliriumEffectSuffixes"),
-        ("#% increased Effect of Prefixes", "Potent Liquid of Feelings",  "DeliriumEffectPrefixes"),
+        ("#% increased Effect of Suffixes", "Potent Liquid Ferocity", "DeliriumEffectSuffixes"),
+        ("#% increased Effect of Prefixes", "Potent Liquid Ferocity", "DeliriumEffectPrefixes"),
     ];
 
     /// <summary>
