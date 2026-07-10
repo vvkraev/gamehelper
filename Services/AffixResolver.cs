@@ -144,6 +144,12 @@ public static class AffixResolver
         return result;
     }
 
+    public static ParsedModInfo ResolvePlainPublic(
+        string raw, bool isFractured,
+        IReadOnlyList<AffixLibraryEntry> library,
+        IReadOnlyList<AffixLibraryEntry> runeEntries)
+        => ResolvePlain(raw, isFractured, library, runeEntries);
+
     private static ParsedModInfo ResolvePlain(
         string raw, bool isFractured,
         IReadOnlyList<AffixLibraryEntry> library,
