@@ -1006,8 +1006,23 @@ public sealed class OmenActivationService
             }
 
             var preview = preClip.Split('\n').FirstOrDefault()?.Trim() ?? "(неизвестно)";
-            log?.Report($"Омен: ячейка инвентаря [{i}] занята другим предметом: «{preview}». Освободите ячейку перед запуском.");
-            return false;
+            log?.Report($"Омен: ячейка инвентаря [{i}] занята («{preview}») — Ctrl+ЛКМ для перемещения в стэш…");
+
+            var (cx, cy) = p.InventoryCell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
+            Win32Input.MoveTo(cx, cy);
+            await Task.Delay(150, ct).ConfigureAwait(false);
+            Win32Input.SendCtrlLeftClick();
+            await Task.Delay(400, ct).ConfigureAwait(false);
+
+            // Перепроверяем: ячейка должна быть пустой
+            var afterClip = await ReadInventoryClipboardAsync(
+                p.InventoryCell, log, ct, $"Омен: post-clear инвентарь [{i}]").ConfigureAwait(false);
+            if (!string.IsNullOrWhiteSpace(afterClip))
+            {
+                log?.Report($"Омен: ячейка [{i}] всё ещё занята после Ctrl+ЛКМ. Освободите ячейку вручную.");
+                return false;
+            }
+            log?.Report($"Омен: ячейка [{i}] освобождена.");
         }
 
         // Шаг 1: ЛКМ стэш → ЛКМ инвентарь (перекладываем каждый омен)
