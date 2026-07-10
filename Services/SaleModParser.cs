@@ -52,41 +52,52 @@ public static class SaleModParser
     }
 
     /// <summary>
-    /// Известные крафтовые моды, которых нет в affix_library.json.
-    /// Ключ — stripped-текст (без GGG-разметки), значение — (affixName, familyId).
+    /// Известные крафтовые моды с точным совпадением текста.
+    /// Ключ — stripped-текст, значение — (affixName, familyId).
     /// </summary>
-    private static readonly Dictionary<string, (string AffixName, string FamilyId)> KnownCraftedMods =
+    private static readonly Dictionary<string, (string AffixName, string FamilyId)> KnownCraftedExact =
         new(StringComparer.OrdinalIgnoreCase)
         {
-            ["+1 Prefix Modifier allowed"]  = ("Ancient Potent Liquid Contempt", "MaxPrefixCount"),
-            ["-1 Prefix Modifier allowed"]  = ("Prefix Limiter",                 "MaxPrefixCount"),
-            ["-1 Suffix Modifier allowed"]  = ("Suffix Limiter",                 "MaxSuffixCount"),
-            ["+20% to Maximum Quality"]     = ("Quality Crafted",                "CraftedQuality"),
+            ["+1 Prefix Modifier allowed"] = ("Ancient Potent Liquid Contempt", "MaxPrefixCount"),
+            ["-1 Prefix Modifier allowed"] = ("Prefix Limiter",                 "MaxPrefixCount"),
+            ["-1 Suffix Modifier allowed"] = ("Suffix Limiter",                 "MaxSuffixCount"),
+            ["+20% to Maximum Quality"]    = ("Quality Crafted",                "CraftedQuality"),
         };
 
     /// <summary>
-    /// Разрешает крафтовый мод: сначала проверяет KnownCraftedMods, потом библиотеку.
+    /// Известные крафтовые моды с числовым роллом — шаблон в формате affix_library (#% вместо числа).
+    /// </summary>
+    private static readonly (string Template, string AffixName, string FamilyId)[] KnownCraftedTemplates =
+    [
+        ("#% increased Effect of Suffixes", "Potent Liquid of Feelings",  "DeliriumEffectSuffixes"),
+        ("#% increased Effect of Prefixes", "Potent Liquid of Feelings",  "DeliriumEffectPrefixes"),
+    ];
+
+    /// <summary>
+    /// Разрешает крафтовый мод: сначала проверяет известные точные и шаблонные моды,
+    /// потом библиотеку (VL-radius и другие crafted из library).
     /// </summary>
     private static ParsedModInfo ResolveCraftedMod(string raw)
     {
         var stripped = StripMarkup(raw);
-        if (KnownCraftedMods.TryGetValue(stripped, out var known))
+
+        if (KnownCraftedExact.TryGetValue(stripped, out var exact))
+            return MakeCrafted(stripped, exact.AffixName, exact.FamilyId);
+
+        foreach (var (template, affixName, familyId) in KnownCraftedTemplates)
         {
-            return new ParsedModInfo
-            {
-                Raw        = stripped,
-                Stripped   = stripped,
-                AffixName  = known.AffixName,
-                AffixType  = "Crafted Prefix Modifier",
-                FamilyId   = known.FamilyId,
-                Unmatched  = false,
-            };
+            if (ParsedItemCraftEvaluator.StatLineMatchesTemplate(stripped, template))
+                return MakeCrafted(stripped, affixName, familyId);
         }
-        // Fallback — пытаемся через библиотеку (VL-radius и другие crafted из library)
+
         var entries = AffixLibrary.GetEntries();
         var runeEntries = RuneAffixLibrary.GetAllEntries();
         return AffixResolver.ResolvePlainPublic(stripped, isFractured: false, entries, runeEntries);
     }
+
+    private static ParsedModInfo MakeCrafted(string stripped, string affixName, string familyId) =>
+        new() { Raw = stripped, Stripped = stripped, AffixName = affixName,
+                AffixType = "Crafted Prefix Modifier", FamilyId = familyId, Unmatched = false };
 
     /// <summary>Разбирает все моды SaleRecord (explicit, fractured, desecrate, crafted) против библиотеки аффиксов.</summary>
     public static List<ParsedModInfo> ParseMods(SaleRecord record, IReadOnlyList<AffixLibraryEntry> entries)
