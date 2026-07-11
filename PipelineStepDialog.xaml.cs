@@ -132,6 +132,7 @@ public partial class PipelineStepDialog : Window
         PipelineAction.TravelToLocation,
         PipelineAction.SimpleAbyssalBone,
         PipelineAction.WalkToPosition,
+        PipelineAction.OpenStash,
     ];
 
     // Mapping: ComboBox index → TransitionTarget
@@ -235,7 +236,7 @@ public partial class PipelineStepDialog : Window
         WalkEscapeCheckBox.IsChecked = Step.WalkConfig?.PressEscapeFirst ?? true;
         WalkKeyPressList.Children.Clear();
         foreach (var kp in Step.WalkConfig?.KeyPresses ?? [])
-            WalkKeyPressList.Children.Add(MakeWalkKeyRow(kp.Key, kp.DurationMs));
+            WalkKeyPressList.Children.Add(MakeWalkKeyRow(string.Join(" ", kp.Keys), kp.DurationMs));
 
         EntryNegateChk.IsChecked = _entry.Negate;
         LoopNegateChk.IsChecked  = _loop.Negate;
@@ -329,9 +330,15 @@ public partial class PipelineStepDialog : Window
                 .OfType<Grid>()
                 .Select(row =>
                 {
-                    var key = (row.Children.OfType<System.Windows.Controls.ComboBox>().FirstOrDefault()?.SelectedItem as string) ?? "S";
-                    var dur = int.TryParse(row.Children.OfType<System.Windows.Controls.TextBox>().FirstOrDefault()?.Text, out var d) ? d : 2000;
-                    return new Services.WalkKeyPress { Key = key, DurationMs = dur };
+                    var boxes = row.Children.OfType<System.Windows.Controls.TextBox>().ToList();
+                    var keysText = boxes.Count > 0 ? boxes[0].Text : "S";
+                    var keys = keysText.Split(new[] { ' ', '+', ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                       .Select(k => k.Trim().ToUpperInvariant())
+                                       .Where(k => k.Length > 0)
+                                       .ToList();
+                    if (keys.Count == 0) keys.Add("S");
+                    var dur = boxes.Count > 1 && int.TryParse(boxes[1].Text, out var d) ? d : 2000;
+                    return new Services.WalkKeyPress { Keys = keys, DurationMs = dur };
                 })
                 .ToList();
             Step.WalkConfig = new Services.WalkToPositionConfig
@@ -524,22 +531,27 @@ public partial class PipelineStepDialog : Window
 
     // ── WalkToPosition ───────────────────────────────────────────────────────
 
-    private static readonly string[] WalkKeys = ["W", "A", "S", "D"];
-
-    private Grid MakeWalkKeyRow(string key = "S", int duration = 2000)
+    // keysText — пробел/плюс-разделённые клавиши, например "W D" или "W+D" для диагонали
+    private Grid MakeWalkKeyRow(string keysText = "S", int duration = 2000)
     {
         var grid = new Grid { Margin = new Thickness(0, 0, 0, 4) };
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(60) });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(60) });
-        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(55) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(90) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(65) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(75) });
         grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
 
-        var keyLbl = new TextBlock { Text = "Клавиша:", VerticalAlignment = VerticalAlignment.Center };
+        var keyLbl = new TextBlock { Text = "Клавиши:", VerticalAlignment = VerticalAlignment.Center,
+                                     ToolTip = "Одна или несколько через пробел: W, W D, W+D" };
         Grid.SetColumn(keyLbl, 0);
 
-        var keyCombo = new System.Windows.Controls.ComboBox { ItemsSource = WalkKeys, SelectedItem = key.ToUpperInvariant(), Margin = new Thickness(0, 2, 0, 2) };
-        Grid.SetColumn(keyCombo, 1);
+        var keyBox = new System.Windows.Controls.TextBox
+        {
+            Text = keysText.ToUpperInvariant(), Padding = new Thickness(4, 2, 4, 2),
+            Margin = new Thickness(0, 2, 0, 2), VerticalAlignment = VerticalAlignment.Center,
+            ToolTip = "Например: W  или  W D  (диагональ)"
+        };
+        Grid.SetColumn(keyBox, 1);
 
         var durLbl = new TextBlock { Text = "Время (мс):", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(6, 0, 0, 0) };
         Grid.SetColumn(durLbl, 2);
@@ -552,7 +564,7 @@ public partial class PipelineStepDialog : Window
         Grid.SetColumn(removeBtn, 4);
 
         grid.Children.Add(keyLbl);
-        grid.Children.Add(keyCombo);
+        grid.Children.Add(keyBox);
         grid.Children.Add(durLbl);
         grid.Children.Add(durBox);
         grid.Children.Add(removeBtn);
@@ -589,7 +601,7 @@ public partial class PipelineStepDialog : Window
 
         WalkKeyPressList.Children.Clear();
         foreach (var kp in recorded)
-            WalkKeyPressList.Children.Add(MakeWalkKeyRow(kp.Key, kp.DurationMs));
+            WalkKeyPressList.Children.Add(MakeWalkKeyRow(string.Join(" ", kp.Keys), kp.DurationMs));
 
         WalkRecordStatus.Visibility = Visibility.Collapsed;
         WalkRecordBtn.IsEnabled = true;

@@ -42,6 +42,8 @@
                     <ComboBoxItem Content="ManualPause — пауза (успех без действий)"/>
                     <ComboBoxItem Content="TravelToLocation — переход между локациями через Waypoint"/>
                     <ComboBoxItem Content="SimpleAbyssalBone — применить одну Abyssal Bone"/>
+                    <ComboBoxItem Content="WalkToPosition — ходьба внутри локации (WASD)"/>
+                    <ComboBoxItem Content="OpenStash — открыть стэш через OCR"/>
                 </ComboBox>
 
                 <!-- Максимум итераций -->

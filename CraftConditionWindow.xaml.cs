@@ -418,6 +418,15 @@ public partial class CraftConditionWindow : Window
         return null;
     }
 
+    /// <summary>Удаляет клоз из группы; если группа становится пустой — удаляет и саму группу.</summary>
+    private void RemoveClauseFromGroup(CraftAndGroup group, CraftClause clause)
+    {
+        group.Clauses.Remove(clause);
+        if (group.Clauses.Count == 0)
+            _plan.OrAlternatives.Remove(group);
+        RefreshOrAlternativesUi();
+    }
+
     private void RefreshOrAlternativesUi()
     {
         OrAlternativesHost.Children.Clear();
@@ -609,7 +618,7 @@ public partial class CraftConditionWindow : Window
             panel.Children.Add(header);
             panel.Children.Add(BuildSingleAffixCoreUi(
                 s,
-                () => { group.Clauses.Remove(clause); RefreshOrAlternativesUi(); },
+                () => RemoveClauseFromGroup(group, clause),
                 "Удалить строку"));
         }
         else if (clause.Kind == CraftClauseKind.WholeModifier && clause.Whole is { } whole)
@@ -628,8 +637,9 @@ public partial class CraftConditionWindow : Window
                 {
                     sum.Parts.Remove(part);
                     if (sum.Parts.Count == 0)
-                        group.Clauses.Remove(clause);
-                    RefreshOrAlternativesUi();
+                        RemoveClauseFromGroup(group, clause);
+                    else
+                        RefreshOrAlternativesUi();
                 };
                 line.Children.Add(rem);
                 panel.Children.Add(line);
@@ -664,8 +674,7 @@ public partial class CraftConditionWindow : Window
             var removeClause = new WpfButton { Content = "Удалить условие «Сумма»", Margin = new Thickness(0, 8, 0, 0), HorizontalAlignment = System.Windows.HorizontalAlignment.Left, Padding = new Thickness(8, 2, 8, 2) };
             removeClause.Click += (_, _) =>
             {
-                group.Clauses.Remove(clause);
-                RefreshOrAlternativesUi();
+                RemoveClauseFromGroup(group, clause);
             };
             panel.Children.Add(removeClause);
         }
@@ -729,8 +738,11 @@ public partial class CraftConditionWindow : Window
                     {
                         cnt.Members.Remove(mem);
                         if (cnt.Members.Count == 0)
-                            group.Clauses.Remove(clause);
-                        else if (cnt.MinMatchCount > cnt.Members.Count)
+                        {
+                            RemoveClauseFromGroup(group, clause);
+                            return;
+                        }
+                        if (cnt.MinMatchCount > cnt.Members.Count)
                             cnt.MinMatchCount = cnt.Members.Count;
                         RefreshOrAlternativesUi();
                     }),
@@ -760,8 +772,7 @@ public partial class CraftConditionWindow : Window
             };
             removeCountClause.Click += (_, _) =>
             {
-                group.Clauses.Remove(clause);
-                RefreshOrAlternativesUi();
+                RemoveClauseFromGroup(group, clause);
             };
             panel.Children.Add(removeCountClause);
         }
@@ -821,8 +832,7 @@ public partial class CraftConditionWindow : Window
             };
             removeAcClause.Click += (_, _) =>
             {
-                group.Clauses.Remove(clause);
-                RefreshOrAlternativesUi();
+                RemoveClauseFromGroup(group, clause);
             };
             panel.Children.Add(removeAcClause);
         }
@@ -857,7 +867,7 @@ public partial class CraftConditionWindow : Window
             };
             removeDesClause.Click += (_, _) =>
             {
-                group.Clauses.Remove(clause);
+                RemoveClauseFromGroup(group, clause);
                 RefreshOrAlternativesUi();
             };
             panel.Children.Add(removeDesClause);
@@ -1210,8 +1220,7 @@ public partial class CraftConditionWindow : Window
         };
         removeClause.Click += (_, _) =>
         {
-            group.Clauses.Remove(clause);
-            RefreshOrAlternativesUi();
+            RemoveClauseFromGroup(group, clause);
         };
         root.Children.Add(removeClause);
         return root;

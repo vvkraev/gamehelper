@@ -156,6 +156,19 @@ public sealed class BatchPipelineRunner
 
                         var screen = screenTemplate with { ItemArea = itemCells[item.CellIndex] };
 
+                        // Проверяем наличие предмета в ячейке перед выполнением шага
+                        if (_chaos is not null && _testStepExecutor is null)
+                        {
+                            var probe = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+                            if (string.IsNullOrWhiteSpace(probe))
+                            {
+                                item.Status = BatchItemStatus.Failed;
+                                item.LastMessage = "Пустой буфер — ячейка пропущена";
+                                log?.Report($"[Батч] [{item.CellIndex}]: буфер пуст перед шагом «{step.Name}» — ячейка помечена как необрабатываемая.");
+                                continue;
+                            }
+                        }
+
                         StepOutcome outcome;
                         if (_testStepExecutor is not null)
                             outcome = await _testStepExecutor(item, step, ct).ConfigureAwait(false);
@@ -320,7 +333,8 @@ public sealed class BatchPipelineRunner
     /// </summary>
     private static bool IsMilestoneAction(PipelineAction action) =>
         action == PipelineAction.TravelToLocation
-        || action == PipelineAction.WalkToPosition;
+        || action == PipelineAction.WalkToPosition
+        || action == PipelineAction.OpenStash;
 
     private async Task InitializeStagesAsync(
         List<BatchItem> items, CraftPipeline pipeline,
@@ -335,7 +349,9 @@ public sealed class BatchPipelineRunner
             var text = await _chaos!.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(text))
             {
-                log?.Report($"[Батч] [{item.CellIndex}]: буфер пуст — начинаем со стадии 0");
+                item.Status = BatchItemStatus.Failed;
+                item.LastMessage = "Пустой буфер — ячейка пропущена";
+                log?.Report($"[Батч] [{item.CellIndex}]: буфер пуст — ячейка помечена как необрабатываемая.");
                 continue;
             }
             var parsed = ItemParser.Parse(text);

@@ -350,7 +350,10 @@ public static class ParsedItemCraftEvaluator
             if (affix.IsFractured && !includeFractured) continue;
             if (!AffixTypesCompatibleForNamedMatch(affixType, affix.Type))
                 continue;
-            if (!string.Equals(affix.Name, affixName.Trim(), StringComparison.Ordinal))
+            // Crafted mods show "" as name in clipboard text — treat as wildcard for any crafted name search.
+            var isCraftedWildcard = string.IsNullOrEmpty(affix.Name)
+                && affix.Type.StartsWith("Crafted", StringComparison.Ordinal);
+            if (!isCraftedWildcard && !string.Equals(affix.Name, affixName.Trim(), StringComparison.Ordinal))
                 continue;
             // Tier=0 means the header didn't contain "(Tier: N)" (e.g. crafted mods)
             if (affix.Tier != 0 && affix.Tier != affixTier)
@@ -373,6 +376,13 @@ public static class ParsedItemCraftEvaluator
                             System.Globalization.CultureInfo.InvariantCulture, out var fixedVal))
                     {
                         vals = new List<double> { fixedVal };
+                    }
+                    else if (fixedMatches.Count == 0 && string.IsNullOrEmpty(line.RolledValue))
+                    {
+                        // Чисто текстовый стат (Unscalable Value, нет числового переката).
+                        // expectedSlotCount может быть 0, поэтому всегда возвращаем ровно один
+                        // элемент MaxValue — это гарантирует val >= любой minRoll.
+                        vals = new List<double> { double.MaxValue };
                     }
                     else
                     {

@@ -16,6 +16,9 @@ public static class CraftConditionEvaluator
             return false;
         }
 
+        // Убираем пустые OR-группы (могли появиться при ручном удалении условий в старых версиях)
+        plan.OrAlternatives.RemoveAll(g => g.Clauses.Count == 0);
+
         if (plan.OrAlternatives.Count == 0)
         {
             error = "Добавьте хотя бы один вариант условия (связь ИЛИ между вариантами).";
@@ -66,22 +69,30 @@ public static class CraftConditionEvaluator
                         : new List<string> { c.Single.StatTemplate };
                     foreach (var nm in sn)
                     {
-                        var ent = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
-                            libV,
-                            plan.ExpectedItemClass,
-                            c.Single.AffixType,
-                            nm,
-                            c.Single.AffixTier);
-                        if (ent is null)
+                        var candidates = AffixCraftPatternBuilder
+                            .FindAllByNameAndTierTypeCompatible(
+                                libV,
+                                plan.ExpectedItemClass,
+                                c.Single.AffixType,
+                                nm,
+                                c.Single.AffixTier)
+                            .ToList();
+                        if (candidates.Count == 0)
                         {
                             error =
                                 $"В варианте {altIndex}, клоз {cIndex}: в библиотеке нет «{nm}» ({c.Single.AffixType}, T{c.Single.AffixTier}).";
                             return false;
                         }
 
+                        // Одно имя может соответствовать нескольким записям (напр. несколько Lightless с разными статами).
+                        // Достаточно чтобы хоть одна запись содержала все требуемые строки.
+                        var bestEnt = candidates.FirstOrDefault(
+                            e => statsToCheck.All(st => CraftAffixCascadeHelper.FindStatIndexInEntry(e, st) >= 0))
+                            ?? candidates[0];
+
                         foreach (var st in statsToCheck)
                         {
-                            if (CraftAffixCascadeHelper.FindStatIndexInEntry(ent, st) < 0)
+                            if (CraftAffixCascadeHelper.FindStatIndexInEntry(bestEnt, st) < 0)
                             {
                                 error =
                                     $"В варианте {altIndex}, клоз {cIndex}: строка стата «{st}» не входит в «{nm}» (T{c.Single.AffixTier}).";
@@ -430,7 +441,8 @@ public static class CraftConditionEvaluator
                 foreach (var nm in w.EffectiveWholeAffixNames())
                 {
                     if (ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(
-                            w, item, expectedItemClass, lib, out var subWhole, nm))
+                            w, item, expectedItemClass, lib, out var subWhole, nm,
+                            includeFractured: true))
                     {
                         okWhole = true;
                         break;
@@ -657,7 +669,8 @@ public static class CraftConditionEvaluator
 
                     if (!ParsedItemCraftEvaluator.TryGetRollValuesForNamedAffix(
                             item, expectedItemClass, s.AffixType, name, entry.AffixTier,
-                            line.StatTemplate, slots, out var actual, out var expl))
+                            line.StatTemplate, slots, out var actual, out var expl,
+                            includeFractured: true))
                     {
                         allLinesMatch = false;
                         lineFailDetail = string.IsNullOrEmpty(expl)
@@ -722,7 +735,8 @@ public static class CraftConditionEvaluator
             var mins = s.GetEffectiveMinRolls(slots).ToList();
             if (!ParsedItemCraftEvaluator.TryGetRollValuesForNamedAffix(
                     item, expectedItemClass, s.AffixType, name, entry.AffixTier,
-                    s.StatTemplate, slots, out var actual, out _))
+                    s.StatTemplate, slots, out var actual, out _,
+                    includeFractured: true))
                 continue;
             if (actual.Count != mins.Count)
                 continue;

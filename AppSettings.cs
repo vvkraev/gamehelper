@@ -171,6 +171,12 @@ public sealed class AppSettings
     /// <summary>Ячейки сетки предметов для рецептурного крафта (независимы от ItemCells).</summary>
     public List<ScreenRect>? PipelineItemCells { get; set; }
 
+    /// <summary>Имя текущего батча — сохраняется между сессиями.</summary>
+    public string BatchName { get; set; } = "batch-1";
+
+    /// <summary>Область экрана с названием текущей локации (minimap/HUD) — для OCR-верификации после TravelToLocation и определения вехи при старте батча.</summary>
+    public ScreenRect LocationNameArea { get; set; }
+
     /// <summary>Virtual key code для горячей клавиши «Старт/Стоп перековки» (0 = не задано).</summary>
     public int ReforgeStartStopVirtualKey { get; set; }
     /// <summary>Модификаторы для «Старт/Стоп перековки»: Alt=1, Ctrl=2, Shift=4.</summary>
@@ -239,6 +245,10 @@ public sealed class AppSettings
     public ScreenRect ReforgingBenchOcrSearchRect { get; set; }
     /// <summary>Текст для поиска метки Reforging Bench (только «Reforging» — «Bench» OCR путает с кириллицей).</summary>
     public string ReforgingBenchOcrText { get; set; } = "Reforging";
+    /// <summary>Область экрана для проверки что стэш уже открыт (отдельная от области поиска иконки).</summary>
+    public ScreenRect StashIsOpenCheckRect { get; set; }
+    /// <summary>Текст, наличие которого в StashIsOpenCheckRect означает что стэш открыт.</summary>
+    public string StashIsOpenCheckText { get; set; } = "Stash";
     /// <summary>Задержка после клика по STASH (персонаж идёт к стэшу), мс.</summary>
     public int StashOpenDelayMs { get; set; } = 3000;
     /// <summary>Задержка после клика по Reforging Bench (персонаж идёт к станку), мс.</summary>

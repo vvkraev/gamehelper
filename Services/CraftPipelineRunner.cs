@@ -78,6 +78,13 @@ public sealed record PipelineScreenConfig
 
     /// <summary>Область экрана с названием текущей локации — для OCR-верификации после TravelToLocation.</summary>
     public ScreenRect LocationNameArea { get; init; }
+
+    // Стэш (для OpenStash)
+    public ScreenRect StashOcrSearchRect { get; init; }
+    public string StashOcrText { get; init; } = "STASH";
+    public ScreenRect StashIsOpenCheckRect { get; init; }
+    public string StashIsOpenCheckText { get; init; } = "Stash";
+    public int StashOpenDelayMs { get; init; } = 3000;
 }
 
 /// <summary>Результат выполнения одного шага пайплайна — внутренний тип для диспетчера.</summary>
@@ -286,6 +293,7 @@ public sealed class CraftPipelineRunner
             PipelineAction.TravelToLocation => await ExecuteTravelAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.SimpleAbyssalBone => await ExecuteSimpleAbyssalBoneAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.WalkToPosition => await ExecuteWalkToPositionAsync(step, log, ct).ConfigureAwait(false),
+            PipelineAction.OpenStash => await ExecuteOpenStashAsync(screen, log, ct).ConfigureAwait(false),
             PipelineAction.ManualPause => StepOutcome.Success(),
             _ => StepOutcome.Failure(),
         };
@@ -646,6 +654,54 @@ public sealed class CraftPipelineRunner
         return ok ? StepOutcome.Success(1) : StepOutcome.Failure();
     }
 
+    private async Task<StepOutcome> ExecuteOpenStashAsync(
+        PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+    {
+        // Сначала проверяем — возможно стэш уже открыт
+        var checkRect = screen.StashIsOpenCheckRect;
+        if (checkRect.Width > 0 && checkRect.Height > 0)
+        {
+            var checkText   = string.IsNullOrWhiteSpace(screen.StashIsOpenCheckText) ? "Stash" : screen.StashIsOpenCheckText;
+            var checkTarget = WindowsOcrTextLocator.NormalizeForMatch(checkText);
+            var checkMatch  = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(checkRect, checkTarget, null, ct)
+                                  .ConfigureAwait(false);
+            if (checkMatch is not null)
+            {
+                log?.Report($"[OpenStash] Стэш уже открыт (найдено «{checkMatch.Value.MatchedLineText}» в области проверки) — пропускаем клик.");
+                return StepOutcome.Success();
+            }
+        }
+
+        // Стэш не открыт — ищем иконку и кликаем
+        var searchRect = screen.StashOcrSearchRect;
+        if (searchRect.Width <= 0 || searchRect.Height <= 0)
+        {
+            log?.Report("[OpenStash] Область OCR стэша не задана в настройках — пропускаем.");
+            return StepOutcome.Success();
+        }
+
+        var ocrText = string.IsNullOrWhiteSpace(screen.StashOcrText) ? "STASH" : screen.StashOcrText;
+        var target  = WindowsOcrTextLocator.NormalizeForMatch(ocrText);
+        // exactMatch=true: "STASH" не совпадёт с "GUILDSTASH" (Guild Stash без пробела после нормализации)
+        var match   = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(searchRect, target, log, ct, exactMatch: true)
+                          .ConfigureAwait(false);
+
+        if (match is null)
+        {
+            log?.Report($"[OpenStash] OCR: «{ocrText}» не найден в области поиска — пропускаем.");
+            return StepOutcome.Success();
+        }
+
+        var (cx, cy) = match.Value.BoundsOnScreen.GetInteriorPoint(inset: 1);
+        log?.Report($"[OpenStash] Найдено «{match.Value.MatchedLineText}» → клик ({cx},{cy})");
+        Win32Input.MoveTo(cx, cy);
+        await Task.Delay(100, ct).ConfigureAwait(false);
+        Win32Input.ClickLeft();
+        var delay = screen.StashOpenDelayMs > 0 ? screen.StashOpenDelayMs : 2000;
+        await Task.Delay(delay, ct).ConfigureAwait(false);
+        return StepOutcome.Success();
+    }
+
     private async Task<StepOutcome> ExecuteWalkToPositionAsync(
         CraftPipelineStep step, IProgress<string>? log, CancellationToken ct)
     {
@@ -668,19 +724,24 @@ public sealed class CraftPipelineRunner
         foreach (var kp in cfg.KeyPresses)
         {
             ct.ThrowIfCancellationRequested();
-            if (string.IsNullOrWhiteSpace(kp.Key) || kp.DurationMs <= 0)
+            var vks = kp.Keys
+                .Where(k => !string.IsNullOrWhiteSpace(k))
+                .Select(k => (byte)k.ToUpperInvariant()[0])
+                .Distinct()
+                .ToArray();
+            if (vks.Length == 0 || kp.DurationMs <= 0)
                 continue;
 
-            var vk = (byte)kp.Key.ToUpperInvariant()[0];
-            log?.Report($"[Walk] Держим «{kp.Key.ToUpperInvariant()}» {kp.DurationMs} мс…");
-            Win32Input.KeyDown(vk);
+            var label = string.Join("+", kp.Keys.Select(k => k.ToUpperInvariant()));
+            log?.Report($"[Walk] Держим «{label}» {kp.DurationMs} мс…");
+            foreach (var vk in vks) Win32Input.KeyDown(vk);
             try
             {
                 await Task.Delay(kp.DurationMs, ct).ConfigureAwait(false);
             }
             finally
             {
-                Win32Input.KeyUp(vk); // гарантированно отпускаем даже при отмене
+                foreach (var vk in vks) Win32Input.KeyUp(vk); // все клавиши гарантированно отпускаем
             }
 
             await Task.Delay(150, ct).ConfigureAwait(false);

@@ -33,6 +33,11 @@ public enum PipelineAction
     /// Веха (milestone): выполняется один раз для всего батча.
     /// </summary>
     WalkToPosition,
+    /// <summary>
+    /// Открыть стэш через OCR: ищет надпись (StashOcrText из настроек) в заданной области,
+    /// кликает по ней и ждёт открытия. Веха (milestone): выполняется один раз для всего батча.
+    /// </summary>
+    OpenStash,
 }
 
 public enum TransitionTarget
@@ -105,15 +110,16 @@ public sealed class TravelActionConfig
 }
 
 /// <summary>
-/// Один шаг WASD-движения: зажать клавишу на заданное время, затем отпустить.
-/// Несколько шагов в <see cref="WalkToPositionConfig.KeyPresses"/> выполняются последовательно.
+/// Один шаг WASD-движения: зажать одну или несколько клавиш <b>одновременно</b> на заданное время.
+/// Несколько записей в <see cref="WalkToPositionConfig.KeyPresses"/> выполняются последовательно.
+/// Для диагонального движения укажите несколько клавиш: ["W","D"].
 /// </summary>
 public sealed class WalkKeyPress
 {
-    /// <summary>Клавиша в верхнем регистре: "W", "A", "S", "D" (или любая другая).</summary>
-    public string Key { get; set; } = "S";
+    /// <summary>Клавиши, зажимаемые одновременно, например ["W","D"] для движения по диагонали.</summary>
+    public List<string> Keys { get; set; } = new() { "S" };
 
-    /// <summary>Сколько миллисекунд держать клавишу нажатой.</summary>
+    /// <summary>Сколько миллисекунд держать все клавиши нажатыми.</summary>
     public int DurationMs { get; set; } = 2000;
 }
 

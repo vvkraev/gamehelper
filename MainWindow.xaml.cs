@@ -38,6 +38,7 @@ public partial class MainWindow : Window
     private List<ScreenRect> _omenSinistralCells = new();
     private List<ScreenRect> _omenDextralCells = new();
     private List<ScreenRect> _pipelineItemCells = new();
+    private ScreenRect _locationNameArea;
     private List<ScreenRect> _omenGreaterCells = new();
     private ScreenRect? _traderNameOcrRegion;
     private ScreenRect? _marketRatioIHaveRect;
@@ -118,6 +119,7 @@ public partial class MainWindow : Window
     private int _repricingStartStopVirtualKey;
     private int _repricingStartStopModifiers;
     private ScreenRect _stashOcrSearchRect;
+    private ScreenRect _stashIsOpenCheckRect;
     private ScreenRect _reforgingBenchOcrSearchRect;
     private List<ScreenRect> _fullInventoryCells = new();
     private Dictionary<string, int> _catalystGoldPrices = new();
@@ -763,6 +765,12 @@ public partial class MainWindow : Window
         PipelineGridInfo.Text = _pipelineItemCells.Count > 0
             ? FormatItemCellsSummary(_pipelineItemCells)
             : "Сетка: не задана";
+        _locationNameArea = s.LocationNameArea;
+        PipelineLocationAreaInfo.Text = _locationNameArea.Width > 0
+            ? $"Локация: {FormatRect(_locationNameArea)}"
+            : "Локация: не задана";
+        if (!string.IsNullOrEmpty(s.BatchName))
+            BatchNameBox.Text = s.BatchName;
 
         MouseActionDelayMs.Text = s.MouseActionDelayMs.ToString();
         ClipboardDelayMs.Text = s.ClipboardDelayMs.ToString();
@@ -879,6 +887,9 @@ public partial class MainWindow : Window
         _stashOcrSearchRect = s.StashOcrSearchRect;
         StashOcrSearchInfo.Text = FormatRect(_stashOcrSearchRect);
         StashOcrTextBox.Text = string.IsNullOrWhiteSpace(s.StashOcrText) ? "STASH" : s.StashOcrText;
+        _stashIsOpenCheckRect = s.StashIsOpenCheckRect;
+        StashIsOpenCheckInfo.Text = FormatRect(_stashIsOpenCheckRect);
+        StashIsOpenCheckTextBox.Text = string.IsNullOrWhiteSpace(s.StashIsOpenCheckText) ? "Stash" : s.StashIsOpenCheckText;
         _reforgingBenchOcrSearchRect = s.ReforgingBenchOcrSearchRect;
         ReforgingBenchOcrSearchInfo.Text = FormatRect(_reforgingBenchOcrSearchRect);
         // Миграция: старое "Reforging Bench" → "Reforging" (OCR читает "Bench" как кириллицу)
@@ -1081,9 +1092,13 @@ public partial class MainWindow : Window
                 ? new Dictionary<string, ScreenRect>(_socketableItemRegions)
                 : null,
             PipelineItemCells = _pipelineItemCells.Count > 0 ? _pipelineItemCells : null,
+            BatchName = BatchNameBox.Text.Trim() is { Length: > 0 } bn ? bn : "batch-1",
+            LocationNameArea = _locationNameArea,
             FullInventoryCells = _fullInventoryCells.Count > 0 ? _fullInventoryCells : null,
             StashOcrSearchRect = _stashOcrSearchRect,
             StashOcrText = StashOcrTextBox.Text.Trim(),
+            StashIsOpenCheckRect = _stashIsOpenCheckRect,
+            StashIsOpenCheckText = StashIsOpenCheckTextBox.Text.Trim(),
             ReforgingBenchOcrSearchRect = _reforgingBenchOcrSearchRect,
             ReforgingBenchOcrText = ReforgingBenchOcrTextBox.Text.Trim(),
             StashOpenDelayMs = RfParseInt(RfStashOpenDelayBox.Text, 3000),
@@ -4480,6 +4495,15 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
+    private void PickStashIsOpenCheckBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _stashIsOpenCheckRect = region;
+        StashIsOpenCheckInfo.Text = FormatRect(region);
+        SaveSettings();
+    }
+
     private void PickReforgingBenchOcrSearchBtn_Click(object sender, RoutedEventArgs e)
     {
         var dlg = new RegionPickerWindow { Owner = this };
@@ -6278,6 +6302,9 @@ public partial class MainWindow : Window
         _currentPipeline.Name = PipelineNameBox.Text;
     }
 
+    private void BatchNameBox_LostFocus(object sender, System.Windows.RoutedEventArgs e) =>
+        SaveSettings();
+
     // ── Редактирование шагов ─────────────────────────────────────────────────
 
     private void PipelineAddStepBtn_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -6302,7 +6329,12 @@ public partial class MainWindow : Window
     private void OpenStepDialog(Services.CraftPipelineStep step, bool isNew)
     {
         AffixLibrary.ReloadFromDisk();
-        var dlg = new PipelineStepDialog(step, AffixLibrary.GetEntriesWithCrafted().ToList(), Services.AffixStatsScanner.Current) { Owner = this };
+        var configuredBones = AbyssKnownItems
+            .Where(i => i.Group == "Abyssal Bones"
+                     && _abyssItemRegions.TryGetValue(i.Id, out var r) && r.Width > 0)
+            .Select(i => new Services.StackableItemType { Id = i.Id, DisplayName = i.DisplayName, Kind = Services.StackableItemKind.Abyss })
+            .ToList();
+        var dlg = new PipelineStepDialog(step, AffixLibrary.GetEntriesWithCrafted().ToList(), Services.AffixStatsScanner.Current, configuredBones) { Owner = this };
         if (dlg.ShowDialog() != true) return;
         if (isNew) _currentPipeline.Steps.Add(step);
         RefreshPipelineStepsList();
@@ -6586,7 +6618,7 @@ public partial class MainWindow : Window
                 if (r.StepIndex is { } idx)
                     PipelineLogAppend($"[{i}] → Шаг {idx} «{_currentPipeline.Steps[idx].Name}»");
                 else
-                    PipelineLogAppend($"[{i}] Не распознан");
+                    PipelineLogAppend($"[{i}] → Шаг 0 «{_currentPipeline.Steps[0].Name}» (по умолчанию — ни одно EntryCondition не совпало)");
                 foreach (var line in r.Explanation.Split('\n'))
                 {
                     var l = line.Trim();
@@ -6620,7 +6652,7 @@ public partial class MainWindow : Window
             if (result.StepIndex is { } stepIdx)
                 PipelineLogAppend($"[ДетектШага] → Шаг {stepIdx} «{_currentPipeline.Steps[stepIdx].Name}»");
             else
-                PipelineLogAppend("[ДетектШага] Предмет не распознан ни на одном шаге пайплайна.");
+                PipelineLogAppend($"[ДетектШага] → Шаг 0 «{_currentPipeline.Steps[0].Name}» (по умолчанию — ни одно EntryCondition не совпало)");
 
             foreach (var line in result.Explanation.Split('\n'))
             {
@@ -6666,6 +6698,15 @@ public partial class MainWindow : Window
     private void PipelineRecognitionChk_Changed(object sender, System.Windows.RoutedEventArgs e)
     {
         _currentPipeline.EnableStepRecognition = PipelineRecognitionChk.IsChecked == true;
+    }
+
+    private void PipelinePickLocationAreaBtn_Click(object sender, System.Windows.RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _locationNameArea = region;
+        PipelineLocationAreaInfo.Text = $"Локация: {FormatRect(region)}";
+        SaveSettings();
     }
 
     private void PipelineSetGridBtn_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -6781,5 +6822,11 @@ public partial class MainWindow : Window
             AbyssItemRegions         = _abyssItemRegions.Count > 0
                 ? new Dictionary<string, ScreenRect>(_abyssItemRegions)
                 : new Dictionary<string, ScreenRect>(),
+            LocationNameArea         = _locationNameArea,
+            StashOcrSearchRect       = _stashOcrSearchRect,
+            StashOcrText             = StashOcrTextBox.Text.Trim(),
+            StashIsOpenCheckRect     = _stashIsOpenCheckRect,
+            StashIsOpenCheckText     = StashIsOpenCheckTextBox.Text.Trim(),
+            StashOpenDelayMs         = RfParseInt(RfStashOpenDelayBox.Text, 3000),
         };
 }
