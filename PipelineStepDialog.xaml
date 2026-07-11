@@ -425,19 +425,22 @@
                         </Grid>
 
                         <!-- Особый омен -->
-                        <CheckBox x:Name="DesecrateAllModsCheckBox" Margin="0,4,0,6"
+                        <CheckBox x:Name="DesecrateAllModsCheckBox" Margin="0,4,0,8"
                                   Content="Все 3 мода из десекрейт-пула (особый омен для оружия/бижутерии)"
                                   ToolTip="Если не отмечено — ровно 1 мод из пула десекрейт, 2 обычных"/>
 
-                        <!-- Желаемые паттерны -->
-                        <TextBlock Text="Желаемые паттерны (по одному в строке, пусто = всегда Success):"
-                                   FontSize="11" Foreground="#555" Margin="0,0,0,4"/>
-                        <TextBox x:Name="DesecrateDesiredPatternsBox"
-                                 MinLines="3" AcceptsReturn="True"
-                                 VerticalScrollBarVisibility="Auto"
-                                 FontFamily="Consolas" FontSize="11"
-                                 Padding="4,4"
-                                 ToolTip="Подстроки для поиска в тексте десекрейт-мода. Например: Critical Strike"/>
+                        <!-- Условие выбора мода -->
+                        <TextBlock Text="Условие выбора мода (PickCondition):" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,6"
+                                   Text="Проверяется для каждой строки интерфейса reveal. Первая строка, удовлетворяющая условию, кликается. Если условие не задано — кликается первый найденный десекрейт-мод."/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <Button x:Name="EditDesecratePickCondBtn" Content="✎ Задать условие…" Padding="8,4"
+                                    Margin="0,0,6,0" Click="EditDesecratePickCondBtn_Click"/>
+                            <Button x:Name="ClearDesecratePickCondBtn" Content="✕ Убрать" Padding="8,4"
+                                    Click="ClearDesecratePickCondBtn_Click"/>
+                        </StackPanel>
+                        <TextBlock x:Name="DesecratePickCondSummary" FontSize="11" Foreground="#666"
+                                   TextWrapping="Wrap" Text="PickCondition: (нет — принять любой)"/>
                     </StackPanel>
                 </Border>
 

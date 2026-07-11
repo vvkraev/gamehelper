@@ -20,6 +20,7 @@ public partial class PipelineStepDialog : Window
     private ScreenRect _templateSearchRect;
     private ScreenRect _desecrateRevealRect;
     private ScreenRect _clickRegionRect;
+    private CraftConditionPlan _desecratePickCond = new();
 
     // Полный список оменов в порядке RitualItemGroups (только предметы-омены)
     internal static readonly string[] AllOmenNames =
@@ -255,7 +256,8 @@ public partial class PipelineStepDialog : Window
             DesecrateItemNameBox.Text  = dp.ItemName;
             DesecrateItemClassBox.Text = dp.ItemClass;
             DesecrateAllModsCheckBox.IsChecked = dp.AllModsFromDesecratePool;
-            DesecrateDesiredPatternsBox.Text = string.Join("\n", dp.DesiredPatterns);
+            _desecratePickCond = SettingsStore.CloneCraftConditionPlan(dp.PickCondition ?? new CraftConditionPlan());
+            RefreshDesecratePickCondSummary();
         }
 
         // ClickRegionConfig
@@ -424,11 +426,7 @@ public partial class PipelineStepDialog : Window
                 ItemName               = DesecrateItemNameBox.Text.Trim(),
                 ItemClass              = DesecrateItemClassBox.Text.Trim(),
                 AllModsFromDesecratePool = DesecrateAllModsCheckBox.IsChecked == true,
-                DesiredPatterns        = DesecrateDesiredPatternsBox.Text
-                    .Split('\n', StringSplitOptions.RemoveEmptyEntries)
-                    .Select(s => s.Trim())
-                    .Where(s => s.Length > 0)
-                    .ToList(),
+                PickCondition          = HasClauses(_desecratePickCond) ? _desecratePickCond : null,
             };
         }
         else
@@ -723,6 +721,26 @@ public partial class PipelineStepDialog : Window
         if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
         _desecrateRevealRect = region;
         DesecrateRevealAreaLabel.Text = $"{region.X},{region.Y} {region.Width}×{region.Height}";
+    }
+
+    private void EditDesecratePickCondBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new CraftConditionWindow(_desecratePickCond, _affixEntries, _stats) { Owner = this };
+        dlg.ShowDialog();
+        RefreshDesecratePickCondSummary();
+    }
+
+    private void ClearDesecratePickCondBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _desecratePickCond = new CraftConditionPlan();
+        RefreshDesecratePickCondSummary();
+    }
+
+    private void RefreshDesecratePickCondSummary()
+    {
+        DesecratePickCondSummary.Text = HasClauses(_desecratePickCond)
+            ? $"PickCondition: {CraftConditionEvaluator.FormatSummary(_desecratePickCond)}"
+            : "PickCondition: (нет — принять любой)";
     }
 
     // ── ClickTemplate ─────────────────────────────────────────────────────────

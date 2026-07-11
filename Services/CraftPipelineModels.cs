@@ -163,10 +163,11 @@ public sealed class DesecratePickConfig
     public bool AllModsFromDesecratePool { get; set; } = false;
 
     /// <summary>
-    /// Желаемые паттерны (подстроки) в тексте десекрейт-мода.
-    /// Пустой список = принять любой десекрейт-мод (Success всегда, кликает по первому найденному).
+    /// Условие выбора мода — проверяется для каждой строки интерфейса reveal.
+    /// Первая строка, для которой условие выполнено, кликается (Success).
+    /// null = принять первый найденный десекрейт-мод без условия.
     /// </summary>
-    public List<string> DesiredPatterns { get; set; } = new();
+    public CraftConditionPlan? PickCondition { get; set; }
 
     /// <summary>Задержка после клика по выбранному моду (мс).</summary>
     public int ClickDelayMs { get; set; } = 600;

@@ -801,42 +801,59 @@ public sealed class CraftPipelineRunner
 
         await WriteDesecrateLogEntryAsync(cfg, lines.Select(l => l.Text).ToList(), foundTexts).ConfigureAwait(false);
 
-        // Если паттернов нет — принимаем любой десекрейт-мод (кликаем по первому найденному)
-        if (cfg.DesiredPatterns.Count == 0)
+        // Условие не задано — принимаем первый найденный десекрейт-мод
+        if (cfg.PickCondition is null || !HasClauses(cfg.PickCondition))
         {
             if (foundDesecrate.Count > 0)
             {
                 await ClickOcrLineAsync(foundDesecrate[0], cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
-                log?.Report("[DesecratePick] Принят первый десекрейт-мод → Success");
+                log?.Report("[DesecratePick] Условие не задано → принят первый десекрейт-мод → Success");
             }
             else
             {
-                log?.Report("[DesecratePick] Паттерны не заданы и десекрейт-мод не опознан → Success (без клика)");
+                log?.Report("[DesecratePick] Условие не задано и десекрейт-мод не опознан → Success (без клика)");
             }
             return StepOutcome.Success();
         }
 
-        // Ищем первый подходящий мод
-        OcrTextLine? target = null;
-        foreach (var ocrLine in foundDesecrate)
+        // Проверяем каждую OCR-строку как отдельный мод через CraftConditionPlan
+        var expectedClass = string.IsNullOrWhiteSpace(cfg.ItemClass) ? cfg.ItemName : cfg.ItemClass;
+        foreach (var ocrLine in lines)
         {
-            if (cfg.DesiredPatterns.Any(p => ocrLine.Text.Contains(p, StringComparison.OrdinalIgnoreCase)))
+            var syntheticItem = BuildSyntheticItem(ocrLine.Text, expectedClass);
+            if (CraftConditionEvaluator.TryEvaluate(cfg.PickCondition, syntheticItem, out var detail))
             {
-                target = ocrLine;
-                break;
+                log?.Report($"[DesecratePick] Условие выполнено для «{ocrLine.Text}»: {detail} → клик → Success");
+                await ClickOcrLineAsync(ocrLine, cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
+                return StepOutcome.Success();
             }
         }
 
-        if (target is { } hit)
-        {
-            await ClickOcrLineAsync(hit, cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
-            log?.Report($"[DesecratePick] Найден желаемый мод «{hit.Text}» → клик → Success");
-            return StepOutcome.Success();
-        }
-
-        log?.Report("[DesecratePick] Желаемый паттерн не совпал → Failure");
+        log?.Report("[DesecratePick] Ни одна из строк не удовлетворила условию → Failure");
         return StepOutcome.Failure();
     }
+
+    /// <summary>Строит синтетический ParsedItem из одной строки OCR-текста для проверки условия.</summary>
+    private static ParsedItem BuildSyntheticItem(string ocrLine, string itemClass)
+    {
+        var effectLine = ItemParser.ParseRawStatLine(ocrLine);
+        var affix = new AffixInfo
+        {
+            Type    = "Suffix Modifier",
+            Effects = new List<string> { ocrLine },
+            EffectDetails = new List<AffixEffectLine> { effectLine },
+        };
+        return new ParsedItem
+        {
+            IsValid   = true,
+            ItemClass = itemClass,
+            Rarity    = "Rare",
+            Affixes   = new List<AffixInfo> { affix },
+        };
+    }
+
+    private static bool HasClauses(CraftConditionPlan? plan) =>
+        plan?.OrAlternatives?.Any(g => g.Clauses?.Count > 0) == true;
 
     private static async Task ClickOcrLineAsync(OcrTextLine line, int delayMs, IProgress<string>? log, CancellationToken ct)
     {
