@@ -245,9 +245,18 @@
                         <!-- Список нажатий -->
                         <TextBlock Text="Последовательность нажатий:" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <StackPanel x:Name="WalkKeyPressList" Margin="0,0,0,6"/>
-                        <Button x:Name="WalkAddKeyBtn" Content="+ Добавить нажатие"
-                                HorizontalAlignment="Left" Padding="8,4"
-                                Click="WalkAddKeyBtn_Click"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="WalkAddKeyBtn" Content="+ Добавить нажатие"
+                                    Padding="8,4" Margin="0,0,8,0"
+                                    Click="WalkAddKeyBtn_Click"/>
+                            <Button x:Name="WalkRecordBtn" Content="⏺ Записать макрос"
+                                    Padding="8,4"
+                                    Click="WalkRecordBtn_Click"/>
+                            <TextBlock x:Name="WalkRecordStatus"
+                                       VerticalAlignment="Center" Margin="10,0,0,0"
+                                       Foreground="#CC0000" FontSize="11"
+                                       Visibility="Collapsed"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
 

@@ -16,6 +16,7 @@ public partial class PipelineStepDialog : Window
 
     private readonly List<AffixLibraryEntry> _affixEntries;
     private readonly Services.AffixStatsData? _stats;
+    private Services.KeyboardMacroRecorder? _walkRecorder;
 
     // Полный список оменов в порядке RitualItemGroups (только предметы-омены)
     internal static readonly string[] AllOmenNames =
@@ -159,6 +160,7 @@ public partial class PipelineStepDialog : Window
         InitializeComponent();
         OmenNameCombo.ItemsSource = AllOmenNames;
         LoadFromStep();
+        Closed += (_, _) => { _walkRecorder?.Dispose(); _walkRecorder = null; };
     }
 
     private void LoadFromStep()
@@ -559,6 +561,40 @@ public partial class PipelineStepDialog : Window
 
     private void WalkAddKeyBtn_Click(object sender, RoutedEventArgs e) =>
         WalkKeyPressList.Children.Add(MakeWalkKeyRow());
+
+    private async void WalkRecordBtn_Click(object sender, RoutedEventArgs e)
+    {
+        WalkRecordBtn.IsEnabled = false;
+        WalkAddKeyBtn.IsEnabled = false;
+        WalkRecordStatus.Visibility = Visibility.Visible;
+
+        for (var i = 3; i > 0; i--)
+        {
+            WalkRecordStatus.Text = $"Переключитесь в игру… {i}";
+            await Task.Delay(1000).ConfigureAwait(true);
+        }
+        WalkRecordStatus.Text = "● Запись — отпустите все клавиши для остановки";
+        WalkKeyPressList.Children.Clear();
+
+        _walkRecorder?.Dispose();
+        _walkRecorder = new Services.KeyboardMacroRecorder();
+        _walkRecorder.RecordingFinished += OnWalkRecordingFinished;
+        _walkRecorder.Start();
+    }
+
+    private void OnWalkRecordingFinished(List<Services.WalkKeyPress> recorded)
+    {
+        _walkRecorder?.Dispose();
+        _walkRecorder = null;
+
+        WalkKeyPressList.Children.Clear();
+        foreach (var kp in recorded)
+            WalkKeyPressList.Children.Add(MakeWalkKeyRow(kp.Key, kp.DurationMs));
+
+        WalkRecordStatus.Visibility = Visibility.Collapsed;
+        WalkRecordBtn.IsEnabled = true;
+        WalkAddKeyBtn.IsEnabled = true;
+    }
 
     // ── OK ────────────────────────────────────────────────────────────────────
 
