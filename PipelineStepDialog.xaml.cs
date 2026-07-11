@@ -130,6 +130,7 @@ public partial class PipelineStepDialog : Window
         PipelineAction.ManualPause,
         PipelineAction.TravelToLocation,
         PipelineAction.SimpleAbyssalBone,
+        PipelineAction.WalkToPosition,
     ];
 
     // Mapping: ComboBox index → TransitionTarget
@@ -141,14 +142,18 @@ public partial class PipelineStepDialog : Window
         TransitionTarget.Step,
     ];
 
+    private readonly IReadOnlyList<Services.StackableItemType> _availableBones;
+
     public PipelineStepDialog(
         CraftPipelineStep step,
         List<AffixLibraryEntry> affixEntries,
-        Services.AffixStatsData? stats = null)
+        Services.AffixStatsData? stats = null,
+        IReadOnlyList<Services.StackableItemType>? availableBones = null)
     {
         Step = step;
         _affixEntries = affixEntries;
         _stats = stats;
+        _availableBones = availableBones ?? Array.Empty<Services.StackableItemType>();
         _entry = SettingsStore.CloneCraftConditionPlan(step.EntryCondition ?? new CraftConditionPlan());
         _loop = SettingsStore.CloneCraftConditionPlan(step.LoopUntil ?? new CraftConditionPlan());
         InitializeComponent();
@@ -203,10 +208,9 @@ public partial class PipelineStepDialog : Window
         CurrencyCombo.ItemsSource = CurrencyKnownItems;
         CurrencyCombo.SelectedItem = CurrencyKnownItems.FirstOrDefault(c => c == (Step.CurrencyId ?? ""));
 
-        // AbyssalBone
-        var bones = AbyssKnownBones;
-        AbyssalBoneCombo.ItemsSource = bones;
-        AbyssalBoneCombo.SelectedItem = bones.FirstOrDefault(b => b.Id == (Step.AbyssalBoneId ?? ""));
+        // AbyssalBone — берём из переданного списка (кости с настроенными областями)
+        AbyssalBoneCombo.ItemsSource = _availableBones;
+        AbyssalBoneCombo.SelectedItem = _availableBones.FirstOrDefault(b => b.Id == (Step.AbyssalBoneId ?? ""));
 
         // TravelConfig
         if (Step.TravelConfig is { } tc)
@@ -219,9 +223,20 @@ public partial class PipelineStepDialog : Window
             TravelLocY.Text         = tc.LocationButtonArea.Y.ToString();
             TravelLocW.Text         = tc.LocationButtonArea.Width.ToString();
             TravelLocH.Text         = tc.LocationButtonArea.Height.ToString();
-            TravelWpOcrText.Text    = tc.WaypointOcrText;
-            TravelWpDelayBox.Text   = tc.AfterWaypointDelayMs.ToString();
-            TravelLoadDelayBox.Text = tc.LoadingDelayMs.ToString();
+            TravelWpOcrText.Text             = tc.WaypointOcrText;
+            TravelWpDelayBox.Text            = tc.AfterWaypointDelayMs.ToString();
+            TravelLoadDelayBox.Text          = tc.LoadingDelayMs.ToString();
+            TravelExpectedLocationBox.Text   = tc.ExpectedLocation;
+        }
+
+        // WalkConfig
+        if (Step.WalkConfig is { } wc)
+        {
+            WalkTargetX.Text         = wc.TargetX.ToString();
+            WalkTargetY.Text         = wc.TargetY.ToString();
+            WalkArrivalDelayBox.Text = wc.ArrivalDelayMs.ToString();
+            WalkEscapeCheckBox.IsChecked     = wc.PressEscapeFirst;
+            WalkRightClickCheckBox.IsChecked = wc.UseRightClick;
         }
 
         EntryNegateChk.IsChecked = _entry.Negate;
@@ -282,7 +297,7 @@ public partial class PipelineStepDialog : Window
             : null;
 
         Step.AbyssalBoneId = Step.Action == PipelineAction.SimpleAbyssalBone
-            ? (AbyssalBoneCombo.SelectedItem as (string Id, string DisplayName)?)?.Id ?? ""
+            ? (AbyssalBoneCombo.SelectedItem as Services.StackableItemType)?.Id ?? ""
             : null;
 
         if (Step.Action == PipelineAction.TravelToLocation)
@@ -302,11 +317,28 @@ public partial class PipelineStepDialog : Window
                 WaypointOcrText      = TravelWpOcrText.Text.Trim(),
                 AfterWaypointDelayMs = int.TryParse(TravelWpDelayBox.Text, out var wdms) ? wdms : 10000,
                 LoadingDelayMs       = int.TryParse(TravelLoadDelayBox.Text, out var ldms) ? ldms : 15000,
+                ExpectedLocation     = TravelExpectedLocationBox.Text.Trim(),
             };
         }
         else
         {
             Step.TravelConfig = null;
+        }
+
+        if (Step.Action == PipelineAction.WalkToPosition)
+        {
+            Step.WalkConfig = new Services.WalkToPositionConfig
+            {
+                TargetX         = int.TryParse(WalkTargetX.Text, out var wx) ? wx : 0,
+                TargetY         = int.TryParse(WalkTargetY.Text, out var wy) ? wy : 0,
+                ArrivalDelayMs  = int.TryParse(WalkArrivalDelayBox.Text, out var wd) ? wd : 2500,
+                PressEscapeFirst = WalkEscapeCheckBox.IsChecked == true,
+                UseRightClick    = WalkRightClickCheckBox.IsChecked == true,
+            };
+        }
+        else
+        {
+            Step.WalkConfig = null;
         }
 
         _entry.Negate = EntryNegateChk.IsChecked == true;
@@ -348,6 +380,9 @@ public partial class PipelineStepDialog : Window
             ? Visibility.Visible
             : Visibility.Collapsed;
         CurrencyConfigPanel.Visibility = action == PipelineAction.SimpleCurrency
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        WalkConfigPanel.Visibility = action == PipelineAction.WalkToPosition
             ? Visibility.Visible
             : Visibility.Collapsed;
     }
@@ -481,6 +516,20 @@ public partial class PipelineStepDialog : Window
         {
             System.Windows.MessageBox.Show($"Ошибка: {ex.Message}", "Скриншот", MessageBoxButton.OK, MessageBoxImage.Error);
         }
+    }
+
+    // ── WalkToPosition ───────────────────────────────────────────────────────
+
+    private async void WalkPickPositionBtn_Click(object sender, RoutedEventArgs e)
+    {
+        WalkPickPositionBtn.IsEnabled = false;
+        WalkPickPositionBtn.Content = "⏳ 3 сек…";
+        await Task.Delay(3000).ConfigureAwait(true);
+        Native.Win32Input.TryGetCursorPos(out var px, out var py);
+        WalkTargetX.Text = px.ToString();
+        WalkTargetY.Text = py.ToString();
+        WalkPickPositionBtn.IsEnabled = true;
+        WalkPickPositionBtn.Content = "🖱 Захватить позицию мыши";
     }
 
     // ── OK ────────────────────────────────────────────────────────────────────

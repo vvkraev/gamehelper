@@ -28,6 +28,11 @@ public enum PipelineAction
     TravelToLocation,
     /// <summary>ПКМ на Abyssal Bone из вкладки Abyss стэша, ЛКМ на предмет.</summary>
     SimpleAbyssalBone,
+    /// <summary>
+    /// Ходьба внутри текущей локации: Escape (опц.) → ПКМ на координаты → задержка прибытия.
+    /// Веха (milestone): выполняется один раз для всего батча.
+    /// </summary>
+    WalkToPosition,
 }
 
 public enum TransitionTarget
@@ -90,6 +95,30 @@ public sealed class TravelActionConfig
 
     /// <summary>Задержка после клика по кнопке локации (мс): ждём загрузки карты.</summary>
     public int LoadingDelayMs { get; set; } = 15000;
+
+    /// <summary>
+    /// Ожидаемое название локации после перехода.
+    /// Проверяется через OCR области <see cref="PipelineScreenConfig.LocationNameArea"/> с повторными попытками.
+    /// Пустая строка — верификация не выполняется.
+    /// </summary>
+    public string ExpectedLocation { get; set; } = "";
+}
+
+/// <summary>Конфигурация ходьбы внутри локации для <see cref="PipelineAction.WalkToPosition"/>.</summary>
+public sealed class WalkToPositionConfig
+{
+    /// <summary>Абсолютные экранные координаты цели клика (точка на земле).</summary>
+    public int TargetX { get; set; }
+    public int TargetY { get; set; }
+
+    /// <summary>Задержка после клика (мс): ждём пока персонаж дойдёт.</summary>
+    public int ArrivalDelayMs { get; set; } = 2500;
+
+    /// <summary>Нажать Escape перед кликом — закрыть открытый стэш/инвентарь.</summary>
+    public bool PressEscapeFirst { get; set; } = true;
+
+    /// <summary>Использовать ПКМ (force-move) вместо ЛКМ.</summary>
+    public bool UseRightClick { get; set; } = true;
 }
 
 public sealed class CraftPipelineStep
@@ -105,6 +134,9 @@ public sealed class CraftPipelineStep
 
     /// <summary>Параметры перехода между локациями — используется только при <see cref="PipelineAction.TravelToLocation"/>.</summary>
     public TravelActionConfig? TravelConfig { get; set; }
+
+    /// <summary>Параметры ходьбы внутри локации — используется только при <see cref="PipelineAction.WalkToPosition"/>.</summary>
+    public WalkToPositionConfig? WalkConfig { get; set; }
 
     /// <summary>Id кости (из AbyssKnownItems) — используется только при <see cref="PipelineAction.SimpleAbyssalBone"/>.</summary>
     public string? AbyssalBoneId { get; set; }

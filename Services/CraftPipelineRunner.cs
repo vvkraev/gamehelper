@@ -75,6 +75,9 @@ public sealed record PipelineScreenConfig
     // Delirium
     public ScreenRect DeliriumInventoryRect { get; init; }
     public IReadOnlyDictionary<string, ScreenRect> DeliriumItemRegions { get; init; } = new Dictionary<string, ScreenRect>();
+
+    /// <summary>Область экрана с названием текущей локации — для OCR-верификации после TravelToLocation.</summary>
+    public ScreenRect LocationNameArea { get; init; }
 }
 
 /// <summary>Результат выполнения одного шага пайплайна — внутренний тип для диспетчера.</summary>
@@ -280,8 +283,9 @@ public sealed class CraftPipelineRunner
             PipelineAction.SimpleChaos => await ExecuteSimpleChaosAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.OmenActivation => await ExecuteOmenActivationAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.DeliriumLiquid => await ExecuteDeliriumLiquidAsync(step, screen, log, ct).ConfigureAwait(false),
-            PipelineAction.TravelToLocation => await ExecuteTravelAsync(step, log, ct).ConfigureAwait(false),
+            PipelineAction.TravelToLocation => await ExecuteTravelAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.SimpleAbyssalBone => await ExecuteSimpleAbyssalBoneAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.WalkToPosition => await ExecuteWalkToPositionAsync(step, log, ct).ConfigureAwait(false),
             PipelineAction.ManualPause => StepOutcome.Success(),
             _ => StepOutcome.Failure(),
         };
@@ -584,28 +588,52 @@ public sealed class CraftPipelineRunner
         if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
             return StepOutcome.Failure();
 
-        await SwitchStashTabAsync(screen.AbyssInventoryRegion, log, ct, "Abyss").ConfigureAwait(false);
-
-        var (bx, by) = boneRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
-        log?.Report($"[Bone] ПКМ кость «{boneId}» ({bx},{by})…");
-        Win32Input.MoveTo(bx, by);
-        await Task.Delay(150, ct).ConfigureAwait(false);
-        Win32Input.ClickRight();
-        await Task.Delay(300, ct).ConfigureAwait(false);
-
-        var (ix, iy) = screen.ItemArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
-        log?.Report($"[Bone] ЛКМ предмет ({ix},{iy})…");
-        Win32Input.MoveTo(ix, iy);
-        await Task.Delay(150, ct).ConfigureAwait(false);
-        Win32Input.ClickLeft();
-        await Task.Delay(300, ct).ConfigureAwait(false);
-
+        var maxIter = step.MaxIterations > 0 ? step.MaxIterations : 1000;
+        var consumed = 0; // кости реально потраченные (предмет изменился)
         var itemText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
-        return StepOutcome.Success(1, itemText);
+
+        for (var i = 0; i < maxIter; i++)
+        {
+            ct.ThrowIfCancellationRequested();
+            var prevText = itemText;
+
+            await SwitchStashTabAsync(screen.AbyssInventoryRegion, log, ct, "Abyss").ConfigureAwait(false);
+
+            var (bx, by) = boneRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+            log?.Report($"[Bone] ПКМ кость «{boneId}» ({bx},{by})…");
+            Win32Input.MoveTo(bx, by);
+            await Task.Delay(150, ct).ConfigureAwait(false);
+            Win32Input.ClickRight();
+            await Task.Delay(300, ct).ConfigureAwait(false);
+
+            var (ix, iy) = screen.ItemArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+            log?.Report($"[Bone] ЛКМ предмет ({ix},{iy})…");
+            Win32Input.MoveTo(ix, iy);
+            await Task.Delay(150, ct).ConfigureAwait(false);
+            Win32Input.ClickLeft();
+            await Task.Delay(300, ct).ConfigureAwait(false);
+
+            itemText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+
+            // Кость считается потраченной только если предмет реально изменился.
+            if (itemText != prevText)
+                consumed++;
+
+            if (step.LoopUntil is null)
+                break;
+
+            var parsed = ItemParser.Parse(itemText);
+            var met = CraftConditionEvaluator.TryEvaluate(step.LoopUntil, parsed, out var detail);
+            log?.Report($"[Bone] loopUntil: {(met ? "выполнено" : "не выполнено")}: {detail}");
+            if (met)
+                break;
+        }
+
+        return StepOutcome.Success(consumed, itemText);
     }
 
     private async Task<StepOutcome> ExecuteTravelAsync(
-        CraftPipelineStep step, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
     {
         var cfg = step.TravelConfig;
         if (cfg is null)
@@ -614,8 +642,41 @@ public sealed class CraftPipelineRunner
             return StepOutcome.Failure();
         }
 
-        var ok = await _travel.TravelAsync(cfg, log, ct).ConfigureAwait(false);
+        var ok = await _travel.TravelAsync(cfg, log, ct, screen.LocationNameArea).ConfigureAwait(false);
         return ok ? StepOutcome.Success(1) : StepOutcome.Failure();
+    }
+
+    private async Task<StepOutcome> ExecuteWalkToPositionAsync(
+        CraftPipelineStep step, IProgress<string>? log, CancellationToken ct)
+    {
+        var cfg = step.WalkConfig;
+        if (cfg is null)
+        {
+            log?.Report("[Walk] Конфигурация позиции не задана. Настройте шаг.");
+            return StepOutcome.Failure();
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        if (cfg.PressEscapeFirst)
+        {
+            log?.Report("[Walk] Закрываем интерфейс (Escape)…");
+            Win32Input.PressKey(0x1B); // VK_ESCAPE
+            await Task.Delay(400, ct).ConfigureAwait(false);
+        }
+
+        log?.Report($"[Walk] {(cfg.UseRightClick ? "ПКМ" : "ЛКМ")} → ({cfg.TargetX}, {cfg.TargetY})…");
+        Win32Input.MoveTo(cfg.TargetX, cfg.TargetY);
+        await Task.Delay(100, ct).ConfigureAwait(false);
+        if (cfg.UseRightClick)
+            Win32Input.ClickRight();
+        else
+            Win32Input.ClickLeft();
+
+        log?.Report($"[Walk] Ожидание прибытия {cfg.ArrivalDelayMs} мс…");
+        await Task.Delay(cfg.ArrivalDelayMs, ct).ConfigureAwait(false);
+
+        return StepOutcome.Success();
     }
 
     /// <summary>

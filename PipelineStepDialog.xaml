@@ -210,6 +210,75 @@
                             <TextBox   Grid.Row="1" Grid.Column="1" x:Name="TravelLoadDelayBox" Text="15000"
                                        Width="80" HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
                         </Grid>
+
+                        <!-- Ожидаемое название локации -->
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <TextBlock Text="Название локации:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <TextBox x:Name="TravelExpectedLocationBox" Width="200" Padding="4,2"
+                                     VerticalAlignment="Center"
+                                     ToolTip="Ожидаемое название после перехода — OCR проверяет область «Локация» (задаётся в панели пайплайна). Пример: «The Well of Souls», «Hideout». Пусто = не проверять."/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- WalkToPosition -->
+                <Border x:Name="WalkConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Ходьба внутри локации (WalkToPosition)" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,8"
+                                   Text="Веха: выполняется один раз для всего батча. Зажмите Alt и наведите мышь на нужную точку — координаты скопируются."/>
+
+                        <!-- Координаты цели -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="60"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Grid.Column="0" Text="X:" VerticalAlignment="Center"/>
+                            <TextBox   Grid.Column="1" x:Name="WalkTargetX" Text="0" Margin="0,2" Padding="4,2"/>
+                            <TextBlock Grid.Column="2" Text="Y:" VerticalAlignment="Center" Margin="4,0,0,0"/>
+                            <TextBox   Grid.Column="3" x:Name="WalkTargetY" Text="0" Margin="0,2" Padding="4,2"/>
+                            <Button    Grid.Column="4" x:Name="WalkPickPositionBtn"
+                                       Content="🖱 Захватить позицию мыши"
+                                       HorizontalAlignment="Left" Padding="8,4" Margin="8,0,0,0"
+                                       Click="WalkPickPositionBtn_Click"
+                                       ToolTip="Нажмите кнопку, переключитесь в игру — через 3 секунды текущая позиция мыши будет сохранена."/>
+                        </Grid>
+
+                        <!-- Параметры -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="220"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                                <RowDefinition Height="30"/>
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0" Text="Задержка прибытия (мс):" VerticalAlignment="Center"/>
+                            <TextBox   Grid.Row="0" Grid.Column="1" x:Name="WalkArrivalDelayBox" Text="2500"
+                                       Width="80" HorizontalAlignment="Left" Margin="0,3" Padding="4,2"
+                                       ToolTip="Сколько ждать после клика. Подбирается под расстояние до цели."/>
+                            <TextBlock Grid.Row="1" Text="Нажать Escape перед кликом:" VerticalAlignment="Center"/>
+                            <CheckBox  Grid.Row="1" Grid.Column="1" x:Name="WalkEscapeCheckBox"
+                                       IsChecked="True" VerticalAlignment="Center" Margin="0,3"
+                                       ToolTip="Закрывает открытый стэш или инвентарь перед движением."/>
+                            <TextBlock Grid.Row="2" Text="Использовать ПКМ (force-move):" VerticalAlignment="Center"/>
+                            <CheckBox  Grid.Row="2" Grid.Column="1" x:Name="WalkRightClickCheckBox"
+                                       IsChecked="True" VerticalAlignment="Center" Margin="0,3"
+                                       ToolTip="ПКМ = принудительное движение (не интеракция). Рекомендуется."/>
+                        </Grid>
                     </StackPanel>
                 </Border>
 

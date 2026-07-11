@@ -81,6 +81,9 @@ public sealed class BatchPipelineRunner
         if (_chaos is not null && _testStepExecutor is null)
             await InitializeStagesAsync(items, pipeline, screenTemplate, itemCells, log, ct).ConfigureAwait(false);
 
+        if (_testStepExecutor is null)
+            await AdjustStagesForCurrentLocationAsync(items, pipeline, screenTemplate.LocationNameArea, log, ct).ConfigureAwait(false);
+
         return await RunCoreAsync(pipeline, screenTemplate, itemCells, items, log, ct, batchId).ConfigureAwait(false);
     }
 
@@ -316,7 +319,8 @@ public sealed class BatchPipelineRunner
     /// Не требует итерации по предметам — не зависит от конкретного предмета.
     /// </summary>
     private static bool IsMilestoneAction(PipelineAction action) =>
-        action == PipelineAction.TravelToLocation;
+        action == PipelineAction.TravelToLocation
+        || action == PipelineAction.WalkToPosition;
 
     private async Task InitializeStagesAsync(
         List<BatchItem> items, CraftPipeline pipeline,
@@ -338,6 +342,50 @@ public sealed class BatchPipelineRunner
             var detect = PipelineStepDetector.Detect(pipeline, parsed);
             item.CurrentStage = detect.StepIndex ?? 0;
             log?.Report($"[Батч] [{item.CellIndex}]: стадия {item.CurrentStage} «{pipeline.Steps[item.CurrentStage].Name}»");
+        }
+    }
+
+    /// <summary>
+    /// OCR-детектирует текущую локацию и продвигает активные предметы через уже пройденные вехи TravelToLocation.
+    /// Полезно при старте батча в середине пайплайна: если мы уже в Well of Souls, предметы
+    /// на стадиях до этой вехи продвигаются на стадию после неё.
+    /// </summary>
+    private static async Task AdjustStagesForCurrentLocationAsync(
+        List<BatchItem> items, CraftPipeline pipeline,
+        ScreenRect locationNameArea, IProgress<string>? log, CancellationToken ct)
+    {
+        if (locationNameArea.Width <= 0 || locationNameArea.Height <= 0) return;
+
+        // Собираем TravelToLocation-шаги с заданной локацией
+        var travelSteps = pipeline.Steps
+            .Select((s, i) => (step: s, index: i))
+            .Where(t => t.step.Action == PipelineAction.TravelToLocation
+                        && !string.IsNullOrEmpty(t.step.TravelConfig?.ExpectedLocation))
+            .ToList();
+
+        if (travelSteps.Count == 0) return;
+
+        ct.ThrowIfCancellationRequested();
+        var detected = await LocationDetector.DetectAsync(locationNameArea, ct).ConfigureAwait(false);
+        log?.Report($"[Батч] Текущая локация OCR: «{detected}»");
+
+        // Ищем совпадение с одним из TravelToLocation-шагов
+        var matchedTravel = travelSteps.FirstOrDefault(
+            t => LocationDetector.LocationMatchesExpected(detected, t.step.TravelConfig!.ExpectedLocation));
+
+        if (matchedTravel.step is null)
+        {
+            log?.Report("[Батч] Локация не совпадает ни с одной вехой — стадии не корректируются.");
+            return;
+        }
+
+        var milestoneIndex = matchedTravel.index;
+        log?.Report($"[Батч] Локация совпадает с вехой {milestoneIndex} «{matchedTravel.step.Name}». Предметы до этой вехи продвигаются на стадию {milestoneIndex + 1}.");
+
+        foreach (var item in items.Where(i => i.Status == BatchItemStatus.Active && i.CurrentStage <= milestoneIndex))
+        {
+            log?.Report($"[Батч] [{item.CellIndex}]: стадия {item.CurrentStage} → {milestoneIndex + 1} (уже в локации)");
+            item.CurrentStage = milestoneIndex + 1;
         }
     }
 }
