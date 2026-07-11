@@ -18,6 +18,8 @@ public partial class PipelineStepDialog : Window
     private readonly Services.AffixStatsData? _stats;
     private Services.KeyboardMacroRecorder? _walkRecorder;
     private ScreenRect _templateSearchRect;
+    private ScreenRect _desecrateRevealRect;
+    private ScreenRect _clickRegionRect;
 
     // Полный список оменов в порядке RitualItemGroups (только предметы-омены)
     internal static readonly string[] AllOmenNames =
@@ -135,6 +137,9 @@ public partial class PipelineStepDialog : Window
         PipelineAction.WalkToPosition,
         PipelineAction.OpenStash,
         PipelineAction.ClickTemplate,
+        PipelineAction.DesecratePick,
+        PipelineAction.CtrlClickItem,
+        PipelineAction.ClickRegion,
     ];
 
     // Mapping: ComboBox index → TransitionTarget
@@ -239,6 +244,30 @@ public partial class PipelineStepDialog : Window
         WalkKeyPressList.Children.Clear();
         foreach (var kp in Step.WalkConfig?.KeyPresses ?? [])
             WalkKeyPressList.Children.Add(MakeWalkKeyRow(string.Join(" ", kp.Keys), kp.DurationMs));
+
+        // DesecratePickConfig
+        if (Step.DesecratePickConfig is { } dp)
+        {
+            _desecrateRevealRect = dp.RevealArea;
+            DesecrateRevealAreaLabel.Text = dp.RevealArea.Width > 0
+                ? $"{dp.RevealArea.X},{dp.RevealArea.Y} {dp.RevealArea.Width}×{dp.RevealArea.Height}"
+                : "не задана";
+            DesecrateItemNameBox.Text  = dp.ItemName;
+            DesecrateItemClassBox.Text = dp.ItemClass;
+            DesecrateAllModsCheckBox.IsChecked = dp.AllModsFromDesecratePool;
+            DesecrateDesiredPatternsBox.Text = string.Join("\n", dp.DesiredPatterns);
+        }
+
+        // ClickRegionConfig
+        if (Step.ClickRegionConfig is { } cr)
+        {
+            _clickRegionRect = cr.Region;
+            ClickRegionAreaLabel.Text = cr.Region.Width > 0
+                ? $"{cr.Region.X},{cr.Region.Y} {cr.Region.Width}×{cr.Region.Height}"
+                : "не задана";
+            ClickRegionCtrlChk.IsChecked  = cr.UseCtrl;
+            ClickRegionDelayBox.Text       = cr.ClickDelayMs.ToString();
+        }
 
         // ClickTemplateConfig
         if (Step.TemplateConfig is { } tmpl)
@@ -387,6 +416,40 @@ public partial class PipelineStepDialog : Window
             Step.TemplateConfig = null;
         }
 
+        if (Step.Action == PipelineAction.DesecratePick)
+        {
+            Step.DesecratePickConfig = new Services.DesecratePickConfig
+            {
+                RevealArea             = _desecrateRevealRect,
+                ItemName               = DesecrateItemNameBox.Text.Trim(),
+                ItemClass              = DesecrateItemClassBox.Text.Trim(),
+                AllModsFromDesecratePool = DesecrateAllModsCheckBox.IsChecked == true,
+                DesiredPatterns        = DesecrateDesiredPatternsBox.Text
+                    .Split('\n', StringSplitOptions.RemoveEmptyEntries)
+                    .Select(s => s.Trim())
+                    .Where(s => s.Length > 0)
+                    .ToList(),
+            };
+        }
+        else
+        {
+            Step.DesecratePickConfig = null;
+        }
+
+        if (Step.Action == PipelineAction.ClickRegion)
+        {
+            Step.ClickRegionConfig = new Services.ClickRegionConfig
+            {
+                Region       = _clickRegionRect,
+                UseCtrl      = ClickRegionCtrlChk.IsChecked == true,
+                ClickDelayMs = int.TryParse(ClickRegionDelayBox.Text, out var crdel) ? crdel : 500,
+            };
+        }
+        else
+        {
+            Step.ClickRegionConfig = null;
+        }
+
         _entry.Negate = EntryNegateChk.IsChecked == true;
         _loop.Negate  = LoopNegateChk.IsChecked  == true;
         Step.EntryCondition = HasClauses(_entry) ? _entry : null;
@@ -432,6 +495,12 @@ public partial class PipelineStepDialog : Window
             ? Visibility.Visible
             : Visibility.Collapsed;
         ClickTemplateConfigPanel.Visibility = action == PipelineAction.ClickTemplate
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        DesecratePickConfigPanel.Visibility = action == PipelineAction.DesecratePick
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        ClickRegionConfigPanel.Visibility = action == PipelineAction.ClickRegion
             ? Visibility.Visible
             : Visibility.Collapsed;
     }
@@ -646,6 +715,16 @@ public partial class PipelineStepDialog : Window
         WalkAddKeyBtn.IsEnabled = true;
     }
 
+    // ── DesecratePick ─────────────────────────────────────────────────────────
+
+    private void PickDesecrateRevealAreaBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _desecrateRevealRect = region;
+        DesecrateRevealAreaLabel.Text = $"{region.X},{region.Y} {region.Width}×{region.Height}";
+    }
+
     // ── ClickTemplate ─────────────────────────────────────────────────────────
 
     private void CaptureTemplateBtn_Click(object sender, RoutedEventArgs e)
@@ -676,6 +755,16 @@ public partial class PipelineStepDialog : Window
         if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
         _templateSearchRect = region;
         TemplateSearchRectLabel.Text = $"{region.X},{region.Y} {region.Width}×{region.Height}";
+    }
+
+    // ── ClickRegion ───────────────────────────────────────────────────────────
+
+    private void PickClickRegionAreaBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _clickRegionRect = region;
+        ClickRegionAreaLabel.Text = $"{region.X},{region.Y} {region.Width}×{region.Height}";
     }
 
     // ── OK ────────────────────────────────────────────────────────────────────

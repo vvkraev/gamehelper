@@ -121,7 +121,7 @@ public static class DesecrateStatsScanner
     /// Пытается сопоставить текст мода с любой записью десекрейт-пула.
     /// Учитывает шаблоны с "#" (заменяет на паттерн числа) и точные совпадения.
     /// </summary>
-    private static AffixLibraryEntry? FindDesecrateMatch(string modText, List<AffixLibraryEntry> entries)
+    public static AffixLibraryEntry? FindDesecrateMatch(string modText, List<AffixLibraryEntry> entries)
     {
         var normalizedMod = NormalizeStat(modText);
 
@@ -162,10 +162,10 @@ public static class DesecrateStatsScanner
         }
     }
 
-    private static string NormalizeStat(string s) =>
+    public static string NormalizeStat(string s) =>
         s.Trim().ToLowerInvariant();
 
-    private static List<AffixLibraryEntry> GetDesecrateEntries(string libraryClass)
+    public static List<AffixLibraryEntry> GetDesecrateEntries(string libraryClass)
     {
         return AffixLibrary.GetEntries()
             .Where(e => e.AffixType.Contains("Desecrated", StringComparison.OrdinalIgnoreCase)

@@ -578,4 +578,47 @@ public static class WindowsOcrTextLocator
         var decoder = await BitmapDecoder.CreateAsync(ras).AsTask().ConfigureAwait(false);
         return await decoder.GetSoftwareBitmapAsync().AsTask().ConfigureAwait(false);
     }
+
+    /// <summary>
+    /// Возвращает все текстовые строки, распознанные OCR в заданной области экрана,
+    /// вместе с их экранными координатами. Строки отсортированы сверху вниз.
+    /// </summary>
+    public static async Task<IReadOnlyList<OcrTextLine>> ReadAllLinesAsync(
+        ScreenRect searchArea,
+        IProgress<string>? log,
+        CancellationToken ct)
+    {
+        var engine = TryCreateOcrEngine(log);
+        if (engine is null)
+            return Array.Empty<OcrTextLine>();
+
+        ct.ThrowIfCancellationRequested();
+        using var bitmap = ScreenCaptureHelper.CaptureRegion(searchArea);
+
+        using var softwareBitmap = await BitmapToSoftwareBitmapAsync(bitmap).ConfigureAwait(false);
+        ct.ThrowIfCancellationRequested();
+
+        var ocrResult = await engine.RecognizeAsync(softwareBitmap).AsTask(ct).ConfigureAwait(false);
+        if (ocrResult?.Lines is null || ocrResult.Lines.Count == 0)
+            return Array.Empty<OcrTextLine>();
+
+        var infos = BuildSortedLineInfos(ocrResult.Lines);
+        return infos
+            .Where(i => !string.IsNullOrWhiteSpace(i.RawText))
+            .Select(i =>
+            {
+                var inCapture = ScaleOcrRectToCaptureCoords(i.Bounds, coordinateScale: 1);
+                var onScreen  = RectToScreenRect(searchArea, inCapture);
+                return new OcrTextLine(i.RawText.Trim(), onScreen);
+            })
+            .ToList();
+    }
+}
+
+/// <summary>Строка OCR с экранными координатами.</summary>
+public readonly record struct OcrTextLine(string Text, ScreenRect ScreenBounds)
+{
+    public (int X, int Y) Center => (
+        ScreenBounds.X + ScreenBounds.Width  / 2,
+        ScreenBounds.Y + ScreenBounds.Height / 2);
 }

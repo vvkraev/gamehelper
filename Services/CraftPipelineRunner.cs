@@ -296,6 +296,9 @@ public sealed class CraftPipelineRunner
             PipelineAction.WalkToPosition => await ExecuteWalkToPositionAsync(step, log, ct).ConfigureAwait(false),
             PipelineAction.OpenStash => await ExecuteOpenStashAsync(screen, log, ct).ConfigureAwait(false),
             PipelineAction.ClickTemplate => await ExecuteClickTemplateAsync(step, log, ct).ConfigureAwait(false),
+            PipelineAction.DesecratePick => await ExecuteDesecratePickAsync(step, log, ct).ConfigureAwait(false),
+            PipelineAction.CtrlClickItem => await ExecuteCtrlClickItemAsync(screen, log, ct).ConfigureAwait(false),
+            PipelineAction.ClickRegion   => await ExecuteClickRegionAsync(step, log, ct).ConfigureAwait(false),
             PipelineAction.ManualPause => StepOutcome.Success(),
             _ => StepOutcome.Failure(),
         };
@@ -747,6 +750,214 @@ public sealed class CraftPipelineRunner
         if (cfg.ClickDelayMs > 0)
             await Task.Delay(cfg.ClickDelayMs, ct).ConfigureAwait(false);
         return StepOutcome.Success();
+    }
+
+    private async Task<StepOutcome> ExecuteDesecratePickAsync(
+        CraftPipelineStep step, IProgress<string>? log, CancellationToken ct)
+    {
+        var cfg = step.DesecratePickConfig;
+        if (cfg is null)
+        {
+            log?.Report("[DesecratePick] Конфигурация не задана.");
+            return StepOutcome.Failure();
+        }
+
+        var area = cfg.RevealArea;
+        if (area.Width <= 0 || area.Height <= 0)
+        {
+            log?.Report("[DesecratePick] Область reveal не задана.");
+            return StepOutcome.Failure();
+        }
+
+        log?.Report($"[DesecratePick] OCR области {area.Width}×{area.Height}…");
+        var lines = await WindowsOcrTextLocator.ReadAllLinesAsync(area, log, ct).ConfigureAwait(false);
+
+        if (lines.Count == 0)
+        {
+            log?.Report("[DesecratePick] OCR не вернул строк — интерфейс reveal не открыт?");
+            return StepOutcome.Failure();
+        }
+
+        log?.Report($"[DesecratePick] Распознано строк: {lines.Count}");
+        foreach (var line in lines)
+            log?.Report($"  • {line.Text}");
+
+        var libraryClass = string.IsNullOrWhiteSpace(cfg.ItemClass) ? cfg.ItemName : cfg.ItemClass;
+        var desecrateEntries = DesecrateStatsScanner.GetDesecrateEntries(libraryClass);
+
+        // Находим строки OCR, соответствующие десекрейт-моду, с сохранением позиций
+        var foundDesecrate = new List<OcrTextLine>();
+        foreach (var line in lines)
+        {
+            if (DesecrateStatsScanner.FindDesecrateMatch(line.Text, desecrateEntries) is not null)
+                foundDesecrate.Add(line);
+        }
+
+        var foundTexts = foundDesecrate.Select(l => l.Text).ToList();
+        if (foundDesecrate.Count == 0 && desecrateEntries.Count > 0)
+            log?.Report($"[DesecratePick] Десекрейт-мод не опознан среди {lines.Count} строк. Все: {string.Join(" | ", lines.Select(l => l.Text))}");
+        else
+            foreach (var m in foundTexts) log?.Report($"[DesecratePick] Десекрейт-мод: «{m}»");
+
+        await WriteDesecrateLogEntryAsync(cfg, lines.Select(l => l.Text).ToList(), foundTexts).ConfigureAwait(false);
+
+        // Если паттернов нет — принимаем любой десекрейт-мод (кликаем по первому найденному)
+        if (cfg.DesiredPatterns.Count == 0)
+        {
+            if (foundDesecrate.Count > 0)
+            {
+                await ClickOcrLineAsync(foundDesecrate[0], cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
+                log?.Report("[DesecratePick] Принят первый десекрейт-мод → Success");
+            }
+            else
+            {
+                log?.Report("[DesecratePick] Паттерны не заданы и десекрейт-мод не опознан → Success (без клика)");
+            }
+            return StepOutcome.Success();
+        }
+
+        // Ищем первый подходящий мод
+        OcrTextLine? target = null;
+        foreach (var ocrLine in foundDesecrate)
+        {
+            if (cfg.DesiredPatterns.Any(p => ocrLine.Text.Contains(p, StringComparison.OrdinalIgnoreCase)))
+            {
+                target = ocrLine;
+                break;
+            }
+        }
+
+        if (target is { } hit)
+        {
+            await ClickOcrLineAsync(hit, cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
+            log?.Report($"[DesecratePick] Найден желаемый мод «{hit.Text}» → клик → Success");
+            return StepOutcome.Success();
+        }
+
+        log?.Report("[DesecratePick] Желаемый паттерн не совпал → Failure");
+        return StepOutcome.Failure();
+    }
+
+    private static async Task ClickOcrLineAsync(OcrTextLine line, int delayMs, IProgress<string>? log, CancellationToken ct)
+    {
+        var (cx, cy) = line.Center;
+        log?.Report($"[DesecratePick] Клик по «{line.Text}» @ ({cx},{cy})");
+        Win32Input.MoveTo(cx, cy);
+        await Task.Delay(100, ct).ConfigureAwait(false);
+        Win32Input.ClickLeft();
+        if (delayMs > 0)
+            await Task.Delay(delayMs, ct).ConfigureAwait(false);
+    }
+
+    private async Task<StepOutcome> ExecuteCtrlClickItemAsync(
+        PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+    {
+        var area = screen.ItemArea;
+        if (area.Width <= 0 || area.Height <= 0)
+        {
+            log?.Report("[CtrlClickItem] ItemArea не задана — невозможно переместить предмет.");
+            return StepOutcome.Failure();
+        }
+
+        var (cx, cy) = area.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+        log?.Report($"[CtrlClickItem] Ctrl+ЛКМ предмет ({cx},{cy})…");
+        Win32Input.KeyDown(0x11); // VK_CONTROL
+        try
+        {
+            await Task.Delay(80, ct).ConfigureAwait(false);
+            Win32Input.MoveTo(cx, cy);
+            await Task.Delay(80, ct).ConfigureAwait(false);
+            Win32Input.ClickLeft();
+            await Task.Delay(400, ct).ConfigureAwait(false);
+        }
+        finally
+        {
+            Win32Input.KeyUp(0x11);
+        }
+
+        return StepOutcome.Success();
+    }
+
+    private static async Task<StepOutcome> ExecuteClickRegionAsync(
+        CraftPipelineStep step, IProgress<string>? log, CancellationToken ct)
+    {
+        var cfg = step.ClickRegionConfig;
+        if (cfg is null)
+        {
+            log?.Report("[ClickRegion] Конфигурация не задана.");
+            return StepOutcome.Failure();
+        }
+
+        var region = cfg.Region;
+        if (region.Width <= 0 || region.Height <= 0)
+        {
+            log?.Report("[ClickRegion] Область не задана.");
+            return StepOutcome.Failure();
+        }
+
+        var (cx, cy) = region.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+        if (cfg.UseCtrl)
+        {
+            log?.Report($"[ClickRegion] Ctrl+ЛКМ ({cx},{cy})…");
+            Win32Input.KeyDown(0x11);
+            try
+            {
+                await Task.Delay(80, ct).ConfigureAwait(false);
+                Win32Input.MoveTo(cx, cy);
+                await Task.Delay(80, ct).ConfigureAwait(false);
+                Win32Input.ClickLeft();
+                await Task.Delay(200, ct).ConfigureAwait(false);
+            }
+            finally
+            {
+                Win32Input.KeyUp(0x11);
+            }
+        }
+        else
+        {
+            log?.Report($"[ClickRegion] ЛКМ ({cx},{cy})…");
+            Win32Input.MoveTo(cx, cy);
+            await Task.Delay(80, ct).ConfigureAwait(false);
+            Win32Input.ClickLeft();
+        }
+
+        if (cfg.ClickDelayMs > 0)
+            await Task.Delay(cfg.ClickDelayMs, ct).ConfigureAwait(false);
+
+        return StepOutcome.Success();
+    }
+
+    private static async Task WriteDesecrateLogEntryAsync(
+        DesecratePickConfig cfg,
+        List<string> allLines,
+        List<string> desecrateMods)
+    {
+        try
+        {
+            var tradeDir = Path.Combine(ProjectPaths.GetProjectRoot(), "trade_data");
+            Directory.CreateDirectory(tradeDir);
+            var date = DateTime.Now.ToString("yyyy-MM-dd");
+            var safeName = string.IsNullOrWhiteSpace(cfg.ItemName)
+                ? "item"
+                : string.Concat(cfg.ItemName.Split(Path.GetInvalidFileNameChars()));
+            var file = Path.Combine(tradeDir, $"{date}_{safeName}_desecrate_log.jsonl");
+
+            var entry = new
+            {
+                timestamp  = DateTime.Now.ToString("o"),
+                item       = cfg.ItemName,
+                item_class = cfg.ItemClass,
+                all_mods_desecrate = cfg.AllModsFromDesecratePool,
+                mods       = allLines.ToArray(),
+                desecrate_mods = desecrateMods.ToArray(),
+            };
+            var json = System.Text.Json.JsonSerializer.Serialize(entry);
+            await File.AppendAllTextAsync(file, json + "\n").ConfigureAwait(false);
+        }
+        catch (Exception ex)
+        {
+            SessionLogger.Info($"[DesecratePick] Ошибка записи лога: {ex.Message}");
+        }
     }
 
     private async Task<StepOutcome> ExecuteWalkToPositionAsync(

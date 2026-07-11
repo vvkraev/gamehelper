@@ -43,6 +43,22 @@ public enum PipelineAction
     /// кликает по центру совпадения. Используется для кнопок без текста (иконки, кастомный UI).
     /// </summary>
     ClickTemplate,
+    /// <summary>
+    /// OCR читает 3 открытых мода из интерфейса reveal, сопоставляет с пулом десекрейт,
+    /// логирует результат. Success — если среди мода десекрейт совпал с желаемым паттерном;
+    /// Failure — если нет (для повтора reveal). При Success кликает по найденному моду.
+    /// </summary>
+    DesecratePick,
+    /// <summary>
+    /// Ctrl+ЛКМ по центру области предмета (<c>screen.ItemArea</c>).
+    /// Перемещает предмет в/из reveal-слота или другую область инвентаря.
+    /// </summary>
+    CtrlClickItem,
+    /// <summary>
+    /// ЛКМ (или Ctrl+ЛКМ) по центру настраиваемой области экрана.
+    /// Используется для нажатия кнопок Reveal, Reroll и аналогичных статичных элементов UI.
+    /// </summary>
+    ClickRegion,
 }
 
 public enum TransitionTarget
@@ -128,6 +144,47 @@ public sealed class WalkKeyPress
     public int DurationMs { get; set; } = 2000;
 }
 
+/// <summary>Конфигурация шага reveal-десекрейт для <see cref="PipelineAction.DesecratePick"/>.</summary>
+public sealed class DesecratePickConfig
+{
+    /// <summary>Область экрана где отображаются 3 открытых мода.</summary>
+    public ScreenRect RevealArea { get; set; }
+
+    /// <summary>Название предмета для логирования (например «Time-Lost Sapphire»).</summary>
+    public string ItemName { get; set; } = "";
+
+    /// <summary>Класс предмета для подбора пула десекрейт (например «Time-Lost Sapphire Jewels»).</summary>
+    public string ItemClass { get; set; } = "";
+
+    /// <summary>
+    /// Если true — все 3 мода из десекрейт-пула (применён особый омен для оружия/бижутерии).
+    /// Если false (по умолчанию) — 1 из десекрейт-пула, 2 обычных.
+    /// </summary>
+    public bool AllModsFromDesecratePool { get; set; } = false;
+
+    /// <summary>
+    /// Желаемые паттерны (подстроки) в тексте десекрейт-мода.
+    /// Пустой список = принять любой десекрейт-мод (Success всегда, кликает по первому найденному).
+    /// </summary>
+    public List<string> DesiredPatterns { get; set; } = new();
+
+    /// <summary>Задержка после клика по выбранному моду (мс).</summary>
+    public int ClickDelayMs { get; set; } = 600;
+}
+
+/// <summary>Конфигурация простого клика для <see cref="PipelineAction.ClickRegion"/>.</summary>
+public sealed class ClickRegionConfig
+{
+    /// <summary>Область экрана; клик по центру.</summary>
+    public ScreenRect Region { get; set; }
+
+    /// <summary>Если true — зажимается Ctrl перед кликом (Ctrl+ЛКМ).</summary>
+    public bool UseCtrl { get; set; } = false;
+
+    /// <summary>Задержка после клика (мс).</summary>
+    public int ClickDelayMs { get; set; } = 500;
+}
+
 /// <summary>Конфигурация поиска кнопки по PNG-шаблону для <see cref="PipelineAction.ClickTemplate"/>.</summary>
 public sealed class ClickTemplateConfig
 {
@@ -176,6 +233,12 @@ public sealed class CraftPipelineStep
 
     /// <summary>Параметры поиска по шаблону — используется только при <see cref="PipelineAction.ClickTemplate"/>.</summary>
     public ClickTemplateConfig? TemplateConfig { get; set; }
+
+    /// <summary>Параметры reveal-десекрейт — используется только при <see cref="PipelineAction.DesecratePick"/>.</summary>
+    public DesecratePickConfig? DesecratePickConfig { get; set; }
+
+    /// <summary>Параметры клика по области — используется только при <see cref="PipelineAction.ClickRegion"/>.</summary>
+    public ClickRegionConfig? ClickRegionConfig { get; set; }
 
     /// <summary>Id кости (из AbyssKnownItems) — используется только при <see cref="PipelineAction.SimpleAbyssalBone"/>.</summary>
     public string? AbyssalBoneId { get; set; }

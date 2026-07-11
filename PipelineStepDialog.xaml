@@ -45,6 +45,9 @@
                     <ComboBoxItem Content="WalkToPosition — ходьба внутри локации (WASD)"/>
                     <ComboBoxItem Content="OpenStash — открыть стэш через OCR"/>
                     <ComboBoxItem Content="ClickTemplate — найти и кликнуть кнопку по PNG-шаблону"/>
+                    <ComboBoxItem Content="DesecratePick — OCR reveal-мода, лог десекрейт-пула"/>
+                    <ComboBoxItem Content="CtrlClickItem — Ctrl+ЛКМ по предмету (перемещение)"/>
+                    <ComboBoxItem Content="ClickRegion — клик по области (кнопки Reveal, Reroll и др.)"/>
                 </ComboBox>
 
                 <!-- Максимум итераций -->
@@ -372,6 +375,116 @@
                             <TextBox x:Name="TemplateToleranceBox" Grid.Column="3" Text="30" Padding="4,2" Margin="0,0,8,0"/>
                             <TextBlock Grid.Column="4" Text="Задержка, мс:" VerticalAlignment="Center"/>
                             <TextBox x:Name="TemplateClickDelayBox" Grid.Column="5" Text="500" Padding="4,2"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- DesecratePick — reveal мода + лог -->
+                <Border x:Name="DesecratePickConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Reveal: десекрейт-мод" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,8"
+                                   Text="OCR читает 3 мода из интерфейса reveal, сопоставляет с пулом десекрейт и пишет лог. Success если желаемый паттерн найден (или список паттернов пуст)."/>
+
+                        <!-- Область reveal -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Область 3 модов:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="DesecrateRevealAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickDesecrateRevealAreaBtn_Click"/>
+                        </Grid>
+
+                        <!-- Название и класс предмета -->
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Название предмета:" VerticalAlignment="Center"/>
+                            <TextBox x:Name="DesecrateItemNameBox" Grid.Column="1" Padding="4,2" Margin="0,0,8,0"
+                                     ToolTip="Например: Time-Lost Sapphire — используется в имени файла лога"/>
+                            <TextBlock Grid.Column="2" Text="Класс (библиотечный):" VerticalAlignment="Center"/>
+                            <TextBox x:Name="DesecrateItemClassBox" Grid.Column="3" Padding="4,2"
+                                     ToolTip="Например: Time-Lost Sapphire Jewels — для поиска в пуле десекрейт"/>
+                        </Grid>
+
+                        <!-- Особый омен -->
+                        <CheckBox x:Name="DesecrateAllModsCheckBox" Margin="0,4,0,6"
+                                  Content="Все 3 мода из десекрейт-пула (особый омен для оружия/бижутерии)"
+                                  ToolTip="Если не отмечено — ровно 1 мод из пула десекрейт, 2 обычных"/>
+
+                        <!-- Желаемые паттерны -->
+                        <TextBlock Text="Желаемые паттерны (по одному в строке, пусто = всегда Success):"
+                                   FontSize="11" Foreground="#555" Margin="0,0,0,4"/>
+                        <TextBox x:Name="DesecrateDesiredPatternsBox"
+                                 MinLines="3" AcceptsReturn="True"
+                                 VerticalScrollBarVisibility="Auto"
+                                 FontFamily="Consolas" FontSize="11"
+                                 Padding="4,4"
+                                 ToolTip="Подстроки для поиска в тексте десекрейт-мода. Например: Critical Strike"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- ClickRegion — простой клик по области -->
+                <Border x:Name="ClickRegionConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Клик по области" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,8"
+                                   Text="Кликает по центру указанной области. Используйте для кнопок Reveal, Reroll, Accept и любых статичных элементов UI."/>
+
+                        <!-- Область -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Область клика:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="ClickRegionAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickClickRegionAreaBtn_Click"/>
+                        </Grid>
+
+                        <!-- UseCtrl / задержка -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="ClickRegionCtrlChk"
+                                      Content="Ctrl+ЛКМ (перемещение предмета)"
+                                      VerticalAlignment="Center"
+                                      ToolTip="Если отмечено — зажимается Ctrl; используется для перемещения предметов"/>
+                            <TextBlock Grid.Column="1" Text="Задержка после клика, мс:"
+                                       VerticalAlignment="Center"/>
+                            <TextBox x:Name="ClickRegionDelayBox" Grid.Column="2" Text="500"
+                                     Padding="4,2"/>
                         </Grid>
                     </StackPanel>
                 </Border>
