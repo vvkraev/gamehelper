@@ -231,54 +231,23 @@
                         Margin="0,0,0,10"
                         Background="#F8F8F8">
                     <StackPanel>
-                        <TextBlock Text="Ходьба внутри локации (WalkToPosition)" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                        <TextBlock Text="Ходьба внутри локации (WASD)" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,8"
-                                   Text="Веха: выполняется один раз для всего батча. Зажмите Alt и наведите мышь на нужную точку — координаты скопируются."/>
+                                   Text="Веха — один раз на батч. Клавиши выполняются последовательно: зажать → ждать → отпустить."/>
 
-                        <!-- Координаты цели -->
-                        <Grid Margin="0,0,0,6">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="60"/>
-                                <ColumnDefinition Width="80"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <TextBlock Grid.Column="0" Text="X:" VerticalAlignment="Center"/>
-                            <TextBox   Grid.Column="1" x:Name="WalkTargetX" Text="0" Margin="0,2" Padding="4,2"/>
-                            <TextBlock Grid.Column="2" Text="Y:" VerticalAlignment="Center" Margin="4,0,0,0"/>
-                            <TextBox   Grid.Column="3" x:Name="WalkTargetY" Text="0" Margin="0,2" Padding="4,2"/>
-                            <Button    Grid.Column="4" x:Name="WalkPickPositionBtn"
-                                       Content="🖱 Захватить позицию мыши"
-                                       HorizontalAlignment="Left" Padding="8,4" Margin="8,0,0,0"
-                                       Click="WalkPickPositionBtn_Click"
-                                       ToolTip="Нажмите кнопку, переключитесь в игру — через 3 секунды текущая позиция мыши будет сохранена."/>
-                        </Grid>
+                        <!-- Escape -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <CheckBox x:Name="WalkEscapeCheckBox" IsChecked="True" VerticalAlignment="Center"
+                                      ToolTip="Нажимает Escape перед движением чтобы закрыть стэш/инвентарь."/>
+                            <TextBlock Text="Нажать Escape перед движением" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                        </StackPanel>
 
-                        <!-- Параметры -->
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="220"/>
-                                <ColumnDefinition Width="*"/>
-                            </Grid.ColumnDefinitions>
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
-                                <RowDefinition Height="30"/>
-                            </Grid.RowDefinitions>
-                            <TextBlock Grid.Row="0" Text="Задержка прибытия (мс):" VerticalAlignment="Center"/>
-                            <TextBox   Grid.Row="0" Grid.Column="1" x:Name="WalkArrivalDelayBox" Text="2500"
-                                       Width="80" HorizontalAlignment="Left" Margin="0,3" Padding="4,2"
-                                       ToolTip="Сколько ждать после клика. Подбирается под расстояние до цели."/>
-                            <TextBlock Grid.Row="1" Text="Нажать Escape перед кликом:" VerticalAlignment="Center"/>
-                            <CheckBox  Grid.Row="1" Grid.Column="1" x:Name="WalkEscapeCheckBox"
-                                       IsChecked="True" VerticalAlignment="Center" Margin="0,3"
-                                       ToolTip="Закрывает открытый стэш или инвентарь перед движением."/>
-                            <TextBlock Grid.Row="2" Text="Использовать ПКМ (force-move):" VerticalAlignment="Center"/>
-                            <CheckBox  Grid.Row="2" Grid.Column="1" x:Name="WalkRightClickCheckBox"
-                                       IsChecked="True" VerticalAlignment="Center" Margin="0,3"
-                                       ToolTip="ПКМ = принудительное движение (не интеракция). Рекомендуется."/>
-                        </Grid>
+                        <!-- Список нажатий -->
+                        <TextBlock Text="Последовательность нажатий:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <StackPanel x:Name="WalkKeyPressList" Margin="0,0,0,6"/>
+                        <Button x:Name="WalkAddKeyBtn" Content="+ Добавить нажатие"
+                                HorizontalAlignment="Left" Padding="8,4"
+                                Click="WalkAddKeyBtn_Click"/>
                     </StackPanel>
                 </Border>
 

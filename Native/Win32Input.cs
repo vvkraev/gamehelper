@@ -235,6 +235,9 @@ public static class Win32Input
         keybd_event(vk, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
     }
 
+    public static void KeyDown(byte vk) => keybd_event(vk, 0, 0, UIntPtr.Zero);
+    public static void KeyUp(byte vk)   => keybd_event(vk, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
+
     /// <summary>Вводит строку через SendInput (Unicode events) — для полей ввода цены.</summary>
     public static void TypeText(string text)
     {

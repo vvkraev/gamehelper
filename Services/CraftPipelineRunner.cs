@@ -650,9 +650,9 @@ public sealed class CraftPipelineRunner
         CraftPipelineStep step, IProgress<string>? log, CancellationToken ct)
     {
         var cfg = step.WalkConfig;
-        if (cfg is null)
+        if (cfg is null || cfg.KeyPresses.Count == 0)
         {
-            log?.Report("[Walk] Конфигурация позиции не задана. Настройте шаг.");
+            log?.Report("[Walk] Конфигурация движения не задана. Добавьте хотя бы одно нажатие клавиши.");
             return StepOutcome.Failure();
         }
 
@@ -662,19 +662,29 @@ public sealed class CraftPipelineRunner
         {
             log?.Report("[Walk] Закрываем интерфейс (Escape)…");
             Win32Input.PressKey(0x1B); // VK_ESCAPE
-            await Task.Delay(400, ct).ConfigureAwait(false);
+            await Task.Delay(500, ct).ConfigureAwait(false);
         }
 
-        log?.Report($"[Walk] {(cfg.UseRightClick ? "ПКМ" : "ЛКМ")} → ({cfg.TargetX}, {cfg.TargetY})…");
-        Win32Input.MoveTo(cfg.TargetX, cfg.TargetY);
-        await Task.Delay(100, ct).ConfigureAwait(false);
-        if (cfg.UseRightClick)
-            Win32Input.ClickRight();
-        else
-            Win32Input.ClickLeft();
+        foreach (var kp in cfg.KeyPresses)
+        {
+            ct.ThrowIfCancellationRequested();
+            if (string.IsNullOrWhiteSpace(kp.Key) || kp.DurationMs <= 0)
+                continue;
 
-        log?.Report($"[Walk] Ожидание прибытия {cfg.ArrivalDelayMs} мс…");
-        await Task.Delay(cfg.ArrivalDelayMs, ct).ConfigureAwait(false);
+            var vk = (byte)kp.Key.ToUpperInvariant()[0];
+            log?.Report($"[Walk] Держим «{kp.Key.ToUpperInvariant()}» {kp.DurationMs} мс…");
+            Win32Input.KeyDown(vk);
+            try
+            {
+                await Task.Delay(kp.DurationMs, ct).ConfigureAwait(false);
+            }
+            finally
+            {
+                Win32Input.KeyUp(vk); // гарантированно отпускаем даже при отмене
+            }
+
+            await Task.Delay(150, ct).ConfigureAwait(false);
+        }
 
         return StepOutcome.Success();
     }

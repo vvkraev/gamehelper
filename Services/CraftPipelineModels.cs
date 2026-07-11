@@ -104,21 +104,27 @@ public sealed class TravelActionConfig
     public string ExpectedLocation { get; set; } = "";
 }
 
+/// <summary>
+/// Один шаг WASD-движения: зажать клавишу на заданное время, затем отпустить.
+/// Несколько шагов в <see cref="WalkToPositionConfig.KeyPresses"/> выполняются последовательно.
+/// </summary>
+public sealed class WalkKeyPress
+{
+    /// <summary>Клавиша в верхнем регистре: "W", "A", "S", "D" (или любая другая).</summary>
+    public string Key { get; set; } = "S";
+
+    /// <summary>Сколько миллисекунд держать клавишу нажатой.</summary>
+    public int DurationMs { get; set; } = 2000;
+}
+
 /// <summary>Конфигурация ходьбы внутри локации для <see cref="PipelineAction.WalkToPosition"/>.</summary>
 public sealed class WalkToPositionConfig
 {
-    /// <summary>Абсолютные экранные координаты цели клика (точка на земле).</summary>
-    public int TargetX { get; set; }
-    public int TargetY { get; set; }
+    /// <summary>Список нажатий клавиш. Выполняются последовательно.</summary>
+    public List<WalkKeyPress> KeyPresses { get; set; } = new();
 
-    /// <summary>Задержка после клика (мс): ждём пока персонаж дойдёт.</summary>
-    public int ArrivalDelayMs { get; set; } = 2500;
-
-    /// <summary>Нажать Escape перед кликом — закрыть открытый стэш/инвентарь.</summary>
+    /// <summary>Нажать Escape перед движением — закрыть открытый стэш/инвентарь.</summary>
     public bool PressEscapeFirst { get; set; } = true;
-
-    /// <summary>Использовать ПКМ (force-move) вместо ЛКМ.</summary>
-    public bool UseRightClick { get; set; } = true;
 }
 
 public sealed class CraftPipelineStep

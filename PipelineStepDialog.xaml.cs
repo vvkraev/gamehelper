@@ -230,14 +230,10 @@ public partial class PipelineStepDialog : Window
         }
 
         // WalkConfig
-        if (Step.WalkConfig is { } wc)
-        {
-            WalkTargetX.Text         = wc.TargetX.ToString();
-            WalkTargetY.Text         = wc.TargetY.ToString();
-            WalkArrivalDelayBox.Text = wc.ArrivalDelayMs.ToString();
-            WalkEscapeCheckBox.IsChecked     = wc.PressEscapeFirst;
-            WalkRightClickCheckBox.IsChecked = wc.UseRightClick;
-        }
+        WalkEscapeCheckBox.IsChecked = Step.WalkConfig?.PressEscapeFirst ?? true;
+        WalkKeyPressList.Children.Clear();
+        foreach (var kp in Step.WalkConfig?.KeyPresses ?? [])
+            WalkKeyPressList.Children.Add(MakeWalkKeyRow(kp.Key, kp.DurationMs));
 
         EntryNegateChk.IsChecked = _entry.Negate;
         LoopNegateChk.IsChecked  = _loop.Negate;
@@ -327,13 +323,19 @@ public partial class PipelineStepDialog : Window
 
         if (Step.Action == PipelineAction.WalkToPosition)
         {
+            var kps = WalkKeyPressList.Children
+                .OfType<Grid>()
+                .Select(row =>
+                {
+                    var key = (row.Children.OfType<System.Windows.Controls.ComboBox>().FirstOrDefault()?.SelectedItem as string) ?? "S";
+                    var dur = int.TryParse(row.Children.OfType<System.Windows.Controls.TextBox>().FirstOrDefault()?.Text, out var d) ? d : 2000;
+                    return new Services.WalkKeyPress { Key = key, DurationMs = dur };
+                })
+                .ToList();
             Step.WalkConfig = new Services.WalkToPositionConfig
             {
-                TargetX         = int.TryParse(WalkTargetX.Text, out var wx) ? wx : 0,
-                TargetY         = int.TryParse(WalkTargetY.Text, out var wy) ? wy : 0,
-                ArrivalDelayMs  = int.TryParse(WalkArrivalDelayBox.Text, out var wd) ? wd : 2500,
+                KeyPresses       = kps,
                 PressEscapeFirst = WalkEscapeCheckBox.IsChecked == true,
-                UseRightClick    = WalkRightClickCheckBox.IsChecked == true,
             };
         }
         else
@@ -520,17 +522,43 @@ public partial class PipelineStepDialog : Window
 
     // ── WalkToPosition ───────────────────────────────────────────────────────
 
-    private async void WalkPickPositionBtn_Click(object sender, RoutedEventArgs e)
+    private static readonly string[] WalkKeys = ["W", "A", "S", "D"];
+
+    private Grid MakeWalkKeyRow(string key = "S", int duration = 2000)
     {
-        WalkPickPositionBtn.IsEnabled = false;
-        WalkPickPositionBtn.Content = "⏳ 3 сек…";
-        await Task.Delay(3000).ConfigureAwait(true);
-        Native.Win32Input.TryGetCursorPos(out var px, out var py);
-        WalkTargetX.Text = px.ToString();
-        WalkTargetY.Text = py.ToString();
-        WalkPickPositionBtn.IsEnabled = true;
-        WalkPickPositionBtn.Content = "🖱 Захватить позицию мыши";
+        var grid = new Grid { Margin = new Thickness(0, 0, 0, 4) };
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(60) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(60) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(80) });
+        grid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+
+        var keyLbl = new TextBlock { Text = "Клавиша:", VerticalAlignment = VerticalAlignment.Center };
+        Grid.SetColumn(keyLbl, 0);
+
+        var keyCombo = new System.Windows.Controls.ComboBox { ItemsSource = WalkKeys, SelectedItem = key.ToUpperInvariant(), Margin = new Thickness(0, 2, 0, 2) };
+        Grid.SetColumn(keyCombo, 1);
+
+        var durLbl = new TextBlock { Text = "Время (мс):", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(6, 0, 0, 0) };
+        Grid.SetColumn(durLbl, 2);
+
+        var durBox = new System.Windows.Controls.TextBox { Text = duration.ToString(), Width = 70, Padding = new Thickness(4, 2, 4, 2), Margin = new Thickness(0, 2, 0, 2), VerticalAlignment = VerticalAlignment.Center };
+        Grid.SetColumn(durBox, 3);
+
+        var removeBtn = new System.Windows.Controls.Button { Content = "✕", Padding = new Thickness(6, 2, 6, 2), Margin = new Thickness(6, 0, 0, 0), VerticalAlignment = VerticalAlignment.Center };
+        removeBtn.Click += (_, _) => WalkKeyPressList.Children.Remove(grid);
+        Grid.SetColumn(removeBtn, 4);
+
+        grid.Children.Add(keyLbl);
+        grid.Children.Add(keyCombo);
+        grid.Children.Add(durLbl);
+        grid.Children.Add(durBox);
+        grid.Children.Add(removeBtn);
+        return grid;
     }
+
+    private void WalkAddKeyBtn_Click(object sender, RoutedEventArgs e) =>
+        WalkKeyPressList.Children.Add(MakeWalkKeyRow());
 
     // ── OK ────────────────────────────────────────────────────────────────────
 
