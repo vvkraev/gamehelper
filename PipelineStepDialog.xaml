@@ -429,6 +429,25 @@
                                   Content="Все 3 мода из десекрейт-пула (особый омен для оружия/бижутерии)"
                                   ToolTip="Если не отмечено — ровно 1 мод из пула десекрейт, 2 обычных"/>
 
+                        <!-- Кнопка Confirm -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Кнопка Confirm:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="DesecrateConfirmAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickDesecrateConfirmAreaBtn_Click"/>
+                        </Grid>
+                        <CheckBox x:Name="DesecrateAutoConfirmChk" Margin="0,0,0,10"
+                                  Content="Нажимать Confirm автоматически"
+                                  IsChecked="False"
+                                  ToolTip="По умолчанию выключено — для тестирования. Включить когда пайплайн отлажен."/>
+
                         <!-- Условие выбора мода -->
                         <TextBlock Text="Условие выбора мода (PickCondition):" FontWeight="SemiBold" Margin="0,0,0,4"/>
                         <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,6"

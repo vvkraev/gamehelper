@@ -808,6 +808,7 @@ public sealed class CraftPipelineRunner
             {
                 await ClickOcrLineAsync(foundDesecrate[0], cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
                 log?.Report("[DesecratePick] Условие не задано → принят первый десекрейт-мод → Success");
+                await ClickConfirmIfNeededAsync(cfg, log, ct).ConfigureAwait(false);
             }
             else
             {
@@ -825,6 +826,7 @@ public sealed class CraftPipelineRunner
             {
                 log?.Report($"[DesecratePick] Условие выполнено для «{ocrLine.Text}»: {detail} → клик → Success");
                 await ClickOcrLineAsync(ocrLine, cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
+                await ClickConfirmIfNeededAsync(cfg, log, ct).ConfigureAwait(false);
                 return StepOutcome.Success();
             }
         }
@@ -854,6 +856,24 @@ public sealed class CraftPipelineRunner
 
     private static bool HasClauses(CraftConditionPlan? plan) =>
         plan?.OrAlternatives?.Any(g => g.Clauses?.Count > 0) == true;
+
+    private static async Task ClickConfirmIfNeededAsync(DesecratePickConfig cfg, IProgress<string>? log, CancellationToken ct)
+    {
+        if (!cfg.AutoConfirm)
+            return;
+        var area = cfg.ConfirmButtonArea;
+        if (area.Width <= 0 || area.Height <= 0)
+        {
+            log?.Report("[DesecratePick] AutoConfirm=true, но область Confirm не задана — пропускаем.");
+            return;
+        }
+        var (cx, cy) = area.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+        log?.Report($"[DesecratePick] Confirm ({cx},{cy})…");
+        Win32Input.MoveTo(cx, cy);
+        await Task.Delay(150, ct).ConfigureAwait(false);
+        Win32Input.ClickLeft();
+        await Task.Delay(400, ct).ConfigureAwait(false);
+    }
 
     private static async Task ClickOcrLineAsync(OcrTextLine line, int delayMs, IProgress<string>? log, CancellationToken ct)
     {

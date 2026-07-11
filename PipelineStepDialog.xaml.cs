@@ -21,6 +21,7 @@ public partial class PipelineStepDialog : Window
     private ScreenRect _desecrateRevealRect;
     private ScreenRect _clickRegionRect;
     private CraftConditionPlan _desecratePickCond = new();
+    private ScreenRect _desecrateConfirmRect;
 
     // Полный список оменов в порядке RitualItemGroups (только предметы-омены)
     internal static readonly string[] AllOmenNames =
@@ -257,6 +258,11 @@ public partial class PipelineStepDialog : Window
             DesecrateItemClassBox.Text = dp.ItemClass;
             DesecrateAllModsCheckBox.IsChecked = dp.AllModsFromDesecratePool;
             _desecratePickCond = SettingsStore.CloneCraftConditionPlan(dp.PickCondition ?? new CraftConditionPlan());
+            _desecrateConfirmRect = dp.ConfirmButtonArea;
+            DesecrateConfirmAreaLabel.Text = dp.ConfirmButtonArea.Width > 0
+                ? $"{dp.ConfirmButtonArea.X},{dp.ConfirmButtonArea.Y} {dp.ConfirmButtonArea.Width}×{dp.ConfirmButtonArea.Height}"
+                : "не задана";
+            DesecrateAutoConfirmChk.IsChecked = dp.AutoConfirm;
             RefreshDesecratePickCondSummary();
         }
 
@@ -427,6 +433,8 @@ public partial class PipelineStepDialog : Window
                 ItemClass              = DesecrateItemClassBox.Text.Trim(),
                 AllModsFromDesecratePool = DesecrateAllModsCheckBox.IsChecked == true,
                 PickCondition          = HasClauses(_desecratePickCond) ? _desecratePickCond : null,
+                ConfirmButtonArea      = _desecrateConfirmRect,
+                AutoConfirm            = DesecrateAutoConfirmChk.IsChecked == true,
             };
         }
         else
@@ -721,6 +729,14 @@ public partial class PipelineStepDialog : Window
         if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
         _desecrateRevealRect = region;
         DesecrateRevealAreaLabel.Text = $"{region.X},{region.Y} {region.Width}×{region.Height}";
+    }
+
+    private void PickDesecrateConfirmAreaBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _desecrateConfirmRect = region;
+        DesecrateConfirmAreaLabel.Text = $"{region.X},{region.Y} {region.Width}×{region.Height}";
     }
 
     private void EditDesecratePickCondBtn_Click(object sender, RoutedEventArgs e)

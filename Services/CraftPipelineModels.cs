@@ -171,6 +171,12 @@ public sealed class DesecratePickConfig
 
     /// <summary>Задержка после клика по выбранному моду (мс).</summary>
     public int ClickDelayMs { get; set; } = 600;
+
+    /// <summary>Область кнопки Confirm в интерфейсе reveal. Нужна только при <see cref="AutoConfirm"/> = true.</summary>
+    public ScreenRect ConfirmButtonArea { get; set; }
+
+    /// <summary>Если true — после выбора мода кликает кнопку Confirm. По умолчанию false (ручное подтверждение).</summary>
+    public bool AutoConfirm { get; set; } = false;
 }
 
 /// <summary>Конфигурация простого клика для <see cref="PipelineAction.ClickRegion"/>.</summary>
