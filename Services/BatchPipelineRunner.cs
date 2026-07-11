@@ -334,7 +334,8 @@ public sealed class BatchPipelineRunner
     private static bool IsMilestoneAction(PipelineAction action) =>
         action == PipelineAction.TravelToLocation
         || action == PipelineAction.WalkToPosition
-        || action == PipelineAction.OpenStash;
+        || action == PipelineAction.OpenStash
+        || action == PipelineAction.ClickTemplate;
 
     private async Task InitializeStagesAsync(
         List<BatchItem> items, CraftPipeline pipeline,

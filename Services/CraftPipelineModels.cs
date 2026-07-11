@@ -38,6 +38,11 @@ public enum PipelineAction
     /// кликает по ней и ждёт открытия. Веха (milestone): выполняется один раз для всего батча.
     /// </summary>
     OpenStash,
+    /// <summary>
+    /// Ищет PNG-шаблон в заданной области экрана методом попиксельного сравнения,
+    /// кликает по центру совпадения. Используется для кнопок без текста (иконки, кастомный UI).
+    /// </summary>
+    ClickTemplate,
 }
 
 public enum TransitionTarget
@@ -123,6 +128,25 @@ public sealed class WalkKeyPress
     public int DurationMs { get; set; } = 2000;
 }
 
+/// <summary>Конфигурация поиска кнопки по PNG-шаблону для <see cref="PipelineAction.ClickTemplate"/>.</summary>
+public sealed class ClickTemplateConfig
+{
+    /// <summary>Путь к PNG-шаблону (относительный к Templates/ или абсолютный).</summary>
+    public string TemplatePath { get; set; } = "";
+
+    /// <summary>Область экрана для поиска шаблона.</summary>
+    public ScreenRect SearchRect { get; set; }
+
+    /// <summary>Минимальная доля совпадающих пикселей [0..1]. По умолчанию 0.80.</summary>
+    public double MatchThreshold { get; set; } = 0.80;
+
+    /// <summary>Допуск яркости пикселя [0..255]. По умолчанию 30.</summary>
+    public int ColorTolerance { get; set; } = 30;
+
+    /// <summary>Задержка после клика, мс.</summary>
+    public int ClickDelayMs { get; set; } = 500;
+}
+
 /// <summary>Конфигурация ходьбы внутри локации для <see cref="PipelineAction.WalkToPosition"/>.</summary>
 public sealed class WalkToPositionConfig
 {
@@ -149,6 +173,9 @@ public sealed class CraftPipelineStep
 
     /// <summary>Параметры ходьбы внутри локации — используется только при <see cref="PipelineAction.WalkToPosition"/>.</summary>
     public WalkToPositionConfig? WalkConfig { get; set; }
+
+    /// <summary>Параметры поиска по шаблону — используется только при <see cref="PipelineAction.ClickTemplate"/>.</summary>
+    public ClickTemplateConfig? TemplateConfig { get; set; }
 
     /// <summary>Id кости (из AbyssKnownItems) — используется только при <see cref="PipelineAction.SimpleAbyssalBone"/>.</summary>
     public string? AbyssalBoneId { get; set; }

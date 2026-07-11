@@ -1,3 +1,4 @@
+using System.IO;
 using GameHelper.Native;
 
 namespace GameHelper.Services;
@@ -294,6 +295,7 @@ public sealed class CraftPipelineRunner
             PipelineAction.SimpleAbyssalBone => await ExecuteSimpleAbyssalBoneAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.WalkToPosition => await ExecuteWalkToPositionAsync(step, log, ct).ConfigureAwait(false),
             PipelineAction.OpenStash => await ExecuteOpenStashAsync(screen, log, ct).ConfigureAwait(false),
+            PipelineAction.ClickTemplate => await ExecuteClickTemplateAsync(step, log, ct).ConfigureAwait(false),
             PipelineAction.ManualPause => StepOutcome.Success(),
             _ => StepOutcome.Failure(),
         };
@@ -699,6 +701,51 @@ public sealed class CraftPipelineRunner
         Win32Input.ClickLeft();
         var delay = screen.StashOpenDelayMs > 0 ? screen.StashOpenDelayMs : 2000;
         await Task.Delay(delay, ct).ConfigureAwait(false);
+        return StepOutcome.Success();
+    }
+
+    private async Task<StepOutcome> ExecuteClickTemplateAsync(
+        CraftPipelineStep step, IProgress<string>? log, CancellationToken ct)
+    {
+        var cfg = step.TemplateConfig;
+        if (cfg is null || string.IsNullOrWhiteSpace(cfg.TemplatePath))
+        {
+            log?.Report("[ClickTemplate] Конфигурация шаблона не задана.");
+            return StepOutcome.Failure();
+        }
+
+        var path = Path.IsPathRooted(cfg.TemplatePath)
+            ? cfg.TemplatePath
+            : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, cfg.TemplatePath);
+
+        if (!File.Exists(path))
+        {
+            log?.Report($"[ClickTemplate] Файл шаблона не найден: {path}");
+            return StepOutcome.Failure();
+        }
+
+        var searchRect = cfg.SearchRect;
+        if (searchRect.Width <= 0 || searchRect.Height <= 0)
+        {
+            log?.Report("[ClickTemplate] Область поиска не задана.");
+            return StepOutcome.Failure();
+        }
+
+        log?.Report($"[ClickTemplate] Ищем «{Path.GetFileName(path)}» в {searchRect.Width}×{searchRect.Height}, порог={cfg.MatchThreshold:P0}, допуск={cfg.ColorTolerance}");
+        var result = await TemplateMatcher.FindAsync(path, searchRect, cfg.MatchThreshold, cfg.ColorTolerance, ct).ConfigureAwait(false);
+
+        if (result is null)
+        {
+            log?.Report($"[ClickTemplate] Шаблон не найден (счёт ниже порога {cfg.MatchThreshold:P0}).");
+            return StepOutcome.Failure();
+        }
+
+        log?.Report($"[ClickTemplate] Найдено: ({result.ScreenX},{result.ScreenY}), счёт={result.Score:P1} → клик");
+        Win32Input.MoveTo(result.ScreenX, result.ScreenY);
+        await Task.Delay(100, ct).ConfigureAwait(false);
+        Win32Input.ClickLeft();
+        if (cfg.ClickDelayMs > 0)
+            await Task.Delay(cfg.ClickDelayMs, ct).ConfigureAwait(false);
         return StepOutcome.Success();
     }
 

@@ -17,6 +17,7 @@ public partial class PipelineStepDialog : Window
     private readonly List<AffixLibraryEntry> _affixEntries;
     private readonly Services.AffixStatsData? _stats;
     private Services.KeyboardMacroRecorder? _walkRecorder;
+    private ScreenRect _templateSearchRect;
 
     // Полный список оменов в порядке RitualItemGroups (только предметы-омены)
     internal static readonly string[] AllOmenNames =
@@ -133,6 +134,7 @@ public partial class PipelineStepDialog : Window
         PipelineAction.SimpleAbyssalBone,
         PipelineAction.WalkToPosition,
         PipelineAction.OpenStash,
+        PipelineAction.ClickTemplate,
     ];
 
     // Mapping: ComboBox index → TransitionTarget
@@ -237,6 +239,22 @@ public partial class PipelineStepDialog : Window
         WalkKeyPressList.Children.Clear();
         foreach (var kp in Step.WalkConfig?.KeyPresses ?? [])
             WalkKeyPressList.Children.Add(MakeWalkKeyRow(string.Join(" ", kp.Keys), kp.DurationMs));
+
+        // ClickTemplateConfig
+        if (Step.TemplateConfig is { } tmpl)
+        {
+            TemplatePathLabel.Text = string.IsNullOrEmpty(tmpl.TemplatePath)
+                ? "не задан"
+                : System.IO.Path.GetFileName(tmpl.TemplatePath);
+            TemplatePathLabel.Tag = tmpl.TemplatePath;
+            _templateSearchRect = tmpl.SearchRect;
+            TemplateSearchRectLabel.Text = tmpl.SearchRect.Width > 0
+                ? $"{tmpl.SearchRect.X},{tmpl.SearchRect.Y} {tmpl.SearchRect.Width}×{tmpl.SearchRect.Height}"
+                : "не задана";
+            TemplateThresholdBox.Text  = tmpl.MatchThreshold.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture);
+            TemplateToleranceBox.Text  = tmpl.ColorTolerance.ToString();
+            TemplateClickDelayBox.Text = tmpl.ClickDelayMs.ToString();
+        }
 
         EntryNegateChk.IsChecked = _entry.Negate;
         LoopNegateChk.IsChecked  = _loop.Negate;
@@ -352,6 +370,23 @@ public partial class PipelineStepDialog : Window
             Step.WalkConfig = null;
         }
 
+        if (Step.Action == PipelineAction.ClickTemplate)
+        {
+            Step.TemplateConfig = new Services.ClickTemplateConfig
+            {
+                TemplatePath   = TemplatePathLabel.Tag as string ?? "",
+                SearchRect     = _templateSearchRect,
+                MatchThreshold = double.TryParse(TemplateThresholdBox.Text, System.Globalization.NumberStyles.Any,
+                                     System.Globalization.CultureInfo.InvariantCulture, out var thr) ? thr : 0.80,
+                ColorTolerance = int.TryParse(TemplateToleranceBox.Text, out var tol) ? tol : 30,
+                ClickDelayMs   = int.TryParse(TemplateClickDelayBox.Text, out var tdel) ? tdel : 500,
+            };
+        }
+        else
+        {
+            Step.TemplateConfig = null;
+        }
+
         _entry.Negate = EntryNegateChk.IsChecked == true;
         _loop.Negate  = LoopNegateChk.IsChecked  == true;
         Step.EntryCondition = HasClauses(_entry) ? _entry : null;
@@ -394,6 +429,9 @@ public partial class PipelineStepDialog : Window
             ? Visibility.Visible
             : Visibility.Collapsed;
         WalkConfigPanel.Visibility = action == PipelineAction.WalkToPosition
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        ClickTemplateConfigPanel.Visibility = action == PipelineAction.ClickTemplate
             ? Visibility.Visible
             : Visibility.Collapsed;
     }
@@ -606,6 +644,38 @@ public partial class PipelineStepDialog : Window
         WalkRecordStatus.Visibility = Visibility.Collapsed;
         WalkRecordBtn.IsEnabled = true;
         WalkAddKeyBtn.IsEnabled = true;
+    }
+
+    // ── ClickTemplate ─────────────────────────────────────────────────────────
+
+    private void CaptureTemplateBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+
+        var dir  = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
+        var name = $"template_{DateTime.Now:yyyyMMdd_HHmmss}.png";
+        var path = System.IO.Path.Combine(dir, name);
+
+        try
+        {
+            Services.TemplateMatcher.CaptureTemplate(region, path);
+            TemplatePathLabel.Text = name;
+            TemplatePathLabel.Tag  = path;
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show($"Ошибка при захвате шаблона:\n{ex.Message}", "Ошибка",
+                System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        }
+    }
+
+    private void PickTemplateSearchRectBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } region) return;
+        _templateSearchRect = region;
+        TemplateSearchRectLabel.Text = $"{region.X},{region.Y} {region.Width}×{region.Height}";
     }
 
     // ── OK ────────────────────────────────────────────────────────────────────

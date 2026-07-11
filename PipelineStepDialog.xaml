@@ -44,6 +44,7 @@
                     <ComboBoxItem Content="SimpleAbyssalBone — применить одну Abyssal Bone"/>
                     <ComboBoxItem Content="WalkToPosition — ходьба внутри локации (WASD)"/>
                     <ComboBoxItem Content="OpenStash — открыть стэш через OCR"/>
+                    <ComboBoxItem Content="ClickTemplate — найти и кликнуть кнопку по PNG-шаблону"/>
                 </ComboBox>
 
                 <!-- Максимум итераций -->
@@ -307,6 +308,70 @@
                             <TextBlock Text="Кость:" VerticalAlignment="Center"/>
                             <ComboBox Grid.Column="1" x:Name="AbyssalBoneCombo"
                                       Margin="0,3" DisplayMemberPath="DisplayName"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- ClickTemplate — поиск кнопки по PNG-шаблону -->
+                <Border x:Name="ClickTemplateConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Поиск кнопки по PNG-шаблону" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,8"
+                                   Text="Сделайте снимок кнопки — он сохранится как шаблон. Во время выполнения шага программа ищет этот шаблон в заданной области и кликает по нему."/>
+
+                        <!-- Шаблон -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Шаблон:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TemplatePathLabel" Grid.Column="1"
+                                       Text="не задан" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11" TextTrimming="CharacterEllipsis"/>
+                            <Button Grid.Column="2" Content="Сделать снимок…" Padding="8,4"
+                                    Click="CaptureTemplateBtn_Click"/>
+                        </Grid>
+
+                        <!-- Область поиска -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Область поиска:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TemplateSearchRectLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickTemplateSearchRectBtn_Click"/>
+                        </Grid>
+
+                        <!-- Порог / допуск / задержка -->
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Порог совпад.:" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TemplateThresholdBox" Grid.Column="1" Text="0.80" Padding="4,2" Margin="0,0,8,0"/>
+                            <TextBlock Grid.Column="2" Text="Допуск яркости:" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TemplateToleranceBox" Grid.Column="3" Text="30" Padding="4,2" Margin="0,0,8,0"/>
+                            <TextBlock Grid.Column="4" Text="Задержка, мс:" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TemplateClickDelayBox" Grid.Column="5" Text="500" Padding="4,2"/>
                         </Grid>
                     </StackPanel>
                 </Border>
