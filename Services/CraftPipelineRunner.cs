@@ -808,7 +808,7 @@ public sealed class CraftPipelineRunner
             {
                 await ClickOcrLineAsync(foundDesecrate[0], cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
                 log?.Report("[DesecratePick] Условие не задано → принят первый десекрейт-мод → Success");
-                await ClickConfirmIfNeededAsync(cfg, log, ct).ConfigureAwait(false);
+                await HandleConfirmAsync(cfg, log, ct).ConfigureAwait(false);
             }
             else
             {
@@ -826,7 +826,7 @@ public sealed class CraftPipelineRunner
             {
                 log?.Report($"[DesecratePick] Условие выполнено для «{ocrLine.Text}»: {detail} → клик → Success");
                 await ClickOcrLineAsync(ocrLine, cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
-                await ClickConfirmIfNeededAsync(cfg, log, ct).ConfigureAwait(false);
+                await HandleConfirmAsync(cfg, log, ct).ConfigureAwait(false);
                 return StepOutcome.Success();
             }
         }
@@ -857,22 +857,86 @@ public sealed class CraftPipelineRunner
     private static bool HasClauses(CraftConditionPlan? plan) =>
         plan?.OrAlternatives?.Any(g => g.Clauses?.Count > 0) == true;
 
-    private static async Task ClickConfirmIfNeededAsync(DesecratePickConfig cfg, IProgress<string>? log, CancellationToken ct)
+    private static async Task HandleConfirmAsync(DesecratePickConfig cfg, IProgress<string>? log, CancellationToken ct)
     {
-        if (!cfg.AutoConfirm)
-            return;
         var area = cfg.ConfirmButtonArea;
         if (area.Width <= 0 || area.Height <= 0)
+            return; // область не задана — ни клик, ни ожидание невозможны
+
+        if (cfg.AutoConfirm)
         {
-            log?.Report("[DesecratePick] AutoConfirm=true, но область Confirm не задана — пропускаем.");
-            return;
+            var (cx, cy) = area.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+            log?.Report($"[DesecratePick] Confirm ({cx},{cy})…");
+            Win32Input.MoveTo(cx, cy);
+            await Task.Delay(150, ct).ConfigureAwait(false);
+            Win32Input.ClickLeft();
+            await Task.Delay(400, ct).ConfigureAwait(false);
         }
-        var (cx, cy) = area.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
-        log?.Report($"[DesecratePick] Confirm ({cx},{cy})…");
-        Win32Input.MoveTo(cx, cy);
-        await Task.Delay(150, ct).ConfigureAwait(false);
-        Win32Input.ClickLeft();
-        await Task.Delay(400, ct).ConfigureAwait(false);
+        else
+        {
+            log?.Report("[DesecratePick] Ожидание нажатия Confirm пользователем (наблюдаем за областью кнопки)…");
+            await WaitForAreaChangeAsync(area, log, ct).ConfigureAwait(false);
+        }
+    }
+
+    /// <summary>
+    /// Ждёт пока пиксели в области заметно изменятся (кнопка исчезла / UI закрылся).
+    /// Сравнивает текущий снимок с опорным через среднее отклонение яркости сэмпла пикселей.
+    /// </summary>
+    private static async Task WaitForAreaChangeAsync(
+        ScreenRect area, IProgress<string>? log, CancellationToken ct,
+        int timeoutMs = 120_000, int pollMs = 300, double changeThreshold = 20.0)
+    {
+        using var refBmp  = ScreenCaptureHelper.CaptureRegion(area);
+        var refSample = SamplePixels(refBmp);
+
+        var sw = System.Diagnostics.Stopwatch.StartNew();
+        while (sw.ElapsedMilliseconds < timeoutMs)
+        {
+            ct.ThrowIfCancellationRequested();
+            await Task.Delay(pollMs, ct).ConfigureAwait(false);
+
+            using var cur = ScreenCaptureHelper.CaptureRegion(area);
+            var curSample = SamplePixels(cur);
+            var diff = PixelSampleDiff(refSample, curSample);
+
+            if (diff >= changeThreshold)
+            {
+                log?.Report($"[DesecratePick] Confirm обнаружен (diff={diff:F1}) → продолжаем");
+                return;
+            }
+        }
+        log?.Report($"[DesecratePick] Таймаут {timeoutMs / 1000}с — продолжаем без подтверждения");
+    }
+
+    // Сэмплирует равномерную сетку пикселей из Bitmap (до 400 точек).
+    private static float[] SamplePixels(System.Drawing.Bitmap bmp)
+    {
+        var w = bmp.Width;
+        var h = bmp.Height;
+        const int maxSamples = 400;
+        var stepX = Math.Max(1, w / 20);
+        var stepY = Math.Max(1, h / 20);
+        var samples = new List<float>(maxSamples * 3);
+        for (var y = 0; y < h && samples.Count < maxSamples * 3; y += stepY)
+        for (var x = 0; x < w && samples.Count < maxSamples * 3; x += stepX)
+        {
+            var c = bmp.GetPixel(x, y);
+            samples.Add(c.R);
+            samples.Add(c.G);
+            samples.Add(c.B);
+        }
+        return samples.ToArray();
+    }
+
+    private static double PixelSampleDiff(float[] a, float[] b)
+    {
+        if (a.Length == 0 || b.Length == 0) return 0;
+        var len = Math.Min(a.Length, b.Length);
+        double sum = 0;
+        for (var i = 0; i < len; i++)
+            sum += Math.Abs(a[i] - b[i]);
+        return sum / len;
     }
 
     private static async Task ClickOcrLineAsync(OcrTextLine line, int delayMs, IProgress<string>? log, CancellationToken ct)
