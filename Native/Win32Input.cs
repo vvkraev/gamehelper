@@ -228,6 +228,9 @@ public static class Win32Input
     public static bool IsAltDown() =>
         (GetAsyncKeyState(VkMenu) & 0x8000) != 0;
 
+    public static bool IsLeftButtonDown() =>
+        (GetAsyncKeyState(0x01) & 0x8000) != 0;
+
     /// <summary>Однократное нажатие произвольной клавиши (down + up).</summary>
     public static void PressKey(byte vk)
     {

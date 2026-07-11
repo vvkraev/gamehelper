@@ -874,69 +874,45 @@ public sealed class CraftPipelineRunner
         }
         else
         {
-            log?.Report("[DesecratePick] Ожидание нажатия Confirm пользователем (наблюдаем за областью кнопки)…");
-            await WaitForAreaChangeAsync(area, log, ct).ConfigureAwait(false);
+            log?.Report("[DesecratePick] Ожидание клика по Confirm…");
+            await WaitForClickInAreaAsync(area, log, ct).ConfigureAwait(false);
         }
     }
 
     /// <summary>
-    /// Ждёт пока пиксели в области заметно изменятся (кнопка исчезла / UI закрылся).
-    /// Сравнивает текущий снимок с опорным через среднее отклонение яркости сэмпла пикселей.
+    /// Ждёт ЛКМ пользователя в пределах <paramref name="area"/> (опрос каждые 30мс).
+    /// Сначала дожидается отпускания кнопки — чтобы не поймать текущее нажатие.
     /// </summary>
-    private static async Task WaitForAreaChangeAsync(
-        ScreenRect area, IProgress<string>? log, CancellationToken ct,
-        int timeoutMs = 120_000, int pollMs = 300, double changeThreshold = 20.0)
+    private static async Task WaitForClickInAreaAsync(
+        ScreenRect area, IProgress<string>? log, CancellationToken ct, int timeoutMs = 120_000)
     {
-        using var refBmp  = ScreenCaptureHelper.CaptureRegion(area);
-        var refSample = SamplePixels(refBmp);
+        // Ждём отпускания текущего нажатия, если оно есть
+        while (Native.Win32Input.IsLeftButtonDown())
+        {
+            ct.ThrowIfCancellationRequested();
+            await Task.Delay(30, ct).ConfigureAwait(false);
+        }
 
         var sw = System.Diagnostics.Stopwatch.StartNew();
         while (sw.ElapsedMilliseconds < timeoutMs)
         {
             ct.ThrowIfCancellationRequested();
-            await Task.Delay(pollMs, ct).ConfigureAwait(false);
+            await Task.Delay(30, ct).ConfigureAwait(false);
 
-            using var cur = ScreenCaptureHelper.CaptureRegion(area);
-            var curSample = SamplePixels(cur);
-            var diff = PixelSampleDiff(refSample, curSample);
+            if (!Native.Win32Input.IsLeftButtonDown())
+                continue;
 
-            if (diff >= changeThreshold)
+            Native.Win32Input.TryGetCursorPos(out var mx, out var my);
+            if (area.ContainsPoint(mx, my))
             {
-                log?.Report($"[DesecratePick] Confirm обнаружен (diff={diff:F1}) → продолжаем");
+                log?.Report($"[DesecratePick] Confirm: клик ({mx},{my}) → продолжаем");
+                // Ждём отпускания кнопки перед продолжением
+                while (Native.Win32Input.IsLeftButtonDown())
+                    await Task.Delay(20, ct).ConfigureAwait(false);
                 return;
             }
         }
         log?.Report($"[DesecratePick] Таймаут {timeoutMs / 1000}с — продолжаем без подтверждения");
-    }
-
-    // Сэмплирует равномерную сетку пикселей из Bitmap (до 400 точек).
-    private static float[] SamplePixels(System.Drawing.Bitmap bmp)
-    {
-        var w = bmp.Width;
-        var h = bmp.Height;
-        const int maxSamples = 400;
-        var stepX = Math.Max(1, w / 20);
-        var stepY = Math.Max(1, h / 20);
-        var samples = new List<float>(maxSamples * 3);
-        for (var y = 0; y < h && samples.Count < maxSamples * 3; y += stepY)
-        for (var x = 0; x < w && samples.Count < maxSamples * 3; x += stepX)
-        {
-            var c = bmp.GetPixel(x, y);
-            samples.Add(c.R);
-            samples.Add(c.G);
-            samples.Add(c.B);
-        }
-        return samples.ToArray();
-    }
-
-    private static double PixelSampleDiff(float[] a, float[] b)
-    {
-        if (a.Length == 0 || b.Length == 0) return 0;
-        var len = Math.Min(a.Length, b.Length);
-        double sum = 0;
-        for (var i = 0; i < len; i++)
-            sum += Math.Abs(a[i] - b[i]);
-        return sum / len;
     }
 
     private static async Task ClickOcrLineAsync(OcrTextLine line, int delayMs, IProgress<string>? log, CancellationToken ct)
