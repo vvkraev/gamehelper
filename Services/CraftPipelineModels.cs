@@ -59,6 +59,11 @@ public enum PipelineAction
     /// Используется для нажатия кнопок Reveal, Reroll и аналогичных статичных элементов UI.
     /// </summary>
     ClickRegion,
+    /// <summary>
+    /// Полный цикл десекрейт-reveal как один атомарный шаг батча:
+    /// Ctrl+ЛКМ на предмет (→ слот reveal) → клик кнопки Reveal → DesecratePick → Ctrl+ЛКМ на слот reveal (→ инвентарь).
+    /// </summary>
+    DesecrateReveal,
 }
 
 public enum TransitionTarget
@@ -177,6 +182,43 @@ public sealed class DesecratePickConfig
 
     /// <summary>Если true — после выбора мода кликает кнопку Confirm. По умолчанию false (ручное подтверждение).</summary>
     public bool AutoConfirm { get; set; } = false;
+
+    /// <summary>
+    /// Количество секций, на которые делится <see cref="RevealArea"/> по вертикали.
+    /// Каждая секция = один мод в UI reveal. По умолчанию 3.
+    /// </summary>
+    public int RevealSections { get; set; } = 3;
+
+    /// <summary>
+    /// Если true — при отсутствии нужного мода наводит курсор на <see cref="RerollButtonArea"/> вместо клика по неподходящему моду.
+    /// По умолчанию true (омен на переброс активен).
+    /// </summary>
+    public bool UseReroll { get; set; } = true;
+
+    /// <summary>Область кнопки переброса (Reroll). Используется когда <see cref="UseReroll"/> = true.</summary>
+    public ScreenRect RerollButtonArea { get; set; }
+
+    /// <summary>Задержка после клика по Reroll — ожидание появления новых модов (мс). По умолчанию 1500.</summary>
+    public int AfterRerollDelayMs { get; set; } = 1500;
+}
+
+/// <summary>Конфигурация полного цикла reveal для <see cref="PipelineAction.DesecrateReveal"/>.</summary>
+public sealed class DesecrateRevealConfig
+{
+    /// <summary>Область кнопки Reveal в интерфейсе (клик ЛКМ).</summary>
+    public ScreenRect RevealButtonArea { get; set; }
+
+    /// <summary>Задержка после клика по кнопке Reveal (мс) — ожидание анимации/появления карточек.</summary>
+    public int AfterRevealDelayMs { get; set; } = 1500;
+
+    /// <summary>Область слота reveal — из неё Ctrl+ЛКМ возвращает предмет в инвентарь.</summary>
+    public ScreenRect RevealSlotArea { get; set; }
+
+    /// <summary>Задержка после Ctrl+ЛКМ (перемещение предмета), мс.</summary>
+    public int CtrlClickDelayMs { get; set; } = 500;
+
+    /// <summary>Конфигурация выбора мода (OCR, условие, confirm).</summary>
+    public DesecratePickConfig PickConfig { get; set; } = new();
 }
 
 /// <summary>Конфигурация простого клика для <see cref="PipelineAction.ClickRegion"/>.</summary>
@@ -243,6 +285,9 @@ public sealed class CraftPipelineStep
 
     /// <summary>Параметры reveal-десекрейт — используется только при <see cref="PipelineAction.DesecratePick"/>.</summary>
     public DesecratePickConfig? DesecratePickConfig { get; set; }
+
+    /// <summary>Параметры полного цикла reveal — используется только при <see cref="PipelineAction.DesecrateReveal"/>.</summary>
+    public DesecrateRevealConfig? DesecrateRevealConfig { get; set; }
 
     /// <summary>Параметры клика по области — используется только при <see cref="PipelineAction.ClickRegion"/>.</summary>
     public ClickRegionConfig? ClickRegionConfig { get; set; }

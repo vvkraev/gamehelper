@@ -645,9 +645,16 @@ public static class CraftConditionEvaluator
             string? firstFailDetail = null;
             foreach (var name in names)
             {
-                var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
-                    lib, expectedItemClass, s.AffixType, name, s.AffixTier)
-                    ?? AffixCraftPatternBuilder.FindEntryByNameTypeAnyTier(lib, expectedItemClass, s.AffixType, name);
+                // When multiple library entries share the same name+tier (e.g. 48 "Lightless" desecrate
+                // variants for Time-Lost Sapphire Jewels, each with a different single stat), we must
+                // find the candidate whose stats match the condition lines rather than returning the first.
+                var candidates = AffixCraftPatternBuilder.FindAllByNameAndTierTypeCompatible(
+                    lib, expectedItemClass, s.AffixType, name, s.AffixTier).ToList();
+                var entry = candidates.Count > 0
+                    ? (candidates.FirstOrDefault(c =>
+                           s.Lines.All(l => CraftAffixCascadeHelper.FindStatIndexInEntry(c, l.StatTemplate) >= 0))
+                       ?? candidates[0])
+                    : AffixCraftPatternBuilder.FindEntryByNameTypeAnyTier(lib, expectedItemClass, s.AffixType, name);
                 if (entry is null)
                     continue;
 

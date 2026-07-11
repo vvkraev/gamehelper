@@ -1771,13 +1771,25 @@
                             Click="PipelineDetectStepBtn_Click"/>
 
                     <!-- Старт / Стоп -->
-                    <Button DockPanel.Dock="Top"
-                            x:Name="PipelineStartBtn"
-                            Content="▶  Старт"
-                            Margin="0,0,0,4"
-                            Padding="8,5"
-                            IsEnabled="{Binding CanStartPipeline}"
-                            Click="PipelineStartBtn_Click"/>
+                    <Grid DockPanel.Dock="Top" Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="PipelineStartBtn"
+                                Content="▶  Старт"
+                                Padding="8,5"
+                                IsEnabled="{Binding CanStartPipeline}"
+                                Click="PipelineStartBtn_Click"/>
+                        <TextBlock Grid.Column="1" Text="с шага №:" VerticalAlignment="Center"
+                                   Margin="6,0,4,0" FontSize="11"
+                                   ToolTip="Начать выполнение с этого шага (0 = с начала). Удобно для тестирования отдельных шагов."/>
+                        <TextBox Grid.Column="2" x:Name="PipelineStartStepBox"
+                                 Text="0" Padding="4,3" FontSize="11"
+                                 VerticalContentAlignment="Center"
+                                 ToolTip="Индекс шага, с которого начать (0-based). Предыдущие шаги пропускаются."/>
+                    </Grid>
                     <Button DockPanel.Dock="Top"
                             x:Name="PipelineStopBtn"
                             Content="■  Стоп"
@@ -1862,23 +1874,33 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="*" MinHeight="60"/>
+                        <RowDefinition Height="5"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="110"/>
+                        <RowDefinition Height="150" MinHeight="60"/>
                     </Grid.RowDefinitions>
 
                     <!-- Шапка рецепта: имя + предохранитель -->
                     <StackPanel Grid.Row="0" Margin="0,0,0,6">
 
-                        <!-- Имя рецепта -->
+                        <!-- Имя рецепта + тип предмета -->
                         <Grid Margin="0,0,0,6">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="220"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Имя рецепта:" VerticalAlignment="Center" Margin="0,0,8,0" FontWeight="SemiBold"/>
                             <TextBox Grid.Column="1" x:Name="PipelineNameBox" Padding="4,3"
                                      TextChanged="PipelineNameBox_TextChanged"/>
+                            <TextBlock Grid.Column="2" Text="Тип предмета:" VerticalAlignment="Center"
+                                       Margin="12,0,8,0" FontWeight="SemiBold"
+                                       ToolTip="Класс предмета — подставляется во все условия крафта и DesecratePick автоматически"/>
+                            <ComboBox Grid.Column="3" x:Name="PipelineItemClassCombo"
+                                      IsEditable="True" Padding="4,2"
+                                      SelectionChanged="PipelineItemClassCombo_SelectionChanged"
+                                      ToolTip="Выберите класс предмета из списка"/>
                         </Grid>
 
                         <!-- Предохранитель (BATCH-1c): GuardCondition -->
@@ -1924,7 +1946,7 @@
                     </StackPanel>
 
                     <!-- Список шагов -->
-                    <ListView x:Name="PipelineStepsList" Grid.Row="2"
+                    <ListView x:Name="PipelineStepsList" Grid.Row="2" Margin="0,0,0,0"
                               MouseDoubleClick="PipelineStepsList_MouseDoubleClick">
                         <ListView.View>
                             <GridView>
@@ -1942,8 +1964,13 @@
                         </ListView.View>
                     </ListView>
 
+                    <!-- Разделитель лога -->
+                    <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch"
+                                  Background="#DDD" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext"
+                                  Cursor="SizeNS"/>
+
                     <!-- Статус выполнения -->
-                    <Grid Grid.Row="3" Margin="0,6,0,3">
+                    <Grid Grid.Row="4" Margin="0,6,0,3">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="Auto"/>
@@ -1955,7 +1982,7 @@
                     </Grid>
 
                     <!-- Лог -->
-                    <TextBox Grid.Row="4"
+                    <TextBox Grid.Row="5"
                              x:Name="PipelineLogBox"
                              IsReadOnly="True"
                              TextWrapping="Wrap"

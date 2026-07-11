@@ -22,6 +22,15 @@ public partial class PipelineStepDialog : Window
     private ScreenRect _clickRegionRect;
     private CraftConditionPlan _desecratePickCond = new();
     private ScreenRect _desecrateConfirmRect;
+    private ScreenRect _desecrateRerollRect;
+
+    // DesecrateReveal state
+    private ScreenRect _drRevealBtnRect;
+    private ScreenRect _drRevealSlotRect;
+    private ScreenRect _drRevealAreaRect;
+    private ScreenRect _drConfirmRect;
+    private ScreenRect _drRerollRect;
+    private CraftConditionPlan _drPickCond = new();
 
     // Полный список оменов в порядке RitualItemGroups (только предметы-омены)
     internal static readonly string[] AllOmenNames =
@@ -140,6 +149,7 @@ public partial class PipelineStepDialog : Window
         PipelineAction.OpenStash,
         PipelineAction.ClickTemplate,
         PipelineAction.DesecratePick,
+        PipelineAction.DesecrateReveal,
         PipelineAction.CtrlClickItem,
         PipelineAction.ClickRegion,
     ];
@@ -154,17 +164,20 @@ public partial class PipelineStepDialog : Window
     ];
 
     private readonly IReadOnlyList<Services.StackableItemType> _availableBones;
+    private readonly string _pipelineItemClass;
 
     public PipelineStepDialog(
         CraftPipelineStep step,
         List<AffixLibraryEntry> affixEntries,
         Services.AffixStatsData? stats = null,
-        IReadOnlyList<Services.StackableItemType>? availableBones = null)
+        IReadOnlyList<Services.StackableItemType>? availableBones = null,
+        string pipelineItemClass = "")
     {
         Step = step;
         _affixEntries = affixEntries;
         _stats = stats;
         _availableBones = availableBones ?? Array.Empty<Services.StackableItemType>();
+        _pipelineItemClass = pipelineItemClass;
         _entry = SettingsStore.CloneCraftConditionPlan(step.EntryCondition ?? new CraftConditionPlan());
         _loop = SettingsStore.CloneCraftConditionPlan(step.LoopUntil ?? new CraftConditionPlan());
         InitializeComponent();
@@ -263,7 +276,41 @@ public partial class PipelineStepDialog : Window
                 ? $"{dp.ConfirmButtonArea.X},{dp.ConfirmButtonArea.Y} {dp.ConfirmButtonArea.Width}×{dp.ConfirmButtonArea.Height}"
                 : "не задана";
             DesecrateAutoConfirmChk.IsChecked = dp.AutoConfirm;
+            DesecrateRevealSectionsBox.Text = dp.RevealSections > 0 ? dp.RevealSections.ToString() : "3";
+            DesecrateUseRerollChk.IsChecked = dp.UseReroll;
+            _desecrateRerollRect = dp.RerollButtonArea;
+            DesecrateRerollAreaLabel.Text = dp.RerollButtonArea.Width > 0
+                ? $"{dp.RerollButtonArea.X},{dp.RerollButtonArea.Y} {dp.RerollButtonArea.Width}×{dp.RerollButtonArea.Height}"
+                : "не задана";
+            DesecrateAfterRerollDelayBox.Text = dp.AfterRerollDelayMs.ToString();
             RefreshDesecratePickCondSummary();
+        }
+
+        // DesecrateRevealConfig
+        if (Step.DesecrateRevealConfig is { } dr)
+        {
+            _drRevealBtnRect  = dr.RevealButtonArea;
+            _drRevealSlotRect = dr.RevealSlotArea;
+            _drRevealAreaRect = dr.PickConfig.RevealArea;
+            _drConfirmRect    = dr.PickConfig.ConfirmButtonArea;
+            DrRevealBtnAreaLabel.Text  = dr.RevealButtonArea.Width  > 0 ? $"{dr.RevealButtonArea.X},{dr.RevealButtonArea.Y} {dr.RevealButtonArea.Width}×{dr.RevealButtonArea.Height}"   : "не задана";
+            DrRevealSlotAreaLabel.Text = dr.RevealSlotArea.Width    > 0 ? $"{dr.RevealSlotArea.X},{dr.RevealSlotArea.Y} {dr.RevealSlotArea.Width}×{dr.RevealSlotArea.Height}"             : "не задана";
+            DrRevealAreaLabel.Text     = dr.PickConfig.RevealArea.Width > 0 ? $"{dr.PickConfig.RevealArea.X},{dr.PickConfig.RevealArea.Y} {dr.PickConfig.RevealArea.Width}×{dr.PickConfig.RevealArea.Height}" : "не задана";
+            DrConfirmAreaLabel.Text    = dr.PickConfig.ConfirmButtonArea.Width > 0 ? $"{dr.PickConfig.ConfirmButtonArea.X},{dr.PickConfig.ConfirmButtonArea.Y} {dr.PickConfig.ConfirmButtonArea.Width}×{dr.PickConfig.ConfirmButtonArea.Height}" : "не задана";
+            DrAfterRevealDelayBox.Text = dr.AfterRevealDelayMs.ToString();
+            DrCtrlClickDelayBox.Text   = dr.CtrlClickDelayMs.ToString();
+            DrRevealSectionsBox.Text   = dr.PickConfig.RevealSections > 0 ? dr.PickConfig.RevealSections.ToString() : "3";
+            DrAutoConfirmChk.IsChecked = dr.PickConfig.AutoConfirm;
+            DrAllModsChk.IsChecked     = dr.PickConfig.AllModsFromDesecratePool;
+            DrItemNameBox.Text         = dr.PickConfig.ItemName;
+            DrUseRerollChk.IsChecked   = dr.PickConfig.UseReroll;
+            _drRerollRect = dr.PickConfig.RerollButtonArea;
+            DrRerollAreaLabel.Text = dr.PickConfig.RerollButtonArea.Width > 0
+                ? $"{dr.PickConfig.RerollButtonArea.X},{dr.PickConfig.RerollButtonArea.Y} {dr.PickConfig.RerollButtonArea.Width}×{dr.PickConfig.RerollButtonArea.Height}"
+                : "не задана";
+            DrAfterRerollDelayBox.Text = dr.PickConfig.AfterRerollDelayMs.ToString();
+            _drPickCond = SettingsStore.CloneCraftConditionPlan(dr.PickConfig.PickCondition ?? new CraftConditionPlan());
+            RefreshDrPickCondSummary();
         }
 
         // ClickRegionConfig
@@ -430,16 +477,49 @@ public partial class PipelineStepDialog : Window
             {
                 RevealArea             = _desecrateRevealRect,
                 ItemName               = DesecrateItemNameBox.Text.Trim(),
-                ItemClass              = DesecrateItemClassBox.Text.Trim(),
+                ItemClass              = !string.IsNullOrWhiteSpace(_pipelineItemClass) ? _pipelineItemClass : DesecrateItemClassBox.Text.Trim(),
                 AllModsFromDesecratePool = DesecrateAllModsCheckBox.IsChecked == true,
                 PickCondition          = HasClauses(_desecratePickCond) ? _desecratePickCond : null,
                 ConfirmButtonArea      = _desecrateConfirmRect,
                 AutoConfirm            = DesecrateAutoConfirmChk.IsChecked == true,
+                RevealSections         = int.TryParse(DesecrateRevealSectionsBox.Text, out var sec) && sec > 0 ? sec : 3,
+                UseReroll              = DesecrateUseRerollChk.IsChecked == true,
+                RerollButtonArea       = _desecrateRerollRect,
+                AfterRerollDelayMs     = int.TryParse(DesecrateAfterRerollDelayBox.Text, out var ard2) && ard2 >= 0 ? ard2 : 1500,
             };
         }
         else
         {
             Step.DesecratePickConfig = null;
+        }
+
+        if (Step.Action == PipelineAction.DesecrateReveal)
+        {
+            Step.DesecrateRevealConfig = new Services.DesecrateRevealConfig
+            {
+                RevealButtonArea   = _drRevealBtnRect,
+                AfterRevealDelayMs = int.TryParse(DrAfterRevealDelayBox.Text, out var ard) && ard >= 0 ? ard : 1500,
+                RevealSlotArea     = _drRevealSlotRect,
+                CtrlClickDelayMs   = int.TryParse(DrCtrlClickDelayBox.Text, out var ccd) && ccd >= 0 ? ccd : 500,
+                PickConfig = new Services.DesecratePickConfig
+                {
+                    RevealArea             = _drRevealAreaRect,
+                    RevealSections         = int.TryParse(DrRevealSectionsBox.Text, out var drs) && drs > 0 ? drs : 3,
+                    ItemName               = DrItemNameBox.Text.Trim(),
+                    ItemClass              = !string.IsNullOrWhiteSpace(_pipelineItemClass) ? _pipelineItemClass : "",
+                    AllModsFromDesecratePool = DrAllModsChk.IsChecked == true,
+                    PickCondition          = HasClauses(_drPickCond) ? _drPickCond : null,
+                    ConfirmButtonArea      = _drConfirmRect,
+                    AutoConfirm            = DrAutoConfirmChk.IsChecked == true,
+                    UseReroll              = DrUseRerollChk.IsChecked == true,
+                    RerollButtonArea       = _drRerollRect,
+                    AfterRerollDelayMs     = int.TryParse(DrAfterRerollDelayBox.Text, out var drard) && drard >= 0 ? drard : 1500,
+                },
+            };
+        }
+        else
+        {
+            Step.DesecrateRevealConfig = null;
         }
 
         if (Step.Action == PipelineAction.ClickRegion)
@@ -506,6 +586,9 @@ public partial class PipelineStepDialog : Window
         DesecratePickConfigPanel.Visibility = action == PipelineAction.DesecratePick
             ? Visibility.Visible
             : Visibility.Collapsed;
+        DesecrateRevealConfigPanel.Visibility = action == PipelineAction.DesecrateReveal
+            ? Visibility.Visible
+            : Visibility.Collapsed;
         ClickRegionConfigPanel.Visibility = action == PipelineAction.ClickRegion
             ? Visibility.Visible
             : Visibility.Collapsed;
@@ -532,6 +615,7 @@ public partial class PipelineStepDialog : Window
 
     private void EditEntryBtn_Click(object sender, RoutedEventArgs e)
     {
+        if (string.IsNullOrWhiteSpace(_entry.ExpectedItemClass)) _entry.ExpectedItemClass = _pipelineItemClass;
         var dlg = new CraftConditionWindow(_entry, _affixEntries, _stats) { Owner = this };
         dlg.ShowDialog();
         RefreshConditionSummaries();
@@ -546,6 +630,7 @@ public partial class PipelineStepDialog : Window
 
     private void EditLoopBtn_Click(object sender, RoutedEventArgs e)
     {
+        if (string.IsNullOrWhiteSpace(_loop.ExpectedItemClass)) _loop.ExpectedItemClass = _pipelineItemClass;
         var dlg = new CraftConditionWindow(_loop, _affixEntries, _stats) { Owner = this };
         dlg.ShowDialog();
         RefreshConditionSummaries();
@@ -723,6 +808,14 @@ public partial class PipelineStepDialog : Window
 
     // ── DesecratePick ─────────────────────────────────────────────────────────
 
+    private void PickDesecrateRerollAreaBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _desecrateRerollRect = r;
+        DesecrateRerollAreaLabel.Text = $"{r.X},{r.Y} {r.Width}×{r.Height}";
+    }
+
     private void PickDesecrateRevealAreaBtn_Click(object sender, RoutedEventArgs e)
     {
         var dlg = new RegionPickerWindow { Owner = this };
@@ -741,6 +834,7 @@ public partial class PipelineStepDialog : Window
 
     private void EditDesecratePickCondBtn_Click(object sender, RoutedEventArgs e)
     {
+        if (string.IsNullOrWhiteSpace(_desecratePickCond.ExpectedItemClass)) _desecratePickCond.ExpectedItemClass = _pipelineItemClass;
         var dlg = new CraftConditionWindow(_desecratePickCond, _affixEntries, _stats) { Owner = this };
         dlg.ShowDialog();
         RefreshDesecratePickCondSummary();
@@ -756,6 +850,69 @@ public partial class PipelineStepDialog : Window
     {
         DesecratePickCondSummary.Text = HasClauses(_desecratePickCond)
             ? $"PickCondition: {CraftConditionEvaluator.FormatSummary(_desecratePickCond)}"
+            : "PickCondition: (нет — принять любой)";
+    }
+
+    // ── DesecrateReveal ──────────────────────────────────────────────────────────
+
+    private void PickDrRevealBtnAreaBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _drRevealBtnRect = r;
+        DrRevealBtnAreaLabel.Text = $"{r.X},{r.Y} {r.Width}×{r.Height}";
+    }
+
+    private void PickDrRevealSlotAreaBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _drRevealSlotRect = r;
+        DrRevealSlotAreaLabel.Text = $"{r.X},{r.Y} {r.Width}×{r.Height}";
+    }
+
+    private void PickDrRevealAreaBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _drRevealAreaRect = r;
+        DrRevealAreaLabel.Text = $"{r.X},{r.Y} {r.Width}×{r.Height}";
+    }
+
+    private void PickDrConfirmAreaBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _drConfirmRect = r;
+        DrConfirmAreaLabel.Text = $"{r.X},{r.Y} {r.Width}×{r.Height}";
+    }
+
+    private void PickDrRerollAreaBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _drRerollRect = r;
+        DrRerollAreaLabel.Text = $"{r.X},{r.Y} {r.Width}×{r.Height}";
+    }
+
+    private void EditDrPickCondBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(_drPickCond.ExpectedItemClass)) _drPickCond.ExpectedItemClass = _pipelineItemClass;
+        var dlg = new CraftConditionWindow(_drPickCond, _affixEntries, _stats) { Owner = this };
+        dlg.ShowDialog();
+        RefreshDrPickCondSummary();
+    }
+
+    private void ClearDrPickCondBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _drPickCond = new CraftConditionPlan();
+        RefreshDrPickCondSummary();
+    }
+
+    private void RefreshDrPickCondSummary()
+    {
+        DrPickCondSummary.Text = HasClauses(_drPickCond)
+            ? $"PickCondition: {CraftConditionEvaluator.FormatSummary(_drPickCond)}"
             : "PickCondition: (нет — принять любой)";
     }
 

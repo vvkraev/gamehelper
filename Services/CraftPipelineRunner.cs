@@ -113,6 +113,8 @@ public sealed class CraftPipelineRunner
 
     // Текущая активная вкладка стэша в рамках одного RunAsync; default = неизвестно.
     private ScreenRect _currentStashTab;
+    // Тип предмета из CraftPipeline.ItemClass — для авто-заполнения в шагах без явного класса.
+    private string _pipelineItemClass = "";
 
     /// <summary>
     /// Тест-хук: если установлен, вызывается вместо <c>ExecuteStepAsync</c>.
@@ -143,17 +145,22 @@ public sealed class CraftPipelineRunner
         CraftPipeline pipeline,
         PipelineScreenConfig screen,
         IProgress<string>? log,
-        CancellationToken ct)
+        CancellationToken ct,
+        int startStepIndex = 0)
     {
         if (pipeline.Steps.Count == 0)
             return new PipelineRunResult { Status = PipelineRunStatus.Done, Message = "Пайплайн пуст." };
 
         _currentStashTab = default;
+        _pipelineItemClass = pipeline.ItemClass ?? "";
 
         log?.Report($"[Конфиг] Инвентарь: {screen.FullInventoryCells.Count} ячеек (12 колонок → строки 0–{screen.FullInventoryCells.Count / screen.InventoryGridColumns - 1}, столбцы 0–{screen.InventoryGridColumns - 1})");
         log?.Report($"[Конфиг] Omen Sinistral стэш: {screen.OmenSinistralStashCells.Count} яч. | Dextral: {screen.OmenDextralStashCells.Count} яч. | Greater: {screen.OmenGreaterStashCells.Count} яч.");
 
-        var stepIdx = 0;
+        if (startStepIndex > 0)
+            log?.Report($"[Конфиг] Старт с шага {startStepIndex} (шаги 0–{startStepIndex - 1} пропущены).");
+
+        var stepIdx = Math.Clamp(startStepIndex, 0, pipeline.Steps.Count - 1);
         var totalAttempts = 0;
         string? finalItem = null;
         var executionCount = 0;
@@ -296,9 +303,10 @@ public sealed class CraftPipelineRunner
             PipelineAction.WalkToPosition => await ExecuteWalkToPositionAsync(step, log, ct).ConfigureAwait(false),
             PipelineAction.OpenStash => await ExecuteOpenStashAsync(screen, log, ct).ConfigureAwait(false),
             PipelineAction.ClickTemplate => await ExecuteClickTemplateAsync(step, log, ct).ConfigureAwait(false),
-            PipelineAction.DesecratePick => await ExecuteDesecratePickAsync(step, log, ct).ConfigureAwait(false),
-            PipelineAction.CtrlClickItem => await ExecuteCtrlClickItemAsync(screen, log, ct).ConfigureAwait(false),
-            PipelineAction.ClickRegion   => await ExecuteClickRegionAsync(step, log, ct).ConfigureAwait(false),
+            PipelineAction.DesecratePick   => await ExecuteDesecratePickAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.DesecrateReveal => await ExecuteDesecrateRevealAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.CtrlClickItem   => await ExecuteCtrlClickItemAsync(screen, log, ct).ConfigureAwait(false),
+            PipelineAction.ClickRegion     => await ExecuteClickRegionAsync(step, log, ct).ConfigureAwait(false),
             PipelineAction.ManualPause => StepOutcome.Success(),
             _ => StepOutcome.Failure(),
         };
@@ -753,7 +761,7 @@ public sealed class CraftPipelineRunner
     }
 
     private async Task<StepOutcome> ExecuteDesecratePickAsync(
-        CraftPipelineStep step, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
     {
         var cfg = step.DesecratePickConfig;
         if (cfg is null)
@@ -769,70 +777,175 @@ public sealed class CraftPipelineRunner
             return StepOutcome.Failure();
         }
 
-        log?.Report($"[DesecratePick] OCR области {area.Width}×{area.Height}…");
-        var lines = await WindowsOcrTextLocator.ReadAllLinesAsync(area, log, ct).ConfigureAwait(false);
+        var autoItemClass = !string.IsNullOrWhiteSpace(cfg.ItemClass) ? cfg.ItemClass : _pipelineItemClass;
+        var sections = cfg.RevealSections > 1
+            ? SplitVertically(area, cfg.RevealSections)
+            : new List<ScreenRect> { area };
+        var hasReroll = cfg.UseReroll && cfg.RerollButtonArea.Width > 0 && cfg.RerollButtonArea.Height > 0;
+        var rerollUsed = false;
 
-        if (lines.Count == 0)
+        while (true)
         {
-            log?.Report("[DesecratePick] OCR не вернул строк — интерфейс reveal не открыт?");
-            return StepOutcome.Failure();
-        }
+            ct.ThrowIfCancellationRequested();
 
-        log?.Report($"[DesecratePick] Распознано строк: {lines.Count}");
-        foreach (var line in lines)
-            log?.Report($"  • {line.Text}");
+            log?.Report($"[DesecratePick] OCR области {area.Width}×{area.Height} → {sections.Count} секций…");
 
-        var libraryClass = string.IsNullOrWhiteSpace(cfg.ItemClass) ? cfg.ItemName : cfg.ItemClass;
-        var desecrateEntries = DesecrateStatsScanner.GetDesecrateEntries(libraryClass);
+            var modEntries = new List<(string Text, ScreenRect Section)>();
+            for (var i = 0; i < sections.Count; i++)
+            {
+                var secLines = await WindowsOcrTextLocator.ReadAllLinesAsync(sections[i], null, ct).ConfigureAwait(false);
+                var text = string.Join(" ", secLines.Select(l => l.Text)).Trim();
+                modEntries.Add((text, sections[i]));
+                log?.Report($"  [{i}] {(string.IsNullOrEmpty(text) ? "(пусто)" : text)}");
+            }
 
-        // Находим строки OCR, соответствующие десекрейт-моду, с сохранением позиций
-        var foundDesecrate = new List<OcrTextLine>();
-        foreach (var line in lines)
-        {
-            if (DesecrateStatsScanner.FindDesecrateMatch(line.Text, desecrateEntries) is not null)
-                foundDesecrate.Add(line);
-        }
+            var nonEmpty = modEntries.Where(e => !string.IsNullOrWhiteSpace(e.Text)).ToList();
+            if (nonEmpty.Count == 0)
+            {
+                log?.Report("[DesecratePick] OCR не вернул текста ни в одной секции — интерфейс reveal не открыт?");
+                return StepOutcome.Failure();
+            }
 
-        var foundTexts = foundDesecrate.Select(l => l.Text).ToList();
-        if (foundDesecrate.Count == 0 && desecrateEntries.Count > 0)
-            log?.Report($"[DesecratePick] Десекрейт-мод не опознан среди {lines.Count} строк. Все: {string.Join(" | ", lines.Select(l => l.Text))}");
-        else
-            foreach (var m in foundTexts) log?.Report($"[DesecratePick] Десекрейт-мод: «{m}»");
+            var libraryClass = !string.IsNullOrWhiteSpace(autoItemClass) ? autoItemClass : cfg.ItemName;
+            var desecrateEntries = DesecrateStatsScanner.GetDesecrateEntries(libraryClass);
+            log?.Report($"[DesecratePick] Класс: «{libraryClass}», записей в пуле десекрейт: {desecrateEntries.Count}");
 
-        await WriteDesecrateLogEntryAsync(cfg, lines.Select(l => l.Text).ToList(), foundTexts).ConfigureAwait(false);
+            var foundDesecrate = new List<(string Text, ScreenRect Section)>();
+            foreach (var e in nonEmpty)
+            {
+                if (DesecrateStatsScanner.FindDesecrateMatch(e.Text, desecrateEntries) is not null)
+                    foundDesecrate.Add(e);
+            }
 
-        // Условие не задано — принимаем первый найденный десекрейт-мод
-        if (cfg.PickCondition is null || !HasClauses(cfg.PickCondition))
-        {
+            var foundTexts = foundDesecrate.Select(e => e.Text).ToList();
+            if (foundDesecrate.Count == 0 && desecrateEntries.Count > 0)
+                log?.Report($"[DesecratePick] Десекрейт-мод не опознан среди {nonEmpty.Count} секций.");
+            else
+                foreach (var m in foundTexts) log?.Report($"[DesecratePick] Десекрейт-мод: «{m}»");
+
+            await WriteDesecrateLogEntryAsync(cfg, nonEmpty.Select(e => e.Text).ToList(), foundTexts).ConfigureAwait(false);
+
+            // Условие не задано — принимаем первую секцию с десекрейт-модом
+            if (cfg.PickCondition is null || !HasClauses(cfg.PickCondition))
+            {
+                if (foundDesecrate.Count > 0)
+                {
+                    await ClickSectionAsync(foundDesecrate[0].Section, cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
+                    log?.Report("[DesecratePick] Условие не задано → принят первый десекрейт-мод → Success");
+                    await HandleConfirmAsync(cfg, log, ct).ConfigureAwait(false);
+                }
+                else
+                {
+                    log?.Report("[DesecratePick] Условие не задано и десекрейт-мод не опознан → Success (без клика)");
+                }
+                return StepOutcome.Success();
+            }
+
+            // Условие задано — ищем подходящий десекрейт-мод
+            var conditionMet = false;
             if (foundDesecrate.Count > 0)
             {
-                await ClickOcrLineAsync(foundDesecrate[0], cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
-                log?.Report("[DesecratePick] Условие не задано → принят первый десекрейт-мод → Success");
-                await HandleConfirmAsync(cfg, log, ct).ConfigureAwait(false);
+                foreach (var (modText, modSection) in foundDesecrate)
+                {
+                    var matchedEntry = DesecrateStatsScanner.FindDesecrateMatch(modText, desecrateEntries);
+                    var syntheticItem = BuildSyntheticItemFromEntry(matchedEntry, modText, libraryClass);
+                    if (CraftConditionEvaluator.TryEvaluate(cfg.PickCondition, syntheticItem, out var detail))
+                    {
+                        log?.Report($"[DesecratePick] Условие выполнено: «{modText}» ({detail}) → клик → Success");
+                        await ClickSectionAsync(modSection, cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
+                        await HandleConfirmAsync(cfg, log, ct).ConfigureAwait(false);
+                        return StepOutcome.Success();
+                    }
+                    else
+                    {
+                        log?.Report($"[DesecratePick] Десекрейт-мод «{modText[..Math.Min(60, modText.Length)]}…»: {detail}");
+                    }
+                }
             }
             else
             {
-                log?.Report("[DesecratePick] Условие не задано и десекрейт-мод не опознан → Success (без клика)");
+                log?.Report("[DesecratePick] Десекрейт-мод не опознан.");
             }
-            return StepOutcome.Success();
-        }
 
-        // Проверяем каждую OCR-строку как отдельный мод через CraftConditionPlan
-        var expectedClass = string.IsNullOrWhiteSpace(cfg.ItemClass) ? cfg.ItemName : cfg.ItemClass;
-        foreach (var ocrLine in lines)
-        {
-            var syntheticItem = BuildSyntheticItem(ocrLine.Text, expectedClass);
-            if (CraftConditionEvaluator.TryEvaluate(cfg.PickCondition, syntheticItem, out var detail))
+            // Нужный мод не найден — Reroll (один раз) или Failure
+            if (hasReroll && !rerollUsed)
             {
-                log?.Report($"[DesecratePick] Условие выполнено для «{ocrLine.Text}»: {detail} → клик → Success");
-                await ClickOcrLineAsync(ocrLine, cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
-                await HandleConfirmAsync(cfg, log, ct).ConfigureAwait(false);
-                return StepOutcome.Success();
+                rerollUsed = true;
+                var (rx, ry) = cfg.RerollButtonArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.6);
+                log?.Report($"[DesecratePick] Мод не найден → Reroll ({rx},{ry}), ждём {cfg.AfterRerollDelayMs} мс");
+                Win32Input.MoveTo(rx, ry);
+                await Task.Delay(100, ct).ConfigureAwait(false);
+                Win32Input.ClickLeft();
+                await Task.Delay(cfg.AfterRerollDelayMs, ct).ConfigureAwait(false);
+                // продолжаем цикл — сканируем новые моды после рерола
+            }
+            else
+            {
+                if (rerollUsed)
+                    log?.Report("[DesecratePick] После Reroll нужный мод не найден → выбираем любой десекрейт-мод → Failure");
+                else
+                    log?.Report("[DesecratePick] Мод не найден, Reroll не задан → выбираем любой десекрейт-мод → Failure");
+                if (foundDesecrate.Count > 0)
+                {
+                    await ClickSectionAsync(foundDesecrate[0].Section, cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
+                    await HandleConfirmAsync(cfg, log, ct).ConfigureAwait(false);
+                }
+                return StepOutcome.Failure();
             }
         }
+    }
 
-        log?.Report("[DesecratePick] Ни одна из строк не удовлетворила условию → Failure");
-        return StepOutcome.Failure();
+    /// <summary>Делит прямоугольник на <paramref name="n"/> равных горизонтальных полос.</summary>
+    private static List<ScreenRect> SplitVertically(ScreenRect area, int n)
+    {
+        var result = new List<ScreenRect>(n);
+        var sliceH = area.Height / n;
+        for (var i = 0; i < n; i++)
+        {
+            var y = area.Y + i * sliceH;
+            var h = (i == n - 1) ? area.Y + area.Height - y : sliceH; // последняя полоса берёт остаток
+            result.Add(new ScreenRect(area.X, y, area.Width, h));
+        }
+        return result;
+    }
+
+    private static async Task ClickSectionAsync(ScreenRect section, int delayMs, IProgress<string>? log, CancellationToken ct)
+    {
+        var (cx, cy) = section.GetRandomInteriorPoint(1, centerAreaFraction: 0.6);
+        log?.Report($"[DesecratePick] Клик по секции ({cx},{cy})");
+        Win32Input.MoveTo(cx, cy);
+        await Task.Delay(100, ct).ConfigureAwait(false);
+        Win32Input.ClickLeft();
+        if (delayMs > 0)
+            await Task.Delay(delayMs, ct).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Строит синтетический ParsedItem из записи библиотеки аффиксов.
+    /// Устанавливает <see cref="AffixInfo.Name"/> и <see cref="AffixInfo.Type"/> из entry —
+    /// это позволяет <see cref="CraftConditionEvaluator"/> корректно проверять условия
+    /// типа <c>WholeModifier</c> (проверка семейства аффикса по имени).
+    /// </summary>
+    private static ParsedItem BuildSyntheticItemFromEntry(AffixLibraryEntry? entry, string ocrLine, string itemClass)
+    {
+        if (entry is null)
+            return BuildSyntheticItem(ocrLine, itemClass);
+
+        var affix = new AffixInfo
+        {
+            Name    = entry.AffixName,
+            Type    = entry.AffixType,
+            Tier    = entry.AffixTier,
+            Effects = entry.AffixStats.ToList(),
+            EffectDetails = entry.AffixStats.Select(ItemParser.ParseRawStatLine).ToList(),
+        };
+        return new ParsedItem
+        {
+            IsValid   = true,
+            ItemClass = itemClass,
+            Rarity    = "Rare",
+            Affixes   = new List<AffixInfo> { affix },
+        };
     }
 
     /// <summary>Строит синтетический ParsedItem из одной строки OCR-текста для проверки условия.</summary>
@@ -874,7 +987,10 @@ public sealed class CraftPipelineRunner
         }
         else
         {
-            log?.Report("[DesecratePick] Ожидание клика по Confirm…");
+            var (cx, cy) = area.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+            log?.Report($"[DesecratePick] Курсор на Confirm ({cx},{cy}), ожидание клика…");
+            Win32Input.MoveTo(cx, cy);
+            await Task.Delay(100, ct).ConfigureAwait(false);
             await WaitForClickInAreaAsync(area, log, ct).ConfigureAwait(false);
         }
     }
@@ -953,6 +1069,92 @@ public sealed class CraftPipelineRunner
         }
 
         return StepOutcome.Success();
+    }
+
+    private async Task<StepOutcome> ExecuteDesecrateRevealAsync(
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+    {
+        var cfg = step.DesecrateRevealConfig;
+        if (cfg is null)
+        {
+            log?.Report("[DesecrateReveal] Конфигурация не задана.");
+            return StepOutcome.Failure();
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        // 1. Ctrl+ЛКМ на предмет в ItemArea → летит в слот reveal
+        var itemArea = screen.ItemArea;
+        if (itemArea.Width <= 0 || itemArea.Height <= 0)
+        {
+            log?.Report("[DesecrateReveal] ItemArea не задана.");
+            return StepOutcome.Failure();
+        }
+        var (ix, iy) = itemArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+        log?.Report($"[DesecrateReveal] Ctrl+ЛКМ предмет ({ix},{iy}) → слот reveal");
+        Win32Input.KeyDown(0x11);
+        try
+        {
+            await Task.Delay(80, ct).ConfigureAwait(false);
+            Win32Input.MoveTo(ix, iy);
+            await Task.Delay(80, ct).ConfigureAwait(false);
+            Win32Input.ClickLeft();
+            await Task.Delay(cfg.CtrlClickDelayMs, ct).ConfigureAwait(false);
+        }
+        finally { Win32Input.KeyUp(0x11); }
+
+        ct.ThrowIfCancellationRequested();
+
+        // 2. Клик кнопки Reveal
+        if (cfg.RevealButtonArea.Width > 0 && cfg.RevealButtonArea.Height > 0)
+        {
+            var (rx, ry) = cfg.RevealButtonArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+            log?.Report($"[DesecrateReveal] Клик Reveal ({rx},{ry})");
+            Win32Input.MoveTo(rx, ry);
+            await Task.Delay(100, ct).ConfigureAwait(false);
+            Win32Input.ClickLeft();
+            await Task.Delay(cfg.AfterRevealDelayMs, ct).ConfigureAwait(false);
+        }
+        else
+        {
+            log?.Report("[DesecrateReveal] RevealButtonArea не задана — пропуск клика Reveal.");
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        // 3. DesecratePick: OCR + выбор мода + ожидание подтверждения
+        var pickStep = new CraftPipelineStep
+        {
+            Name              = step.Name,
+            Action            = PipelineAction.DesecratePick,
+            DesecratePickConfig = cfg.PickConfig,
+        };
+        var pickOutcome = await ExecuteDesecratePickAsync(pickStep, screen, log, ct).ConfigureAwait(false);
+
+        ct.ThrowIfCancellationRequested();
+
+        // 4. Ctrl+ЛКМ на слот reveal → предмет возвращается в инвентарь
+        if (cfg.RevealSlotArea.Width > 0 && cfg.RevealSlotArea.Height > 0)
+        {
+            var (sx, sy) = cfg.RevealSlotArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+            log?.Report($"[DesecrateReveal] Ctrl+ЛКМ слот reveal ({sx},{sy}) → инвентарь");
+            Win32Input.KeyDown(0x11);
+            try
+            {
+                await Task.Delay(80, ct).ConfigureAwait(false);
+                Win32Input.MoveTo(sx, sy);
+                await Task.Delay(80, ct).ConfigureAwait(false);
+                Win32Input.ClickLeft();
+                await Task.Delay(cfg.CtrlClickDelayMs, ct).ConfigureAwait(false);
+            }
+            finally { Win32Input.KeyUp(0x11); }
+        }
+        else
+        {
+            log?.Report("[DesecrateReveal] RevealSlotArea не задана — пропуск возврата предмета.");
+        }
+
+        return pickOutcome;
     }
 
     private static async Task<StepOutcome> ExecuteClickRegionAsync(

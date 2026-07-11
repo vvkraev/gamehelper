@@ -6179,6 +6179,7 @@ public partial class MainWindow : Window
 
     private Services.CraftPipeline _currentPipeline = new() { Name = "Новый рецепт" };
     private CancellationTokenSource? _pipelineCts;
+    private bool _suppressPipelineClassChanged;
 
     // ── DTO для ListView ─────────────────────────────────────────────────────
 
@@ -6228,7 +6229,11 @@ public partial class MainWindow : Window
     {
         if (e.AddedItems.Count == 0 || e.AddedItems[0] != TabPipeline) return;
         RefreshSavedPipelineList();
+        LoadPipelineItemClasses();
         PipelineNameBox.Text = _currentPipeline.Name;
+        _suppressPipelineClassChanged = true;
+        try { PipelineItemClassCombo.Text = _currentPipeline.ItemClass; }
+        finally { _suppressPipelineClassChanged = false; }
         RefreshPipelineStepsList();
         RefreshGuardSummary();
     }
@@ -6249,6 +6254,9 @@ public partial class MainWindow : Window
     {
         _currentPipeline = new Services.CraftPipeline { Name = "Новый рецепт" };
         PipelineNameBox.Text = _currentPipeline.Name;
+        _suppressPipelineClassChanged = true;
+        try { PipelineItemClassCombo.Text = ""; }
+        finally { _suppressPipelineClassChanged = false; }
         RefreshPipelineStepsList();
         RefreshGuardSummary();
     }
@@ -6260,6 +6268,7 @@ public partial class MainWindow : Window
             System.Windows.MessageBox.Show("Введите имя рецепта.", "Рецепт", System.Windows.MessageBoxButton.OK);
             return;
         }
+        _currentPipeline.ItemClass = PipelineItemClassCombo.Text.Trim();
         PipelineStore.Save(_currentPipeline);
         RefreshSavedPipelineList();
         PipelineLogAppend($"Рецепт «{_currentPipeline.Name}» сохранён.");
@@ -6293,6 +6302,9 @@ public partial class MainWindow : Window
         if (PipelineSavedList.SelectedItem is not Services.CraftPipeline loaded) return;
         _currentPipeline = loaded;
         PipelineNameBox.Text = _currentPipeline.Name;
+        _suppressPipelineClassChanged = true;
+        try { PipelineItemClassCombo.Text = _currentPipeline.ItemClass; }
+        finally { _suppressPipelineClassChanged = false; }
         RefreshPipelineStepsList();
         RefreshGuardSummary();
     }
@@ -6300,6 +6312,24 @@ public partial class MainWindow : Window
     private void PipelineNameBox_TextChanged(object sender, System.Windows.Controls.TextChangedEventArgs e)
     {
         _currentPipeline.Name = PipelineNameBox.Text;
+    }
+
+    private void PipelineItemClassCombo_SelectionChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+    {
+        if (_suppressPipelineClassChanged) return;
+        _currentPipeline.ItemClass = PipelineItemClassCombo.Text.Trim();
+    }
+
+    private void LoadPipelineItemClasses()
+    {
+        var classes = AffixLibrary.GetEntriesWithCrafted()
+            .SelectMany(entry => entry.ItemClasses)
+            .Distinct(StringComparer.Ordinal)
+            .OrderBy(x => x)
+            .ToList();
+        _suppressPipelineClassChanged = true;
+        try { PipelineItemClassCombo.ItemsSource = classes; }
+        finally { _suppressPipelineClassChanged = false; }
     }
 
     private void BatchNameBox_LostFocus(object sender, System.Windows.RoutedEventArgs e) =>
@@ -6334,7 +6364,7 @@ public partial class MainWindow : Window
                      && _abyssItemRegions.TryGetValue(i.Id, out var r) && r.Width > 0)
             .Select(i => new Services.StackableItemType { Id = i.Id, DisplayName = i.DisplayName, Kind = Services.StackableItemKind.Abyss })
             .ToList();
-        var dlg = new PipelineStepDialog(step, AffixLibrary.GetEntriesWithCrafted().ToList(), Services.AffixStatsScanner.Current, configuredBones) { Owner = this };
+        var dlg = new PipelineStepDialog(step, AffixLibrary.GetEntriesWithCrafted().ToList(), Services.AffixStatsScanner.Current, configuredBones, _currentPipeline.ItemClass) { Owner = this };
         if (dlg.ShowDialog() != true) return;
         if (isNew) _currentPipeline.Steps.Add(step);
         RefreshPipelineStepsList();
@@ -6379,6 +6409,7 @@ public partial class MainWindow : Window
             return;
         }
 
+        _currentPipeline.ItemClass = PipelineItemClassCombo.Text.Trim();
         _pipelineCts = new CancellationTokenSource();
         _vm.IsPipelineRunning = true;
         _vm.PipelineStatusText = "Выполняется…";
@@ -6401,6 +6432,11 @@ public partial class MainWindow : Window
             ? _pipelineItemCells
             : new List<ScreenRect> { SettingsStore.Load().ItemRect };
 
+        // BuildPipelineScreenConfig читает WPF-контролы — строим заранее на UI-потоке,
+        // до любых ConfigureAwait(false) которые переключают на thread pool.
+        var startStep = int.TryParse(PipelineStartStepBox.Text, out var ss) && ss > 0 ? ss : 0;
+        var screenConfigs = cells.Select(c => BuildPipelineScreenConfig(c)).ToList();
+
         Services.PipelineRunResult lastResult = new() { Status = Services.PipelineRunStatus.Done, Message = "Нет ячеек." };
         var totalAttempts = 0;
         try
@@ -6414,8 +6450,7 @@ public partial class MainWindow : Window
                 if (_pipelineCts!.Token.IsCancellationRequested) break;
                 if (cells.Count > 1)
                     progress.Report($"[Ячейка {i + 1}/{cells.Count}]");
-                var screen = BuildPipelineScreenConfig(cells[i]);
-                lastResult = await runner.RunAsync(_currentPipeline, screen, progress, _pipelineCts.Token);
+                lastResult = await runner.RunAsync(_currentPipeline, screenConfigs[i], progress, _pipelineCts.Token, startStep);
                 totalAttempts += lastResult.TotalAttempts;
                 if (lastResult.Status is Services.PipelineRunStatus.Cancelled or Services.PipelineRunStatus.Error)
                     break;
@@ -6462,6 +6497,7 @@ public partial class MainWindow : Window
             return;
         }
 
+        _currentPipeline.ItemClass = PipelineItemClassCombo.Text.Trim();
         _pipelineCts = new CancellationTokenSource();
         _vm.IsPipelineRunning = true;
         _vm.PipelineStatusText = "Батч…";
@@ -6681,6 +6717,8 @@ public partial class MainWindow : Window
     private void PipelineEditGuardBtn_Click(object sender, System.Windows.RoutedEventArgs e)
     {
         _currentPipeline.GuardCondition ??= new Services.CraftConditionPlan();
+        if (string.IsNullOrWhiteSpace(_currentPipeline.GuardCondition.ExpectedItemClass))
+            _currentPipeline.GuardCondition.ExpectedItemClass = _currentPipeline.ItemClass;
         var dlg = new CraftConditionWindow(
             _currentPipeline.GuardCondition,
             AffixLibrary.GetEntriesWithCrafted().ToList(),
