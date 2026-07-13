@@ -416,6 +416,8 @@ public sealed class BatchPipelineRunner
             or PipelineAction.SimpleAnnul
             or PipelineAction.SimpleChaos
             or PipelineAction.SimpleExalt
+            or PipelineAction.SimpleCurrency
+            or PipelineAction.SimpleAbyssalBone
             or PipelineAction.CtrlClickItem
             or PipelineAction.DesecrateReveal
             or PipelineAction.DesecratePick
