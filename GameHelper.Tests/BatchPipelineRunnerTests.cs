@@ -252,6 +252,86 @@ public sealed class BatchPipelineRunnerTests
         Assert.All(result.Items, item => Assert.Equal(5, item.TotalAttempts));
     }
 
+    // ── OmenActivation: батчевая сшивка ──────────────────────────────────────
+
+    private static CraftPipelineStep OmenStep(string name,
+        TransitionTarget onSuccess = TransitionTarget.Next,
+        TransitionTarget onFailure = TransitionTarget.Abort)
+    {
+        return new CraftPipelineStep
+        {
+            Name  = name,
+            Action = PipelineAction.OmenActivation,
+            OnSuccess = new PipelineTransition { Target = onSuccess },
+            OnFailure = new PipelineTransition { Target = onFailure },
+        };
+    }
+
+    /// <summary>
+    /// Все N оменов размещаются для всех предметов подряд (фаза 1),
+    /// затем следующий шаг выполняется для всех предметов подряд (фаза 2).
+    /// Порядок: O[0], O[1], ..., O[N-1], Fused[0], Fused[1], ..., Fused[N-1].
+    /// </summary>
+    [Fact]
+    public async Task OmenActivation_BatchFused_AllOmensBeforeNextStep()
+    {
+        var log = new List<string>();
+        var pipeline = BuildPipeline(
+            OmenStep("Omen", onSuccess: TransitionTarget.Next),
+            Step("Exalt", onSuccess: TransitionTarget.Done));
+
+        var runner = BuildRunner((item, step, _) =>
+        {
+            log.Add($"{step.Name}[{item.CellIndex}]");
+            return Task.FromResult(StepOutcome.Success());
+        });
+
+        var items = new List<BatchItem>
+        {
+            new() { CellIndex = 0 },
+            new() { CellIndex = 1 },
+            new() { CellIndex = 2 },
+        };
+        await RunCore(runner, pipeline, items);
+
+        // Все три омена должны предшествовать любому Exalt
+        Assert.Equal(["Omen[0]", "Omen[1]", "Omen[2]", "Exalt[0]", "Exalt[1]", "Exalt[2]"], log);
+        Assert.All(items, i => Assert.Equal(BatchItemStatus.Done, i.Status));
+    }
+
+    /// <summary>
+    /// Предмет с провалом OmenActivation не попадает в фазу 2 (fused-шаг не вызывается).
+    /// </summary>
+    [Fact]
+    public async Task OmenActivation_BatchFused_FailedOmenSkipsFusedStep()
+    {
+        var log = new List<string>();
+        var pipeline = BuildPipeline(
+            OmenStep("Omen", onSuccess: TransitionTarget.Next, onFailure: TransitionTarget.Abort),
+            Step("Exalt", onSuccess: TransitionTarget.Done));
+
+        // Предмет 1 проваливает Omen
+        var runner = BuildRunner((item, step, _) =>
+        {
+            log.Add($"{step.Name}[{item.CellIndex}]");
+            if (step.Action == PipelineAction.OmenActivation && item.CellIndex == 1)
+                return Task.FromResult(StepOutcome.Failure());
+            return Task.FromResult(StepOutcome.Success());
+        });
+
+        var items = new List<BatchItem>
+        {
+            new() { CellIndex = 0 },
+            new() { CellIndex = 1 },
+        };
+        await RunCore(runner, pipeline, items);
+
+        // Omen[0] и Omen[1] — оба запускаются; Exalt только для предмета 0
+        Assert.Equal(["Omen[0]", "Omen[1]", "Exalt[0]"], log);
+        Assert.Equal(BatchItemStatus.Done, items[0].Status);
+        Assert.Equal(BatchItemStatus.Failed, items[1].Status);
+    }
+
     // ── Отмена ────────────────────────────────────────────────────────────────
 
     [Fact]

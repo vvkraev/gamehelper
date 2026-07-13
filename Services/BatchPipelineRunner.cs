@@ -164,6 +164,12 @@ public sealed class BatchPipelineRunner
                     // Первый предмет кликает орб; остальные просто ЛКМ по предмету — экономим N-1 кликов орба.
                     var batchOrbSelected = false;
 
+                    // Для OmenActivation: сначала все N предметов получают омен (фаза 1),
+                    // затем для всех успешных сразу выполняется следующий шаг (фаза 2).
+                    // Это позволяет активировать все N оменов подряд, а не чередовать omen-exalt.
+                    List<BatchItem>? omenSucceeded = step.Action == PipelineAction.OmenActivation
+                        ? [] : null;
+
                     try
                     {
                     foreach (var item in targetItems)
@@ -226,35 +232,8 @@ public sealed class BatchPipelineRunner
                             item.LastKnownText = outcome.FinalItemText;
                         ApplyTransition(item, step, outcome.Succeeded, n, pipeline.Steps.Count, log);
 
-                        // OmenActivation кладёт омен в ячейку — расходуется следующим шагом.
-                        // Чтобы ячейка не была занята при обработке следующего предмета,
-                        // выполняем следующий шаг для ЭТОГО предмета сразу (атомарная сшивка).
-                        // OmenActivation не меняет предмет → кэш (probeText) валиден для сшивки.
-                        if (outcome.Succeeded && step.Action == PipelineAction.OmenActivation
-                            && item.Status == BatchItemStatus.Active)
-                        {
-                            var fusedN = item.CurrentStage;
-                            if (fusedN < pipeline.Steps.Count)
-                            {
-                                executionCount++;
-                                ct.ThrowIfCancellationRequested();
-                                var fusedStep = pipeline.Steps[fusedN];
-                                log?.Report($"[Батч] [{item.CellIndex}]: сшивка → стадия {fusedN} «{fusedStep.Name}»");
-                                StepOutcome fusedOutcome;
-                                if (_testStepExecutor is not null)
-                                    fusedOutcome = await _testStepExecutor(item, fusedStep, ct).ConfigureAwait(false);
-                                else
-                                    fusedOutcome = await _runner.ExecuteStepAsync(fusedStep, screen, log, ct, cachedText: item.LastKnownText).ConfigureAwait(false);
-                                item.TotalAttempts += fusedOutcome.Attempts;
-                                if (fusedOutcome.Succeeded)
-                                    AccumulateCost(item, fusedStep, fusedOutcome.Attempts);
-                                LogItemState(item.CellIndex, fusedStep.Name, fusedOutcome);
-                                UpdateItemTextCache(item, fusedStep);
-                                if (!string.IsNullOrWhiteSpace(fusedOutcome.FinalItemText))
-                                    item.LastKnownText = fusedOutcome.FinalItemText;
-                                ApplyTransition(item, fusedStep, fusedOutcome.Succeeded, fusedN, pipeline.Steps.Count, log);
-                            }
-                        }
+                        if (outcome.Succeeded && omenSucceeded is not null && item.Status == BatchItemStatus.Active)
+                            omenSucceeded.Add(item);
                     }
                     } // foreach targetItems
                     finally
@@ -265,6 +244,34 @@ public sealed class BatchPipelineRunner
                         {
                             Win32Input.ReleaseShift();
                             batchOrbSelected = false;
+                        }
+                    }
+
+                    // Фаза 2 OmenActivation: все омены размещены → сразу применяем следующий шаг
+                    // ко всем предметам, которые получили омен. Не ждём следующей итерации цикла,
+                    // чтобы все N оменов были активны одновременно и сработали подряд.
+                    if (omenSucceeded is { Count: > 0 } && n + 1 < pipeline.Steps.Count)
+                    {
+                        var fusedStep = pipeline.Steps[n + 1];
+                        log?.Report($"[Батч] Омен-сшивка × {omenSucceeded.Count}: стадия {n + 1} «{fusedStep.Name}»");
+                        foreach (var item in omenSucceeded)
+                        {
+                            executionCount++;
+                            ct.ThrowIfCancellationRequested();
+                            var screen = screenTemplate with { ItemArea = itemCells[item.CellIndex] };
+                            StepOutcome fusedOutcome;
+                            if (_testStepExecutor is not null)
+                                fusedOutcome = await _testStepExecutor(item, fusedStep, ct).ConfigureAwait(false);
+                            else
+                                fusedOutcome = await _runner.ExecuteStepAsync(fusedStep, screen, log, ct, cachedText: item.LastKnownText).ConfigureAwait(false);
+                            item.TotalAttempts += fusedOutcome.Attempts;
+                            if (fusedOutcome.Succeeded)
+                                AccumulateCost(item, fusedStep, fusedOutcome.Attempts);
+                            LogItemState(item.CellIndex, fusedStep.Name, fusedOutcome);
+                            UpdateItemTextCache(item, fusedStep);
+                            if (!string.IsNullOrWhiteSpace(fusedOutcome.FinalItemText))
+                                item.LastKnownText = fusedOutcome.FinalItemText;
+                            ApplyTransition(item, fusedStep, fusedOutcome.Succeeded, n + 1, pipeline.Steps.Count, log);
                         }
                     }
                 }
