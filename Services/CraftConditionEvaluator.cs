@@ -20,10 +20,7 @@ public static class CraftConditionEvaluator
         plan.OrAlternatives.RemoveAll(g => g.Clauses.Count == 0);
 
         if (plan.OrAlternatives.Count == 0)
-        {
-            error = "Добавьте хотя бы один вариант условия (связь ИЛИ между вариантами).";
-            return false;
-        }
+            return true; // режим сбора статистики: орб применяется N раз без проверки условия
 
         var altIndex = 0;
         foreach (var alt in plan.OrAlternatives)
@@ -677,7 +674,7 @@ public static class CraftConditionEvaluator
                     if (!ParsedItemCraftEvaluator.TryGetRollValuesForNamedAffix(
                             item, expectedItemClass, s.AffixType, name, entry.AffixTier,
                             line.StatTemplate, slots, out var actual, out var expl,
-                            includeFractured: true))
+                            includeFractured: false))
                     {
                         allLinesMatch = false;
                         lineFailDetail = string.IsNullOrEmpty(expl)
@@ -743,7 +740,7 @@ public static class CraftConditionEvaluator
             if (!ParsedItemCraftEvaluator.TryGetRollValuesForNamedAffix(
                     item, expectedItemClass, s.AffixType, name, entry.AffixTier,
                     s.StatTemplate, slots, out var actual, out _,
-                    includeFractured: true))
+                    includeFractured: false))
                 continue;
             if (actual.Count != mins.Count)
                 continue;
@@ -784,7 +781,7 @@ public static class CraftConditionEvaluator
         if (string.IsNullOrWhiteSpace(plan.ExpectedItemClass))
             return "(условие не задано)";
         if (plan.OrAlternatives.Count == 0)
-            return $"Класс: {plan.ExpectedItemClass} — нет вариантов ИЛИ.";
+            return $"Класс: {plan.ExpectedItemClass} — сбор статистики (условие не задано, N прокруток).";
 
         var lib = AffixLibrary.GetEntriesWithCrafted();
         var sb = new StringBuilder();
