@@ -115,6 +115,12 @@ public sealed class CraftPipelineRunner
     private ScreenRect _currentStashTab;
     // Тип предмета из CraftPipeline.ItemClass — для авто-заполнения в шагах без явного класса.
     private string _pipelineItemClass = "";
+    /// <summary>
+    /// Число активных предметов в батче на момент выполнения milestone-шага.
+    /// Устанавливается BatchPipelineRunner перед вызовом ExecuteStepAsync для веховых шагов.
+    /// По умолчанию 1 (одиночный запуск).
+    /// </summary>
+    public int ActiveBatchItemCount { get; set; } = 1;
 
     /// <summary>
     /// Тест-хук: если установлен, вызывается вместо <c>ExecuteStepAsync</c>.
@@ -281,25 +287,31 @@ public sealed class CraftPipelineRunner
         }
     }
 
+    /// <param name="cachedText">
+    /// Текст предмета, уже прочитанный до вызова (probe-read в батче или guard-read в одиночном запуске).
+    /// Если задан, CheckItem / CheckEntryCondition / initial-read не делают повторный Ctrl+Alt+C.
+    /// Кэш действителен только до первого state-changing действия внутри шага — дальше шаг читает сам.
+    /// </param>
     internal async Task<StepOutcome> ExecuteStepAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        string? cachedText = null)
     {
         return step.Action switch
         {
-            PipelineAction.CheckItem => await ExecuteCheckItemAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.CheckItem => await ExecuteCheckItemAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
             PipelineAction.ChaosCraft => await ExecuteChaosCraftAsync(step, screen, log, ct).ConfigureAwait(false),
-            PipelineAction.AugAnnulCraft => await ExecuteAugAnnulAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.AugAnnulCraft => await ExecuteAugAnnulAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
             PipelineAction.DivineCraft => await ExecuteDivineCraftAsync(step, screen, log, ct).ConfigureAwait(false),
-            PipelineAction.ExaltCraft => await ExecuteExaltCraftAsync(step, screen, log, ct).ConfigureAwait(false),
-            PipelineAction.SimpleCurrency => await ExecuteSimpleCurrencyAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.ExaltCraft => await ExecuteExaltCraftAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
+            PipelineAction.SimpleCurrency => await ExecuteSimpleCurrencyAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
             // Устаревшие — оставлены для совместимости сохранённых JSON-пайплайнов
-            PipelineAction.SimpleExalt => await ExecuteSimpleExaltAsync(step, screen, log, ct).ConfigureAwait(false),
-            PipelineAction.SimpleAnnul => await ExecuteSimpleAnnulAsync(step, screen, log, ct).ConfigureAwait(false),
-            PipelineAction.SimpleChaos => await ExecuteSimpleChaosAsync(step, screen, log, ct).ConfigureAwait(false),
-            PipelineAction.OmenActivation => await ExecuteOmenActivationAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.SimpleExalt => await ExecuteSimpleExaltAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
+            PipelineAction.SimpleAnnul => await ExecuteSimpleAnnulAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
+            PipelineAction.SimpleChaos => await ExecuteSimpleChaosAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
+            PipelineAction.OmenActivation => await ExecuteOmenActivationAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
             PipelineAction.DeliriumLiquid => await ExecuteDeliriumLiquidAsync(step, screen, log, ct).ConfigureAwait(false),
             PipelineAction.TravelToLocation => await ExecuteTravelAsync(step, screen, log, ct).ConfigureAwait(false),
-            PipelineAction.SimpleAbyssalBone => await ExecuteSimpleAbyssalBoneAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.SimpleAbyssalBone => await ExecuteSimpleAbyssalBoneAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
             PipelineAction.WalkToPosition => await ExecuteWalkToPositionAsync(step, log, ct).ConfigureAwait(false),
             PipelineAction.OpenStash => await ExecuteOpenStashAsync(screen, log, ct).ConfigureAwait(false),
             PipelineAction.ClickTemplate => await ExecuteClickTemplateAsync(step, log, ct).ConfigureAwait(false),
@@ -313,20 +325,31 @@ public sealed class CraftPipelineRunner
     }
 
     private async Task<StepOutcome> ExecuteCheckItemAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        string? cachedText = null)
     {
-        if (_chaos is null)
-            return StepOutcome.Failure();
+        string text;
+        if (!string.IsNullOrWhiteSpace(cachedText))
+        {
+            text = cachedText;
+            log?.Report("[CheckItem] используем кэшированный текст предмета (без повторного Ctrl+Alt+C)");
+        }
+        else
+        {
+            if (_chaos is null)
+                return StepOutcome.Failure();
+            text = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(text))
+                return StepOutcome.Failure();
+        }
 
-        var text = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
-        if (string.IsNullOrWhiteSpace(text))
-            return StepOutcome.Failure();
-
-        if (step.EntryCondition is null)
+        // LoopUntil — основное условие checkItem; EntryCondition — fallback для старых шагов.
+        var condition = step.LoopUntil ?? step.EntryCondition;
+        if (condition is null)
             return StepOutcome.Success(0, text);
 
         var parsed = ItemParser.Parse(text);
-        var matched = CraftConditionEvaluator.TryEvaluate(step.EntryCondition, parsed, out var detail);
+        var matched = CraftConditionEvaluator.TryEvaluate(condition, parsed, out var detail);
         log?.Report($"[CheckItem] {(matched ? "выполнено" : "не выполнено")}: {detail}");
         return matched ? StepOutcome.Success(0, text) : StepOutcome.Failure(0, text);
     }
@@ -360,13 +383,23 @@ public sealed class CraftPipelineRunner
     }
 
     private async Task<StepOutcome> ExecuteAugAnnulAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        string? cachedText = null)
     {
         if (_augAnnul is null || _chaos is null)
             return StepOutcome.Failure();
 
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
-        var initialText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+        string initialText;
+        if (!string.IsNullOrWhiteSpace(cachedText))
+        {
+            initialText = cachedText;
+            log?.Report("[AugAnnul] используем кэшированный текст предмета (без повторного Ctrl+Alt+C)");
+        }
+        else
+        {
+            initialText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+        }
         var initialParsed = ItemParser.Parse(initialText);
         if (initialParsed is null)
             return StepOutcome.Failure();
@@ -380,12 +413,22 @@ public sealed class CraftPipelineRunner
     }
 
     private async Task<StepOutcome> ExecuteExaltCraftAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        string? cachedText = null)
     {
         if (_exalt is null || _chaos is null)
             return StepOutcome.Failure();
 
-        var initialText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+        string initialText;
+        if (!string.IsNullOrWhiteSpace(cachedText))
+        {
+            initialText = cachedText;
+            log?.Report("[ExaltCraft] используем кэшированный текст предмета (без повторного Ctrl+Alt+C)");
+        }
+        else
+        {
+            initialText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+        }
         var initialParsed = ItemParser.Parse(initialText);
         if (initialParsed is null)
             return StepOutcome.Failure();
@@ -404,7 +447,8 @@ public sealed class CraftPipelineRunner
     }
 
     private async Task<StepOutcome> ExecuteSimpleCurrencyAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        string? cachedText = null)
     {
         var currencyId = step.CurrencyId;
         if (string.IsNullOrWhiteSpace(currencyId))
@@ -419,7 +463,7 @@ public sealed class CraftPipelineRunner
             return StepOutcome.Failure();
         }
 
-        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
+        if (!await CheckEntryConditionAsync(step, screen, log, ct, cachedText).ConfigureAwait(false))
             return StepOutcome.Failure();
 
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
@@ -430,9 +474,10 @@ public sealed class CraftPipelineRunner
 
     // Устаревшие Simple-действия — редиректят на единую логику ApplyCurrencyToItemAsync
     private async Task<StepOutcome> ExecuteSimpleAnnulAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        string? cachedText = null)
     {
-        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
+        if (!await CheckEntryConditionAsync(step, screen, log, ct, cachedText).ConfigureAwait(false))
             return StepOutcome.Failure();
         if (screen.AnnulOrbArea == default) { log?.Report("[Currency] Область Annulment Orb не настроена."); return StepOutcome.Failure(); }
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
@@ -441,9 +486,10 @@ public sealed class CraftPipelineRunner
     }
 
     private async Task<StepOutcome> ExecuteSimpleChaosAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        string? cachedText = null)
     {
-        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
+        if (!await CheckEntryConditionAsync(step, screen, log, ct, cachedText).ConfigureAwait(false))
             return StepOutcome.Failure();
         if (screen.ChaosOrbArea == default) { log?.Report("[Currency] Область Chaos Orb не настроена."); return StepOutcome.Failure(); }
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
@@ -452,9 +498,10 @@ public sealed class CraftPipelineRunner
     }
 
     private async Task<StepOutcome> ExecuteSimpleExaltAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        string? cachedText = null)
     {
-        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
+        if (!await CheckEntryConditionAsync(step, screen, log, ct, cachedText).ConfigureAwait(false))
             return StepOutcome.Failure();
         if (screen.ExaltOrbArea == default) { log?.Report("[Currency] Область Exalted Orb не настроена."); return StepOutcome.Failure(); }
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
@@ -485,18 +532,30 @@ public sealed class CraftPipelineRunner
     /// Возвращает false (и логирует причину) если условие не выполнено.
     /// </summary>
     private async Task<bool> CheckEntryConditionAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        string? cachedText = null)
     {
         if (step.EntryCondition is null)
             return true;
-        if (_chaos is null)
-            return false;
-        var text = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
-        if (string.IsNullOrWhiteSpace(text))
+
+        string text;
+        if (!string.IsNullOrWhiteSpace(cachedText))
         {
-            log?.Report($"[entryCondition] буфер пуст — условие не проверить.");
-            return false;
+            text = cachedText;
+            log?.Report("[entryCondition] используем кэшированный текст предмета (без повторного Ctrl+Alt+C)");
         }
+        else
+        {
+            if (_chaos is null)
+                return false;
+            text = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+            if (string.IsNullOrWhiteSpace(text))
+            {
+                log?.Report($"[entryCondition] буфер пуст — условие не проверить.");
+                return false;
+            }
+        }
+
         var parsed = ItemParser.Parse(text);
         var matched = CraftConditionEvaluator.TryEvaluate(step.EntryCondition, parsed, out var detail);
         log?.Report($"[entryCondition] {(matched ? "выполнено" : "не выполнено")}: {detail}");
@@ -504,12 +563,13 @@ public sealed class CraftPipelineRunner
     }
 
     private async Task<StepOutcome> ExecuteOmenActivationAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        string? cachedText = null)
     {
         if (_omen is null || step.OmenConfig is null)
             return StepOutcome.Failure();
 
-        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
+        if (!await CheckEntryConditionAsync(step, screen, log, ct, cachedText).ConfigureAwait(false))
             return StepOutcome.Failure();
 
         var cfg = step.OmenConfig;
@@ -539,11 +599,15 @@ public sealed class CraftPipelineRunner
             return StepOutcome.Failure();
         }
 
+        var qty = cfg.UseActiveBatchCount ? Math.Max(1, ActiveBatchItemCount) : 1;
+        if (cfg.UseActiveBatchCount)
+            log?.Report($"[Омен] Количество = {qty} (активных предметов в батче)");
         var placement = new OmenPlacement
         {
             StashCell     = stashCells[cfg.StashCellIndex],
             InventoryCell = screen.FullInventoryCells[invIdx],
             OmenName      = cfg.OmenName,
+            Quantity      = qty,
         };
 
         var tabRegion = screen.OmenStashTabByName.TryGetValue(cfg.OmenName, out var t) ? t : screen.RitualInventoryRegion;
@@ -591,7 +655,8 @@ public sealed class CraftPipelineRunner
     }
 
     private async Task<StepOutcome> ExecuteSimpleAbyssalBoneAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        string? cachedText = null)
     {
         var boneId = step.AbyssalBoneId;
         if (string.IsNullOrWhiteSpace(boneId))
@@ -606,12 +671,21 @@ public sealed class CraftPipelineRunner
             return StepOutcome.Failure();
         }
 
-        if (!await CheckEntryConditionAsync(step, screen, log, ct).ConfigureAwait(false))
+        if (!await CheckEntryConditionAsync(step, screen, log, ct, cachedText).ConfigureAwait(false))
             return StepOutcome.Failure();
 
         var maxIter = step.MaxIterations > 0 ? step.MaxIterations : 1000;
         var consumed = 0; // кости реально потраченные (предмет изменился)
-        var itemText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+        string itemText;
+        if (!string.IsNullOrWhiteSpace(cachedText))
+        {
+            itemText = cachedText;
+            log?.Report("[Bone] используем кэшированный текст предмета для начального состояния");
+        }
+        else
+        {
+            itemText = await _chaos!.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+        }
 
         for (var i = 0; i < maxIter; i++)
         {
@@ -783,6 +857,7 @@ public sealed class CraftPipelineRunner
             : new List<ScreenRect> { area };
         var hasReroll = cfg.UseReroll && cfg.RerollButtonArea.Width > 0 && cfg.RerollButtonArea.Height > 0;
         var rerollUsed = false;
+        List<(string Text, ScreenRect Section)> lastNonEmpty = new();
 
         while (true)
         {
@@ -800,6 +875,7 @@ public sealed class CraftPipelineRunner
             }
 
             var nonEmpty = modEntries.Where(e => !string.IsNullOrWhiteSpace(e.Text)).ToList();
+            if (nonEmpty.Count > 0) lastNonEmpty = nonEmpty;
             if (nonEmpty.Count == 0)
             {
                 log?.Report("[DesecratePick] OCR не вернул текста ни в одной секции — интерфейс reveal не открыт?");
@@ -872,23 +948,32 @@ public sealed class CraftPipelineRunner
             {
                 rerollUsed = true;
                 var (rx, ry) = cfg.RerollButtonArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.6);
-                log?.Report($"[DesecratePick] Мод не найден → Reroll ({rx},{ry}), ждём {cfg.AfterRerollDelayMs} мс");
+                var rerollDelay = Math.Max(cfg.AfterRerollDelayMs, 1000);
+                log?.Report($"[DesecratePick] Мод не найден → Reroll ({rx},{ry}), ждём {rerollDelay} мс до следующего OCR");
                 Win32Input.MoveTo(rx, ry);
                 await Task.Delay(100, ct).ConfigureAwait(false);
                 Win32Input.ClickLeft();
-                await Task.Delay(cfg.AfterRerollDelayMs, ct).ConfigureAwait(false);
+                await Task.Delay(rerollDelay, ct).ConfigureAwait(false);
                 // продолжаем цикл — сканируем новые моды после рерола
             }
             else
             {
                 if (rerollUsed)
-                    log?.Report("[DesecratePick] После Reroll нужный мод не найден → выбираем любой десекрейт-мод → Failure");
+                    log?.Report("[DesecratePick] После Reroll нужный мод не найден → выбираем любой мод → Failure");
                 else
-                    log?.Report("[DesecratePick] Мод не найден, Reroll не задан → выбираем любой десекрейт-мод → Failure");
-                if (foundDesecrate.Count > 0)
+                    log?.Report("[DesecratePick] Мод не найден, Reroll не задан → выбираем любой мод → Failure");
+                // Кликаем лучший вариант: десекрейт-мод > первая непустая секция
+                var fallbackSection = foundDesecrate.Count > 0
+                    ? foundDesecrate[0].Section
+                    : lastNonEmpty.Count > 0 ? lastNonEmpty[0].Section : (ScreenRect?)null;
+                if (fallbackSection is { } sec)
                 {
-                    await ClickSectionAsync(foundDesecrate[0].Section, cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
+                    await ClickSectionAsync(sec, cfg.ClickDelayMs, log, ct).ConfigureAwait(false);
                     await HandleConfirmAsync(cfg, log, ct).ConfigureAwait(false);
+                }
+                else
+                {
+                    log?.Report("[DesecratePick] Нет секций для клика — предмет может зависнуть в reveal!");
                 }
                 return StepOutcome.Failure();
             }

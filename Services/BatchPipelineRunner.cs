@@ -129,7 +129,7 @@ public sealed class BatchPipelineRunner
 
                     // Веха: действие выполняется один раз для всей группы предметов,
                     // переход применяется ко всем (барьер уже гарантирует, что все дошли).
-                    if (IsMilestoneAction(step.Action))
+                    if (IsMilestoneAction(step))
                     {
                         executionCount++;
                         ct.ThrowIfCancellationRequested();
@@ -138,7 +138,11 @@ public sealed class BatchPipelineRunner
                         if (_testStepExecutor is not null)
                             milestoneOutcome = await _testStepExecutor(targetItems[0], step, ct).ConfigureAwait(false);
                         else
+                        {
+                            _runner.ActiveBatchItemCount = targetItems.Count;
                             milestoneOutcome = await _runner.ExecuteStepAsync(step, screenTemplate, log, ct).ConfigureAwait(false);
+                            _runner.ActiveBatchItemCount = 1;
+                        }
                         foreach (var mi in targetItems)
                         {
                             mi.TotalAttempts++;
@@ -156,11 +160,14 @@ public sealed class BatchPipelineRunner
 
                         var screen = screenTemplate with { ItemArea = itemCells[item.CellIndex] };
 
-                        // Проверяем наличие предмета в ячейке перед выполнением шага
+                        // Проверяем наличие предмета в ячейке перед выполнением шага.
+                        // Текст пробы передаётся в ExecuteStepAsync как кэш — CheckItem / CheckEntryCondition
+                        // / initial-read не делают повторный Ctrl+Alt+C, сберегая 1–2 чтения на шаг.
+                        string? probeText = null;
                         if (_chaos is not null && _testStepExecutor is null)
                         {
-                            var probe = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
-                            if (string.IsNullOrWhiteSpace(probe))
+                            probeText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+                            if (string.IsNullOrWhiteSpace(probeText))
                             {
                                 item.Status = BatchItemStatus.Failed;
                                 item.LastMessage = "Пустой буфер — ячейка пропущена";
@@ -173,7 +180,7 @@ public sealed class BatchPipelineRunner
                         if (_testStepExecutor is not null)
                             outcome = await _testStepExecutor(item, step, ct).ConfigureAwait(false);
                         else
-                            outcome = await _runner.ExecuteStepAsync(step, screen, log, ct).ConfigureAwait(false);
+                            outcome = await _runner.ExecuteStepAsync(step, screen, log, ct, cachedText: probeText).ConfigureAwait(false);
 
                         item.TotalAttempts += outcome.Attempts;
                         if (outcome.Succeeded)
@@ -215,6 +222,10 @@ public sealed class BatchPipelineRunner
                     break;
                 }
             }
+        }
+        catch (OperationCanceledException)
+        {
+            log?.Report("[Батч] Остановлено пользователем — считаем накопленные расходы.");
         }
         finally
         {
@@ -331,11 +342,12 @@ public sealed class BatchPipelineRunner
     /// Веха: выполняется один раз для всей группы предметов, достигших этой стадии.
     /// Не требует итерации по предметам — не зависит от конкретного предмета.
     /// </summary>
-    private static bool IsMilestoneAction(PipelineAction action) =>
-        action == PipelineAction.TravelToLocation
-        || action == PipelineAction.WalkToPosition
-        || action == PipelineAction.OpenStash
-        || action == PipelineAction.ClickTemplate;
+    private static bool IsMilestoneAction(CraftPipelineStep step) =>
+        step.Action == PipelineAction.TravelToLocation
+        || step.Action == PipelineAction.WalkToPosition
+        || step.Action == PipelineAction.OpenStash
+        || step.Action == PipelineAction.ClickTemplate
+        || (step.Action == PipelineAction.OmenActivation && step.OmenConfig?.UseActiveBatchCount == true);
 
     private async Task InitializeStagesAsync(
         List<BatchItem> items, CraftPipeline pipeline,
