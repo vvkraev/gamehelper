@@ -611,9 +611,11 @@ public sealed class CraftPipelineRunner
             return StepOutcome.Failure();
         }
 
-        var qty = cfg.UseActiveBatchCount ? Math.Max(1, ActiveBatchItemCount) : 1;
-        if (cfg.UseActiveBatchCount)
-            log?.Report($"[Омен] Количество = {qty} (активных предметов в батче)");
+        // В батч-режиме BatchPipelineRunner выставляет ActiveBatchItemCount = N перед вызовом.
+        // В одиночном режиме ActiveBatchItemCount == 1 (значение по умолчанию).
+        var qty = Math.Max(1, ActiveBatchItemCount);
+        if (qty > 1)
+            log?.Report($"[Омен] Количество = {qty} (батч)");
         var placement = new OmenPlacement
         {
             StashCell     = stashCells[cfg.StashCellIndex],
