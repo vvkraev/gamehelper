@@ -159,30 +159,40 @@ public sealed class BatchPipelineRunner
                         // OmenActivation: размещаем N оменов за один раз (qty=N через клавиатуру),
                         // затем сразу применяем следующий шаг per-item — каждый омен расходуется
                         // на одно применение орба к конкретному предмету.
-                        if (step.Action == PipelineAction.OmenActivation && milestoneOutcome.Succeeded
-                            && n + 1 < pipeline.Steps.Count)
+                        // Fused-шаг определяется реальным переходом OnSuccess, а не всегда n+1:
+                        // пайплайны часто переходят через Step(idx), минуя n+1.
+                        if (step.Action == PipelineAction.OmenActivation && milestoneOutcome.Succeeded)
                         {
-                            var fusedStep = pipeline.Steps[n + 1];
-                            var fusedItems = targetItems.Where(i => i.Status == BatchItemStatus.Active).ToList();
-                            log?.Report($"[Батч] Омен-сшивка × {fusedItems.Count}: стадия {n + 1} «{fusedStep.Name}»");
-                            foreach (var item in fusedItems)
+                            var fusedStepIndex = step.OnSuccess.Target switch
                             {
-                                executionCount++;
-                                ct.ThrowIfCancellationRequested();
-                                var screen = screenTemplate with { ItemArea = itemCells[item.CellIndex] };
-                                StepOutcome fusedOutcome;
-                                if (_testStepExecutor is not null)
-                                    fusedOutcome = await _testStepExecutor(item, fusedStep, ct).ConfigureAwait(false);
-                                else
-                                    fusedOutcome = await _runner.ExecuteStepAsync(fusedStep, screen, log, ct, cachedText: item.LastKnownText).ConfigureAwait(false);
-                                item.TotalAttempts += fusedOutcome.Attempts;
-                                if (fusedOutcome.Succeeded)
-                                    AccumulateCost(item, fusedStep, fusedOutcome.Attempts);
-                                LogItemState(item.CellIndex, fusedStep.Name, fusedOutcome);
-                                UpdateItemTextCache(item, fusedStep);
-                                if (!string.IsNullOrWhiteSpace(fusedOutcome.FinalItemText))
-                                    item.LastKnownText = fusedOutcome.FinalItemText;
-                                ApplyTransition(item, fusedStep, fusedOutcome.Succeeded, n + 1, pipeline.Steps.Count, log);
+                                TransitionTarget.Next => n + 1,
+                                TransitionTarget.Step => step.OnSuccess.StepIndex,
+                                _ => -1,
+                            };
+                            if (fusedStepIndex >= 0 && fusedStepIndex < pipeline.Steps.Count)
+                            {
+                                var fusedStep = pipeline.Steps[fusedStepIndex];
+                                var fusedItems = targetItems.Where(i => i.Status == BatchItemStatus.Active).ToList();
+                                log?.Report($"[Батч] Омен-сшивка × {fusedItems.Count}: стадия {fusedStepIndex} «{fusedStep.Name}»");
+                                foreach (var item in fusedItems)
+                                {
+                                    executionCount++;
+                                    ct.ThrowIfCancellationRequested();
+                                    var screen = screenTemplate with { ItemArea = itemCells[item.CellIndex] };
+                                    StepOutcome fusedOutcome;
+                                    if (_testStepExecutor is not null)
+                                        fusedOutcome = await _testStepExecutor(item, fusedStep, ct).ConfigureAwait(false);
+                                    else
+                                        fusedOutcome = await _runner.ExecuteStepAsync(fusedStep, screen, log, ct, cachedText: item.LastKnownText).ConfigureAwait(false);
+                                    item.TotalAttempts += fusedOutcome.Attempts;
+                                    if (fusedOutcome.Succeeded)
+                                        AccumulateCost(item, fusedStep, fusedOutcome.Attempts);
+                                    LogItemState(item.CellIndex, fusedStep.Name, fusedOutcome);
+                                    UpdateItemTextCache(item, fusedStep);
+                                    if (!string.IsNullOrWhiteSpace(fusedOutcome.FinalItemText))
+                                        item.LastKnownText = fusedOutcome.FinalItemText;
+                                    ApplyTransition(item, fusedStep, fusedOutcome.Succeeded, fusedStepIndex, pipeline.Steps.Count, log);
+                                }
                             }
                         }
 
