@@ -146,8 +146,12 @@ public sealed class BatchPipelineRunner
                             milestoneOutcome = await _testStepExecutor(targetItems[0], step, ct).ConfigureAwait(false);
                         else
                         {
+                            // Для шагов с entryCondition (напр. OmenActivation) передаём область
+                            // первого предмета и его кэш, чтобы не смещаться на ячейку 0.
+                            var milestoneScreen = screenTemplate with { ItemArea = itemCells[targetItems[0].CellIndex] };
                             _runner.ActiveBatchItemCount = targetItems.Count;
-                            milestoneOutcome = await _runner.ExecuteStepAsync(step, screenTemplate, log, ct).ConfigureAwait(false);
+                            milestoneOutcome = await _runner.ExecuteStepAsync(step, milestoneScreen, log, ct,
+                                cachedText: targetItems[0].LastKnownText).ConfigureAwait(false);
                             _runner.ActiveBatchItemCount = 1;
                         }
                         foreach (var mi in targetItems)
