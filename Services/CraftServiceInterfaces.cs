@@ -42,7 +42,9 @@ public interface IChaosCraftService : IPrecheckableCraftService
         int globalAttemptOffset,
         IProgress<string>? log,
         CancellationToken cancellationToken,
-        CraftRunFileLog? craftLog = null);
+        CraftRunFileLog? craftLog = null,
+        bool orbAlreadySelected = false,
+        bool keepOrbSelected = false);
 }
 
 /// <summary>Сервис Aug+Annul крафта.</summary>
@@ -124,7 +126,9 @@ public interface IDivineCraftService : IPrecheckableCraftService
         int globalAttemptOffset,
         IProgress<string>? log,
         CancellationToken ct,
-        CraftRunFileLog? craftLog = null);
+        CraftRunFileLog? craftLog = null,
+        bool orbAlreadySelected = false,
+        bool keepOrbSelected = false);
 }
 
 /// <summary>Сервис заточки предметов (не использует план крафта).</summary>

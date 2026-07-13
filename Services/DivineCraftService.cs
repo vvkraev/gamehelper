@@ -152,7 +152,9 @@ public sealed class DivineCraftService : IDivineCraftService
         int globalAttemptOffset,
         IProgress<string>? log,
         CancellationToken ct,
-        CraftRunFileLog? craftLog = null)
+        CraftRunFileLog? craftLog = null,
+        bool orbAlreadySelected = false,
+        bool keepOrbSelected = false)
     {
         if (segmentMaxOperations < 1)
         {
@@ -163,8 +165,9 @@ public sealed class DivineCraftService : IDivineCraftService
         var pattern = conditionSummary.Trim();
         if (pattern.Length == 0) pattern = "(разбор предмета)";
 
-        var orbSelected = false;
-        var shiftHeld = false;
+        // orbAlreadySelected=true: батч держит Shift+орб между предметами — не кликать заново.
+        var orbSelected = orbAlreadySelected;
+        var shiftHeld = orbAlreadySelected;
 
         try
         {
@@ -196,7 +199,7 @@ public sealed class DivineCraftService : IDivineCraftService
                     if (string.IsNullOrWhiteSpace(preClip))
                     {
                         log?.Report("Буфер пуст — ячейка пустая, переходим к следующей.");
-                        if (shiftHeld) Win32Input.ReleaseShift();
+                        if (shiftHeld && !keepOrbSelected) Win32Input.ReleaseShift();
                         return CraftResult.Empty(0);
                     }
 
@@ -221,7 +224,7 @@ public sealed class DivineCraftService : IDivineCraftService
                     if (alreadyMatch)
                     {
                         log?.Report("Условие выполнено — Divine Orb не применяем, переходим к следующей ячейке.");
-                        if (shiftHeld) Win32Input.ReleaseShift();
+                        if (shiftHeld && !keepOrbSelected) Win32Input.ReleaseShift();
                         return CraftResult.Found(attempt - 1, preClip);
                     }
 
@@ -231,7 +234,7 @@ public sealed class DivineCraftService : IDivineCraftService
                     {
                         var desc = DescribeMissingAffixes(plan, preParsed);
                         log?.Report($"Не все аффиксы из условия найдены на предмете — ячейку пропускаем (Divine не тратится). {desc}");
-                        if (shiftHeld) Win32Input.ReleaseShift();
+                        if (shiftHeld && !keepOrbSelected) Win32Input.ReleaseShift();
                         return CraftResult.NoAffixes(0);
                     }
 
@@ -292,7 +295,7 @@ public sealed class DivineCraftService : IDivineCraftService
         }
         finally { }
 
-        if (shiftHeld) Win32Input.ReleaseShift();
+        if (shiftHeld && !keepOrbSelected) Win32Input.ReleaseShift();
         log?.Report($"Достигнут лимит попыток ({segmentMaxOperations}) для ячейки, условие не выполнено.");
         return CraftResult.LimitReached(segmentMaxOperations);
     }

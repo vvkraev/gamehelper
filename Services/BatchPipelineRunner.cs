@@ -160,6 +160,12 @@ public sealed class BatchPipelineRunner
 
                     log?.Report($"[Батч] Стадия {n} «{step.Name}»: {targetItems.Count} предм.");
 
+                    // Для ChaosCraft/DivineCraft: держим Shift+орб между предметами одной стадии.
+                    // Первый предмет кликает орб; остальные просто ЛКМ по предмету — экономим N-1 кликов орба.
+                    var batchOrbSelected = false;
+
+                    try
+                    {
                     foreach (var item in targetItems)
                     {
                         executionCount++;
@@ -190,11 +196,26 @@ public sealed class BatchPipelineRunner
                             }
                         }
 
+                        bool isLastItem = item == targetItems[^1];
+                        bool keepOrb = IsIterativeCurrencyStep(step) && !isLastItem;
+
                         StepOutcome outcome;
-                        if (_testStepExecutor is not null)
-                            outcome = await _testStepExecutor(item, step, ct).ConfigureAwait(false);
-                        else
-                            outcome = await _runner.ExecuteStepAsync(step, screen, log, ct, cachedText: probeText).ConfigureAwait(false);
+                        try
+                        {
+                            if (_testStepExecutor is not null)
+                                outcome = await _testStepExecutor(item, step, ct).ConfigureAwait(false);
+                            else
+                                outcome = await _runner.ExecuteStepAsync(step, screen, log, ct,
+                                    cachedText: probeText,
+                                    orbAlreadySelected: batchOrbSelected,
+                                    keepOrbSelected: keepOrb).ConfigureAwait(false);
+                            batchOrbSelected = keepOrb;
+                        }
+                        catch
+                        {
+                            batchOrbSelected = false; // исключение: RunAsync уже отпустил Shift
+                            throw;
+                        }
 
                         item.TotalAttempts += outcome.Attempts;
                         if (outcome.Succeeded)
@@ -233,6 +254,17 @@ public sealed class BatchPipelineRunner
                                     item.LastKnownText = fusedOutcome.FinalItemText;
                                 ApplyTransition(item, fusedStep, fusedOutcome.Succeeded, fusedN, pipeline.Steps.Count, log);
                             }
+                        }
+                    }
+                    } // foreach targetItems
+                    finally
+                    {
+                        // Если орб остался выбранным (исключение посреди батча или последний предмет не дошёл до RunAsync),
+                        // освобождаем Shift здесь. В штатном случае это no-op (RunAsync уже отпустил Shift).
+                        if (batchOrbSelected)
+                        {
+                            Win32Input.ReleaseShift();
+                            batchOrbSelected = false;
                         }
                     }
                 }
@@ -460,4 +492,11 @@ public sealed class BatchPipelineRunner
             item.CurrentStage = milestoneIndex + 1;
         }
     }
+
+    /// <summary>
+    /// Шаги с итеративной орб-механикой (Shift+RMB на орбе, затем ЛКМ по предметам).
+    /// Для них батч удерживает Shift между предметами одной стадии.
+    /// </summary>
+    private static bool IsIterativeCurrencyStep(CraftPipelineStep step) =>
+        step.Action is PipelineAction.ChaosCraft or PipelineAction.DivineCraft;
 }

@@ -292,16 +292,24 @@ public sealed class CraftPipelineRunner
     /// Если задан, CheckItem / CheckEntryCondition / initial-read не делают повторный Ctrl+Alt+C.
     /// Кэш действителен только до первого state-changing действия внутри шага — дальше шаг читает сам.
     /// </param>
+    /// <param name="orbAlreadySelected">
+    /// true: батч удерживает Shift+орб с предыдущего предмета — ChaosCraft/DivineCraft не делают Shift+RMB заново.
+    /// </param>
+    /// <param name="keepOrbSelected">
+    /// true: не отпускать Shift после завершения — батч продолжит следующий предмет без повторного выбора орба.
+    /// </param>
     internal async Task<StepOutcome> ExecuteStepAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
-        string? cachedText = null)
+        string? cachedText = null,
+        bool orbAlreadySelected = false,
+        bool keepOrbSelected = false)
     {
         return step.Action switch
         {
             PipelineAction.CheckItem => await ExecuteCheckItemAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
-            PipelineAction.ChaosCraft => await ExecuteChaosCraftAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.ChaosCraft => await ExecuteChaosCraftAsync(step, screen, log, ct, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false),
             PipelineAction.AugAnnulCraft => await ExecuteAugAnnulAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
-            PipelineAction.DivineCraft => await ExecuteDivineCraftAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.DivineCraft => await ExecuteDivineCraftAsync(step, screen, log, ct, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false),
             PipelineAction.ExaltCraft => await ExecuteExaltCraftAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
             PipelineAction.SimpleCurrency => await ExecuteSimpleCurrencyAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
             // Устаревшие — оставлены для совместимости сохранённых JSON-пайплайнов
@@ -355,7 +363,8 @@ public sealed class CraftPipelineRunner
     }
 
     private async Task<StepOutcome> ExecuteChaosCraftAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        bool orbAlreadySelected = false, bool keepOrbSelected = false)
     {
         if (_chaos is null)
             return StepOutcome.Failure();
@@ -364,12 +373,14 @@ public sealed class CraftPipelineRunner
         var plan = step.LoopUntil ?? new CraftConditionPlan { ExpectedItemClass = "" };
         var result = await _chaos.RunAsync(
             screen.ChaosOrbArea, screen.ItemArea, plan, step.Name,
-            step.MaxIterations, step.MaxIterations, 0, log, ct).ConfigureAwait(false);
+            step.MaxIterations, step.MaxIterations, 0, log, ct,
+            orbAlreadySelected: orbAlreadySelected, keepOrbSelected: keepOrbSelected).ConfigureAwait(false);
         return new StepOutcome(result.Success, result.Attempts, result.FinalItem);
     }
 
     private async Task<StepOutcome> ExecuteDivineCraftAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        bool orbAlreadySelected = false, bool keepOrbSelected = false)
     {
         if (_divine is null)
             return StepOutcome.Failure();
@@ -378,7 +389,8 @@ public sealed class CraftPipelineRunner
         var plan = step.LoopUntil ?? new CraftConditionPlan { ExpectedItemClass = "" };
         var result = await _divine.RunAsync(
             screen.DivineOrbArea, screen.ItemArea, plan, step.Name,
-            step.MaxIterations, step.MaxIterations, 0, log, ct).ConfigureAwait(false);
+            step.MaxIterations, step.MaxIterations, 0, log, ct,
+            orbAlreadySelected: orbAlreadySelected, keepOrbSelected: keepOrbSelected).ConfigureAwait(false);
         return new StepOutcome(result.Success, result.Attempts, result.FinalItem);
     }
 
