@@ -13,6 +13,13 @@ public sealed class BatchItem
     public int TotalAttempts { get; set; }
     public decimal TotalCostDiv { get; set; }
     public List<BatchCostRecord> CostRecords { get; } = [];
+
+    /// <summary>
+    /// Последний известный текст предмета в ячейке. Используется как кэш вместо probe Ctrl+Alt+C.
+    /// Null = кэш недействителен, нужно читать буфер.
+    /// Инвалидируется после state-changing шагов, не возвращающих FinalItemText.
+    /// </summary>
+    internal string? LastKnownText { get; set; }
 }
 
 public sealed class BatchCostRecord
@@ -160,19 +167,26 @@ public sealed class BatchPipelineRunner
 
                         var screen = screenTemplate with { ItemArea = itemCells[item.CellIndex] };
 
-                        // Проверяем наличие предмета в ячейке перед выполнением шага.
-                        // Текст пробы передаётся в ExecuteStepAsync как кэш — CheckItem / CheckEntryCondition
-                        // / initial-read не делают повторный Ctrl+Alt+C, сберегая 1–2 чтения на шаг.
-                        string? probeText = null;
+                        // Probe: используем межшаговый кэш если он актуален, иначе Ctrl+Alt+C.
+                        // Кэш обновляется из FinalItemText каждого шага; инвалидируется после
+                        // state-changing действий, не возвращающих текст предмета.
+                        string? probeText = item.LastKnownText;
                         if (_chaos is not null && _testStepExecutor is null)
                         {
-                            probeText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
                             if (string.IsNullOrWhiteSpace(probeText))
                             {
-                                item.Status = BatchItemStatus.Failed;
-                                item.LastMessage = "Пустой буфер — ячейка пропущена";
-                                log?.Report($"[Батч] [{item.CellIndex}]: буфер пуст перед шагом «{step.Name}» — ячейка помечена как необрабатываемая.");
-                                continue;
+                                probeText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+                                if (string.IsNullOrWhiteSpace(probeText))
+                                {
+                                    item.Status = BatchItemStatus.Failed;
+                                    item.LastMessage = "Пустой буфер — ячейка пропущена";
+                                    log?.Report($"[Батч] [{item.CellIndex}]: буфер пуст перед шагом «{step.Name}» — ячейка помечена как необрабатываемая.");
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                log?.Report($"[Батч] [{item.CellIndex}]: используем кэш предмета (без Ctrl+Alt+C перед «{step.Name}»)");
                             }
                         }
 
@@ -186,11 +200,15 @@ public sealed class BatchPipelineRunner
                         if (outcome.Succeeded)
                             AccumulateCost(item, step, outcome.Attempts);
                         LogItemState(item.CellIndex, step.Name, outcome);
+                        UpdateItemTextCache(item, step);
+                        if (!string.IsNullOrWhiteSpace(outcome.FinalItemText))
+                            item.LastKnownText = outcome.FinalItemText;
                         ApplyTransition(item, step, outcome.Succeeded, n, pipeline.Steps.Count, log);
 
                         // OmenActivation кладёт омен в ячейку — расходуется следующим шагом.
                         // Чтобы ячейка не была занята при обработке следующего предмета,
                         // выполняем следующий шаг для ЭТОГО предмета сразу (атомарная сшивка).
+                        // OmenActivation не меняет предмет → кэш (probeText) валиден для сшивки.
                         if (outcome.Succeeded && step.Action == PipelineAction.OmenActivation
                             && item.Status == BatchItemStatus.Active)
                         {
@@ -205,11 +223,14 @@ public sealed class BatchPipelineRunner
                                 if (_testStepExecutor is not null)
                                     fusedOutcome = await _testStepExecutor(item, fusedStep, ct).ConfigureAwait(false);
                                 else
-                                    fusedOutcome = await _runner.ExecuteStepAsync(fusedStep, screen, log, ct).ConfigureAwait(false);
+                                    fusedOutcome = await _runner.ExecuteStepAsync(fusedStep, screen, log, ct, cachedText: item.LastKnownText).ConfigureAwait(false);
                                 item.TotalAttempts += fusedOutcome.Attempts;
                                 if (fusedOutcome.Succeeded)
                                     AccumulateCost(item, fusedStep, fusedOutcome.Attempts);
                                 LogItemState(item.CellIndex, fusedStep.Name, fusedOutcome);
+                                UpdateItemTextCache(item, fusedStep);
+                                if (!string.IsNullOrWhiteSpace(fusedOutcome.FinalItemText))
+                                    item.LastKnownText = fusedOutcome.FinalItemText;
                                 ApplyTransition(item, fusedStep, fusedOutcome.Succeeded, fusedN, pipeline.Steps.Count, log);
                             }
                         }
@@ -336,6 +357,28 @@ public sealed class BatchPipelineRunner
         // Id вида "ancient_jawbone" → "Ancient Jawbone"
         return System.Globalization.CultureInfo.InvariantCulture.TextInfo
             .ToTitleCase(boneId.Replace('_', ' '));
+    }
+
+    /// <summary>
+    /// Инвалидирует <see cref="BatchItem.LastKnownText"/> если действие меняет предмет
+    /// но не возвращает FinalItemText в StepOutcome.
+    /// Вызывать ДО присвоения outcome.FinalItemText — тогда FinalItemText перезапишет null.
+    /// </summary>
+    private static void UpdateItemTextCache(BatchItem item, CraftPipelineStep step)
+    {
+        // Эти действия меняют предмет, но возвращают Success без FinalItemText.
+        // Без явной инвалидации кэш будет содержать устаревший текст.
+        if (step.Action is PipelineAction.DeliriumLiquid
+            or PipelineAction.SimpleAnnul
+            or PipelineAction.SimpleChaos
+            or PipelineAction.SimpleExalt
+            or PipelineAction.CtrlClickItem
+            or PipelineAction.DesecrateReveal
+            or PipelineAction.DesecratePick
+            or PipelineAction.ManualPause)
+        {
+            item.LastKnownText = null;
+        }
     }
 
     /// <summary>
