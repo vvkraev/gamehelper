@@ -485,4 +485,59 @@ public sealed class PipelineStepDetectorTests
         Assert.Null(result.StepIndex);
         Assert.Contains("не распознан", result.Explanation);
     }
+
+    // ── Правило TravelToLocation ───────────────────────────────────────────────
+
+    /// <summary>
+    /// Предмет совпадает с шагом ПОСЛЕ TravelToLocation, но НЕ совпадает с последним
+    /// checkpoint'ом ДО вехи → должен быть определён в фазе до вехи.
+    /// Воспроизводит кейс: предмет получил десекрейт-префикс в прошлом батче
+    /// (совпадает с шагом 15), но не имеет 3 суффиксов (не совпадает с шагом 12).
+    /// </summary>
+    [Fact]
+    public void TravelToLocation_CandidatePastMilestone_CheckpointFails_FallsBackToPrePhase()
+    {
+        // Pipeline: [0] Chaos(A)  [1] CheckSuffixes(B)  [2] Travel(—)  [3] ChaosDesecrate(C)
+        // Предмет: совпадает с C (десекрейт-префикс), НЕ совпадает с B (нет 3 суффиксов) → ожидаем шаг 0
+        var pipeline = new CraftPipeline
+        {
+            Steps =
+            [
+                TaggedStep("Chaos",          PipelineAction.ChaosCraft,       "A"),
+                TaggedStep("CheckSuffixes",  PipelineAction.CheckItem,        "B"),
+                TaggedStep("Travel",         PipelineAction.TravelToLocation, null),
+                TaggedStep("ChaosDesecrate", PipelineAction.ChaosCraft,       "C"),
+            ]
+        };
+        // Предмет имеет «C» (десекрейт) но не «B» (суффиксы)
+        var result = PipelineStepDetector.DetectCore(pipeline, AnyItem, MatchTags("A", "C"));
+
+        // Шаг 3 найден первым (C совпадает), но checkpoint шаг 1 (B) не совпадает
+        // → откат в фазу [0..1]; там совпадает шаг 0 (A)
+        Assert.Equal(0, result.StepIndex);
+        Assert.Contains("Travel-check", result.Explanation);
+    }
+
+    /// <summary>
+    /// Предмет совпадает с шагом ПОСЛЕ вехи И с checkpoint'ом ДО вехи → остаётся за вехой.
+    /// </summary>
+    [Fact]
+    public void TravelToLocation_CandidatePastMilestone_CheckpointPasses_StaysInPostPhase()
+    {
+        var pipeline = new CraftPipeline
+        {
+            Steps =
+            [
+                TaggedStep("Chaos",          PipelineAction.ChaosCraft,       "A"),
+                TaggedStep("CheckSuffixes",  PipelineAction.CheckItem,        "B"),
+                TaggedStep("Travel",         PipelineAction.TravelToLocation, null),
+                TaggedStep("ChaosDesecrate", PipelineAction.ChaosCraft,       "C"),
+            ]
+        };
+        // Предмет имеет и «B» (3 суффикса) и «C» (десекрейт)
+        var result = PipelineStepDetector.DetectCore(pipeline, AnyItem, MatchTags("B", "C"));
+
+        Assert.Equal(3, result.StepIndex);
+        Assert.DoesNotContain("Travel-check", result.Explanation);
+    }
 }

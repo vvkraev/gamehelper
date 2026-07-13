@@ -19,10 +19,11 @@ public static class PipelineStepDetector
     /// Алгоритм:
     /// 1. Сканировать шаги с конца к началу.
     /// 2. Найти последний (наибольший индекс) шаг, чей EntryCondition совпадает с предметом.
-    /// 3. Если у шага n-1 Action == CheckItem или OmenActivation и его EntryCondition тоже совпадает → вернуть n-1.
-    ///    Обоснование: эти шаги не меняют состояние предмета, поэтому их условие входа идентично следующему шагу;
-    ///    предпочитаем более ранний шаг при неопределённости.
-    /// 4. Иначе вернуть n.
+    /// 3. Правило n-1: если шаг n-1 не меняет состояние предмета (CheckItem / OmenActivation)
+    ///    и его EntryCondition тоже совпадает → предпочитаем более ранний шаг.
+    /// 4. Правило TravelToLocation: перед принятием кандидата N проверяем последний checkpoint
+    ///    (шаг с EntryCondition) до каждой TravelToLocation-вехи между 0 и N.
+    ///    Если checkpoint не совпадает → предмет не прошёл эту фазу, ищем стадию ниже вехи.
     /// 5. Если ни один шаг не совпал → null.
     /// </summary>
     public static DetectResult Detect(CraftPipeline pipeline, ParsedItem item) =>
@@ -33,8 +34,18 @@ public static class PipelineStepDetector
     {
         var steps = pipeline.Steps;
         var sb = new StringBuilder();
+        return DetectInRange(steps, item, eval, 0, steps.Count - 1, sb);
+    }
 
-        for (int i = steps.Count - 1; i >= 0; i--)
+    private static DetectResult DetectInRange(
+        IList<CraftPipelineStep> steps,
+        ParsedItem item,
+        EvaluateDelegate eval,
+        int fromInclusive,
+        int toInclusive,
+        StringBuilder sb)
+    {
+        for (int i = toInclusive; i >= fromInclusive; i--)
         {
             var step = steps[i];
             if (step.EntryCondition == null)
@@ -50,22 +61,56 @@ public static class PipelineStepDetector
 
             // Правило n-1: если предыдущий шаг не меняет состояние предмета (CheckItem / OmenActivation)
             // и его условие тоже совпадает — предпочитаем более ранний шаг.
-            if (i > 0
+            var candidate = i;
+            if (i > fromInclusive
                 && steps[i - 1].EntryCondition != null
                 && IsStatePreservingAction(steps[i - 1].Action)
                 && eval(steps[i - 1].EntryCondition!, item, out var prevDetail))
             {
                 var prevActionLabel = steps[i - 1].Action == PipelineAction.CheckItem ? "CheckItem" : "OmenActivation";
                 sb.AppendLine($"[{i - 1}] «{steps[i - 1].Name}» ({prevActionLabel} n-1): тоже совпал — {prevDetail}");
-                sb.AppendLine($"→ Шаг {i - 1} «{steps[i - 1].Name}» (правило n-1)");
-                return new DetectResult(i - 1, sb.ToString().TrimEnd());
+                candidate = i - 1;
             }
 
-            sb.AppendLine($"→ Шаг {i} «{step.Name}»");
-            return new DetectResult(i, sb.ToString().TrimEnd());
+            // Правило TravelToLocation: кандидат N должен находиться в той же «фазе», что и предмет.
+            // Для каждой TravelToLocation-вехи T (fromInclusive ≤ T < candidate) находим последний
+            // checkpoint (шаг с EntryCondition) перед T. Если он не совпадает — предмет не прошёл
+            // эту фазу и реально находится до вехи T.
+            for (int t = candidate - 1; t >= fromInclusive; t--)
+            {
+                if (steps[t].Action != PipelineAction.TravelToLocation)
+                    continue;
+
+                // Найти последний checkpoint до t
+                int lastCheckpoint = -1;
+                for (int c = t - 1; c >= fromInclusive; c--)
+                {
+                    if (steps[c].EntryCondition != null)
+                    {
+                        lastCheckpoint = c;
+                        break;
+                    }
+                }
+
+                if (lastCheckpoint < 0)
+                    continue; // нет checkpoint-а до вехи — не можем опровергнуть
+
+                if (!eval(steps[lastCheckpoint].EntryCondition!, item, out var cpDetail))
+                {
+                    // Предмет не прошёл фазу до вехи T → ищем стадию в [fromInclusive .. t-1]
+                    sb.AppendLine(
+                        $"[Travel-check] Веха [{t}] «{steps[t].Name}»: последний checkpoint [{lastCheckpoint}] «{steps[lastCheckpoint].Name}» не совпал — {cpDetail}");
+                    sb.AppendLine($"→ предмет в фазе до вехи [{t}], сужаю диапазон [{fromInclusive}..{t - 1}]");
+                    return DetectInRange(steps, item, eval, fromInclusive, t - 1, sb);
+                }
+            }
+
+            var label = candidate < i ? $"(правило n-1 от [{i}])" : "";
+            sb.AppendLine($"→ Шаг {candidate} «{steps[candidate].Name}» {label}".TrimEnd());
+            return new DetectResult(candidate, sb.ToString().TrimEnd());
         }
 
-        sb.AppendLine("Предмет не распознан ни на одном шаге пайплайна");
+        sb.AppendLine($"Предмет не распознан ни на одном шаге [{fromInclusive}..{toInclusive}]");
         return new DetectResult(null, sb.ToString().TrimEnd());
     }
 
