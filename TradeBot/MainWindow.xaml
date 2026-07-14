@@ -1,0 +1,130 @@
+<Window x:Class="TradeBot.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="TradeBot" Width="680" Height="580"
+        Closing="Window_Closing">
+    <Window.Resources>
+        <Style TargetType="Button">
+            <Setter Property="Padding" Value="10,4"/>
+            <Setter Property="MinWidth" Value="90"/>
+        </Style>
+        <Style TargetType="GroupBox">
+            <Setter Property="Margin" Value="0,6,0,0"/>
+            <Setter Property="Padding" Value="8,6"/>
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="VerticalContentAlignment" Value="Center"/>
+            <Setter Property="Padding" Value="4,2"/>
+        </Style>
+    </Window.Resources>
+    <Grid Margin="12">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Статус подключения -->
+        <Border Grid.Row="0" Background="#1e1e2e" CornerRadius="4" Padding="10,6">
+            <StackPanel Orientation="Horizontal">
+                <Ellipse x:Name="StatusDot" Width="10" Height="10" Fill="#555" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                <TextBlock x:Name="StatusText" Text="Не подключён" Foreground="#aaa" VerticalAlignment="Center"/>
+            </StackPanel>
+        </Border>
+
+        <!-- Сетка стеша -->
+        <GroupBox Grid.Row="1" Header="Сетка стеша">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Выделить область" Click="PickStash_Click"/>
+                    <TextBlock Text="Колонки:" Margin="16,0,6,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="StashColsBox" Width="48" Text="12"/>
+                    <TextBlock Text="Строки:" Margin="10,0,6,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="StashRowsBox" Width="48" Text="12"/>
+                </StackPanel>
+                <TextBlock x:Name="StashRegionLabel" Text="Область не задана" Foreground="#888"
+                           Margin="0,4,0,0" FontSize="11"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Область Merchant -->
+        <GroupBox Grid.Row="2" Header="Область надписи «Merchant»">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Выделить область" Click="PickMerchant_Click"/>
+                    <Button Content="Тест OCR" Click="TestOcr_Click" Margin="8,0,0,0"/>
+                </StackPanel>
+                <TextBlock x:Name="MerchantRegionLabel" Text="Область не задана" Foreground="#888"
+                           Margin="0,4,0,0" FontSize="11"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Параметры -->
+        <GroupBox Grid.Row="3" Header="Параметры">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Макс. предметов:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="MaxItemsBox" Width="55" Margin="8,0,20,0" Text="3"/>
+                    <TextBlock Text="Задержка после покупки (мс):" VerticalAlignment="Center"/>
+                    <TextBox x:Name="DelayBox" Width="70" Margin="8,0,20,0" Text="1500"/>
+                    <TextBlock Text="Ожидание хайдаута (с):" VerticalAlignment="Center"/>
+                    <TextBox x:Name="TimeoutBox" Width="55" Margin="8,0,0,0" Text="30"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <TextBlock Text="Процесс игры:" VerticalAlignment="Center"/>
+                    <TextBox x:Name="ProcessNameBox" Width="180" Margin="8,0,0,0" Text="PathOfExileSteam"/>
+                    <Button Content="?" Width="22" Margin="4,0,0,0" Click="DetectProcess_Click" ToolTip="Показать процессы с окном"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Инвентарь -->
+        <GroupBox Grid.Row="4" Header="Инвентарь игрока (12×5)">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Область инвентаря" Click="PickInventory_Click"/>
+                    <Button Content="Область личного стэша" Click="PickPersonalStash_Click" Margin="8,0,0,0"/>
+                    <Button Content="Сканировать" Click="ScanInventory_Click" Margin="8,0,0,0"/>
+                    <Button Content="Скинуть в стэш" Click="DumpInventory_Click" Margin="8,0,0,0"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <CheckBox x:Name="InventoryCheckBox" Content="Проверять перед покупкой" VerticalAlignment="Center"/>
+                    <TextBlock Text="Мин. ячеек:" Margin="16,0,6,0" VerticalAlignment="Center"/>
+                    <TextBox x:Name="InventoryMinSlotsBox" Width="45" Text="10"/>
+                    <CheckBox x:Name="AutoDumpBox" Content="Авто-сброс в стэш" VerticalAlignment="Center" Margin="16,0,0,0"/>
+                    <CheckBox x:Name="ScanOnStartupBox" Content="Скан при запуске" VerticalAlignment="Center" Margin="16,0,0,0"/>
+                    <CheckBox x:Name="CloseOnInventoryFullBox" Content="Закрыть игру и бот при заполнении" VerticalAlignment="Center" Margin="16,0,0,0"/>
+                </StackPanel>
+                <TextBlock x:Name="InventoryRegionLabel" Text="Инвентарь: не задан  |  Личный стэш: не задан"
+                           Foreground="#888" Margin="0,4,0,0" FontSize="11"/>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Кнопки управления -->
+        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,10,0,0">
+            <CheckBox x:Name="AutoBuyCheck" Content="Автопокупка (Ctrl+ЛКМ)" VerticalAlignment="Center" Margin="0,0,20,0"/>
+            <RadioButton x:Name="ModeBulk" Content="Bulk" IsChecked="True" VerticalAlignment="Center" Margin="0,0,10,0" Checked="Mode_Checked"/>
+            <RadioButton x:Name="ModeLive" Content="Live Search" VerticalAlignment="Center" Margin="0,0,20,0" Checked="Mode_Checked"/>
+            <Button x:Name="ConnectBtn" Content="Подключиться" Click="Connect_Click"/>
+            <Button x:Name="StartBtn" Content="Старт" Click="Start_Click" Margin="8,0,0,0" IsEnabled="False"/>
+            <Button x:Name="StopBtn" Content="Стоп" Click="Stop_Click" Margin="8,0,0,0" IsEnabled="False"/>
+        </StackPanel>
+
+        <!-- Лог -->
+        <TextBox Grid.Row="6" x:Name="LogBox"
+                 IsReadOnly="True"
+                 TextWrapping="Wrap"
+                 VerticalScrollBarVisibility="Auto"
+                 Margin="0,10,0,0"
+                 Background="#12121c"
+                 Foreground="#cccccc"
+                 FontFamily="Consolas"
+                 FontSize="12"
+                 BorderThickness="1"
+                 BorderBrush="#333"/>
+    </Grid>
+</Window>
