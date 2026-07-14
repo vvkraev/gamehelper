@@ -270,6 +270,10 @@ public static class CraftConditionEvaluator
                 {
                     // Нет дополнительных данных для валидации — DesecrateSide достаточно.
                 }
+                else if (c.Kind == CraftClauseKind.HasAnyDesecrate)
+                {
+                    // Нет дополнительных данных.
+                }
                 else
                 {
                     error = $"Неизвестный тип клоза в варианте {altIndex}.";
@@ -408,9 +412,15 @@ public static class CraftConditionEvaluator
                     parts.Add($"{contrib:0.##}");
                 }
 
-                rawOk = sum >= clause.Sum.MinSum;
-                rawDetail = $"сумма по группе = {sum:0.##} (части {string.Join("+", parts)}), нужно ≥ {FormatNum(clause.Sum.MinSum)}.";
-                sbEntry = $"Σ({string.Join("+", parts)})≥{FormatNum(clause.Sum.MinSum)}";
+                var maxSum = clause.Sum.MaxSum;
+                rawOk = sum >= clause.Sum.MinSum && (maxSum == 0 || sum <= maxSum);
+                var sumBound = maxSum > 0
+                    ? $"нужно [{FormatNum(clause.Sum.MinSum)}…{FormatNum(maxSum)}]"
+                    : $"нужно ≥ {FormatNum(clause.Sum.MinSum)}";
+                rawDetail = $"сумма по группе = {sum:0.##} (части {string.Join("+", parts)}), {sumBound}.";
+                sbEntry = maxSum > 0
+                    ? $"Σ[{FormatNum(clause.Sum.MinSum)}…{FormatNum(maxSum)}]"
+                    : $"Σ({string.Join("+", parts)})≥{FormatNum(clause.Sum.MinSum)}";
             }
             else if (clause.Kind == CraftClauseKind.Count)
             {
@@ -422,7 +432,10 @@ public static class CraftConditionEvaluator
 
                 rawOk = TryEvaluateCountClause(clause.Count, item, expectedItemClass, lib, out rawDetail);
                 var matched = CountMatchedMembers(clause.Count, item, expectedItemClass, lib);
-                sbEntry = $"COUNT≥{clause.Count.MinMatchCount}({matched}/{clause.Count.Members.Count})";
+                var cntMax = clause.Count.MaxMatchCount;
+                sbEntry = cntMax > 0
+                    ? $"COUNT[{clause.Count.MinMatchCount}…{cntMax}]({matched}/{clause.Count.Members.Count})"
+                    : $"COUNT≥{clause.Count.MinMatchCount}({matched}/{clause.Count.Members.Count})";
             }
             else if (clause.Kind == CraftClauseKind.WholeModifier)
             {
@@ -439,7 +452,7 @@ public static class CraftConditionEvaluator
                 {
                     if (ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(
                             w, item, expectedItemClass, lib, out var subWhole, nm,
-                            includeFractured: true))
+                            includeFractured: w.IncludeFractured))
                     {
                         okWhole = true;
                         break;
@@ -494,6 +507,16 @@ public static class CraftConditionEvaluator
                     ? $"Нераскрытый десекрейт ({sideLabel}) — обнаружен"
                     : $"Нераскрытый десекрейт ({sideLabel}) — не обнаружен";
                 sbEntry = $"Desecrate({sideLabel})";
+            }
+            else if (clause.Kind == CraftClauseKind.HasAnyDesecrate)
+            {
+                rawOk = item.Affixes.Any(a =>
+                    a.IsUnrevealedDesecrate ||
+                    a.Type.Contains("Desecrated", StringComparison.OrdinalIgnoreCase));
+                rawDetail = rawOk
+                    ? "Десекрейт-мод — обнаружен"
+                    : "Десекрейт-мод — не обнаружен";
+                sbEntry = "AnyDesecrate";
             }
             else
             {
@@ -585,7 +608,8 @@ public static class CraftConditionEvaluator
     {
         detail = "";
         var matched = CountMatchedMembers(cnt, item, expectedItemClass, lib);
-        if (matched >= cnt.MinMatchCount)
+        var inRange = matched >= cnt.MinMatchCount && (cnt.MaxMatchCount == 0 || matched <= cnt.MaxMatchCount);
+        if (inRange)
             return true;
 
         var parts = new List<string>();
@@ -598,8 +622,11 @@ public static class CraftConditionEvaluator
                 parts.Add($"{label}: {fail}");
         }
 
+        var countBound = cnt.MaxMatchCount > 0
+            ? $"нужно [{cnt.MinMatchCount}…{cnt.MaxMatchCount}]"
+            : $"нужно ≥ {cnt.MinMatchCount}";
         detail =
-            $"набор COUNT: выполнено {matched} из {cnt.Members.Count} (нужно ≥ {cnt.MinMatchCount})" +
+            $"набор COUNT: выполнено {matched} из {cnt.Members.Count} ({countBound})" +
             (cnt.IncludeFractured ? " [+фрактура]" : "") + ". " +
             string.Join("; ", parts);
         return false;
@@ -688,6 +715,16 @@ public static class CraftConditionEvaluator
                         allLinesMatch = false;
                         lineFailDetail =
                             $"«{name}» строка «{line.StatTemplate}»: [{string.Join(", ", actual.Select(FormatNum))}] < [{string.Join(", ", mins.Select(FormatNum))}].";
+                        break;
+                    }
+
+                    line.EnsureMaxRollsSize(slots);
+                    var maxs = line.GetEffectiveMaxRolls(slots).ToList();
+                    if (!ParsedItemCraftEvaluator.RollVectorMeetsMaxes(actual, maxs, out _))
+                    {
+                        allLinesMatch = false;
+                        lineFailDetail =
+                            $"«{name}» строка «{line.StatTemplate}»: [{string.Join(", ", actual.Select(FormatNum))}] > [{string.Join(", ", maxs.Where(m => m > 0).Select(FormatNum))}] (выше максимума).";
                         break;
                     }
                 }
@@ -873,6 +910,8 @@ public static class CraftConditionEvaluator
                     };
                     sb.Append($"Desecrate({sideLabel})");
                 }
+                else if (c.Kind == CraftClauseKind.HasAnyDesecrate)
+                    sb.Append("AnyDesecrate");
                 else
                     sb.Append('?');
                 if (c.Negate)

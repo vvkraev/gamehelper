@@ -2,8 +2,11 @@
 
   <ItemGroup>
     <Compile Remove="GameHelper.Tests\**\*" />
+    <Compile Remove="TradeBot\**\*" />
+    <Compile Remove="TradeBot.Tests\**\*" />
     <Compile Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
     <Compile Remove="OcrTest\**\*" />
+    <Page Remove="TradeBot\**\*" />
     <Page Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
     <None Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
     <None Remove="OcrTest\**\*" />

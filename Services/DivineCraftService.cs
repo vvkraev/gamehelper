@@ -346,12 +346,17 @@ public sealed class DivineCraftService : IDivineCraftService
                     .Any(p => item.Affixes.Any(a => string.Equals(a.Name, p.AffixName, StringComparison.Ordinal)))
                 ?? false,
 
-            // Count: проверяем только присутствие имён (без числовых порогов)
+            // Count: проверяем только присутствие имён (без числовых порогов).
+            // Фрактурные аффиксы включаются/исключаются в соответствии с IncludeFractured —
+            // чтобы divine не зависал в бесконечном цикле когда единственный совпадающий
+            // член является фрактурным, а IncludeFractured=false (divine его не изменит).
             CraftClauseKind.Count =>
                 clause.Count != null &&
                 clause.Count.Members.Count(m =>
                     m.EffectiveWholeAffixNames().Any(n =>
-                        item.Affixes.Any(a => string.Equals(a.Name, n, StringComparison.Ordinal))))
+                        item.Affixes
+                            .Where(a => clause.Count.IncludeFractured || !a.IsFractured)
+                            .Any(a => string.Equals(a.Name, n, StringComparison.Ordinal))))
                     >= clause.Count.MinMatchCount,
 
             _ => true,
