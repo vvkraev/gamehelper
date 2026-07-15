@@ -64,6 +64,11 @@ public sealed class ChaosCraftService : IChaosCraftService
     /// </summary>
     public Func<string, Task>? StepConfirmAsync { get; set; }
 
+    /// <summary>
+    /// Если задан — проверяет процесс игры при старте и после серии пустых буферов.
+    /// </summary>
+    public GameClientGuard? Guard { get; set; }
+
     private static int WithJitter(int baseMs)
     {
         if (baseMs <= 0)
@@ -104,12 +109,19 @@ public sealed class ChaosCraftService : IChaosCraftService
 
         var first = await OnceAsync().ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(first))
+        {
+            Guard?.RecordSuccess();
             return first;
+        }
 
         // Retry: буфер может быть пуст из-за фокуса/обновления подсказки/гонки чтения.
         log?.Report($"{tag}: буфер пуст, повтор Ctrl+Alt+C (retry) …");
         await Task.Delay(1000, ct).ConfigureAwait(false);
         var second = await OnceAsync().ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(second))
+            Guard?.RecordMiss(log);
+        else
+            Guard?.RecordSuccess();
         return second;
     }
 
@@ -275,6 +287,8 @@ public sealed class ChaosCraftService : IChaosCraftService
             Win32Input.InputTrace = prevTrace;
             return CraftResult.Failed();
         }
+
+        Guard?.EnsureRunning();
 
         var pattern = conditionSummary.Trim();
         if (pattern.Length == 0)

@@ -20,6 +20,7 @@
     <Compile Remove="Services\ScreenCaptureHelper.cs" />
     <Compile Remove="Services\LocationDetector.cs" />
     <Compile Remove="Services\WindowsOcrTextLocator.cs" />
+    <Compile Remove="Native\ProcessForeground.cs" />
   </ItemGroup>
 
   <ItemGroup>
