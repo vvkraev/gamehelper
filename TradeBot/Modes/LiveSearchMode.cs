@@ -3,7 +3,6 @@ using System.Text.Json;
 using System.Threading.Channels;
 using TradeBot.Browser;
 using TradeBot.Config;
-using TradeBot.Native;
 using TradeBot.Services;
 using TradeBot.Trade;
 

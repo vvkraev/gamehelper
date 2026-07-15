@@ -4,7 +4,6 @@ using System.Windows.Interop;
 using System.Windows.Media;
 using TradeBot.Browser;
 using TradeBot.Config;
-using TradeBot.Native;
 using TradeBot.Services;
 using TradeBot.Trade;
 
@@ -123,9 +122,9 @@ public partial class MainWindow : Window
             return;
         }
         Log("OCR тест...");
-        var text = await OcrHelper.RecognizeRegionRawTextAsync(_settings.MerchantRegion.Value, null, CancellationToken.None);
-        Log($"OCR результат: «{text}»  (норм: «{OcrHelper.NormalizeForMatch(text)}»)");
-        var found = OcrHelper.NormalizeForMatch(text).Contains("MERCHANT", StringComparison.Ordinal);
+        var text = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(_settings.MerchantRegion.Value, null, CancellationToken.None);
+        Log($"OCR результат: «{text}»  (норм: «{WindowsOcrTextLocator.NormalizeForMatch(text)}»)");
+        var found = WindowsOcrTextLocator.NormalizeForMatch(text).Contains("MERCHANT", StringComparison.Ordinal);
         Log(found ? "✓ MERCHANT найден" : "✗ MERCHANT не найден");
     }
 

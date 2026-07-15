@@ -2,14 +2,24 @@
 
   <ItemGroup>
     <Compile Remove="GameHelper.Tests\**\*" />
+    <Compile Remove="GameHelper.Shared\**\*" />
     <Compile Remove="TradeBot\**\*" />
     <Compile Remove="TradeBot.Tests\**\*" />
     <Compile Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
     <Compile Remove="OcrTest\**\*" />
+    <Page Remove="GameHelper.Shared\**\*" />
     <Page Remove="TradeBot\**\*" />
     <Page Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
     <None Remove="PoeAncientsPriceHelper-1.1.0\**\*" />
     <None Remove="OcrTest\**\*" />
+    <!-- Файлы перемещены в GameHelper.Shared: -->
+    <Compile Remove="ScreenRect.cs" />
+    <Compile Remove="RegionPickerWindow.xaml.cs" />
+    <Page Remove="RegionPickerWindow.xaml" />
+    <Compile Remove="Native\Win32Input.cs" />
+    <Compile Remove="Services\ScreenCaptureHelper.cs" />
+    <Compile Remove="Services\LocationDetector.cs" />
+    <Compile Remove="Services\WindowsOcrTextLocator.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -30,6 +40,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="10.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="GameHelper.Shared\GameHelper.Shared.csproj" />
+  </ItemGroup>
+
   <PropertyGroup>
     <Version>0.3.0</Version>
     <OutputType>WinExe</OutputType>
@@ -46,6 +60,7 @@
     <!-- WPF temp project дублирует AssemblyInfo атрибуты при автогенерации -->
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <GenerateTargetFrameworkAttribute>false</GenerateTargetFrameworkAttribute>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
   </PropertyGroup>
 
 </Project>
