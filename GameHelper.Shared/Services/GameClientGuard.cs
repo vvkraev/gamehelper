@@ -22,9 +22,10 @@ public sealed class GameClientGuard
         _maxConsecutiveMisses = maxConsecutiveMisses;
     }
 
-    /// <summary>Выбрасывает <see cref="GameNotRunningException"/>, если процесс не найден.</summary>
+    /// <summary>Выбрасывает <see cref="GameNotRunningException"/>, если процесс не найден. Сбрасывает счётчик пропусков.</summary>
     public void EnsureRunning()
     {
+        _consecutiveMisses = 0;
         if (!ProcessForeground.IsProcessRunning(_processName))
             throw new GameNotRunningException(_processName);
     }

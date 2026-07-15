@@ -206,6 +206,17 @@ public partial class MainWindow : Window
         _chancingService = chancingService;
         _craftOrchestrator = craftOrchestrator;
         _vm = vm;
+
+        // Каждый сервис получает свой экземпляр — счётчик miss независим между видами крафта.
+        _craft.Guard          = new Services.GameClientGuard();
+        _augAnnulCraft.Guard  = new Services.GameClientGuard();
+        _exaltCraft.Guard     = new Services.GameClientGuard();
+        _divineCraft.Guard    = new Services.GameClientGuard();
+        _fracturingCraft.Guard = new Services.GameClientGuard();
+        _rfService.Guard      = new Services.GameClientGuard();
+        _autoRfService.Guard  = new Services.GameClientGuard();
+        _chancingService.Guard = new Services.GameClientGuard();
+
         InitializeComponent();
         DataContext = _vm;
         WindowGeometryStore.Attach(this, "MainWindow");
@@ -771,6 +782,10 @@ public partial class MainWindow : Window
             : "Локация: не задана";
         if (!string.IsNullOrEmpty(s.BatchName))
             BatchNameBox.Text = s.BatchName;
+        BatchVaultDirBox.Text  = s.BatchVaultDir;
+        BatchBaseCostBox.Text  = s.BatchBaseCostDiv > 0
+            ? s.BatchBaseCostDiv.ToString("F0", System.Globalization.CultureInfo.InvariantCulture)
+            : "";
 
         MouseActionDelayMs.Text = s.MouseActionDelayMs.ToString();
         ClipboardDelayMs.Text = s.ClipboardDelayMs.ToString();
@@ -1093,6 +1108,11 @@ public partial class MainWindow : Window
                 : null,
             PipelineItemCells = _pipelineItemCells.Count > 0 ? _pipelineItemCells : null,
             BatchName = BatchNameBox.Text.Trim() is { Length: > 0 } bn ? bn : "batch-1",
+            BatchVaultDir = BatchVaultDirBox.Text.Trim(),
+            BatchBaseCostDiv = decimal.TryParse(BatchBaseCostBox.Text.Trim(),
+                System.Globalization.NumberStyles.Any,
+                System.Globalization.CultureInfo.InvariantCulture,
+                out var baseCost) ? baseCost : 0m,
             LocationNameArea = _locationNameArea,
             FullInventoryCells = _fullInventoryCells.Count > 0 ? _fullInventoryCells : null,
             StashOcrSearchRect = _stashOcrSearchRect,
@@ -2249,6 +2269,18 @@ public partial class MainWindow : Window
         {
             MessageBox.Show(this,planErr, "Условие крафта", MessageBoxButton.OK, MessageBoxImage.Warning);
             return;
+        }
+
+        if (_craftPlan.OrAlternatives.Count == 0)
+        {
+            var answer = MessageBox.Show(this,
+                $"Условие крафта не задано — орб будет применён {maxOps} раз подряд без проверки результата.\n\n" +
+                "Режим сбора статистики: все снапшоты будут записаны в лог для последующего анализа.\n\nПродолжить?",
+                "Сбор статистики",
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Question);
+            if (answer != MessageBoxResult.Yes)
+                return;
         }
 
         var conditionSummary = CraftConditionEvaluator.FormatSummary(_craftPlan);
@@ -5401,6 +5433,11 @@ public partial class MainWindow : Window
                 return lib;
             }
 
+            // Пары (statKey, entry) используются в скорректированном режиме для нормализации:
+            // statKey нужен для cs.GetCorrectedWeight, который знает правильный знаменатель.
+            var prefixPairs = new List<(string StatKey, Services.ReferenceEntry Entry)>();
+            var suffixPairs = new List<(string StatKey, Services.ReferenceEntry Entry)>();
+
             if (hasFractureData)
             {
                 // Скорректированный режим: итерируем по stat-ключам AffixCountsInFracturedSnapshots.
@@ -5422,8 +5459,28 @@ public partial class MainWindow : Window
 
                     var availSamples = cs.GetAvailableSamples(statKey);
                     var entry = new Services.ReferenceEntry(statText, count, affixName, AvailableSamples: availSamples);
-                    (isPrefix ? prefixes : suffixes).Add(entry);
+                    (isPrefix ? prefixPairs : suffixPairs).Add((statKey, entry));
                 }
+
+                // Нормализуем вероятности внутри каждой группы (пул PREFIX / SUFFIX).
+                // Механика PoE2: орб выбирает PREFIX/SUFFIX (50/50), потом мод по весам → сумма = 100%.
+                // Вес мода = GetCorrectedWeight(statKey) = count / availableSamples.
+                List<Services.ReferenceEntry> NormalizeGroup(
+                    List<(string StatKey, Services.ReferenceEntry Entry)> pairs)
+                {
+                    var sumW = pairs.Sum(p => cs.GetCorrectedWeight(p.StatKey));
+                    if (sumW <= 0) return pairs.Select(p => p.Entry).ToList();
+                    return pairs
+                        .Select(p =>
+                        {
+                            var norm = cs.GetCorrectedWeight(p.StatKey) / sumW * 100.0;
+                            return p.Entry with { GroupNormalizedPct = norm };
+                        })
+                        .ToList();
+                }
+
+                prefixes = NormalizeGroup(prefixPairs);
+                suffixes = NormalizeGroup(suffixPairs);
             }
             else
             {
@@ -5454,9 +5511,11 @@ public partial class MainWindow : Window
 
             var displayTotal = hasFractureData ? cs.SnapshotsWithFracture : cs.TotalSnapshots;
 
+            var fracSuffix = hasFractureData ? " (норм.)" : "";
+
             if (prefixes.Count > 0)
                 result.Add(new Services.ReferenceCategory(
-                    DisplayName:        $"Хаос-крафт → {cls} · Префиксы",
+                    DisplayName:        $"Хаос-крафт → {cls} · Префиксы{fracSuffix}",
                     CategoryPath:       $"Аффиксы хаос-крафта/{cls} · Префиксы",
                     Updated:            today,
                     TotalSamples:       displayTotal,
@@ -5466,7 +5525,7 @@ public partial class MainWindow : Window
 
             if (suffixes.Count > 0)
                 result.Add(new Services.ReferenceCategory(
-                    DisplayName:        $"Хаос-крафт → {cls} · Суффиксы",
+                    DisplayName:        $"Хаос-крафт → {cls} · Суффиксы{fracSuffix}",
                     CategoryPath:       $"Аффиксы хаос-крафта/{cls} · Суффиксы",
                     Updated:            today,
                     TotalSamples:       displayTotal,
@@ -6335,6 +6394,12 @@ public partial class MainWindow : Window
     private void BatchNameBox_LostFocus(object sender, System.Windows.RoutedEventArgs e) =>
         SaveSettings();
 
+    private void BatchVaultDirBox_LostFocus(object sender, System.Windows.RoutedEventArgs e) =>
+        SaveSettings();
+
+    private void BatchBaseCostBox_LostFocus(object sender, System.Windows.RoutedEventArgs e) =>
+        SaveSettings();
+
     // ── Редактирование шагов ─────────────────────────────────────────────────
 
     private void PipelineAddStepBtn_Click(object sender, System.Windows.RoutedEventArgs e)
@@ -6511,6 +6576,18 @@ public partial class MainWindow : Window
         var batchRunner = new Services.BatchPipelineRunner(BuildPipelineRunner(), _craft);
         var screenTemplate = BuildPipelineScreenConfig();
 
+        var vaultDir = BatchVaultDirBox.Text.Trim();
+        decimal baseCost = decimal.TryParse(BatchBaseCostBox.Text.Trim(),
+            System.Globalization.NumberStyles.Any,
+            System.Globalization.CultureInfo.InvariantCulture,
+            out var bc) ? bc : 0m;
+        Services.BatchVaultWriter? vaultWriter = null;
+        if (!string.IsNullOrEmpty(vaultDir))
+        {
+            try { vaultWriter = new Services.BatchVaultWriter(vaultDir, _pipelineItemCells.Count, baseCost); }
+            catch (Exception ex) { PipelineLogAppend($"[Vault] Не удалось создать BatchVaultWriter: {ex.Message}"); }
+        }
+
         var doneCount   = 0;
         var failedCount = 0;
         var total       = _pipelineItemCells.Count;
@@ -6539,7 +6616,8 @@ public partial class MainWindow : Window
             await Task.Delay(300, _pipelineCts.Token).ConfigureAwait(false);
 
             result = await batchRunner.RunAsync(
-                _currentPipeline, screenTemplate, _pipelineItemCells, progress, _pipelineCts.Token)
+                _currentPipeline, screenTemplate, _pipelineItemCells, progress, _pipelineCts.Token,
+                onProgress: vaultWriter is not null ? items => vaultWriter.Write(items) : null)
                 .ConfigureAwait(false);
         }
         catch (OperationCanceledException) { }
