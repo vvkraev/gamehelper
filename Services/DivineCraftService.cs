@@ -18,6 +18,11 @@ public sealed class DivineCraftService : IDivineCraftService
     public bool TraceInputToLog { get; set; }
     public Func<string, Task>? StepConfirmAsync { get; set; }
 
+    /// <summary>
+    /// Если задан — проверяет процесс игры при старте и после серии пустых буферов.
+    /// </summary>
+    public GameClientGuard? Guard { get; set; }
+
     // Test hooks — null в продакшне; устанавливаются только в unit-тестах.
     // Позволяют изолировать цикл RunAsync от WPF Dispatcher и AffixLibrary.
     internal Queue<string>? _testClipboardSequence;
@@ -79,11 +84,19 @@ public sealed class DivineCraftService : IDivineCraftService
 
         var first = await OnceAsync().ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(first))
+        {
+            Guard?.RecordSuccess();
             return first;
+        }
 
         log?.Report($"{tag}: буфер пуст, повтор Ctrl+Alt+C…");
         await Task.Delay(1000, ct).ConfigureAwait(false);
-        return await OnceAsync().ConfigureAwait(false);
+        var second = await OnceAsync().ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(second))
+            Guard?.RecordMiss(log);
+        else
+            Guard?.RecordSuccess();
+        return second;
     }
 
     // ── Предпроверка ────────────────────────────────────────────────────────
@@ -161,6 +174,8 @@ public sealed class DivineCraftService : IDivineCraftService
             log?.Report("Остаток попыток (N) должен быть ≥ 1.");
             return CraftResult.Failed();
         }
+
+        Guard?.EnsureRunning();
 
         var pattern = conditionSummary.Trim();
         if (pattern.Length == 0) pattern = "(разбор предмета)";

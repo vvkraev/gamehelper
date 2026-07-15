@@ -253,6 +253,11 @@ public sealed class ChancingService
 
     public ChancingSessionStats SessionStats { get; } = new();
 
+    /// <summary>
+    /// Если задан — проверяет процесс игры при старте и после серии пустых буферов.
+    /// </summary>
+    public GameClientGuard? Guard { get; set; }
+
     // ── Вспомогательные методы ──────────────────────────────────────────────
 
     private static int WithJitter(int baseMs)
@@ -294,6 +299,7 @@ public sealed class ChancingService
         IProgress<string>? log,
         CancellationToken ct)
     {
+        Guard?.EnsureRunning();
         _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
         await Task.Delay(80, ct).ConfigureAwait(false);
 
@@ -354,6 +360,7 @@ public sealed class ChancingService
         Action<ChancingAttempt, ChancingSessionStats>? onAttemptDone,
         CancellationToken ct)
     {
+        Guard?.EnsureRunning();
         _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
         await Task.Delay(80, ct).ConfigureAwait(false);
 
@@ -420,14 +427,23 @@ public sealed class ChancingService
         await DelayAsync(ClipboardDelayMs, ct).ConfigureAwait(false);
         var text = await ReadClipboardAsync().ConfigureAwait(false);
 
-        if (!string.IsNullOrWhiteSpace(text)) return text;
+        if (!string.IsNullOrWhiteSpace(text))
+        {
+            Guard?.RecordSuccess();
+            return text;
+        }
 
         // Retry — буфер может быть пуст из-за задержки рендера
         log?.Report($"{tag}: буфер пуст, повтор Ctrl+Alt+C ...");
         await Task.Delay(700, ct).ConfigureAwait(false);
         Win32Input.SendCtrlAltC();
         await DelayAsync(ClipboardDelayMs, ct).ConfigureAwait(false);
-        return await ReadClipboardAsync().ConfigureAwait(false);
+        var text2 = await ReadClipboardAsync().ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(text2))
+            Guard?.RecordMiss(log);
+        else
+            Guard?.RecordSuccess();
+        return text2;
     }
 
     private ChancingAttempt ParseAttemptResult(string clip, DateTime timestamp, bool usedOmen, IProgress<string>? log)

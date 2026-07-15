@@ -24,6 +24,11 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
     /// <summary>Если задано, после каждого шага ввода показывается модальное окно; закрытие без «Продолжить» — отмена через <see cref="CancellationToken"/>.</summary>
     public Func<string, Task>? StepConfirmAsync { get; set; }
 
+    /// <summary>
+    /// Если задан — проверяет процесс игры при старте и после серии пустых буферов.
+    /// </summary>
+    public GameClientGuard? Guard { get; set; }
+
     private static int WithJitter(int baseMs)
     {
         if (baseMs <= 0)
@@ -248,11 +253,18 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
     {
         var first = await ReadClipboardForItemAsync(itemArea, log, ct, tag).ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(first))
+        {
+            Guard?.RecordSuccess();
             return first;
+        }
 
         log?.Report($"{tag}: буфер пуст, повтор Ctrl+Alt+C (retry) …");
         await Task.Delay(1000, ct).ConfigureAwait(false);
         var second = await ReadClipboardForItemAsync(itemArea, log, ct, tag + " (retry)").ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(second))
+            Guard?.RecordMiss(log);
+        else
+            Guard?.RecordSuccess();
         return second;
     }
 
@@ -362,6 +374,8 @@ public sealed class AugAnnulCraftService : IAugAnnulCraftService
     {
         if (segmentMaxOperations < 1 || globalTotal < 1)
             return CraftResult.Failed();
+
+        Guard?.EnsureRunning();
 
         var pattern = conditionSummary.Trim();
         if (pattern.Length == 0)

@@ -26,6 +26,11 @@ public sealed class ReforgeService
     /// <summary>Задержка после Ctrl+ЛКМ при загрузке предмета в слот станка (игра должна обработать перенос), мс.</summary>
     public int ItemTransferDelayMs          { get; set; } = 400;
 
+    /// <summary>
+    /// Если задан — проверяет процесс игры при старте и после серии пустых буферов.
+    /// </summary>
+    public GameClientGuard? Guard { get; set; }
+
     // ── Основной цикл ────────────────────────────────────────────────────────
 
     /// <summary>
@@ -48,6 +53,8 @@ public sealed class ReforgeService
         var benchSlots = new[] { slot1, slot2, slot3 };
         var opsRemaining = maxOps > 0 ? maxOps : int.MaxValue;
         var totalPerformed = 0;
+
+        Guard?.EnsureRunning();
 
         try
         {
@@ -237,11 +244,16 @@ public sealed class ReforgeService
             Win32Input.ReleaseCtrlAlt(); // снять залипание Ctrl/Alt после копирования
             await Task.Delay(WithJitter(ClipboardDelayMs), ct);
             var text = await System.Windows.Application.Current.Dispatcher.InvokeAsync(GetClipboardTextSafe);
-            if (!string.IsNullOrWhiteSpace(text)) return text;
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                Guard?.RecordSuccess();
+                return text;
+            }
 
             if (attempt < ResultReadRetries - 1)
                 await Task.Delay(ResultRetryDelayMs, ct);
         }
+        Guard?.RecordMiss();
         return "";
     }
 

@@ -32,6 +32,11 @@ public sealed class AutoReforgeService
     /// <summary>Минимум катализаторов в стэше для участия в перековке. Типы с меньшим остатком пропускаются.</summary>
     public int MinStashCount { get; set; } = 3;
 
+    /// <summary>
+    /// Если задан — проверяет процесс игры при старте и после серии пустых буферов.
+    /// </summary>
+    public GameClientGuard? Guard { get; set; }
+
     private readonly ReforgeService _rfService;
 
     public AutoReforgeService(ReforgeService rfService) => _rfService = rfService;
@@ -70,6 +75,8 @@ public sealed class AutoReforgeService
         // reforgeItemCells   — сетка перековки (8×5), используется для заполнения (шаг 4) и самого ReforgeService.
         var fullCells    = inventoryCells.ToList();
         var reforgeGrid  = reforgeItemCells.ToList();
+
+        Guard?.EnsureRunning();
 
         // ── 1. Открываем стэш (OCR) ───────────────────────────────────────
         log?.Report($"[Авто] Ищем «{stashOcrText}» на экране (OCR)...");
@@ -371,7 +378,12 @@ public sealed class AutoReforgeService
         Win32Input.ReleaseCtrlAlt();
         await Task.Delay(WithJitter(ClipboardDelayMs), ct);
 
-        return await System.Windows.Application.Current.Dispatcher.InvokeAsync(GetClipboardTextSafe);
+        var text = await System.Windows.Application.Current.Dispatcher.InvokeAsync(GetClipboardTextSafe);
+        if (string.IsNullOrWhiteSpace(text))
+            Guard?.RecordMiss();
+        else
+            Guard?.RecordSuccess();
+        return text;
     }
 
     private async Task CtrlClickAsync(ScreenRect rect, CancellationToken ct)
