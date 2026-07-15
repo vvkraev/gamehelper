@@ -1,4 +1,6 @@
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
 using TradeBot.Browser;
 using TradeBot.Config;
@@ -10,6 +12,12 @@ namespace TradeBot;
 
 public partial class MainWindow : Window
 {
+    [DllImport("user32.dll")] private static extern bool RegisterHotKey(IntPtr hWnd, int id, uint fsModifiers, uint vk);
+    [DllImport("user32.dll")] private static extern bool UnregisterHotKey(IntPtr hWnd, int id);
+    private const int HotkeyId = 0x3001;
+    private const uint VK_F5 = 0x74;
+    private const int WM_HOTKEY = 0x0312;
+
     private TradeBotSettings _settings;
     private ChromeConnector? _chrome;
     private CancellationTokenSource? _cts;
@@ -21,6 +29,14 @@ public partial class MainWindow : Window
         _settings = SettingsStore.Load();
         ApplySettingsToUi();
         Loaded += OnLoaded;
+        SourceInitialized += (_, _) =>
+        {
+            var hwnd = new WindowInteropHelper(this).Handle;
+            var source = HwndSource.FromHwnd(hwnd);
+            source?.AddHook(WndProc);
+            var ok = RegisterHotKey(hwnd, HotkeyId, 0, VK_F5);
+            Log($"[F5] RegisterHotKey: {(ok ? "ok" : "failed — F5 уже занят другим приложением")}");
+        };
     }
 
     private async void OnLoaded(object sender, RoutedEventArgs e)
@@ -391,13 +407,42 @@ public partial class MainWindow : Window
     private void Log(string line)
     {
         var ts = DateTime.Now.ToString("HH:mm:ss");
-        LogBox.AppendText($"[{ts}] {line}\n");
-        LogBox.ScrollToEnd();
+        var text = $"[{ts}] {line}\n";
+        if (Dispatcher.CheckAccess())
+        {
+            LogBox.AppendText(text);
+            LogBox.ScrollToEnd();
+        }
+        else
+        {
+            Dispatcher.InvokeAsync(() => { LogBox.AppendText(text); LogBox.ScrollToEnd(); });
+        }
     }
 
     private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
+        UnregisterHotKey(new WindowInteropHelper(this).Handle, HotkeyId);
         _cts?.Cancel();
         if (_chrome != null) await _chrome.DisposeAsync();
+    }
+
+    private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+    {
+        if (msg == WM_HOTKEY && wParam.ToInt32() == HotkeyId)
+        {
+            handled = true;
+            Task.Run(() =>
+            {
+                if (!string.IsNullOrEmpty(_settings.GameProcessName))
+                {
+                    var ok = Win32Input.SwitchToProcess(_settings.GameProcessName);
+                    Log($"[F5] SwitchToProcess: {(ok ? "ok" : "not found")}");
+                    if (ok) Thread.Sleep(200);
+                }
+                Win32Input.TypeHideoutCommand();
+                Log("[F5] команда отправлена");
+            });
+        }
+        return IntPtr.Zero;
     }
 }
