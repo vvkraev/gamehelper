@@ -324,8 +324,13 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
     private async Task GoToOwnHideoutAsync(CancellationToken ct)
     {
         LogAbStats();
-        log("  → очередь пуста, возврат в свой хайдаут");
         await Task.Delay(200, ct);
+        if (_pendingBatches > 0)
+        {
+            log("  → новые продавцы в очереди — пропускаем возврат в хайдаут");
+            return;
+        }
+        log("  → очередь пуста, возврат в свой хайдаут");
         Win32Input.TypeHideoutCommand();
 
         if (!cfg.AutoDumpToStash || !cfg.InventoryRegion.HasValue || !cfg.PersonalStashRegion.HasValue)
