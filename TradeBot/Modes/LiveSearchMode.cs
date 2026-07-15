@@ -264,10 +264,10 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
         }
         Interlocked.Increment(ref _abWhisperOk[abIdx]);
 
-        await Task.Delay(800, ct);
+        await Task.Delay(300, ct);
         if (!Win32Input.SwitchToProcess(cfg.GameProcessName))
             log($"  предупреждение: процесс «{cfg.GameProcessName}» не найден");
-        await Task.Delay(300, ct);
+        await Task.Delay(150, ct);
 
         log($"  [{abLabel}] ожидание Merchant...");
         var detector = new HideoutDetector(cfg.MerchantRegion!.Value, cfg.HideoutTimeoutMs);
@@ -283,7 +283,7 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
 
         if (cfg.AutoBuy && cfg.StashRegion.HasValue)
         {
-            await Task.Delay(200, ct);
+            await Task.Delay(100, ct);
             for (var i = 0; i < items.Count; i++)
             {
                 var item = items[i];
@@ -299,7 +299,7 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
                 log($"  Ctrl+ЛКМ → ({item.StashX},{item.StashY}) экран ({cx},{cy})");
                 Win32Input.CtrlClickLeft(cx, cy);
                 if (i < items.Count - 1)
-                    await Task.Delay(250, ct);
+                    await Task.Delay(150, ct);
             }
             foreach (var bought in items)
                 inventoryState.RecordPurchasedItem(bought.Width, bought.Height);
@@ -325,19 +325,19 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
     {
         LogAbStats();
         log("  → очередь пуста, возврат в свой хайдаут");
-        await Task.Delay(500, ct);
+        await Task.Delay(200, ct);
         Win32Input.TypeHideoutCommand();
 
         if (!cfg.AutoDumpToStash || !cfg.InventoryRegion.HasValue || !cfg.PersonalStashRegion.HasValue)
             return;
 
-        await Task.Delay(3000, ct);
+        await Task.Delay(2500, ct);
 
         var (sx, sy) = cfg.PersonalStashRegion.Value.Center;
         Win32Input.MoveTo(sx, sy);
-        await Task.Delay(200, ct);
+        await Task.Delay(150, ct);
         Win32Input.LeftClick(sx, sy);
-        await Task.Delay(800, ct);
+        await Task.Delay(600, ct);
 
         log("  → сброс инвентаря в стэш...");
         await InventoryService.DumpToStashAsync(

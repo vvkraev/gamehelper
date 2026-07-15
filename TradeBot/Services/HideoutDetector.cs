@@ -18,7 +18,7 @@ public sealed class HideoutDetector(ScreenRect merchantRegion, int timeoutMs = 3
             }
             if (normalized.Contains("MERCHANT", StringComparison.Ordinal))
                 return true;
-            await Task.Delay(500, ct);
+            await Task.Delay(200, ct);
         }
         return false;
     }

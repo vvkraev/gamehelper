@@ -7,7 +7,7 @@ public sealed class TradeBotSettings
     public int StashRows { get; set; } = 12;
     public ScreenRect? MerchantRegion { get; set; }
     public int MaxItems { get; set; } = 3;
-    public int DelayBetweenVisitsMs { get; set; } = 1500;
+    public int DelayBetweenVisitsMs { get; set; } = 500;
     public int HideoutTimeoutMs { get; set; } = 30_000;
     public int ChromeDebugPort { get; set; } = 9222;
     public bool AutoBuy { get; set; } = false;
