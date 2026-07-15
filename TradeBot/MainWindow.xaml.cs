@@ -1,3 +1,4 @@
+using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Interop;
@@ -21,6 +22,7 @@ public partial class MainWindow : Window
     private ChromeConnector? _chrome;
     private CancellationTokenSource? _cts;
     private readonly InventoryState _inventoryState = new();
+    private StreamWriter? _logWriter;
 
     public MainWindow()
     {
@@ -28,6 +30,9 @@ public partial class MainWindow : Window
         _settings = SettingsStore.Load();
         ApplySettingsToUi();
         Loaded += OnLoaded;
+        var logPath = Path.Combine(AppContext.BaseDirectory, "tradebot.log");
+        _logWriter = new StreamWriter(logPath, append: true, System.Text.Encoding.UTF8) { AutoFlush = true };
+        _logWriter.WriteLine($"──── сессия {DateTime.Now:yyyy-MM-dd HH:mm:ss} ────");
         SourceInitialized += (_, _) =>
         {
             var hwnd = new WindowInteropHelper(this).Handle;
@@ -407,6 +412,7 @@ public partial class MainWindow : Window
     {
         var ts = DateTime.Now.ToString("HH:mm:ss");
         var text = $"[{ts}] {line}\n";
+        _logWriter?.WriteLine($"[{ts}] {line}");
         if (Dispatcher.CheckAccess())
         {
             LogBox.AppendText(text);
@@ -423,6 +429,7 @@ public partial class MainWindow : Window
         UnregisterHotKey(new WindowInteropHelper(this).Handle, HotkeyId);
         _cts?.Cancel();
         if (_chrome != null) await _chrome.DisposeAsync();
+        _logWriter?.Dispose();
     }
 
     private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
