@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using System.Text.Json;
 using System.Threading.Channels;
 using TradeBot.Browser;
@@ -19,6 +20,14 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
     private int _pendingBatches;
     private int _activeProducers;
     private Channel<SellerBatch> _channel = Channel.CreateUnbounded<SellerBatch>();
+    // Per-client TCS for whisper results sent back from Tampermonkey (ok, httpStatus).
+    private readonly ConcurrentDictionary<TcpWsClient, TaskCompletionSource<(bool ok, int status)>> _whisperResults = new();
+
+    // A/B stats: [0]=single, [1]=double. Indices: 0=whisperAttempts, 1=whisperOk, 2=merchantFound.
+    private readonly int[] _abWhisperAttempts = new int[2];
+    private readonly int[] _abWhisperOk = new int[2];
+    private readonly int[] _abMerchantFound = new int[2];
+    private int _abCounter;
 
     public async Task RunAsync(CancellationToken ct)
     {
@@ -76,6 +85,8 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
     {
         await foreach (var msg in client.ReadTextFramesAsync(ct))
         {
+            if (TryHandleWhisperResult(msg, client)) continue;
+
             foreach (var batch in ParseAndGroupBySeller(msg, client))
             {
                 Interlocked.Increment(ref _pendingBatches);
@@ -83,6 +94,22 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
             }
         }
         // не завершаем Writer — другие продюсеры могут быть активны
+    }
+
+    private bool TryHandleWhisperResult(string msg, TcpWsClient client)
+    {
+        try
+        {
+            using var doc = JsonDocument.Parse(msg);
+            var root = doc.RootElement;
+            if (!root.TryGetProperty("type", out var typeEl) || typeEl.GetString() != "whisper_result") return false;
+            var ok = root.TryGetProperty("ok", out var okEl) && okEl.GetBoolean();
+            var status = root.TryGetProperty("status", out var statusEl) ? statusEl.GetInt32() : 0;
+            if (_whisperResults.TryGetValue(client, out var tcs))
+                tcs.TrySetResult((ok, status));
+            return true;
+        }
+        catch { return false; }
     }
 
     private List<SellerBatch> ParseAndGroupBySeller(string msg, TcpWsClient client)
@@ -184,23 +211,69 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
         Win32Input.MoveTo(10, 110);
         log("  → мышь убрана из области торговли (10,110)");
 
-        var whisperCmd = JsonSerializer.Serialize(new { type = "whisper", token = first.HideoutToken });
-        await client.SendTextAsync(whisperCmd, ct);
-        log("  → whisper отправлен");
+        // A/B: чётные попытки = A (single), нечётные = B (double).
+        var abIdx = Interlocked.Increment(ref _abCounter) % 2; // 0=A, 1=B
+        var abLabel = abIdx == 0 ? "A-single" : "B-double";
+        Interlocked.Increment(ref _abWhisperAttempts[abIdx]);
+
+        // Регистрируем TCS до отправки вискера, чтобы не пропустить быстрый ответ.
+        var whisperTcs = new TaskCompletionSource<(bool ok, int status)>(TaskCreationOptions.RunContinuationsAsynchronously);
+        _whisperResults[client] = whisperTcs;
+        bool whisperOk;
+        try
+        {
+            object whisperPayload = abIdx == 0
+                ? new { type = "whisper", token = first.HideoutToken }
+                : new { type = "whisper", token = first.HideoutToken, @double = true };
+            var whisperCmd = JsonSerializer.Serialize(whisperPayload);
+            await client.SendTextAsync(whisperCmd, ct);
+            log($"  [{abLabel}] whisper отправлен");
+
+            // Ждём подтверждения от Tampermonkey (v0.9+). При старой версии — таймаут, продолжаем.
+            // Mode B: Tampermonkey делает два запроса (~300мс между ними) — увеличиваем таймаут до 10с.
+            var timeoutMs = abIdx == 1 ? 10_000 : 6_000;
+            using (var timeoutCts = CancellationTokenSource.CreateLinkedTokenSource(ct))
+            {
+                timeoutCts.CancelAfter(timeoutMs);
+                try
+                {
+                    var (ok, httpStatus) = await whisperTcs.Task.WaitAsync(timeoutCts.Token);
+                    whisperOk = ok;
+                    log($"  [{abLabel}] whisper HTTP {httpStatus}: {(ok ? "ok" : "отклонён")}");
+                }
+                catch (OperationCanceledException) when (!ct.IsCancellationRequested)
+                {
+                    log($"  [{abLabel}] whisper ответ: нет (старый Tampermonkey?), продолжаем");
+                    whisperOk = true;
+                }
+            }
+        }
+        finally
+        {
+            _whisperResults.TryRemove(client, out _);
+        }
+
+        if (!whisperOk)
+        {
+            log($"  [{abLabel}] ✗ вискер отклонён — пропуск");
+            return;
+        }
+        Interlocked.Increment(ref _abWhisperOk[abIdx]);
 
         await Task.Delay(800, ct);
         if (!Win32Input.SwitchToProcess(cfg.GameProcessName))
             log($"  предупреждение: процесс «{cfg.GameProcessName}» не найден");
         await Task.Delay(300, ct);
 
-        log("  ожидание Merchant...");
+        log($"  [{abLabel}] ожидание Merchant...");
         var detector = new HideoutDetector(cfg.MerchantRegion!.Value, cfg.HideoutTimeoutMs);
         if (!await detector.WaitForMerchantAsync(ct, log))
         {
-            log("  ✗ таймаут ожидания хайдаута");
+            log($"  [{abLabel}] ✗ таймаут ожидания хайдаута");
             return;
         }
-        log($"  ✓ Merchant найден");
+        Interlocked.Increment(ref _abMerchantFound[abIdx]);
+        log($"  [{abLabel}] ✓ Merchant найден");
 
         if (cfg.AutoBuy && cfg.StashRegion.HasValue)
         {
@@ -231,8 +304,20 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
         }
     }
 
+    private void LogAbStats()
+    {
+        var aAttempts = _abWhisperAttempts[0]; var bAttempts = _abWhisperAttempts[1];
+        if (aAttempts + bAttempts == 0) return;
+
+        static string Pct(int num, int den) => den == 0 ? "—" : $"{100 * num / den}%";
+
+        log($"  [A/B] A-single:  {aAttempts} попыток | whisperOk {_abWhisperOk[0]} ({Pct(_abWhisperOk[0], aAttempts)}) | merchant {_abMerchantFound[0]} ({Pct(_abMerchantFound[0], aAttempts)})");
+        log($"  [A/B] B-double:  {bAttempts} попыток | whisperOk {_abWhisperOk[1]} ({Pct(_abWhisperOk[1], bAttempts)}) | merchant {_abMerchantFound[1]} ({Pct(_abMerchantFound[1], bAttempts)})");
+    }
+
     private async Task GoToOwnHideoutAsync(CancellationToken ct)
     {
+        LogAbStats();
         log("  → очередь пуста, возврат в свой хайдаут");
         await Task.Delay(500, ct);
         Win32Input.TypeHideoutCommand();

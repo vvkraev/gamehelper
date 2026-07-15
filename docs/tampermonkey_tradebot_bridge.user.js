@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         PoE2 TradeBot Bridge
 // @namespace    http://tampermonkey.net/
-// @version      0.7
+// @version      0.9
 // @match        https://www.pathofexile.com/*
 // @run-at       document-start
 // @grant        none
@@ -47,27 +47,61 @@
         botWs.onmessage = function (e) {
             try {
                 var cmd = JSON.parse(e.data);
-                if (cmd.type === 'whisper') doWhisper(cmd.token);
+                if (cmd.type === 'whisper') doWhisper(cmd.token, cmd.double === true);
             } catch (_) {}
         };
     }
 
-    // Calls /api/trade2/whisper with continue:true always.
-    // GGG requires continue:true for "in demand" items; for normal items the flag is ignored.
-    function doWhisper(token) {
+    // Calls /api/trade2/whisper and sends {type:"whisper_result", ok, status} back to TradeBot.
+    // double=true (mode B): first {token}, then after 300ms {continue:true, token}.
+    // double=false (mode A): single {continue:true, token}.
+    function doWhisper(token, isDouble) {
+        if (isDouble) {
+            // Mode B: two-step flow mimicking the trade site's "in demand" confirmation sequence.
+            whisperOnce(token, false, function (ok1, status1) {
+                console.log('[TradeBot] whisper step1 status:', status1);
+                setTimeout(function () {
+                    whisperOnce(token, true, function (ok2, status2) {
+                        console.log('[TradeBot] whisper step2 status:', status2);
+                        sendWhisperResult(ok1 || ok2, status2);
+                    });
+                }, 300);
+            });
+        } else {
+            // Mode A: single request with continue:true (original behaviour).
+            whisperOnce(token, true, function (ok, status) {
+                console.log('[TradeBot] whisper status:', status);
+                sendWhisperResult(ok, status);
+            });
+        }
+    }
+
+    function whisperOnce(token, withContinue, callback) {
+        var body = withContinue
+            ? { 'continue': true, token: token }
+            : { token: token };
         fetch('/api/trade2/whisper', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'X-Requested-With': 'XMLHttpRequest' },
-            body: JSON.stringify({ 'continue': true, token: token }),
+            body: JSON.stringify(body),
             credentials: 'include'
         }).then(function (r) {
-            console.log('[TradeBot] whisper status:', r.status);
-            return r.json().catch(function () { return null; });
-        }).then(function (data) {
-            if (data) console.log('[TradeBot] whisper body:', JSON.stringify(data));
+            var status = r.status;
+            var ok = r.ok;
+            return r.json().catch(function () { return null; }).then(function (data) {
+                if (data) console.log('[TradeBot] whisper body:', JSON.stringify(data));
+                callback(ok, status);
+            });
         }).catch(function (err) {
             console.log('[TradeBot] whisper error:', err);
+            callback(false, 0);
         });
+    }
+
+    function sendWhisperResult(ok, status) {
+        if (botWs && botWs.readyState === 1) {
+            botWs.send(JSON.stringify({ type: 'whisper_result', ok: ok, status: status }));
+        }
     }
 
     window.WebSocket = function (url, protocols) {
