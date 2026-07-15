@@ -22,6 +22,9 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
     // Per-client TCS for whisper results sent back from Tampermonkey (ok, httpStatus).
     private readonly ConcurrentDictionary<TcpWsClient, TaskCompletionSource<(bool ok, int status)>> _whisperResults = new();
 
+    /// <summary>Если задан — проверяет процесс игры при старте и после серии таймаутов хайдаута.</summary>
+    public GameClientGuard? Guard { get; set; }
+
     // A/B stats: [0]=single, [1]=double. Indices: 0=whisperAttempts, 1=whisperOk, 2=merchantFound.
     private readonly int[] _abWhisperAttempts = new int[2];
     private readonly int[] _abWhisperOk = new int[2];
@@ -30,6 +33,8 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
 
     public async Task RunAsync(CancellationToken ct)
     {
+        Guard?.EnsureRunning();
+
         using var server = new MiniWsServer(8765);
         server.Start();
         log("[LiveSearch] WS-сервер запущен на ws://127.0.0.1:8765");
@@ -269,8 +274,10 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
         if (!await detector.WaitForMerchantAsync(ct, log))
         {
             log($"  [{abLabel}] ✗ таймаут ожидания хайдаута");
+            Guard?.RecordMiss();
             return;
         }
+        Guard?.RecordSuccess();
         Interlocked.Increment(ref _abMerchantFound[abIdx]);
         log($"  [{abLabel}] ✓ Merchant найден");
 
