@@ -41,16 +41,19 @@ cd /mnt/c/Users/VVK/GameHelper/scripts/tabflow
 
 ## Установка зависимостей
 
-Один раз, в WSL-терминале, из любой папки:
+Один раз, в WSL-терминале:
 
 ```bash
-pip install lightgbm numpy scikit-learn
+sudo apt-get install -y python3-venv libgomp1
+cd /mnt/c/Users/VVK/GameHelper/scripts/tabflow
+python3 -m venv .venv
+.venv/bin/pip install lightgbm numpy scikit-learn
 ```
 
 Проверить что всё установлено:
 
 ```bash
-python3 -c "import lightgbm, numpy, sklearn; print('OK')"
+.venv/bin/python3 -c "import lightgbm, numpy, sklearn; print('OK')"
 ```
 
 ---
@@ -130,7 +133,7 @@ Delirium Tablet   Irradiated Tablet  Overseer Tablet  Temple Tablet
 
 ```bash
 cd /mnt/c/Users/VVK/GameHelper/scripts/tabflow
-python3 train_evaluator.py
+.venv/bin/python3 train_evaluator.py
 ```
 
 ### Аргументы
@@ -149,13 +152,13 @@ python3 train_evaluator.py
 
 ```bash
 # Обучить все найденные типы
-python3 train_evaluator.py
+.venv/bin/python3 train_evaluator.py
 
 # Только ritual и abyss
-python3 train_evaluator.py --types ritual_tablet abyss_tablet
+.venv/bin/python3 train_evaluator.py --types ritual_tablet abyss_tablet
 
 # При малой выборке (для проверки что всё работает)
-python3 train_evaluator.py --min-samples 10
+.venv/bin/python3 train_evaluator.py --min-samples 10
 
 # Явные пути (если запускаешь из другой папки)
 python3 /mnt/c/Users/VVK/GameHelper/scripts/tabflow/train_evaluator.py \
@@ -206,16 +209,16 @@ models/ritual_tablet/
 
 ```bash
 # Оценить последний снапшот с планшетками
-python3 predict.py
+.venv/bin/python3 predict.py
 
 # Конкретный файл (полное имя или часть)
-python3 predict.py --snapshot rit_s19
+.venv/bin/python3 predict.py --snapshot rit_s19
 
 # Последние 3 снапшота сразу
-python3 predict.py --latest 3
+.venv/bin/python3 predict.py --latest 3
 
 # Только предметы с маржой >= 0.5d, показать топ-30
-python3 predict.py --min-margin 0.5 --top 30
+.venv/bin/python3 predict.py --min-margin 0.5 --top 30
 ```
 
 ### Пример вывода
@@ -259,7 +262,7 @@ python3 predict.py --min-margin 0.5 --top 30
 **Папка:** `/mnt/c/Users/VVK/GameHelper/scripts/tabflow`
 
 ```bash
-python3 train_evaluator.py --types ritual_tablet
+.venv/bin/python3 train_evaluator.py --types ritual_tablet
 ```
 
 Старая модель перезаписывается. Метрики сравни с предыдущими в `metadata.json`.
@@ -273,7 +276,7 @@ python3 train_evaluator.py --types ritual_tablet
 ### Проверить что новые снапшоты содержат rich-моды
 
 ```bash
-python3 -c "
+.venv/bin/python3 -c "
 import json, glob
 files = sorted(glob.glob('../../trade_data/*.json'))[-5:]
 for f in files:
@@ -294,7 +297,7 @@ for f in files:
 ### Сколько планшеток накоплено по типам
 
 ```bash
-python3 -c "
+.venv/bin/python3 -c "
 import json, glob
 from collections import defaultdict
 counts = defaultdict(int)

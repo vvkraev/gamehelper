@@ -24,8 +24,9 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" MinHeight="60"/>
+                <RowDefinition x:Name="SplitterRow" Height="0"/>
+                <RowDefinition x:Name="DetailRow"   Height="0" MinHeight="80"/>
             </Grid.RowDefinitions>
 
             <!-- Импорт снимка + список снимков -->
@@ -45,6 +46,16 @@
                     <TextBlock x:Name="TxtListenerStatus" VerticalAlignment="Center"
                                Margin="8,0,0,0" Foreground="#555555" FontSize="11"
                                Text="Листнер выключен"/>
+                </DockPanel>
+
+                <!-- Оценщик планшеток из буфера -->
+                <DockPanel Margin="0,0,0,6">
+                    <Button x:Name="BtnEvaluateTablet" Content="Оценить табличку" Width="130"
+                            Click="BtnEvaluateTablet_Click" DockPanel.Dock="Left" Padding="6,3"/>
+                    <TextBlock x:Name="TxtEvalResult" DockPanel.Dock="Left"
+                               VerticalAlignment="Center" Margin="8,0,0,0"
+                               FontFamily="Consolas" FontSize="11" TextWrapping="NoWrap"
+                               Foreground="#333333" Text="Скопируй табличку → нажми кнопку"/>
                 </DockPanel>
 
                 <Expander x:Name="ImportExpander"
@@ -136,10 +147,15 @@
                 </DataGrid.RowStyle>
             </DataGrid>
 
+            <!-- Разделитель (виден только когда открыта детальная панель) -->
+            <GridSplitter Grid.Row="3" x:Name="DetailSplitter"
+                          Height="5" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          Background="#DDDDDD" ShowsPreview="False" Visibility="Collapsed"/>
+
             <!-- Детальная панель -->
-            <Border Grid.Row="3" x:Name="DetailPanel" Visibility="Collapsed"
+            <Border Grid.Row="4" x:Name="DetailPanel" Visibility="Collapsed"
                     BorderBrush="#CCCCCC" BorderThickness="0,1,0,0"
-                    Background="#FAFAFA" MaxHeight="320">
+                    Background="#FAFAFA">
                 <DockPanel Margin="10,8">
                     <DockPanel DockPanel.Dock="Top" Margin="0,0,0,6">
                         <Button DockPanel.Dock="Right" Content="Закрыть" Padding="8,2"

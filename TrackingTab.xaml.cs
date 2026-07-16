@@ -1,5 +1,8 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
+using System.IO;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -248,9 +251,11 @@ public partial class TrackingTab : UserControl
         if (row.Detail is null) { HideDetail(); return; }
         var d = row.Detail;
         var cur = d.PriceCurrency == "divine" ? "d" : d.PriceCurrency;
-        var sockSuffix = d.Sockets > 0 ? $"  {d.Sockets}S" : "";
-        var sanctSuffix = d.Sanctified ? "  [Освящён]" : "";
-        TxtDetailHeader.Text = $"{d.Name}  ({d.BaseType})  —  {d.PriceAmount}{cur}  ilvl {d.Ilvl}{sockSuffix}{sanctSuffix}";
+        var sockSuffix  = d.Sockets > 0      ? $"  {d.Sockets}S"   : "";
+        var sanctSuffix = d.Sanctified        ? "  [Освящён]"        : "";
+        var corrSuffix  = d.TwiceCorrupted    ? "  [2× Коррупция]"
+                        : d.Corrupted         ? "  [Корр]"           : "";
+        TxtDetailHeader.Text = $"{d.Name}  ({d.BaseType})  —  {d.PriceAmount}{cur}  ilvl {d.Ilvl}{sockSuffix}{sanctSuffix}{corrSuffix}";
 
         var lines = new List<ModLine>();
 
@@ -282,6 +287,20 @@ public partial class TrackingTab : UserControl
             lines.Add(new ModLine { Text = "───────────────────────────────────────────────", Color = System.Windows.Media.Brushes.Gray });
         }
 
+        // Corruption mods (enchantMods) — отдельная секция перед основными модами
+        if (d.ModsCorrupted.Count > 0)
+        {
+            var corrLabel = d.TwiceCorrupted ? "─── Коррупция (2×) ────────────────────────────"
+                                             : "─── Коррупция ─────────────────────────────────";
+            lines.Add(new ModLine { Text = corrLabel, Color = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#880066")) });
+            foreach (var m in d.ModsCorrupted)
+                lines.Add(new ModLine
+                {
+                    Text = $"CORR             {m}",
+                    Color = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#880066")),
+                });
+        }
+
         // Collect all mods with source annotation, sort PRE before SUF
         var allMods = new List<(string Source, string ColorHex, string Mod)>();
         foreach (var m in d.ModsFractured)  allMods.Add(("FRAC", "#5555AA", m));
@@ -294,6 +313,12 @@ public partial class TrackingTab : UserControl
             lines.Add(MakeLine(mod, source, color));
 
         DetailModsList.ItemsSource = lines;
+
+        // Показываем splitter и detail-строку — высота сохраняется между открытиями
+        if (DetailRow.Height.Value < 80)
+            DetailRow.Height = new GridLength(220);
+        SplitterRow.Height = new GridLength(5);
+        DetailSplitter.Visibility = Visibility.Visible;
         DetailPanel.Visibility = Visibility.Visible;
     }
 
@@ -319,7 +344,98 @@ public partial class TrackingTab : UserControl
     private void HideDetail()
     {
         DetailPanel.Visibility = Visibility.Collapsed;
+        DetailSplitter.Visibility = Visibility.Collapsed;
+        SplitterRow.Height = new GridLength(0);
+        DetailRow.Height = new GridLength(0);
         DetailModsList.ItemsSource = null;
+    }
+
+    private async void BtnEvaluateTablet_Click(object sender, RoutedEventArgs e)
+    {
+        string itemText;
+        try
+        {
+            itemText = System.Windows.Clipboard.GetText();
+        }
+        catch
+        {
+            TxtEvalResult.Text = "Не удалось прочитать буфер обмена";
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(itemText))
+        {
+            TxtEvalResult.Text = "Буфер обмена пуст";
+            return;
+        }
+
+        TxtEvalResult.Text = "Оцениваю...";
+        BtnEvaluateTablet.IsEnabled = false;
+        try
+        {
+            var result = await EvaluateTabletAsync(itemText);
+            // Первая строка с ценой — в статус, полный вывод — во всплывающее окно
+            var firstLine = result.Split('\n')[0];
+            TxtEvalResult.Text = firstLine;
+            MessageBox.Show(result, "Оценка планшетки",
+                MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+        finally
+        {
+            BtnEvaluateTablet.IsEnabled = true;
+        }
+    }
+
+    private static async Task<string> EvaluateTabletAsync(string itemText)
+    {
+        var tmpFile = Path.GetTempFileName();
+        try
+        {
+            await File.WriteAllTextAsync(tmpFile, itemText, System.Text.Encoding.UTF8);
+            var wslTmp    = WinToWslPath(tmpFile);
+            var scriptDir = WinToWslPath(
+                Path.Combine(ProjectPaths.GetProjectRoot(), "scripts", "tabflow"));
+            var python = $"{scriptDir}/.venv/bin/python3";
+            var script = $"{scriptDir}/evaluate_clipboard.py";
+
+            var psi = new ProcessStartInfo("wsl.exe",
+                $"-e {python} {script} --file {wslTmp}")
+            {
+                RedirectStandardOutput  = true,
+                RedirectStandardError   = true,
+                UseShellExecute         = false,
+                CreateNoWindow          = true,
+                StandardOutputEncoding  = System.Text.Encoding.UTF8,
+                StandardErrorEncoding   = System.Text.Encoding.UTF8,
+            };
+
+            using var proc = Process.Start(psi)!;
+            var stdout = await proc.StandardOutput.ReadToEndAsync();
+            var stderr = await proc.StandardError.ReadToEndAsync();
+            await proc.WaitForExitAsync();
+
+            var output = stdout.Trim();
+            if (string.IsNullOrEmpty(output) && !string.IsNullOrEmpty(stderr))
+                output = stderr.Trim();
+            return string.IsNullOrEmpty(output) ? "Нет ответа от скрипта" : output;
+        }
+        catch (Exception ex)
+        {
+            return $"Ошибка: {ex.Message}";
+        }
+        finally
+        {
+            File.Delete(tmpFile);
+        }
+    }
+
+    private static string WinToWslPath(string winPath)
+    {
+        // C:\Users\VVK\file.txt → /mnt/c/Users/VVK/file.txt
+        var normalized = winPath.Replace('\\', '/');
+        if (normalized.Length >= 2 && normalized[1] == ':')
+            normalized = "/mnt/" + char.ToLower(normalized[0]) + normalized[2..];
+        return normalized;
     }
 
     private class ModLine

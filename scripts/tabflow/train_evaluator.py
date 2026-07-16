@@ -89,21 +89,52 @@ def type_slug(base_type: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", base_type.lower()).strip("_")
 
 
+def parse_mods_from_text(mods_explicit: list[str]) -> list[dict]:
+    """Fallback: синтезирует rich-моды из текстовых строк когда mods_explicit_rich отсутствует.
+    Формат строки: 'Tier Name — mod text with 42 value'  или просто 'mod text'.
+    hash = нормализованный шаблон (числа → '#'), value = первое число из текста мода.
+    roll_min/roll_max не доступны — extract_features поставит 1.0 (мод присутствует).
+    """
+    result = []
+    for text in mods_explicit:
+        if " — " in text:
+            _, mod_text = text.split(" — ", 1)
+        else:
+            mod_text = text
+
+        numbers = re.findall(r'\d+(?:\.\d+)?', mod_text)
+        value = float(numbers[0]) if numbers else None
+        template = re.sub(r'\d+(?:\.\d+)?', '#', mod_text).strip()
+
+        result.append({
+            "text":     text,
+            "hash":     f"text:{template}",
+            "value":    value,
+            "roll_min": None,
+            "roll_max": None,
+        })
+    return result
+
+
 def load_items(data_dir: Path, rates: dict[str, float]) -> dict[str, list[dict]]:
     """Загружает все планшетки из trade_data/. Возвращает dict type_slug → [item]."""
     by_type: dict[str, list[dict]] = defaultdict(list)
     seen_ids: set[str] = set()
-    skipped_no_rich = 0
     skipped_price = 0
+    n_rich = 0
+    n_text = 0
 
     files = sorted(data_dir.glob("*.json"))
     print(f"Файлов в trade_data/: {len(files)}")
 
     for path in files:
         try:
-            with open(path, encoding="utf-8") as f:
+            with open(path, encoding="utf-8-sig") as f:
                 doc = json.load(f)
         except Exception:
+            continue
+
+        if not isinstance(doc, dict):
             continue
 
         for listing in doc.get("listings", []):
@@ -116,10 +147,24 @@ def load_items(data_dir: Path, rates: dict[str, float]) -> dict[str, list[dict]]
                 continue
             seen_ids.add(item_id)
 
-            # Нужны rich-моды — только новые снапшоты
-            if not listing.get("mods_explicit_rich"):
-                skipped_no_rich += 1
-                continue
+            rich = (
+                listing.get("mods_explicit_rich",   []) +
+                listing.get("mods_desecrated_rich", []) +
+                listing.get("mods_fractured_rich",  [])
+            )
+            if rich:
+                n_rich += 1
+            else:
+                # Fallback: парсим текстовые строки (снапшоты без rich-полей)
+                text_mods = (
+                    listing.get("mods_explicit", []) +
+                    listing.get("mods_desecrated", []) +
+                    listing.get("mods_fractured", [])
+                )
+                if not text_mods:
+                    continue
+                rich = parse_mods_from_text(text_mods)
+                n_text += 1
 
             # Конвертируем цену в divine
             amount = listing.get("price_divine", 0)
@@ -137,19 +182,14 @@ def load_items(data_dir: Path, rates: dict[str, float]) -> dict[str, list[dict]]
                 continue
 
             item = {
-                "id":         item_id,
-                "base_type":  base_type,
-                "price_d":    price_d,
-                "rich_mods":  (
-                    listing.get("mods_explicit_rich",   []) +
-                    listing.get("mods_desecrated_rich", []) +
-                    listing.get("mods_fractured_rich",  [])
-                ),
+                "id":        item_id,
+                "base_type": base_type,
+                "price_d":   price_d,
+                "rich_mods": rich,
             }
             by_type[type_slug(base_type)].append(item)
 
-    print(f"  пропущено (нет rich-модов): {skipped_no_rich}")
-    print(f"  пропущено (цена): {skipped_price}")
+    print(f"  rich-моды: {n_rich}  |  text-fallback: {n_text}  |  пропущено (цена): {skipped_price}")
     for slug, items in sorted(by_type.items()):
         print(f"  {slug}: {len(items)} предметов")
 
@@ -167,6 +207,34 @@ def build_vocab(items: list[dict]) -> dict[str, int]:
             if h:
                 hashes.add(h)
     return {h: i for i, h in enumerate(sorted(hashes))}
+
+
+def build_text_to_hash(items: list[dict]) -> dict[str, str]:
+    """Маппинг нормализованный_текст → explicit.stat_hash для inference из буфера.
+    Позволяет evaluate_clipboard.py найти правильный hash даже когда мод известен
+    только по тексту (не через rich API).
+    """
+    mapping: dict[str, str] = {}
+    for item in items:
+        for mod in item["rich_mods"]:
+            h = mod.get("hash", "")
+            if not h.startswith("explicit.stat_"):
+                continue
+            text = mod.get("text", "")
+            if " — " in text:
+                _, mod_text = text.split(" — ", 1)
+            else:
+                mod_text = text
+            clean = re.sub(r'\(\d+(?:\.\d+)?-\d+(?:\.\d+)?\)', '', mod_text).strip()
+            normalized = re.sub(r'\d+(?:\.\d+)?', '#', clean).strip()
+            # Сохраняем первое встреченное соответствие (хэш одинаков для всех роллов мода)
+            if normalized not in mapping:
+                mapping[normalized] = h
+            # Также сохраняем "an" → "#" вариант для модов вида "an additional time"
+            an_variant = re.sub(r'\ban\b', '#', normalized).strip()
+            if an_variant not in mapping and an_variant != normalized:
+                mapping[an_variant] = h
+    return mapping
 
 
 def extract_features(item: dict, vocab: dict[str, int]) -> np.ndarray:
@@ -192,16 +260,6 @@ def extract_features(item: dict, vocab: dict[str, int]) -> np.ndarray:
     return vec
 
 
-# ─── Фильтрация выбросов цены ─────────────────────────────────────────────────
-
-def filter_price_outliers(items: list[dict], lo_pct: float = 5, hi_pct: float = 95) -> list[dict]:
-    prices = np.array([it["price_d"] for it in items])
-    lo = np.percentile(prices, lo_pct)
-    hi = np.percentile(prices, hi_pct)
-    filtered = [it for it in items if lo <= it["price_d"] <= hi]
-    print(f"  фильтр цен [{lo:.2f}d, {hi:.2f}d]: {len(items)} → {len(filtered)} предметов")
-    return filtered
-
 
 # ─── Обучение одной модели ────────────────────────────────────────────────────
 
@@ -224,7 +282,7 @@ def train_model(items: list[dict], vocab: dict[str, int], tablet_type: str) -> d
         "metric":         "rmse",
         "learning_rate":  0.05,
         "num_leaves":     31,
-        "min_data_in_leaf": max(5, len(X_train) // 20),
+        "min_data_in_leaf": max(3, len(X_train) // 100),
         "feature_fraction": 0.8,
         "bagging_fraction": 0.8,
         "bagging_freq":   5,
@@ -241,19 +299,26 @@ def train_model(items: list[dict], vocab: dict[str, int], tablet_type: str) -> d
         callbacks=callbacks,
     )
 
-    y_pred = model.predict(X_val)
-    # RMSE в log-space → MAE в divine через обратное преобразование
-    mae_d = float(np.mean(np.abs(np.expm1(y_pred) - np.expm1(y_val))))
-    rmse_log = float(np.sqrt(np.mean((y_pred - y_val) ** 2)))
+    y_pred_val   = model.predict(X_val)
+    y_pred_train = model.predict(X_train)
 
-    print(f"  val RMSE(log): {rmse_log:.4f}  |  MAE(divine): {mae_d:.2f}d")
+    mae_val   = float(np.mean(np.abs(np.expm1(y_pred_val)   - np.expm1(y_val))))
+    mae_train = float(np.mean(np.abs(np.expm1(y_pred_train) - np.expm1(y_train))))
+    rmse_log  = float(np.sqrt(np.mean((y_pred_val - y_val) ** 2)))
+
+    overfit_ratio = mae_val / mae_train if mae_train > 0 else float("inf")
+    overfit_note  = "" if overfit_ratio < 2.0 else f"  ⚠ переобучение (val/train={overfit_ratio:.1f}x)"
+
+    print(f"  train MAE: {mae_train:.2f}d  |  val MAE: {mae_val:.2f}d  |  RMSE(log): {rmse_log:.4f}{overfit_note}")
+    mae_d = mae_val
 
     return {"model": model, "mae_d": mae_d, "rmse_log": rmse_log, "n_train": len(X_train), "n_val": len(X_val)}
 
 
 # ─── Сохранение ──────────────────────────────────────────────────────────────
 
-def save_model(tablet_type: str, model, vocab: dict[str, int], metrics: dict, models_dir: Path):
+def save_model(tablet_type: str, model, vocab: dict[str, int], metrics: dict, models_dir: Path,
+               text_to_hash: dict[str, str] | None = None):
     out = models_dir / tablet_type
     out.mkdir(parents=True, exist_ok=True)
 
@@ -263,6 +328,11 @@ def save_model(tablet_type: str, model, vocab: dict[str, int], metrics: dict, mo
     # Словарь hash → feature_index (для inference)
     with open(out / "vocab.json", "w", encoding="utf-8") as f:
         json.dump(vocab, f, indent=2)
+
+    # Маппинг нормализованный_текст → explicit.stat_hash (для inference из буфера обмена)
+    if text_to_hash:
+        with open(out / "text_to_hash.json", "w", encoding="utf-8") as f:
+            json.dump(text_to_hash, f, indent=2, ensure_ascii=False)
 
     # Метаданные и имена фич
     idx_to_hash = {v: k for k, v in vocab.items()}
@@ -330,21 +400,16 @@ def main():
             print(f"  пропуск: {len(items)} < {args.min_samples} (мин. выборка)")
             continue
 
-        items = filter_price_outliers(items)
-
-        if len(items) < args.min_samples:
-            print(f"  пропуск после фильтрации: {len(items)} < {args.min_samples}")
-            continue
-
-        vocab = build_vocab(items)
-        print(f"  фич (уникальных модов): {len(vocab)}")
+        vocab        = build_vocab(items)
+        text_to_hash = build_text_to_hash(items)
+        print(f"  фич (уникальных модов): {len(vocab)}  |  text→hash маппингов: {len(text_to_hash)}")
 
         if len(vocab) == 0:
             print("  пропуск: нет модов с hash")
             continue
 
         result = train_model(items, vocab, tablet_type)
-        save_model(tablet_type, result["model"], vocab, result, models_dir)
+        save_model(tablet_type, result["model"], vocab, result, models_dir, text_to_hash)
 
     print("\n=== Готово ===")
 

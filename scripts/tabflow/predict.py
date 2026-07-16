@@ -157,9 +157,12 @@ def format_mods(rich_mods: list[dict], vocab: dict[str, int], meta: dict) -> str
 def load_snapshot(path: Path, rates: dict[str, float]) -> list[dict]:
     items = []
     try:
-        doc = json.loads(path.read_text(encoding="utf-8"))
+        doc = json.loads(path.read_text(encoding="utf-8-sig"))
     except Exception as e:
         print(f"  [!] {path.name}: {e}")
+        return []
+
+    if not isinstance(doc, dict):
         return []
 
     for listing in doc.get("listings", []):
@@ -215,8 +218,8 @@ def find_snapshots(data_dir: Path, latest: int, specific: str | None) -> list[Pa
     result = []
     for f in all_files:
         try:
-            doc = json.loads(f.read_text(encoding="utf-8"))
-            has_tablets = any(
+            doc = json.loads(f.read_text(encoding="utf-8-sig"))
+            has_tablets = isinstance(doc, dict) and any(
                 is_tablet(x.get("base_type", "")) and x.get("mods_explicit_rich")
                 for x in doc.get("listings", [])
             )
