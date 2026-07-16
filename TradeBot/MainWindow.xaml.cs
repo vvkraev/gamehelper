@@ -69,9 +69,17 @@ public partial class MainWindow : Window
         AutoDumpBox.IsChecked = _settings.AutoDumpToStash;
         ScanOnStartupBox.IsChecked = _settings.ScanInventoryOnStartup;
         CloseOnInventoryFullBox.IsChecked = _settings.CloseOnInventoryFull;
+        GameExePathBox.Text = _settings.GameExePath;
+        ExpectedHideoutTextBox.Text = _settings.ExpectedHideoutText;
+        LoginScreenTextBox.Text = _settings.LoginSettings.LoginScreenText;
+        CharSelectTextBox.Text = _settings.LoginSettings.CharSelectText;
+        HideoutConfirmTextBox.Text = _settings.LoginSettings.HideoutConfirmText;
         UpdateStashLabel();
         UpdateMerchantLabel();
         UpdateInventoryLabel();
+        UpdateFreezeLabel();
+        UpdateLocationRegionLabel();
+        UpdateLoginLabels();
     }
 
     private void SaveSettingsFromUi()
@@ -88,6 +96,19 @@ public partial class MainWindow : Window
         _settings.AutoDumpToStash = AutoDumpBox.IsChecked == true;
         _settings.ScanInventoryOnStartup = ScanOnStartupBox.IsChecked == true;
         _settings.CloseOnInventoryFull = CloseOnInventoryFullBox.IsChecked == true;
+        _settings.GameExePath = GameExePathBox.Text.Trim();
+        _settings.ExpectedHideoutText = string.IsNullOrWhiteSpace(ExpectedHideoutTextBox.Text)
+            ? "Hideout"
+            : ExpectedHideoutTextBox.Text.Trim();
+        _settings.LoginSettings.LoginScreenText = string.IsNullOrWhiteSpace(LoginScreenTextBox.Text)
+            ? "LOG IN"
+            : LoginScreenTextBox.Text.Trim();
+        _settings.LoginSettings.CharSelectText = string.IsNullOrWhiteSpace(CharSelectTextBox.Text)
+            ? "ENTER GAME"
+            : CharSelectTextBox.Text.Trim();
+        _settings.LoginSettings.HideoutConfirmText = string.IsNullOrWhiteSpace(HideoutConfirmTextBox.Text)
+            ? "ENTER"
+            : HideoutConfirmTextBox.Text.Trim();
         SettingsStore.Save(_settings);
     }
 
@@ -153,6 +174,281 @@ public partial class MainWindow : Window
             SettingsStore.Save(_settings);
             UpdateInventoryLabel();
         }
+    }
+
+    private void PickFreezeRegion_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow();
+        if (picker.ShowDialog() == true && picker.SelectedRegion.HasValue)
+        {
+            _settings.FreezeDetectRegion = picker.SelectedRegion.Value;
+            SettingsStore.Save(_settings);
+            UpdateFreezeLabel();
+        }
+    }
+
+    private void PickLocationRegion_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow();
+        if (picker.ShowDialog() == true && picker.SelectedRegion.HasValue)
+        {
+            _settings.LocationRegion = picker.SelectedRegion.Value;
+            SettingsStore.Save(_settings);
+            UpdateLocationRegionLabel();
+        }
+    }
+
+    private void UpdateFreezeLabel()
+    {
+        var r = _settings.FreezeDetectRegion;
+        FreezeRegionLabel.Text = r.HasValue
+            ? $"{r.Value.Width}×{r.Value.Height} @ ({r.Value.X},{r.Value.Y})"
+            : "не задана";
+    }
+
+    private async void TestLocationOcr_Click(object sender, RoutedEventArgs e)
+    {
+        if (_settings.LocationRegion == null)
+        {
+            Log("Сначала задайте область названия локации.");
+            return;
+        }
+        Log("OCR локации...");
+        var text = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(_settings.LocationRegion.Value, null, CancellationToken.None);
+        var norm = WindowsOcrTextLocator.NormalizeForMatch(text);
+        var expected = WindowsOcrTextLocator.NormalizeForMatch(_settings.ExpectedHideoutText);
+        var found = !string.IsNullOrEmpty(expected) && norm.Contains(expected, StringComparison.Ordinal);
+        Log($"OCR: «{text.Trim()}»  (норм: «{norm}»)");
+        Log(found ? $"✓ «{_settings.ExpectedHideoutText}» найден" : $"✗ «{_settings.ExpectedHideoutText}» не найден");
+    }
+
+    private void UpdateLocationRegionLabel()
+    {
+        var r = _settings.LocationRegion;
+        LocationRegionLabel.Text = r.HasValue
+            ? $"{r.Value.Width}×{r.Value.Height} @ ({r.Value.X},{r.Value.Y})"
+            : "не задана";
+    }
+
+    private void PickLoginDetect_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow();
+        if (picker.ShowDialog() == true && picker.SelectedRegion.HasValue)
+        {
+            _settings.LoginSettings.LoginScreenDetectRegion = picker.SelectedRegion.Value;
+            SettingsStore.Save(_settings);
+            UpdateLoginLabels();
+        }
+    }
+
+    private void PickLoginClick_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow();
+        if (picker.ShowDialog() == true && picker.SelectedRegion.HasValue)
+        {
+            _settings.LoginSettings.LoginClickRegion = picker.SelectedRegion.Value;
+            SettingsStore.Save(_settings);
+            UpdateLoginLabels();
+        }
+    }
+
+    private void PickCharDetect_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow();
+        if (picker.ShowDialog() == true && picker.SelectedRegion.HasValue)
+        {
+            _settings.LoginSettings.CharSelectDetectRegion = picker.SelectedRegion.Value;
+            SettingsStore.Save(_settings);
+            UpdateLoginLabels();
+        }
+    }
+
+    private void PickCharClick_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow();
+        if (picker.ShowDialog() == true && picker.SelectedRegion.HasValue)
+        {
+            _settings.LoginSettings.CharSelectClickRegion = picker.SelectedRegion.Value;
+            SettingsStore.Save(_settings);
+            UpdateLoginLabels();
+        }
+    }
+
+    private async void TestLogin_Click(object sender, RoutedEventArgs e)
+    {
+        SaveSettingsFromUi();
+        const int maxAttempts = 3;
+        var svc = new GameHelper.Services.GameLoginService(_settings.LoginSettings, msg => Dispatcher.Invoke(() => Log(msg)));
+
+        for (var attempt = 1; attempt <= maxAttempts; attempt++)
+        {
+            if (attempt == 1)
+            {
+                Log("[Login] Запуск теста перелогина...");
+            }
+            else
+            {
+                Log($"[Login] ✗ хайдаут не подтверждён — перезапуск игры (попытка {attempt}/{maxAttempts})...");
+                RestartGameProcess();
+                var initWait = _settings.LoginSettings.LoginInitialWaitMs;
+                Log($"[Login] → ждём {initWait / 1000}с открытия экрана входа...");
+                await Task.Delay(initWait);
+            }
+
+            var ok = await svc.LoginAsync(CancellationToken.None);
+            Log(ok ? "[Login] ✓ Экраны входа пройдены" : "[Login] ✗ Перелогин не завершён");
+            if (!ok) continue;
+
+            var postWait = _settings.LoginSettings.PostLoginWaitMs;
+            Log($"[Login] → ждём {postWait / 1000}с загрузки локации...");
+            await Task.Delay(postWait);
+
+            if (!_settings.LocationRegion.HasValue)
+            {
+                Log("[Login] LocationRegion не задан — проверка хайдаута пропущена");
+                return;
+            }
+
+            Win32Input.SwitchToProcess(_settings.GameProcessName);
+            Win32Input.PressKey(0x09); // Tab
+            await Task.Delay(1000);
+            var locationText = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(
+                _settings.LocationRegion.Value, null, CancellationToken.None);
+            var norm     = WindowsOcrTextLocator.NormalizeForMatch(locationText);
+            var expected = WindowsOcrTextLocator.NormalizeForMatch(_settings.ExpectedHideoutText);
+            var inHideout = !string.IsNullOrEmpty(expected) && norm.Contains(expected, StringComparison.Ordinal);
+            Log($"[Login] OCR локации: «{locationText.Trim()}» → {(inHideout ? "✓ хайдаут подтверждён" : "✗ хайдаут не подтверждён")}");
+
+            if (inHideout) return;
+        }
+
+        Log($"[Login] ✗ хайдаут не подтверждён после {maxAttempts} попыток");
+    }
+
+    private void RestartGameProcess()
+    {
+        try
+        {
+            foreach (var p in System.Diagnostics.Process.GetProcessesByName(_settings.GameProcessName))
+            {
+                p.Kill();
+                p.WaitForExit(5000);
+            }
+            Log($"[Login] → процесс {_settings.GameProcessName} завершён");
+        }
+        catch (Exception ex) { Log($"[Login] ✗ не удалось завершить игру: {ex.Message}"); }
+
+        if (!string.IsNullOrEmpty(_settings.GameExePath) && System.IO.File.Exists(_settings.GameExePath))
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(_settings.GameExePath);
+                Log($"[Login] → игра запускается: {_settings.GameExePath}");
+            }
+            catch (Exception ex) { Log($"[Login] ✗ не удалось запустить игру: {ex.Message}"); }
+        }
+        else
+        {
+            Log("[Login] ⚠ GameExePath не задан — перезапуск вручную");
+        }
+    }
+
+    private async void TestLoginOcr_Click(object sender, RoutedEventArgs e)
+    {
+        if (_settings.LoginSettings.LoginScreenDetectRegion == null) { Log("Сначала задайте область «Войти»."); return; }
+        var text = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(_settings.LoginSettings.LoginScreenDetectRegion.Value, null, CancellationToken.None);
+        var norm = WindowsOcrTextLocator.NormalizeForMatch(text);
+        var expected = WindowsOcrTextLocator.NormalizeForMatch(_settings.LoginSettings.LoginScreenText);
+        var found = norm.Contains(expected, StringComparison.Ordinal);
+        Log($"[Login OCR] «{text.Trim()}»  →  {(found ? $"✓ «{_settings.LoginSettings.LoginScreenText}» найден" : $"✗ «{_settings.LoginSettings.LoginScreenText}» не найден")}");
+    }
+
+    private async void TestCharOcr_Click(object sender, RoutedEventArgs e)
+    {
+        if (_settings.LoginSettings.CharSelectDetectRegion == null) { Log("Сначала задайте область «Персонаж»."); return; }
+        var text = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(_settings.LoginSettings.CharSelectDetectRegion.Value, null, CancellationToken.None);
+        var norm = WindowsOcrTextLocator.NormalizeForMatch(text);
+        var expected = WindowsOcrTextLocator.NormalizeForMatch(_settings.LoginSettings.CharSelectText);
+        var found = norm.Contains(expected, StringComparison.Ordinal);
+        Log($"[CharSelect OCR] «{text.Trim()}»  →  {(found ? $"✓ «{_settings.LoginSettings.CharSelectText}» найден" : $"✗ «{_settings.LoginSettings.CharSelectText}» не найден")}");
+    }
+
+    private void PickHideoutIcon_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow();
+        if (picker.ShowDialog() == true && picker.SelectedRegion.HasValue)
+        {
+            _settings.LoginSettings.HideoutIconRegion = picker.SelectedRegion.Value;
+            SettingsStore.Save(_settings);
+            UpdateLoginLabels();
+        }
+    }
+
+    private void PickHideoutIconClick_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow();
+        if (picker.ShowDialog() == true && picker.SelectedRegion.HasValue)
+        {
+            _settings.LoginSettings.HideoutIconClickRegion = picker.SelectedRegion.Value;
+            SettingsStore.Save(_settings);
+            UpdateLoginLabels();
+        }
+    }
+
+    private void CaptureHideoutIcon_Click(object sender, RoutedEventArgs e)
+    {
+        if (_settings.LoginSettings.HideoutIconRegion == null)
+        {
+            Log("Сначала задайте область иконки домика.");
+            return;
+        }
+        GameHelper.Services.GameLoginService.CaptureIconReference(_settings.LoginSettings.HideoutIconRegion.Value);
+        Log($"✓ Эталон иконки домика сохранён: {GameHelper.Services.GameLoginService.GetIconRefPath()}");
+    }
+
+    private void PickHideoutConfirmDetect_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow();
+        if (picker.ShowDialog() == true && picker.SelectedRegion.HasValue)
+        {
+            _settings.LoginSettings.HideoutConfirmDetectRegion = picker.SelectedRegion.Value;
+            SettingsStore.Save(_settings);
+            UpdateLoginLabels();
+        }
+    }
+
+    private void PickHideoutConfirmClick_Click(object sender, RoutedEventArgs e)
+    {
+        var picker = new RegionPickerWindow();
+        if (picker.ShowDialog() == true && picker.SelectedRegion.HasValue)
+        {
+            _settings.LoginSettings.HideoutConfirmClickRegion = picker.SelectedRegion.Value;
+            SettingsStore.Save(_settings);
+            UpdateLoginLabels();
+        }
+    }
+
+    private async void TestHideoutConfirmOcr_Click(object sender, RoutedEventArgs e)
+    {
+        if (_settings.LoginSettings.HideoutConfirmDetectRegion == null) { Log("Сначала задайте область подтверждения."); return; }
+        var text = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(_settings.LoginSettings.HideoutConfirmDetectRegion.Value, null, CancellationToken.None);
+        var norm = WindowsOcrTextLocator.NormalizeForMatch(text);
+        var expected = WindowsOcrTextLocator.NormalizeForMatch(_settings.LoginSettings.HideoutConfirmText);
+        var found = norm.Contains(expected, StringComparison.Ordinal);
+        Log($"[Confirm OCR] «{text.Trim()}»  →  {(found ? $"✓ «{_settings.LoginSettings.HideoutConfirmText}» найден" : $"✗ «{_settings.LoginSettings.HideoutConfirmText}» не найден")}");
+    }
+
+    private void UpdateLoginLabels()
+    {
+        static string Fmt(ScreenRect? r) => r.HasValue ? $"{r.Value.Width}×{r.Value.Height} @ ({r.Value.X},{r.Value.Y})" : "не задана";
+        LoginDetectLabel.Text          = Fmt(_settings.LoginSettings.LoginScreenDetectRegion);
+        LoginClickLabel.Text           = Fmt(_settings.LoginSettings.LoginClickRegion);
+        CharDetectLabel.Text           = Fmt(_settings.LoginSettings.CharSelectDetectRegion);
+        CharClickLabel.Text            = Fmt(_settings.LoginSettings.CharSelectClickRegion);
+        HideoutIconLabel.Text          = Fmt(_settings.LoginSettings.HideoutIconRegion);
+        HideoutIconClickLabel.Text     = Fmt(_settings.LoginSettings.HideoutIconClickRegion);
+        HideoutConfirmDetectLabel.Text = Fmt(_settings.LoginSettings.HideoutConfirmDetectRegion);
+        HideoutConfirmClickLabel.Text  = Fmt(_settings.LoginSettings.HideoutConfirmClickRegion);
     }
 
     private async void ScanInventory_Click(object sender, RoutedEventArgs e)
@@ -367,6 +663,18 @@ public partial class MainWindow : Window
     {
         Action? onInventoryFull = cfg.CloseOnInventoryFull ? ShutdownOnInventoryFull : null;
         var mode = new Modes.LiveSearchMode(cfg, _inventoryState, msg => Dispatcher.Invoke(() => Log(msg)), onInventoryFull);
+
+        var currencyPath = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "poe_ninja_prices.json");
+        var historyPath = Path.Combine(AppContext.BaseDirectory, "floor_history.json");
+        if (File.Exists(currencyPath))
+            mode.FloorTracker = new Services.FloorTracker(historyPath, currencyPath, msg => Dispatcher.Invoke(() => Log(msg)));
+
+        if (cfg.FreezeDetectRegion.HasValue)
+            mode.FreezeDetector = new Services.FreezeDetector(cfg.FreezeDetectRegion.Value, msg => Dispatcher.Invoke(() => Log(msg)));
+
+        if (cfg.LoginSettings.LoginScreenDetectRegion.HasValue || cfg.LoginSettings.CharSelectDetectRegion.HasValue)
+            mode.LoginService = new GameHelper.Services.GameLoginService(cfg.LoginSettings, msg => Dispatcher.Invoke(() => Log(msg)));
+
         await mode.RunAsync(ct);
     }
 
@@ -426,6 +734,7 @@ public partial class MainWindow : Window
 
     private async void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
+        SaveSettingsFromUi();
         UnregisterHotKey(new WindowInteropHelper(this).Handle, HotkeyId);
         _cts?.Cancel();
         if (_chrome != null) await _chrome.DisposeAsync();

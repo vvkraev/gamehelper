@@ -79,6 +79,16 @@ public class TradeImportService
         return merged;
     }
 
+    private static object[] ToRichList(List<ModRecord> records) =>
+        records.ConvertAll(r => (object)new
+        {
+            text     = r.Text,
+            hash     = r.Hash,
+            value    = r.Value,
+            roll_min = r.RollMin,
+            roll_max = r.RollMax,
+        }).ToArray();
+
     private static void SaveJson(string path, List<TradeItem> items, string baseType, string date, string slug)
     {
         var payload = new
@@ -110,6 +120,10 @@ public class TradeImportService
                 mods_explicit = it.ExplicitMods,
                 mods_crafted = it.CraftedMods,
                 mods_runes = it.RuneMods,
+                mods_explicit_rich   = ToRichList(it.ExplicitModRecords),
+                mods_fractured_rich  = ToRichList(it.FracturedModRecords),
+                mods_desecrated_rich = ToRichList(it.DesecrateModRecords),
+                mods_crafted_rich    = ToRichList(it.CraftedModRecords),
             })
         };
         File.WriteAllText(path, JsonSerializer.Serialize(payload, new JsonSerializerOptions { WriteIndented = true }), Encoding.UTF8);
@@ -227,16 +241,57 @@ public class TradeImportService
                            || hash.StartsWith("stat.fractured");
 
             var label = BuildModLabel(n);
+            var record = BuildModRecord(n, label, hash);
 
             if (isDesecrated)
+            {
                 it.DesecrateMods.Add(label);
+                it.DesecrateModRecords.Add(record);
+            }
             else if (isCrafted)
+            {
                 it.CraftedMods.Add(label);
+                it.CraftedModRecords.Add(record);
+            }
             else if (isFractured)
+            {
                 it.FracturedMods.Add(label);
+                it.FracturedModRecords.Add(record);
+            }
             else
+            {
                 it.ExplicitMods.Add(label);
+                it.ExplicitModRecords.Add(record);
+            }
         }
+    }
+
+    private static ModRecord BuildModRecord(JsonNode modNode, string label, string rawHash)
+    {
+        var desc = CleanMarkup(modNode["description"]?.GetValue<string>() ?? "");
+        var modsArr = modNode["mods"]?.AsArray();
+
+        double? rollMin = null, rollMax = null, value = null;
+        if (modsArr is { Count: > 0 })
+        {
+            var magnitudes = modsArr[0]?["magnitudes"]?.AsArray();
+            if (magnitudes is { Count: > 0 })
+            {
+                var inv = System.Globalization.CultureInfo.InvariantCulture;
+                if (double.TryParse(magnitudes[0]?["min"]?.GetValue<string>(), System.Globalization.NumberStyles.Any, inv, out var mn)) rollMin = mn;
+                if (double.TryParse(magnitudes[0]?["max"]?.GetValue<string>(), System.Globalization.NumberStyles.Any, inv, out var mx)) rollMax = mx;
+            }
+        }
+
+        // Первое число из текста описания — это фактический ролл
+        var m = Regex.Match(desc, @"(?<![a-zA-Z])(\d+(?:\.\d+)?)");
+        if (m.Success && double.TryParse(m.Groups[1].Value, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var v))
+            value = v;
+
+        // Убираем префикс "stat." из хэша → "explicit.stat_XXXX"
+        var hash = rawHash.StartsWith("stat.") ? rawHash[5..] : rawHash;
+
+        return new ModRecord { Text = label, Hash = hash, Value = value, RollMin = rollMin, RollMax = rollMax };
     }
 
     // "Mystic P1 — 12% increased Spell Damage"
@@ -399,5 +454,19 @@ public class TradeImportService
         public List<string> EnchantMods { get; set; } = new();
         /// <summary>Руны в сокетах — из GGG API поля runeMods.</summary>
         public List<string> RuneMods { get; set; } = new();
+        // Rich records with stat_id, rolled value and tier range — for ML training
+        public List<ModRecord> ExplicitModRecords  { get; set; } = new();
+        public List<ModRecord> FracturedModRecords { get; set; } = new();
+        public List<ModRecord> CraftedModRecords   { get; set; } = new();
+        public List<ModRecord> DesecrateModRecords { get; set; } = new();
+    }
+
+    private sealed class ModRecord
+    {
+        public string  Text    { get; set; } = "";
+        public string  Hash    { get; set; } = "";
+        public double? Value   { get; set; }
+        public double? RollMin { get; set; }
+        public double? RollMax { get; set; }
     }
 }

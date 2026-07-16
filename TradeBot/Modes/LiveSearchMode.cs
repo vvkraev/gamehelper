@@ -25,11 +25,28 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
     /// <summary>Если задан — проверяет процесс игры при старте и после серии таймаутов хайдаута.</summary>
     public GameClientGuard? Guard { get; set; }
 
+    /// <summary>Если задан — записывает цены всех входящих листингов для трекинга флора.</summary>
+    public FloorTracker? FloorTracker { get; set; }
+
+    /// <summary>Если задан — проверяет не заморожен ли экран после возврата в свой хайдаут.</summary>
+    public FreezeDetector? FreezeDetector { get; set; }
+
+    /// <summary>Если задан — выполняет вход в игру после перезапуска клиента.</summary>
+    public GameHelper.Services.GameLoginService? LoginService { get; set; }
+
     // A/B stats: [0]=single, [1]=double. Indices: 0=whisperAttempts, 1=whisperOk, 2=merchantFound.
     private readonly int[] _abWhisperAttempts = new int[2];
     private readonly int[] _abWhisperOk = new int[2];
     private readonly int[] _abMerchantFound = new int[2];
     private int _abCounter;
+
+    // Счётчик подряд идущих паттернов «whisper OK → таймаут Merchant».
+    // FreezeDetector запускается только при _consecutiveFreezePattern >= 2.
+    private int _consecutiveFreezePattern;
+
+    // Скриншот, снятый когда OCR подтвердил что мы не переместились после первого таймаута.
+    // Сравнивается при следующем таймауте — совпадение означает зависание на загрузке.
+    private System.Drawing.Bitmap? _freezeSuspectScreenshot;
 
     public async Task RunAsync(CancellationToken ct)
     {
@@ -134,6 +151,9 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
             {
                 var item = TradeApiClient.ParseItem(entry);
                 if (item == null) continue;
+
+                // Записываем цену до любой фильтрации — нужен весь рынок для флора
+                FloorTracker?.Record(item.TypeLine, item.Price, item.Currency);
 
                 if (!string.IsNullOrEmpty(cfg.OwnAccountName) &&
                     item.SellerAccount.Equals(cfg.OwnAccountName, StringComparison.OrdinalIgnoreCase))
@@ -275,9 +295,13 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
         {
             log($"  [{abLabel}] ✗ таймаут ожидания хайдаута");
             Guard?.RecordMiss();
+            Interlocked.Increment(ref _consecutiveFreezePattern);
             return;
         }
         Guard?.RecordSuccess();
+        Interlocked.Exchange(ref _consecutiveFreezePattern, 0);
+        _freezeSuspectScreenshot?.Dispose();
+        _freezeSuspectScreenshot = null;
         Interlocked.Increment(ref _abMerchantFound[abIdx]);
         log($"  [{abLabel}] ✓ Merchant найден");
 
@@ -333,6 +357,64 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
         log("  → очередь пуста, возврат в свой хайдаут");
         Win32Input.TypeHideoutCommand();
 
+        // ── Двухшаговая детекция зависания ───────────────────────────────────
+        if (_consecutiveFreezePattern == 1 && FreezeDetector != null && cfg.LocationRegion.HasValue)
+        {
+            // Первый подозрительный таймаут: ждём загрузки и проверяем OCR локации
+            await Task.Delay(cfg.LocationVerifyDelayMs, ct);
+            var locationText = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(cfg.LocationRegion.Value, null, ct);
+            var norm = WindowsOcrTextLocator.NormalizeForMatch(locationText);
+            var expected = WindowsOcrTextLocator.NormalizeForMatch(cfg.ExpectedHideoutText);
+            var moved = !string.IsNullOrEmpty(expected) && norm.Contains(expected, StringComparison.Ordinal);
+            log($"  [Freeze] OCR локации: «{locationText.Trim()}» → {(moved ? "переместились ✓" : "не переместились ✗")}");
+
+            if (moved)
+            {
+                Interlocked.Exchange(ref _consecutiveFreezePattern, 0);
+                _freezeSuspectScreenshot?.Dispose();
+                _freezeSuspectScreenshot = null;
+            }
+            else
+            {
+                // Не переместились — сохраняем скриншот для сравнения на следующем таймауте
+                _freezeSuspectScreenshot?.Dispose();
+                _freezeSuspectScreenshot = FreezeDetector.Capture();
+                log("  [Freeze] скриншот сохранён — ждём подтверждения на следующем таймауте");
+            }
+        }
+        else if (_consecutiveFreezePattern >= 2 && FreezeDetector != null)
+        {
+            Interlocked.Exchange(ref _consecutiveFreezePattern, 0);
+
+            if (_freezeSuspectScreenshot != null)
+            {
+                // Второй таймаут + скриншот из прошлого раза: сравниваем экраны
+                log("  [Freeze] второй таймаут подряд — сравниваем с сохранённым скриншотом...");
+                var frozen = FreezeDetector.IsFrozenComparedTo(_freezeSuspectScreenshot);
+                _freezeSuspectScreenshot.Dispose();
+                _freezeSuspectScreenshot = null;
+                if (frozen)
+                {
+                    log("  ⚠ экран не изменился — зависание на загрузке, перезапуск...");
+                    await RestartAndLoginAsync(ct);
+                    return;
+                }
+                log("  [Freeze] экран изменился — зависание не подтверждено");
+            }
+            else
+            {
+                // LocationRegion не задана — резервное поведение: прямое сравнение пикселей
+                log($"  [Freeze] {_consecutiveFreezePattern + 2} таймаутов подряд — прямая проверка экрана...");
+                var frozen = await FreezeDetector.IsFrozenAsync(cfg.FreezeDetectWaitMs, ct);
+                if (frozen)
+                {
+                    log("  ⚠ экран не изменился — игра зависла, перезапуск...");
+                    await RestartAndLoginAsync(ct);
+                    return;
+                }
+            }
+        }
+
         if (!cfg.AutoDumpToStash || !cfg.InventoryRegion.HasValue || !cfg.PersonalStashRegion.HasValue)
             return;
 
@@ -349,5 +431,85 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
             cfg.InventoryRegion.Value, inventoryState.OccupiedSnapshot, ct);
         inventoryState.Reset();
         log("  ✓ инвентарь сброшен");
+    }
+
+    private async Task RestartAndLoginAsync(CancellationToken ct)
+    {
+        const int maxAttempts = 3;
+        for (var attempt = 1; attempt <= maxAttempts; attempt++)
+        {
+            if (attempt > 1)
+                log($"  → повтор входа (попытка {attempt}/{maxAttempts})...");
+
+            RestartGame();
+            log($"  → ждём {cfg.LoginSettings.LoginInitialWaitMs / 1000}с открытия экрана входа...");
+            await Task.Delay(cfg.LoginSettings.LoginInitialWaitMs, ct);
+
+            if (LoginService != null)
+            {
+                if (!Win32Input.SwitchToProcess(cfg.GameProcessName))
+                    log($"  предупреждение: процесс «{cfg.GameProcessName}» не найден");
+                await LoginService.LoginAsync(ct);
+            }
+
+            log($"  → ждём {cfg.LoginSettings.PostLoginWaitMs / 1000}с загрузки локации...");
+            await Task.Delay(cfg.LoginSettings.PostLoginWaitMs, ct);
+
+            if (await CheckInHideoutAsync(ct))
+            {
+                log("  → продолжаем работу после перезапуска");
+                return;
+            }
+
+            if (attempt < maxAttempts)
+                log($"  ✗ хайдаут не подтверждён — перезапускаем игру повторно (попытка {attempt + 1}/{maxAttempts})...");
+        }
+
+        log($"  ✗ хайдаут не подтверждён после {maxAttempts} попыток — продолжаем без подтверждения");
+    }
+
+    private async Task<bool> CheckInHideoutAsync(CancellationToken ct)
+    {
+        if (!cfg.LocationRegion.HasValue)
+            return true;
+
+        if (!Win32Input.SwitchToProcess(cfg.GameProcessName))
+            log($"  предупреждение: процесс «{cfg.GameProcessName}» не найден");
+        Win32Input.PressKey(0x09); // Tab
+        await Task.Delay(1000, ct);
+        var locationText = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(cfg.LocationRegion.Value, null, ct);
+        var norm     = WindowsOcrTextLocator.NormalizeForMatch(locationText);
+        var expected = WindowsOcrTextLocator.NormalizeForMatch(cfg.ExpectedHideoutText);
+        var inHideout = !string.IsNullOrEmpty(expected) && norm.Contains(expected, StringComparison.Ordinal);
+        log($"  [Login] OCR локации: «{locationText.Trim()}» → {(inHideout ? "✓ хайдаут подтверждён" : "✗ хайдаут не подтверждён")}");
+        return inHideout;
+    }
+
+    private void RestartGame()
+    {
+        try
+        {
+            foreach (var p in System.Diagnostics.Process.GetProcessesByName(cfg.GameProcessName))
+            {
+                p.Kill();
+                p.WaitForExit(5000);
+            }
+            log($"  → процесс {cfg.GameProcessName} завершён");
+        }
+        catch (Exception ex) { log($"  ✗ не удалось завершить игру: {ex.Message}"); }
+
+        if (!string.IsNullOrEmpty(cfg.GameExePath) && System.IO.File.Exists(cfg.GameExePath))
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(cfg.GameExePath);
+                log($"  → игра запускается: {cfg.GameExePath}");
+            }
+            catch (Exception ex) { log($"  ✗ не удалось запустить игру: {ex.Message}"); }
+        }
+        else
+        {
+            log("  ⚠ GameExePath не задан — перезапуск вручную");
+        }
     }
 }
