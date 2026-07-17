@@ -85,12 +85,25 @@ def fetch_floor(tablet_type: str, league: str, sessid: str) -> dict | None:
     search_url  = f"{BASE_URL}/api/trade2/search/{urllib.parse.quote(league)}"
     search_body = {
         "query": {
+            "status": {"option": "securable"},   # только instabuy (через Ange)
             "type": tablet_type,
+            "stats": [
+                {
+                    "type": "and",
+                    "filters": [
+                        {
+                            "id": "pseudo.pseudo_number_of_uses_remaining",
+                            "disabled": False,
+                            "value": {"min": 10},
+                        }
+                    ],
+                    "disabled": False,
+                }
+            ],
             "filters": {
-                "type_filters": {
-                    "filters": {
-                        "rarity": {"option": "nonunique"},
-                    }
+                "misc_filters": {
+                    "filters": {"corrupted": {"option": "false"}},
+                    "disabled": False,
                 }
             },
         },
@@ -175,8 +188,10 @@ def main() -> None:
             search_url = f"{BASE_URL}/api/trade2/search/{urllib.parse.quote(args.league)}"
             body = {
                 "query": {
+                    "status": {"option": "securable"},
                     "type": t,
-                    "filters": {"type_filters": {"filters": {"rarity": {"option": "nonunique"}}}},
+                    "stats": [{"type": "and", "filters": [{"id": "pseudo.pseudo_number_of_uses_remaining", "disabled": False, "value": {"min": 10}}], "disabled": False}],
+                    "filters": {"misc_filters": {"filters": {"corrupted": {"option": "false"}}, "disabled": False}},
                 },
                 "sort": {"price": "asc"},
             }
