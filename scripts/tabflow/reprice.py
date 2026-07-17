@@ -34,6 +34,8 @@ OVERRIDES_PATH = ROOT / "vault" / "tabflow" / "miss_overrides.json"
 PATIENCE_NO_HISTORY_H   = 6    # ч без данных о продажах
 PATIENCE_WITH_HISTORY_H = 12   # ч если есть продажи ≤ 6ч
 FAST_SALE_THRESHOLD_H   = 6    # порог "быстрой" продажи
+PATIENCE_SALE_MULT      = 3.0  # множитель patience если есть прецедент продажи
+                                # (доказанная цена → снижаем медленнее)
 DIVINE_STEP             = 1    # шаг снижения в divine
 CHAOS_STEP_PCT          = 0.10 # шаг снижения в chaos — ~10% от текущей цены
 CHAOS_MIN               = 3    # минимум ≈ рефордж-флор Ritual Tablet (~0.35d = 2.5c)
@@ -200,7 +202,12 @@ def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
         age_h        = (now - listing_dt).total_seconds() / 3600
         mod_k        = mod_key(e.get("mods") or [])
         patience     = patience_hours(mod_k, velocity)
+        last_sale_d  = last_sale_index.get(mod_k)
         current, cur = current_state(e)
+
+        # Прецедент продажи → увеличиваем patience (цена доказана, снижаем медленнее)
+        if last_sale_d is not None:
+            patience = int(patience * PATIENCE_SALE_MULT)
 
         if age_h < patience:
             print(f"  ⏳ [{e['col']},{e['row']}] {e.get('baseType')} {current}{cur[0]}  "
@@ -245,18 +252,14 @@ def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
             continue
 
         # ── Floor от последней продажи: не опускаемся ниже прецедента ────
+        # (patience уже увеличен выше, поэтому сюда доходим только когда
+        #  предмет висит дольше расширенного порога)
         if last_sale_d is not None and new_price_d < last_sale_d:
-            if current_d >= last_sale_d:
-                # Текущая цена ≥ прецедента — просто пропускаем снижение
-                print(f"  🏷 [{e['col']},{e['row']}] {e.get('baseType')} {current}{cur[0]}  "
-                      f"последняя продажа {last_sale_d:.1f}d — держим цену")
-                continue
-            else:
-                # Текущая цена < прецедента — поднимаем до последней продажи
-                new_price_d = last_sale_d
-                new_price   = last_sale_d if new_cur == "divine" else round(last_sale_d * cpd)
-                new_cur     = "divine"
-                reason      = f"↑ до прецедента продажи {last_sale_d:.1f}d"
+            # Не снижаемся ниже доказанной цены — только поднимаем если нужно
+            new_price_d = last_sale_d
+            new_price   = last_sale_d if new_cur == "divine" else round(last_sale_d * cpd)
+            new_cur     = "divine"
+            reason      = f"↑ до прецедента {last_sale_d:.1f}d"
 
         # ── Новая цена опустится ниже miss-floor → ограничиваем до floor ─
         if floor is not None and new_price_d < floor:
