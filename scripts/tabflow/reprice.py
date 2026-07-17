@@ -39,6 +39,7 @@ CHAOS_STEP_PCT          = 0.10 # шаг снижения в chaos — ~10% от 
 CHAOS_MIN               = 3    # минимум ≈ рефордж-флор Ritual Tablet (~0.35d = 2.5c)
 CHAOS_THRESHOLD_D       = 5.0  # ≤ этого divine → переходим в chaos
 LAST_N_VELOCITY_DAYS    = 14   # учитываем продажи за последние N дней
+LAST_SALE_MARKUP_PCT    = 0.10 # наценка над ценой последней продажи при первом листинге
 
 from mod_utils import mod_template, mod_set as mod_key
 
@@ -95,6 +96,26 @@ def current_state(entry: dict) -> tuple[float, str]:
     return price, currency
 
 # ── Скорость продаж ───────────────────────────────────────────────────────────
+
+def build_last_sale_index(entries: list[dict], cpd: float) -> dict[frozenset, float]:
+    """
+    Возвращает {mod_key → max_sale_price_divine} по всем нашим продажам.
+    Максимум: если продавали несколько раз, доказан самый высокий прецедент.
+    """
+    index: dict[frozenset, float] = {}
+    for e in entries:
+        if not e.get("sold"):
+            continue
+        amount   = e.get("salePriceAmount")
+        currency = (e.get("salePriceCurrency") or "").lower()
+        if not amount:
+            continue
+        price_d = float(amount) / cpd if "chaos" in currency else float(amount)
+        key = mod_key(e.get("mods") or [])
+        if key not in index or price_d > index[key]:
+            index[key] = price_d
+    return index
+
 
 def build_velocity_index(entries: list[dict]) -> dict[frozenset, list[int]]:
     """Возвращает {mod_key → [minutesToSale]} для продаж за последние N дней."""
@@ -155,16 +176,18 @@ def calc_new_price(current_price: float, currency: str,
 # ── Основная логика ───────────────────────────────────────────────────────────
 
 def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
-    unsold      = [e for e in entries if not e.get("sold")]
-    cpd         = chaos_per_divine()
-    velocity    = build_velocity_index(entries)
-    floor_index = load_floor_index()
-    now         = datetime.now()
-    plan        = []
+    unsold          = [e for e in entries if not e.get("sold")]
+    cpd             = chaos_per_divine()
+    velocity        = build_velocity_index(entries)
+    floor_index     = load_floor_index()
+    last_sale_index = build_last_sale_index(entries, cpd)
+    now             = datetime.now()
+    plan            = []
 
     print(f"Незакрытых листингов: {len(unsold)}   chaos/divine: {cpd:.1f}")
     print(f"Данные о скорости: {sum(len(v) for v in velocity.values())} продаж по "
           f"{len(velocity)} комбинациям модов")
+    print(f"Прецеденты продаж: {len(last_sale_index)} комбинаций модов")
     if floor_index:
         print(f"Floor-защита: {len(floor_index)} pending override(s)")
 
@@ -186,10 +209,11 @@ def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
 
         new_price, new_cur, reason = calc_new_price(current, cur, cpd)
 
-        floor = floor_for_entry(e, floor_index)
+        floor         = floor_for_entry(e, floor_index)
+        last_sale_d   = last_sale_index.get(mod_k)  # max доказанная цена в divine
 
-        # ── Текущая и новая цены в divine для сравнения с floor ───────────
-        current_d  = current   / cpd if cur    == "chaos" else current
+        # ── Текущая и новая цены в divine для сравнения ───────────────────
+        current_d   = current   / cpd if cur    == "chaos" else current
         new_price_d = new_price / cpd if new_cur == "chaos" else new_price
 
         # ── Достигли абсолютного флора → снимаем на рефордж ──────────────
@@ -216,16 +240,32 @@ def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
                 "ageHours":        round(age_h, 1),
                 "patienceHours":   patience,
                 "floorDivine":     floor,
+                "lastSaleDivine":  last_sale_d,
             })
             continue
 
-        # ── Новая цена опустится ниже floor → ограничиваем до floor ──────
+        # ── Floor от последней продажи: не опускаемся ниже прецедента ────
+        if last_sale_d is not None and new_price_d < last_sale_d:
+            if current_d >= last_sale_d:
+                # Текущая цена ≥ прецедента — просто пропускаем снижение
+                print(f"  🏷 [{e['col']},{e['row']}] {e.get('baseType')} {current}{cur[0]}  "
+                      f"последняя продажа {last_sale_d:.1f}d — держим цену")
+                continue
+            else:
+                # Текущая цена < прецедента — поднимаем до последней продажи
+                new_price_d = last_sale_d
+                new_price   = last_sale_d if new_cur == "divine" else round(last_sale_d * cpd)
+                new_cur     = "divine"
+                reason      = f"↑ до прецедента продажи {last_sale_d:.1f}d"
+
+        # ── Новая цена опустится ниже miss-floor → ограничиваем до floor ─
         if floor is not None and new_price_d < floor:
             if new_cur == "chaos":
                 new_price = max(CHAOS_MIN, round(floor * cpd))
             else:
                 new_price = floor
-            reason = f"cap at floor {floor}d"
+            new_cur = "divine" if floor >= 1 else "chaos"
+            reason  = f"cap at floor {floor}d"
 
         plan.append({
             "listingId":       e.get("id"),
@@ -242,6 +282,7 @@ def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
             "ageHours":        round(age_h, 1),
             "patienceHours":   patience,
             "floorDivine":     floor,
+            "lastSaleDivine":  last_sale_d,
         })
 
         prefix = "[dry] " if dry_run else ""
