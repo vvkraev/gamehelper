@@ -195,6 +195,34 @@ public static class TabletListingsIndex
             .FirstOrDefault();
     }
 
+    // ── Sold ─────────────────────────────────────────────────────────────────
+
+    /// <summary>
+    /// Пометить листинг как проданный по данным из sales_history.
+    /// </summary>
+    public static void MarkSold(string id, SoldInfo info)
+    {
+        lock (_lock)
+        {
+            var entries = Load();
+            var entry   = entries.FirstOrDefault(e => e.Id == id);
+            if (entry is null) return;
+
+            entry.Sold               = true;
+            entry.SaleId             = info.SaleId;
+            entry.SaleTime           = info.SaleTime;
+            entry.SalePriceAmount    = info.SalePriceAmount;
+            entry.SalePriceCurrency  = info.SalePriceCurrency;
+            entry.MinutesToSale      = info.MinutesToSale;
+            entry.Miss               = info.Miss;
+            entry.SoldAfterReprice   = info.SoldAfterReprice;
+            Save(entries);
+        }
+    }
+
+    /// <summary>Публичный парсер timestamp для использования в SoldDetector.</summary>
+    public static DateTime? TryParseTimestamp(string? ts) => TryParseTs(ts);
+
     // ── Архивирование ────────────────────────────────────────────────────────
 
     /// <summary>

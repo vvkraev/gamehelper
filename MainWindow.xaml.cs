@@ -129,6 +129,7 @@ public partial class MainWindow : Window
     private CancellationTokenSource? _orbApplyCts;
     private CancellationTokenSource? _upgradeOrbsCts;
     private CancellationTokenSource? _listingCts;
+    private CancellationTokenSource? _scheduledFetchCts;
     private Services.TabletListingService _tabletListingService = new();
     // Результаты последнего скана: ячейка → предсказанная цена в divine + текст предмета
     private List<(ScreenRect Cell, double Price, string ItemText)> _lastScanPrices = new();
@@ -6335,6 +6336,7 @@ public partial class MainWindow : Window
             }
 
             ListingStatusText.Text = $"Готово: выставлено {listed}, пропущено (пустых) {skipped} из {total}.";
+            if (listed > 0) ScheduleSalesFetch();
         }
         catch (OperationCanceledException)
         {
@@ -6828,6 +6830,66 @@ public partial class MainWindow : Window
     private void RefReloadBtn_Click(object sender, RoutedEventArgs e) => RefLoadCategories();
 
     // ── История продаж (TRADE-3) ─────────────────────────────────────────────
+
+    private void AutoDetectPoeSessIdBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var result = Services.BrowserCookieReader.TryReadPoeSessId();
+        if (result is null)
+        {
+            _vm.TradeHistoryStatus = "POESESSID не найден. Если браузер открыт — закройте его и попробуйте снова, или скопируйте вручную: F12 → Application → Cookies → pathofexile.com.";
+            return;
+        }
+        TradeSessionIdBox.Text = result.Value.Value;
+        SaveSettings();
+        _vm.TradeHistoryStatus = $"POESESSID получен из {result.Value.Browser}.";
+    }
+
+    /// <summary>
+    /// Запускает отложенный fetch истории продаж через 7 минут после листинга.
+    /// Дедуплицирован: если уже запланирован — перезапускает таймер.
+    /// </summary>
+    private void ScheduleSalesFetch()
+    {
+        // Захватываем значения из UI-контролов до перехода в фоновый поток
+        var sessid = TradeSessionIdBox.Text.Trim();
+        var league = TradeHistoryLeagueBox.Text.Trim();
+        if (string.IsNullOrWhiteSpace(league)) league = "Runes of Aldur";
+        if (string.IsNullOrWhiteSpace(sessid)) return;
+
+        _scheduledFetchCts?.Cancel();
+        _scheduledFetchCts = new CancellationTokenSource();
+        var ct = _scheduledFetchCts.Token;
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await Task.Delay(TimeSpan.FromMinutes(7), ct);
+
+                var (merged, newCount) = await Services.TradeHistoryService
+                    .FetchAndMergeAsync(league, sessid, _tradeHistory, ct);
+
+                _tradeHistory = merged;
+                Services.TradeHistoryService.Save(_tradeHistory);
+
+                var markedSold = Services.SoldDetector.DetectAndMark(_tradeHistory);
+
+                Dispatcher.Invoke(() =>
+                {
+                    RebuildTradeHistoryGrid();
+                    var msg = $"Авто-обновление: +{newCount} продаж";
+                    if (markedSold > 0) msg += $", {markedSold} закрыто в индексе";
+                    _vm.TradeHistoryStatus = msg + ".";
+                });
+            }
+            catch (OperationCanceledException) { }
+            catch (Exception ex)
+            {
+                Dispatcher.Invoke(() =>
+                    _vm.TradeHistoryStatus = $"Авто-обновление: ошибка — {ex.Message}");
+            }
+        }, ct);
+    }
 
     private async void TradeHistoryFetchBtn_Click(object sender, RoutedEventArgs e)
     {
