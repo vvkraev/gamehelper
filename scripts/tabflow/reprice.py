@@ -186,15 +186,46 @@ def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
 
         new_price, new_cur, reason = calc_new_price(current, cur, cpd)
 
-        # ── Floor-защита: не снижаем ниже miss override ───────────────────
         floor = floor_for_entry(e, floor_index)
-        if floor is not None:
-            # Переводим new_price в divine для сравнения
-            new_price_d = new_price / cpd if new_cur == "chaos" else new_price
-            if new_price_d <= floor:
-                print(f"  🛡 [{e['col']},{e['row']}] {e.get('baseType')} {current}{cur[0]}  "
-                      f"floor-защита {floor}d — не снижаем ({reason})")
-                continue
+
+        # ── Текущая и новая цены в divine для сравнения с floor ───────────
+        current_d  = current   / cpd if cur    == "chaos" else current
+        new_price_d = new_price / cpd if new_cur == "chaos" else new_price
+
+        # ── Достигли абсолютного флора → снимаем на рефордж ──────────────
+        at_chaos_min  = (new_cur == "chaos" and new_price == CHAOS_MIN
+                         and new_price == current and cur == "chaos")
+        at_miss_floor = (floor is not None and current_d <= floor)
+
+        if at_chaos_min or at_miss_floor:
+            floor_label = f"{floor}d" if floor is not None else f"{CHAOS_MIN}c"
+            print(f"  ♻ [{e['col']},{e['row']}] {e.get('baseType')} {current}{cur[0]}  "
+                  f"флор {floor_label} — на рефордж")
+            plan.append({
+                "listingId":       e.get("id"),
+                "col":             e.get("col"),
+                "row":             e.get("row"),
+                "baseType":        e.get("baseType"),
+                "mods":            e.get("mods") or [],
+                "currentPrice":    current,
+                "currentCurrency": cur,
+                "newPrice":        current,
+                "newCurrency":     cur,
+                "reason":          f"флор {floor_label}",
+                "action":          "delist_for_reforge",
+                "ageHours":        round(age_h, 1),
+                "patienceHours":   patience,
+                "floorDivine":     floor,
+            })
+            continue
+
+        # ── Новая цена опустится ниже floor → ограничиваем до floor ──────
+        if floor is not None and new_price_d < floor:
+            if new_cur == "chaos":
+                new_price = max(CHAOS_MIN, round(floor * cpd))
+            else:
+                new_price = floor
+            reason = f"cap at floor {floor}d"
 
         plan.append({
             "listingId":       e.get("id"),
@@ -207,6 +238,7 @@ def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
             "newPrice":        new_price,
             "newCurrency":     new_cur,
             "reason":          reason,
+            "action":          "reprice",
             "ageHours":        round(age_h, 1),
             "patienceHours":   patience,
             "floorDivine":     floor,
