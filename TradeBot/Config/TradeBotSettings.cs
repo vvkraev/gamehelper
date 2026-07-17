@@ -22,4 +22,17 @@ public sealed class TradeBotSettings
     public ScreenRect? PersonalStashRegion { get; set; }  // куда кликнуть чтобы открыть личный стэш
     public bool ScanInventoryOnStartup { get; set; } = false;
     public bool CloseOnInventoryFull { get; set; } = false; // убить игру и TradeBot при достижении лимита
+
+    // ── Детекция зависания игры ───────────────────────────────────────────────
+    public ScreenRect? FreezeDetectRegion { get; set; }
+    public int FreezeDetectWaitMs { get; set; } = 4000;
+    public string GameExePath { get; set; } = "";
+
+    // ── Верификация локации после /hideout ────────────────────────────────────
+    public ScreenRect? LocationRegion { get; set; }
+    public string ExpectedHideoutText { get; set; } = "Hideout";
+    public int LocationVerifyDelayMs { get; set; } = 3000;
+
+    // ── Автовход после перезапуска игры ──────────────────────────────────────
+    public GameHelper.Services.GameLoginSettings LoginSettings { get; set; } = new();
 }

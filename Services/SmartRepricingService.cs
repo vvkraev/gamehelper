@@ -20,6 +20,8 @@ public sealed class RepricePlanItem
     public double       NewPrice        { get; set; }
     public string       NewCurrency     { get; set; } = "divine";
     public string       Reason          { get; set; } = "";
+    /// <summary>"reprice" (по умолчанию) или "delist_for_reforge" (цена ≤ флор).</summary>
+    public string       Action          { get; set; } = "reprice";
 }
 
 /// <summary>
@@ -77,7 +79,7 @@ public sealed class SmartRepricingService
     /// <param name="currencyDropdownRect">Дропдаун валюты в диалоге листинга.</param>
     /// <param name="listItemBtnRect">Кнопка LIST ITEM / UPDATE PRICE.</param>
     /// <param name="log">Прогресс-репортер.</param>
-    public async Task<(int done, int skipped)> ExecutePlanAsync(
+    public async Task<(int done, int skipped, int delisted)> ExecutePlanAsync(
         IReadOnlyList<RepricePlanItem> plan,
         IReadOnlyList<(ScreenRect TabRect, IReadOnlyList<ScreenRect> Cells)> shopTabs,
         ScreenRect chaosOrbOcrRect,
@@ -91,7 +93,7 @@ public sealed class SmartRepricingService
         await Task.Delay(80, ct).ConfigureAwait(false);
 
         var remaining = plan.ToList();
-        int done = 0, skipped = 0;
+        int done = 0, skipped = 0, delisted = 0;
 
         try
         {
@@ -143,6 +145,19 @@ public sealed class SmartRepricingService
                         continue;
                     }
 
+                    if (match.Action == "delist_for_reforge")
+                    {
+                        log?.Report($"[Переоценка] [{i+1}] {match.BaseType} @ {match.CurrentPrice}{match.CurrentCurrency[0]} → снятие на рефордж");
+                        // Ctrl+ЛКМ перемещает предмет из витрины Ange в инвентарь
+                        Win32Input.SendCtrlLeftClick();
+                        Win32Input.CtrlUp();
+                        await DelayAsync(ActionDelayMs, ct).ConfigureAwait(false);
+                        TabletReforgeQueue.Add(match.ListingId, match.BaseType, match.Mods);
+                        remaining.Remove(match);
+                        delisted++;
+                        continue;
+                    }
+
                     log?.Report($"[Переоценка] [{i+1}] {match.BaseType} {match.CurrentPrice}{match.CurrentCurrency[0]} → {match.NewPrice}{match.NewCurrency[0]}  ({match.Reason})");
 
                     bool switchCurrency = match.CurrentCurrency != match.NewCurrency;
@@ -169,8 +184,8 @@ public sealed class SmartRepricingService
             Win32Input.ReleaseCtrlAlt();
         }
 
-        log?.Report($"[Переоценка] Готово: переоценено {done}, пропущено {skipped}.");
-        return (done, skipped);
+        log?.Report($"[Переоценка] Готово: переоценено {done}, снято на рефордж {delisted}, пропущено {skipped}.");
+        return (done, skipped, delisted);
     }
 
     /// <summary>

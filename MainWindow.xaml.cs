@@ -6494,7 +6494,7 @@ public partial class MainWindow : Window
             ClipboardDelayMs = RfParseInt(TabletScanClipboardDelayBox.Text, 220),
         };
         var progress = new Progress<string>(msg => Dispatcher.Invoke(() => ListingStatusText.Text = msg));
-        var (done, skipped) = await svc.ExecutePlanAsync(
+        var (done, skipped, delisted) = await svc.ExecutePlanAsync(
             plan, shopTabs,
             chaosOrbOcrRect:      _listingDivineOrbOcrRect,
             priceInputRect:       _listingPriceInputRect,
@@ -6502,7 +6502,7 @@ public partial class MainWindow : Window
             listItemBtnRect:      _listingListItemBtnRect,
             log:                  progress,
             ct:                   ct);
-        Report($"Переоценка: {done} готово, {skipped} пропущено.");
+        Report($"Переоценка: {done} готово, {delisted} на рефордж, {skipped} пропущено.");
     }
 
     private void Report(string msg) =>
@@ -6555,7 +6555,7 @@ public partial class MainWindow : Window
 
             var progress = new Progress<string>(msg => ListingStatusText.Text = msg);
 
-            var (done, skipped) = await svc.ExecutePlanAsync(
+            var (done, skipped, delisted) = await svc.ExecutePlanAsync(
                 plan,
                 shopTabs,
                 chaosOrbOcrRect:      _listingDivineOrbOcrRect,
@@ -6565,7 +6565,7 @@ public partial class MainWindow : Window
                 log:                  progress,
                 ct:                   ct).ConfigureAwait(true);
 
-            ListingStatusText.Text = $"Умная переоценка: готово {done}, пропущено {skipped}.";
+            ListingStatusText.Text = $"Умная переоценка: готово {done}, на рефордж {delisted}, пропущено {skipped}.";
         }
         catch (OperationCanceledException)
         {
