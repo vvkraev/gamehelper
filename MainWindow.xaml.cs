@@ -6634,14 +6634,31 @@ public partial class MainWindow : Window
 
             ListingStatusText.Text = $"План: {plan.Count} позиций. Выполняю...";
 
-            // ── 2. Выполнить план по вкладкам магазина Ange ───────────────
+            // ── 2. Открыть магазин Ange ───────────────────────────────────
+            var actionMs2 = RfParseInt(TabletScanHoverBox.Text, 300);
+            var progress = new Progress<string>(msg => ListingStatusText.Text = msg);
+
+            var angeOk2 = await Services.GameUiHelper.EnsureAngeOpenAsync(
+                _repricingTraderOcrRect,
+                RepricingTraderOcrTextBox.Text.Trim(),
+                _repricingManageShopOcrRect,
+                RepricingManageShopOcrTextBox.Text.Trim(),
+                traderOpenDelayMs: RfParseInt(RepricingTraderOpenDelayBox.Text, 1000),
+                mouseDelayMs:      actionMs2,
+                log:               progress,
+                ct:                ct).ConfigureAwait(true);
+            if (!angeOk2)
+            {
+                ListingStatusText.Text = "Не удалось открыть магазин Ange.";
+                return;
+            }
+
+            // ── 3. Выполнить план по вкладкам магазина Ange ───────────────
             var svc = new Services.SmartRepricingService
             {
-                ActionDelayMs    = RfParseInt(TabletScanHoverBox.Text, 300),
+                ActionDelayMs    = actionMs2,
                 ClipboardDelayMs = RfParseInt(TabletScanClipboardDelayBox.Text, 220),
             };
-
-            var progress = new Progress<string>(msg => ListingStatusText.Text = msg);
 
             var (done, skipped, delisted) = await svc.ExecutePlanAsync(
                 plan,
