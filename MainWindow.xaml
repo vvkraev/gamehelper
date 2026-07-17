@@ -1904,6 +1904,25 @@
                                         IsEnabled="False"
                                         Click="ListingStopBtn_Click"/>
                             </StackPanel>
+
+                            <!-- Автоцикл переоценки -->
+                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                <Button x:Name="TabFlowLoopStartBtn"
+                                        Content="🔄 Запустить цикл"
+                                        Padding="10,6" Margin="0,0,8,0"
+                                        ToolTip="Запустить автоцикл: fetch продаж → SoldDetector → переоценка. ESC прерывает текущую итерацию, цикл продолжается."
+                                        Click="TabFlowLoopStartBtn_Click"/>
+                                <Button x:Name="TabFlowLoopStopBtn"
+                                        Content="⏹ Стоп цикла"
+                                        Padding="10,6" Margin="0,0,16,0"
+                                        IsEnabled="False"
+                                        Click="TabFlowLoopStopBtn_Click"/>
+                                <TextBlock Text="Интервал (мин):" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBox x:Name="TabFlowCycleIntervalBox"
+                                         Width="50" Padding="4,3" Text="30"
+                                         ToolTip="Интервал между итерациями цикла (минуты)"/>
+                            </StackPanel>
+
                             <TextBlock x:Name="ListingStatusText"
                                        FontSize="11" Foreground="#555" Margin="0,0,0,4" Text=""/>
                         </StackPanel>

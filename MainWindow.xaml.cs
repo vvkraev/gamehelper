@@ -130,6 +130,7 @@ public partial class MainWindow : Window
     private CancellationTokenSource? _upgradeOrbsCts;
     private CancellationTokenSource? _listingCts;
     private CancellationTokenSource? _scheduledFetchCts;
+    private CancellationTokenSource? _loopCts;
     private Services.TabletListingService _tabletListingService = new();
     // Результаты последнего скана: ячейка → предсказанная цена в divine + текст предмета
     private List<(ScreenRect Cell, double Price, string ItemText)> _lastScanPrices = new();
@@ -1054,8 +1055,9 @@ public partial class MainWindow : Window
         _tabletScanCells = s.TabletScanCells is { Count: > 0 } tsc ? tsc.ToList() : new();
         _tabletScanGridCols = s.TabletScanGridCols > 0 ? s.TabletScanGridCols : 12;
         TabletScanCellsInfo.Text   = _tabletScanCells.Count > 0 ? $"{_tabletScanCells.Count} ячеек" : "не задана";
-        TabletScanHoverBox.Text        = s.TabletScanHoverMs > 0 ? s.TabletScanHoverMs.ToString() : "120";
+        TabletScanHoverBox.Text          = s.TabletScanHoverMs > 0 ? s.TabletScanHoverMs.ToString() : "120";
         TabletScanClipboardDelayBox.Text = s.TabletScanClipboardDelayMs > 0 ? s.TabletScanClipboardDelayMs.ToString() : "220";
+        TabFlowCycleIntervalBox.Text     = s.TabFlowRepriceCycleIntervalMin > 0 ? s.TabFlowRepriceCycleIntervalMin.ToString() : "30";
 
         _angeTabletTabRect          = s.AngeTabletTabRect;
         AngeTabletTabInfo.Text      = _angeTabletTabRect.Width > 0 ? FormatRect(_angeTabletTabRect) : "не задана";
@@ -1258,8 +1260,9 @@ public partial class MainWindow : Window
         s.TabletScanNpcOcrText       = TabletScanNpcOcrTextBox.Text.Trim();
         s.TabletScanCells            = _tabletScanCells.Count > 0 ? _tabletScanCells : null;
         s.TabletScanGridCols         = _tabletScanGridCols;
-        s.TabletScanHoverMs          = RfParseInt(TabletScanHoverBox.Text, 120);
-        s.TabletScanClipboardDelayMs = RfParseInt(TabletScanClipboardDelayBox.Text, 220);
+        s.TabletScanHoverMs                = RfParseInt(TabletScanHoverBox.Text, 120);
+        s.TabletScanClipboardDelayMs       = RfParseInt(TabletScanClipboardDelayBox.Text, 220);
+        s.TabFlowRepriceCycleIntervalMin   = RfParseInt(TabFlowCycleIntervalBox.Text, 30);
         s.AngeTabletTabRect          = _angeTabletTabRect;
         s.AngeTabletCells            = _angeTabletCells.Count > 0 ? _angeTabletCells : null;
         s.ListingPriceInputRect      = _listingPriceInputRect;
@@ -6358,6 +6361,152 @@ public partial class MainWindow : Window
 
     private void ListingStopBtn_Click(object sender, RoutedEventArgs e)
         => _listingCts?.Cancel();
+
+    // ── TabFlow автоцикл ─────────────────────────────────────────────────────
+
+    private void TabFlowLoopStartBtn_Click(object sender, RoutedEventArgs e)
+    {
+        if (_angeTabletCells.Count == 0)
+        {
+            ListingStatusText.Text = "Ячейки магазина Ange не заданы.";
+            return;
+        }
+
+        _loopCts?.Cancel();
+        _loopCts = new CancellationTokenSource();
+        var loopCt = _loopCts.Token;
+
+        var intervalMin = RfParseInt(TabFlowCycleIntervalBox.Text, 30);
+        SaveSettings();
+
+        TabFlowLoopStartBtn.IsEnabled = false;
+        TabFlowLoopStopBtn.IsEnabled  = true;
+
+        _ = Task.Run(async () =>
+        {
+            try
+            {
+                await RunTabFlowLoopAsync(intervalMin, loopCt);
+            }
+            finally
+            {
+                Dispatcher.Invoke(() =>
+                {
+                    TabFlowLoopStartBtn.IsEnabled = true;
+                    TabFlowLoopStopBtn.IsEnabled  = false;
+                    ListingStatusText.Text        = "Цикл TabFlow остановлен.";
+                });
+            }
+        }, loopCt);
+    }
+
+    private void TabFlowLoopStopBtn_Click(object sender, RoutedEventArgs e)
+    {
+        _loopCts?.Cancel();
+        _listingCts?.Cancel();
+    }
+
+    private async Task RunTabFlowLoopAsync(int intervalMin, CancellationToken loopCt)
+    {
+        var shopTabs = new List<(ScreenRect, IReadOnlyList<ScreenRect>)>
+        {
+            (_angeTabletTabRect, _angeTabletCells),
+        };
+        var sessid = TradeSessionIdBox.Text.Trim();
+        var league = TradeHistoryLeagueBox.Text.Trim();
+        if (string.IsNullOrWhiteSpace(league)) league = "Runes of Aldur";
+
+        Report($"Цикл TabFlow запущен (интервал {intervalMin} мин).");
+
+        while (!loopCt.IsCancellationRequested)
+        {
+            // Создаём итерационный CTS — добавляем в RequestCancelAll через _listingCts
+            _listingCts?.Cancel();
+            using var iterCts = CancellationTokenSource.CreateLinkedTokenSource(loopCt);
+            _listingCts = iterCts;
+            var iterCt = iterCts.Token;
+
+            TryRegisterCraftCancelHotkey();
+            MinimizeToTrayOnStart();
+            try
+            {
+                await RunTabFlowIterationAsync(shopTabs, sessid, league, iterCt);
+            }
+            catch (OperationCanceledException) when (!loopCt.IsCancellationRequested)
+            {
+                // ESC прервал итерацию — продолжаем цикл
+                Dispatcher.Invoke(() => ListingStatusText.Text =
+                    $"Итерация прервана. Следующая через {intervalMin} мин...");
+            }
+            finally
+            {
+                UnregisterCraftCancelHotkey();
+                Dispatcher.Invoke(RestoreFromTray);
+            }
+
+            loopCt.ThrowIfCancellationRequested();
+            Report($"Следующая итерация через {intervalMin} мин...");
+            await Task.Delay(TimeSpan.FromMinutes(intervalMin), loopCt);
+        }
+    }
+
+    private async Task RunTabFlowIterationAsync(
+        List<(ScreenRect, IReadOnlyList<ScreenRect>)> shopTabs,
+        string sessid, string league, CancellationToken ct)
+    {
+        // 1. Fetch продаж
+        if (!string.IsNullOrWhiteSpace(sessid))
+        {
+            Report("Обновление истории продаж...");
+            try
+            {
+                var existing = Services.TradeHistoryService.LoadFromFile();
+                var (merged, newCount) = await Services.TradeHistoryService
+                    .FetchAndMergeAsync(league, sessid, existing, ct);
+                Services.TradeHistoryService.Save(merged);
+                _tradeHistory = merged;
+                var marked = Services.SoldDetector.DetectAndMark(merged);
+                Report($"+{newCount} продаж, {marked} закрыто в индексе.");
+                Dispatcher.Invoke(RebuildTradeHistoryGrid);
+            }
+            catch (OperationCanceledException) { throw; }
+            catch (Exception ex) { Report($"Fetch продаж: {ex.Message}"); }
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        // 2. Генерация плана
+        Report("Генерация плана переоценки...");
+        var (plan, scriptLog) = await Services.SmartRepricingService
+            .GeneratePlanAsync(ProjectPaths.GetProjectRoot(), ct);
+        var lastLine = scriptLog.Split('\n').LastOrDefault("") ?? "";
+        Report(lastLine);
+
+        if (plan.Count == 0) { Report("Нет позиций для переоценки."); return; }
+
+        ct.ThrowIfCancellationRequested();
+
+        // 3. Выполнение переоценки
+        Report($"Переоценка: {plan.Count} позиций...");
+        var svc = new Services.SmartRepricingService
+        {
+            ActionDelayMs    = RfParseInt(TabletScanHoverBox.Text, 300),
+            ClipboardDelayMs = RfParseInt(TabletScanClipboardDelayBox.Text, 220),
+        };
+        var progress = new Progress<string>(msg => Dispatcher.Invoke(() => ListingStatusText.Text = msg));
+        var (done, skipped) = await svc.ExecutePlanAsync(
+            plan, shopTabs,
+            chaosOrbOcrRect:      _listingDivineOrbOcrRect,
+            priceInputRect:       _listingPriceInputRect,
+            currencyDropdownRect: _listingCurrencyDropdownRect,
+            listItemBtnRect:      _listingListItemBtnRect,
+            log:                  progress,
+            ct:                   ct);
+        Report($"Переоценка: {done} готово, {skipped} пропущено.");
+    }
+
+    private void Report(string msg) =>
+        Dispatcher.Invoke(() => ListingStatusText.Text = msg);
 
     private async void SmartRepricingBtn_Click(object sender, RoutedEventArgs e)
     {

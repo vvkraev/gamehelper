@@ -174,6 +174,12 @@ public sealed class AppSettings
     /// <summary>Имя текущего батча — сохраняется между сессиями.</summary>
     public string BatchName { get; set; } = "batch-1";
 
+    /// <summary>Относительный путь к каталогу vault для текущего батча (от корня проекта). Например: vault/crafts/time_lost_sapphire/batch_2026-07-13</summary>
+    public string BatchVaultDir { get; set; } = "";
+
+    /// <summary>Стоимость одной базы в дивайнах — для расчёта полной себестоимости в _costs.md.</summary>
+    public decimal BatchBaseCostDiv { get; set; } = 0m;
+
     /// <summary>Область экрана с названием текущей локации (minimap/HUD) — для OCR-верификации после TravelToLocation и определения вехи при старте батча.</summary>
     public ScreenRect LocationNameArea { get; set; }
 
@@ -269,6 +275,56 @@ public sealed class AppSettings
     public int FractOrbNAffixes { get; set; } = 3;
     /// <summary>Целевая цена продажи готового предмета (divs). 0 = не задана.</summary>
     public decimal FractOrbTargetPriceDiv { get; set; } = 0m;
+
+    // ── Сканер таблеток ──────────────────────────────────────────────────────
+    /// <summary>Область поиска метки NPC (например DORYIANI) перед сканированием.</summary>
+    public ScreenRect TabletScanNpcOcrRect { get; set; }
+    /// <summary>Текст NPC для OCR-поиска (без регистра, без пробелов).</summary>
+    public string TabletScanNpcOcrText { get; set; } = "DORYANI";
+    /// <summary>Ячейки инвентаря для сканирования таблеток.</summary>
+    public List<ScreenRect>? TabletScanCells { get; set; }
+    /// <summary>Количество столбцов в сетке сканирования (для расчёта col/row → индекс ячейки).</summary>
+    public int TabletScanGridCols { get; set; } = 12;
+    /// <summary>Задержка наведения перед Ctrl+Alt+C, мс.</summary>
+    public int TabletScanHoverMs { get; set; } = 120;
+    /// <summary>Задержка после Ctrl+Alt+C (ожидание буфера), мс.</summary>
+    public int TabletScanClipboardDelayMs { get; set; } = 220;
+
+    // ── TabFlow: цикл переоценки ─────────────────────────────────────────────
+    /// <summary>Интервал между итерациями автоцикла переоценки TabFlow (минуты).</summary>
+    public int TabFlowRepriceCycleIntervalMin { get; set; } = 30;
+
+    // ── TabFlow: листинг у Ange ──────────────────────────────────────────────
+    /// <summary>Вкладка табличек в магазине Ange (кнопка открывает ячейки табличек).</summary>
+    public ScreenRect AngeTabletTabRect { get; set; }
+    /// <summary>Сетка ячеек в магазине Ange для табличек.</summary>
+    public List<ScreenRect>? AngeTabletCells { get; set; }
+    /// <summary>Поле ввода числа в диалоге «Set Item Price» (чёрный прямоугольник слева).</summary>
+    public ScreenRect ListingPriceInputRect { get; set; }
+    /// <summary>Дропдаун валюты в диалоге «Set Item Price».</summary>
+    public ScreenRect ListingCurrencyDropdownRect { get; set; }
+    /// <summary>Область поиска строки «Divine Orb» в открытом дропдауне.</summary>
+    public ScreenRect ListingDivineOrbOcrRect { get; set; }
+    /// <summary>Кнопка «LIST ITEM» в диалоге «Set Item Price».</summary>
+    public ScreenRect ListingListItemBtnRect { get; set; }
+
+    // ── Fragment Stash (таблетки) ────────────────────────────────────────────
+    /// <summary>Вкладка «Fragment» в навигации стэша (кнопка в ряду вкладок).</summary>
+    public ScreenRect FragmentStashTabRect { get; set; }
+    /// <summary>Под-вкладка «Tablets» внутри Fragment Stash.</summary>
+    public ScreenRect FragmentSubTabTabletsRect { get; set; }
+    /// <summary>Иконки типов таблеток (ряд из N иконок слева направо).</summary>
+    public List<ScreenRect>? FragmentTabletTypeRects { get; set; }
+    /// <summary>Кнопки страниц (зелёные кнопки 1-6 под иконками типов).</summary>
+    public List<ScreenRect>? FragmentPageRects { get; set; }
+    /// <summary>Ячейки сетки предметов на текущей странице Fragment Stash.</summary>
+    public List<ScreenRect>? FragmentGridCells { get; set; }
+    /// <summary>Индекс иконки типа таблетки (0 = первая слева).</summary>
+    public int FragmentSelectedTabletTypeIndex { get; set; } = 0;
+    /// <summary>Максимальное число Ctrl+ЛКМ (0 = все страницы до конца). По умолчанию 60 = полный инвентарь.</summary>
+    public int FragmentFillCount { get; set; } = 60;
+    /// <summary>Задержка после Ctrl+ЛКМ при заборе предмета, мс.</summary>
+    public int FragmentTransferDelayMs { get; set; } = 300;
 
     // ── Шансинг (Orb of Chance) ──────────────────────────────────────────────
     /// <summary>Ячейка стака Orb of Chance в инвентаре или сташе.</summary>
