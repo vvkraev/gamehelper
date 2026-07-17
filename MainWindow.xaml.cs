@@ -4715,6 +4715,8 @@ public partial class MainWindow : Window
         _autoRfService.ReforgingBenchOpenDelayMs    = RfParseInt(RfBenchOpenDelayBox.Text, 3000);
         _autoRfService.StashItemsPerClick           = RfParseInt(RfStashItemsPerClickBox.Text, 10);
         _autoRfService.ItemTransferDelayMs          = RfParseInt(RfItemTransferDelayBox.Text, 400);
+        _autoRfService.StashIsOpenCheckRect         = _stashIsOpenCheckRect;
+        _autoRfService.StashIsOpenCheckText         = StashIsOpenCheckTextBox.Text.Trim();
 
         var cascadeEnabled = RfCascadeCheckBox.IsChecked == true;
         _autoRfService.CascadeThresholdEx        = cascadeEnabled ? ComputeAutoThresholdEx(refined: false) : 0m;
@@ -6507,9 +6509,25 @@ public partial class MainWindow : Window
         }
         else
         {
+            var actionMs = RfParseInt(TabletScanHoverBox.Text, 300);
+            var angeOk = await Services.GameUiHelper.EnsureAngeOpenAsync(
+                _repricingTraderOcrRect,
+                RepricingTraderOcrTextBox.Text.Trim(),
+                _repricingManageShopOcrRect,
+                RepricingManageShopOcrTextBox.Text.Trim(),
+                traderOpenDelayMs: RfParseInt(RepricingTraderOpenDelayBox.Text, 1000),
+                mouseDelayMs:      actionMs,
+                log:               progress,
+                ct:                ct);
+            if (!angeOk)
+            {
+                Report("Не удалось открыть магазин Ange — переоценка пропущена.");
+                return;
+            }
+
             var svc = new Services.SmartRepricingService
             {
-                ActionDelayMs    = RfParseInt(TabletScanHoverBox.Text, 300),
+                ActionDelayMs    = actionMs,
                 ClipboardDelayMs = RfParseInt(TabletScanClipboardDelayBox.Text, 220),
             };
             (done, skipped, delisted) = await svc.ExecutePlanAsync(
@@ -6548,6 +6566,13 @@ public partial class MainWindow : Window
                 TransferDelayMs = RfParseInt(FragmentTransferDelayBox.Text, 300),
             };
 
+            var stashCfg = new Services.StashOpenConfig(
+                _stashOcrSearchRect,
+                StashOcrTextBox.Text.Trim(),
+                _stashIsOpenCheckRect,
+                StashIsOpenCheckTextBox.Text.Trim(),
+                RfParseInt(RfStashOpenDelayBox.Text, 3000));
+
             if (reforgeQueue >= fillCount && reforgeInv.Count > 0 && _fragmentGridCells.Count > 0)
             {
                 Report($"[Рефордж] Очередь {reforgeQueue} ≥ {fillCount} — запускаем цикл...");
@@ -6556,14 +6581,14 @@ public partial class MainWindow : Window
                     _fragmentStashTabRect, _fragmentSubTabTabletsRect, _fragmentGridCells,
                     _reforgeState.Slot1Rect, _reforgeState.Slot2Rect, _reforgeState.Slot3Rect,
                     _reforgeState.ConfirmRect, _reforgeState.ResultRect,
-                    targetCount: fillCount, log: progress, ct: ct);
+                    stashCfg: stashCfg, targetCount: fillCount, log: progress, ct: ct);
             }
             else if (reforgeInv.Count > 0)
             {
                 Report($"[Рефордж] Очередь {reforgeQueue}/{fillCount} — сброс в стэш...");
                 await tabletReforge.DumpInventoryToStashAsync(
                     reforgeInv, _fragmentStashTabRect, _fragmentSubTabTabletsRect,
-                    log: progress, ct: ct);
+                    stashCfg: stashCfg, log: progress, ct: ct);
             }
         }
     }

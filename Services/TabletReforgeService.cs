@@ -35,6 +35,7 @@ public sealed class TabletReforgeService
     /// <param name="slot3">Слот 3 реформ-станка.</param>
     /// <param name="confirmRect">Кнопка Reforge.</param>
     /// <param name="resultRect">Слот результата.</param>
+    /// <param name="stashCfg">Конфигурация открытия стэша (OCR-поиск + IsOpen-проверка).</param>
     /// <param name="targetCount">Сколько планшеток взять из стэша (обычно 60).</param>
     /// <param name="log">Прогресс.</param>
     /// <param name="ct">Токен отмены.</param>
@@ -45,6 +46,7 @@ public sealed class TabletReforgeService
         IReadOnlyList<ScreenRect> fragmentGridCells,
         ScreenRect slot1, ScreenRect slot2, ScreenRect slot3,
         ScreenRect confirmRect, ScreenRect resultRect,
+        StashOpenConfig stashCfg,
         int targetCount,
         IProgress<string>? log,
         CancellationToken ct)
@@ -54,7 +56,12 @@ public sealed class TabletReforgeService
 
         try
         {
-            // ── Шаг 1: Сбросить инвентарь в стэш (предметы после Delist из Ange) ──
+            // ── Шаг 1: Открываем стэш и сбрасываем инвентарь ─────────────
+            if (!await GameUiHelper.EnsureStashOpenAsync(stashCfg, log, ct).ConfigureAwait(false))
+            {
+                log?.Report("[Рефордж] Не удалось открыть стэш — прерываем рефордж.");
+                return;
+            }
             log?.Report("[Рефордж] Сбрасываем инвентарь в стэш...");
             await DumpInventoryToStashAsync(inventoryCells, ct);
 
@@ -105,6 +112,7 @@ public sealed class TabletReforgeService
         IReadOnlyList<ScreenRect> inventoryCells,
         ScreenRect fragmentStashTabRect,
         ScreenRect fragmentSubTabTabletsRect,
+        StashOpenConfig stashCfg,
         IProgress<string>? log,
         CancellationToken ct)
     {
@@ -113,6 +121,11 @@ public sealed class TabletReforgeService
 
         try
         {
+            if (!await GameUiHelper.EnsureStashOpenAsync(stashCfg, log, ct).ConfigureAwait(false))
+            {
+                log?.Report("[Рефордж] Не удалось открыть стэш — сброс прерван.");
+                return;
+            }
             log?.Report("[Рефордж] Сбрасываем снятые предметы в стэш...");
             await NavigateToFragmentTabletsAsync(fragmentStashTabRect, fragmentSubTabTabletsRect, ct);
             await DumpInventoryToStashAsync(inventoryCells, ct);

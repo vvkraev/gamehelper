@@ -32,6 +32,11 @@ public sealed class AutoReforgeService
     /// <summary>Минимум катализаторов в стэше для участия в перековке. Типы с меньшим остатком пропускаются.</summary>
     public int MinStashCount { get; set; } = 3;
 
+    /// <summary>Область проверки «стэш уже открыт» (OCR). Пустая = проверка отключена.</summary>
+    public ScreenRect StashIsOpenCheckRect { get; set; }
+    /// <summary>Текст, наличие которого в StashIsOpenCheckRect означает что стэш открыт.</summary>
+    public string StashIsOpenCheckText { get; set; } = "Stash";
+
     /// <summary>
     /// Если задан — проверяет процесс игры при старте и после серии пустых буферов.
     /// </summary>
@@ -79,14 +84,14 @@ public sealed class AutoReforgeService
         Guard?.EnsureRunning();
 
         // ── 1. Открываем стэш (OCR) ───────────────────────────────────────
-        log?.Report($"[Авто] Ищем «{stashOcrText}» на экране (OCR)...");
-        if (!await FindAndClickOcrAsync(stashOcrSearchRect, stashOcrText, log, ct))
+        if (!await GameUiHelper.EnsureStashOpenAsync(
+                new StashOpenConfig(stashOcrSearchRect, stashOcrText,
+                    StashIsOpenCheckRect, StashIsOpenCheckText, StashOpenDelayMs),
+                log, ct).ConfigureAwait(false))
         {
             log?.Report("[Авто] Не найдена надпись STASH — останавливаемся.");
             return;
         }
-        log?.Report($"[Авто] Ждём {StashOpenDelayMs} мс (персонаж идёт к стэшу)...");
-        await Task.Delay(StashOpenDelayMs, ct);
 
         // ── 2. Открываем вкладку Breach ──────────────────────────────────
         log?.Report("[Авто] Открываем вкладку Breach...");
@@ -274,14 +279,12 @@ public sealed class AutoReforgeService
         }
 
         // ── 6. Открываем станок перековки (OCR) ──────────────────────────
-        log?.Report($"[Авто] Ищем «{benchOcrText}» на экране (OCR)...");
-        if (!await FindAndClickOcrAsync(benchOcrSearchRect, benchOcrText, log, ct))
+        if (!await GameUiHelper.EnsureReforgingBenchOpenAsync(
+                benchOcrSearchRect, benchOcrText, ReforgingBenchOpenDelayMs, log, ct).ConfigureAwait(false))
         {
             log?.Report("[Авто] Не найдена надпись Reforging Bench — останавливаемся.");
             return;
         }
-        log?.Report($"[Авто] Ждём {ReforgingBenchOpenDelayMs} мс (персонаж идёт к станку)...");
-        await Task.Delay(ReforgingBenchOpenDelayMs, ct);
 
         // ── 7. Перековка ──────────────────────────────────────────────────
         // Передаём только реально заполненные ячейки: каждый Ctrl+ЛКМ заполнил ровно одну ячейку.
@@ -305,13 +308,14 @@ public sealed class AutoReforgeService
 
         // ── 8. Возвращаемся к стэшу (OCR) ────────────────────────────────
         log?.Report("[Авто] Ищем STASH для возврата катализаторов...");
-        if (!await FindAndClickOcrAsync(stashOcrSearchRect, stashOcrText, log, ct))
+        if (!await GameUiHelper.EnsureStashOpenAsync(
+                new StashOpenConfig(stashOcrSearchRect, stashOcrText,
+                    StashIsOpenCheckRect, StashIsOpenCheckText, StashOpenDelayMs),
+                log, ct).ConfigureAwait(false))
         {
             log?.Report("[Авто] Не найдена надпись STASH при возврате — катализаторы остались в инвентаре.");
             return;
         }
-        log?.Report($"[Авто] Ждём {StashOpenDelayMs} мс...");
-        await Task.Delay(StashOpenDelayMs, ct);
 
         // ── 9. Открываем вкладку Breach ──────────────────────────────────
         await MoveAndClickAsync(breachTabRect, ct);
@@ -328,40 +332,6 @@ public sealed class AutoReforgeService
         }
 
         log?.Report("[Авто] Авто-цикл завершён.");
-    }
-
-    // ── OCR-поиск и клик ─────────────────────────────────────────────────
-
-    /// <summary>
-    /// Ищет текст в области экрана через OCR, кликает в центр найденного.
-    /// Возвращает false если текст не найден.
-    /// </summary>
-    private async Task<bool> FindAndClickOcrAsync(ScreenRect searchRect, string labelText, IProgress<string>? log, CancellationToken ct)
-    {
-        var target = WindowsOcrTextLocator.NormalizeForMatch(labelText);
-        if (string.IsNullOrEmpty(target))
-        {
-            log?.Report($"[Авто] OCR: текст для поиска пустой после нормализации (исходный: «{labelText}»).");
-            return false;
-        }
-
-        var match = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(searchRect, target, log, ct)
-            .ConfigureAwait(false);
-
-        if (match is not { } found)
-        {
-            log?.Report($"[Авто] OCR: «{labelText}» не найдено в области {searchRect.X},{searchRect.Y} {searchRect.Width}×{searchRect.Height}.");
-            return false;
-        }
-
-        var (cx, cy) = found.BoundsOnScreen.GetInteriorPoint(inset: 1);
-        log?.Report($"[Авто] OCR нашёл «{found.MatchedLineText}» → клик ({cx},{cy})");
-
-        Win32Input.MoveTo(cx, cy);
-        await Task.Delay(WithJitter(MouseActionDelayMs), ct);
-        Win32Input.ClickLeft();
-        await Task.Delay(WithJitter(MouseActionDelayMs), ct);
-        return true;
     }
 
     // ── Низкоуровневые хелперы ───────────────────────────────────────────

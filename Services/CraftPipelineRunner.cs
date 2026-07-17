@@ -311,15 +311,15 @@ public sealed class CraftPipelineRunner
             PipelineAction.AugAnnulCraft => await ExecuteAugAnnulAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
             PipelineAction.DivineCraft => await ExecuteDivineCraftAsync(step, screen, log, ct, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false),
             PipelineAction.ExaltCraft => await ExecuteExaltCraftAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
-            PipelineAction.SimpleCurrency => await ExecuteSimpleCurrencyAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
+            PipelineAction.SimpleCurrency => await ExecuteSimpleCurrencyAsync(step, screen, log, ct, cachedText, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false),
             // Устаревшие — оставлены для совместимости сохранённых JSON-пайплайнов
-            PipelineAction.SimpleExalt => await ExecuteSimpleExaltAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
-            PipelineAction.SimpleAnnul => await ExecuteSimpleAnnulAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
-            PipelineAction.SimpleChaos => await ExecuteSimpleChaosAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
+            PipelineAction.SimpleExalt => await ExecuteSimpleExaltAsync(step, screen, log, ct, cachedText, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false),
+            PipelineAction.SimpleAnnul => await ExecuteSimpleAnnulAsync(step, screen, log, ct, cachedText, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false),
+            PipelineAction.SimpleChaos => await ExecuteSimpleChaosAsync(step, screen, log, ct, cachedText, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false),
             PipelineAction.OmenActivation => await ExecuteOmenActivationAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
-            PipelineAction.DeliriumLiquid => await ExecuteDeliriumLiquidAsync(step, screen, log, ct).ConfigureAwait(false),
+            PipelineAction.DeliriumLiquid => await ExecuteDeliriumLiquidAsync(step, screen, log, ct, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false),
             PipelineAction.TravelToLocation => await ExecuteTravelAsync(step, screen, log, ct).ConfigureAwait(false),
-            PipelineAction.SimpleAbyssalBone => await ExecuteSimpleAbyssalBoneAsync(step, screen, log, ct, cachedText).ConfigureAwait(false),
+            PipelineAction.SimpleAbyssalBone => await ExecuteSimpleAbyssalBoneAsync(step, screen, log, ct, cachedText, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false),
             PipelineAction.WalkToPosition => await ExecuteWalkToPositionAsync(step, log, ct).ConfigureAwait(false),
             PipelineAction.OpenStash => await ExecuteOpenStashAsync(screen, log, ct).ConfigureAwait(false),
             PipelineAction.ClickTemplate => await ExecuteClickTemplateAsync(step, log, ct).ConfigureAwait(false),
@@ -460,7 +460,7 @@ public sealed class CraftPipelineRunner
 
     private async Task<StepOutcome> ExecuteSimpleCurrencyAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
-        string? cachedText = null)
+        string? cachedText = null, bool orbAlreadySelected = false, bool keepOrbSelected = false)
     {
         var currencyId = step.CurrencyId;
         if (string.IsNullOrWhiteSpace(currencyId))
@@ -479,7 +479,7 @@ public sealed class CraftPipelineRunner
             return StepOutcome.Failure();
 
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
-        await ApplyCurrencyToItemAsync(orbRect, screen.ItemArea, currencyId, log, ct).ConfigureAwait(false);
+        await ApplyCurrencyToItemAsync(orbRect, screen.ItemArea, currencyId, log, ct, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false);
         var itemText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
         return StepOutcome.Success(1, itemText);
     }
@@ -487,49 +487,54 @@ public sealed class CraftPipelineRunner
     // Устаревшие Simple-действия — редиректят на единую логику ApplyCurrencyToItemAsync
     private async Task<StepOutcome> ExecuteSimpleAnnulAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
-        string? cachedText = null)
+        string? cachedText = null, bool orbAlreadySelected = false, bool keepOrbSelected = false)
     {
         if (!await CheckEntryConditionAsync(step, screen, log, ct, cachedText).ConfigureAwait(false))
             return StepOutcome.Failure();
         if (screen.AnnulOrbArea == default) { log?.Report("[Currency] Область Annulment Orb не настроена."); return StepOutcome.Failure(); }
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
-        await ApplyCurrencyToItemAsync(screen.AnnulOrbArea, screen.ItemArea, "Orb of Annulment", log, ct).ConfigureAwait(false);
+        await ApplyCurrencyToItemAsync(screen.AnnulOrbArea, screen.ItemArea, "Orb of Annulment", log, ct, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false);
         return StepOutcome.Success(1);
     }
 
     private async Task<StepOutcome> ExecuteSimpleChaosAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
-        string? cachedText = null)
+        string? cachedText = null, bool orbAlreadySelected = false, bool keepOrbSelected = false)
     {
         if (!await CheckEntryConditionAsync(step, screen, log, ct, cachedText).ConfigureAwait(false))
             return StepOutcome.Failure();
         if (screen.ChaosOrbArea == default) { log?.Report("[Currency] Область Chaos Orb не настроена."); return StepOutcome.Failure(); }
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
-        await ApplyCurrencyToItemAsync(screen.ChaosOrbArea, screen.ItemArea, "Chaos Orb", log, ct).ConfigureAwait(false);
+        await ApplyCurrencyToItemAsync(screen.ChaosOrbArea, screen.ItemArea, "Chaos Orb", log, ct, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false);
         return StepOutcome.Success(1);
     }
 
     private async Task<StepOutcome> ExecuteSimpleExaltAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
-        string? cachedText = null)
+        string? cachedText = null, bool orbAlreadySelected = false, bool keepOrbSelected = false)
     {
         if (!await CheckEntryConditionAsync(step, screen, log, ct, cachedText).ConfigureAwait(false))
             return StepOutcome.Failure();
         if (screen.ExaltOrbArea == default) { log?.Report("[Currency] Область Exalted Orb не настроена."); return StepOutcome.Failure(); }
         await SwitchStashTabAsync(screen.CurrencyInventoryRegion, log, ct, "Валюта").ConfigureAwait(false);
-        await ApplyCurrencyToItemAsync(screen.ExaltOrbArea, screen.ItemArea, "Exalted Orb", log, ct).ConfigureAwait(false);
+        await ApplyCurrencyToItemAsync(screen.ExaltOrbArea, screen.ItemArea, "Exalted Orb", log, ct, orbAlreadySelected, keepOrbSelected).ConfigureAwait(false);
         return StepOutcome.Success(1);
     }
 
     private async Task ApplyCurrencyToItemAsync(
-        ScreenRect orbRect, ScreenRect itemRect, string displayName, IProgress<string>? log, CancellationToken ct)
+        ScreenRect orbRect, ScreenRect itemRect, string displayName, IProgress<string>? log, CancellationToken ct,
+        bool orbAlreadySelected = false, bool keepOrbSelected = false)
     {
-        var (ox, oy) = orbRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
-        log?.Report($"[Currency] ПКМ «{displayName}» ({ox},{oy})…");
-        Win32Input.MoveTo(ox, oy);
-        await Task.Delay(150, ct).ConfigureAwait(false);
-        Win32Input.ClickRight();
-        await Task.Delay(300, ct).ConfigureAwait(false);
+        if (!orbAlreadySelected)
+        {
+            var (ox, oy) = orbRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+            log?.Report($"[Currency] ПКМ «{displayName}» ({ox},{oy})…");
+            Win32Input.MoveTo(ox, oy);
+            await Task.Delay(150, ct).ConfigureAwait(false);
+            Win32Input.ShiftDown();
+            Win32Input.ClickRight();
+            await Task.Delay(300, ct).ConfigureAwait(false);
+        }
 
         var (ix, iy) = itemRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
         log?.Report($"[Currency] ЛКМ предмет ({ix},{iy})…");
@@ -537,6 +542,9 @@ public sealed class CraftPipelineRunner
         await Task.Delay(150, ct).ConfigureAwait(false);
         Win32Input.ClickLeft();
         await Task.Delay(300, ct).ConfigureAwait(false);
+
+        if (!keepOrbSelected)
+            Win32Input.ReleaseShift();
     }
 
     /// <summary>
@@ -632,7 +640,8 @@ public sealed class CraftPipelineRunner
     }
 
     private async Task<StepOutcome> ExecuteDeliriumLiquidAsync(
-        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
+        CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
+        bool orbAlreadySelected = false, bool keepOrbSelected = false)
     {
         var cfg = step.DeliriumLiquidConfig;
         if (cfg is null || string.IsNullOrWhiteSpace(cfg.LiquidName))
@@ -649,13 +658,17 @@ public sealed class CraftPipelineRunner
 
         await SwitchStashTabAsync(screen.DeliriumInventoryRect, log, ct, "Делириум").ConfigureAwait(false);
 
-        // ПКМ на ячейке масла
-        var (lx, ly) = liquidRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
-        log?.Report($"[Delirium] ПКМ масло «{cfg.LiquidName}» ({lx},{ly})…");
-        Win32Input.MoveTo(lx, ly);
-        await Task.Delay(150, ct).ConfigureAwait(false);
-        Win32Input.ClickRight();
-        await Task.Delay(300, ct).ConfigureAwait(false);
+        if (!orbAlreadySelected)
+        {
+            // Shift+ПКМ на ячейке масла — масло остаётся на курсоре
+            var (lx, ly) = liquidRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+            log?.Report($"[Delirium] Shift+ПКМ масло «{cfg.LiquidName}» ({lx},{ly})…");
+            Win32Input.MoveTo(lx, ly);
+            await Task.Delay(150, ct).ConfigureAwait(false);
+            Win32Input.ShiftDown();
+            Win32Input.ClickRight();
+            await Task.Delay(300, ct).ConfigureAwait(false);
+        }
 
         // ЛКМ на предмет
         var (ix, iy) = screen.ItemArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
@@ -665,12 +678,15 @@ public sealed class CraftPipelineRunner
         Win32Input.ClickLeft();
         await Task.Delay(300, ct).ConfigureAwait(false);
 
+        if (!keepOrbSelected)
+            Win32Input.ReleaseShift();
+
         return StepOutcome.Success(1);
     }
 
     private async Task<StepOutcome> ExecuteSimpleAbyssalBoneAsync(
         CraftPipelineStep step, PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct,
-        string? cachedText = null)
+        string? cachedText = null, bool orbAlreadySelected = false, bool keepOrbSelected = false)
     {
         var boneId = step.AbyssalBoneId;
         if (string.IsNullOrWhiteSpace(boneId))
@@ -689,7 +705,7 @@ public sealed class CraftPipelineRunner
             return StepOutcome.Failure();
 
         var maxIter = step.MaxIterations > 0 ? step.MaxIterations : 1000;
-        var consumed = 0; // кости реально потраченные (предмет изменился)
+        var consumed = 0;
         string itemText;
         if (!string.IsNullOrWhiteSpace(cachedText))
         {
@@ -701,19 +717,25 @@ public sealed class CraftPipelineRunner
             itemText = await _chaos!.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
         }
 
+        // Если кость ещё не на курсоре — выбираем её один раз через Shift+ПКМ.
+        // Затем все ЛКМ в цикле выполняются без возврата в стэш: Shift-режим держит
+        // кость на курсоре (каждый ЛКМ потребляет одну из стэка).
+        if (!orbAlreadySelected)
+        {
+            await SwitchStashTabAsync(screen.AbyssInventoryRegion, log, ct, "Abyss").ConfigureAwait(false);
+            var (bx0, by0) = boneRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
+            log?.Report($"[Bone] Shift+ПКМ кость «{boneId}» ({bx0},{by0})…");
+            Win32Input.MoveTo(bx0, by0);
+            await Task.Delay(150, ct).ConfigureAwait(false);
+            Win32Input.ShiftDown();
+            Win32Input.ClickRight();
+            await Task.Delay(300, ct).ConfigureAwait(false);
+        }
+
         for (var i = 0; i < maxIter; i++)
         {
             ct.ThrowIfCancellationRequested();
             var prevText = itemText;
-
-            await SwitchStashTabAsync(screen.AbyssInventoryRegion, log, ct, "Abyss").ConfigureAwait(false);
-
-            var (bx, by) = boneRect.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
-            log?.Report($"[Bone] ПКМ кость «{boneId}» ({bx},{by})…");
-            Win32Input.MoveTo(bx, by);
-            await Task.Delay(150, ct).ConfigureAwait(false);
-            Win32Input.ClickRight();
-            await Task.Delay(300, ct).ConfigureAwait(false);
 
             var (ix, iy) = screen.ItemArea.GetRandomInteriorPoint(1, centerAreaFraction: 0.7);
             log?.Report($"[Bone] ЛКМ предмет ({ix},{iy})…");
@@ -724,7 +746,6 @@ public sealed class CraftPipelineRunner
 
             itemText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
 
-            // Кость считается потраченной только если предмет реально изменился.
             if (itemText != prevText)
                 consumed++;
 
@@ -737,6 +758,9 @@ public sealed class CraftPipelineRunner
             if (met)
                 break;
         }
+
+        if (!keepOrbSelected)
+            Win32Input.ReleaseShift();
 
         return StepOutcome.Success(consumed, itemText);
     }
@@ -758,49 +782,15 @@ public sealed class CraftPipelineRunner
     private async Task<StepOutcome> ExecuteOpenStashAsync(
         PipelineScreenConfig screen, IProgress<string>? log, CancellationToken ct)
     {
-        // Сначала проверяем — возможно стэш уже открыт
-        var checkRect = screen.StashIsOpenCheckRect;
-        if (checkRect.Width > 0 && checkRect.Height > 0)
-        {
-            var checkText   = string.IsNullOrWhiteSpace(screen.StashIsOpenCheckText) ? "Stash" : screen.StashIsOpenCheckText;
-            var checkTarget = WindowsOcrTextLocator.NormalizeForMatch(checkText);
-            var checkMatch  = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(checkRect, checkTarget, null, ct)
-                                  .ConfigureAwait(false);
-            if (checkMatch is not null)
-            {
-                log?.Report($"[OpenStash] Стэш уже открыт (найдено «{checkMatch.Value.MatchedLineText}» в области проверки) — пропускаем клик.");
-                return StepOutcome.Success();
-            }
-        }
+        var cfg = new StashOpenConfig(
+            screen.StashOcrSearchRect,
+            string.IsNullOrWhiteSpace(screen.StashOcrText) ? "STASH" : screen.StashOcrText,
+            screen.StashIsOpenCheckRect,
+            string.IsNullOrWhiteSpace(screen.StashIsOpenCheckText) ? "Stash" : screen.StashIsOpenCheckText,
+            screen.StashOpenDelayMs > 0 ? screen.StashOpenDelayMs : 2000);
 
-        // Стэш не открыт — ищем иконку и кликаем
-        var searchRect = screen.StashOcrSearchRect;
-        if (searchRect.Width <= 0 || searchRect.Height <= 0)
-        {
-            log?.Report("[OpenStash] Область OCR стэша не задана в настройках — пропускаем.");
-            return StepOutcome.Success();
-        }
-
-        var ocrText = string.IsNullOrWhiteSpace(screen.StashOcrText) ? "STASH" : screen.StashOcrText;
-        var target  = WindowsOcrTextLocator.NormalizeForMatch(ocrText);
-        // exactMatch=true: "STASH" не совпадёт с "GUILDSTASH" (Guild Stash без пробела после нормализации)
-        var match   = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(searchRect, target, log, ct, exactMatch: true)
-                          .ConfigureAwait(false);
-
-        if (match is null)
-        {
-            log?.Report($"[OpenStash] OCR: «{ocrText}» не найден в области поиска — пропускаем.");
-            return StepOutcome.Success();
-        }
-
-        var (cx, cy) = match.Value.BoundsOnScreen.GetInteriorPoint(inset: 1);
-        log?.Report($"[OpenStash] Найдено «{match.Value.MatchedLineText}» → клик ({cx},{cy})");
-        Win32Input.MoveTo(cx, cy);
-        await Task.Delay(100, ct).ConfigureAwait(false);
-        Win32Input.ClickLeft();
-        var delay = screen.StashOpenDelayMs > 0 ? screen.StashOpenDelayMs : 2000;
-        await Task.Delay(delay, ct).ConfigureAwait(false);
-        return StepOutcome.Success();
+        var ok = await GameUiHelper.EnsureStashOpenAsync(cfg, log, ct).ConfigureAwait(false);
+        return ok ? StepOutcome.Success() : StepOutcome.Failure();
     }
 
     private async Task<StepOutcome> ExecuteClickTemplateAsync(
