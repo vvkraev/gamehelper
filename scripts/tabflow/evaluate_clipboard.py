@@ -12,8 +12,63 @@ from pathlib import Path
 HERE = Path(__file__).parent
 ROOT = HERE.parent.parent
 
-from mod_utils import mod_set as _mod_set
+from mod_utils import mod_set as _mod_set, mod_template as _mod_template
 from predictor import TabletPredictor
+
+LAST_SALE_MARKUP_PCT = 0.10  # наценка над ценой последней продажи
+
+
+def _last_sale_floor(base_type: str, mods: list[str]) -> tuple[float, float] | None:
+    """
+    Возвращает (last_sale_price_divine, floored_price) или None.
+    floored_price = last_sale * (1 + LAST_SALE_MARKUP_PCT), округлено до 1 decimal.
+    Источник: listings_index.json, поле salePriceAmount/salePriceCurrency.
+    """
+    index_path  = ROOT / "vault" / "tabflow" / "listings_index.json"
+    ninja_path  = ROOT / "poe_ninja_prices.json"
+    if not index_path.exists() or not ninja_path.exists():
+        return None
+
+    try:
+        ninja   = json.loads(ninja_path.read_text(encoding='utf-8-sig'))
+        rates   = {k: v["divineValue"] for k, v in ninja["entries"][-1]["prices"].items()}
+        rates.setdefault("divine orb", 1.0)
+        rates.setdefault("divine", 1.0)
+    except Exception:
+        return None
+
+    try:
+        entries = json.loads(index_path.read_text(encoding='utf-8'))
+    except Exception:
+        return None
+
+    bt_lower  = base_type.strip().lower()
+    item_key  = _mod_set(mods)
+    best: float | None = None
+
+    for e in entries:
+        if not e.get("sold"):
+            continue
+        if (e.get("baseType") or "").strip().lower() != bt_lower:
+            continue
+        amount   = e.get("salePriceAmount")
+        currency = (e.get("salePriceCurrency") or "").strip().lower()
+        if not amount:
+            continue
+
+        rate     = rates.get(currency) or rates.get(currency + " orb")
+        price_d  = float(amount) * (rate or 1.0) if "chaos" in currency else float(amount)
+
+        entry_key = _mod_set(e.get("mods") or [])
+        if entry_key == item_key:
+            if best is None or price_d > best:
+                best = price_d
+
+    if best is None:
+        return None
+
+    floored = round(best * (1 + LAST_SALE_MARKUP_PCT), 1)
+    return best, floored
 
 
 def _market_floor(base_type: str) -> float | None:
@@ -195,6 +250,20 @@ def predict(base_type: str, mods: list[str], models_dir: Path) -> str:
         except Exception:
             pass
 
+    # ── Прецедент последней продажи ─────────────────────────────────────────────
+    sale_note: str | None = None
+    sale_info = _last_sale_floor(base_type, mods)
+    if sale_info is not None:
+        last_sale_d, sale_floor_d = sale_info
+        if sale_floor_d > price:
+            sale_note = (f"📈 Прецедент продажи: {last_sale_d:.1f}d × "
+                         f"{1 + LAST_SALE_MARKUP_PCT:.0%} = {sale_floor_d:.1f}d  "
+                         f"(модель: {price:.1f}d)")
+            price = sale_floor_d
+        else:
+            sale_note = (f"✓ Прецедент {last_sale_d:.1f}d (+{LAST_SALE_MARKUP_PCT:.0%}) = "
+                         f"{sale_floor_d:.1f}d ≤ модели {price:.1f}d")
+
     market_floor = _market_floor(base_type)
 
     out = [f"Тип: {base_type}"]
@@ -204,6 +273,8 @@ def predict(base_type: str, mods: list[str], models_dir: Path) -> str:
         out.append(f"Рыночный флор: ~{market_floor:.2f}d/шт  (рефордж 3×={reforge_cost:.2f}d)")
     if miss_note:
         out.append(miss_note)
+    if sale_note:
+        out.append(sale_note)
     if result.n_train:
         out.append(f"Модель обучена на {result.n_train} предметах")
     out.append(f"Распознано модов: {len(result.matched)}/{len(mods)}")
