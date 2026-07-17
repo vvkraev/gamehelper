@@ -69,12 +69,14 @@ public sealed class BatchPipelineRunner
     /// Запускает пакетный крафт.
     /// При наличии <see cref="IChaosCraftService"/> предварительно определяет начальные стадии через DetectStep.
     /// </summary>
+    /// <param name="onProgress">Вызывается после каждой итерации главного цикла — можно использовать для обновления MD-файла расходов.</param>
     public async Task<BatchRunResult> RunAsync(
         CraftPipeline pipeline,
         PipelineScreenConfig screenTemplate,
         IReadOnlyList<ScreenRect> itemCells,
         IProgress<string>? log,
-        CancellationToken ct)
+        CancellationToken ct,
+        Action<IReadOnlyList<BatchItem>>? onProgress = null)
     {
         if (pipeline.Steps.Count == 0 || itemCells.Count == 0)
             return new BatchRunResult { Items = Array.Empty<BatchItem>(), BatchId = "", PipelineName = pipeline.Name };
@@ -91,7 +93,7 @@ public sealed class BatchPipelineRunner
         if (_testStepExecutor is null)
             await AdjustStagesForCurrentLocationAsync(items, pipeline, screenTemplate.LocationNameArea, log, ct).ConfigureAwait(false);
 
-        return await RunCoreAsync(pipeline, screenTemplate, itemCells, items, log, ct, batchId).ConfigureAwait(false);
+        return await RunCoreAsync(pipeline, screenTemplate, itemCells, items, log, ct, batchId, onProgress).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -105,7 +107,8 @@ public sealed class BatchPipelineRunner
         List<BatchItem> items,
         IProgress<string>? log,
         CancellationToken ct,
-        string? batchId = null)
+        string? batchId = null,
+        Action<IReadOnlyList<BatchItem>>? onProgress = null)
     {
         var executionCount = 0;
 
@@ -177,6 +180,15 @@ public sealed class BatchPipelineRunner
                             {
                                 var fusedStep = pipeline.Steps[fusedStepIndex];
                                 var fusedItems = targetItems.Where(i => i.Status == BatchItemStatus.Active).ToList();
+
+                                // Если fused-шаг — веха, не выполняем per-item: предметы уже на стадии fusedStepIndex
+                                // (ApplyTransition выше), и нормальная milestone-логика запустит его один раз для всей группы.
+                                if (IsMilestoneAction(fusedStep))
+                                {
+                                    log?.Report($"[Батч] Омен-сшивка: стадия {fusedStepIndex} «{fusedStep.Name}» — веха, выполнится один раз для всей группы.");
+                                    continue;
+                                }
+
                                 log?.Report($"[Батч] Омен-сшивка × {fusedItems.Count}: стадия {fusedStepIndex} «{fusedStep.Name}»");
                                 foreach (var item in fusedItems)
                                 {
@@ -254,7 +266,13 @@ public sealed class BatchPipelineRunner
                                     cachedText: probeText,
                                     orbAlreadySelected: batchOrbSelected,
                                     keepOrbSelected: keepOrb).ConfigureAwait(false);
-                            batchOrbSelected = keepOrb;
+                            // Орб реально выбран только если были попытки применения.
+                            // Attempts==0 → мгновенный выход (LoopUntil уже выполнен) → RMB не делался.
+                            // Если при этом Shift остался зажатым с предыдущего предмета — отпускаем.
+                            var orbUsed = outcome.Attempts > 0;
+                            if (batchOrbSelected && !orbUsed)
+                                Win32Input.ReleaseShift();
+                            batchOrbSelected = keepOrb && orbUsed;
                         }
                         catch
                         {
@@ -290,6 +308,8 @@ public sealed class BatchPipelineRunner
                     log?.Report("[Батч] Нет прогресса — возможен deadlock. Остановлено.");
                     break;
                 }
+
+                onProgress?.Invoke(items);
             }
         }
         catch (OperationCanceledException)
@@ -306,6 +326,7 @@ public sealed class BatchPipelineRunner
         var failedCount = items.Count(i => i.Status == BatchItemStatus.Failed);
         var totalCost   = items.Sum(i => i.TotalCostDiv);
         log?.Report($"[Батч] Итог: Done={doneCount}, Failed={failedCount}, Расход≈{totalCost:F2}d");
+        onProgress?.Invoke(items);
         return new BatchRunResult { Items = items, BatchId = batchId ?? "", PipelineName = pipeline.Name };
     }
 
@@ -516,5 +537,12 @@ public sealed class BatchPipelineRunner
     /// Для них батч удерживает Shift между предметами одной стадии.
     /// </summary>
     private static bool IsIterativeCurrencyStep(CraftPipelineStep step) =>
-        step.Action is PipelineAction.ChaosCraft or PipelineAction.DivineCraft;
+        step.Action is PipelineAction.ChaosCraft
+            or PipelineAction.DivineCraft
+            or PipelineAction.DeliriumLiquid
+            or PipelineAction.SimpleCurrency
+            or PipelineAction.SimpleAnnul
+            or PipelineAction.SimpleChaos
+            or PipelineAction.SimpleExalt
+            or PipelineAction.SimpleAbyssalBone;
 }

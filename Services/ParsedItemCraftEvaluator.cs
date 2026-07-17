@@ -573,6 +573,22 @@ public static class ParsedItemCraftEvaluator
         return true;
     }
 
+    /// <summary>Проверяет верхнюю границу; maxes[i] == 0 означает «без ограничения» для слота i.</summary>
+    public static bool RollVectorMeetsMaxes(IReadOnlyList<double> actual, IReadOnlyList<double> maxes, out int failIndex)
+    {
+        failIndex = -1;
+        var len = Math.Min(actual.Count, maxes.Count);
+        for (var i = 0; i < len; i++)
+        {
+            if (maxes[i] > 0 && actual[i] > maxes[i])
+            {
+                failIndex = i;
+                return false;
+            }
+        }
+        return true;
+    }
+
     /// <summary>Числа переката в порядке появления в строке (X, Y, …).</summary>
     public static bool TryGetOrderedRollValues(AffixEffectLine line, out List<double> values, out string note)
     {
@@ -801,6 +817,15 @@ public static class ParsedItemCraftEvaluator
             {
                 detail =
                     $"«{useName}», «{line.StatTemplate}»: слот {failIdx + 1} — ниже порога (есть [{string.Join(", ", actual.Select(FormatMin))}], нужно ≥ [{string.Join(", ", mins.Select(FormatMin))}]).";
+                return false;
+            }
+
+            line.EnsureMaxRollsSize(slots);
+            var maxs = line.GetEffectiveMaxRolls(slots).ToList();
+            if (!RollVectorMeetsMaxes(actual, maxs, out var failMaxIdx))
+            {
+                detail =
+                    $"«{useName}», «{line.StatTemplate}»: слот {failMaxIdx + 1} — выше порога (есть [{string.Join(", ", actual.Select(FormatMin))}], нужно ≤ [{string.Join(", ", maxs.Select(FormatMin))}]).";
                 return false;
             }
         }

@@ -214,10 +214,12 @@ public partial class PipelineStepDialog : Window
             OmenNameCombo.SelectedIndex = omenIdx >= 0 ? omenIdx : 0;
             OmenInvRowBox.Text = cfg.InventoryRow.ToString();
             OmenInvColBox.Text = cfg.InventoryCol.ToString();
+            OmenUseActiveBatchCountChk.IsChecked = cfg.UseActiveBatchCount;
         }
         else
         {
             OmenNameCombo.SelectedIndex = 0;
+            OmenUseActiveBatchCountChk.IsChecked = false;
         }
 
         // DeliriumLiquidConfig
@@ -369,10 +371,11 @@ public partial class PipelineStepDialog : Window
             var omenName = OmenNameCombo.SelectedItem as string ?? AllOmenNames[0];
             Step.OmenConfig = new OmenActionConfig
             {
-                OmenName       = omenName,
-                StashCellIndex = 0,
-                InventoryRow   = int.TryParse(OmenInvRowBox.Text, out var ir) ? ir : 0,
-                InventoryCol   = int.TryParse(OmenInvColBox.Text, out var ic) ? ic : 0,
+                OmenName            = omenName,
+                StashCellIndex      = 0,
+                InventoryRow        = int.TryParse(OmenInvRowBox.Text, out var ir) ? ir : 0,
+                InventoryCol        = int.TryParse(OmenInvColBox.Text, out var ic) ? ic : 0,
+                UseActiveBatchCount = OmenUseActiveBatchCountChk.IsChecked == true,
             };
         }
         else
@@ -667,6 +670,52 @@ public partial class PipelineStepDialog : Window
         _loop = SettingsStore.CloneCraftConditionPlan(_conditionClipboard);
         LoopNegateChk.IsChecked = _loop.Negate;
         RefreshConditionSummaries();
+    }
+
+    private void ExportEntryJsonBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var json = System.Text.Json.JsonSerializer.Serialize(_entry, SettingsStore.JsonOptions);
+        System.Windows.Clipboard.SetText(json);
+    }
+
+    private void ImportEntryJsonBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var text = System.Windows.Clipboard.GetText();
+        try
+        {
+            var plan = System.Text.Json.JsonSerializer.Deserialize<CraftConditionPlan>(text, SettingsStore.JsonOptions);
+            if (plan is null) throw new System.Text.Json.JsonException("null");
+            _entry = plan;
+            EntryNegateChk.IsChecked = _entry.Negate;
+            RefreshConditionSummaries();
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show($"Ошибка разбора JSON:\n{ex.Message}", "JSON↓", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        }
+    }
+
+    private void ExportLoopJsonBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var json = System.Text.Json.JsonSerializer.Serialize(_loop, SettingsStore.JsonOptions);
+        System.Windows.Clipboard.SetText(json);
+    }
+
+    private void ImportLoopJsonBtn_Click(object sender, RoutedEventArgs e)
+    {
+        var text = System.Windows.Clipboard.GetText();
+        try
+        {
+            var plan = System.Text.Json.JsonSerializer.Deserialize<CraftConditionPlan>(text, SettingsStore.JsonOptions);
+            if (plan is null) throw new System.Text.Json.JsonException("null");
+            _loop = plan;
+            LoopNegateChk.IsChecked = _loop.Negate;
+            RefreshConditionSummaries();
+        }
+        catch (Exception ex)
+        {
+            System.Windows.MessageBox.Show($"Ошибка разбора JSON:\n{ex.Message}", "JSON↓", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+        }
     }
 
     // ── TravelToLocation — захват координат ──────────────────────────────────

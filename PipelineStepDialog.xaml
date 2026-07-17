@@ -91,6 +91,9 @@
                             <TextBox   Grid.Row="2" Grid.Column="1" x:Name="OmenInvColBox" Text="0" Width="60"
                                        HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
                         </Grid>
+                        <CheckBox x:Name="OmenUseActiveBatchCountChk" Margin="0,8,0,0"
+                                  Content="Количество = число активных предметов в батче"
+                                  ToolTip="Если включено — при переносе вводится кол-во активных (не Failed) предметов батча. Нужно для Omen of Abyssal Echo."/>
                     </StackPanel>
                 </Border>
 
@@ -708,8 +711,12 @@
                             Click="ClearEntryBtn_Click" ToolTip="Убрать EntryCondition — шаг выполняется всегда"/>
                     <Button x:Name="CopyEntryBtn" Content="Копировать" Padding="8,4" Margin="0,0,6,0"
                             Click="CopyEntryBtn_Click" ToolTip="Скопировать EntryCondition в буфер"/>
-                    <Button x:Name="PasteEntryBtn" Content="Вставить" Padding="8,4"
+                    <Button x:Name="PasteEntryBtn" Content="Вставить" Padding="8,4" Margin="0,0,6,0"
                             Click="PasteEntryBtn_Click" ToolTip="Вставить условие из буфера в EntryCondition"/>
+                    <Button x:Name="ExportEntryJsonBtn" Content="JSON↑" Padding="8,4" Margin="0,0,6,0"
+                            Click="ExportEntryJsonBtn_Click" ToolTip="Скопировать EntryCondition как JSON в системный буфер обмена"/>
+                    <Button x:Name="ImportEntryJsonBtn" Content="JSON↓" Padding="8,4"
+                            Click="ImportEntryJsonBtn_Click" ToolTip="Загрузить EntryCondition из JSON в системном буфере обмена"/>
                 </StackPanel>
                 <CheckBox x:Name="EntryNegateChk" Content="НЕ (инвертировать результат)"
                           Margin="0,2,0,4"
@@ -724,8 +731,12 @@
                             Click="ClearLoopBtn_Click" ToolTip="Убрать LoopUntil — цикл идёт до MaxIterations без проверки"/>
                     <Button x:Name="CopyLoopBtn" Content="Копировать" Padding="8,4" Margin="0,0,6,0"
                             Click="CopyLoopBtn_Click" ToolTip="Скопировать LoopUntil в буфер"/>
-                    <Button x:Name="PasteLoopBtn" Content="Вставить" Padding="8,4"
+                    <Button x:Name="PasteLoopBtn" Content="Вставить" Padding="8,4" Margin="0,0,6,0"
                             Click="PasteLoopBtn_Click" ToolTip="Вставить условие из буфера в LoopUntil"/>
+                    <Button x:Name="ExportLoopJsonBtn" Content="JSON↑" Padding="8,4" Margin="0,0,6,0"
+                            Click="ExportLoopJsonBtn_Click" ToolTip="Скопировать LoopUntil как JSON в системный буфер обмена"/>
+                    <Button x:Name="ImportLoopJsonBtn" Content="JSON↓" Padding="8,4"
+                            Click="ImportLoopJsonBtn_Click" ToolTip="Загрузить LoopUntil из JSON в системном буфере обмена"/>
                 </StackPanel>
                 <CheckBox x:Name="LoopNegateChk" Content="НЕ (инвертировать результат)"
                           Margin="0,2,0,4"

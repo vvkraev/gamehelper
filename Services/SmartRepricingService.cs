@@ -357,6 +357,46 @@ public sealed class SmartRepricingService
             : price.ToString("0.##", System.Globalization.CultureInfo.InvariantCulture);
 
     /// <summary>
+    /// Запускает floor_fetcher.py через WSL — обновляет vault/tabflow/floor_prices.json.
+    /// Возвращает последнюю строку лога скрипта (или сообщение об ошибке).
+    /// </summary>
+    public static async Task<string> FetchFloorPricesAsync(
+        string projectRoot, string sessid, string league, CancellationToken ct)
+    {
+        var wslRoot = projectRoot.Replace('\\', '/');
+        if (wslRoot.Length >= 2 && wslRoot[1] == ':')
+            wslRoot = "/mnt/" + char.ToLower(wslRoot[0]) + wslRoot[2..];
+
+        var scriptDir = $"{wslRoot}/scripts/tabflow";
+        var python    = $"{scriptDir}/.venv/bin/python3";
+        var script    = $"{scriptDir}/floor_fetcher.py";
+        var args      = $"-e {python} {script} --league \"{league}\" --sessid {sessid}";
+
+        var psi = new ProcessStartInfo("wsl.exe", args)
+        {
+            RedirectStandardOutput = true,
+            RedirectStandardError  = true,
+            UseShellExecute        = false,
+            CreateNoWindow         = true,
+            StandardOutputEncoding = System.Text.Encoding.UTF8,
+        };
+
+        try
+        {
+            string stdout;
+            using (var proc = Process.Start(psi)!)
+            {
+                stdout = await proc.StandardOutput.ReadToEndAsync(ct).ConfigureAwait(false);
+                await proc.WaitForExitAsync(ct).ConfigureAwait(false);
+            }
+            var lastLine = stdout.Trim().Split('\n').LastOrDefault("") ?? "";
+            return lastLine.Length > 0 ? lastLine : "floor_fetcher: OK";
+        }
+        catch (OperationCanceledException) { throw; }
+        catch (Exception ex) { return $"floor_fetcher: {ex.Message}"; }
+    }
+
+    /// <summary>
     /// Запускает reprice.py через WSL и возвращает готовый план + последнюю строку лога скрипта.
     /// Вызывается из UI-обработчика кнопки «Умная переоценка».
     /// </summary>

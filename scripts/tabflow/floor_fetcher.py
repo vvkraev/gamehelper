@@ -46,8 +46,9 @@ TABLET_TYPES = [
     "Overseer Tablet",
 ]
 
-FETCH_COUNT   = 10   # сколько дешевейших позиций брать для p10
-DELAY_BETWEEN = 1.5  # секунд между типами (не жечь rate limit)
+FETCH_COUNT        = 10   # сколько дешевейших позиций брать для p10
+DELAY_BETWEEN      = 2.5  # секунд между ЗАПРОСАМИ (search и fetch — отдельно)
+                           # Лимит GGG API: 5 req/10s → безопасно ≥2с между запросами
 
 BASE_URL = "https://www.pathofexile.com"
 
@@ -125,6 +126,8 @@ def fetch_floor(tablet_type: str, league: str, sessid: str) -> dict | None:
     # ── 2. Получение данных о ценах ──────────────────────────────────────────
     ids_str   = ",".join(item_ids)
     fetch_url = f"{BASE_URL}/api/trade2/fetch/{ids_str}?query={query_id}"
+
+    time.sleep(DELAY_BETWEEN)  # пауза между search и fetch (rate limit)
 
     try:
         fetch_resp = _get(fetch_url, sessid)
@@ -205,7 +208,7 @@ def main() -> None:
 
     for i, t in enumerate(TABLET_TYPES):
         if i > 0:
-            time.sleep(DELAY_BETWEEN)
+            time.sleep(DELAY_BETWEEN)  # пауза между типами (rate limit)
         result = fetch_floor(t, args.league, sessid)
         if result:
             floors[t] = result

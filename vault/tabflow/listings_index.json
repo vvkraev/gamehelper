@@ -1,0 +1,1699 @@
+[
+  {
+    "id": "2026-07-16T23:53:49|1|3",
+    "timestamp": "2026-07-16T23:53:49",
+    "col": 1,
+    "row": 3,
+    "estimatedPrice": 0.5,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "map contains 3(2-3) additional rare chests",
+      "map has 32(25-35)% increased number of rare monsters",
+      "map has 98(70-100)% increased chance to contain rogue exiles",
+      "rerolling favours at ritual altars in map costs 30(30-20)% reduced tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCelestial Judgment\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Brimming\u0022 (Tier: 1) }\nMap has 32(25-35)% increased number of Rare Monsters\r\n{ Prefix Modifier \u0022Treasurer\u0027s\u0022 (Tier: 1) }\nMap contains 3(2-3) additional Rare Chests\r\n{ Suffix Modifier \u0022of the Exile\u0022 (Tier: 1) }\nMap has 98(70-100)% increased chance to contain Rogue Exiles\r\n{ Suffix Modifier \u0022of the Dogma\u0022 (Tier: 1) }\nRerolling Favours at Ritual Altars in Map costs 30(30-20)% reduced Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T09:41:59",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T10:03:35",
+        "newPrice": 3,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T10:17:10",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-16T23:53:57|1|4",
+    "timestamp": "2026-07-16T23:53:57",
+    "col": 1,
+    "row": 4,
+    "estimatedPrice": 2.7,
+    "initialPrice": 3,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "map contains an additional summoning circle",
+      "map has 29(25-35)% increased number of rare monsters",
+      "ritual favours in map have 49(35-70)% increased chance to be omens",
+      "unique monsters have 1 additional rare modifier"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nEerie Project\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Brimming\u0022 (Tier: 1) }\nMap has 29(25-35)% increased number of Rare Monsters\r\n{ Prefix Modifier \u0022Summoner\u0027s\u0022 (Tier: 1) }\nMap contains an additional Summoning Circle\r\n{ Suffix Modifier \u0022of Omens\u0022 (Tier: 1) }\nRitual Favours in Map have 49(35-70)% increased chance to be Omens\r\n{ Suffix Modifier \u0022of Contest\u0022 (Tier: 1) }\nUnique Monsters have 1 additional Rare Modifier\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "4733f11ad50314d92faa6b64d4ca9884811cc78d9606571b7d58679e6842b20b",
+    "saleTime": "2026-07-17T00:31:30\u002B03:00",
+    "salePriceAmount": 3,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 37,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-16T23:57:00|1|5",
+    "timestamp": "2026-07-16T23:57:00",
+    "col": 1,
+    "row": 5,
+    "estimatedPrice": 1.6,
+    "initialPrice": 2,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "5(5-7)% increased pack size in map",
+      "map has 16(15-20)% increased monster rarity",
+      "rerolling favours at ritual altars in map costs 25(30-20)% reduced tribute",
+      "ritual favours in map have 48(35-70)% increased chance to be omens"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCyclopean Liturgy\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Breeding\u0022 (Tier: 1) }\n5(5-7)% increased Pack Size in Map\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 16(15-20)% increased Monster Rarity\r\n{ Suffix Modifier \u0022of Omens\u0022 (Tier: 1) }\nRitual Favours in Map have 48(35-70)% increased chance to be Omens\r\n{ Suffix Modifier \u0022of the Dogma\u0022 (Tier: 1) }\nRerolling Favours at Ritual Altars in Map costs 25(30-20)% reduced Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "b308f8c53bbfe9a6df5921b1d6a4f53dfbc79b2a7bca52c8ddd1b4d94a6298cd",
+    "saleTime": "2026-07-16T23:59:11\u002B03:00",
+    "salePriceAmount": 2,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 2,
+    "miss": true,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-16T23:57:05|2|1",
+    "timestamp": "2026-07-16T23:57:05",
+    "col": 2,
+    "row": 1,
+    "estimatedPrice": 1.1,
+    "initialPrice": 2,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "11(8-12)% increased rarity of items found in map",
+      "36(30-40)% increased quantity of waystones found in map",
+      "deferring favours at ritual altars in map costs 28(30-20)% reduced tribute",
+      "monsters have 11(10-15)% increased effectiveness"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nEerie League\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n11(8-12)% increased Rarity of Items found in Map\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 11(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of Devotion\u0022 (Tier: 1) }\nDeferring Favours at Ritual Altars in Map costs 28(30-20)% reduced Tribute\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n36(30-40)% increased Quantity of Waystones found in Map\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T09:42:02",
+        "newPrice": 11,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T10:23:56",
+        "newPrice": 8,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:36",
+        "newPrice": 7,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-16T23:57:15|2|2",
+    "timestamp": "2026-07-16T23:57:15",
+    "col": 2,
+    "row": 2,
+    "estimatedPrice": 0.9,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "26(25-35)% increased gold found in map",
+      "7(5-7)% increased pack size in map",
+      "map has 91(70-100)% increased chance to contain a summoning circle",
+      "monsters sacrificed at ritual altars in map grant 25(18-30)% increased tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nLegendary Incitement\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Breeding\u0022 (Tier: 1) }\n7(5-7)% increased Pack Size in Map\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n26(25-35)% increased Gold found in Map\r\n{ Suffix Modifier \u0022of the Summoning\u0022 (Tier: 1) }\nMap has 91(70-100)% increased chance to contain a Summoning Circle\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 25(18-30)% increased Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T09:42:04",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T10:23:58",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-16T23:57:20|2|3",
+    "timestamp": "2026-07-16T23:57:20",
+    "col": 2,
+    "row": 3,
+    "estimatedPrice": 1.8,
+    "initialPrice": 2,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "30(25-35)% increased gold found in map",
+      "map has 37(30-40)% increased magic monsters",
+      "revived monsters from ritual altars in map have 66(35-70)% increased chance to be magic",
+      "ritual favours in map have 64(35-70)% increased chance to be omens"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCelestial Precept\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Teeming\u0022 (Tier: 1) }\nMap has 37(30-40)% increased Magic Monsters\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n30(25-35)% increased Gold found in Map\r\n{ Suffix Modifier \u0022of the Foundling\u0022 (Tier: 1) }\nRevived Monsters from Ritual Altars in Map have 66(35-70)% increased chance to be Magic\r\n{ Suffix Modifier \u0022of Omens\u0022 (Tier: 1) }\nRitual Favours in Map have 64(35-70)% increased chance to be Omens\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "0b7adbea49a0ded456bbbb4e1644c4bf40edcc94a3226c403cf804b867a9a4af",
+    "saleTime": "2026-07-17T00:30:31\u002B03:00",
+    "salePriceAmount": 2,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 33,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-16T23:57:26|2|4",
+    "timestamp": "2026-07-16T23:57:26",
+    "col": 2,
+    "row": 4,
+    "estimatedPrice": 19.7,
+    "initialPrice": 20,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "11(8-12)% increased rarity of items found in map",
+      "33(25-35)% increased gold found in map",
+      "favours rerolled at ritual altars in map have 4.12(3-6)% chance to cost no tribute",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nTranscendental Challenge\r\nRitual Tablet\r\n--------\r\nItem Level: 82\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n33(25-35)% increased Gold found in Map\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n11(8-12)% increased Rarity of Items found in Map\r\n{ Suffix Modifier \u0022of the Occult\u0022 (Tier: 1) }\nFavours Rerolled at Ritual Altars in Map have 4.12(3-6)% chance to cost no Tribute\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "fba5ff42f1fa5bb313205d26d455dfbfbced77109f6a38e7a7827cb59a96648d",
+    "saleTime": "2026-07-17T00:03:24\u002B03:00",
+    "salePriceAmount": 20,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 5,
+    "miss": true,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-16T23:57:34|2|5",
+    "timestamp": "2026-07-16T23:57:34",
+    "col": 2,
+    "row": 5,
+    "estimatedPrice": 1,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "map contains an additional shrine",
+      "map has 19(15-20)% increased monster rarity",
+      "map has 34(25-35)% increased number of rare monsters",
+      "monsters sacrificed at ritual altars in map grant 18(18-30)% increased tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nGodless Mandate\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Brimming\u0022 (Tier: 1) }\nMap has 34(25-35)% increased number of Rare Monsters\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 19(15-20)% increased Monster Rarity\r\n{ Suffix Modifier \u0022of the Devoted\u0022 (Tier: 1) }\nMap contains an additional Shrine\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 18(18-30)% increased Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:07",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:41",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:05|3|1",
+    "timestamp": "2026-07-17T01:27:05",
+    "col": 3,
+    "row": 1,
+    "estimatedPrice": 0.9,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "32(25-35)% increased gold found in map",
+      "map has 19(15-20)% increased monster rarity",
+      "monsters sacrificed at ritual altars in map grant 19(18-30)% increased tribute",
+      "rerolling favours at ritual altars in map costs 27(30-20)% reduced tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCelestial Inscription\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n32(25-35)% increased Gold found in Map\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 19(15-20)% increased Monster Rarity\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 19(18-30)% increased Tribute\r\n{ Suffix Modifier \u0022of the Dogma\u0022 (Tier: 1) }\nRerolling Favours at Ritual Altars in Map costs 27(30-20)% reduced Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T21:26:33",
+        "newPrice": 6,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:07|3|2",
+    "timestamp": "2026-07-17T01:27:07",
+    "col": 3,
+    "row": 2,
+    "estimatedPrice": 2.2,
+    "initialPrice": 3,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "7(5-7)% increased pack size in map",
+      "map has 71(70-100)% increased chance to contain shrines",
+      "monsters have 15(10-15)% increased effectiveness",
+      "ritual favours in map have 39(35-70)% increased chance to be omens"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nMythic Liturgy\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 15(10-15)% increased Effectiveness\r\n{ Prefix Modifier \u0022Breeding\u0022 (Tier: 1) }\n7(5-7)% increased Pack Size in Map\r\n{ Suffix Modifier \u0022of Shrines\u0022 (Tier: 1) }\nMap has 71(70-100)% increased chance to contain Shrines\r\n{ Suffix Modifier \u0022of Omens\u0022 (Tier: 1) }\nRitual Favours in Map have 39(35-70)% increased chance to be Omens\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:23:54",
+        "newPrice": 18,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:34",
+        "newPrice": 16,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:10|3|3",
+    "timestamp": "2026-07-17T01:27:10",
+    "col": 3,
+    "row": 3,
+    "estimatedPrice": 1.6,
+    "initialPrice": 2,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "5(5-7)% increased pack size in map",
+      "monsters have 15(10-15)% increased effectiveness",
+      "monsters sacrificed at ritual altars in map grant 28(18-30)% increased tribute",
+      "rerolling favours at ritual altars in map costs 27(30-20)% reduced tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCelestial Commandment\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Breeding\u0022 (Tier: 1) }\n5(5-7)% increased Pack Size in Map\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 15(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of the Dogma\u0022 (Tier: 1) }\nRerolling Favours at Ritual Altars in Map costs 27(30-20)% reduced Tribute\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 28(18-30)% increased Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:01",
+        "newPrice": 11,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:38",
+        "newPrice": 10,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:12|3|4",
+    "timestamp": "2026-07-17T01:27:12",
+    "col": 3,
+    "row": 4,
+    "estimatedPrice": 0.6,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "map has 15(15-20)% increased monster rarity",
+      "map has 77(70-100)% increased chance to contain strongboxes",
+      "monsters have 10(10-15)% increased effectiveness",
+      "monsters sacrificed at ritual altars in map grant 18(18-30)% increased tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nEerie Command\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 15(15-20)% increased Monster Rarity\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 10(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 18(18-30)% increased Tribute\r\n{ Suffix Modifier \u0022of Strongboxes\u0022 (Tier: 1) }\nMap has 77(70-100)% increased chance to contain Strongboxes\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:04",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:40",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:13|3|5",
+    "timestamp": "2026-07-17T01:27:13",
+    "col": 3,
+    "row": 5,
+    "estimatedPrice": 0.8,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "25(25-35)% increased gold found in map",
+      "map has 39(30-40)% increased magic monsters",
+      "monsters sacrificed at ritual altars in map grant 27(18-30)% increased tribute",
+      "rerolling favours at ritual altars in map costs 25(30-20)% reduced tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nInterdimensional Secrets\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Teeming\u0022 (Tier: 1) }\nMap has 39(30-40)% increased Magic Monsters\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n25(25-35)% increased Gold found in Map\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 27(18-30)% increased Tribute\r\n{ Suffix Modifier \u0022of the Dogma\u0022 (Tier: 1) }\nRerolling Favours at Ritual Altars in Map costs 25(30-20)% reduced Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:10",
+        "newPrice": 4,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:16|4|1",
+    "timestamp": "2026-07-17T01:27:16",
+    "col": 4,
+    "row": 1,
+    "estimatedPrice": 1.2,
+    "initialPrice": 2,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "26(25-35)% increased gold found in map",
+      "9(8-12)% increased rarity of items found in map",
+      "map has 75(70-100)% increased chance to contain essences",
+      "monsters sacrificed at ritual altars in map grant 18(18-30)% increased tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nMythical Summons\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n26(25-35)% increased Gold found in Map\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n9(8-12)% increased Rarity of Items found in Map\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 18(18-30)% increased Tribute\r\n{ Suffix Modifier \u0022of the Essence\u0022 (Tier: 1) }\nMap has 75(70-100)% increased chance to contain Essences\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:13",
+        "newPrice": 11,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:44",
+        "newPrice": 10,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:18|4|2",
+    "timestamp": "2026-07-17T01:27:18",
+    "col": 4,
+    "row": 2,
+    "estimatedPrice": 20.1,
+    "initialPrice": 21,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "18(12-18)% increased experience gain in map",
+      "map has 83(70-100)% increased chance to contain rogue exiles",
+      "monsters have 13(10-15)% increased effectiveness",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCelestial Law\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Elevated\u0022 (Tier: 1) }\n18(12-18)% increased Experience gain in Map\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 13(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of the Exile\u0022 (Tier: 1) }\nMap has 83(70-100)% increased chance to contain Rogue Exiles\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:15",
+        "newPrice": 20,
+        "currency": "divine"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:21|4|3",
+    "timestamp": "2026-07-17T01:27:21",
+    "col": 4,
+    "row": 3,
+    "estimatedPrice": 28.2,
+    "initialPrice": 29,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "11(8-12)% increased rarity of items found in map",
+      "favours rerolled at ritual altars in map have 3.78(3-6)% chance to cost no tribute",
+      "monsters have 13(10-15)% increased effectiveness",
+      "ritual altars in map allow rerolling favours 2(1-3) additional times"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCosmic Project\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n11(8-12)% increased Rarity of Items found in Map\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 13(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of the Occult\u0022 (Tier: 1) }\nFavours Rerolled at Ritual Altars in Map have 3.78(3-6)% chance to cost no Tribute\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours 2(1-3) additional times\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:17",
+        "newPrice": 28,
+        "currency": "divine"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:46",
+        "newPrice": 27,
+        "currency": "divine"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:23|4|4",
+    "timestamp": "2026-07-17T01:27:23",
+    "col": 4,
+    "row": 4,
+    "estimatedPrice": 0.8,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "32(25-35)% increased gold found in map",
+      "favours deferred at ritual altars in map reappear 40(25-40)% sooner",
+      "map has 15(15-20)% increased monster rarity",
+      "revived monsters from ritual altars in map have 68(35-70)% increased chance to be magic"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nVoid Rite\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n32(25-35)% increased Gold found in Map\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 15(15-20)% increased Monster Rarity\r\n{ Suffix Modifier \u0022of the Foundling\u0022 (Tier: 1) }\nRevived Monsters from Ritual Altars in Map have 68(35-70)% increased chance to be Magic\r\n{ Suffix Modifier \u0022of the Appeal\u0022 (Tier: 1) }\nFavours Deferred at Ritual Altars in Map reappear 40(25-40)% sooner\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:20",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:47",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:24|4|5",
+    "timestamp": "2026-07-17T01:27:24",
+    "col": 4,
+    "row": 5,
+    "estimatedPrice": 0,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "30(25-35)% increased gold found in map",
+      "map has 34(30-40)% increased magic monsters",
+      "map has 95(70-100)% increased chance to contain strongboxes",
+      "monsters sacrificed at ritual altars in map grant 21(18-30)% increased tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCosmic Edict\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Teeming\u0022 (Tier: 1) }\nMap has 34(30-40)% increased Magic Monsters\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n30(25-35)% increased Gold found in Map\r\n{ Suffix Modifier \u0022of Strongboxes\u0022 (Tier: 1) }\nMap has 95(70-100)% increased chance to contain Strongboxes\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 21(18-30)% increased Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:23",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:49",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:25|5|1",
+    "timestamp": "2026-07-17T01:27:25",
+    "col": 5,
+    "row": 1,
+    "estimatedPrice": 0.8,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "33(25-35)% increased gold found in map",
+      "9(8-12)% increased rarity of items found in map",
+      "map has 72(70-100)% increased chance to contain a summoning circle",
+      "monsters sacrificed at ritual altars in map grant 24(18-30)% increased tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nLegendary Myth\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n33(25-35)% increased Gold found in Map\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n9(8-12)% increased Rarity of Items found in Map\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 24(18-30)% increased Tribute\r\n{ Suffix Modifier \u0022of the Summoning\u0022 (Tier: 1) }\nMap has 72(70-100)% increased chance to contain a Summoning Circle\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:26",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:51",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:26|5|2",
+    "timestamp": "2026-07-17T01:27:26",
+    "col": 5,
+    "row": 2,
+    "estimatedPrice": 0.8,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "15(12-18)% increased experience gain in map",
+      "9(8-12)% increased rarity of items found in map",
+      "monsters sacrificed at ritual altars in map grant 21(18-30)% increased tribute",
+      "revived monsters from ritual altars in map have 55(35-70)% increased chance to be magic"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCelestial Rite\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n9(8-12)% increased Rarity of Items found in Map\r\n{ Prefix Modifier \u0022Elevated\u0022 (Tier: 1) }\n15(12-18)% increased Experience gain in Map\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 21(18-30)% increased Tribute\r\n{ Suffix Modifier \u0022of the Foundling\u0022 (Tier: 1) }\nRevived Monsters from Ritual Altars in Map have 55(35-70)% increased chance to be Magic\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:29",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:53",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:27|5|3",
+    "timestamp": "2026-07-17T01:27:27",
+    "col": 5,
+    "row": 3,
+    "estimatedPrice": 1,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "17(12-18)% increased experience gain in map",
+      "39(30-40)% increased quantity of waystones found in map",
+      "map has 17(15-20)% increased monster rarity",
+      "revived monsters from ritual altars in map have 56(35-70)% increased chance to be magic"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nTranscendental Invocation\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 17(15-20)% increased Monster Rarity\r\n{ Prefix Modifier \u0022Elevated\u0022 (Tier: 1) }\n17(12-18)% increased Experience gain in Map\r\n{ Suffix Modifier \u0022of the Foundling\u0022 (Tier: 1) }\nRevived Monsters from Ritual Altars in Map have 56(35-70)% increased chance to be Magic\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n39(30-40)% increased Quantity of Waystones found in Map\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:32",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:54",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:28|5|4",
+    "timestamp": "2026-07-17T01:27:28",
+    "col": 5,
+    "row": 4,
+    "estimatedPrice": 1,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "12(8-12)% increased rarity of items found in map",
+      "33(30-40)% increased quantity of waystones found in map",
+      "map contains an additional strongbox",
+      "map has 36(30-40)% increased magic monsters"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nMythical Incitement\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n12(8-12)% increased Rarity of Items found in Map\r\n{ Prefix Modifier \u0022Teeming\u0022 (Tier: 1) }\nMap has 36(30-40)% increased Magic Monsters\r\n{ Suffix Modifier \u0022of the Antiquarian\u0022 (Tier: 1) }\nMap contains an additional Strongbox\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n33(30-40)% increased Quantity of Waystones found in Map\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:35",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:56",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:30|5|5",
+    "timestamp": "2026-07-17T01:27:30",
+    "col": 5,
+    "row": 5,
+    "estimatedPrice": 1.3,
+    "initialPrice": 2,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "25(25-35)% increased gold found in map",
+      "31(30-40)% increased quantity of waystones found in map",
+      "7(5-7)% increased pack size in map",
+      "rerolling favours at ritual altars in map costs 28(30-20)% reduced tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCelestial Anthem\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Breeding\u0022 (Tier: 1) }\n7(5-7)% increased Pack Size in Map\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n25(25-35)% increased Gold found in Map\r\n{ Suffix Modifier \u0022of the Dogma\u0022 (Tier: 1) }\nRerolling Favours at Ritual Altars in Map costs 28(30-20)% reduced Tribute\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n31(30-40)% increased Quantity of Waystones found in Map\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:38",
+        "newPrice": 11,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:26:58",
+        "newPrice": 10,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:31|6|1",
+    "timestamp": "2026-07-17T01:27:31",
+    "col": 6,
+    "row": 1,
+    "estimatedPrice": 2,
+    "initialPrice": 2,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "32(25-35)% increased gold found in map",
+      "map has 16(15-20)% increased monster rarity",
+      "map has 85(70-100)% increased chance to contain a summoning circle",
+      "ritual favours in map have 54(35-70)% increased chance to be omens"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nOtherworldly Salvation\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 16(15-20)% increased Monster Rarity\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n32(25-35)% increased Gold found in Map\r\n{ Suffix Modifier \u0022of Omens\u0022 (Tier: 1) }\nRitual Favours in Map have 54(35-70)% increased chance to be Omens\r\n{ Suffix Modifier \u0022of the Summoning\u0022 (Tier: 1) }\nMap has 85(70-100)% increased chance to contain a Summoning Circle\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:41",
+        "newPrice": 11,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:34|6|2",
+    "timestamp": "2026-07-17T01:27:34",
+    "col": 6,
+    "row": 2,
+    "estimatedPrice": 2.2,
+    "initialPrice": 3,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "37(30-40)% increased quantity of waystones found in map",
+      "map has 28(25-35)% increased number of rare monsters",
+      "map has 31(30-40)% increased magic monsters",
+      "ritual favours in map have 54(35-70)% increased chance to be omens"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nAncient Abyss\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Teeming\u0022 (Tier: 1) }\nMap has 31(30-40)% increased Magic Monsters\r\n{ Prefix Modifier \u0022Brimming\u0022 (Tier: 1) }\nMap has 28(25-35)% increased number of Rare Monsters\r\n{ Suffix Modifier \u0022of Omens\u0022 (Tier: 1) }\nRitual Favours in Map have 54(35-70)% increased chance to be Omens\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n37(30-40)% increased Quantity of Waystones found in Map\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:44",
+        "newPrice": 18,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:00",
+        "newPrice": 16,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:36|6|3",
+    "timestamp": "2026-07-17T01:27:36",
+    "col": 6,
+    "row": 3,
+    "estimatedPrice": 0.9,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "34(25-35)% increased gold found in map",
+      "deferring favours at ritual altars in map costs 24(30-20)% reduced tribute",
+      "monsters have 14(10-15)% increased effectiveness",
+      "rerolling favours at ritual altars in map costs 28(30-20)% reduced tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nVoid Injunction\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 14(10-15)% increased Effectiveness\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n34(25-35)% increased Gold found in Map\r\n{ Suffix Modifier \u0022of the Dogma\u0022 (Tier: 1) }\nRerolling Favours at Ritual Altars in Map costs 28(30-20)% reduced Tribute\r\n{ Suffix Modifier \u0022of Devotion\u0022 (Tier: 1) }\nDeferring Favours at Ritual Altars in Map costs 24(30-20)% reduced Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:47",
+        "newPrice": 4,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:39|6|4",
+    "timestamp": "2026-07-17T01:27:39",
+    "col": 6,
+    "row": 4,
+    "estimatedPrice": 24,
+    "initialPrice": 24,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "29(25-35)% increased gold found in map",
+      "9(8-12)% increased rarity of items found in map",
+      "map contains an additional shrine",
+      "ritual altars in map allow rerolling favours 2(1-3) additional times"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCelestial Law\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n29(25-35)% increased Gold found in Map\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n9(8-12)% increased Rarity of Items found in Map\r\n{ Suffix Modifier \u0022of the Devoted\u0022 (Tier: 1) }\nMap contains an additional Shrine\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours 2(1-3) additional times\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:49",
+        "newPrice": 23,
+        "currency": "divine"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:02",
+        "newPrice": 22,
+        "currency": "divine"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:41|6|5",
+    "timestamp": "2026-07-17T01:27:41",
+    "col": 6,
+    "row": 5,
+    "estimatedPrice": 0.5,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "map contains 2(2-3) additional rare chests",
+      "monsters have 13(10-15)% increased effectiveness",
+      "revived monsters from ritual altars in map have 38(25-40)% increased chance to be rare",
+      "revived monsters from ritual altars in map have 61(35-70)% increased chance to be magic"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCelestial Design\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Treasurer\u0027s\u0022 (Tier: 1) }\nMap contains 2(2-3) additional Rare Chests\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 13(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of the Foundling\u0022 (Tier: 1) }\nRevived Monsters from Ritual Altars in Map have 61(35-70)% increased chance to be Magic\r\n{ Suffix Modifier \u0022of the Cult\u0022 (Tier: 1) }\nRevived Monsters from Ritual Altars in Map have 38(25-40)% increased chance to be Rare\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:52",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:04",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:42|7|1",
+    "timestamp": "2026-07-17T01:27:42",
+    "col": 7,
+    "row": 1,
+    "estimatedPrice": 0.5,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "14(12-18)% increased experience gain in map",
+      "36(30-40)% increased quantity of waystones found in map",
+      "monsters have 11(10-15)% increased effectiveness",
+      "monsters sacrificed at ritual altars in map grant 21(18-30)% increased tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nInterdimensional Judgment\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Elevated\u0022 (Tier: 1) }\n14(12-18)% increased Experience gain in Map\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 11(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n36(30-40)% increased Quantity of Waystones found in Map\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 21(18-30)% increased Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:55",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:05",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:45|7|2",
+    "timestamp": "2026-07-17T01:27:45",
+    "col": 7,
+    "row": 2,
+    "estimatedPrice": 18.2,
+    "initialPrice": 19,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "15(12-18)% increased experience gain in map",
+      "map contains an additional shrine",
+      "map has 16(15-20)% increased monster rarity",
+      "ritual altars in map allow rerolling favours 2(1-3) additional times"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nPlanar Judgment\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 16(15-20)% increased Monster Rarity\r\n{ Prefix Modifier \u0022Elevated\u0022 (Tier: 1) }\n15(12-18)% increased Experience gain in Map\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours 2(1-3) additional times\r\n{ Suffix Modifier \u0022of the Devoted\u0022 (Tier: 1) }\nMap contains an additional Shrine\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "dba9060618796eac07a173caa5671676073eae70064b8223357438d9349c22b1",
+    "saleTime": "2026-07-17T01:44:37\u002B03:00",
+    "salePriceAmount": 19,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 16,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:47|7|3",
+    "timestamp": "2026-07-17T01:27:47",
+    "col": 7,
+    "row": 3,
+    "estimatedPrice": 0.7,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "40(30-40)% increased quantity of waystones found in map",
+      "9(8-12)% increased rarity of items found in map",
+      "map contains 3(2-3) additional rare chests",
+      "revived monsters from ritual altars in map have 56(35-70)% increased chance to be magic"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nAncient Emblem\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n9(8-12)% increased Rarity of Items found in Map\r\n{ Prefix Modifier \u0022Treasurer\u0027s\u0022 (Tier: 1) }\nMap contains 3(2-3) additional Rare Chests\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n40(30-40)% increased Quantity of Waystones found in Map\r\n{ Suffix Modifier \u0022of the Foundling\u0022 (Tier: 1) }\nRevived Monsters from Ritual Altars in Map have 56(35-70)% increased chance to be Magic\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:24:58",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:08",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:50|7|4",
+    "timestamp": "2026-07-17T01:27:50",
+    "col": 7,
+    "row": 4,
+    "estimatedPrice": 1.3,
+    "initialPrice": 2,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "9(8-12)% increased rarity of items found in map",
+      "monsters have 13(10-15)% increased effectiveness",
+      "monsters sacrificed at ritual altars in map grant 29(18-30)% increased tribute",
+      "rerolling favours at ritual altars in map costs 23(30-20)% reduced tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nGodless Salvation\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 13(10-15)% increased Effectiveness\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n9(8-12)% increased Rarity of Items found in Map\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 29(18-30)% increased Tribute\r\n{ Suffix Modifier \u0022of the Dogma\u0022 (Tier: 1) }\nRerolling Favours at Ritual Altars in Map costs 23(30-20)% reduced Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:01",
+        "newPrice": 11,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:09",
+        "newPrice": 10,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:52|7|5",
+    "timestamp": "2026-07-17T01:27:52",
+    "col": 7,
+    "row": 5,
+    "estimatedPrice": 0.8,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "11(8-12)% increased rarity of items found in map",
+      "37(30-40)% increased quantity of waystones found in map",
+      "favours deferred at ritual altars in map reappear 39(25-40)% sooner",
+      "map has 19(15-20)% increased monster rarity"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nAncient Invocation\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n11(8-12)% increased Rarity of Items found in Map\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 19(15-20)% increased Monster Rarity\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n37(30-40)% increased Quantity of Waystones found in Map\r\n{ Suffix Modifier \u0022of the Appeal\u0022 (Tier: 1) }\nFavours Deferred at Ritual Altars in Map reappear 39(25-40)% sooner\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:04",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:11",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:55|8|1",
+    "timestamp": "2026-07-17T01:27:55",
+    "col": 8,
+    "row": 1,
+    "estimatedPrice": 1.1,
+    "initialPrice": 2,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "map contains 2(2-3) additional rare chests",
+      "map has 37(30-40)% increased magic monsters",
+      "map has 74(70-100)% increased chance to contain shrines",
+      "map has 78(70-100)% increased chance to contain a summoning circle"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nMythic Precept\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Treasurer\u0027s\u0022 (Tier: 1) }\nMap contains 2(2-3) additional Rare Chests\r\n{ Prefix Modifier \u0022Teeming\u0022 (Tier: 1) }\nMap has 37(30-40)% increased Magic Monsters\r\n{ Suffix Modifier \u0022of Shrines\u0022 (Tier: 1) }\nMap has 74(70-100)% increased chance to contain Shrines\r\n{ Suffix Modifier \u0022of the Summoning\u0022 (Tier: 1) }\nMap has 78(70-100)% increased chance to contain a Summoning Circle\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:07",
+        "newPrice": 11,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:13",
+        "newPrice": 10,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:27:57|8|2",
+    "timestamp": "2026-07-17T01:27:57",
+    "col": 8,
+    "row": 2,
+    "estimatedPrice": 2.5,
+    "initialPrice": 3,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "8(8-12)% increased rarity of items found in map",
+      "map has 29(25-35)% increased number of rare monsters",
+      "monsters sacrificed at ritual altars in map grant 20(18-30)% increased tribute",
+      "ritual favours in map have 56(35-70)% increased chance to be omens"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nAncient Commandment\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n8(8-12)% increased Rarity of Items found in Map\r\n{ Prefix Modifier \u0022Brimming\u0022 (Tier: 1) }\nMap has 29(25-35)% increased number of Rare Monsters\r\n{ Suffix Modifier \u0022of Omens\u0022 (Tier: 1) }\nRitual Favours in Map have 56(35-70)% increased chance to be Omens\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 20(18-30)% increased Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "ec67a18b1ee0cea8adb93d9c7eb0a3a470ce031d216324dd0fa6347a59389100",
+    "saleTime": "2026-07-17T01:58:10\u002B03:00",
+    "salePriceAmount": 3,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 30,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:00|8|3",
+    "timestamp": "2026-07-17T01:28:00",
+    "col": 8,
+    "row": 3,
+    "estimatedPrice": 11.9,
+    "initialPrice": 12,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "30(25-35)% increased gold found in map",
+      "map has 77(70-100)% increased chance to contain shrines",
+      "monsters have 10(10-15)% increased effectiveness",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nMythical Secrets\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 10(10-15)% increased Effectiveness\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n30(25-35)% increased Gold found in Map\r\n{ Suffix Modifier \u0022of Shrines\u0022 (Tier: 1) }\nMap has 77(70-100)% increased chance to contain Shrines\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "d5bc87d0d8ce0dc259f003c5217cf50e542e1ea8b7fd39a0502408a9c6c6ec92",
+    "saleTime": "2026-07-17T01:30:28\u002B03:00",
+    "salePriceAmount": 12,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 2,
+    "miss": true,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:02|8|4",
+    "timestamp": "2026-07-17T01:28:02",
+    "col": 8,
+    "row": 4,
+    "estimatedPrice": 20.2,
+    "initialPrice": 21,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "18(12-18)% increased experience gain in map",
+      "map has 70(70-100)% increased chance to contain essences",
+      "monsters have 10(10-15)% increased effectiveness",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nMythical Directive\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Elevated\u0022 (Tier: 1) }\n18(12-18)% increased Experience gain in Map\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 10(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n{ Suffix Modifier \u0022of the Essence\u0022 (Tier: 1) }\nMap has 70(70-100)% increased chance to contain Essences\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:09",
+        "newPrice": 20,
+        "currency": "divine"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:05|8|5",
+    "timestamp": "2026-07-17T01:28:05",
+    "col": 8,
+    "row": 5,
+    "estimatedPrice": 3.1,
+    "initialPrice": 4,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "map contains an additional essence \u2014 unscalable value",
+      "map has 30(30-40)% increased magic monsters",
+      "rerolling favours at ritual altars in map costs 23(30-20)% reduced tribute",
+      "ritual favours in map have 50(35-70)% increased chance to be omens"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nOtherworldly Challenge\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Teeming\u0022 (Tier: 1) }\nMap has 30(30-40)% increased Magic Monsters\r\n{ Prefix Modifier \u0022Crystallised\u0022 (Tier: 1) }\nMap contains an additional Essence \u2014 Unscalable Value\r\n{ Suffix Modifier \u0022of Omens\u0022 (Tier: 1) }\nRitual Favours in Map have 50(35-70)% increased chance to be Omens\r\n{ Suffix Modifier \u0022of the Dogma\u0022 (Tier: 1) }\nRerolling Favours at Ritual Altars in Map costs 23(30-20)% reduced Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:12",
+        "newPrice": 26,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:07|9|1",
+    "timestamp": "2026-07-17T01:28:07",
+    "col": 9,
+    "row": 1,
+    "estimatedPrice": 1.9,
+    "initialPrice": 2,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "14(12-18)% increased experience gain in map",
+      "map has 16(15-20)% increased monster rarity",
+      "monsters sacrificed at ritual altars in map grant 18(18-30)% increased tribute",
+      "ritual favours in map have 45(35-70)% increased chance to be omens"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nVoidtouched Emblem\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Elevated\u0022 (Tier: 1) }\n14(12-18)% increased Experience gain in Map\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 16(15-20)% increased Monster Rarity\r\n{ Suffix Modifier \u0022of Omens\u0022 (Tier: 1) }\nRitual Favours in Map have 45(35-70)% increased chance to be Omens\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 18(18-30)% increased Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "953c946876e05abf80c6992c83139587091e9475814a113886ee855aafd0993b",
+    "saleTime": "2026-07-17T08:44:55\u002B03:00",
+    "salePriceAmount": 2,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 436,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:10|9|2",
+    "timestamp": "2026-07-17T01:28:10",
+    "col": 9,
+    "row": 2,
+    "estimatedPrice": 0.4,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "38(30-40)% increased quantity of waystones found in map",
+      "map has 16(15-20)% increased monster rarity",
+      "monsters have 11(10-15)% increased effectiveness",
+      "revived monsters from ritual altars in map have 28(25-40)% increased chance to be rare"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nOtherworldly Directive\r\nRitual Tablet\r\n--------\r\nItem Level: 82\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 16(15-20)% increased Monster Rarity\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 11(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n38(30-40)% increased Quantity of Waystones found in Map\r\n{ Suffix Modifier \u0022of the Cult\u0022 (Tier: 1) }\nRevived Monsters from Ritual Altars in Map have 28(25-40)% increased chance to be Rare\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:16",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:17",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:12|9|3",
+    "timestamp": "2026-07-17T01:28:12",
+    "col": 9,
+    "row": 3,
+    "estimatedPrice": 18.4,
+    "initialPrice": 19,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "13(12-18)% increased experience gain in map",
+      "40(30-40)% increased quantity of waystones found in map",
+      "map has 20(15-20)% increased monster rarity",
+      "ritual altars in map allow rerolling favours 2(1-3) additional times"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nMythic Directive\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 20(15-20)% increased Monster Rarity\r\n{ Prefix Modifier \u0022Elevated\u0022 (Tier: 1) }\n13(12-18)% increased Experience gain in Map\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n40(30-40)% increased Quantity of Waystones found in Map\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours 2(1-3) additional times\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "7be5aa6e66f6990eaadf090f50e32ce6573b9f9794651e6258b298487bc3134c",
+    "saleTime": "2026-07-17T01:42:55\u002B03:00",
+    "salePriceAmount": 19,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 14,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:15|9|4",
+    "timestamp": "2026-07-17T01:28:15",
+    "col": 9,
+    "row": 4,
+    "estimatedPrice": 12.2,
+    "initialPrice": 13,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "6(5-7)% increased pack size in map",
+      "map has 16(15-20)% increased monster rarity",
+      "map has 77(70-100)% increased chance to contain shrines",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCyclopean Judgment\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Breeding\u0022 (Tier: 1) }\n6(5-7)% increased Pack Size in Map\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 16(15-20)% increased Monster Rarity\r\n{ Suffix Modifier \u0022of Shrines\u0022 (Tier: 1) }\nMap has 77(70-100)% increased chance to contain Shrines\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "d796b2414c490a8ec182e06180a5030af92d211d730af1576242252968c4c01a",
+    "saleTime": "2026-07-17T01:30:35\u002B03:00",
+    "salePriceAmount": 13,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 2,
+    "miss": true,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:18|9|5",
+    "timestamp": "2026-07-17T01:28:18",
+    "col": 9,
+    "row": 5,
+    "estimatedPrice": 19.7,
+    "initialPrice": 20,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "8(8-12)% increased rarity of items found in map",
+      "map has 19(15-20)% increased monster rarity",
+      "map has 96(70-100)% increased chance to contain azmeri spirits",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCyclopean Incitement\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 19(15-20)% increased Monster Rarity\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n8(8-12)% increased Rarity of Items found in Map\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n{ Suffix Modifier \u0022of Spirits\u0022 (Tier: 1) }\nMap has 96(70-100)% increased chance to contain Azmeri Spirits\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "8a9ee2a444e1ce9cbd584f80d716cacc95b4cee16d642af8dbc24f6ca4a7bd0e",
+    "saleTime": "2026-07-17T01:54:54\u002B03:00",
+    "salePriceAmount": 20,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 26,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:20|10|1",
+    "timestamp": "2026-07-17T01:28:20",
+    "col": 10,
+    "row": 1,
+    "estimatedPrice": 20.3,
+    "initialPrice": 21,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "25(25-35)% increased gold found in map",
+      "38(30-40)% increased quantity of waystones found in map",
+      "9(8-12)% increased rarity of items found in map",
+      "ritual altars in map allow rerolling favours 2(1-3) additional times"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nInterdimensional Provocation\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n9(8-12)% increased Rarity of Items found in Map\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n25(25-35)% increased Gold found in Map\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n38(30-40)% increased Quantity of Waystones found in Map\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours 2(1-3) additional times\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "b73f1044a15dacc4bab72d84718f5fb3d2ef85a38193bdadfc0d1af9faa02177",
+    "saleTime": "2026-07-17T01:55:02\u002B03:00",
+    "salePriceAmount": 21,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 26,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:21|10|2",
+    "timestamp": "2026-07-17T01:28:21",
+    "col": 10,
+    "row": 2,
+    "estimatedPrice": 20.1,
+    "initialPrice": 21,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "map has 32(30-40)% increased magic monsters",
+      "map has 34(25-35)% increased number of rare monsters",
+      "map has 73(70-100)% increased chance to contain essences",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nPhoenix Salvation\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Brimming\u0022 (Tier: 1) }\nMap has 34(25-35)% increased number of Rare Monsters\r\n{ Prefix Modifier \u0022Teeming\u0022 (Tier: 1) }\nMap has 32(30-40)% increased Magic Monsters\r\n{ Suffix Modifier \u0022of the Essence\u0022 (Tier: 1) }\nMap has 73(70-100)% increased chance to contain Essences\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "e71b954326bc09f505f823a544e716a5bf9b53a478fe50ffb5304253fcad9610",
+    "saleTime": "2026-07-17T03:35:25\u002B03:00",
+    "salePriceAmount": 21,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 127,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:24|10|3",
+    "timestamp": "2026-07-17T01:28:24",
+    "col": 10,
+    "row": 3,
+    "estimatedPrice": 28.2,
+    "initialPrice": 29,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "favours rerolled at ritual altars in map have 4.84(3-6)% chance to cost no tribute",
+      "map contains 1 additional azmeri spirit",
+      "map has 20(15-20)% increased monster rarity",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nGodless Emblem\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Azmeri\u0027s\u0022 (Tier: 1) }\nMap contains 1 additional Azmeri Spirit\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 20(15-20)% increased Monster Rarity\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n{ Suffix Modifier \u0022of the Occult\u0022 (Tier: 1) }\nFavours Rerolled at Ritual Altars in Map have 4.84(3-6)% chance to cost no Tribute\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:19",
+        "newPrice": 28,
+        "currency": "divine"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:20",
+        "newPrice": 27,
+        "currency": "divine"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:26|10|4",
+    "timestamp": "2026-07-17T01:28:26",
+    "col": 10,
+    "row": 4,
+    "estimatedPrice": 21.7,
+    "initialPrice": 22,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "10(8-12)% increased rarity of items found in map",
+      "36(30-40)% increased quantity of waystones found in map",
+      "monsters have 15(10-15)% increased effectiveness",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nLegendary Invocation\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 15(10-15)% increased Effectiveness\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n10(8-12)% increased Rarity of Items found in Map\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n36(30-40)% increased Quantity of Waystones found in Map\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:21",
+        "newPrice": 21,
+        "currency": "divine"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:27|10|5",
+    "timestamp": "2026-07-17T01:28:27",
+    "col": 10,
+    "row": 5,
+    "estimatedPrice": 21.6,
+    "initialPrice": 22,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "map contains an additional shrine",
+      "map has 20(15-20)% increased monster rarity",
+      "monsters have 15(10-15)% increased effectiveness",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCyclopean Rite\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 20(15-20)% increased Monster Rarity\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 15(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n{ Suffix Modifier \u0022of the Devoted\u0022 (Tier: 1) }\nMap contains an additional Shrine\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:23",
+        "newPrice": 21,
+        "currency": "divine"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:30|11|1",
+    "timestamp": "2026-07-17T01:28:30",
+    "col": 11,
+    "row": 1,
+    "estimatedPrice": 20,
+    "initialPrice": 20,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "map has 25(25-35)% increased number of rare monsters",
+      "monsters have 11(10-15)% increased effectiveness",
+      "revived monsters from ritual altars in map have 58(35-70)% increased chance to be magic",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nTranscendental Writ\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Brimming\u0022 (Tier: 1) }\nMap has 25(25-35)% increased number of Rare Monsters\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 11(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of the Foundling\u0022 (Tier: 1) }\nRevived Monsters from Ritual Altars in Map have 58(35-70)% increased chance to be Magic\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "39a18a5053aa3a28f1a8d4f361d5918956bff5440bdcaeeb2e67873902cb0b94",
+    "saleTime": "2026-07-17T02:21:06\u002B03:00",
+    "salePriceAmount": 20,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 52,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:32|11|2",
+    "timestamp": "2026-07-17T01:28:32",
+    "col": 11,
+    "row": 2,
+    "estimatedPrice": 21.1,
+    "initialPrice": 22,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "17(12-18)% increased experience gain in map",
+      "38(30-40)% increased quantity of waystones found in map",
+      "monsters have 10(10-15)% increased effectiveness",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nMythic Challenge\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 10(10-15)% increased Effectiveness\r\n{ Prefix Modifier \u0022Elevated\u0022 (Tier: 1) }\n17(12-18)% increased Experience gain in Map\r\n{ Suffix Modifier \u0022of the Cartographer\u0022 (Tier: 1) }\n38(30-40)% increased Quantity of Waystones found in Map\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:25",
+        "newPrice": 21,
+        "currency": "divine"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:35|11|3",
+    "timestamp": "2026-07-17T01:28:35",
+    "col": 11,
+    "row": 3,
+    "estimatedPrice": 0.3,
+    "initialPrice": 1,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "12(8-12)% increased rarity of items found in map",
+      "map has 98(70-100)% increased chance to contain strongboxes",
+      "monsters have 12(10-15)% increased effectiveness",
+      "monsters sacrificed at ritual altars in map grant 28(18-30)% increased tribute"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCyclopean Provocation\r\nRitual Tablet\r\n--------\r\nItem Level: 82\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n12(8-12)% increased Rarity of Items found in Map\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 12(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of Sacrifice\u0022 (Tier: 1) }\nMonsters Sacrificed at Ritual Altars in Map grant 28(18-30)% increased Tribute\r\n{ Suffix Modifier \u0022of Strongboxes\u0022 (Tier: 1) }\nMap has 98(70-100)% increased chance to contain Strongboxes\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:28",
+        "newPrice": 4,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:24",
+        "newPrice": 3,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:38|11|4",
+    "timestamp": "2026-07-17T01:28:38",
+    "col": 11,
+    "row": 4,
+    "estimatedPrice": 18.6,
+    "initialPrice": 19,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "26(25-35)% increased gold found in map",
+      "map contains 3(2-3) additional rare chests",
+      "map has 84(70-100)% increased chance to contain a summoning circle",
+      "ritual altars in map allow rerolling favours 2(1-3) additional times"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nMythical Myth\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n26(25-35)% increased Gold found in Map\r\n{ Prefix Modifier \u0022Treasurer\u0027s\u0022 (Tier: 1) }\nMap contains 3(2-3) additional Rare Chests\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours 2(1-3) additional times\r\n{ Suffix Modifier \u0022of the Summoning\u0022 (Tier: 1) }\nMap has 84(70-100)% increased chance to contain a Summoning Circle\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n--------\r\nSanctified\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "02889ac0753eaab426c71f5512b964b597bab98aa548fbc0003633ba48a1d2da",
+    "saleTime": "2026-07-17T01:42:45\u002B03:00",
+    "salePriceAmount": 19,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 14,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:40|11|5",
+    "timestamp": "2026-07-17T01:28:40",
+    "col": 11,
+    "row": 5,
+    "estimatedPrice": 20.4,
+    "initialPrice": 21,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "37(25-35)% increased gold found in map",
+      "map has 20(15-20)% increased monster rarity",
+      "revived monsters from ritual altars in map have 61(35-70)% increased chance to be magic",
+      "ritual altars in map allow rerolling favours 2(1-3) additional times"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nAncient Invocation\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 20(15-20)% increased Monster Rarity\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n37(25-35)% increased Gold found in Map\r\n{ Suffix Modifier \u0022of the Foundling\u0022 (Tier: 1) }\nRevived Monsters from Ritual Altars in Map have 61(35-70)% increased chance to be Magic\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours 2(1-3) additional times\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n--------\r\nSanctified\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "e0fb19df458cfad1862f8f201e6374bac0a31e1700eb0caed2ed377803e50bdb",
+    "saleTime": "2026-07-17T09:28:53\u002B03:00",
+    "salePriceAmount": 21,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 480,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:43|12|1",
+    "timestamp": "2026-07-17T01:28:43",
+    "col": 12,
+    "row": 1,
+    "estimatedPrice": 17.7,
+    "initialPrice": 18,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "31(25-35)% increased gold found in map",
+      "map has 15(15-20)% increased monster rarity",
+      "map has 78(70-100)% increased chance to contain strongboxes",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nGodless Challenge\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Abounding\u0022 (Tier: 1) }\nMap has 15(15-20)% increased Monster Rarity\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n31(25-35)% increased Gold found in Map\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n{ Suffix Modifier \u0022of Strongboxes\u0022 (Tier: 1) }\nMap has 78(70-100)% increased chance to contain Strongboxes\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "1c760d6c572023115813ad3c4874cc5ed6b497f7ee6026e8a908720c4d25801f",
+    "saleTime": "2026-07-17T01:40:35\u002B03:00",
+    "salePriceAmount": 18,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 11,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:46|12|2",
+    "timestamp": "2026-07-17T01:28:46",
+    "col": 12,
+    "row": 2,
+    "estimatedPrice": 1.2,
+    "initialPrice": 2,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "12(8-12)% increased rarity of items found in map",
+      "6(5-7)% increased pack size in map",
+      "rerolling favours at ritual altars in map costs 23(30-20)% reduced tribute",
+      "revived monsters from ritual altars in map have 57(35-70)% increased chance to be magic"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nTranscendental Inscription\r\nRitual Tablet\r\n--------\r\nItem Level: 80\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n12(8-12)% increased Rarity of Items found in Map\r\n{ Prefix Modifier \u0022Breeding\u0022 (Tier: 1) }\n6(5-7)% increased Pack Size in Map\r\n{ Suffix Modifier \u0022of the Dogma\u0022 (Tier: 1) }\nRerolling Favours at Ritual Altars in Map costs 23(30-20)% reduced Tribute\r\n{ Suffix Modifier \u0022of the Foundling\u0022 (Tier: 1) }\nRevived Monsters from Ritual Altars in Map have 57(35-70)% increased chance to be Magic\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:32",
+        "newPrice": 11,
+        "currency": "chaos"
+      },
+      {
+        "timestamp": "2026-07-17T21:27:26",
+        "newPrice": 10,
+        "currency": "chaos"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:48|12|3",
+    "timestamp": "2026-07-17T01:28:48",
+    "col": 12,
+    "row": 3,
+    "estimatedPrice": 19.1,
+    "initialPrice": 20,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "map contains 1 additional azmeri spirit",
+      "map contains 3(2-3) additional rare chests",
+      "map has 99(70-100)% increased chance to contain a summoning circle",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nEerie Judgment\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Azmeri\u0027s\u0022 (Tier: 1) }\nMap contains 1 additional Azmeri Spirit\r\n{ Prefix Modifier \u0022Treasurer\u0027s\u0022 (Tier: 1) }\nMap contains 3(2-3) additional Rare Chests\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours an additional time\r\n{ Suffix Modifier \u0022of the Summoning\u0022 (Tier: 1) }\nMap has 99(70-100)% increased chance to contain a Summoning Circle\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [
+      {
+        "timestamp": "2026-07-17T10:25:34",
+        "newPrice": 19,
+        "currency": "divine"
+      }
+    ],
+    "sold": false,
+    "miss": false,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:51|12|4",
+    "timestamp": "2026-07-17T01:28:51",
+    "col": 12,
+    "row": 4,
+    "estimatedPrice": 18,
+    "initialPrice": 18,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "9(8-12)% increased rarity of items found in map",
+      "map has 99(70-100)% increased chance to contain shrines",
+      "monsters have 10(10-15)% increased effectiveness",
+      "ritual altars in map allow rerolling favours 2(1-3) additional times"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nEerie Incitement\r\nRitual Tablet\r\n--------\r\nItem Level: 81\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n9(8-12)% increased Rarity of Items found in Map\r\n{ Prefix Modifier \u0022Challenger\u0027s\u0022 (Tier: 1) }\nMonsters have 10(10-15)% increased Effectiveness\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours 2(1-3) additional times\r\n{ Suffix Modifier \u0022of Shrines\u0022 (Tier: 1) }\nMap has 99(70-100)% increased chance to contain Shrines\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "bc7a10499130a0fbb4fab0021f2fcd22c31db46789c0527c68dcabaca4e9666e",
+    "saleTime": "2026-07-17T01:35:34\u002B03:00",
+    "salePriceAmount": 18,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 6,
+    "miss": true,
+    "soldAfterReprice": false
+  },
+  {
+    "id": "2026-07-17T01:28:53|12|5",
+    "timestamp": "2026-07-17T01:28:53",
+    "col": 12,
+    "row": 5,
+    "estimatedPrice": 18.7,
+    "initialPrice": 19,
+    "initialCurrency": "divine",
+    "baseType": "Ritual Tablet",
+    "mods": [
+      "12(8-12)% increased rarity of items found in map",
+      "26(25-35)% increased gold found in map",
+      "map has 88(70-100)% increased chance to contain a summoning circle",
+      "ritual altars in map allow rerolling favours 2(1-3) additional times"
+    ],
+    "itemText": "Item Class: Tablet\r\nRarity: Rare\r\nCelestial Provocation\r\nRitual Tablet\r\n--------\r\nItem Level: 79\r\n--------\r\n{ Implicit Modifier }\nAdds Ritual Altars to a Map\n10 uses remaining\r\n--------\r\n{ Prefix Modifier \u0022Bountiful\u0022 (Tier: 1) }\n26(25-35)% increased Gold found in Map\r\n{ Prefix Modifier \u0022Collector\u0027s\u0022 (Tier: 1) }\n12(8-12)% increased Rarity of Items found in Map\r\n{ Suffix Modifier \u0022of the Summoning\u0022 (Tier: 1) }\nMap has 88(70-100)% increased chance to contain a Summoning Circle\r\n{ Suffix Modifier \u0022of Prayers\u0022 (Tier: 1) }\nRitual Altars in Map allow rerolling Favours 2(1-3) additional times\r\n--------\r\nCan be used in a personal Map Device to add modifiers to a Map.\r\n--------\r\nSanctified\r\n",
+    "repricings": [],
+    "sold": true,
+    "saleId": "34753283a18dc40dd922a40cb33bf153bb7a8d53c22db3e7de985e38b322a713",
+    "saleTime": "2026-07-17T01:45:03\u002B03:00",
+    "salePriceAmount": 19,
+    "salePriceCurrency": "divine",
+    "minutesToSale": 16,
+    "miss": false,
+    "soldAfterReprice": false
+  }
+]

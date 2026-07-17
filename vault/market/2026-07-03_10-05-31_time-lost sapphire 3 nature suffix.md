@@ -1,7 +1,7 @@
 ﻿# Time-Lost Sapphire — срез 2026-07-03
 
 **Источник:** trade_data/2026-07-03_10-05-31_time-lost sapphire 3 nature suffix.json  
-**Листингов:** 100
+**Рекомендованных цен:** 100
 
 ## Таблица
 

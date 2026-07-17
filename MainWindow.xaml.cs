@@ -6512,7 +6512,18 @@ public partial class MainWindow : Window
 
         ct.ThrowIfCancellationRequested();
 
-        // 2. Генерация плана
+        // 2. Обновить флор-цены табличек через GGG Trade API
+        if (!string.IsNullOrWhiteSpace(sessid))
+        {
+            Report("Обновление флор-цен (floor_fetcher.py)...");
+            var floorLog = await Services.SmartRepricingService.FetchFloorPricesAsync(
+                ProjectPaths.GetProjectRoot(), sessid, league, ct).ConfigureAwait(false);
+            Report($"Флор: {floorLog}");
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        // 3. Генерация плана
         Report("Генерация плана переоценки...");
         var (plan, scriptLog) = await Services.SmartRepricingService
             .GeneratePlanAsync(ProjectPaths.GetProjectRoot(), ct);
@@ -6523,7 +6534,7 @@ public partial class MainWindow : Window
 
         ct.ThrowIfCancellationRequested();
 
-        // 3. Выполнение переоценки
+        // 4. Выполнение переоценки
         var progress = new Progress<string>(msg => Dispatcher.Invoke(() => ListingStatusText.Text = msg));
 
         int done = 0, skipped = 0, delisted = 0;

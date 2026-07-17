@@ -25,6 +25,8 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
@@ -104,8 +106,82 @@
             </StackPanel>
         </GroupBox>
 
+        <!-- Детекция зависания игры -->
+        <GroupBox Grid.Row="5" Header="Детекция зависания игры">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Область для сравнения" Click="PickFreezeRegion_Click"/>
+                    <TextBlock x:Name="FreezeRegionLabel" Text="не задана" Foreground="#888"
+                               VerticalAlignment="Center" Margin="10,0,0,0" FontSize="11"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <Button Content="Область названия локации" Click="PickLocationRegion_Click"/>
+                    <Button Content="Тест OCR" Click="TestLocationOcr_Click" Margin="8,0,0,0"/>
+                    <TextBlock x:Name="LocationRegionLabel" Text="не задана" Foreground="#888"
+                               VerticalAlignment="Center" Margin="10,0,20,0" FontSize="11"/>
+                    <TextBlock Text="Текст хайдаута:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBox x:Name="ExpectedHideoutTextBox" Width="100" VerticalAlignment="Center"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <TextBlock Text="Путь к игре (exe):" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBox x:Name="GameExePathBox" Width="300" VerticalAlignment="Center"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
+        <!-- Автовход в игру -->
+        <GroupBox Grid.Row="6" Header="Автовход в игру (после перезапуска)">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Область «Войти»" Click="PickLoginDetect_Click"/>
+                    <Button Content="Тест OCR" Click="TestLoginOcr_Click" Margin="8,0,0,0"/>
+                    <TextBlock x:Name="LoginDetectLabel" Text="не задана" Foreground="#888"
+                               VerticalAlignment="Center" Margin="10,0,20,0" FontSize="11"/>
+                    <TextBlock Text="Текст:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBox x:Name="LoginScreenTextBox" Width="100" VerticalAlignment="Center"/>
+                    <Button Content="Кнопка «Войти»" Click="PickLoginClick_Click" Margin="16,0,0,0"/>
+                    <TextBlock x:Name="LoginClickLabel" Text="не задана" Foreground="#888"
+                               VerticalAlignment="Center" Margin="10,0,0,0" FontSize="11"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <Button Content="Тест перелогина" Click="TestLogin_Click"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <Button Content="Область «Персонаж»" Click="PickCharDetect_Click"/>
+                    <Button Content="Тест OCR" Click="TestCharOcr_Click" Margin="8,0,0,0"/>
+                    <TextBlock x:Name="CharDetectLabel" Text="не задана" Foreground="#888"
+                               VerticalAlignment="Center" Margin="10,0,20,0" FontSize="11"/>
+                    <TextBlock Text="Текст:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBox x:Name="CharSelectTextBox" Width="100" VerticalAlignment="Center"/>
+                    <Button Content="Кнопка «Войти в игру»" Click="PickCharClick_Click" Margin="16,0,0,0"/>
+                    <TextBlock x:Name="CharClickLabel" Text="не задана" Foreground="#888"
+                               VerticalAlignment="Center" Margin="10,0,0,0" FontSize="11"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <Button Content="Область иконки домика" Click="PickHideoutIcon_Click"/>
+                    <Button Content="Захватить эталон" Click="CaptureHideoutIcon_Click" Margin="8,0,0,0"/>
+                    <TextBlock x:Name="HideoutIconLabel" Text="не задана" Foreground="#888"
+                               VerticalAlignment="Center" Margin="10,0,20,0" FontSize="11"/>
+                    <Button Content="Кнопка иконки домика" Click="PickHideoutIconClick_Click"/>
+                    <TextBlock x:Name="HideoutIconClickLabel" Text="не задана" Foreground="#888"
+                               VerticalAlignment="Center" Margin="10,0,0,0" FontSize="11"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                    <Button Content="Область подтверждения" Click="PickHideoutConfirmDetect_Click"/>
+                    <Button Content="Тест OCR" Click="TestHideoutConfirmOcr_Click" Margin="8,0,0,0"/>
+                    <TextBlock x:Name="HideoutConfirmDetectLabel" Text="не задана" Foreground="#888"
+                               VerticalAlignment="Center" Margin="10,0,20,0" FontSize="11"/>
+                    <TextBlock Text="Текст:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                    <TextBox x:Name="HideoutConfirmTextBox" Width="100" VerticalAlignment="Center"/>
+                    <Button Content="Кнопка подтверждения" Click="PickHideoutConfirmClick_Click" Margin="16,0,0,0"/>
+                    <TextBlock x:Name="HideoutConfirmClickLabel" Text="не задана" Foreground="#888"
+                               VerticalAlignment="Center" Margin="10,0,0,0" FontSize="11"/>
+                </StackPanel>
+            </StackPanel>
+        </GroupBox>
+
         <!-- Кнопки управления -->
-        <StackPanel Grid.Row="5" Orientation="Horizontal" Margin="0,10,0,0">
+        <StackPanel Grid.Row="7" Orientation="Horizontal" Margin="0,10,0,0">
             <CheckBox x:Name="AutoBuyCheck" Content="Автопокупка (Ctrl+ЛКМ)" VerticalAlignment="Center" Margin="0,0,20,0"/>
             <RadioButton x:Name="ModeBulk" Content="Bulk" IsChecked="True" VerticalAlignment="Center" Margin="0,0,10,0" Checked="Mode_Checked"/>
             <RadioButton x:Name="ModeLive" Content="Live Search" VerticalAlignment="Center" Margin="0,0,20,0" Checked="Mode_Checked"/>
@@ -115,7 +191,7 @@
         </StackPanel>
 
         <!-- Лог -->
-        <TextBox Grid.Row="6" x:Name="LogBox"
+        <TextBox Grid.Row="8" x:Name="LogBox"
                  IsReadOnly="True"
                  TextWrapping="Wrap"
                  VerticalScrollBarVisibility="Auto"

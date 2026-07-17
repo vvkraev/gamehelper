@@ -2,6 +2,7 @@ using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace GameHelper.Services;
 
@@ -143,18 +144,44 @@ public static class TradeHistoryService
         using var doc = JsonDocument.Parse(body);
         var result = doc.RootElement.GetProperty("result");
 
-        var existingIds = new HashSet<string>(existing.Select(r => r.ItemId));
+        var existingById = existing.ToDictionary(r => r.ItemId);
         var newRecords = new List<SaleRecord>();
+        int refreshedCount = 0;
 
         foreach (var entry in result.EnumerateArray())
         {
             var itemId = entry.GetProperty("item_id").GetString() ?? "";
-            if (!existingIds.Add(itemId)) continue;
+            var item   = entry.GetProperty("item");
 
-            var item = entry.GetProperty("item");
+            // Обновляем поля мода у существующей записи если они пустые (исправление ретроактивных ошибок парсинга).
+            if (existingById.TryGetValue(itemId, out var existingRec))
+            {
+                bool needsModRefresh =
+                    existingRec.DesecrateMods.Count == 0 &&
+                    (item.TryGetProperty("desecratedMods", out var dm) && dm.GetArrayLength() > 0 ||
+                     item.TryGetProperty("desecrated", out var df) && df.GetBoolean());
+                needsModRefresh |=
+                    existingRec.CraftedMods.Count == 0 &&
+                    item.TryGetProperty("craftedMods", out var cm) && cm.GetArrayLength() > 0;
+
+                if (needsModRefresh)
+                {
+                    var fresh = new SaleRecord();
+                    ClassifyMods(item, "explicitMods",   fresh.ExplicitMods,  fresh.DesecrateMods, fresh.CraftedMods, fresh.FracturedMods);
+                    ClassifyMods(item, "fracturedMods",  fresh.FracturedMods, null, null, null);
+                    ClassifyMods(item, "desecratedMods", fresh.DesecrateMods, null, null, null);
+                    ClassifyMods(item, "craftedMods",    fresh.CraftedMods,   null, null, null);
+                    if (existingRec.DesecrateMods.Count == 0 && fresh.DesecrateMods.Count > 0)
+                        existingRec.DesecrateMods.AddRange(fresh.DesecrateMods);
+                    if (existingRec.CraftedMods.Count == 0 && fresh.CraftedMods.Count > 0)
+                        existingRec.CraftedMods.AddRange(fresh.CraftedMods);
+                    refreshedCount++;
+                }
+                continue;
+            }
+
             var priceEl = entry.GetProperty("price");
-
-            newRecords.Add(new SaleRecord
+            var record = new SaleRecord
             {
                 ItemId = itemId,
                 Time = entry.GetProperty("time").GetDateTime(),
@@ -164,20 +191,31 @@ public static class TradeHistoryService
                 TypeLine = item.TryGetProperty("typeLine", out var t) ? t.GetString() ?? "" : "",
                 BaseType = item.TryGetProperty("baseType", out var bt) ? bt.GetString() ?? "" : "",
                 ItemLevel = item.TryGetProperty("ilvl", out var il) ? il.GetInt32() : 0,
-                ExplicitMods = GetStringList(item, "explicitMods"),
-                FracturedMods = GetStringList(item, "fracturedMods"),
-                DesecrateMods = GetStringList(item, "desecrateMods"),
-                CraftedMods = GetStringList(item, "craftedMods"),
-                ImplicitMods = GetStringList(item, "implicitMods"),
-            });
+                ImplicitMods = GetPlainStrings(item, "implicitMods"),
+            };
+
+            // Поля, которые могут приходить как plain strings ИЛИ как объекты {description, hash, flags, mods[]}.
+            // ClassifyMods читает оба формата и распределяет по нужным спискам.
+            ClassifyMods(item, "explicitMods",   record.ExplicitMods,  record.DesecrateMods, record.CraftedMods, record.FracturedMods);
+            ClassifyMods(item, "fracturedMods",  record.FracturedMods, null, null, null);
+            // GGG API использует "desecratedMods" (с 'd' на конце)
+            ClassifyMods(item, "desecratedMods", record.DesecrateMods, null, null, null);
+            ClassifyMods(item, "craftedMods",    record.CraftedMods,   null, null, null);
+
+            newRecords.Add(record);
+            existingById[itemId] = record;
         }
+
+        if (refreshedCount > 0)
+            SessionLogger.Info($"TradeHistory: обновлены моды для {refreshedCount} существующих записей.");
 
         // Новые записи идут первыми (порядок «новейшие сначала» сохраняется)
         var merged = newRecords.Concat(existing).ToList();
         return (merged, newRecords.Count);
     }
 
-    private static List<string> GetStringList(JsonElement el, string prop)
+    // Только для полей, которые заведомо содержат plain strings (implicitMods и пр.)
+    private static List<string> GetPlainStrings(JsonElement el, string prop)
     {
         if (!el.TryGetProperty(prop, out var arr)) return [];
         var list = new List<string>();
@@ -185,6 +223,72 @@ public static class TradeHistoryService
             if (item.GetString() is { } v) list.Add(v);
         return list;
     }
+
+    /// <summary>
+    /// Читает поле <paramref name="prop"/> из <paramref name="item"/>, обрабатывая оба формата:
+    /// - plain string с [Tag|Display] разметкой → добавляется в <paramref name="defaultList"/>
+    /// - объект {description, hash, flags, mods[]} → классифицируется по flags.desecrated/crafted/fractured
+    ///   и добавляется в соответствующий список (или в defaultList если классификация не задана).
+    /// </summary>
+    private static void ClassifyMods(
+        JsonElement item, string prop,
+        List<string> defaultList,
+        List<string>? desecList, List<string>? craftList, List<string>? fracList)
+    {
+        if (!item.TryGetProperty(prop, out var arr)) return;
+        foreach (var el in arr.EnumerateArray())
+        {
+            if (el.ValueKind == JsonValueKind.String)
+            {
+                if (el.GetString() is { } v) defaultList.Add(v);
+                continue;
+            }
+            if (el.ValueKind != JsonValueKind.Object) continue;
+
+            var label = BuildModLabel(el);
+            if (string.IsNullOrEmpty(label)) continue;
+
+            bool isDesec = false, isCraft = false, isFrac = false;
+            if (el.TryGetProperty("flags", out var flags))
+            {
+                isDesec = flags.TryGetProperty("desecrated", out var d) && d.GetBoolean();
+                isCraft = flags.TryGetProperty("crafted",    out var c) && c.GetBoolean();
+                isFrac  = flags.TryGetProperty("fractured",  out var f) && f.GetBoolean();
+            }
+            if (!isDesec && !isCraft && !isFrac && el.TryGetProperty("hash", out var hash))
+            {
+                var h = hash.GetString() ?? "";
+                isDesec = h.StartsWith("stat.desecrated");
+                isCraft = h.StartsWith("stat.crafted");
+                isFrac  = h.StartsWith("stat.fractured");
+            }
+
+            if      (isDesec && desecList != null) desecList.Add(label);
+            else if (isCraft && craftList != null)  craftList.Add(label);
+            else if (isFrac  && fracList  != null)  fracList.Add(label);
+            else                                    defaultList.Add(label);
+        }
+    }
+
+    private static string BuildModLabel(JsonElement el)
+    {
+        var desc = CleanMarkup(el.TryGetProperty("description", out var d) ? d.GetString() ?? "" : "");
+        if (el.TryGetProperty("mods", out var modsArr) && modsArr.ValueKind == JsonValueKind.Array)
+        {
+            foreach (var mod in modsArr.EnumerateArray())
+            {
+                var name = mod.TryGetProperty("name", out var n) ? n.GetString() : null;
+                var tier = mod.TryGetProperty("tier", out var t) ? t.GetString() : null;
+                if (!string.IsNullOrEmpty(name) && !string.IsNullOrEmpty(tier))
+                    return $"{name} {tier} — {desc}";
+            }
+        }
+        return desc;
+    }
+
+    private static string CleanMarkup(string s) =>
+        Regex.Replace(s, @"\[([^\|\]]+)\|([^\]]+)\]", "$2")
+             .Replace("[", "").Replace("]", "");
 
     /// <summary>
     /// Парсит хедеры X-Rate-Limit-{rules} и X-Rate-Limit-{rules}-State из ответа GGG API.

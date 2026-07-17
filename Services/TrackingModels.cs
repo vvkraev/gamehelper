@@ -62,11 +62,14 @@ public class TrackingItemDetail
     public int Quality { get; set; }
     public int Ilvl { get; set; }
     public bool Corrupted { get; set; }
+    public bool TwiceCorrupted { get; set; }
     public bool Sanctified { get; set; }
     public int Sockets { get; set; }
     public List<string> ModsFractured { get; set; } = new();
     public List<string> ModsDesecrated { get; set; } = new();
     public List<string> ModsImplicit { get; set; } = new();
+    /// <summary>Моды из enchantMods API (коррупшн-имплицит при Twice Corrupted, аноинты Delirium).</summary>
+    public List<string> ModsCorrupted { get; set; } = new();
     public List<string> ModsExplicit { get; set; } = new();
     public List<string> ModsCrafted { get; set; } = new();
 }

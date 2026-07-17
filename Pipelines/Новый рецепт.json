@@ -1,17 +1,64 @@
 {
-  "name": "Новый рецепт",
+  "name": "\u041D\u043E\u0432\u044B\u0439 \u0440\u0435\u0446\u0435\u043F\u0442",
   "description": "",
-  "itemClass": "",
+  "itemClass": "Time-Lost Sapphire Jewels",
   "guardCondition": null,
   "enableStepRecognition": false,
   "steps": [
     {
-      "name": "Хаос крафт 2-го суффикса",
+      "name": "\u0425\u0430\u043E\u0441 \u043A\u0440\u0430\u0444\u0442 2-\u0433\u043E \u0441\u0443\u0444\u0444\u0438\u043A\u0441\u0430",
       "action": "chaosCraft",
       "omenConfig": null,
       "deliriumLiquidConfig": null,
       "travelConfig": null,
-      "entryCondition": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "affixCount",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": {
+                  "scope": "all",
+                  "min": 2,
+                  "max": 0
+                },
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "affixCount",
+                "negate": true,
+                "single": null,
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": {
+                  "scope": "all",
+                  "min": 3,
+                  "max": 0
+                },
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
       "loopUntil": {
         "expectedItemClass": "Time-Lost Sapphire Jewels",
         "expectedItemSubType": "",
@@ -135,7 +182,8 @@
                   "includeFractured": true
                 },
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               }
             ]
           }
@@ -148,17 +196,24 @@
         "message": ""
       },
       "onFailure": {
-        "target": "abort",
-        "stepIndex": 0,
+        "target": "step",
+        "stepIndex": 5,
         "message": ""
       }
     },
     {
-      "name": "Добавление донорного экзальта в префикс",
+      "name": "\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u0434\u043E\u043D\u043E\u0440\u043D\u043E\u0433\u043E \u044D\u043A\u0437\u0430\u043B\u044C\u0442\u0430 \u0432 \u043F\u0440\u0435\u0444\u0438\u043A\u0441",
       "action": "simpleCurrency",
       "omenConfig": null,
       "deliriumLiquidConfig": null,
       "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": "Exalted Orb",
       "entryCondition": null,
       "loopUntil": null,
       "maxIterations": 100,
@@ -171,8 +226,7 @@
         "target": "abort",
         "stepIndex": 0,
         "message": ""
-      },
-      "currencyId": "Exalted Orb"
+      }
     },
     {
       "name": "Ancient potent liquied contempt 50\\50",
@@ -182,6 +236,13 @@
         "liquidName": "ancient_potent_liquid_contempt"
       },
       "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
       "entryCondition": null,
       "loopUntil": null,
       "maxIterations": 100,
@@ -197,16 +258,120 @@
       }
     },
     {
-      "name": "Активация декстрал экзальтейшен",
+      "name": "\u041F\u0440\u043E\u0432\u0435\u0440\u043A\u0430 \u043F\u043E\u0441\u043B\u0435 \u043F\u043E\u043F\u044B\u0442\u043A\u0438 \u0443\u0434\u0430\u043B\u0435\u043D\u0438\u044F \u0442\u0440\u0435\u0442\u044C\u0435\u0433\u043E \u0441\u0443\u0444\u0444\u0438\u043A\u0441\u0430",
+      "action": "checkItem",
+      "omenConfig": null,
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "affixCount",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": {
+                  "scope": "all",
+                  "min": 3,
+                  "max": 0
+                },
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "loopUntil": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Crafted Prefix Modifier",
+                  "affixName": "",
+                  "selectedAffixNames": [
+                    ""
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "\u002B1 Suffix Modifier allowed",
+                      "minRoll": 0,
+                      "minRolls": [
+                        0
+                      ]
+                    }
+                  ],
+                  "statTemplate": "\u002B1 Suffix Modifier allowed",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "next",
+        "stepIndex": 0,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "step",
+        "stepIndex": 5,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u0410\u043A\u0442\u0438\u0432\u0430\u0446\u0438\u044F \u0434\u0435\u043A\u0441\u0442\u0440\u0430\u043B \u044D\u043A\u0437\u0430\u043B\u044C\u0442\u0435\u0439\u0448\u0435\u043D",
       "action": "omenActivation",
       "omenConfig": {
         "omenName": "Omen of Dextral Exaltation",
         "stashCellIndex": 0,
         "inventoryRow": 4,
-        "inventoryCol": 11
+        "inventoryCol": 11,
+        "useActiveBatchCount": false
       },
       "deliriumLiquidConfig": null,
       "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
       "entryCondition": {
         "expectedItemClass": "Time-Lost Sapphire Jewels",
         "expectedItemSubType": "",
@@ -330,7 +495,8 @@
                   "includeFractured": true
                 },
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               },
               {
                 "kind": "single",
@@ -344,14 +510,14 @@
                   "affixTier": 1,
                   "lines": [
                     {
-                      "statTemplate": "+1 Suffix Modifier allowed",
+                      "statTemplate": "\u002B1 Suffix Modifier allowed",
                       "minRoll": 0,
                       "minRolls": [
                         0
                       ]
                     }
                   ],
-                  "statTemplate": "+1 Suffix Modifier allowed",
+                  "statTemplate": "\u002B1 Suffix Modifier allowed",
                   "minRoll": 0,
                   "minRolls": [
                     0
@@ -360,7 +526,8 @@
                 "sum": null,
                 "count": null,
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               }
             ]
           }
@@ -370,7 +537,7 @@
       "maxIterations": 100,
       "onSuccess": {
         "target": "step",
-        "stepIndex": 5,
+        "stepIndex": 6,
         "message": ""
       },
       "onFailure": {
@@ -380,12 +547,45 @@
       }
     },
     {
-      "name": "Удаление аффикса перед возвратом к первому этапу",
+      "name": "\u0423\u0434\u0430\u043B\u0435\u043D\u0438\u0435 \u0430\u0444\u0444\u0438\u043A\u0441\u0430 \u043F\u0435\u0440\u0435\u0434 \u0432\u043E\u0437\u0432\u0440\u0430\u0442\u043E\u043C \u043A \u043F\u0435\u0440\u0432\u043E\u043C\u0443 \u044D\u0442\u0430\u043F\u0443",
       "action": "simpleCurrency",
       "omenConfig": null,
       "deliriumLiquidConfig": null,
       "travelConfig": null,
-      "entryCondition": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": "Orb of Annulment",
+      "entryCondition": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "affixCount",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": {
+                  "scope": "all",
+                  "min": 3,
+                  "max": 0
+                },
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
       "loopUntil": null,
       "maxIterations": 100,
       "onSuccess": {
@@ -397,15 +597,21 @@
         "target": "abort",
         "stepIndex": 0,
         "message": ""
-      },
-      "currencyId": "Orb of Annulment"
+      }
     },
     {
-      "name": "Добавление третьего суффикса",
+      "name": "\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u0442\u0440\u0435\u0442\u044C\u0435\u0433\u043E \u0441\u0443\u0444\u0444\u0438\u043A\u0441\u0430",
       "action": "simpleCurrency",
       "omenConfig": null,
       "deliriumLiquidConfig": null,
       "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": "Exalted Orb",
       "entryCondition": null,
       "loopUntil": null,
       "maxIterations": 100,
@@ -418,15 +624,21 @@
         "target": "abort",
         "stepIndex": 0,
         "message": ""
-      },
-      "currencyId": "Exalted Orb"
+      }
     },
     {
-      "name": "Проверка трех суффиксов",
+      "name": "\u041F\u0440\u043E\u0432\u0435\u0440\u043A\u0430 \u0442\u0440\u0435\u0445 \u0441\u0443\u0444\u0444\u0438\u043A\u0441\u043E\u0432",
       "action": "checkItem",
       "omenConfig": null,
       "deliriumLiquidConfig": null,
       "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
       "entryCondition": {
         "expectedItemClass": "Time-Lost Sapphire Jewels",
         "expectedItemSubType": "",
@@ -618,7 +830,8 @@
                   "includeFractured": true
                 },
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               }
             ]
           }
@@ -627,8 +840,8 @@
       "loopUntil": null,
       "maxIterations": 1,
       "onSuccess": {
-        "target": "done",
-        "stepIndex": 0,
+        "target": "step",
+        "stepIndex": 9,
         "message": ""
       },
       "onFailure": {
@@ -638,12 +851,261 @@
       }
     },
     {
-      "name": "Попытка удаления неподходящего третьего суффикса",
+      "name": "\u041F\u043E\u043F\u044B\u0442\u043A\u0430 \u0443\u0434\u0430\u043B\u0435\u043D\u0438\u044F \u043D\u0435\u043F\u043E\u0434\u0445\u043E\u0434\u044F\u0449\u0435\u0433\u043E \u0442\u0440\u0435\u0442\u044C\u0435\u0433\u043E \u0441\u0443\u0444\u0444\u0438\u043A\u0441\u0430",
       "action": "simpleCurrency",
       "omenConfig": null,
       "deliriumLiquidConfig": null,
       "travelConfig": null,
-      "entryCondition": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": "Orb of Annulment",
+      "entryCondition": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "count",
+                "negate": true,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 3,
+                  "members": [
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Potency",
+                      "selectedAffixNames": [
+                        "of Potency"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilating",
+                      "selectedAffixNames": [
+                        "of Annihilating"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance for Spells",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Unmaking",
+                      "selectedAffixNames": [
+                        "of Unmaking"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Lengthening",
+                      "selectedAffixNames": [
+                        "of Lengthening"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Skill Effect Duration",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Osmosis",
+                      "selectedAffixNames": [
+                        "of Osmosis"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Mind",
+                      "selectedAffixNames": [
+                        "of Mind"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Supremacy",
+                      "selectedAffixNames": [
+                        "of Supremacy"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "#% increased Effect of Notable Passive Skills in Radius",
+                          "minRoll": 15,
+                          "minRolls": [
+                            15
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Enchanting",
+                      "selectedAffixNames": [
+                        "of Enchanting"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Cast Speed",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Generation",
+                      "selectedAffixNames": [
+                        "of Generation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Meta Skills gain #% increased Energy",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilation",
+                      "selectedAffixNames": [
+                        "of Annihilation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": true
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Crafted Prefix Modifier",
+                  "affixName": "",
+                  "selectedAffixNames": [
+                    ""
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "\u002B1 Suffix Modifier allowed",
+                      "minRoll": 0,
+                      "minRolls": [
+                        0
+                      ]
+                    }
+                  ],
+                  "statTemplate": "\u002B1 Suffix Modifier allowed",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "affixCount",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": {
+                  "scope": "suffixes",
+                  "min": 3,
+                  "max": 0
+                },
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
       "loopUntil": null,
       "maxIterations": 1,
       "onSuccess": {
@@ -652,23 +1114,30 @@
         "message": ""
       },
       "onFailure": {
-        "target": "done",
+        "target": "abort",
         "stepIndex": 0,
         "message": ""
-      },
-      "currencyId": "Orb of Annulment"
+      }
     },
     {
-      "name": "Активация омена для замены +1 суффикса",
+      "name": "\u0410\u043A\u0442\u0438\u0432\u0430\u0446\u0438\u044F \u043E\u043C\u0435\u043D\u0430 \u0434\u043B\u044F \u0437\u0430\u043C\u0435\u043D\u044B \u002B1 \u0441\u0443\u0444\u0444\u0438\u043A\u0441\u0430",
       "action": "omenActivation",
       "omenConfig": {
         "omenName": "Omen of Sinistral Erasure",
         "stashCellIndex": 0,
         "inventoryRow": 4,
-        "inventoryCol": 11
+        "inventoryCol": 11,
+        "useActiveBatchCount": false
       },
       "deliriumLiquidConfig": null,
       "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
       "entryCondition": {
         "expectedItemClass": "Time-Lost Sapphire Jewels",
         "expectedItemSubType": "",
@@ -860,7 +1329,8 @@
                   "includeFractured": true
                 },
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               },
               {
                 "kind": "single",
@@ -874,14 +1344,14 @@
                   "affixTier": 1,
                   "lines": [
                     {
-                      "statTemplate": "+1 Suffix Modifier allowed",
+                      "statTemplate": "\u002B1 Suffix Modifier allowed",
                       "minRoll": 0,
                       "minRolls": [
                         0
                       ]
                     }
                   ],
-                  "statTemplate": "+1 Suffix Modifier allowed",
+                  "statTemplate": "\u002B1 Suffix Modifier allowed",
                   "minRoll": 0,
                   "minRolls": [
                     0
@@ -890,7 +1360,8 @@
                 "sum": null,
                 "count": null,
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               }
             ]
           }
@@ -904,17 +1375,24 @@
         "message": ""
       },
       "onFailure": {
-        "target": "step",
+        "target": "abort",
         "stepIndex": 0,
         "message": ""
       }
     },
     {
-      "name": "Удаление +1 суффикс",
+      "name": "\u0423\u0434\u0430\u043B\u0435\u043D\u0438\u0435 \u002B1 \u0441\u0443\u0444\u0444\u0438\u043A\u0441",
       "action": "simpleCurrency",
       "omenConfig": null,
       "deliriumLiquidConfig": null,
       "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": "Chaos Orb",
       "entryCondition": {
         "expectedItemClass": "Time-Lost Sapphire Jewels",
         "expectedItemSubType": "",
@@ -1106,7 +1584,8 @@
                   "includeFractured": true
                 },
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               },
               {
                 "kind": "single",
@@ -1120,14 +1599,14 @@
                   "affixTier": 1,
                   "lines": [
                     {
-                      "statTemplate": "+1 Suffix Modifier allowed",
+                      "statTemplate": "\u002B1 Suffix Modifier allowed",
                       "minRoll": 0,
                       "minRolls": [
                         0
                       ]
                     }
                   ],
-                  "statTemplate": "+1 Suffix Modifier allowed",
+                  "statTemplate": "\u002B1 Suffix Modifier allowed",
                   "minRoll": 0,
                   "minRolls": [
                     0
@@ -1136,7 +1615,8 @@
                 "sum": null,
                 "count": null,
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               }
             ]
           }
@@ -1153,15 +1633,21 @@
         "target": "abort",
         "stepIndex": 0,
         "message": ""
-      },
-      "currencyId": "Chaos Orb"
+      }
     },
     {
-      "name": "Добавление донорских префиксов",
+      "name": "\u0414\u043E\u0431\u0430\u0432\u043B\u0435\u043D\u0438\u0435 \u0434\u043E\u043D\u043E\u0440\u0441\u043A\u0438\u0445 \u043F\u0440\u0435\u0444\u0438\u043A\u0441\u043E\u0432",
       "action": "simpleCurrency",
       "omenConfig": null,
       "deliriumLiquidConfig": null,
       "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": "Exalted Orb",
       "entryCondition": {
         "expectedItemClass": "Time-Lost Sapphire Jewels",
         "expectedItemSubType": "",
@@ -1353,7 +1839,8 @@
                   "includeFractured": true
                 },
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               },
               {
                 "kind": "single",
@@ -1367,14 +1854,14 @@
                   "affixTier": 1,
                   "lines": [
                     {
-                      "statTemplate": "+1 Suffix Modifier allowed",
+                      "statTemplate": "\u002B1 Suffix Modifier allowed",
                       "minRoll": 0,
                       "minRolls": [
                         0
                       ]
                     }
                   ],
-                  "statTemplate": "+1 Suffix Modifier allowed",
+                  "statTemplate": "\u002B1 Suffix Modifier allowed",
                   "minRoll": 0,
                   "minRolls": [
                     0
@@ -1383,7 +1870,8 @@
                 "sum": null,
                 "count": null,
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               }
             ]
           }
@@ -1580,7 +2068,8 @@
                   "includeFractured": true
                 },
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               },
               {
                 "kind": "affixCount",
@@ -1593,7 +2082,8 @@
                   "scope": "prefixes",
                   "min": 2,
                   "max": 0
-                }
+                },
+                "desecrateSide": "any"
               }
             ]
           }
@@ -1609,15 +2099,21 @@
         "target": "abort",
         "stepIndex": 0,
         "message": ""
-      },
-      "currencyId": "Exalted Orb"
+      }
     },
     {
-      "name": "финальная проверка перед десекрейтом",
+      "name": "\u0444\u0438\u043D\u0430\u043B\u044C\u043D\u0430\u044F \u043F\u0440\u043E\u0432\u0435\u0440\u043A\u0430 \u043F\u0435\u0440\u0435\u0434 \u0434\u0435\u0441\u0435\u043A\u0440\u0435\u0439\u0442\u043E\u043C",
       "action": "checkItem",
       "omenConfig": null,
       "deliriumLiquidConfig": null,
       "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
       "entryCondition": {
         "expectedItemClass": "Time-Lost Sapphire Jewels",
         "expectedItemSubType": "",
@@ -1809,7 +2305,8 @@
                   "includeFractured": true
                 },
                 "whole": null,
-                "affixCount": null
+                "affixCount": null,
+                "desecrateSide": "any"
               },
               {
                 "kind": "affixCount",
@@ -1822,7 +2319,8 @@
                   "scope": "prefixes",
                   "min": 2,
                   "max": 0
-                }
+                },
+                "desecrateSide": "any"
               }
             ]
           }
@@ -1863,8 +2361,16 @@
         },
         "waypointOcrText": "waypoint",
         "afterWaypointDelayMs": 10000,
-        "loadingDelayMs": 15000
+        "loadingDelayMs": 15000,
+        "expectedLocation": "the well of soul"
       },
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
       "entryCondition": null,
       "loopUntil": null,
       "maxIterations": 100,
@@ -1880,15 +2386,1007 @@
       }
     },
     {
-      "name": "Шаг 13",
+      "name": "\u0428\u0430\u0433 21",
+      "action": "openStash",
+      "omenConfig": null,
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": null,
+      "loopUntil": null,
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "next",
+        "stepIndex": 0,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "abort",
+        "stepIndex": 0,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u0425\u0430\u043E\u0441, \u043F\u043E\u043A\u0430 \u043D\u0435 \u0443\u0431\u0435\u0440\u0435\u043C \u0434\u0435\u0441\u0435\u043A\u0440\u0435\u0439\u0442 \u0438 \u043D\u0435 \u043A\u0440\u0430\u0444\u0442\u043E\u0432\u044B\u0439 \u0440\u0430\u0434\u0438\u0443\u0441",
+      "action": "chaosCraft",
+      "omenConfig": null,
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "count",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 1,
+                  "members": [
+                    {
+                      "affixType": "Prefix Modifier",
+                      "affixName": "Grand",
+                      "selectedAffixNames": [
+                        "Grand"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Upgrades Radius to Large",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Prefix Modifier",
+                      "affixName": "Greater",
+                      "selectedAffixNames": [
+                        "Greater"
+                      ],
+                      "affixTier": 2,
+                      "lines": [
+                        {
+                          "statTemplate": "Upgrades Radius to Medium",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Global Armour, Evasion and Energy Shield",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Mana",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": false
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "count",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 3,
+                  "members": [
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Supremacy",
+                      "selectedAffixNames": [
+                        "of Supremacy"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "#% increased Effect of Notable Passive Skills in Radius",
+                          "minRoll": 15,
+                          "minRolls": [
+                            15
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Enchanting",
+                      "selectedAffixNames": [
+                        "of Enchanting"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Cast Speed",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Potency",
+                      "selectedAffixNames": [
+                        "of Potency"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilation",
+                      "selectedAffixNames": [
+                        "of Annihilation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilating",
+                      "selectedAffixNames": [
+                        "of Annihilating"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance for Spells",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Unmaking",
+                      "selectedAffixNames": [
+                        "of Unmaking"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Lengthening",
+                      "selectedAffixNames": [
+                        "of Lengthening"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Skill Effect Duration",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Mind",
+                      "selectedAffixNames": [
+                        "of Mind"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Osmosis",
+                      "selectedAffixNames": [
+                        "of Osmosis"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Generation",
+                      "selectedAffixNames": [
+                        "of Generation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Meta Skills gain #% increased Energy",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": true
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "loopUntil": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": true,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Desecrated Prefix Modifier",
+                  "affixName": "Lightless",
+                  "selectedAffixNames": [
+                    "Lightless"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Global Armour, Evasion and Energy Shield",
+                      "minRoll": 2,
+                      "minRolls": [
+                        2
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Notable Passive Skills in Radius also grant #% increased Global Armour, Evasion and Energy Shield",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          },
+          {
+            "clauses": [
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Desecrated Prefix Modifier",
+                  "affixName": "Lightless",
+                  "selectedAffixNames": [
+                    "Lightless"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Life",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Life",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          },
+          {
+            "clauses": [
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Desecrated Prefix Modifier",
+                  "affixName": "Lightless",
+                  "selectedAffixNames": [
+                    "Lightless"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          },
+          {
+            "clauses": [
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Desecrated Prefix Modifier",
+                  "affixName": "Lightless",
+                  "selectedAffixNames": [
+                    "Lightless"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Life",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Life",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          },
+          {
+            "clauses": [
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Desecrated Prefix Modifier",
+                  "affixName": "Lightless",
+                  "selectedAffixNames": [
+                    "Lightless"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Mana",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Mana",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          },
+          {
+            "clauses": [
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Grand",
+                  "selectedAffixNames": [
+                    "Grand"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Large",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Large",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          },
+          {
+            "clauses": [
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Greater",
+                  "selectedAffixNames": [
+                    "Greater"
+                  ],
+                  "affixTier": 2,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Medium",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Medium",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "next",
+        "stepIndex": 0,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "abort",
+        "stepIndex": 0,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u0414\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u043C \u043A\u0440\u0430\u0444\u0442\u043E\u0432\u044B\u0439 \u0440\u0430\u0434\u0438\u0443\u0441",
       "action": "deliriumLiquid",
       "omenConfig": null,
       "deliriumLiquidConfig": {
         "liquidName": "ancient_potent_liquid_melancholy"
       },
       "travelConfig": null,
-      "entryCondition": null,
-      "loopUntil": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "single",
+                "negate": true,
+                "single": {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Grand",
+                  "selectedAffixNames": [
+                    "Grand"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Large",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Large",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": true,
+                "single": {
+                  "affixType": "Prefix Modifier",
+                  "affixName": "Greater",
+                  "selectedAffixNames": [
+                    "Greater"
+                  ],
+                  "affixTier": 2,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Medium",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Medium",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "affixCount",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": {
+                  "scope": "all",
+                  "min": 5,
+                  "max": 0
+                },
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": true,
+                "single": {
+                  "affixType": "Crafted Prefix Modifier",
+                  "affixName": "CraftedJewelRadiusExtraLargeSize",
+                  "selectedAffixNames": [
+                    "CraftedJewelRadiusExtraLargeSize"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Very Large",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Very Large",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "count",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 3,
+                  "members": [
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Supremacy",
+                      "selectedAffixNames": [
+                        "of Supremacy"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "#% increased Effect of Notable Passive Skills in Radius",
+                          "minRoll": 15,
+                          "minRolls": [
+                            15
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Enchanting",
+                      "selectedAffixNames": [
+                        "of Enchanting"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Cast Speed",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Potency",
+                      "selectedAffixNames": [
+                        "of Potency"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilation",
+                      "selectedAffixNames": [
+                        "of Annihilation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilating",
+                      "selectedAffixNames": [
+                        "of Annihilating"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance for Spells",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Unmaking",
+                      "selectedAffixNames": [
+                        "of Unmaking"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Lengthening",
+                      "selectedAffixNames": [
+                        "of Lengthening"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Skill Effect Duration",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Mind",
+                      "selectedAffixNames": [
+                        "of Mind"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Osmosis",
+                      "selectedAffixNames": [
+                        "of Osmosis"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Generation",
+                      "selectedAffixNames": [
+                        "of Generation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Meta Skills gain #% increased Energy",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": true
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "loopUntil": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Crafted Prefix Modifier",
+                  "affixName": "CraftedJewelRadiusExtraLargeSize",
+                  "selectedAffixNames": [
+                    "CraftedJewelRadiusExtraLargeSize"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Very Large",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Very Large",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
       "maxIterations": 100,
       "onSuccess": {
         "target": "next",
@@ -1902,36 +3400,1638 @@
       }
     },
     {
-      "name": "Шаг 14",
-      "action": "omenActivation",
-      "omenConfig": {
-        "omenName": "Omen of Sinistral Necromancy",
-        "stashCellIndex": 0,
-        "inventoryRow": 0,
-        "inventoryCol": 0
-      },
-      "deliriumLiquidConfig": null,
-      "travelConfig": null,
-      "entryCondition": null,
-      "loopUntil": null,
-      "maxIterations": 100,
-      "onSuccess": {
-        "target": "next",
-        "stepIndex": 0,
-        "message": ""
-      },
-      "onFailure": {
-        "target": "abort",
-        "stepIndex": 0,
-        "message": ""
-      }
-    },
-    {
-      "name": "Шаг 15",
+      "name": "\u041F\u0440\u043E\u0432\u0435\u0440\u043A\u0430 \u0435\u0441\u043B\u0438 \u0440\u0430\u0434\u0438\u0443\u0441 \u0434\u043E\u0431\u0430\u0432\u043B\u044F\u043B\u0441\u044F \u043F\u043E\u0441\u043B\u0435 \u0434\u0435\u0441\u0435\u043A\u0440\u0435\u0439\u0442\u0430",
       "action": "checkItem",
       "omenConfig": null,
       "deliriumLiquidConfig": null,
       "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "count",
+                "negate": true,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 1,
+                  "members": [
+                    {
+                      "affixType": "Prefix Modifier",
+                      "affixName": "Grand",
+                      "selectedAffixNames": [
+                        "Grand"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Upgrades Radius to Large",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Prefix Modifier",
+                      "affixName": "Greater",
+                      "selectedAffixNames": [
+                        "Greater"
+                      ],
+                      "affixTier": 2,
+                      "lines": [
+                        {
+                          "statTemplate": "Upgrades Radius to Medium",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Global Armour, Evasion and Energy Shield",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Mana",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": false
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Crafted Prefix Modifier",
+                  "affixName": "CraftedJewelRadiusExtraLargeSize",
+                  "selectedAffixNames": [
+                    "CraftedJewelRadiusExtraLargeSize"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Very Large",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Very Large",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "hasDesecrate",
+                "negate": true,
+                "single": null,
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "count",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 3,
+                  "members": [
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Supremacy",
+                      "selectedAffixNames": [
+                        "of Supremacy"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "#% increased Effect of Notable Passive Skills in Radius",
+                          "minRoll": 15,
+                          "minRolls": [
+                            15
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Enchanting",
+                      "selectedAffixNames": [
+                        "of Enchanting"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Cast Speed",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Potency",
+                      "selectedAffixNames": [
+                        "of Potency"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilation",
+                      "selectedAffixNames": [
+                        "of Annihilation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilating",
+                      "selectedAffixNames": [
+                        "of Annihilating"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance for Spells",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Unmaking",
+                      "selectedAffixNames": [
+                        "of Unmaking"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Lengthening",
+                      "selectedAffixNames": [
+                        "of Lengthening"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Skill Effect Duration",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Mind",
+                      "selectedAffixNames": [
+                        "of Mind"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Osmosis",
+                      "selectedAffixNames": [
+                        "of Osmosis"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Generation",
+                      "selectedAffixNames": [
+                        "of Generation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Meta Skills gain #% increased Energy",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": true
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "loopUntil": null,
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "next",
+        "stepIndex": 0,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "step",
+        "stepIndex": 19,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u0414\u043E\u0431\u0430\u0432\u043B\u044F\u0435\u043C \u0434\u0435\u0441\u0435\u043A\u0440\u0435\u0439\u0442",
+      "action": "simpleAbyssalBone",
+      "omenConfig": null,
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": "preserved_cranium",
+      "currencyId": null,
+      "entryCondition": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "hasDesecrate",
+                "negate": true,
+                "single": null,
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Crafted Prefix Modifier",
+                  "affixName": "CraftedJewelRadiusExtraLargeSize",
+                  "selectedAffixNames": [
+                    "CraftedJewelRadiusExtraLargeSize"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Very Large",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Very Large",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "count",
+                "negate": true,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 1,
+                  "members": [
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Global Armour, Evasion and Energy Shield",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Mana",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": false
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Crafted Prefix Modifier",
+                  "affixName": "CraftedJewelRadiusExtraLargeSize",
+                  "selectedAffixNames": [
+                    "CraftedJewelRadiusExtraLargeSize"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Very Large",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Very Large",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "loopUntil": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "count",
+                "negate": true,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 1,
+                  "members": [
+                    {
+                      "affixType": "Prefix Modifier",
+                      "affixName": "Grand",
+                      "selectedAffixNames": [
+                        "Grand"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Upgrades Radius to Large",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Prefix Modifier",
+                      "affixName": "Greater",
+                      "selectedAffixNames": [
+                        "Greater"
+                      ],
+                      "affixTier": 2,
+                      "lines": [
+                        {
+                          "statTemplate": "Upgrades Radius to Medium",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Global Armour, Evasion and Energy Shield",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage taken Recouped as Mana",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": false
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "hasDesecrate",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "next",
+        "stepIndex": 0,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "abort",
+        "stepIndex": 0,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u041F\u0440\u043E\u0432\u0435\u0440\u044F\u0435\u043C, \u0447\u0442\u043E \u0434\u0435\u0441\u0435\u043A\u0440\u0435\u0439\u0442 \u043D\u0435 \u0441\u0442\u0435\u0440 \u0440\u0430\u0434\u0438\u0443\u0441",
+      "action": "checkItem",
+      "omenConfig": null,
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "count",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 3,
+                  "members": [
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Potency",
+                      "selectedAffixNames": [
+                        "of Potency"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilating",
+                      "selectedAffixNames": [
+                        "of Annihilating"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance for Spells",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Unmaking",
+                      "selectedAffixNames": [
+                        "of Unmaking"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Lengthening",
+                      "selectedAffixNames": [
+                        "of Lengthening"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Skill Effect Duration",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Osmosis",
+                      "selectedAffixNames": [
+                        "of Osmosis"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Mind",
+                      "selectedAffixNames": [
+                        "of Mind"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Supremacy",
+                      "selectedAffixNames": [
+                        "of Supremacy"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "#% increased Effect of Notable Passive Skills in Radius",
+                          "minRoll": 15,
+                          "minRolls": [
+                            15
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Enchanting",
+                      "selectedAffixNames": [
+                        "of Enchanting"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Cast Speed",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Generation",
+                      "selectedAffixNames": [
+                        "of Generation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Meta Skills gain #% increased Energy",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilation",
+                      "selectedAffixNames": [
+                        "of Annihilation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": true
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "hasDesecrate",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "prefix"
+              },
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Crafted Prefix Modifier",
+                  "affixName": "CraftedJewelRadiusExtraLargeSize",
+                  "selectedAffixNames": [
+                    "CraftedJewelRadiusExtraLargeSize"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Very Large",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Very Large",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "loopUntil": null,
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "next",
+        "stepIndex": 0,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "step",
+        "stepIndex": 16,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u0428\u0430\u0433 24",
+      "action": "omenActivation",
+      "omenConfig": {
+        "omenName": "Omen of Abyssal Echoes",
+        "stashCellIndex": 0,
+        "inventoryRow": 4,
+        "inventoryCol": 11,
+        "useActiveBatchCount": true
+      },
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": null,
+      "loopUntil": null,
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "step",
+        "stepIndex": 22,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "abort",
+        "stepIndex": 0,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u0428\u0430\u0433 26",
+      "action": "checkItem",
+      "omenConfig": null,
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "count",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 3,
+                  "members": [
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Potency",
+                      "selectedAffixNames": [
+                        "of Potency"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilating",
+                      "selectedAffixNames": [
+                        "of Annihilating"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance for Spells",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Unmaking",
+                      "selectedAffixNames": [
+                        "of Unmaking"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Lengthening",
+                      "selectedAffixNames": [
+                        "of Lengthening"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Skill Effect Duration",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Osmosis",
+                      "selectedAffixNames": [
+                        "of Osmosis"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Mind",
+                      "selectedAffixNames": [
+                        "of Mind"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Supremacy",
+                      "selectedAffixNames": [
+                        "of Supremacy"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "#% increased Effect of Notable Passive Skills in Radius",
+                          "minRoll": 15,
+                          "minRolls": [
+                            15
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Enchanting",
+                      "selectedAffixNames": [
+                        "of Enchanting"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Cast Speed",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Generation",
+                      "selectedAffixNames": [
+                        "of Generation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Meta Skills gain #% increased Energy",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilation",
+                      "selectedAffixNames": [
+                        "of Annihilation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": true
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Crafted Prefix Modifier",
+                  "affixName": "CraftedJewelRadiusExtraLargeSize",
+                  "selectedAffixNames": [
+                    "CraftedJewelRadiusExtraLargeSize"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Very Large",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Very Large",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Desecrated Prefix Modifier",
+                  "affixName": "Lightless",
+                  "selectedAffixNames": [
+                    "Lightless"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Mana",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Mana",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "loopUntil": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "count",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 3,
+                  "members": [
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Potency",
+                      "selectedAffixNames": [
+                        "of Potency"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilating",
+                      "selectedAffixNames": [
+                        "of Annihilating"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance for Spells",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Unmaking",
+                      "selectedAffixNames": [
+                        "of Unmaking"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Lengthening",
+                      "selectedAffixNames": [
+                        "of Lengthening"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Skill Effect Duration",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Osmosis",
+                      "selectedAffixNames": [
+                        "of Osmosis"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Mind",
+                      "selectedAffixNames": [
+                        "of Mind"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Supremacy",
+                      "selectedAffixNames": [
+                        "of Supremacy"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "#% increased Effect of Notable Passive Skills in Radius",
+                          "minRoll": 15,
+                          "minRolls": [
+                            15
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Enchanting",
+                      "selectedAffixNames": [
+                        "of Enchanting"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Cast Speed",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Generation",
+                      "selectedAffixNames": [
+                        "of Generation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Meta Skills gain #% increased Energy",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilation",
+                      "selectedAffixNames": [
+                        "of Annihilation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": true
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Crafted Prefix Modifier",
+                  "affixName": "CraftedJewelRadiusExtraLargeSize",
+                  "selectedAffixNames": [
+                    "CraftedJewelRadiusExtraLargeSize"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Very Large",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Very Large",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Desecrated Prefix Modifier",
+                  "affixName": "Lightless",
+                  "selectedAffixNames": [
+                    "Lightless"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Mana",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Mana",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "done",
+        "stepIndex": 0,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "abort",
+        "stepIndex": 0,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u0428\u0430\u0433 19",
+      "action": "walkToPosition",
+      "omenConfig": null,
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": {
+        "keyPresses": [
+          {
+            "keys": [
+              "W",
+              "D"
+            ],
+            "durationMs": 5000
+          }
+        ],
+        "pressEscapeFirst": false
+      },
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
       "entryCondition": null,
       "loopUntil": null,
       "maxIterations": 100,
@@ -1943,6 +5043,488 @@
       "onFailure": {
         "target": "abort",
         "stepIndex": 0,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u0428\u0430\u0433 22",
+      "action": "clickTemplate",
+      "omenConfig": null,
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": {
+        "templatePath": "C:\\Users\\VVK\\GameHelper\\bin\\Release\\net10.0-windows10.0.17763.0\\Templates\\template_20260711_165130.png",
+        "searchRect": {
+          "x": 362,
+          "y": 219,
+          "width": 2223,
+          "height": 1581,
+          "center": {}
+        },
+        "matchThreshold": 0.8,
+        "colorTolerance": 30,
+        "clickDelayMs": 500
+      },
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": null,
+      "loopUntil": null,
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "next",
+        "stepIndex": 0,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "abort",
+        "stepIndex": 0,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u0428\u0430\u0433 23",
+      "action": "desecrateReveal",
+      "omenConfig": null,
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": {
+        "revealButtonArea": {
+          "x": 1132,
+          "y": 1633,
+          "width": 315,
+          "height": 66,
+          "center": {}
+        },
+        "afterRevealDelayMs": 1500,
+        "revealSlotArea": {
+          "x": 1174,
+          "y": 703,
+          "width": 233,
+          "height": 427,
+          "center": {}
+        },
+        "ctrlClickDelayMs": 500,
+        "pickConfig": {
+          "revealArea": {
+            "x": 799,
+            "y": 1148,
+            "width": 978,
+            "height": 457,
+            "center": {}
+          },
+          "itemName": "",
+          "itemClass": "Time-Lost Sapphire Jewels",
+          "allModsFromDesecratePool": false,
+          "pickCondition": {
+            "expectedItemClass": "Time-Lost Sapphire Jewels",
+            "expectedItemSubType": "",
+            "expectedItemIlvl": 0,
+            "craftOrbName": "",
+            "negate": false,
+            "orAlternatives": [
+              {
+                "clauses": [
+                  {
+                    "kind": "single",
+                    "negate": false,
+                    "single": {
+                      "affixType": "Desecrated Prefix Modifier",
+                      "affixName": "Lightless",
+                      "selectedAffixNames": [
+                        "Lightless"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Mana",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ],
+                      "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Mana",
+                      "minRoll": 0,
+                      "minRolls": [
+                        0
+                      ]
+                    },
+                    "sum": null,
+                    "count": null,
+                    "whole": null,
+                    "affixCount": null,
+                    "desecrateSide": "any"
+                  }
+                ]
+              }
+            ]
+          },
+          "clickDelayMs": 600,
+          "confirmButtonArea": {
+            "x": 1136,
+            "y": 1635,
+            "width": 303,
+            "height": 52,
+            "center": {}
+          },
+          "autoConfirm": true,
+          "revealSections": 3,
+          "useReroll": true,
+          "rerollButtonArea": {
+            "x": 1713,
+            "y": 1634,
+            "width": 67,
+            "height": 59,
+            "center": {}
+          },
+          "afterRerollDelayMs": 1500
+        }
+      },
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": null,
+      "loopUntil": null,
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "done",
+        "stepIndex": 0,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "next",
+        "stepIndex": 0,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u0428\u0430\u0433 25",
+      "action": "checkItem",
+      "omenConfig": null,
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": null,
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": null,
+      "loopUntil": {
+        "expectedItemClass": "Time-Lost Sapphire Jewels",
+        "expectedItemSubType": "",
+        "expectedItemIlvl": 0,
+        "craftOrbName": "",
+        "negate": false,
+        "orAlternatives": [
+          {
+            "clauses": [
+              {
+                "kind": "count",
+                "negate": false,
+                "single": null,
+                "sum": null,
+                "count": {
+                  "minMatchCount": 3,
+                  "members": [
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Potency",
+                      "selectedAffixNames": [
+                        "of Potency"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilating",
+                      "selectedAffixNames": [
+                        "of Annihilating"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance for Spells",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Unmaking",
+                      "selectedAffixNames": [
+                        "of Unmaking"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
+                          "minRoll": 5,
+                          "minRolls": [
+                            5
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Lengthening",
+                      "selectedAffixNames": [
+                        "of Lengthening"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Skill Effect Duration",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Osmosis",
+                      "selectedAffixNames": [
+                        "of Osmosis"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Mind",
+                      "selectedAffixNames": [
+                        "of Mind"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Supremacy",
+                      "selectedAffixNames": [
+                        "of Supremacy"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "#% increased Effect of Notable Passive Skills in Radius",
+                          "minRoll": 15,
+                          "minRolls": [
+                            15
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Enchanting",
+                      "selectedAffixNames": [
+                        "of Enchanting"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Cast Speed",
+                          "minRoll": 1,
+                          "minRolls": [
+                            1
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Generation",
+                      "selectedAffixNames": [
+                        "of Generation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant Meta Skills gain #% increased Energy",
+                          "minRoll": 2,
+                          "minRolls": [
+                            2
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "affixType": "Suffix Modifier",
+                      "affixName": "of Annihilation",
+                      "selectedAffixNames": [
+                        "of Annihilation"
+                      ],
+                      "affixTier": 1,
+                      "lines": [
+                        {
+                          "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance",
+                          "minRoll": 3,
+                          "minRolls": [
+                            3
+                          ]
+                        }
+                      ]
+                    }
+                  ],
+                  "includeFractured": true
+                },
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Crafted Prefix Modifier",
+                  "affixName": "CraftedJewelRadiusExtraLargeSize",
+                  "selectedAffixNames": [
+                    "CraftedJewelRadiusExtraLargeSize"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Upgrades Radius to Very Large",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Upgrades Radius to Very Large",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              },
+              {
+                "kind": "single",
+                "negate": false,
+                "single": {
+                  "affixType": "Desecrated Prefix Modifier",
+                  "affixName": "Lightless",
+                  "selectedAffixNames": [
+                    "Lightless"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Mana",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ],
+                  "statTemplate": "Notable Passive Skills in Radius also grant 1% increased maximum Mana",
+                  "minRoll": 0,
+                  "minRolls": [
+                    0
+                  ]
+                },
+                "sum": null,
+                "count": null,
+                "whole": null,
+                "affixCount": null,
+                "desecrateSide": "any"
+              }
+            ]
+          }
+        ]
+      },
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "done",
+        "stepIndex": 0,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "next",
+        "stepIndex": 14,
+        "message": ""
+      }
+    },
+    {
+      "name": "\u0428\u0430\u0433 20",
+      "action": "walkToPosition",
+      "omenConfig": null,
+      "deliriumLiquidConfig": null,
+      "travelConfig": null,
+      "walkConfig": {
+        "keyPresses": [
+          {
+            "keys": [
+              "S",
+              "A"
+            ],
+            "durationMs": 5000
+          }
+        ],
+        "pressEscapeFirst": false
+      },
+      "templateConfig": null,
+      "desecratePickConfig": null,
+      "desecrateRevealConfig": null,
+      "clickRegionConfig": null,
+      "abyssalBoneId": null,
+      "currencyId": null,
+      "entryCondition": null,
+      "loopUntil": null,
+      "maxIterations": 100,
+      "onSuccess": {
+        "target": "step",
+        "stepIndex": 14,
+        "message": ""
+      },
+      "onFailure": {
+        "target": "abort",
+        "stepIndex": 14,
         "message": ""
       }
     }

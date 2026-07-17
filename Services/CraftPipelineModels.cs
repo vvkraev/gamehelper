@@ -104,6 +104,11 @@ public sealed class OmenActionConfig
     public int InventoryRow { get; set; }
     /// <summary>Столбец ячейки назначения в инвентаре (0-based).</summary>
     public int InventoryCol { get; set; }
+    /// <summary>
+    /// Если true — количество перекладываемых оменов = числу активных предметов в батче (не Failed).
+    /// Используется для омена Abyssal Echo, который нужен по одному на каждый reveal.
+    /// </summary>
+    public bool UseActiveBatchCount { get; set; } = false;
 }
 
 /// <summary>Конфигурация перехода между локациями через Waypoint.</summary>
