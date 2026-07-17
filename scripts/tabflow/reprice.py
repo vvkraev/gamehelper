@@ -36,7 +36,7 @@ PATIENCE_WITH_HISTORY_H = 12   # ч если есть продажи ≤ 6ч
 FAST_SALE_THRESHOLD_H   = 6    # порог "быстрой" продажи
 DIVINE_STEP             = 1    # шаг снижения в divine
 CHAOS_STEP_PCT          = 0.10 # шаг снижения в chaos — ~10% от текущей цены
-CHAOS_MIN               = 3    # минимальная цена в chaos
+CHAOS_MIN               = 1    # технический минимум; бизнес-пол задаётся floor_index
 CHAOS_THRESHOLD_D       = 5.0  # ≤ этого divine → переходим в chaos
 LAST_N_VELOCITY_DAYS    = 14   # учитываем продажи за последние N дней
 
