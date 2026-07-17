@@ -6503,6 +6503,47 @@ public partial class MainWindow : Window
             log:                  progress,
             ct:                   ct);
         Report($"Переоценка: {done} готово, {delisted} на рефордж, {skipped} пропущено.");
+
+        ct.ThrowIfCancellationRequested();
+
+        // 4. Рефордж «3 в 1» — если есть снятые предметы в инвентаре
+        if (delisted > 0)
+        {
+            var fillCount    = RfParseInt(FragmentFillCountBox.Text, 60);
+            var reforgeQueue = Services.TabletReforgeQueue.Count;
+            var reforgeInv   = _reforgeState.ItemCells.Count > 0
+                                   ? (IReadOnlyList<ScreenRect>)_reforgeState.ItemCells
+                                   : [];
+
+            var tabletReforge = new Services.TabletReforgeService(_rfService)
+            {
+                ActionDelayMs   = RfParseInt(TabletScanHoverBox.Text, 300),
+                TransferDelayMs = RfParseInt(FragmentTransferDelayBox.Text, 300),
+            };
+
+            if (reforgeQueue >= fillCount && reforgeInv.Count > 0
+                && _fragmentGridCells.Count > 0)
+            {
+                Report($"[Рефордж] Очередь {reforgeQueue} ≥ {fillCount} — запускаем цикл...");
+                await tabletReforge.RunAsync(
+                    reforgeInv,
+                    _fragmentStashTabRect, _fragmentSubTabTabletsRect, _fragmentGridCells,
+                    _reforgeState.Slot1Rect, _reforgeState.Slot2Rect, _reforgeState.Slot3Rect,
+                    _reforgeState.ConfirmRect, _reforgeState.ResultRect,
+                    targetCount: fillCount,
+                    log:         progress,
+                    ct:          ct);
+            }
+            else if (reforgeInv.Count > 0)
+            {
+                // Предметы в инвентаре, но очередь ещё не полная — просто сбрасываем в стэш
+                Report($"[Рефордж] Очередь {reforgeQueue}/{fillCount} — сброс в стэш...");
+                await tabletReforge.DumpInventoryToStashAsync(
+                    reforgeInv,
+                    _fragmentStashTabRect, _fragmentSubTabTabletsRect,
+                    log: progress, ct: ct);
+            }
+        }
     }
 
     private void Report(string msg) =>

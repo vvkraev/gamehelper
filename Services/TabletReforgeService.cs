@@ -96,6 +96,34 @@ public sealed class TabletReforgeService
         }
     }
 
+    /// <summary>
+    /// Только сброс инвентаря в стэш — без рефорджа.
+    /// Вызывается когда после Delist предметы оказались в инвентаре,
+    /// но очередь рефорджа ещё не накопила targetCount.
+    /// </summary>
+    public async Task DumpInventoryToStashAsync(
+        IReadOnlyList<ScreenRect> inventoryCells,
+        ScreenRect fragmentStashTabRect,
+        ScreenRect fragmentSubTabTabletsRect,
+        IProgress<string>? log,
+        CancellationToken ct)
+    {
+        _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
+        await Task.Delay(80, ct).ConfigureAwait(false);
+
+        try
+        {
+            log?.Report("[Рефордж] Сбрасываем снятые предметы в стэш...");
+            await NavigateToFragmentTabletsAsync(fragmentStashTabRect, fragmentSubTabTabletsRect, ct);
+            await DumpInventoryToStashAsync(inventoryCells, ct);
+            log?.Report($"[Рефордж] Сброшено в стэш. Очередь: {TabletReforgeQueue.Count} шт.");
+        }
+        finally
+        {
+            Win32Input.ReleaseCtrlAlt();
+        }
+    }
+
     // ── Навигация ─────────────────────────────────────────────────────────────
 
     private async Task NavigateToFragmentTabletsAsync(
