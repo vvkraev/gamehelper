@@ -6456,6 +6456,22 @@ public partial class MainWindow : Window
         List<(ScreenRect, IReadOnlyList<ScreenRect>)> shopTabs,
         string sessid, string league, bool dryRun, CancellationToken ct)
     {
+        // Читаем все UI-значения на UI-потоке — метод выполняется в Task.Run
+        var (actionMs, clipMs, traderOcrText, manageShopOcrText, traderDelayMs,
+             fillCount, transferMs, stashOcrText, stashCheckText, stashDelayMs) =
+            Dispatcher.Invoke(() => (
+                RfParseInt(TabletScanHoverBox.Text, 300),
+                RfParseInt(TabletScanClipboardDelayBox.Text, 220),
+                RepricingTraderOcrTextBox.Text.Trim(),
+                RepricingManageShopOcrTextBox.Text.Trim(),
+                RfParseInt(RepricingTraderOpenDelayBox.Text, 1000),
+                RfParseInt(FragmentFillCountBox.Text, 60),
+                RfParseInt(FragmentTransferDelayBox.Text, 300),
+                StashOcrTextBox.Text.Trim(),
+                StashIsOpenCheckTextBox.Text.Trim(),
+                RfParseInt(RfStashOpenDelayBox.Text, 3000)
+            ));
+
         // 1. Fetch продаж
         if (!string.IsNullOrWhiteSpace(sessid))
         {
@@ -6509,13 +6525,10 @@ public partial class MainWindow : Window
         }
         else
         {
-            var actionMs = RfParseInt(TabletScanHoverBox.Text, 300);
             var angeOk = await Services.GameUiHelper.EnsureAngeOpenAsync(
-                _repricingTraderOcrRect,
-                RepricingTraderOcrTextBox.Text.Trim(),
-                _repricingManageShopOcrRect,
-                RepricingManageShopOcrTextBox.Text.Trim(),
-                traderOpenDelayMs: RfParseInt(RepricingTraderOpenDelayBox.Text, 1000),
+                _repricingTraderOcrRect, traderOcrText,
+                _repricingManageShopOcrRect, manageShopOcrText,
+                traderOpenDelayMs: traderDelayMs,
                 mouseDelayMs:      actionMs,
                 log:               progress,
                 ct:                ct);
@@ -6528,7 +6541,7 @@ public partial class MainWindow : Window
             var svc = new Services.SmartRepricingService
             {
                 ActionDelayMs    = actionMs,
-                ClipboardDelayMs = RfParseInt(TabletScanClipboardDelayBox.Text, 220),
+                ClipboardDelayMs = clipMs,
             };
             (done, skipped, delisted) = await svc.ExecutePlanAsync(
                 plan, shopTabs,
@@ -6544,7 +6557,6 @@ public partial class MainWindow : Window
         ct.ThrowIfCancellationRequested();
 
         // 4. Рефордж «3 в 1»
-        var fillCount    = RfParseInt(FragmentFillCountBox.Text, 60);
         var reforgeQueue = Services.TabletReforgeQueue.Count;
 
         if (dryRun)
@@ -6562,16 +6574,14 @@ public partial class MainWindow : Window
 
             var tabletReforge = new Services.TabletReforgeService(_rfService)
             {
-                ActionDelayMs   = RfParseInt(TabletScanHoverBox.Text, 300),
-                TransferDelayMs = RfParseInt(FragmentTransferDelayBox.Text, 300),
+                ActionDelayMs   = actionMs,
+                TransferDelayMs = transferMs,
             };
 
             var stashCfg = new Services.StashOpenConfig(
-                _stashOcrSearchRect,
-                StashOcrTextBox.Text.Trim(),
-                _stashIsOpenCheckRect,
-                StashIsOpenCheckTextBox.Text.Trim(),
-                RfParseInt(RfStashOpenDelayBox.Text, 3000));
+                _stashOcrSearchRect, stashOcrText,
+                _stashIsOpenCheckRect, stashCheckText,
+                stashDelayMs);
 
             if (reforgeQueue >= fillCount && reforgeInv.Count > 0 && _fragmentGridCells.Count > 0)
             {
