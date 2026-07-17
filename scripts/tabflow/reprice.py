@@ -25,11 +25,12 @@ import re
 from datetime import datetime, timedelta
 from pathlib import Path
 
-ROOT           = Path(__file__).resolve().parent.parent.parent
-INDEX_PATH     = ROOT / "vault" / "tabflow" / "listings_index.json"
-PLAN_PATH      = ROOT / "vault" / "tabflow" / "reprice_plan.json"
-NINJA_PATH     = ROOT / "poe_ninja_prices.json"
-OVERRIDES_PATH = ROOT / "vault" / "tabflow" / "miss_overrides.json"
+ROOT              = Path(__file__).resolve().parent.parent.parent
+INDEX_PATH        = ROOT / "vault" / "tabflow" / "listings_index.json"
+PLAN_PATH         = ROOT / "vault" / "tabflow" / "reprice_plan.json"
+NINJA_PATH        = ROOT / "poe_ninja_prices.json"
+OVERRIDES_PATH    = ROOT / "vault" / "tabflow" / "miss_overrides.json"
+FLOOR_PRICES_PATH = ROOT / "vault" / "tabflow" / "floor_prices.json"
 
 PATIENCE_NO_HISTORY_H   = 2    # ч без данных о продажах
 PATIENCE_WITH_HISTORY_H = 4    # ч если есть продажи ≤ 2ч
@@ -38,13 +39,31 @@ PATIENCE_SALE_MULT      = 3.0  # множитель patience если есть �
                                 # (доказанная цена → снижаем медленнее)
 DIVINE_STEP             = 1    # шаг снижения в divine
 CHAOS_STEP_PCT          = 0.10 # шаг снижения в chaos — ~10% от текущей цены
-MIN_PRICE_DIVINE        = 0.5  # абсолютный минимум в divine (≈ рефордж-флор Ritual Tablet)
+MIN_PRICE_DIVINE        = 0.5  # fallback если floor_prices.json недоступен
 CHAOS_THRESHOLD_D       = 5.0  # ≤ этого divine → переходим в chaos
 LAST_N_VELOCITY_DAYS    = 14   # учитываем продажи за последние N дней
 LAST_SALE_MARKUP_PCT    = 0.10 # наценка над ценой последней продажи при первом листинге
 
 from mod_utils import mod_template, mod_set as mod_key
 from currency import CurrencyConverter
+
+# ── Автоматический флор из floor_prices.json ─────────────────────────────────
+
+def market_floor_divine(base_type: str) -> float:
+    """
+    Возвращает p10-флор для base_type из floor_prices.json.
+    Если файл недоступен или тип не найден — возвращает MIN_PRICE_DIVINE.
+    """
+    try:
+        data   = json.loads(FLOOR_PRICES_PATH.read_text(encoding="utf-8"))
+        floors = data.get("floors") or {}
+        entry  = floors.get(base_type)
+        if entry and (v := entry.get("p10_divine")):
+            return float(v)
+    except Exception:
+        pass
+    return MIN_PRICE_DIVINE
+
 
 # ── Miss overrides (floor-защита) ────────────────────────────────────────────
 
@@ -145,9 +164,10 @@ def chaos_step(price: float) -> int:
 
 
 def calc_new_price(current_price: float, currency: str,
-                   cc: CurrencyConverter) -> tuple[float, str, str]:
+                   cc: CurrencyConverter,
+                   min_price_d: float = MIN_PRICE_DIVINE) -> tuple[float, str, str]:
     """Возвращает (new_price, new_currency, reason)."""
-    chaos_min_c = max(1, cc.to_chaos_int(MIN_PRICE_DIVINE))
+    chaos_min_c = max(1, cc.to_chaos_int(min_price_d))
 
     if currency == "chaos":
         step = chaos_step(current_price)
@@ -179,7 +199,7 @@ def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
     plan            = []
 
     print(f"Незакрытых листингов: {len(unsold)}   chaos/divine: {cpd:.1f}  "
-          f"min_price: {cc.format_str(MIN_PRICE_DIVINE)}")
+          f"min_price: {cc.format_str(MIN_PRICE_DIVINE)} (fallback)")
     print(f"Данные о скорости: {sum(len(v) for v in velocity.values())} продаж по "
           f"{len(velocity)} комбинациям модов")
     print(f"Прецеденты продаж: {len(last_sale_index)} комбинаций модов")
@@ -207,7 +227,9 @@ def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
                   f"возраст {age_h:.1f}ч < выдержка {patience}ч — пропуск")
             continue
 
-        new_price, new_cur, reason = calc_new_price(current, cur, cc)
+        base_type_str = e.get("baseType") or ""
+        min_price_d   = market_floor_divine(base_type_str)
+        new_price, new_cur, reason = calc_new_price(current, cur, cc, min_price_d)
 
         floor         = floor_for_entry(e, floor_index)
         last_sale_d   = last_sale_index.get(mod_k)  # max доказанная цена в divine
@@ -217,13 +239,13 @@ def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
         new_price_d = cc.to_divine(new_price, new_cur)
 
         # ── Достигли абсолютного флора → снимаем на рефордж ──────────────
-        chaos_min_c   = max(1, cc.to_chaos_int(MIN_PRICE_DIVINE))
+        chaos_min_c   = max(1, cc.to_chaos_int(min_price_d))
         at_chaos_min  = (new_cur == "chaos" and new_price <= chaos_min_c
                          and new_price == current and cur == "chaos")
         at_miss_floor = (floor is not None and current_d <= floor)
 
         if at_chaos_min or at_miss_floor:
-            floor_label = f"{floor}d" if floor is not None else cc.format_str(MIN_PRICE_DIVINE)
+            floor_label = f"{floor}d" if floor is not None else cc.format_str(min_price_d)
             print(f"  ♻ [{e['col']},{e['row']}] {e.get('baseType')} {current}{cur[0]}  "
                   f"флор {floor_label} — на рефордж")
             plan.append({
