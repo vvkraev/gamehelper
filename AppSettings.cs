@@ -297,6 +297,8 @@ public sealed class AppSettings
     // ── TabFlow: листинг у Ange ──────────────────────────────────────────────
     /// <summary>Вкладка табличек в магазине Ange (кнопка открывает ячейки табличек).</summary>
     public ScreenRect AngeTabletTabRect { get; set; }
+    /// <summary>Под-вкладка внутри магазина Ange, которую нужно нажать до отображения витрины.</summary>
+    public ScreenRect AngeShopSubTabRect { get; set; }
     /// <summary>Сетка ячеек в магазине Ange для табличек.</summary>
     public List<ScreenRect>? AngeTabletCells { get; set; }
     /// <summary>Поле ввода числа в диалоге «Set Item Price» (чёрный прямоугольник слева).</summary>

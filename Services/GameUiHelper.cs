@@ -149,7 +149,8 @@ public static class GameUiHelper
         ScreenRect manageShopOcrRect, string manageShopOcrText,
         int traderOpenDelayMs, int mouseDelayMs,
         IProgress<string>? log,
-        CancellationToken ct)
+        CancellationToken ct,
+        ScreenRect shopSubTabRect = default)
     {
         var shopTarget = WindowsOcrTextLocator.NormalizeForMatch(manageShopOcrText);
 
@@ -162,6 +163,7 @@ public static class GameUiHelper
             {
                 log?.Report("[Ange] Manage Shop уже видна — кликаем.");
                 await ClickManageShopAsync(existing.Value.BoundsOnScreen, mouseDelayMs, traderOpenDelayMs, ct);
+                await ClickShopSubTabIfSetAsync(shopSubTabRect, mouseDelayMs, ct);
                 return true;
             }
         }
@@ -194,6 +196,7 @@ public static class GameUiHelper
         if (manageShopOcrRect.Width <= 0 || string.IsNullOrEmpty(shopTarget))
         {
             log?.Report("[Ange] OCR-область Manage Shop не задана — торговец открыт, но shop не выбран.");
+            await ClickShopSubTabIfSetAsync(shopSubTabRect, mouseDelayMs, ct);
             return true;
         }
 
@@ -208,7 +211,18 @@ public static class GameUiHelper
 
         log?.Report("[Ange] Кликаем Manage Shop…");
         await ClickManageShopAsync(shopMatch.Value.BoundsOnScreen, mouseDelayMs, traderOpenDelayMs, ct);
+        await ClickShopSubTabIfSetAsync(shopSubTabRect, mouseDelayMs, ct);
         return true;
+    }
+
+    private static async Task ClickShopSubTabIfSetAsync(ScreenRect subTabRect, int mouseDelayMs, CancellationToken ct)
+    {
+        if (subTabRect.Width <= 0 || subTabRect.Height <= 0) return;
+        var (sx, sy) = subTabRect.GetInteriorPoint(1);
+        Win32Input.MoveTo(sx, sy);
+        await Task.Delay(mouseDelayMs, ct).ConfigureAwait(false);
+        Win32Input.ClickLeft();
+        await Task.Delay(mouseDelayMs, ct).ConfigureAwait(false);
     }
 
     // Manage Shop всегда на 500-540px ниже торговца; кликаем в 12px от нижней границы

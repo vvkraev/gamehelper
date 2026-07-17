@@ -1783,6 +1783,20 @@
                                         Click="AngeTabletTabPick_Click"/>
                             </Grid>
 
+                            <!-- Под-вкладка Ange (shop sub-tab) -->
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Под-вкладка витрины Ange:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="AngeShopSubTabInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="AngeShopSubTabPick_Click"/>
+                            </Grid>
+
                             <!-- Ячейки Ange -->
                             <Grid Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>

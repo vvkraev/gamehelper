@@ -135,6 +135,7 @@ public partial class MainWindow : Window
     // Результаты последнего скана: ячейка → предсказанная цена в divine + текст предмета
     private List<(ScreenRect Cell, double Price, string ItemText)> _lastScanPrices = new();
     private ScreenRect _angeTabletTabRect;
+    private ScreenRect _angeShopSubTabRect;
     private List<ScreenRect> _angeTabletCells = new();
     private ScreenRect _listingPriceInputRect;
     private ScreenRect _listingCurrencyDropdownRect;
@@ -1061,6 +1062,8 @@ public partial class MainWindow : Window
 
         _angeTabletTabRect          = s.AngeTabletTabRect;
         AngeTabletTabInfo.Text      = _angeTabletTabRect.Width > 0 ? FormatRect(_angeTabletTabRect) : "не задана";
+        _angeShopSubTabRect         = s.AngeShopSubTabRect;
+        AngeShopSubTabInfo.Text     = _angeShopSubTabRect.Width > 0 ? FormatRect(_angeShopSubTabRect) : "не задана";
         _angeTabletCells            = s.AngeTabletCells is { Count: > 0 } atc ? atc.ToList() : new();
         AngeTabletCellsInfo.Text    = _angeTabletCells.Count > 0 ? $"{_angeTabletCells.Count} ячеек" : "не задана";
         _listingPriceInputRect      = s.ListingPriceInputRect;
@@ -1264,6 +1267,7 @@ public partial class MainWindow : Window
         s.TabletScanClipboardDelayMs       = RfParseInt(TabletScanClipboardDelayBox.Text, 220);
         s.TabFlowRepriceCycleIntervalMin   = RfParseInt(TabFlowCycleIntervalBox.Text, 30);
         s.AngeTabletTabRect          = _angeTabletTabRect;
+        s.AngeShopSubTabRect         = _angeShopSubTabRect;
         s.AngeTabletCells            = _angeTabletCells.Count > 0 ? _angeTabletCells : null;
         s.ListingPriceInputRect      = _listingPriceInputRect;
         s.ListingCurrencyDropdownRect = _listingCurrencyDropdownRect;
@@ -6149,6 +6153,15 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
+    private void AngeShopSubTabPick_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _angeShopSubTabRect = r;
+        AngeShopSubTabInfo.Text = FormatRect(_angeShopSubTabRect);
+        SaveSettings();
+    }
+
     private void AngeTabletCellsPick_Click(object sender, RoutedEventArgs e)
     {
         var dimDlg = new ItemGridDimensionsDialog { Owner = this };
@@ -6429,8 +6442,11 @@ public partial class MainWindow : Window
             _listingCts = iterCts;
             var iterCt = iterCts.Token;
 
-            TryRegisterCraftCancelHotkey();
-            MinimizeToTrayOnStart();
+            Dispatcher.Invoke(() =>
+            {
+                TryRegisterCraftCancelHotkey();
+                MinimizeToTrayOnStart();
+            });
             try
             {
                 await RunTabFlowIterationAsync(shopTabs, sessid, league, dryRun, iterCt);
@@ -6442,8 +6458,11 @@ public partial class MainWindow : Window
             }
             finally
             {
-                UnregisterCraftCancelHotkey();
-                Dispatcher.Invoke(RestoreFromTray);
+                Dispatcher.Invoke(() =>
+                {
+                    UnregisterCraftCancelHotkey();
+                    RestoreFromTray();
+                });
             }
 
             loopCt.ThrowIfCancellationRequested();
@@ -6531,7 +6550,8 @@ public partial class MainWindow : Window
                 traderOpenDelayMs: traderDelayMs,
                 mouseDelayMs:      actionMs,
                 log:               progress,
-                ct:                ct);
+                ct:                ct,
+                shopSubTabRect:    _angeShopSubTabRect);
             if (!angeOk)
             {
                 Report("Не удалось открыть магазин Ange — переоценка пропущена.");
@@ -6603,8 +6623,11 @@ public partial class MainWindow : Window
         }
     }
 
-    private void Report(string msg) =>
+    private void Report(string msg)
+    {
+        Services.SessionLogger.Info(msg);
         Dispatcher.Invoke(() => ListingStatusText.Text = msg);
+    }
 
     private async void SmartRepricingBtn_Click(object sender, RoutedEventArgs e)
     {
@@ -6656,7 +6679,8 @@ public partial class MainWindow : Window
                 traderOpenDelayMs: RfParseInt(RepricingTraderOpenDelayBox.Text, 1000),
                 mouseDelayMs:      actionMs2,
                 log:               progress,
-                ct:                ct).ConfigureAwait(true);
+                ct:                ct,
+                shopSubTabRect:    _angeShopSubTabRect).ConfigureAwait(true);
             if (!angeOk2)
             {
                 ListingStatusText.Text = "Не удалось открыть магазин Ange.";
