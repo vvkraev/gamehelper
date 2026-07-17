@@ -35,7 +35,7 @@ PATIENCE_NO_HISTORY_H   = 6    # ч без данных о продажах
 PATIENCE_WITH_HISTORY_H = 12   # ч если есть продажи ≤ 6ч
 FAST_SALE_THRESHOLD_H   = 6    # порог "быстрой" продажи
 DIVINE_STEP             = 1    # шаг снижения в divine
-CHAOS_STEP              = 3    # шаг снижения в chaos
+CHAOS_STEP_PCT          = 0.10 # шаг снижения в chaos — ~10% от текущей цены
 CHAOS_MIN               = 3    # минимальная цена в chaos
 CHAOS_THRESHOLD_D       = 5.0  # ≤ этого divine → переходим в chaos
 LAST_N_VELOCITY_DAYS    = 14   # учитываем продажи за последние N дней
@@ -126,6 +126,11 @@ def patience_hours(mod_k: frozenset, velocity: dict[frozenset, list[int]]) -> in
 
 # ── Расчёт новой цены ─────────────────────────────────────────────────────────
 
+def chaos_step(price: float) -> int:
+    """Адаптивный шаг снижения в chaos: ~10% от текущей цены, минимум 1."""
+    return max(1, round(price * CHAOS_STEP_PCT))
+
+
 def calc_new_price(current_price: float, currency: str,
                    cpd: float) -> tuple[float, str, str]:
     """
@@ -133,17 +138,19 @@ def calc_new_price(current_price: float, currency: str,
     cpd = chaos per divine.
     """
     if currency == "chaos":
-        new = max(CHAOS_MIN, current_price - CHAOS_STEP)
-        return new, "chaos", f"chaos −{CHAOS_STEP}c"
+        step = chaos_step(current_price)
+        new  = max(CHAOS_MIN, current_price - step)
+        return new, "chaos", f"chaos −{step}c"
 
     # divine
     if current_price > CHAOS_THRESHOLD_D:
         return current_price - DIVINE_STEP, "divine", f"divine −{DIVINE_STEP}d"
 
     # ≤ 5d → конвертируем в chaos
-    in_chaos     = round(current_price * cpd)
-    new_chaos    = max(CHAOS_MIN, in_chaos - CHAOS_STEP)
-    return new_chaos, "chaos", f"переход divine→chaos ({in_chaos}c −{CHAOS_STEP}c)"
+    in_chaos  = round(current_price * cpd)
+    step      = chaos_step(in_chaos)
+    new_chaos = max(CHAOS_MIN, in_chaos - step)
+    return new_chaos, "chaos", f"переход divine→chaos ({in_chaos}c −{step}c)"
 
 # ── Основная логика ───────────────────────────────────────────────────────────
 
