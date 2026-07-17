@@ -6377,6 +6377,7 @@ public partial class MainWindow : Window
         var loopCt = _loopCts.Token;
 
         var intervalMin = RfParseInt(TabFlowCycleIntervalBox.Text, 30);
+        var dryRun      = TabFlowDryRunCheckBox.IsChecked == true;
         SaveSettings();
 
         TabFlowLoopStartBtn.IsEnabled = false;
@@ -6386,7 +6387,7 @@ public partial class MainWindow : Window
         {
             try
             {
-                await RunTabFlowLoopAsync(intervalMin, loopCt);
+                await RunTabFlowLoopAsync(intervalMin, dryRun, loopCt);
             }
             finally
             {
@@ -6406,42 +6407,48 @@ public partial class MainWindow : Window
         _listingCts?.Cancel();
     }
 
-    private async Task RunTabFlowLoopAsync(int intervalMin, CancellationToken loopCt)
+    private async Task RunTabFlowLoopAsync(int intervalMin, bool dryRun, CancellationToken loopCt)
     {
         var shopTabs = new List<(ScreenRect, IReadOnlyList<ScreenRect>)>
         {
             (_angeTabletTabRect, _angeTabletCells),
         };
-        var sessid = TradeSessionIdBox.Text.Trim();
-        var league = TradeHistoryLeagueBox.Text.Trim();
+        var sessid = Dispatcher.Invoke(() => TradeSessionIdBox.Text.Trim());
+        var league = Dispatcher.Invoke(() => TradeHistoryLeagueBox.Text.Trim());
         if (string.IsNullOrWhiteSpace(league)) league = "Runes of Aldur";
 
-        Report($"Цикл TabFlow запущен (интервал {intervalMin} мин).");
+        var modeTag = dryRun ? " [DRY-RUN]" : "";
+        Report($"Цикл TabFlow запущен (интервал {intervalMin} мин){modeTag}.");
 
         while (!loopCt.IsCancellationRequested)
         {
-            // Создаём итерационный CTS — добавляем в RequestCancelAll через _listingCts
             _listingCts?.Cancel();
             using var iterCts = CancellationTokenSource.CreateLinkedTokenSource(loopCt);
             _listingCts = iterCts;
             var iterCt = iterCts.Token;
 
-            TryRegisterCraftCancelHotkey();
-            MinimizeToTrayOnStart();
+            // В dry-run не захватываем ввод и не сворачиваемся
+            if (!dryRun)
+            {
+                TryRegisterCraftCancelHotkey();
+                MinimizeToTrayOnStart();
+            }
             try
             {
-                await RunTabFlowIterationAsync(shopTabs, sessid, league, iterCt);
+                await RunTabFlowIterationAsync(shopTabs, sessid, league, dryRun, iterCt);
             }
             catch (OperationCanceledException) when (!loopCt.IsCancellationRequested)
             {
-                // ESC прервал итерацию — продолжаем цикл
                 Dispatcher.Invoke(() => ListingStatusText.Text =
                     $"Итерация прервана. Следующая через {intervalMin} мин...");
             }
             finally
             {
-                UnregisterCraftCancelHotkey();
-                Dispatcher.Invoke(RestoreFromTray);
+                if (!dryRun)
+                {
+                    UnregisterCraftCancelHotkey();
+                    Dispatcher.Invoke(RestoreFromTray);
+                }
             }
 
             loopCt.ThrowIfCancellationRequested();
@@ -6452,7 +6459,7 @@ public partial class MainWindow : Window
 
     private async Task RunTabFlowIterationAsync(
         List<(ScreenRect, IReadOnlyList<ScreenRect>)> shopTabs,
-        string sessid, string league, CancellationToken ct)
+        string sessid, string league, bool dryRun, CancellationToken ct)
     {
         // 1. Fetch продаж
         if (!string.IsNullOrWhiteSpace(sessid))
@@ -6487,33 +6494,60 @@ public partial class MainWindow : Window
         ct.ThrowIfCancellationRequested();
 
         // 3. Выполнение переоценки
-        Report($"Переоценка: {plan.Count} позиций...");
-        var svc = new Services.SmartRepricingService
-        {
-            ActionDelayMs    = RfParseInt(TabletScanHoverBox.Text, 300),
-            ClipboardDelayMs = RfParseInt(TabletScanClipboardDelayBox.Text, 220),
-        };
         var progress = new Progress<string>(msg => Dispatcher.Invoke(() => ListingStatusText.Text = msg));
-        var (done, skipped, delisted) = await svc.ExecutePlanAsync(
-            plan, shopTabs,
-            chaosOrbOcrRect:      _listingDivineOrbOcrRect,
-            priceInputRect:       _listingPriceInputRect,
-            currencyDropdownRect: _listingCurrencyDropdownRect,
-            listItemBtnRect:      _listingListItemBtnRect,
-            log:                  progress,
-            ct:                   ct);
-        Report($"Переоценка: {done} готово, {delisted} на рефордж, {skipped} пропущено.");
+
+        int done = 0, skipped = 0, delisted = 0;
+        if (dryRun)
+        {
+            // Dry-run: логируем план без кликов
+            var reprice = plan.Where(p => p.Action != "delist_for_reforge").ToList();
+            var delist  = plan.Where(p => p.Action == "delist_for_reforge").ToList();
+            Report($"[DRY-RUN] Репрайс: {reprice.Count} позиций, снять на рефордж: {delist.Count}");
+            foreach (var p in reprice)
+                ((IProgress<string>)progress).Report(
+                    $"  [DRY-RUN] 📉 [{p.Col},{p.Row}] {p.BaseType} " +
+                    $"{p.CurrentPrice}{p.CurrentCurrency[0]} → {p.NewPrice}{p.NewCurrency[0]}  ({p.Reason})");
+            foreach (var p in delist)
+                ((IProgress<string>)progress).Report(
+                    $"  [DRY-RUN] ♻ [{p.Col},{p.Row}] {p.BaseType} {p.CurrentPrice}{p.CurrentCurrency[0]} — delist");
+            await Task.Delay(500, ct);
+        }
+        else
+        {
+            var svc = new Services.SmartRepricingService
+            {
+                ActionDelayMs    = RfParseInt(TabletScanHoverBox.Text, 300),
+                ClipboardDelayMs = RfParseInt(TabletScanClipboardDelayBox.Text, 220),
+            };
+            (done, skipped, delisted) = await svc.ExecutePlanAsync(
+                plan, shopTabs,
+                chaosOrbOcrRect:      _listingDivineOrbOcrRect,
+                priceInputRect:       _listingPriceInputRect,
+                currencyDropdownRect: _listingCurrencyDropdownRect,
+                listItemBtnRect:      _listingListItemBtnRect,
+                log:                  progress,
+                ct:                   ct);
+            Report($"Переоценка: {done} готово, {delisted} на рефордж, {skipped} пропущено.");
+        }
 
         ct.ThrowIfCancellationRequested();
 
-        // 4. Рефордж «3 в 1» — если есть снятые предметы в инвентаре
-        if (delisted > 0)
+        // 4. Рефордж «3 в 1»
+        var fillCount    = RfParseInt(FragmentFillCountBox.Text, 60);
+        var reforgeQueue = Services.TabletReforgeQueue.Count;
+
+        if (dryRun)
         {
-            var fillCount    = RfParseInt(FragmentFillCountBox.Text, 60);
-            var reforgeQueue = Services.TabletReforgeQueue.Count;
-            var reforgeInv   = _reforgeState.ItemCells.Count > 0
-                                   ? (IReadOnlyList<ScreenRect>)_reforgeState.ItemCells
-                                   : [];
+            var wouldDelist = plan.Count(p => p.Action == "delist_for_reforge");
+            var queueAfter  = reforgeQueue + wouldDelist;
+            Report($"[DRY-RUN] Очередь рефорджа: {reforgeQueue} + {wouldDelist} = {queueAfter}/{fillCount}" +
+                   (queueAfter >= fillCount ? " → запустил бы цикл рефорджа" : " → накапливаем"));
+        }
+        else if (delisted > 0)
+        {
+            var reforgeInv = _reforgeState.ItemCells.Count > 0
+                                 ? (IReadOnlyList<ScreenRect>)_reforgeState.ItemCells
+                                 : [];
 
             var tabletReforge = new Services.TabletReforgeService(_rfService)
             {
@@ -6521,8 +6555,7 @@ public partial class MainWindow : Window
                 TransferDelayMs = RfParseInt(FragmentTransferDelayBox.Text, 300),
             };
 
-            if (reforgeQueue >= fillCount && reforgeInv.Count > 0
-                && _fragmentGridCells.Count > 0)
+            if (reforgeQueue >= fillCount && reforgeInv.Count > 0 && _fragmentGridCells.Count > 0)
             {
                 Report($"[Рефордж] Очередь {reforgeQueue} ≥ {fillCount} — запускаем цикл...");
                 await tabletReforge.RunAsync(
@@ -6530,17 +6563,13 @@ public partial class MainWindow : Window
                     _fragmentStashTabRect, _fragmentSubTabTabletsRect, _fragmentGridCells,
                     _reforgeState.Slot1Rect, _reforgeState.Slot2Rect, _reforgeState.Slot3Rect,
                     _reforgeState.ConfirmRect, _reforgeState.ResultRect,
-                    targetCount: fillCount,
-                    log:         progress,
-                    ct:          ct);
+                    targetCount: fillCount, log: progress, ct: ct);
             }
             else if (reforgeInv.Count > 0)
             {
-                // Предметы в инвентаре, но очередь ещё не полная — просто сбрасываем в стэш
                 Report($"[Рефордж] Очередь {reforgeQueue}/{fillCount} — сброс в стэш...");
                 await tabletReforge.DumpInventoryToStashAsync(
-                    reforgeInv,
-                    _fragmentStashTabRect, _fragmentSubTabTabletsRect,
+                    reforgeInv, _fragmentStashTabRect, _fragmentSubTabTabletsRect,
                     log: progress, ct: ct);
             }
         }

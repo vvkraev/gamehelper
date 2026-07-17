@@ -1921,6 +1921,10 @@
                                 <TextBox x:Name="TabFlowCycleIntervalBox"
                                          Width="50" Padding="4,3" Text="30"
                                          ToolTip="Интервал между итерациями цикла (минуты)"/>
+                                <CheckBox x:Name="TabFlowDryRunCheckBox"
+                                          Content="Dry-run"
+                                          VerticalAlignment="Center" Margin="16,0,0,0"
+                                          ToolTip="Dry-run: fetch + план без кликов. Все действия логируются, но не выполняются."/>
                             </StackPanel>
 
                             <TextBlock x:Name="ListingStatusText"
