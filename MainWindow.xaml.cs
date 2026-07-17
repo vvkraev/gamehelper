@@ -6427,12 +6427,8 @@ public partial class MainWindow : Window
             _listingCts = iterCts;
             var iterCt = iterCts.Token;
 
-            // В dry-run не захватываем ввод и не сворачиваемся
-            if (!dryRun)
-            {
-                TryRegisterCraftCancelHotkey();
-                MinimizeToTrayOnStart();
-            }
+            TryRegisterCraftCancelHotkey();
+            MinimizeToTrayOnStart();
             try
             {
                 await RunTabFlowIterationAsync(shopTabs, sessid, league, dryRun, iterCt);
@@ -6444,11 +6440,8 @@ public partial class MainWindow : Window
             }
             finally
             {
-                if (!dryRun)
-                {
-                    UnregisterCraftCancelHotkey();
-                    Dispatcher.Invoke(RestoreFromTray);
-                }
+                UnregisterCraftCancelHotkey();
+                Dispatcher.Invoke(RestoreFromTray);
             }
 
             loopCt.ThrowIfCancellationRequested();
