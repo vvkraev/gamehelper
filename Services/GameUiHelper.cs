@@ -185,34 +185,47 @@ public static class GameUiHelper
             return false;
         }
 
-        var (tx, ty) = traderMatch.Value.BoundsOnScreen.GetInteriorPoint(1);
-        log?.Report($"[Ange] Клик по торговцу ({tx},{ty})…");
-        Win32Input.MoveTo(tx, ty);
-        await Task.Delay(mouseDelayMs, ct).ConfigureAwait(false);
-        Win32Input.ClickLeft();
-        await Task.Delay(traderOpenDelayMs, ct).ConfigureAwait(false);
-
-        // Ищем Manage Shop в открывшемся диалоге
+        // До 3 попыток открыть диалог торговца — клик мог не попасть точно в имя
         if (manageShopOcrRect.Width <= 0 || string.IsNullOrEmpty(shopTarget))
         {
+            var (tx0, ty0) = traderMatch.Value.BoundsOnScreen.GetInteriorPoint(1);
+            log?.Report($"[Ange] Клик по торговцу ({tx0},{ty0})…");
+            Win32Input.MoveTo(tx0, ty0);
+            await Task.Delay(mouseDelayMs, ct).ConfigureAwait(false);
+            Win32Input.ClickLeft();
+            await Task.Delay(traderOpenDelayMs, ct).ConfigureAwait(false);
             log?.Report("[Ange] OCR-область Manage Shop не задана — торговец открыт, но shop не выбран.");
             await ClickShopSubTabIfSetAsync(shopSubTabRect, mouseDelayMs, ct);
             return true;
         }
 
-        var shopMatch = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(
-            manageShopOcrRect, shopTarget, log, ct).ConfigureAwait(false);
-
-        if (shopMatch is null)
+        for (int attempt = 1; attempt <= 3; attempt++)
         {
-            log?.Report("[Ange] Manage Shop не найдена после клика на торговца.");
-            return false;
+            ct.ThrowIfCancellationRequested();
+
+            var (tx, ty) = traderMatch.Value.BoundsOnScreen.GetInteriorPoint(1);
+            log?.Report($"[Ange] Клик по торговцу ({tx},{ty}), попытка {attempt}/3…");
+            Win32Input.MoveTo(tx, ty);
+            await Task.Delay(mouseDelayMs, ct).ConfigureAwait(false);
+            Win32Input.ClickLeft();
+            await Task.Delay(traderOpenDelayMs, ct).ConfigureAwait(false);
+
+            var shopMatch = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(
+                manageShopOcrRect, shopTarget, null, ct).ConfigureAwait(false);
+
+            if (shopMatch is not null)
+            {
+                log?.Report("[Ange] Кликаем Manage Shop…");
+                await ClickManageShopAsync(shopMatch.Value.BoundsOnScreen, mouseDelayMs, traderOpenDelayMs, ct);
+                await ClickShopSubTabIfSetAsync(shopSubTabRect, mouseDelayMs, ct);
+                return true;
+            }
+
+            log?.Report($"[Ange] Manage Shop не найдена (попытка {attempt}/3).");
         }
 
-        log?.Report("[Ange] Кликаем Manage Shop…");
-        await ClickManageShopAsync(shopMatch.Value.BoundsOnScreen, mouseDelayMs, traderOpenDelayMs, ct);
-        await ClickShopSubTabIfSetAsync(shopSubTabRect, mouseDelayMs, ct);
-        return true;
+        log?.Report("[Ange] Не удалось открыть диалог торговца после 3 попыток.");
+        return false;
     }
 
     private static async Task ClickShopSubTabIfSetAsync(ScreenRect subTabRect, int mouseDelayMs, CancellationToken ct)
