@@ -136,6 +136,7 @@ public partial class MainWindow : Window
     private List<(ScreenRect Cell, double Price, string ItemText)> _lastScanPrices = new();
     private ScreenRect _angeTabletTabRect;
     private ScreenRect _angeShopSubTabRect;
+    private ScreenRect _angeShopVerifyRect;
     private List<ScreenRect> _angeTabletCells = new();
     private ScreenRect _listingPriceInputRect;
     private ScreenRect _listingCurrencyDropdownRect;
@@ -1064,6 +1065,8 @@ public partial class MainWindow : Window
         AngeTabletTabInfo.Text      = _angeTabletTabRect.Width > 0 ? FormatRect(_angeTabletTabRect) : "не задана";
         _angeShopSubTabRect         = s.AngeShopSubTabRect;
         AngeShopSubTabInfo.Text     = _angeShopSubTabRect.Width > 0 ? FormatRect(_angeShopSubTabRect) : "не задана";
+        _angeShopVerifyRect         = s.AngeShopVerifyRect;
+        AngeShopVerifyInfo.Text     = _angeShopVerifyRect.Width > 0 ? FormatRect(_angeShopVerifyRect) : "не задана";
         _angeTabletCells            = s.AngeTabletCells is { Count: > 0 } atc ? atc.ToList() : new();
         AngeTabletCellsInfo.Text    = _angeTabletCells.Count > 0 ? $"{_angeTabletCells.Count} ячеек" : "не задана";
         _listingPriceInputRect      = s.ListingPriceInputRect;
@@ -1268,6 +1271,7 @@ public partial class MainWindow : Window
         s.TabFlowRepriceCycleIntervalMin   = RfParseInt(TabFlowCycleIntervalBox.Text, 30);
         s.AngeTabletTabRect          = _angeTabletTabRect;
         s.AngeShopSubTabRect         = _angeShopSubTabRect;
+        s.AngeShopVerifyRect         = _angeShopVerifyRect;
         s.AngeTabletCells            = _angeTabletCells.Count > 0 ? _angeTabletCells : null;
         s.ListingPriceInputRect      = _listingPriceInputRect;
         s.ListingCurrencyDropdownRect = _listingCurrencyDropdownRect;
@@ -6162,6 +6166,15 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
+    private void AngeShopVerifyPick_Click(object sender, RoutedEventArgs e)
+    {
+        var dlg = new RegionPickerWindow { Owner = this };
+        if (dlg.ShowDialog() != true || dlg.SelectedRegion is not { } r) return;
+        _angeShopVerifyRect = r;
+        AngeShopVerifyInfo.Text = FormatRect(_angeShopVerifyRect);
+        SaveSettings();
+    }
+
     private void AngeTabletCellsPick_Click(object sender, RoutedEventArgs e)
     {
         var dimDlg = new ItemGridDimensionsDialog { Owner = this };
@@ -6512,10 +6525,10 @@ public partial class MainWindow : Window
 
         ct.ThrowIfCancellationRequested();
 
-        // 2. Обновить флор-цены табличек через GGG Trade API
+        // 2. Обновить флор-цены (пропускается если данные свежее 4 часов)
         if (!string.IsNullOrWhiteSpace(sessid))
         {
-            Report("Обновление флор-цен (floor_fetcher.py)...");
+            Report("Флор-цены: проверка...");
             var floorLog = await Services.SmartRepricingService.FetchFloorPricesAsync(
                 ProjectPaths.GetProjectRoot(), sessid, league, ct).ConfigureAwait(false);
             Report($"Флор: {floorLog}");
@@ -6555,14 +6568,22 @@ public partial class MainWindow : Window
         }
         else
         {
+            ProcessForeground.TryBringProcessToForeground(
+                ProcessForeground.PathOfExile2SteamProcessName);
+            await Task.Delay(500, ct).ConfigureAwait(false);
+
+            Report($"[Ange-DBG] traderRect={_repricingTraderOcrRect.Width}×{_repricingTraderOcrRect.Height} text='{traderOcrText}' " +
+                   $"shopRect={_repricingManageShopOcrRect.Width}×{_repricingManageShopOcrRect.Height} text='{manageShopOcrText}'");
+
             var angeOk = await Services.GameUiHelper.EnsureAngeOpenAsync(
                 _repricingTraderOcrRect, traderOcrText,
                 _repricingManageShopOcrRect, manageShopOcrText,
                 traderOpenDelayMs: traderDelayMs,
                 mouseDelayMs:      actionMs,
-                log:               progress,
+                log:               new Progress<string>(Report),
                 ct:                ct,
-                shopSubTabRect:    _angeShopSubTabRect);
+                shopSubTabRect:    _angeShopSubTabRect,
+                shopVerifyRect:    _angeShopVerifyRect);
             if (!angeOk)
             {
                 Report("Не удалось открыть магазин Ange — переоценка пропущена.");

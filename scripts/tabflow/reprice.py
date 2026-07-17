@@ -212,7 +212,17 @@ def make_plan(entries: list[dict], dry_run: bool) -> list[dict]:
         except Exception:
             continue
 
-        age_h        = (now - listing_dt).total_seconds() / 3600
+        # Возраст считаем от последнего события: листинга или последней переоценки
+        last_reprice_ts = None
+        for rep in (e.get("repricings") or []):
+            try:
+                ts = datetime.fromisoformat(rep["timestamp"].replace("Z", ""))
+                if last_reprice_ts is None or ts > last_reprice_ts:
+                    last_reprice_ts = ts
+            except Exception:
+                pass
+        last_event_dt = last_reprice_ts if last_reprice_ts else listing_dt
+        age_h         = (now - last_event_dt).total_seconds() / 3600
         mod_k        = mod_key(e.get("mods") or [])
         patience     = patience_hours(mod_k, velocity)
         last_sale_d  = last_sale_index.get(mod_k)

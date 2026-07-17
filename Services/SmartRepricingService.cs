@@ -361,16 +361,18 @@ public sealed class SmartRepricingService
     /// Возвращает последнюю строку лога скрипта (или сообщение об ошибке).
     /// </summary>
     public static async Task<string> FetchFloorPricesAsync(
-        string projectRoot, string sessid, string league, CancellationToken ct)
+        string projectRoot, string sessid, string league, CancellationToken ct,
+        bool force = false)
     {
         var wslRoot = projectRoot.Replace('\\', '/');
         if (wslRoot.Length >= 2 && wslRoot[1] == ':')
             wslRoot = "/mnt/" + char.ToLower(wslRoot[0]) + wslRoot[2..];
 
-        var scriptDir = $"{wslRoot}/scripts/tabflow";
-        var python    = $"{scriptDir}/.venv/bin/python3";
-        var script    = $"{scriptDir}/floor_fetcher.py";
-        var args      = $"-e {python} {script} --league \"{league}\" --sessid {sessid}";
+        var scriptDir  = $"{wslRoot}/scripts/tabflow";
+        var python     = $"{scriptDir}/.venv/bin/python3";
+        var script     = $"{scriptDir}/floor_fetcher.py";
+        var forceFlag  = force ? " --force" : "";
+        var args       = $"-e {python} {script} --league \"{league}\" --sessid {sessid}{forceFlag}";
 
         var psi = new ProcessStartInfo("wsl.exe", args)
         {

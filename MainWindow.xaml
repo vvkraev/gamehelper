@@ -1797,6 +1797,20 @@
                                         Click="AngeShopSubTabPick_Click"/>
                             </Grid>
 
+                            <!-- Проверка «Merchant» — подтверждение открытого интерфейса Ange -->
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Область «Merchant» (verify):" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="AngeShopVerifyInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="AngeShopVerifyPick_Click"/>
+                            </Grid>
+
                             <!-- Ячейки Ange -->
                             <Grid Margin="0,0,0,12">
                                 <Grid.ColumnDefinitions>

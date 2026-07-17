@@ -150,9 +150,23 @@ public static class GameUiHelper
         int traderOpenDelayMs, int mouseDelayMs,
         IProgress<string>? log,
         CancellationToken ct,
-        ScreenRect shopSubTabRect = default)
+        ScreenRect shopSubTabRect  = default,
+        ScreenRect shopVerifyRect  = default)
     {
-        var shopTarget = WindowsOcrTextLocator.NormalizeForMatch(manageShopOcrText);
+        var shopTarget   = WindowsOcrTextLocator.NormalizeForMatch(manageShopOcrText);
+        var verifyTarget = "merchant";
+
+        // Витрина уже открыта? (надпись Merchant видна)
+        if (shopVerifyRect.Width > 0)
+        {
+            var alreadyOpen = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(
+                shopVerifyRect, verifyTarget, null, ct).ConfigureAwait(false);
+            if (alreadyOpen is not null)
+            {
+                log?.Report("[Ange] Merchant уже виден — витрина открыта.");
+                return true;
+            }
+        }
 
         // Диалог уже открыт? Manage Shop уже видна?
         if (manageShopOcrRect.Width > 0 && !string.IsNullOrEmpty(shopTarget))
@@ -162,9 +176,9 @@ public static class GameUiHelper
             if (existing is not null)
             {
                 log?.Report("[Ange] Manage Shop уже видна — кликаем.");
-                await ClickManageShopAsync(existing.Value.BoundsOnScreen, mouseDelayMs, traderOpenDelayMs, ct);
+                await ClickManageShopAsync(existing.Value.BoundsOnScreen, mouseDelayMs, traderOpenDelayMs, ct, log);
                 await ClickShopSubTabIfSetAsync(shopSubTabRect, mouseDelayMs, ct);
-                return true;
+                return await VerifyShopOpenAsync(shopVerifyRect, verifyTarget, log, ct);
             }
         }
 
@@ -176,7 +190,7 @@ public static class GameUiHelper
         }
 
         var traderTarget = WindowsOcrTextLocator.NormalizeForMatch(traderOcrText);
-        var traderMatch = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(
+        var traderMatch  = await WindowsOcrTextLocator.TryFindNormalizedSubstringAsync(
             traderOcrRect, traderTarget, log, ct).ConfigureAwait(false);
 
         if (traderMatch is null)
@@ -185,7 +199,7 @@ public static class GameUiHelper
             return false;
         }
 
-        // До 3 попыток открыть диалог торговца — клик мог не попасть точно в имя
+        // До 3 попыток открыть диалог торговца
         if (manageShopOcrRect.Width <= 0 || string.IsNullOrEmpty(shopTarget))
         {
             var (tx0, ty0) = traderMatch.Value.BoundsOnScreen.GetInteriorPoint(1);
@@ -194,14 +208,24 @@ public static class GameUiHelper
             await Task.Delay(mouseDelayMs, ct).ConfigureAwait(false);
             Win32Input.ClickLeft();
             await Task.Delay(traderOpenDelayMs, ct).ConfigureAwait(false);
-            log?.Report("[Ange] OCR-область Manage Shop не задана — торговец открыт, но shop не выбран.");
             await ClickShopSubTabIfSetAsync(shopSubTabRect, mouseDelayMs, ct);
-            return true;
+            return await VerifyShopOpenAsync(shopVerifyRect, verifyTarget, log, ct);
         }
 
         for (int attempt = 1; attempt <= 3; attempt++)
         {
             ct.ThrowIfCancellationRequested();
+
+            // Проверяем не открылась ли уже витрина (может, интерфейс просто не успел прогрузиться)
+            if (shopVerifyRect.Width > 0)
+            {
+                var earlyCheck = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(shopVerifyRect, null, ct).ConfigureAwait(false);
+                if (WindowsOcrTextLocator.NormalizeForMatch(earlyCheck).Contains(verifyTarget, StringComparison.OrdinalIgnoreCase))
+                {
+                    log?.Report($"[Ange] Merchant уже виден (попытка {attempt}) — витрина открыта.");
+                    return true;
+                }
+            }
 
             var (tx, ty) = traderMatch.Value.BoundsOnScreen.GetInteriorPoint(1);
             log?.Report($"[Ange] Клик по торговцу ({tx},{ty}), попытка {attempt}/3…");
@@ -215,16 +239,40 @@ public static class GameUiHelper
 
             if (shopMatch is not null)
             {
-                log?.Report("[Ange] Кликаем Manage Shop…");
-                await ClickManageShopAsync(shopMatch.Value.BoundsOnScreen, mouseDelayMs, traderOpenDelayMs, ct);
+                var sb = shopMatch.Value.BoundsOnScreen;
+                log?.Report($"[Ange] Manage Shop OCR: «{shopMatch.Value.MatchedLineText}» bounds={sb.X},{sb.Y} {sb.Width}×{sb.Height}");
+                await ClickManageShopAsync(sb, mouseDelayMs, traderOpenDelayMs, ct, log);
                 await ClickShopSubTabIfSetAsync(shopSubTabRect, mouseDelayMs, ct);
-                return true;
+                if (await VerifyShopOpenAsync(shopVerifyRect, verifyTarget, log, ct))
+                    return true;
+                log?.Report($"[Ange] Витрина не открылась после попытки {attempt}/3 — повтор…");
+                continue;
             }
 
             log?.Report($"[Ange] Manage Shop не найдена (попытка {attempt}/3).");
         }
 
-        log?.Report("[Ange] Не удалось открыть диалог торговца после 3 попыток.");
+        log?.Report("[Ange] Не удалось открыть витрину после 3 попыток.");
+        return false;
+    }
+
+    private static async Task<bool> VerifyShopOpenAsync(
+        ScreenRect verifyRect, string verifyTarget,
+        IProgress<string>? log, CancellationToken ct)
+    {
+        if (verifyRect.Width <= 0)
+            return true; // rect не задан — считаем успехом
+
+        var rawText = await WindowsOcrTextLocator.RecognizeRegionRawTextAsync(verifyRect, null, ct).ConfigureAwait(false);
+        var normalized = WindowsOcrTextLocator.NormalizeForMatch(rawText);
+        if (normalized.Contains(verifyTarget, StringComparison.OrdinalIgnoreCase))
+        {
+            log?.Report("[Ange] Merchant найден — витрина открыта.");
+            return true;
+        }
+        var preview = rawText.Replace("\n", " ").Trim();
+        if (preview.Length > 80) preview = preview[..80] + "…";
+        log?.Report($"[Ange] Merchant не найден. OCR: «{preview}»");
         return false;
     }
 
@@ -238,13 +286,12 @@ public static class GameUiHelper
         await Task.Delay(mouseDelayMs, ct).ConfigureAwait(false);
     }
 
-    // Manage Shop всегда на 500-540px ниже торговца; кликаем в 12px от нижней границы
-    // блока чтобы попасть в Manage Shop при склейке строк в OCR-результате.
     private static async Task ClickManageShopAsync(
-        ScreenRect bounds, int mouseDelayMs, int settleMs, CancellationToken ct)
+        ScreenRect bounds, int mouseDelayMs, int settleMs, CancellationToken ct,
+        IProgress<string>? log = null)
     {
-        var mx = bounds.X + bounds.Width / 2;
-        var my = bounds.Y + bounds.Height - 12;
+        var (mx, my) = bounds.GetInteriorPoint(1);
+        log?.Report($"[Ange] Клик Manage Shop ({mx},{my}) bounds={bounds.X},{bounds.Y} {bounds.Width}×{bounds.Height}…");
         Win32Input.MoveTo(mx, my);
         await Task.Delay(mouseDelayMs, ct).ConfigureAwait(false);
         Win32Input.ClickLeft();

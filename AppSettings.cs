@@ -299,6 +299,8 @@ public sealed class AppSettings
     public ScreenRect AngeTabletTabRect { get; set; }
     /// <summary>Под-вкладка внутри магазина Ange, которую нужно нажать до отображения витрины.</summary>
     public ScreenRect AngeShopSubTabRect { get; set; }
+    /// <summary>Область для проверки надписи «Merchant» — подтверждает что интерфейс торговли Ange открыт.</summary>
+    public ScreenRect AngeShopVerifyRect { get; set; }
     /// <summary>Сетка ячеек в магазине Ange для табличек.</summary>
     public List<ScreenRect>? AngeTabletCells { get; set; }
     /// <summary>Поле ввода числа в диалоге «Set Item Price» (чёрный прямоугольник слева).</summary>
