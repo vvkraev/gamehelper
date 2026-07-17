@@ -144,6 +144,8 @@ cd /mnt/c/Users/VVK/GameHelper/scripts/tabflow
 | `--models-dir PATH` | `./models` | Куда сохранять модели |
 | `--min-samples N` | `30` | Минимум предметов для обучения типа |
 | `--types TYPE ...` | все типы | Обучить только указанные типы |
+| `--list-versions` | — | Показать все сохранённые версии моделей |
+| `--rollback VERSION` | — | Откатить текущую модель к указанной версии |
 
 Имена типов в `--types` — это `base_type` в нижнем регистре с пробелами → подчёркивания:  
 `Ritual Tablet` → `ritual_tablet`, `Abyss Tablet` → `abyss_tablet`
@@ -160,10 +162,27 @@ cd /mnt/c/Users/VVK/GameHelper/scripts/tabflow
 # При малой выборке (для проверки что всё работает)
 .venv/bin/python3 train_evaluator.py --min-samples 10
 
-# Явные пути (если запускаешь из другой папки)
-python3 /mnt/c/Users/VVK/GameHelper/scripts/tabflow/train_evaluator.py \
-  --data-dir /mnt/c/Users/VVK/GameHelper/trade_data \
-  --models-dir /mnt/c/Users/VVK/GameHelper/scripts/tabflow/models
+# Показать историю версий
+.venv/bin/python3 train_evaluator.py --list-versions
+
+# Откатить ritual_tablet к предыдущей версии
+.venv/bin/python3 train_evaluator.py --rollback v001_2026-07-17_185items_MAE0.29 --types ritual_tablet
+```
+
+### Версионирование моделей
+
+После каждого обучения модель сохраняется в `models/{type}/v{N}_{date}_{n}items_MAE{mae}/`.
+Активная версия записывается в `models/{type}/_current.txt`.
+При следующем оценивании `predictor.py` читает `_current.txt` и загружает нужную папку.
+
+Структура после двух обучений:
+```
+models/ritual_tablet/
+  _current.txt          ← "v002_2026-07-18_210items_MAE0.28"
+  v001_2026-07-17_185items_MAE0.29/
+    model.txt  vocab.json  metadata.json  text_to_hash.json
+  v002_2026-07-18_210items_MAE0.28/
+    model.txt  vocab.json  metadata.json  text_to_hash.json
 ```
 
 ### Пример вывода
@@ -254,9 +273,99 @@ models/ritual_tablet/
 
 ---
 
-## Шаг 5 — Переобучение
+## Шаг 4 — Сопоставление продаж и детекция промазов
 
-**Когда:** после патча GGG, или когда реальные продажи систематически расходятся с предсказанием.
+**Терминал:** WSL  
+**Папка:** `/mnt/c/Users/VVK/GameHelper/scripts/tabflow`  
+**Когда запускать:** после каждой сессии листинга, когда в `sales_history.json` могли появиться новые продажи.
+
+```bash
+cd /mnt/c/Users/VVK/GameHelper/scripts
+python3 match_sales.py
+```
+
+Скрипт читает `vault/tabflow/listings_index.json` (незакрытые записи) и `sales_history.json`.  
+При совпадении по base_type + набору модов + время продажи > времени листинга:
+
+- Помечает запись как `sold` в индексе
+- Вычисляет `minutes_to_sale`
+- Если продажа быстрее **10 минут** без переоценок → `"miss": true`
+
+**Промаз (miss)** — продажа быстрее 10 минут без переоценок. Означает что мы недооценили предмет: покупатель взял не раздумывая, значит реальная цена выше.
+
+При промазе автоматически:
+- Пишет `vault/tabflow/miss_overrides.json` — floor_price = 2× цена продажи
+- Добавляет строку-задачу в `vault/tabflow/action_items.md`
+
+---
+
+## Шаг 5 — Дообучение после инста-продажи
+
+Инста-продажа (miss) означает что модель недооценила предмет. Нужно:
+
+### 1. Проверить задачи
+
+```bash
+cat /mnt/c/Users/VVK/GameHelper/vault/tabflow/action_items.md
+```
+
+Найдёшь строку вида:
+```
+- [ ] 2026-07-16T23:57 ИНСТА (2 мин): Ritual Tablet [% increased pack size in map + ...] за 2d → снэпшот набора + дообучение
+```
+
+### 2. Снять снэпшот конкретного набора модов
+
+В **GameHelper → вкладка Наблюдение**:
+
+1. Нажать **▶ Слушать**
+2. Открыть trade.pathofexile.com → выбрать тип планшетки
+3. Добавить фильтры по модам из строки задачи
+4. Прокрутить страницу до конца (Tampermonkey перехватит запросы)
+5. Нажать **Снимок**
+
+Повторить с двумя-тремя похожими наборами модов (по стратегии cross-section из Шага 1).  
+Цель — добавить хотя бы **20–30 новых примеров** с реальными ценами.
+
+### 3. Запустить дообучение
+
+```bash
+cd /mnt/c/Users/VVK/GameHelper/scripts/tabflow
+.venv/bin/python3 train_evaluator.py --types ritual_tablet
+```
+
+Замени `ritual_tablet` на тип из задачи. Старая модель перезаписывается.  
+Сравни метрики `MAE` до и после — должна снизиться или остаться той же.
+
+### 4. Проверить новую оценку
+
+```bash
+.venv/bin/python3 evaluate_clipboard.py --check-misses
+```
+
+Скрипт читает все miss-записи из `listings_index.json` (где хранится полный текст предмета) и прогоняет каждую через актуальную модель. Предмет для этого не нужен — он уже сохранён в индексе в момент листинга.
+
+Ожидаемый результат: оценка выросла выше floor из `miss_overrides.json`, и строка `⚡ ИНСТА-КОРР` показывает что override ещё активен.
+
+### 5. Закрыть override
+
+Если модель теперь даёт оценку **выше или равную** floor_price — открой `vault/tabflow/miss_overrides.json` и смени:
+
+```json
+"status": "pending"  →  "status": "resolved"
+```
+
+Пока статус `pending` — `evaluate_clipboard.py` всегда будет показывать `⚡ ИНСТА-КОРР` для этого набора модов, даже если модель уже даёт правильную цену.
+
+### 6. Отметить задачу выполненной
+
+В `vault/tabflow/action_items.md` замени `- [ ]` на `- [x]`.
+
+---
+
+## Шаг 6 — Плановое переобучение
+
+**Когда:** после патча GGG, или когда реальные продажи систематически расходятся с предсказанием (несколько промазов подряд по одному типу).
 
 **Терминал:** WSL  
 **Папка:** `/mnt/c/Users/VVK/GameHelper/scripts/tabflow`

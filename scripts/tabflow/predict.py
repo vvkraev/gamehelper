@@ -15,12 +15,10 @@ Usage:
 
 import argparse
 import json
-import math
 import re
 from pathlib import Path
 
-import lightgbm as lgb
-import numpy as np
+from predictor import TabletPredictor
 
 HERE   = Path(__file__).parent
 ROOT   = HERE.parent.parent
@@ -59,47 +57,6 @@ def is_tablet(base_type: str) -> bool:
 
 def type_slug(base_type: str) -> str:
     return re.sub(r"[^a-z0-9]+", "_", base_type.lower()).strip("_")
-
-
-# ─── Загрузка модели ─────────────────────────────────────────────────────────
-
-def load_model(slug: str) -> tuple | None:
-    model_dir = MODELS / slug
-    model_file = model_dir / "model.txt"
-    vocab_file = model_dir / "vocab.json"
-    meta_file  = model_dir / "metadata.json"
-
-    if not model_file.exists():
-        return None
-
-    model  = lgb.Booster(model_file=str(model_file))
-    vocab  = json.loads(vocab_file.read_text(encoding="utf-8"))
-    meta   = json.loads(meta_file.read_text(encoding="utf-8")) if meta_file.exists() else {}
-    return model, vocab, meta
-
-
-# ─── Feature extraction ───────────────────────────────────────────────────────
-
-def extract_features(rich_mods: list[dict], vocab: dict[str, int]) -> np.ndarray:
-    vec = np.zeros(len(vocab), dtype=np.float32)
-    for mod in rich_mods:
-        h = mod.get("hash")
-        if not h or h not in vocab:
-            continue
-        idx   = vocab[h]
-        value = mod.get("value")
-        rmin  = mod.get("roll_min")
-        rmax  = mod.get("roll_max")
-
-        if value is None:
-            vec[idx] = 1.0
-        elif rmax is not None and rmin is not None and rmax > rmin:
-            vec[idx] = (value - rmin) / (rmax - rmin)
-        elif rmax is not None and rmax > 0:
-            vec[idx] = value / rmax
-        else:
-            vec[idx] = 1.0
-    return vec
 
 
 # ─── Отображение модов ───────────────────────────────────────────────────────
@@ -299,7 +256,7 @@ def main():
         return
 
     # Кэш загруженных моделей
-    models_cache: dict[str, tuple | None] = {}
+    models_cache: dict[str, TabletPredictor | None] = {}
 
     for snap_path in snapshots:
         items = load_snapshot(snap_path, rates)
@@ -315,35 +272,31 @@ def main():
 
         for slug, type_items in by_type.items():
             if slug not in models_cache:
-                models_cache[slug] = load_model(slug)
+                pred = TabletPredictor(MODELS / slug)
+                models_cache[slug] = pred if pred.load() else None
 
-            loaded = models_cache[slug]
-            if loaded is None:
+            predictor = models_cache[slug]
+            if predictor is None:
                 print(f"\n[!] Модель для '{slug}' не найдена.")
                 print(f"    Запустите: python3 train_evaluator.py --types {slug}")
                 continue
 
-            model, vocab, meta = loaded
-
-            # Предсказание
-            X = np.array([extract_features(it["rich_mods"], vocab) for it in type_items])
-            y_log = model.predict(X)
-            predicted = np.expm1(y_log)
+            predicted = predictor.predict_batch_rich([it["rich_mods"] for it in type_items])
 
             rows = []
             for it, pred_d in zip(type_items, predicted):
                 rows.append({
                     **it,
-                    "predicted_d": float(pred_d),
-                    "margin":      float(pred_d) - it["price_d"],
-                    "mods_label":  format_mods(it["rich_mods"], vocab, meta),
+                    "predicted_d": pred_d,
+                    "margin":      pred_d - it["price_d"],
+                    "mods_label":  format_mods(it["rich_mods"], predictor.vocab, predictor.meta),
                 })
 
             print_results(
                 file_name  = snap_path.name,
                 base_type  = type_items[0]["base_type"],
                 rows       = rows,
-                meta       = meta,
+                meta       = predictor.meta,
                 top        = args.top,
                 min_margin = args.min_margin,
             )

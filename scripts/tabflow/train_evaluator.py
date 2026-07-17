@@ -289,7 +289,10 @@ def train_model(items: list[dict], vocab: dict[str, int], tablet_type: str) -> d
         "verbose":        -1,
     }
 
-    callbacks = [lgb.early_stopping(30, verbose=False), lgb.log_evaluation(period=0)]
+    # Адаптивный early_stopping: мало данных = больше терпения чтобы не недообучить
+    early_stop = max(10, min(50, len(X_train) // 5))
+    print(f"  early_stopping={early_stop} (n_train={len(X_train)})")
+    callbacks = [lgb.early_stopping(early_stop, verbose=False), lgb.log_evaluation(period=0)]
 
     model = lgb.train(
         params,
@@ -319,7 +322,21 @@ def train_model(items: list[dict], vocab: dict[str, int], tablet_type: str) -> d
 
 def save_model(tablet_type: str, model, vocab: dict[str, int], metrics: dict, models_dir: Path,
                text_to_hash: dict[str, str] | None = None):
-    out = models_dir / tablet_type
+    from datetime import datetime
+
+    base_dir = models_dir / tablet_type
+    base_dir.mkdir(parents=True, exist_ok=True)
+
+    # Версия = количество существующих v*-папок + 1
+    existing_versions = sorted(d.name for d in base_dir.iterdir()
+                               if d.is_dir() and d.name.startswith("v"))
+    gen = len(existing_versions) + 1
+    n_train  = metrics["n_train"]
+    mae      = round(metrics["mae_d"], 2)
+    date_str = datetime.now().strftime("%Y-%m-%d")
+    version  = f"v{gen:03d}_{date_str}_{n_train}items_MAE{mae}"
+
+    out = base_dir / version
     out.mkdir(parents=True, exist_ok=True)
 
     # LightGBM native format — можно загрузить из любого языка
@@ -344,7 +361,8 @@ def save_model(tablet_type: str, model, vocab: dict[str, int], metrics: dict, mo
 
     meta = {
         "tablet_type": tablet_type,
-        "n_train":     metrics["n_train"],
+        "version":     version,
+        "n_train":     n_train,
         "n_val":       metrics["n_val"],
         "mae_divine":  round(metrics["mae_d"], 3),
         "rmse_log":    round(metrics["rmse_log"], 4),
@@ -354,24 +372,80 @@ def save_model(tablet_type: str, model, vocab: dict[str, int], metrics: dict, mo
     with open(out / "metadata.json", "w", encoding="utf-8") as f:
         json.dump(meta, f, indent=2, ensure_ascii=False)
 
-    print(f"  → сохранено: {out}/")
+    # Обновить _current.txt (без симлинков, работает на NTFS/WSL без доп. прав)
+    (base_dir / "_current.txt").write_text(version, encoding='utf-8')
+
+    print(f"  → {version}  (_current обновлён)")
     print(f"    топ-3 фичи: {top_features[:3]}")
 
 
 # ─── Main ─────────────────────────────────────────────────────────────────────
 
+def _list_versions(models_dir: Path) -> None:
+    for base_dir in sorted(models_dir.iterdir()):
+        if not base_dir.is_dir():
+            continue
+        current_file = base_dir / "_current.txt"
+        current = current_file.read_text(encoding='utf-8').strip() if current_file.exists() else None
+        versions = sorted(d.name for d in base_dir.iterdir()
+                          if d.is_dir() and d.name.startswith("v"))
+        if not versions and not (base_dir / "model.txt").exists():
+            continue
+        print(f"\n{base_dir.name}:")
+        if not versions:
+            print(f"  (старый формат: model.txt напрямую)")
+        for v in versions:
+            marker = " ← current" if v == current else ""
+            meta_f = base_dir / v / "metadata.json"
+            mae_str = ""
+            if meta_f.exists():
+                try:
+                    m = json.loads(meta_f.read_text(encoding='utf-8'))
+                    mae_str = f"  MAE={m.get('mae_divine','?')}d  n={m.get('n_train','?')}"
+                except Exception:
+                    pass
+            print(f"  {v}{mae_str}{marker}")
+
+
+def _rollback(models_dir: Path, version: str, types: list[str] | None) -> None:
+    targets = types or [d.name for d in models_dir.iterdir() if d.is_dir()]
+    for slug in sorted(targets):
+        base_dir = models_dir / slug
+        if not base_dir.exists():
+            print(f"[{slug}] не найден")
+            continue
+        version_dir = base_dir / version
+        if not version_dir.exists():
+            print(f"[{slug}] версия '{version}' не найдена")
+            continue
+        (base_dir / "_current.txt").write_text(version, encoding='utf-8')
+        print(f"[{slug}] откат → {version}")
+
+
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("--data-dir",    default=str(ROOT / "trade_data"))
-    parser.add_argument("--models-dir",  default=str(HERE / "models"))
-    parser.add_argument("--min-samples", type=int, default=30,
+    parser.add_argument("--data-dir",       default=str(ROOT / "trade_data"))
+    parser.add_argument("--models-dir",     default=str(HERE / "models"))
+    parser.add_argument("--min-samples",    type=int, default=30,
                         help="Минимум предметов для обучения (по умолчанию 30)")
-    parser.add_argument("--types", nargs="*",
+    parser.add_argument("--types",          nargs="*",
                         help="Типы планшеток для обучения (по умолчанию все)")
+    parser.add_argument("--list-versions",  action="store_true",
+                        help="Показать список всех версий моделей")
+    parser.add_argument("--rollback",       metavar="VERSION",
+                        help="Откатиться к указанной версии: --rollback v001_2026-07-17_...")
     args = parser.parse_args()
 
     data_dir   = Path(args.data_dir)
     models_dir = Path(args.models_dir)
+
+    if args.list_versions:
+        _list_versions(models_dir)
+        return
+
+    if args.rollback:
+        _rollback(models_dir, args.rollback, args.types)
+        return
     ninja_path = ROOT / "poe_ninja_prices.json"
 
     print("=== Tablet Evaluator Training ===")
