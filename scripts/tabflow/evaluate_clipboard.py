@@ -14,6 +14,7 @@ ROOT = HERE.parent.parent
 
 from mod_utils import mod_set as _mod_set, mod_template as _mod_template
 from predictor import TabletPredictor
+from currency import CurrencyConverter
 
 LAST_SALE_MARKUP_PCT = 0.10  # наценка над ценой последней продажи
 
@@ -30,14 +31,7 @@ def _last_sale_floor(base_type: str, mods: list[str]) -> tuple[float, float] | N
         return None
 
     try:
-        ninja   = json.loads(ninja_path.read_text(encoding='utf-8-sig'))
-        rates   = {k: v["divineValue"] for k, v in ninja["entries"][-1]["prices"].items()}
-        rates.setdefault("divine orb", 1.0)
-        rates.setdefault("divine", 1.0)
-    except Exception:
-        return None
-
-    try:
+        cc      = CurrencyConverter.load(ninja_path)
         entries = json.loads(index_path.read_text(encoding='utf-8'))
     except Exception:
         return None
@@ -56,8 +50,7 @@ def _last_sale_floor(base_type: str, mods: list[str]) -> tuple[float, float] | N
         if not amount:
             continue
 
-        rate     = rates.get(currency) or rates.get(currency + " orb")
-        price_d  = float(amount) * (rate or 1.0) if "chaos" in currency else float(amount)
+        price_d  = cc.to_divine(float(amount), currency)
 
         entry_key = _mod_set(e.get("mods") or [])
         if entry_key == item_key:
@@ -78,14 +71,8 @@ def _market_floor(base_type: str) -> float | None:
     if not trade_dir.exists() or not ninja_path.exists():
         return None
 
-    # Курсы валют из poe_ninja
     try:
-        ninja = json.loads(ninja_path.read_text(encoding='utf-8-sig'))
-        rates: dict[str, float] = {}
-        for name, info in ninja["entries"][-1]["prices"].items():
-            rates[name] = info["divineValue"]
-        rates.setdefault("divine orb", 1.0)
-        rates.setdefault("divine", 1.0)
+        cc = CurrencyConverter.load(ninja_path)
     except Exception:
         return None
 
@@ -101,13 +88,12 @@ def _market_floor(base_type: str) -> float | None:
             if item.get("base_type", "").strip().lower() != bt_lower:
                 continue
             amount   = item.get("price_divine") or item.get("price_amount")
-            currency = (item.get("price_currency") or "").strip().lower()
+            currency = (item.get("price_currency") or "divine").strip().lower()
             if amount is None:
                 continue
-            rate = rates.get(currency) or rates.get(currency + " orb")
-            if rate is None:
-                continue
-            prices.append(float(amount) * rate)
+            price_d = cc.to_divine(float(amount), currency)
+            if price_d > 0:
+                prices.append(price_d)
 
     if not prices:
         return None
