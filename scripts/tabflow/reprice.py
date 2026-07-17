@@ -31,9 +31,9 @@ PLAN_PATH      = ROOT / "vault" / "tabflow" / "reprice_plan.json"
 NINJA_PATH     = ROOT / "poe_ninja_prices.json"
 OVERRIDES_PATH = ROOT / "vault" / "tabflow" / "miss_overrides.json"
 
-PATIENCE_NO_HISTORY_H   = 6    # ч без данных о продажах
-PATIENCE_WITH_HISTORY_H = 12   # ч если есть продажи ≤ 6ч
-FAST_SALE_THRESHOLD_H   = 6    # порог "быстрой" продажи
+PATIENCE_NO_HISTORY_H   = 2    # ч без данных о продажах
+PATIENCE_WITH_HISTORY_H = 4    # ч если есть продажи ≤ 2ч
+FAST_SALE_THRESHOLD_H   = 2    # порог "быстрой" продажи
 PATIENCE_SALE_MULT      = 3.0  # множитель patience если есть прецедент продажи
                                 # (доказанная цена → снижаем медленнее)
 DIVINE_STEP             = 1    # шаг снижения в divine
