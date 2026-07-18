@@ -1,0 +1,34 @@
+{
+  "fetched_at": "2026-07-17T23:15:37",
+  "league": "Runes of Aldur",
+  "floors": {
+    "Ritual Tablet": {
+      "p10_divine": 0.5853,
+      "sample_size": 10
+    },
+    "Breach Tablet": {
+      "p10_divine": 0.2341,
+      "sample_size": 10
+    },
+    "Delirium Tablet": {
+      "p10_divine": 0.0234,
+      "sample_size": 10
+    },
+    "Abyss Tablet": {
+      "p10_divine": 0.2926,
+      "sample_size": 10
+    },
+    "Temple Tablet": {
+      "p10_divine": 0.1873,
+      "sample_size": 10
+    },
+    "Irradiated Tablet": {
+      "p10_divine": 0.0936,
+      "sample_size": 10
+    },
+    "Overseer Tablet": {
+      "p10_divine": 0.0023,
+      "sample_size": 10
+    }
+  }
+}

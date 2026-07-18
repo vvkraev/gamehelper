@@ -1,0 +1,77 @@
+[
+  {
+    "base_type": "ritual tablet",
+    "mod_templates": [
+      "#% increased pack size in map",
+      "map has #% increased monster rarity",
+      "rerolling favours at ritual altars in map costs #% reduced tribute",
+      "ritual favours in map have #% increased chance to be omens"
+    ],
+    "item_name": "",
+    "miss_price": 2,
+    "floor_price": 4,
+    "minutes_to_sale": 2,
+    "miss_timestamp": "2026-07-16T23:59:11+03:00",
+    "status": "resolved"
+  },
+  {
+    "base_type": "ritual tablet",
+    "mod_templates": [
+      "#% increased gold found in map",
+      "#% increased rarity of items found in map",
+      "favours rerolled at ritual altars in map have #% chance to cost no tribute",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "item_name": "",
+    "miss_price": 20,
+    "floor_price": 40,
+    "minutes_to_sale": 5,
+    "miss_timestamp": "2026-07-17T00:03:24+03:00",
+    "status": "resolved"
+  },
+  {
+    "base_type": "ritual tablet",
+    "mod_templates": [
+      "#% increased gold found in map",
+      "map has #% increased chance to contain shrines",
+      "monsters have #% increased effectiveness",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "item_name": "",
+    "miss_price": 12,
+    "floor_price": 24,
+    "minutes_to_sale": 2,
+    "miss_timestamp": "2026-07-17T01:30:28+03:00",
+    "status": "pending"
+  },
+  {
+    "base_type": "ritual tablet",
+    "mod_templates": [
+      "#% increased pack size in map",
+      "map has #% increased chance to contain shrines",
+      "map has #% increased monster rarity",
+      "ritual altars in map allow rerolling favours an additional time"
+    ],
+    "item_name": "",
+    "miss_price": 13,
+    "floor_price": 26,
+    "minutes_to_sale": 2,
+    "miss_timestamp": "2026-07-17T01:30:35+03:00",
+    "status": "pending"
+  },
+  {
+    "base_type": "ritual tablet",
+    "mod_templates": [
+      "#% increased rarity of items found in map",
+      "map has #% increased chance to contain shrines",
+      "monsters have #% increased effectiveness",
+      "ritual altars in map allow rerolling favours # additional times"
+    ],
+    "item_name": "",
+    "miss_price": 18,
+    "floor_price": 36,
+    "minutes_to_sale": 6,
+    "miss_timestamp": "2026-07-17T01:35:34+03:00",
+    "status": "pending"
+  }
+]

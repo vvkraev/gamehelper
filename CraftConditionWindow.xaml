@@ -85,6 +85,39 @@
                            Foreground="#555"
                            Margin="0,0,0,10"
                            Text="Между «Вариант N» — ИЛИ. Внутри варианта клозы связаны И. «Сумма» — сложение значений (нет модификатора — 0). «Набор (COUNT)» — сколько строк из списка должно выполняться на предмете одновременно (каждая строка как одиночный аффикс)."/>
+                <Border x:Name="SelectionToolbar"
+                        Visibility="Collapsed"
+                        BorderBrush="#1976D2" BorderThickness="1"
+                        Background="#E3F2FD"
+                        Padding="8,6" Margin="0,0,0,8">
+                    <WrapPanel Orientation="Horizontal">
+                        <TextBlock x:Name="SelectionInfoLabel"
+                                   VerticalAlignment="Center"
+                                   Margin="0,0,12,0"/>
+                        <Button x:Name="SelectionCopyBtn"
+                                Content="Копировать"
+                                Padding="8,3" Margin="0,0,8,0"
+                                Click="SelectionCopy_Click"/>
+                        <Button x:Name="SelectionDeleteBtn"
+                                Content="Удалить"
+                                Padding="8,3" Margin="0,0,12,0"
+                                Click="SelectionDelete_Click"/>
+                        <StackPanel x:Name="SelectionMovePanel"
+                                    Orientation="Horizontal"
+                                    Visibility="Collapsed">
+                            <TextBlock Text="Переместить в:"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,6,0"/>
+                            <ComboBox x:Name="SelectionMoveCombo"
+                                      MinWidth="120"
+                                      SelectionChanged="SelectionMove_SelectionChanged"/>
+                        </StackPanel>
+                        <TextBlock x:Name="SelectionWarningLabel"
+                                   VerticalAlignment="Center"
+                                   Foreground="#C62828"
+                                   Visibility="Collapsed"/>
+                    </WrapPanel>
+                </Border>
                 <StackPanel x:Name="OrAlternativesHost" Margin="0,0,0,8"/>
                 <TextBlock x:Name="TheoryChanceLabel"
                            Margin="0,0,0,2"
@@ -106,10 +139,16 @@
                                FontSize="12"
                                Foreground="#7B1FA2"/>
                 </StackPanel>
-                <Button Content="Добавить вариант (ИЛИ)…"
-                        HorizontalAlignment="Left"
-                        Padding="10,6"
-                        Click="AddOrAlternative_OnClick"/>
+                <StackPanel Orientation="Horizontal">
+                    <Button Content="Добавить вариант (ИЛИ)…"
+                            Padding="10,6"
+                            Click="AddOrAlternative_OnClick"/>
+                    <Button x:Name="PasteGroupBtn"
+                            Content="Вставить вариант"
+                            Padding="10,6" Margin="8,0,0,0"
+                            Visibility="Collapsed"
+                            Click="PasteGroup_Click"/>
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </DockPanel>

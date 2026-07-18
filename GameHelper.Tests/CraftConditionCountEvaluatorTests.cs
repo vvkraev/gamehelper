@@ -1175,4 +1175,189 @@ public sealed class CraftConditionCountEvaluatorTests
             CraftConditionEvaluator.TryEvaluate(plan, item, out _),
             "Без крафтованного мода условие не должно выполняться");
     }
+
+    // ── Рецепт «3 natural suffix last divine» (TLS, Count≥3 из 10) ───────────
+    // Тесты точно воспроизводят условия рецепта из файла
+    // «Time-Lost Sapphire Jewels 3 natural suffix last divine.json».
+    // Статы берутся из библиотеки (формат #%), minRoll — из рецепта.
+
+    private const string TlsStat_Potency     = "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus";
+    private const string TlsStat_Unmaking    = "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus";
+    private const string TlsStat_Enchanting  = "Notable Passive Skills in Radius also grant #% increased Cast Speed";
+    private const string TlsStat_Annihil     = "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance";
+    private const string TlsStat_Supremacy   = "#% increased Effect of Notable Passive Skills in Radius";
+    private const string TlsStat_Annihilat   = "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance for Spells";
+    private const string TlsStat_Lengthening = "Notable Passive Skills in Radius also grant #% increased Skill Effect Duration";
+    private const string TlsStat_Generation  = "Notable Passive Skills in Radius also grant Meta Skills gain #% increased Energy";
+    private const string TlsStat_Mind        = "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life";
+    private const string TlsStat_Osmosis     = "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill";
+
+    /// <summary>Воспроизводит план из рецепта: Count≥3 из 10, IncludeFractured=true.</summary>
+    private static CraftConditionPlan BuildRecipe3NaturalSuffixPlan() => new()
+    {
+        ExpectedItemClass = "Time-Lost Sapphire Jewels",
+        OrAlternatives =
+        {
+            new CraftAndGroup
+            {
+                Clauses =
+                {
+                    new CraftClause
+                    {
+                        Kind = CraftClauseKind.Count,
+                        Count = new CraftCountAffixData
+                        {
+                            MinMatchCount = 3,
+                            IncludeFractured = true,
+                            Members =
+                            {
+                                SapphireMember("of Potency",     TlsStat_Potency,     10),
+                                SapphireMember("of Unmaking",    TlsStat_Unmaking,    10),
+                                SapphireMember("of Enchanting",  TlsStat_Enchanting,   2),
+                                SapphireMember("of Annihilation",TlsStat_Annihil,      7),
+                                SapphireMember("of Supremacy",   TlsStat_Supremacy,   20),
+                                SapphireMember("of Annihilating",TlsStat_Annihilat,    7),
+                                SapphireMember("of Lengthening", TlsStat_Lengthening,  5),
+                                SapphireMember("of Generation",  TlsStat_Generation,   4),
+                                SapphireMember("of Mind",        TlsStat_Mind,         1),
+                                SapphireMember("of Osmosis",     TlsStat_Osmosis,      1),
+                            },
+                        },
+                    },
+                },
+            },
+        },
+    };
+
+    // Три натуральных суффикса, все роллы на максимуме (Unmaking=10, Potency=10, Annihilation=7)
+    private const string TlsClip_3Natural_AllMax = """
+        Item Class: Jewels
+        Rarity: Rare
+        Rapture Vessel
+        Time-Lost Sapphire
+        --------
+        Radius: Small
+        --------
+        Item Level: 79
+        --------
+        { Suffix Modifier "of Unmaking" (Tier: 1) — Damage, Caster, Critical }
+        Notable Passive Skills in Radius also grant 10(5-10)% increased Critical Spell Damage Bonus
+        { Suffix Modifier "of Potency" (Tier: 1) — Damage, Critical }
+        Notable Passive Skills in Radius also grant 10(5-10)% increased Critical Damage Bonus
+        { Suffix Modifier "of Annihilation" (Tier: 1) — Critical }
+        Notable Passive Skills in Radius also grant 7(3-7)% increased Critical Hit Chance
+        --------
+        Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+        """;
+
+    // Тот же предмет, но Annihilation выбил 6 (minRoll=7) → COUNT=2 < 3
+    private const string TlsClip_3Natural_AnnihilRollLow = """
+        Item Class: Jewels
+        Rarity: Rare
+        Rapture Vessel
+        Time-Lost Sapphire
+        --------
+        Radius: Small
+        --------
+        Item Level: 79
+        --------
+        { Suffix Modifier "of Unmaking" (Tier: 1) — Damage, Caster, Critical }
+        Notable Passive Skills in Radius also grant 10(5-10)% increased Critical Spell Damage Bonus
+        { Suffix Modifier "of Potency" (Tier: 1) — Damage, Critical }
+        Notable Passive Skills in Radius also grant 10(5-10)% increased Critical Damage Bonus
+        { Suffix Modifier "of Annihilation" (Tier: 1) — Critical }
+        Notable Passive Skills in Radius also grant 6(3-7)% increased Critical Hit Chance
+        --------
+        Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+        """;
+
+    // Фрактурный Potency + два натуральных (IncludeFractured=true) → COUNT=3
+    private const string TlsClip_FracturedPotency_TwoNatural = """
+        Item Class: Jewels
+        Rarity: Rare
+        Carrion Hope
+        Time-Lost Sapphire
+        --------
+        Radius: Small
+        --------
+        Item Level: 79
+        --------
+        { Fractured Suffix Modifier "of Potency" (Tier: 1) — Damage, Critical }
+        Notable Passive Skills in Radius also grant 10(5-10)% increased Critical Damage Bonus
+        { Suffix Modifier "of Unmaking" (Tier: 1) — Damage, Caster, Critical }
+        Notable Passive Skills in Radius also grant 10(5-10)% increased Critical Spell Damage Bonus
+        { Suffix Modifier "of Annihilation" (Tier: 1) — Critical }
+        Notable Passive Skills in Radius also grant 7(3-7)% increased Critical Hit Chance
+        --------
+        Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+        --------
+        Fractured Item
+        """;
+
+    // Mind (fixed 1%) + Osmosis (fixed 1%) + Potency (10%) — два fixed-value суффикса легко проходят
+    private const string TlsClip_FixedValueSuffixes = """
+        Item Class: Jewels
+        Rarity: Rare
+        Dragon Ornament
+        Time-Lost Sapphire
+        --------
+        Radius: Small
+        --------
+        Item Level: 79
+        --------
+        { Suffix Modifier "of Mind" (Tier: 1) — Mana }
+        Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life
+        { Suffix Modifier "of Osmosis" (Tier: 1) — Mana }
+        Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill
+        { Suffix Modifier "of Potency" (Tier: 1) — Damage, Critical }
+        Notable Passive Skills in Radius also grant 10(5-10)% increased Critical Damage Bonus
+        --------
+        Place into an allocated Jewel Socket on the Passive Skill Tree. Right click to remove from the Socket.
+        """;
+
+    /// <summary>3 натуральных суффикса, все роллы на максимуме → COUNT=3 ≥ 3 → стоп-условие выполнено.</summary>
+    [Fact]
+    public void Recipe3NaturalSuffix_ThreeNaturalAtMaxRoll_Passes()
+    {
+        var plan = BuildRecipe3NaturalSuffixPlan();
+        var item = ItemParser.Parse(TlsClip_3Natural_AllMax);
+        Assert.True(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"Unmaking(10)+Potency(10)+Annihilation(7) — все три совпадают, COUNT=3. Объяснение: {expl}");
+    }
+
+    /// <summary>Annihilation выбил 6, minRoll=7 → не засчитывается → COUNT=2 < 3 → крафт продолжается.</summary>
+    [Fact]
+    public void Recipe3NaturalSuffix_AnnihilationRoll6BelowMin7_Fails()
+    {
+        var plan = BuildRecipe3NaturalSuffixPlan();
+        var item = ItemParser.Parse(TlsClip_3Natural_AnnihilRollLow);
+        Assert.False(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"Annihilation ролл=6, minRoll=7 → не засчитывается → COUNT=2. Объяснение: {expl}");
+    }
+
+    /// <summary>IncludeFractured=true: фрактурный Potency(10) засчитывается наравне с обычными → COUNT=3.</summary>
+    [Fact]
+    public void Recipe3NaturalSuffix_FracturedPotencyCountsWithIncludeFractured_Passes()
+    {
+        var plan = BuildRecipe3NaturalSuffixPlan();
+        var item = ItemParser.Parse(TlsClip_FracturedPotency_TwoNatural);
+        Assert.True(item.Affixes.Any(a => a.IsFractured && a.Name == "of Potency"),
+            "Предмет должен иметь фрактурный of Potency");
+        Assert.True(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"IncludeFractured=true: фрактурный Potency+Unmaking+Annihilation = 3. Объяснение: {expl}");
+    }
+
+    /// <summary>Mind и Osmosis — fixed-value суффиксы (нет диапазона), всегда засчитываются при ≥1.</summary>
+    [Fact]
+    public void Recipe3NaturalSuffix_FixedValueSuffixesMindAndOsmosis_CountCorrectly()
+    {
+        var plan = BuildRecipe3NaturalSuffixPlan();
+        var item = ItemParser.Parse(TlsClip_FixedValueSuffixes);
+        Assert.True(
+            CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
+            $"Mind(fixed 1%)+Osmosis(fixed 1%)+Potency(10%) — все три засчитываются. Объяснение: {expl}");
+    }
 }

@@ -1,21 +1,24 @@
 {
   "name": "Time-Lost Sapphire Jewels Crit bonus divine",
-  "savedAt": "2026-07-02T13:35:08.8996659+03:00",
+  "savedAt": "2026-07-15T08:26:45.5596161+03:00",
   "craftMode": "\u0414\u0438\u0432\u0430\u0439\u043D\u0438\u043D\u0433",
   "plan": {
     "expectedItemClass": "Time-Lost Sapphire Jewels",
     "expectedItemSubType": "",
     "expectedItemIlvl": 0,
     "craftOrbName": "Chaos Orb",
+    "negate": false,
     "orAlternatives": [
       {
         "clauses": [
           {
             "kind": "count",
+            "negate": false,
             "single": null,
             "sum": null,
             "count": {
               "minMatchCount": 1,
+              "maxMatchCount": 0,
               "members": [
                 {
                   "affixType": "Suffix Modifier",
@@ -24,13 +27,16 @@
                     "of Potency"
                   ],
                   "affixTier": 1,
+                  "includeFractured": false,
                   "lines": [
                     {
-                      "statTemplate": "Notable Passive Skills in Radius also grant (5\u201310)% increased Critical Damage Bonus",
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus",
                       "minRoll": 10,
                       "minRolls": [
                         10
-                      ]
+                      ],
+                      "maxRoll": 0,
+                      "maxRolls": []
                     }
                   ]
                 },
@@ -41,19 +47,27 @@
                     "of Unmaking"
                   ],
                   "affixTier": 1,
+                  "includeFractured": false,
                   "lines": [
                     {
-                      "statTemplate": "Notable Passive Skills in Radius also grant (5\u201310)% increased Critical Spell Damage Bonus",
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
                       "minRoll": 10,
                       "minRolls": [
                         10
+                      ],
+                      "maxRoll": 0,
+                      "maxRolls": [
+                        0
                       ]
                     }
                   ]
                 }
-              ]
+              ],
+              "includeFractured": true
             },
-            "whole": null
+            "whole": null,
+            "affixCount": null,
+            "desecrateSide": "any"
           }
         ]
       }

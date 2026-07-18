@@ -16,11 +16,11 @@ public static class CraftConditionEvaluator
             return false;
         }
 
+        // Убираем пустые OR-группы (могли появиться при ручном удалении условий в старых версиях)
+        plan.OrAlternatives.RemoveAll(g => g.Clauses.Count == 0);
+
         if (plan.OrAlternatives.Count == 0)
-        {
-            error = "Добавьте хотя бы один вариант условия (связь ИЛИ между вариантами).";
-            return false;
-        }
+            return true; // режим сбора статистики: орб применяется N раз без проверки условия
 
         var altIndex = 0;
         foreach (var alt in plan.OrAlternatives)
@@ -66,22 +66,30 @@ public static class CraftConditionEvaluator
                         : new List<string> { c.Single.StatTemplate };
                     foreach (var nm in sn)
                     {
-                        var ent = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
-                            libV,
-                            plan.ExpectedItemClass,
-                            c.Single.AffixType,
-                            nm,
-                            c.Single.AffixTier);
-                        if (ent is null)
+                        var candidates = AffixCraftPatternBuilder
+                            .FindAllByNameAndTierTypeCompatible(
+                                libV,
+                                plan.ExpectedItemClass,
+                                c.Single.AffixType,
+                                nm,
+                                c.Single.AffixTier)
+                            .ToList();
+                        if (candidates.Count == 0)
                         {
                             error =
                                 $"В варианте {altIndex}, клоз {cIndex}: в библиотеке нет «{nm}» ({c.Single.AffixType}, T{c.Single.AffixTier}).";
                             return false;
                         }
 
+                        // Одно имя может соответствовать нескольким записям (напр. несколько Lightless с разными статами).
+                        // Достаточно чтобы хоть одна запись содержала все требуемые строки.
+                        var bestEnt = candidates.FirstOrDefault(
+                            e => statsToCheck.All(st => CraftAffixCascadeHelper.FindStatIndexInEntry(e, st) >= 0))
+                            ?? candidates[0];
+
                         foreach (var st in statsToCheck)
                         {
-                            if (CraftAffixCascadeHelper.FindStatIndexInEntry(ent, st) < 0)
+                            if (CraftAffixCascadeHelper.FindStatIndexInEntry(bestEnt, st) < 0)
                             {
                                 error =
                                     $"В варианте {altIndex}, клоз {cIndex}: строка стата «{st}» не входит в «{nm}» (T{c.Single.AffixTier}).";
@@ -258,6 +266,14 @@ public static class CraftConditionEvaluator
                         return false;
                     }
                 }
+                else if (c.Kind == CraftClauseKind.HasDesecrate)
+                {
+                    // Нет дополнительных данных для валидации — DesecrateSide достаточно.
+                }
+                else if (c.Kind == CraftClauseKind.HasAnyDesecrate)
+                {
+                    // Нет дополнительных данных.
+                }
                 else
                 {
                     error = $"Неизвестный тип клоза в варианте {altIndex}.";
@@ -396,9 +412,15 @@ public static class CraftConditionEvaluator
                     parts.Add($"{contrib:0.##}");
                 }
 
-                rawOk = sum >= clause.Sum.MinSum;
-                rawDetail = $"сумма по группе = {sum:0.##} (части {string.Join("+", parts)}), нужно ≥ {FormatNum(clause.Sum.MinSum)}.";
-                sbEntry = $"Σ({string.Join("+", parts)})≥{FormatNum(clause.Sum.MinSum)}";
+                var maxSum = clause.Sum.MaxSum;
+                rawOk = sum >= clause.Sum.MinSum && (maxSum == 0 || sum <= maxSum);
+                var sumBound = maxSum > 0
+                    ? $"нужно [{FormatNum(clause.Sum.MinSum)}…{FormatNum(maxSum)}]"
+                    : $"нужно ≥ {FormatNum(clause.Sum.MinSum)}";
+                rawDetail = $"сумма по группе = {sum:0.##} (части {string.Join("+", parts)}), {sumBound}.";
+                sbEntry = maxSum > 0
+                    ? $"Σ[{FormatNum(clause.Sum.MinSum)}…{FormatNum(maxSum)}]"
+                    : $"Σ({string.Join("+", parts)})≥{FormatNum(clause.Sum.MinSum)}";
             }
             else if (clause.Kind == CraftClauseKind.Count)
             {
@@ -410,7 +432,10 @@ public static class CraftConditionEvaluator
 
                 rawOk = TryEvaluateCountClause(clause.Count, item, expectedItemClass, lib, out rawDetail);
                 var matched = CountMatchedMembers(clause.Count, item, expectedItemClass, lib);
-                sbEntry = $"COUNT≥{clause.Count.MinMatchCount}({matched}/{clause.Count.Members.Count})";
+                var cntMax = clause.Count.MaxMatchCount;
+                sbEntry = cntMax > 0
+                    ? $"COUNT[{clause.Count.MinMatchCount}…{cntMax}]({matched}/{clause.Count.Members.Count})"
+                    : $"COUNT≥{clause.Count.MinMatchCount}({matched}/{clause.Count.Members.Count})";
             }
             else if (clause.Kind == CraftClauseKind.WholeModifier)
             {
@@ -426,7 +451,8 @@ public static class CraftConditionEvaluator
                 foreach (var nm in w.EffectiveWholeAffixNames())
                 {
                     if (ParsedItemCraftEvaluator.TryEvaluateWholeModifierAffix(
-                            w, item, expectedItemClass, lib, out var subWhole, nm))
+                            w, item, expectedItemClass, lib, out var subWhole, nm,
+                            includeFractured: w.IncludeFractured))
                     {
                         okWhole = true;
                         break;
@@ -461,6 +487,36 @@ public static class CraftConditionEvaluator
                 var rangeStr = ac.Max > 0 ? $"{ac.Min}–{ac.Max}" : $"≥{ac.Min}";
                 rawDetail = $"Количество {scopeName}: {cnt} ({(inRange ? "выполнено" : $"нужно {rangeStr}")})";
                 sbEntry = $"{(ac.Scope == AffixCountScope.Prefixes ? "P" : ac.Scope == AffixCountScope.Suffixes ? "S" : "A")}({cnt}){rangeStr}";
+            }
+            else if (clause.Kind == CraftClauseKind.HasDesecrate)
+            {
+                var side = clause.DesecrateSide;
+                rawOk = item.Affixes.Any(a => a.IsUnrevealedDesecrate && side switch
+                {
+                    DesecrateSide.Prefix => a.Type.Contains("Prefix", StringComparison.OrdinalIgnoreCase),
+                    DesecrateSide.Suffix => a.Type.Contains("Suffix", StringComparison.OrdinalIgnoreCase),
+                    _                    => true,
+                });
+                var sideLabel = side switch
+                {
+                    DesecrateSide.Prefix => "префикс",
+                    DesecrateSide.Suffix => "суффикс",
+                    _                    => "любой слот",
+                };
+                rawDetail = rawOk
+                    ? $"Нераскрытый десекрейт ({sideLabel}) — обнаружен"
+                    : $"Нераскрытый десекрейт ({sideLabel}) — не обнаружен";
+                sbEntry = $"Desecrate({sideLabel})";
+            }
+            else if (clause.Kind == CraftClauseKind.HasAnyDesecrate)
+            {
+                rawOk = item.Affixes.Any(a =>
+                    a.IsUnrevealedDesecrate ||
+                    a.Type.Contains("Desecrated", StringComparison.OrdinalIgnoreCase));
+                rawDetail = rawOk
+                    ? "Десекрейт-мод — обнаружен"
+                    : "Десекрейт-мод — не обнаружен";
+                sbEntry = "AnyDesecrate";
             }
             else
             {
@@ -552,7 +608,8 @@ public static class CraftConditionEvaluator
     {
         detail = "";
         var matched = CountMatchedMembers(cnt, item, expectedItemClass, lib);
-        if (matched >= cnt.MinMatchCount)
+        var inRange = matched >= cnt.MinMatchCount && (cnt.MaxMatchCount == 0 || matched <= cnt.MaxMatchCount);
+        if (inRange)
             return true;
 
         var parts = new List<string>();
@@ -565,8 +622,11 @@ public static class CraftConditionEvaluator
                 parts.Add($"{label}: {fail}");
         }
 
+        var countBound = cnt.MaxMatchCount > 0
+            ? $"нужно [{cnt.MinMatchCount}…{cnt.MaxMatchCount}]"
+            : $"нужно ≥ {cnt.MinMatchCount}";
         detail =
-            $"набор COUNT: выполнено {matched} из {cnt.Members.Count} (нужно ≥ {cnt.MinMatchCount})" +
+            $"набор COUNT: выполнено {matched} из {cnt.Members.Count} ({countBound})" +
             (cnt.IncludeFractured ? " [+фрактура]" : "") + ". " +
             string.Join("; ", parts);
         return false;
@@ -609,9 +669,16 @@ public static class CraftConditionEvaluator
             string? firstFailDetail = null;
             foreach (var name in names)
             {
-                var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
-                    lib, expectedItemClass, s.AffixType, name, s.AffixTier)
-                    ?? AffixCraftPatternBuilder.FindEntryByNameTypeAnyTier(lib, expectedItemClass, s.AffixType, name);
+                // When multiple library entries share the same name+tier (e.g. 48 "Lightless" desecrate
+                // variants for Time-Lost Sapphire Jewels, each with a different single stat), we must
+                // find the candidate whose stats match the condition lines rather than returning the first.
+                var candidates = AffixCraftPatternBuilder.FindAllByNameAndTierTypeCompatible(
+                    lib, expectedItemClass, s.AffixType, name, s.AffixTier).ToList();
+                var entry = candidates.Count > 0
+                    ? (candidates.FirstOrDefault(c =>
+                           s.Lines.All(l => CraftAffixCascadeHelper.FindStatIndexInEntry(c, l.StatTemplate) >= 0))
+                       ?? candidates[0])
+                    : AffixCraftPatternBuilder.FindEntryByNameTypeAnyTier(lib, expectedItemClass, s.AffixType, name);
                 if (entry is null)
                     continue;
 
@@ -633,7 +700,8 @@ public static class CraftConditionEvaluator
 
                     if (!ParsedItemCraftEvaluator.TryGetRollValuesForNamedAffix(
                             item, expectedItemClass, s.AffixType, name, entry.AffixTier,
-                            line.StatTemplate, slots, out var actual, out var expl))
+                            line.StatTemplate, slots, out var actual, out var expl,
+                            includeFractured: false))
                     {
                         allLinesMatch = false;
                         lineFailDetail = string.IsNullOrEmpty(expl)
@@ -647,6 +715,16 @@ public static class CraftConditionEvaluator
                         allLinesMatch = false;
                         lineFailDetail =
                             $"«{name}» строка «{line.StatTemplate}»: [{string.Join(", ", actual.Select(FormatNum))}] < [{string.Join(", ", mins.Select(FormatNum))}].";
+                        break;
+                    }
+
+                    line.EnsureMaxRollsSize(slots);
+                    var maxs = line.GetEffectiveMaxRolls(slots).ToList();
+                    if (!ParsedItemCraftEvaluator.RollVectorMeetsMaxes(actual, maxs, out _))
+                    {
+                        allLinesMatch = false;
+                        lineFailDetail =
+                            $"«{name}» строка «{line.StatTemplate}»: [{string.Join(", ", actual.Select(FormatNum))}] > [{string.Join(", ", maxs.Where(m => m > 0).Select(FormatNum))}] (выше максимума).";
                         break;
                     }
                 }
@@ -698,7 +776,8 @@ public static class CraftConditionEvaluator
             var mins = s.GetEffectiveMinRolls(slots).ToList();
             if (!ParsedItemCraftEvaluator.TryGetRollValuesForNamedAffix(
                     item, expectedItemClass, s.AffixType, name, entry.AffixTier,
-                    s.StatTemplate, slots, out var actual, out _))
+                    s.StatTemplate, slots, out var actual, out _,
+                    includeFractured: false))
                 continue;
             if (actual.Count != mins.Count)
                 continue;
@@ -739,7 +818,7 @@ public static class CraftConditionEvaluator
         if (string.IsNullOrWhiteSpace(plan.ExpectedItemClass))
             return "(условие не задано)";
         if (plan.OrAlternatives.Count == 0)
-            return $"Класс: {plan.ExpectedItemClass} — нет вариантов ИЛИ.";
+            return $"Класс: {plan.ExpectedItemClass} — сбор статистики (условие не задано, N прокруток).";
 
         var lib = AffixLibrary.GetEntriesWithCrafted();
         var sb = new StringBuilder();
@@ -821,6 +900,18 @@ public static class CraftConditionEvaluator
                     var rangeStr = ac.Max > 0 ? $"{ac.Min}–{ac.Max}" : $"≥{ac.Min}";
                     sb.Append($"{scopeLabel} {rangeStr}");
                 }
+                else if (c.Kind == CraftClauseKind.HasDesecrate)
+                {
+                    var sideLabel = c.DesecrateSide switch
+                    {
+                        DesecrateSide.Prefix => "P",
+                        DesecrateSide.Suffix => "S",
+                        _                    => "P|S",
+                    };
+                    sb.Append($"Desecrate({sideLabel})");
+                }
+                else if (c.Kind == CraftClauseKind.HasAnyDesecrate)
+                    sb.Append("AnyDesecrate");
                 else
                     sb.Append('?');
                 if (c.Negate)

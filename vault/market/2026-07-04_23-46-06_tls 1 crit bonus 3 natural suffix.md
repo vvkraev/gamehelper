@@ -1,7 +1,7 @@
 ﻿# Time-Lost Sapphire — срез 2026-07-04
 
 **Источник:** trade_data/2026-07-04_23-46-06_tls 1 crit bonus 3 natural suffix.json  
-**Листингов:** 200
+**Рекомендованных цен:** 200
 
 ## Таблица
 

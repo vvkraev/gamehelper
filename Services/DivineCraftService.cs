@@ -18,6 +18,11 @@ public sealed class DivineCraftService : IDivineCraftService
     public bool TraceInputToLog { get; set; }
     public Func<string, Task>? StepConfirmAsync { get; set; }
 
+    /// <summary>
+    /// Если задан — проверяет процесс игры при старте и после серии пустых буферов.
+    /// </summary>
+    public GameClientGuard? Guard { get; set; }
+
     // Test hooks — null в продакшне; устанавливаются только в unit-тестах.
     // Позволяют изолировать цикл RunAsync от WPF Dispatcher и AffixLibrary.
     internal Queue<string>? _testClipboardSequence;
@@ -79,11 +84,19 @@ public sealed class DivineCraftService : IDivineCraftService
 
         var first = await OnceAsync().ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(first))
+        {
+            Guard?.RecordSuccess();
             return first;
+        }
 
         log?.Report($"{tag}: буфер пуст, повтор Ctrl+Alt+C…");
         await Task.Delay(1000, ct).ConfigureAwait(false);
-        return await OnceAsync().ConfigureAwait(false);
+        var second = await OnceAsync().ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(second))
+            Guard?.RecordMiss(log);
+        else
+            Guard?.RecordSuccess();
+        return second;
     }
 
     // ── Предпроверка ────────────────────────────────────────────────────────
@@ -152,7 +165,9 @@ public sealed class DivineCraftService : IDivineCraftService
         int globalAttemptOffset,
         IProgress<string>? log,
         CancellationToken ct,
-        CraftRunFileLog? craftLog = null)
+        CraftRunFileLog? craftLog = null,
+        bool orbAlreadySelected = false,
+        bool keepOrbSelected = false)
     {
         if (segmentMaxOperations < 1)
         {
@@ -160,11 +175,14 @@ public sealed class DivineCraftService : IDivineCraftService
             return CraftResult.Failed();
         }
 
+        Guard?.EnsureRunning();
+
         var pattern = conditionSummary.Trim();
         if (pattern.Length == 0) pattern = "(разбор предмета)";
 
-        var orbSelected = false;
-        var shiftHeld = false;
+        // orbAlreadySelected=true: батч держит Shift+орб между предметами — не кликать заново.
+        var orbSelected = orbAlreadySelected;
+        var shiftHeld = orbAlreadySelected;
 
         try
         {
@@ -196,7 +214,7 @@ public sealed class DivineCraftService : IDivineCraftService
                     if (string.IsNullOrWhiteSpace(preClip))
                     {
                         log?.Report("Буфер пуст — ячейка пустая, переходим к следующей.");
-                        if (shiftHeld) Win32Input.ReleaseShift();
+                        if (shiftHeld && !keepOrbSelected) Win32Input.ReleaseShift();
                         return CraftResult.Empty(0);
                     }
 
@@ -221,7 +239,7 @@ public sealed class DivineCraftService : IDivineCraftService
                     if (alreadyMatch)
                     {
                         log?.Report("Условие выполнено — Divine Orb не применяем, переходим к следующей ячейке.");
-                        if (shiftHeld) Win32Input.ReleaseShift();
+                        if (shiftHeld && !keepOrbSelected) Win32Input.ReleaseShift();
                         return CraftResult.Found(attempt - 1, preClip);
                     }
 
@@ -231,7 +249,7 @@ public sealed class DivineCraftService : IDivineCraftService
                     {
                         var desc = DescribeMissingAffixes(plan, preParsed);
                         log?.Report($"Не все аффиксы из условия найдены на предмете — ячейку пропускаем (Divine не тратится). {desc}");
-                        if (shiftHeld) Win32Input.ReleaseShift();
+                        if (shiftHeld && !keepOrbSelected) Win32Input.ReleaseShift();
                         return CraftResult.NoAffixes(0);
                     }
 
@@ -292,7 +310,7 @@ public sealed class DivineCraftService : IDivineCraftService
         }
         finally { }
 
-        if (shiftHeld) Win32Input.ReleaseShift();
+        if (shiftHeld && !keepOrbSelected) Win32Input.ReleaseShift();
         log?.Report($"Достигнут лимит попыток ({segmentMaxOperations}) для ячейки, условие не выполнено.");
         return CraftResult.LimitReached(segmentMaxOperations);
     }
@@ -343,12 +361,17 @@ public sealed class DivineCraftService : IDivineCraftService
                     .Any(p => item.Affixes.Any(a => string.Equals(a.Name, p.AffixName, StringComparison.Ordinal)))
                 ?? false,
 
-            // Count: проверяем только присутствие имён (без числовых порогов)
+            // Count: проверяем только присутствие имён (без числовых порогов).
+            // Фрактурные аффиксы включаются/исключаются в соответствии с IncludeFractured —
+            // чтобы divine не зависал в бесконечном цикле когда единственный совпадающий
+            // член является фрактурным, а IncludeFractured=false (divine его не изменит).
             CraftClauseKind.Count =>
                 clause.Count != null &&
                 clause.Count.Members.Count(m =>
                     m.EffectiveWholeAffixNames().Any(n =>
-                        item.Affixes.Any(a => string.Equals(a.Name, n, StringComparison.Ordinal))))
+                        item.Affixes
+                            .Where(a => clause.Count.IncludeFractured || !a.IsFractured)
+                            .Any(a => string.Equals(a.Name, n, StringComparison.Ordinal))))
                     >= clause.Count.MinMatchCount,
 
             _ => true,

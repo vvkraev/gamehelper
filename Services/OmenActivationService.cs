@@ -9,6 +9,8 @@ public sealed class OmenPlacement
     public ScreenRect StashCell { get; init; }
     public ScreenRect InventoryCell { get; init; }
     public string OmenName { get; init; } = "";
+    /// <summary>Сколько штук перенести из стэша. По умолчанию 1.</summary>
+    public int Quantity { get; init; } = 1;
 }
 
 public sealed class OmenActivationService
@@ -1006,8 +1008,23 @@ public sealed class OmenActivationService
             }
 
             var preview = preClip.Split('\n').FirstOrDefault()?.Trim() ?? "(неизвестно)";
-            log?.Report($"Омен: ячейка инвентаря [{i}] занята другим предметом: «{preview}». Освободите ячейку перед запуском.");
-            return false;
+            log?.Report($"Омен: ячейка инвентаря [{i}] занята («{preview}») — Ctrl+ПКМ для перемещения в стэш…");
+
+            var (cx, cy) = p.InventoryCell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
+            Win32Input.MoveTo(cx, cy);
+            await Task.Delay(150, ct).ConfigureAwait(false);
+            Win32Input.SendCtrlRightClick();
+            await Task.Delay(400, ct).ConfigureAwait(false);
+
+            // Перепроверяем: ячейка должна быть пустой
+            var afterClip = await ReadInventoryClipboardAsync(
+                p.InventoryCell, log, ct, $"Омен: post-clear инвентарь [{i}]").ConfigureAwait(false);
+            if (!string.IsNullOrWhiteSpace(afterClip))
+            {
+                log?.Report($"Омен: ячейка [{i}] всё ещё занята после Ctrl+ПКМ. Освободите ячейку вручную.");
+                return false;
+            }
+            log?.Report($"Омен: ячейка [{i}] освобождена.");
         }
 
         // Шаг 1: ЛКМ стэш → ЛКМ инвентарь (перекладываем каждый омен)
@@ -1027,14 +1044,17 @@ public sealed class OmenActivationService
                 var (sx, sy) = p.StashCell.GetRandomInteriorPoint(1, centerAreaFraction: 0.8);
                 MoveToRandomInteriorIfOutside(p.StashCell, log, $"Омен: MoveTo стэш [{i}]", sx, sy);
                 await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
-                LogMouse(log, $"Омен: Shift+ЛКМ стэш [{i}] (поднять 1)");
+                var qtyStr = p.Quantity > 1 ? p.Quantity.ToString() : "1";
+                LogMouse(log, $"Омен: Shift+ЛКМ стэш [{i}] (поднять {qtyStr})");
                 Win32Input.ShiftDown();
                 await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
                 Win32Input.ClickLeft();
                 await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
                 Win32Input.ShiftUp();
                 await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
-                Win32Input.TypeText("1");
+                // Слайдер PoE2: нажатие цифровой клавиши устанавливает количество
+                foreach (var ch in qtyStr)
+                    Win32Input.PressKey((byte)ch);  // VK 0x30–0x39 совпадают с ASCII '0'–'9'
                 await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);
                 Win32Input.PressEnter();
                 await DelayJitterAsync(MouseActionDelayMs * 2, ct).ConfigureAwait(false);

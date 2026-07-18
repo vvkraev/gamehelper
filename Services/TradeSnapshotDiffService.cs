@@ -208,10 +208,12 @@ public class TradeSnapshotDiffService
                     Quality = node["quality"]?.GetValue<int>() ?? 0,
                     Ilvl = node["ilvl"]?.GetValue<int>() ?? 0,
                     Corrupted = node["corrupted"]?.GetValue<bool>() ?? false,
+                    TwiceCorrupted = node["double_corrupted"]?.GetValue<bool>() ?? false,
                     Sockets = node["sockets"]?.GetValue<int>() ?? 0,
                     ModsFractured = ReadStringList(node["mods_fractured"]?.AsArray()),
                     ModsDesecrated = ReadStringList(node["mods_desecrated"]?.AsArray()),
                     ModsImplicit = ReadStringList(node["mods_implicit"]?.AsArray()),
+                    ModsCorrupted = ReadStringList(node["mods_enchant"]?.AsArray()),
                     ModsExplicit = ReadStringList(node["mods_explicit"]?.AsArray()),
                     ModsCrafted = ReadStringList(node["mods_crafted"]?.AsArray()),
                 };

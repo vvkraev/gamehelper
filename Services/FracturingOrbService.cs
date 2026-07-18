@@ -17,6 +17,11 @@ public sealed class FracturingOrbService : IFracturingOrbService
     public bool TraceInputToLog { get; set; }
     public Func<string, Task>? StepConfirmAsync { get; set; }
 
+    /// <summary>
+    /// Если задан — проверяет процесс игры при старте и после серии пустых буферов.
+    /// </summary>
+    public GameClientGuard? Guard { get; set; }
+
     private static int WithJitter(int baseMs)
     {
         if (baseMs <= 0) return 0;
@@ -62,11 +67,20 @@ public sealed class FracturingOrbService : IFracturingOrbService
         }
 
         var first = await OnceAsync().ConfigureAwait(false);
-        if (!string.IsNullOrWhiteSpace(first)) return first;
+        if (!string.IsNullOrWhiteSpace(first))
+        {
+            Guard?.RecordSuccess();
+            return first;
+        }
 
         log?.Report($"{tag}: буфер пуст, повтор Ctrl+Alt+C…");
         await Task.Delay(1000, ct).ConfigureAwait(false);
-        return await OnceAsync().ConfigureAwait(false);
+        var second = await OnceAsync().ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(second))
+            Guard?.RecordMiss(log);
+        else
+            Guard?.RecordSuccess();
+        return second;
     }
 
     /// <summary>
@@ -131,6 +145,7 @@ public sealed class FracturingOrbService : IFracturingOrbService
         try
         {
             ct.ThrowIfCancellationRequested();
+            Guard?.EnsureRunning();
             _ = ProcessForeground.TryBringProcessToForeground(ProcessForeground.PathOfExile2SteamProcessName);
             await Task.Delay(80, ct).ConfigureAwait(false);
 

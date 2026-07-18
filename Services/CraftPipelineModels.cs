@@ -28,6 +28,42 @@ public enum PipelineAction
     TravelToLocation,
     /// <summary>ПКМ на Abyssal Bone из вкладки Abyss стэша, ЛКМ на предмет.</summary>
     SimpleAbyssalBone,
+    /// <summary>
+    /// Ходьба внутри текущей локации: Escape (опц.) → ПКМ на координаты → задержка прибытия.
+    /// Веха (milestone): выполняется один раз для всего батча.
+    /// </summary>
+    WalkToPosition,
+    /// <summary>
+    /// Открыть стэш через OCR: ищет надпись (StashOcrText из настроек) в заданной области,
+    /// кликает по ней и ждёт открытия. Веха (milestone): выполняется один раз для всего батча.
+    /// </summary>
+    OpenStash,
+    /// <summary>
+    /// Ищет PNG-шаблон в заданной области экрана методом попиксельного сравнения,
+    /// кликает по центру совпадения. Используется для кнопок без текста (иконки, кастомный UI).
+    /// </summary>
+    ClickTemplate,
+    /// <summary>
+    /// OCR читает 3 открытых мода из интерфейса reveal, сопоставляет с пулом десекрейт,
+    /// логирует результат. Success — если среди мода десекрейт совпал с желаемым паттерном;
+    /// Failure — если нет (для повтора reveal). При Success кликает по найденному моду.
+    /// </summary>
+    DesecratePick,
+    /// <summary>
+    /// Ctrl+ЛКМ по центру области предмета (<c>screen.ItemArea</c>).
+    /// Перемещает предмет в/из reveal-слота или другую область инвентаря.
+    /// </summary>
+    CtrlClickItem,
+    /// <summary>
+    /// ЛКМ (или Ctrl+ЛКМ) по центру настраиваемой области экрана.
+    /// Используется для нажатия кнопок Reveal, Reroll и аналогичных статичных элементов UI.
+    /// </summary>
+    ClickRegion,
+    /// <summary>
+    /// Полный цикл десекрейт-reveal как один атомарный шаг батча:
+    /// Ctrl+ЛКМ на предмет (→ слот reveal) → клик кнопки Reveal → DesecratePick → Ctrl+ЛКМ на слот reveal (→ инвентарь).
+    /// </summary>
+    DesecrateReveal,
 }
 
 public enum TransitionTarget
@@ -68,6 +104,11 @@ public sealed class OmenActionConfig
     public int InventoryRow { get; set; }
     /// <summary>Столбец ячейки назначения в инвентаре (0-based).</summary>
     public int InventoryCol { get; set; }
+    /// <summary>
+    /// Если true — количество перекладываемых оменов = числу активных предметов в батче (не Failed).
+    /// Используется для омена Abyssal Echo, который нужен по одному на каждый reveal.
+    /// </summary>
+    public bool UseActiveBatchCount { get; set; } = false;
 }
 
 /// <summary>Конфигурация перехода между локациями через Waypoint.</summary>
@@ -90,6 +131,141 @@ public sealed class TravelActionConfig
 
     /// <summary>Задержка после клика по кнопке локации (мс): ждём загрузки карты.</summary>
     public int LoadingDelayMs { get; set; } = 15000;
+
+    /// <summary>
+    /// Ожидаемое название локации после перехода.
+    /// Проверяется через OCR области <see cref="PipelineScreenConfig.LocationNameArea"/> с повторными попытками.
+    /// Пустая строка — верификация не выполняется.
+    /// </summary>
+    public string ExpectedLocation { get; set; } = "";
+}
+
+/// <summary>
+/// Один шаг WASD-движения: зажать одну или несколько клавиш <b>одновременно</b> на заданное время.
+/// Несколько записей в <see cref="WalkToPositionConfig.KeyPresses"/> выполняются последовательно.
+/// Для диагонального движения укажите несколько клавиш: ["W","D"].
+/// </summary>
+public sealed class WalkKeyPress
+{
+    /// <summary>Клавиши, зажимаемые одновременно, например ["W","D"] для движения по диагонали.</summary>
+    public List<string> Keys { get; set; } = new() { "S" };
+
+    /// <summary>Сколько миллисекунд держать все клавиши нажатыми.</summary>
+    public int DurationMs { get; set; } = 2000;
+}
+
+/// <summary>Конфигурация шага reveal-десекрейт для <see cref="PipelineAction.DesecratePick"/>.</summary>
+public sealed class DesecratePickConfig
+{
+    /// <summary>Область экрана где отображаются 3 открытых мода.</summary>
+    public ScreenRect RevealArea { get; set; }
+
+    /// <summary>Название предмета для логирования (например «Time-Lost Sapphire»).</summary>
+    public string ItemName { get; set; } = "";
+
+    /// <summary>Класс предмета для подбора пула десекрейт (например «Time-Lost Sapphire Jewels»).</summary>
+    public string ItemClass { get; set; } = "";
+
+    /// <summary>
+    /// Если true — все 3 мода из десекрейт-пула (применён особый омен для оружия/бижутерии).
+    /// Если false (по умолчанию) — 1 из десекрейт-пула, 2 обычных.
+    /// </summary>
+    public bool AllModsFromDesecratePool { get; set; } = false;
+
+    /// <summary>
+    /// Условие выбора мода — проверяется для каждой строки интерфейса reveal.
+    /// Первая строка, для которой условие выполнено, кликается (Success).
+    /// null = принять первый найденный десекрейт-мод без условия.
+    /// </summary>
+    public CraftConditionPlan? PickCondition { get; set; }
+
+    /// <summary>Задержка после клика по выбранному моду (мс).</summary>
+    public int ClickDelayMs { get; set; } = 600;
+
+    /// <summary>Область кнопки Confirm в интерфейсе reveal. Нужна только при <see cref="AutoConfirm"/> = true.</summary>
+    public ScreenRect ConfirmButtonArea { get; set; }
+
+    /// <summary>Если true — после выбора мода кликает кнопку Confirm. По умолчанию false (ручное подтверждение).</summary>
+    public bool AutoConfirm { get; set; } = false;
+
+    /// <summary>
+    /// Количество секций, на которые делится <see cref="RevealArea"/> по вертикали.
+    /// Каждая секция = один мод в UI reveal. По умолчанию 3.
+    /// </summary>
+    public int RevealSections { get; set; } = 3;
+
+    /// <summary>
+    /// Если true — при отсутствии нужного мода наводит курсор на <see cref="RerollButtonArea"/> вместо клика по неподходящему моду.
+    /// По умолчанию true (омен на переброс активен).
+    /// </summary>
+    public bool UseReroll { get; set; } = true;
+
+    /// <summary>Область кнопки переброса (Reroll). Используется когда <see cref="UseReroll"/> = true.</summary>
+    public ScreenRect RerollButtonArea { get; set; }
+
+    /// <summary>Задержка после клика по Reroll — ожидание появления новых модов (мс). По умолчанию 1500.</summary>
+    public int AfterRerollDelayMs { get; set; } = 1500;
+}
+
+/// <summary>Конфигурация полного цикла reveal для <see cref="PipelineAction.DesecrateReveal"/>.</summary>
+public sealed class DesecrateRevealConfig
+{
+    /// <summary>Область кнопки Reveal в интерфейсе (клик ЛКМ).</summary>
+    public ScreenRect RevealButtonArea { get; set; }
+
+    /// <summary>Задержка после клика по кнопке Reveal (мс) — ожидание анимации/появления карточек.</summary>
+    public int AfterRevealDelayMs { get; set; } = 1500;
+
+    /// <summary>Область слота reveal — из неё Ctrl+ЛКМ возвращает предмет в инвентарь.</summary>
+    public ScreenRect RevealSlotArea { get; set; }
+
+    /// <summary>Задержка после Ctrl+ЛКМ (перемещение предмета), мс.</summary>
+    public int CtrlClickDelayMs { get; set; } = 500;
+
+    /// <summary>Конфигурация выбора мода (OCR, условие, confirm).</summary>
+    public DesecratePickConfig PickConfig { get; set; } = new();
+}
+
+/// <summary>Конфигурация простого клика для <see cref="PipelineAction.ClickRegion"/>.</summary>
+public sealed class ClickRegionConfig
+{
+    /// <summary>Область экрана; клик по центру.</summary>
+    public ScreenRect Region { get; set; }
+
+    /// <summary>Если true — зажимается Ctrl перед кликом (Ctrl+ЛКМ).</summary>
+    public bool UseCtrl { get; set; } = false;
+
+    /// <summary>Задержка после клика (мс).</summary>
+    public int ClickDelayMs { get; set; } = 500;
+}
+
+/// <summary>Конфигурация поиска кнопки по PNG-шаблону для <see cref="PipelineAction.ClickTemplate"/>.</summary>
+public sealed class ClickTemplateConfig
+{
+    /// <summary>Путь к PNG-шаблону (относительный к Templates/ или абсолютный).</summary>
+    public string TemplatePath { get; set; } = "";
+
+    /// <summary>Область экрана для поиска шаблона.</summary>
+    public ScreenRect SearchRect { get; set; }
+
+    /// <summary>Минимальная доля совпадающих пикселей [0..1]. По умолчанию 0.80.</summary>
+    public double MatchThreshold { get; set; } = 0.80;
+
+    /// <summary>Допуск яркости пикселя [0..255]. По умолчанию 30.</summary>
+    public int ColorTolerance { get; set; } = 30;
+
+    /// <summary>Задержка после клика, мс.</summary>
+    public int ClickDelayMs { get; set; } = 500;
+}
+
+/// <summary>Конфигурация ходьбы внутри локации для <see cref="PipelineAction.WalkToPosition"/>.</summary>
+public sealed class WalkToPositionConfig
+{
+    /// <summary>Список нажатий клавиш. Выполняются последовательно.</summary>
+    public List<WalkKeyPress> KeyPresses { get; set; } = new();
+
+    /// <summary>Нажать Escape перед движением — закрыть открытый стэш/инвентарь.</summary>
+    public bool PressEscapeFirst { get; set; } = true;
 }
 
 public sealed class CraftPipelineStep
@@ -105,6 +281,21 @@ public sealed class CraftPipelineStep
 
     /// <summary>Параметры перехода между локациями — используется только при <see cref="PipelineAction.TravelToLocation"/>.</summary>
     public TravelActionConfig? TravelConfig { get; set; }
+
+    /// <summary>Параметры ходьбы внутри локации — используется только при <see cref="PipelineAction.WalkToPosition"/>.</summary>
+    public WalkToPositionConfig? WalkConfig { get; set; }
+
+    /// <summary>Параметры поиска по шаблону — используется только при <see cref="PipelineAction.ClickTemplate"/>.</summary>
+    public ClickTemplateConfig? TemplateConfig { get; set; }
+
+    /// <summary>Параметры reveal-десекрейт — используется только при <see cref="PipelineAction.DesecratePick"/>.</summary>
+    public DesecratePickConfig? DesecratePickConfig { get; set; }
+
+    /// <summary>Параметры полного цикла reveal — используется только при <see cref="PipelineAction.DesecrateReveal"/>.</summary>
+    public DesecrateRevealConfig? DesecrateRevealConfig { get; set; }
+
+    /// <summary>Параметры клика по области — используется только при <see cref="PipelineAction.ClickRegion"/>.</summary>
+    public ClickRegionConfig? ClickRegionConfig { get; set; }
 
     /// <summary>Id кости (из AbyssKnownItems) — используется только при <see cref="PipelineAction.SimpleAbyssalBone"/>.</summary>
     public string? AbyssalBoneId { get; set; }

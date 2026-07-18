@@ -14,6 +14,8 @@ public class AffixInfo
     public string Name { get; set; } = "";
     public int Tier { get; set; }
     public bool IsFractured { get; set; }
+    /// <summary>Нераскрытый десекрейт-слот: { Prefix/Suffix Modifier "Veiled" } + эффект "Desecrated Prefix/Suffix".</summary>
+    public bool IsUnrevealedDesecrate { get; set; }
     public List<string> Tags { get; set; } = new();
     public List<string> Effects { get; set; } = new();
     /// <summary>Разбор строк эффектов: значение, диапазон в скобках, текст стата.</summary>
@@ -317,6 +319,9 @@ public static class ItemParser
             {
                 currentAffix.Effects.Add(line);
                 currentAffix.EffectDetails.Add(ParseAffixEffectLine(line));
+                if (currentAffix.Name == "Veiled" &&
+                    (line == "Desecrated Prefix" || line == "Desecrated Suffix"))
+                    currentAffix.IsUnrevealedDesecrate = true;
             }
         }
 
@@ -427,6 +432,12 @@ public static class ItemParser
     /// <summary>
     /// Разбор строки эффекта: <c>N(мин-макс)</c> (одно или несколько), иначе ведущее <c>±число</c> без скобок — Stat без переката (<c>+ to Level …</c>), Range и Value — число.
     /// </summary>
+    /// <summary>
+    /// Парсит одну строку эффекта мода из OCR-текста (reveal-интерфейс, читаемые строки буфера).
+    /// Возвращает <see cref="AffixEffectLine"/> с разобранными полями <c>StatText</c> и <c>RolledValue</c>.
+    /// </summary>
+    public static AffixEffectLine ParseRawStatLine(string line) => ParseAffixEffectLine(line);
+
     private static AffixEffectLine ParseAffixEffectLine(string line)
     {
         var raw = line.Trim();

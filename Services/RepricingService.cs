@@ -18,6 +18,13 @@ public sealed class RepricingService
     public int PostClickDelayMs   { get; set; } = 300;
     public int HoverSettleMs      { get; set; } = 120;
 
+    /// <summary>
+    /// Если задан — вызывается после каждой успешной переоценки.
+    /// Параметры: itemText (полный текст предмета из Ctrl+C), newPrice (новая цена в divine).
+    /// Используется для логирования в TabletListingsIndex.
+    /// </summary>
+    public Action<string, int>? OnItemRepriced { get; set; }
+
     private static int WithJitter(int baseMs)
     {
         if (baseMs <= 0) return 0;
@@ -219,6 +226,8 @@ public sealed class RepricingService
             {
                 log?.Report($"{prefix}[{i + 1}/{cells.Count}] ✓ {current} → {newPrice}");
                 repriced++;
+                if (OnItemRepriced is not null && !string.IsNullOrWhiteSpace(text))
+                    OnItemRepriced(text, (int)newPrice);
             }
             else
             {

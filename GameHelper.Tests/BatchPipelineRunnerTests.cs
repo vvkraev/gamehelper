@@ -252,11 +252,93 @@ public sealed class BatchPipelineRunnerTests
         Assert.All(result.Items, item => Assert.Equal(5, item.TotalAttempts));
     }
 
+    // ── OmenActivation: батчевая сшивка ──────────────────────────────────────
+
+    private static CraftPipelineStep OmenStep(string name,
+        TransitionTarget onSuccess = TransitionTarget.Next,
+        TransitionTarget onFailure = TransitionTarget.Abort)
+    {
+        return new CraftPipelineStep
+        {
+            Name  = name,
+            Action = PipelineAction.OmenActivation,
+            OnSuccess = new PipelineTransition { Target = onSuccess },
+            OnFailure = new PipelineTransition { Target = onFailure },
+        };
+    }
+
+    /// <summary>
+    /// OmenActivation — это веха: запускается один раз для всего батча (qty=N через клавиатуру),
+    /// затем следующий шаг выполняется per-item (fused phase).
+    /// Порядок: Omen[0] (один раз для item[0]), затем Exalt[0..2].
+    /// </summary>
+    [Fact]
+    public async Task OmenActivation_BatchFused_AllItemsGetNextStep_WhenOmenSucceeds()
+    {
+        var log = new List<string>();
+        var pipeline = BuildPipeline(
+            OmenStep("Omen", onSuccess: TransitionTarget.Next),
+            Step("Exalt", onSuccess: TransitionTarget.Done));
+
+        var runner = BuildRunner((item, step, _) =>
+        {
+            log.Add($"{step.Name}[{item.CellIndex}]");
+            return Task.FromResult(StepOutcome.Success());
+        });
+
+        var items = new List<BatchItem>
+        {
+            new() { CellIndex = 0 },
+            new() { CellIndex = 1 },
+            new() { CellIndex = 2 },
+        };
+        await RunCore(runner, pipeline, items);
+
+        // Веха: Omen вызывается один раз (с item[0] как референс); Exalt — для всех
+        Assert.Equal(["Omen[0]", "Exalt[0]", "Exalt[1]", "Exalt[2]"], log);
+        Assert.All(items, i => Assert.Equal(BatchItemStatus.Done, i.Status));
+    }
+
+    /// <summary>
+    /// OmenActivation провалилась (веха) → ни один предмет не получает fused-шаг;
+    /// все предметы переходят в Failed по OnFailure=Abort.
+    /// </summary>
+    [Fact]
+    public async Task OmenActivation_BatchFused_NoItemsGetNextStep_WhenOmenFails()
+    {
+        var log = new List<string>();
+        var pipeline = BuildPipeline(
+            OmenStep("Omen", onSuccess: TransitionTarget.Next, onFailure: TransitionTarget.Abort),
+            Step("Exalt", onSuccess: TransitionTarget.Done));
+
+        // Веха проваливается (всегда — для всего батча)
+        var runner = BuildRunner((item, step, _) =>
+        {
+            log.Add($"{step.Name}[{item.CellIndex}]");
+            if (step.Action == PipelineAction.OmenActivation)
+                return Task.FromResult(StepOutcome.Failure());
+            return Task.FromResult(StepOutcome.Success());
+        });
+
+        var items = new List<BatchItem>
+        {
+            new() { CellIndex = 0 },
+            new() { CellIndex = 1 },
+        };
+        await RunCore(runner, pipeline, items);
+
+        // Omen[0] — один вызов вехи; Exalt не запускается ни для кого
+        Assert.Equal(["Omen[0]"], log);
+        Assert.All(items, i => Assert.Equal(BatchItemStatus.Failed, i.Status));
+    }
+
     // ── Отмена ────────────────────────────────────────────────────────────────
 
     [Fact]
-    public async Task Cancellation_ThrowsOperationCancelled()
+    public async Task Cancellation_ReturnsResultWithoutThrowing()
     {
+        // RunCoreAsync перехватывает OperationCanceledException и завершается нормально
+        // (чтобы аккумулировать накопленные расходы перед выходом).
         var pipeline = BuildPipeline(Step("A", onSuccess: TransitionTarget.Done));
         var cts = new CancellationTokenSource();
 
@@ -267,7 +349,8 @@ public sealed class BatchPipelineRunnerTests
             return Task.FromResult(StepOutcome.Success());
         });
 
-        await Assert.ThrowsAsync<OperationCanceledException>(() =>
-            runner.RunAsync(pipeline, PipelineScreenConfig.Empty, Cells(1), null, cts.Token));
+        // Не бросает исключение; возвращает результат с незавершёнными предметами
+        var result = await runner.RunAsync(pipeline, PipelineScreenConfig.Empty, Cells(1), null, cts.Token);
+        Assert.Equal(0, result.DoneCount);
     }
 }
