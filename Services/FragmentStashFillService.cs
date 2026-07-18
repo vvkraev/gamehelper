@@ -14,6 +14,10 @@ public sealed class FragmentStashFillService
     public int TransferDelayMs     { get; set; } = 300;
     /// <summary>Задержка после клика по вкладке/иконке/странице (ожидание загрузки), мс.</summary>
     public int TabSwitchDelayMs    { get; set; } = 500;
+    /// <summary>Задержка ожидания буфера обмена после Ctrl+C, мс.</summary>
+    public int ClipboardDelayMs    { get; set; } = 220;
+    /// <summary>Пропускать предметы из очереди рефорджа при заполнении инвентаря.</summary>
+    public bool SkipReforgeQueueItems { get; set; } = false;
 
     private static int WithJitter(int baseMs)
     {
@@ -24,6 +28,48 @@ public sealed class FragmentStashFillService
 
     private static Task DelayAsync(int baseMs, CancellationToken ct) =>
         Task.Delay(WithJitter(baseMs), ct);
+
+    private static Task ClearClipboardAsync() =>
+        System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
+        {
+            try { System.Windows.Clipboard.Clear(); } catch { }
+        }).Task;
+
+    private static Task<string> ReadClipboardAsync() =>
+        System.Windows.Application.Current.Dispatcher.InvokeAsync(() =>
+        {
+            try { return System.Windows.Clipboard.ContainsText() ? System.Windows.Clipboard.GetText() : string.Empty; }
+            catch { return string.Empty; }
+        }).Task;
+
+    /// <summary>
+    /// Читает ячейку стэша через Ctrl+C и возвращает true если предмет есть в очереди рефорджа.
+    /// Сравнение по BaseType + набору модов (аналогично SmartRepricingService).
+    /// </summary>
+    private async Task<bool> IsCellInReforgeQueueAsync(ScreenRect cell, CancellationToken ct)
+    {
+        if (TabletReforgeQueue.Count == 0) return false;
+
+        var (x, y) = cell.GetInteriorPoint(2);
+        Win32Input.MoveTo(x, y);
+        await DelayAsync(MouseActionDelayMs, ct).ConfigureAwait(false);
+        await ClearClipboardAsync().ConfigureAwait(false);
+        Win32Input.SendCtrlC();
+        await Task.Delay(ClipboardDelayMs, ct).ConfigureAwait(false);
+        var text = await ReadClipboardAsync().ConfigureAwait(false);
+
+        if (string.IsNullOrWhiteSpace(text)) return false;
+
+        var parsed = ItemParser.Parse(text);
+        if (parsed is null) return false;
+
+        var baseType = (parsed.Base ?? "").Trim();
+        var modSet   = new HashSet<string>(TabletListingsIndex.ExtractMods(parsed));
+
+        return TabletReforgeQueue.All.Any(e =>
+            string.Equals(e.BaseType, baseType, StringComparison.OrdinalIgnoreCase) &&
+            new HashSet<string>(e.Mods).SetEquals(modSet));
+    }
 
     private async Task ClickAsync(ScreenRect rect, CancellationToken ct)
     {
@@ -49,8 +95,7 @@ public sealed class FragmentStashFillService
     /// </summary>
     /// <param name="fragmentTabRect">Кнопка вкладки Fragment в навигации стэша.</param>
     /// <param name="tabletsSubTabRect">Кнопка под-вкладки Tablets.</param>
-    /// <param name="tabletTypeIndex">Индекс иконки типа таблетки (0 = первая слева).</param>
-    /// <param name="typeRects">Иконки типов таблеток (ряд). Null/пусто → не кликать.</param>
+    /// <param name="typeIconRect">Иконка конкретного типа таблетки. Width==0 → не кликать (все типы).</param>
     /// <param name="pageRects">Кнопки страниц (1-6). Пусто → одна страница без переключения.</param>
     /// <param name="gridCells">Ячейки сетки предметов на текущей странице.</param>
     /// <param name="maxCount">Максимальное число Ctrl+ЛКМ (0 = все страницы).</param>
@@ -58,8 +103,7 @@ public sealed class FragmentStashFillService
     public async Task<int> FillAsync(
         ScreenRect fragmentTabRect,
         ScreenRect tabletsSubTabRect,
-        int tabletTypeIndex,
-        IReadOnlyList<ScreenRect>? typeRects,
+        ScreenRect typeIconRect,
         IReadOnlyList<ScreenRect> pageRects,
         IReadOnlyList<ScreenRect> gridCells,
         int maxCount,
@@ -92,10 +136,10 @@ public sealed class FragmentStashFillService
         }
 
         // ── 3. Клик по иконке типа ────────────────────────────────────────
-        if (typeRects is { Count: > 0 } && tabletTypeIndex >= 0 && tabletTypeIndex < typeRects.Count)
+        if (typeIconRect.Width > 0)
         {
-            log?.Report($"[Fragment] Выбираем тип (иконка {tabletTypeIndex})...");
-            await ClickAsync(typeRects[tabletTypeIndex], ct).ConfigureAwait(false);
+            log?.Report("[Fragment] Выбираем тип...");
+            await ClickAsync(typeIconRect, ct).ConfigureAwait(false);
             await Task.Delay(WithJitter(TabSwitchDelayMs), ct).ConfigureAwait(false);
         }
 
@@ -126,6 +170,12 @@ public sealed class FragmentStashFillService
                     {
                         log?.Report($"[Fragment] Достигнут лимит {maxCount} — стоп.");
                         return taken;
+                    }
+
+                    if (SkipReforgeQueueItems && await IsCellInReforgeQueueAsync(cell, ct).ConfigureAwait(false))
+                    {
+                        log?.Report("[Fragment] Ячейка — в очереди рефорджа, пропускаем.");
+                        continue;
                     }
 
                     await CtrlClickAsync(cell, ct).ConfigureAwait(false);

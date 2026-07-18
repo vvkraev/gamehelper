@@ -399,7 +399,13 @@ public static class WindowsOcrTextLocator
                 if (!mergedNorm.Contains(targetNormalized, StringComparison.Ordinal))
                     continue;
 
-                var inCapture = ScaleOcrRectToCaptureCoords(union, coordinateScale);
+                // Если таргет целиком содержится в только что добавленной строке j —
+                // кликаем по ней, а не по объединённому прямоугольнику i..j
+                // (иначе центр union попадает в первую строку слияния, а не в нужную).
+                var matchBounds = infos[j].NormText.Contains(targetNormalized, StringComparison.Ordinal)
+                    ? infos[j].Bounds
+                    : union;
+                var inCapture = ScaleOcrRectToCaptureCoords(matchBounds, coordinateScale);
                 var onScreen = RectToScreenRect(searchArea, inCapture);
                 if (onScreen.Y < minScreenY)
                     break; // слишком высоко — прерываем склейку, продолжаем с i+1

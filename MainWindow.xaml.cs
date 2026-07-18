@@ -4,6 +4,8 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Input;
+using CheckBox = System.Windows.Controls.CheckBox;
+using TextBlock = System.Windows.Controls.TextBlock;
 using System.Windows.Interop;
 using GameHelper.Native;
 using GameHelper.Services;
@@ -118,7 +120,9 @@ public partial class MainWindow : Window
     private int _chancingStartStopModifiers;
     private ScreenRect _fragmentStashTabRect;
     private ScreenRect _fragmentSubTabTabletsRect;
-    private List<ScreenRect> _fragmentTabletTypeRects = new();
+    private List<FragmentTabletTypeSetting> _fragmentTabletTypeSettings = FragmentTabletTypeSetting.Defaults();
+    private TextBlock[] _fragmentTypeInfoTexts = [];
+    private CheckBox[] _fragmentTypeCheckBoxes = [];
     private List<ScreenRect> _fragmentPageRects = new();
     private List<ScreenRect> _fragmentGridCells = new();
     private CancellationTokenSource? _fragmentFillCts;
@@ -257,6 +261,15 @@ public partial class MainWindow : Window
 
         InitializeComponent();
         DataContext = _vm;
+        // Массивы UI-элементов для 8 типов таблеток (индекс соответствует FragmentTabletTypeSettings)
+        _fragmentTypeInfoTexts = [
+            FragmentTypeInfo0, FragmentTypeInfo1, FragmentTypeInfo2, FragmentTypeInfo3,
+            FragmentTypeInfo4, FragmentTypeInfo5, FragmentTypeInfo6, FragmentTypeInfo7,
+        ];
+        _fragmentTypeCheckBoxes = [
+            FragmentTypeCheck0, FragmentTypeCheck1, FragmentTypeCheck2, FragmentTypeCheck3,
+            FragmentTypeCheck4, FragmentTypeCheck5, FragmentTypeCheck6, FragmentTypeCheck7,
+        ];
         WindowGeometryStore.Attach(this, "MainWindow");
         Loaded += MainWindow_OnLoaded;
         Closing += MainWindow_OnClosing;
@@ -1039,15 +1052,24 @@ public partial class MainWindow : Window
 
         _fragmentStashTabRect    = s.FragmentStashTabRect;
         _fragmentSubTabTabletsRect = s.FragmentSubTabTabletsRect;
-        _fragmentTabletTypeRects = s.FragmentTabletTypeRects is { Count: > 0 } ftr ? ftr.ToList() : new();
+        // Загрузка типов: если список сохранён — используем, иначе defaults
+        var savedTypes = s.FragmentTabletTypeSettings;
+        if (savedTypes.Count == 0) savedTypes = FragmentTabletTypeSetting.Defaults();
+        // Обеспечиваем ровно 8 элементов
+        while (savedTypes.Count < 8) savedTypes.Add(new FragmentTabletTypeSetting { Name = $"Тип {savedTypes.Count + 1}" });
+        _fragmentTabletTypeSettings = savedTypes;
+        for (var i = 0; i < _fragmentTypeInfoTexts.Length && i < _fragmentTabletTypeSettings.Count; i++)
+        {
+            var ts = _fragmentTabletTypeSettings[i];
+            _fragmentTypeInfoTexts[i].Text  = ts.IconRect.Width > 0 ? FormatRect(ts.IconRect) : "не задана";
+            _fragmentTypeCheckBoxes[i].IsChecked = ts.IsEnabled;
+        }
         _fragmentPageRects       = s.FragmentPageRects is { Count: > 0 } fpr ? fpr.ToList() : new();
         _fragmentGridCells       = s.FragmentGridCells is { Count: > 0 } fgc ? fgc.ToList() : new();
         FragmentStashTabInfo.Text      = _fragmentStashTabRect.Width > 0 ? FormatRect(_fragmentStashTabRect) : "не задана";
         FragmentSubTabTabletsInfo.Text = _fragmentSubTabTabletsRect.Width > 0 ? FormatRect(_fragmentSubTabTabletsRect) : "не задана";
-        FragmentTabletTypeRectsInfo.Text = _fragmentTabletTypeRects.Count > 0 ? $"{_fragmentTabletTypeRects.Count} иконок" : "не задана";
         FragmentPageRectsInfo.Text     = _fragmentPageRects.Count > 0 ? $"{_fragmentPageRects.Count} страниц" : "не задана";
         FragmentGridCellsInfo.Text     = _fragmentGridCells.Count > 0 ? $"{_fragmentGridCells.Count} ячеек" : "не задана";
-        FragmentTypeIndexBox.Text      = s.FragmentSelectedTabletTypeIndex.ToString();
         FragmentFillCountBox.Text      = s.FragmentFillCount.ToString();
         FragmentTransferDelayBox.Text  = s.FragmentTransferDelayMs > 0 ? s.FragmentTransferDelayMs.ToString() : "300";
 
@@ -1256,10 +1278,12 @@ public partial class MainWindow : Window
         s.ChancingStartStopModifiers  = _chancingStartStopModifiers;
         s.FragmentStashTabRect              = _fragmentStashTabRect;
         s.FragmentSubTabTabletsRect         = _fragmentSubTabTabletsRect;
-        s.FragmentTabletTypeRects           = _fragmentTabletTypeRects.Count > 0 ? _fragmentTabletTypeRects : null;
+        // Синхронизируем IsEnabled из чекбоксов перед сохранением
+        for (var i = 0; i < _fragmentTypeCheckBoxes.Length && i < _fragmentTabletTypeSettings.Count; i++)
+            _fragmentTabletTypeSettings[i].IsEnabled = _fragmentTypeCheckBoxes[i].IsChecked == true;
+        s.FragmentTabletTypeSettings        = _fragmentTabletTypeSettings;
         s.FragmentPageRects                 = _fragmentPageRects.Count > 0 ? _fragmentPageRects : null;
         s.FragmentGridCells                 = _fragmentGridCells.Count > 0 ? _fragmentGridCells : null;
-        s.FragmentSelectedTabletTypeIndex   = RfParseInt(FragmentTypeIndexBox.Text, 0);
         s.FragmentFillCount                 = RfParseInt(FragmentFillCountBox.Text, 0);
         s.FragmentTransferDelayMs           = RfParseInt(FragmentTransferDelayBox.Text, 300);
         s.TabletScanNpcOcrRect       = _tabletScanNpcOcrRect;
@@ -5502,16 +5526,19 @@ public partial class MainWindow : Window
         SaveSettings();
     }
 
-    private void FragmentPickTabletTypeRects_Click(object sender, RoutedEventArgs e)
+    private void FragmentPickTypeRect_Click(object sender, RoutedEventArgs e)
     {
-        var dimDlg = new ItemGridDimensionsDialog { Owner = this };
-        if (dimDlg.ShowDialog() != true) return;
-        var picker = new RegionPickerWindow(dimDlg.GridColumns, dimDlg.GridRows) { Owner = this };
+        if (sender is not Button btn || !int.TryParse(btn.Tag?.ToString(), out var idx)) return;
+        if (idx < 0 || idx >= _fragmentTabletTypeSettings.Count) return;
+        var picker = new RegionPickerWindow(1, 1) { Owner = this };
         if (picker.ShowDialog() != true || picker.SelectedRegion is not { } region) return;
-        _fragmentTabletTypeRects = picker.SelectedCells is { Count: > 0 } c ? c.ToList() : new List<ScreenRect> { region };
-        FragmentTabletTypeRectsInfo.Text = $"{_fragmentTabletTypeRects.Count} иконок";
+        _fragmentTabletTypeSettings[idx].IconRect = region;
+        if (idx < _fragmentTypeInfoTexts.Length)
+            _fragmentTypeInfoTexts[idx].Text = FormatRect(region);
         SaveSettings();
     }
+
+    private void FragmentTypeCheck_Changed(object sender, RoutedEventArgs e) => SaveSettings();
 
     private void FragmentPickPageRects_Click(object sender, RoutedEventArgs e)
     {
@@ -5564,20 +5591,36 @@ public partial class MainWindow : Window
 
         try
         {
-            var typeIdx   = RfParseInt(FragmentTypeIndexBox.Text, 0);
-            var maxCount  = RfParseInt(FragmentFillCountBox.Text, 0);
-            var taken = await svc.FillAsync(
-                _fragmentStashTabRect,
-                _fragmentSubTabTabletsRect,
-                typeIdx,
-                _fragmentTabletTypeRects.Count > 0 ? _fragmentTabletTypeRects : null,
-                _fragmentPageRects,
-                _fragmentGridCells,
-                maxCount,
-                progress,
-                ct).ConfigureAwait(true);
+            var maxCount      = RfParseInt(FragmentFillCountBox.Text, 0);
+            var enabledTypes  = _fragmentTabletTypeSettings.Where(t => t.IsEnabled && t.IconRect.Width > 0).ToList();
+            var remaining     = maxCount > 0 ? maxCount : int.MaxValue;
+            var totalTaken    = 0;
 
-            FragmentFillStatusText.Text = $"Готово: {taken} Ctrl+ЛКМ.";
+            if (enabledTypes.Count == 0)
+            {
+                // Если ни один тип не включён — заполняем без клика по иконке (все типы)
+                totalTaken = await svc.FillAsync(
+                    _fragmentStashTabRect, _fragmentSubTabTabletsRect,
+                    default, _fragmentPageRects, _fragmentGridCells,
+                    maxCount, progress, ct).ConfigureAwait(true);
+            }
+            else
+            {
+                foreach (var typeSetting in enabledTypes)
+                {
+                    ct.ThrowIfCancellationRequested();
+                    if (remaining <= 0) break;
+                    var taken = await svc.FillAsync(
+                        _fragmentStashTabRect, _fragmentSubTabTabletsRect,
+                        typeSetting.IconRect, _fragmentPageRects, _fragmentGridCells,
+                        remaining == int.MaxValue ? 0 : remaining,
+                        progress, ct).ConfigureAwait(true);
+                    totalTaken += taken;
+                    if (maxCount > 0) remaining -= taken;
+                }
+            }
+
+            FragmentFillStatusText.Text = $"Готово: {totalTaken} Ctrl+ЛКМ.";
         }
         catch (OperationCanceledException)
         {
@@ -5788,6 +5831,10 @@ public partial class MainWindow : Window
             }
 
             // ── Сканирование ячеек ────────────────────────────────────────
+            TabletScanStatusText.Text = "Определяю занятые ячейки...";
+            var occupiedScanCells = Services.GridOccupancyDetector.FilterOccupied(_tabletScanCells);
+            TabletScanStatusText.Text = $"Занято {occupiedScanCells.Count} из {_tabletScanCells.Count} ячеек.";
+
             var svc = new Services.TabletInventoryScanService
             {
                 HoverSettleMs    = RfParseInt(TabletScanHoverBox.Text, 120),
@@ -5796,7 +5843,7 @@ public partial class MainWindow : Window
 
             var progress = new Progress<string>(msg => TabletScanStatusText.Text = msg);
 
-            var scanResults = await svc.ScanAsync(npcTarget, _tabletScanCells, progress, ct)
+            var scanResults = await svc.ScanAsync(npcTarget, occupiedScanCells, progress, ct)
                 .ConfigureAwait(true);
 
             // ── Оценка каждого предмета ───────────────────────────────────
@@ -5924,6 +5971,10 @@ public partial class MainWindow : Window
 
         try
         {
+            OrbApplyStatusText.Text = "Определяю занятые ячейки...";
+            var occupiedCells = Services.GridOccupancyDetector.FilterOccupied(_tabletScanCells);
+            OrbApplyStatusText.Text = $"Занято {occupiedCells.Count} из {_tabletScanCells.Count} ячеек.";
+
             if (applyOoT)
             {
                 if (!_currencyItemRegions.TryGetValue("Orb of Transmutation", out var ootRect) || ootRect.Width == 0)
@@ -5932,7 +5983,7 @@ public partial class MainWindow : Window
                     return;
                 }
                 OrbApplyStatusText.Text = "Применяю OoT...";
-                await svc.ApplyAsync(ootRect, _tabletScanCells, log, ct).ConfigureAwait(true);
+                await svc.ApplyAsync(ootRect, occupiedCells, log, ct).ConfigureAwait(true);
             }
 
             if (applyOoA)
@@ -5944,7 +5995,7 @@ public partial class MainWindow : Window
                     return;
                 }
                 OrbApplyStatusText.Text = "Применяю OoA...";
-                await svc.ApplyAsync(ooaRect, _tabletScanCells, log, ct).ConfigureAwait(true);
+                await svc.ApplyAsync(ooaRect, occupiedCells, log, ct).ConfigureAwait(true);
             }
 
             OrbApplyStatusText.Text = applyOoT && applyOoA ? "Готово: OoT + OoA применены." :
@@ -6484,6 +6535,206 @@ public partial class MainWindow : Window
         }
     }
 
+    /// <summary>
+    /// Крафт-цикл: заполнение из стэша → OoT+OoA → скан Magic → апгрейд → скан Rare.
+    /// Возвращает список оценённых Rare-табличек для последующего листинга.
+    /// </summary>
+    private async Task<List<(ScreenRect Cell, double Price, string ItemText)>> RunCraftCycleAsync(
+        int mouseFillDelayMs, int transferDelayMs, int maxFillCount,
+        int orbDelayMs, int hoverMs, int clipMs, string npcOcrText,
+        double upgradeThreshold, int upgradeDelayMs,
+        Services.StashOpenConfig stashCfg,
+        IProgress<string> log, CancellationToken ct)
+    {
+        var scanPrices = new List<(ScreenRect Cell, double Price, string ItemText)>();
+
+        // ── 1. Заполнение из стэша ───────────────────────────────────────
+        if (_fragmentGridCells.Count > 0)
+        {
+            Report("[Крафт] Заполнение из стэша...");
+            var fillSvc = new Services.FragmentStashFillService
+            {
+                MouseActionDelayMs = mouseFillDelayMs,
+                TransferDelayMs    = transferDelayMs,
+                ClipboardDelayMs      = clipMs,
+                SkipReforgeQueueItems = true,
+            };
+            var enabledTypes = _fragmentTabletTypeSettings.Where(t => t.IsEnabled && t.IconRect.Width > 0).ToList();
+            var remaining    = maxFillCount > 0 ? maxFillCount : int.MaxValue;
+            var totalTaken   = 0;
+            if (enabledTypes.Count == 0)
+            {
+                totalTaken = await fillSvc.FillAsync(
+                    _fragmentStashTabRect, _fragmentSubTabTabletsRect,
+                    default, _fragmentPageRects, _fragmentGridCells,
+                    maxFillCount, log, ct).ConfigureAwait(false);
+            }
+            else
+            {
+                foreach (var ts in enabledTypes)
+                {
+                    ct.ThrowIfCancellationRequested();
+                    if (remaining <= 0) break;
+                    var taken = await fillSvc.FillAsync(
+                        _fragmentStashTabRect, _fragmentSubTabTabletsRect,
+                        ts.IconRect, _fragmentPageRects, _fragmentGridCells,
+                        remaining == int.MaxValue ? 0 : remaining,
+                        log, ct).ConfigureAwait(false);
+                    totalTaken += taken;
+                    if (maxFillCount > 0) remaining -= taken;
+                }
+            }
+            Report($"[Крафт] Взято {totalTaken} шт. из стэша.");
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        if (_tabletScanCells.Count == 0)
+            return scanPrices;
+
+        // ── 2. Идентификация через NPC (Ctrl+ЛКМ по Doryani) ────────────
+        if (_tabletScanNpcOcrRect.Width > 0 && !string.IsNullOrEmpty(npcOcrText))
+        {
+            Report("[Крафт] Поиск NPC для идентификации...");
+            var norm  = Services.WindowsOcrTextLocator.NormalizeForMatch(npcOcrText);
+            var match = await Services.WindowsOcrTextLocator
+                .TryFindNormalizedSubstringAsync(_tabletScanNpcOcrRect, norm, null, ct)
+                .ConfigureAwait(false);
+            if (match is { } found)
+            {
+                var (nx, ny) = found.BoundsOnScreen.GetInteriorPoint(1);
+                Report($"[Крафт] Identify All: Ctrl+ЛКМ по «{found.MatchedLineText}» ({nx},{ny})...");
+                Native.Win32Input.MoveTo(nx, ny);
+                await Task.Delay(hoverMs, ct).ConfigureAwait(false);
+                Native.Win32Input.SendCtrlLeftClick();
+                await Task.Delay(hoverMs * 3, ct).ConfigureAwait(false);
+            }
+            else
+            {
+                Report($"[Крафт] NPC «{npcOcrText}» не найден — идентификация пропущена.");
+            }
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        // ── 2b. Определяем занятые ячейки инвентаря ─────────────────────
+        var occupiedCells = Services.GridOccupancyDetector.FilterOccupied(_tabletScanCells);
+        Report($"[Крафт] Занято {occupiedCells.Count} из {_tabletScanCells.Count} ячеек.");
+        if (occupiedCells.Count == 0)
+        {
+            Report("[Крафт] Инвентарь пуст — пропускаем орбы и листинг.");
+            return scanPrices;
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        // ── 3. Открытие стэша (орбы берём из стэша) ─────────────────────
+        Report("[Крафт] Открываю стэш...");
+        var stashOk = await Services.GameUiHelper.EnsureStashOpenAsync(stashCfg, log, ct).ConfigureAwait(false);
+        if (!stashOk)
+        {
+            Report("[Крафт] Стэш не открылся — пропускаем орбы и апгрейд.");
+            return scanPrices;
+        }
+
+        // ── 4. OoT → занятые ячейки (Normal → Magic) ───────────────────
+        var orbSvc = new Services.TabletOrbApplicationService { ActionDelayMs = orbDelayMs };
+        if (_currencyItemRegions.TryGetValue("Orb of Transmutation", out var ootRect) && ootRect.Width > 0)
+        {
+            Report("[Крафт] Применяю OoT...");
+            await orbSvc.ApplyAsync(ootRect, occupiedCells, log, ct).ConfigureAwait(false);
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        // ── 5. OoA → занятые ячейки (+1 мод к Magic) ───────────────────
+        if (_currencyItemRegions.TryGetValue("Orb of Augmentation", out var ooaRect) && ooaRect.Width > 0)
+        {
+            Report("[Крафт] Применяю OoA...");
+            await orbSvc.ApplyAsync(ooaRect, occupiedCells, log, ct).ConfigureAwait(false);
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        // ── 6. Скан и оценка Magic-табличек ─────────────────────────────
+        (int x, int y)? npcTarget = null;
+        if (_tabletScanNpcOcrRect.Width > 0 && !string.IsNullOrEmpty(npcOcrText))
+        {
+            var norm  = Services.WindowsOcrTextLocator.NormalizeForMatch(npcOcrText);
+            var match = await Services.WindowsOcrTextLocator
+                .TryFindNormalizedSubstringAsync(_tabletScanNpcOcrRect, norm, null, ct)
+                .ConfigureAwait(false);
+            if (match is { } found)
+                npcTarget = found.BoundsOnScreen.GetInteriorPoint(1);
+        }
+
+        var scanSvc = new Services.TabletInventoryScanService
+        {
+            HoverSettleMs    = hoverMs,
+            ClipboardDelayMs = clipMs,
+        };
+
+        Report("[Крафт] Сканирование (Magic)...");
+        var magicResults = await scanSvc.ScanAsync(npcTarget, occupiedCells, log, ct).ConfigureAwait(false);
+
+        var magicPrices = new List<(ScreenRect Cell, double Price, string ItemText)>();
+        foreach (var r in magicResults.Where(r => !r.IsEmpty))
+        {
+            ct.ThrowIfCancellationRequested();
+            var eval = await EvaluateTabletClipboardAsync(r.ItemText).ConfigureAwait(true);
+            var pm   = System.Text.RegularExpressions.Regex.Match(eval, @"~(\d+\.?\d*)d");
+            if (pm.Success && double.TryParse(pm.Groups[1].Value,
+                    System.Globalization.NumberStyles.Any,
+                    System.Globalization.CultureInfo.InvariantCulture, out var price))
+                magicPrices.Add((r.Cell, price, r.ItemText));
+        }
+        Report($"[Крафт] Magic-оценка: {magicPrices.Count} табличек.");
+
+        ct.ThrowIfCancellationRequested();
+
+        // ── 7. Апгрейд: Regal+Exalt / Alchemy ───────────────────────────
+        var expensive = magicPrices.Where(p => p.Price >= upgradeThreshold).Select(p => p.Cell).ToList();
+        var cheap     = magicPrices.Where(p => p.Price <  upgradeThreshold).Select(p => p.Cell).ToList();
+        Report($"[Крафт] Апгрейд: {expensive.Count} × Regal+Exalt, {cheap.Count} × Alchemy.");
+
+        var upgSvc   = new Services.TabletOrbApplicationService { ActionDelayMs = upgradeDelayMs };
+        var regalRect = GetCurrencyRect("Regal Orb", "Greater Regal Orb", "Perfect Regal Orb");
+        var exaltRect = GetCurrencyRect("Exalted Orb", "Greater Exalted Orb", "Perfect Exalted Orb");
+        var alchRect  = GetCurrencyRect("Orb of Alchemy");
+
+        if (expensive.Count > 0 && regalRect is { } reg && exaltRect is { } ext)
+        {
+            await upgSvc.ApplyAsync(reg, expensive, log, ct).ConfigureAwait(false);
+            ct.ThrowIfCancellationRequested();
+            await upgSvc.ApplyAsync(ext, expensive, log, ct).ConfigureAwait(false);
+        }
+        if (cheap.Count > 0 && alchRect is { } alc)
+        {
+            ct.ThrowIfCancellationRequested();
+            await upgSvc.ApplyAsync(alc, cheap, log, ct).ConfigureAwait(false);
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        // ── 8. Ресканирование Rare-табличек (финальная оценка) ───────────
+        Report("[Крафт] Сканирование (Rare)...");
+        var rareResults = await scanSvc.ScanAsync(npcTarget, occupiedCells, log, ct).ConfigureAwait(false);
+
+        foreach (var r in rareResults.Where(r => !r.IsEmpty))
+        {
+            ct.ThrowIfCancellationRequested();
+            var eval = await EvaluateTabletClipboardAsync(r.ItemText).ConfigureAwait(true);
+            var pm   = System.Text.RegularExpressions.Regex.Match(eval, @"~(\d+\.?\d*)d");
+            if (pm.Success && double.TryParse(pm.Groups[1].Value,
+                    System.Globalization.NumberStyles.Any,
+                    System.Globalization.CultureInfo.InvariantCulture, out var price))
+                scanPrices.Add((r.Cell, price, r.ItemText));
+        }
+        Report($"[Крафт] Rare-оценка: {scanPrices.Count} табличек готово к листингу.");
+
+        return scanPrices;
+    }
+
     private async Task RunTabFlowIterationAsync(
         List<(ScreenRect, IReadOnlyList<ScreenRect>)> shopTabs,
         string sessid, string league, bool dryRun, CancellationToken ct)
@@ -6502,6 +6753,17 @@ public partial class MainWindow : Window
                 StashOcrTextBox.Text.Trim(),
                 StashIsOpenCheckTextBox.Text.Trim(),
                 RfParseInt(RfStashOpenDelayBox.Text, 3000)
+            ));
+
+        var (mouseFillDelayMs, orbDelayMs, upgradeDelayMs, npcOcrText, upgradeThreshold) =
+            Dispatcher.Invoke(() => (
+                RfParseInt(ChancingMouseDelayBox.Text, 80),
+                RfParseInt(OrbApplyDelayBox.Text, 400),
+                RfParseInt(UpgradeDelayBox.Text, 400),
+                TabletScanNpcOcrTextBox.Text.Trim(),
+                double.TryParse(UpgradeThresholdBox.Text,
+                    System.Globalization.NumberStyles.Any,
+                    System.Globalization.CultureInfo.InvariantCulture, out var ut) ? ut : 1.0
             ));
 
         // 1. Fetch продаж
@@ -6532,6 +6794,24 @@ public partial class MainWindow : Window
             var floorLog = await Services.SmartRepricingService.FetchFloorPricesAsync(
                 ProjectPaths.GetProjectRoot(), sessid, league, ct).ConfigureAwait(false);
             Report($"Флор: {floorLog}");
+        }
+
+        ct.ThrowIfCancellationRequested();
+
+        // 2b. Крафт-цикл: заполнение → орбы → скан → апгрейд → ресканирование
+        var craftScanPrices = new List<(ScreenRect Cell, double Price, string ItemText)>();
+        if (!dryRun && (_fragmentGridCells.Count > 0 || _tabletScanCells.Count > 0))
+        {
+            var craftLog = new Progress<string>(Report);
+            var craftStashCfg = new Services.StashOpenConfig(
+                _stashOcrSearchRect, stashOcrText,
+                _stashIsOpenCheckRect, stashCheckText,
+                stashDelayMs);
+            craftScanPrices = await RunCraftCycleAsync(
+                mouseFillDelayMs, transferMs, fillCount,
+                orbDelayMs, actionMs, clipMs, npcOcrText,
+                upgradeThreshold, upgradeDelayMs,
+                craftStashCfg, craftLog, ct).ConfigureAwait(false);
         }
 
         ct.ThrowIfCancellationRequested();
@@ -6588,6 +6868,34 @@ public partial class MainWindow : Window
             {
                 Report("Не удалось открыть магазин Ange — переоценка пропущена.");
                 return;
+            }
+
+            // 4a. Листинг скрафченных табличек (Ange уже открыт)
+            if (craftScanPrices.Count > 0)
+            {
+                Report($"[Крафт] Листинг {craftScanPrices.Count} новых табличек...");
+                var logPath  = System.IO.Path.Combine(ProjectPaths.GetProjectRoot(), "vault", "tabflow", "listings.jsonl");
+                var gridRows = _tabletScanGridCols > 0 && _tabletScanCells.Count > 0
+                    ? _tabletScanCells.Count / _tabletScanGridCols : 5;
+                var lSvc = _tabletListingService;
+                lSvc.ResetState();
+                int newListed = 0, newSkipped = 0;
+                for (var i = 0; i < craftScanPrices.Count; i++)
+                {
+                    ct.ThrowIfCancellationRequested();
+                    var (cell, price, itemText) = craftScanPrices[i];
+                    var cellIdx = _tabletScanCells.IndexOf(cell);
+                    var col = cellIdx >= 0 ? cellIdx / gridRows + 1 : i + 1;
+                    var row = cellIdx >= 0 ? cellIdx % gridRows + 1 : 1;
+                    var wasListed = await lSvc.ListAsync(
+                        cell, price, col, row, itemText, logPath,
+                        _listingPriceInputRect, _listingCurrencyDropdownRect,
+                        _listingDivineOrbOcrRect, _listingListItemBtnRect,
+                        progress, ct).ConfigureAwait(false);
+                    if (wasListed) newListed++; else newSkipped++;
+                }
+                Report($"[Крафт] Выставлено {newListed}, пропущено (пустых) {newSkipped}.");
+                if (newListed > 0) ScheduleSalesFetch();
             }
 
             var svc = new Services.SmartRepricingService

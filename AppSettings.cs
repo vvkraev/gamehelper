@@ -317,18 +317,22 @@ public sealed class AppSettings
     public ScreenRect FragmentStashTabRect { get; set; }
     /// <summary>Под-вкладка «Tablets» внутри Fragment Stash.</summary>
     public ScreenRect FragmentSubTabTabletsRect { get; set; }
-    /// <summary>Иконки типов таблеток (ряд из N иконок слева направо).</summary>
-    public List<ScreenRect>? FragmentTabletTypeRects { get; set; }
+    /// <summary>Индивидуальные настройки каждого типа таблетки: иконка + включён ли тип.</summary>
+    public List<FragmentTabletTypeSetting> FragmentTabletTypeSettings { get; set; } = FragmentTabletTypeSetting.Defaults();
     /// <summary>Кнопки страниц (зелёные кнопки 1-6 под иконками типов).</summary>
     public List<ScreenRect>? FragmentPageRects { get; set; }
     /// <summary>Ячейки сетки предметов на текущей странице Fragment Stash.</summary>
     public List<ScreenRect>? FragmentGridCells { get; set; }
-    /// <summary>Индекс иконки типа таблетки (0 = первая слева).</summary>
-    public int FragmentSelectedTabletTypeIndex { get; set; } = 0;
     /// <summary>Максимальное число Ctrl+ЛКМ (0 = все страницы до конца). По умолчанию 60 = полный инвентарь.</summary>
     public int FragmentFillCount { get; set; } = 60;
     /// <summary>Задержка после Ctrl+ЛКМ при заборе предмета, мс.</summary>
     public int FragmentTransferDelayMs { get; set; } = 300;
+
+    // Устаревшие — читаются из старого settings.json, не пишутся
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public List<ScreenRect>? FragmentTabletTypeRects { get; set; }
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+    public int FragmentSelectedTabletTypeIndex { get; set; }
 
     // ── Шансинг (Orb of Chance) ──────────────────────────────────────────────
     /// <summary>Ячейка стака Orb of Chance в инвентаре или сташе.</summary>
@@ -393,6 +397,30 @@ public sealed class AppSettings
     /// <summary>Область 3 вариантов Cranium Reveal (1 столбец × 3 строки).</summary>
     public ScreenRect DesecrateCaptureArea { get; set; }
 
+}
+
+/// <summary>Настройки одного типа таблетки в Fragment Stash: иконка-пикер + включён ли тип.</summary>
+public sealed class FragmentTabletTypeSetting
+{
+    /// <summary>Отображаемое название типа (напр. "Ritual", "Breach").</summary>
+    public string Name { get; set; } = "";
+    /// <summary>Прямоугольник иконки типа в Fragment Stash (Width==0 → не задана).</summary>
+    public ScreenRect IconRect { get; set; }
+    /// <summary>Включён ли тип в автоматическое заполнение инвентаря.</summary>
+    public bool IsEnabled { get; set; } = false;
+
+    /// <summary>Стандартный список 7 типов Ritual Tablet + Unique.</summary>
+    public static List<FragmentTabletTypeSetting> Defaults() =>
+    [
+        new() { Name = "Ritual"    },
+        new() { Name = "Breach"    },
+        new() { Name = "Delirium"  },
+        new() { Name = "Abyss"     },
+        new() { Name = "Temple"    },
+        new() { Name = "Irradiated"},
+        new() { Name = "Overseer"  },
+        new() { Name = "Unique"    },
+    ];
 }
 
 /// <summary>Конфигурация одной вкладки торговца для переоценки.</summary>

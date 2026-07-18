@@ -1451,17 +1451,111 @@
                                 <Button Grid.Column="2" Content="Задать…" Padding="8,4"
                                         Click="FragmentPickSubTabTabletsRect_Click"/>
                             </Grid>
-                            <Grid Margin="0,0,0,4">
+                            <!-- 8 пикеров типов таблеток + чекбоксы включения -->
+                            <TextBlock Text="Типы таблеток:" FontSize="11" Foreground="#555" Margin="0,0,0,2"/>
+                            <Grid Margin="0,0,0,2">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="100"/>
                                     <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="120"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
                                 </Grid.ColumnDefinitions>
-                                <TextBlock Text="Иконки типов (ряд):" VerticalAlignment="Center"/>
-                                <TextBlock x:Name="FragmentTabletTypeRectsInfo" Grid.Column="1" VerticalAlignment="Center"
-                                           Foreground="#555" FontSize="11" Text="не задана"/>
-                                <Button Grid.Column="2" Content="Задать сетку…" Padding="8,4"
-                                        Click="FragmentPickTabletTypeRects_Click"/>
+                                <TextBlock Text="Ritual:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo0" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="0" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck0" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Breach:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo1" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="1" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck1" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Delirium:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo2" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="2" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck2" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Abyss:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo3" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="3" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck3" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Temple:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo4" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="4" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck4" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Irradiated:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo5" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="5" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck5" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Overseer:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo6" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="6" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck6" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Unique:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo7" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="7" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck7" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
                             </Grid>
                             <Grid Margin="0,0,0,4">
                                 <Grid.ColumnDefinitions>
@@ -1490,14 +1584,6 @@
 
                             <!-- Параметры -->
                             <TextBlock Text="Параметры" FontWeight="SemiBold" Margin="0,0,0,6"/>
-                            <Grid Margin="0,0,0,4">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="220"/>
-                                    <ColumnDefinition Width="60"/>
-                                </Grid.ColumnDefinitions>
-                                <TextBlock Text="Индекс типа (0 = первый):" VerticalAlignment="Center"/>
-                                <TextBox x:Name="FragmentTypeIndexBox" Grid.Column="1" Text="0" Padding="4,2"/>
-                            </Grid>
                             <Grid Margin="0,0,0,4">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="220"/>

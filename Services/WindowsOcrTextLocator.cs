@@ -317,7 +317,7 @@ public static class WindowsOcrTextLocator
         return overlap >= minW * minFraction;
     }
 
-    private sealed record LineInfo(string RawText, string NormText, Windows.Foundation.Rect Bounds);
+    private sealed record LineInfo(string RawText, string NormText, Windows.Foundation.Rect Bounds, IReadOnlyList<OcrWord>? Words = null);
 
     private static List<LineInfo> BuildSortedLineInfos(IReadOnlyList<OcrLine> lines)
     {
@@ -327,7 +327,7 @@ public static class WindowsOcrTextLocator
             if (line.Words == null || line.Words.Count == 0)
                 continue;
             var u = UnionWordRects(line.Words);
-            list.Add(new LineInfo(line.Text ?? "", NormalizeForMatch(line.Text ?? ""), u));
+            list.Add(new LineInfo(line.Text ?? "", NormalizeForMatch(line.Text ?? ""), u, line.Words));
         }
 
         list.Sort((a, b) =>
@@ -336,6 +336,32 @@ public static class WindowsOcrTextLocator
             return dy != 0 ? dy : a.Bounds.X.CompareTo(b.Bounds.X);
         });
         return list;
+    }
+
+    /// <summary>
+    /// Ищет наиболее правый минимальный набор последовательных слов, чья нормализованная
+    /// конкатенация содержит <paramref name="targetNormalized"/>.
+    /// Возвращает union-rect этих слов или null если не нашли.
+    /// Движение справа налево гарантирует выбор самого позднего (нижнего/правого) вхождения.
+    /// </summary>
+    private static Windows.Foundation.Rect? TryNarrowBoundsToWords(
+        IReadOnlyList<OcrWord> words, string targetNormalized)
+    {
+        for (var start = words.Count - 1; start >= 0; start--)
+        {
+            var norm = "";
+            for (var end = start; end < words.Count; end++)
+            {
+                norm += NormalizeForMatch(words[end].Text);
+                if (!norm.Contains(targetNormalized, StringComparison.Ordinal))
+                    continue;
+                var bounds = words[start].BoundingRect;
+                for (var k = start + 1; k <= end; k++)
+                    bounds = UnionTwoRects(bounds, words[k].BoundingRect);
+                return bounds;
+            }
+        }
+        return null;
     }
 
     private static OcrMatch? TryMultilineAdjacentMatch(
@@ -373,7 +399,15 @@ public static class WindowsOcrTextLocator
                 : mergedNorm.Contains(targetNormalized, StringComparison.Ordinal);
             if (singleLineMatch)
             {
-                var inCapture = ScaleOcrRectToCaptureCoords(union, coordinateScale);
+                // Если target — подстрока более длинной строки (OCR склеил несколько UI-элементов
+                // в один OcrLine), сужаем bounds до уровня слов — иначе центр попадёт мимо.
+                var matchBounds = union;
+                if (!exactMatch && mergedNorm.Length > targetNormalized.Length + 2 && infos[i].Words is { Count: > 0 } words)
+                {
+                    var narrowed = TryNarrowBoundsToWords(words, targetNormalized);
+                    if (narrowed.HasValue) matchBounds = narrowed.Value;
+                }
+                var inCapture = ScaleOcrRectToCaptureCoords(matchBounds, coordinateScale);
                 var onScreen = RectToScreenRect(searchArea, inCapture);
                 if (onScreen.Y < minScreenY)
                     continue; // слишком высоко — ищем дальше вниз
@@ -399,7 +433,13 @@ public static class WindowsOcrTextLocator
                 if (!mergedNorm.Contains(targetNormalized, StringComparison.Ordinal))
                     continue;
 
-                var inCapture = ScaleOcrRectToCaptureCoords(union, coordinateScale);
+                // Если таргет целиком содержится в только что добавленной строке j —
+                // кликаем по ней, а не по объединённому прямоугольнику i..j
+                // (иначе центр union попадает в первую строку слияния, а не в нужную).
+                var matchBounds = infos[j].NormText.Contains(targetNormalized, StringComparison.Ordinal)
+                    ? infos[j].Bounds
+                    : union;
+                var inCapture = ScaleOcrRectToCaptureCoords(matchBounds, coordinateScale);
                 var onScreen = RectToScreenRect(searchArea, inCapture);
                 if (onScreen.Y < minScreenY)
                     break; // слишком высоко — прерываем склейку, продолжаем с i+1
