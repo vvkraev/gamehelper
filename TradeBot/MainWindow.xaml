@@ -101,6 +101,11 @@
                     <CheckBox x:Name="ScanOnStartupBox" Content="Скан при запуске" VerticalAlignment="Center" Margin="16,0,0,0"/>
                     <CheckBox x:Name="CloseOnInventoryFullBox" Content="Закрыть игру и бот при заполнении" VerticalAlignment="Center" Margin="16,0,0,0"/>
                 </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                    <TextBlock Text="Пауза при заполнении витрины ≥" VerticalAlignment="Center"/>
+                    <TextBox x:Name="PauseFillRateBox" Width="45" Margin="8,0,0,0" Text="0.75"/>
+                    <TextBlock Text="(0–1; 0 = выкл.)" Foreground="#888" Margin="6,0,0,0" VerticalAlignment="Center" FontSize="11"/>
+                </StackPanel>
                 <TextBlock x:Name="InventoryRegionLabel" Text="Инвентарь: не задан  |  Личный стэш: не задан"
                            Foreground="#888" Margin="0,4,0,0" FontSize="11"/>
             </StackPanel>

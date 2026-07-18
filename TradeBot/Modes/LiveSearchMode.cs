@@ -200,8 +200,52 @@ public sealed class LiveSearchMode(TradeBotSettings cfg, InventoryState inventor
         }
     }
 
+    /// <summary>
+    /// Подсчитывает активные (непроданные) листинги в listings_index.json
+    /// и возвращает долю от 144 слотов витрины. Возвращает 0 если файл не найден.
+    /// </summary>
+    private double ReadShowcaseFillRate()
+    {
+        const int ShowcaseSlots = 144;
+
+        // Поднимаемся по дереву директорий от exe до нахождения vault/tabflow/listings_index.json
+        var dir = new System.IO.DirectoryInfo(AppContext.BaseDirectory);
+        string indexPath = "";
+        for (var i = 0; i < 6 && dir != null; i++, dir = dir.Parent)
+        {
+            var candidate = System.IO.Path.Combine(dir.FullName, "vault", "tabflow", "listings_index.json");
+            if (System.IO.File.Exists(candidate)) { indexPath = candidate; break; }
+        }
+
+        if (string.IsNullOrEmpty(indexPath)) return 0.0;
+
+        try
+        {
+            var json = System.IO.File.ReadAllText(indexPath);
+            using var doc = JsonDocument.Parse(json);
+            if (doc.RootElement.ValueKind != JsonValueKind.Array) return 0.0;
+
+            var active = doc.RootElement.EnumerateArray()
+                .Count(e => !(e.TryGetProperty("sold", out var s) && s.ValueKind == JsonValueKind.True));
+
+            return (double)active / ShowcaseSlots;
+        }
+        catch { return 0.0; }
+    }
+
     private async Task ProcessSellerBatchAsync(List<TradeItem> items, TcpWsClient client, CancellationToken ct)
     {
+        // Проверка заполненности витрины перед поездкой к продавцу
+        if (cfg.PauseFillRateThreshold > 0)
+        {
+            var fillRate = ReadShowcaseFillRate();
+            if (fillRate >= cfg.PauseFillRateThreshold)
+            {
+                log($"  ⏸ витрина {fillRate:P0} ≥ порог {cfg.PauseFillRateThreshold:P0} — пропуск {items[0].SellerAccount}");
+                return;
+            }
+        }
+
         // Проверка инвентаря перед поездкой к продавцу
         if (cfg.InventoryCheckEnabled)
         {

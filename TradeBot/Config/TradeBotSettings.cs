@@ -35,4 +35,8 @@ public sealed class TradeBotSettings
 
     // ── Автовход после перезапуска игры ──────────────────────────────────────
     public GameHelper.Services.GameLoginSettings LoginSettings { get; set; } = new();
+
+    // ── Витрина: пауза покупок при заполнении ─────────────────────────────────
+    /// <summary>Порог заполненности витрины [0..1] для паузы покупок. 0 = отключено.</summary>
+    public double PauseFillRateThreshold { get; set; } = 0.75;
 }
