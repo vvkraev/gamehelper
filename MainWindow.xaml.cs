@@ -6510,7 +6510,7 @@ public partial class MainWindow : Window
             Dispatcher.Invoke(() =>
             {
                 TryRegisterCraftCancelHotkey();
-                MinimizeToTrayOnStart();
+                if (!dryRun) MinimizeToTrayOnStart(); // в dry-run кликов нет — окно не прячем
             });
             try
             {
@@ -6526,7 +6526,7 @@ public partial class MainWindow : Window
                 Dispatcher.Invoke(() =>
                 {
                     UnregisterCraftCancelHotkey();
-                    RestoreFromTray();
+                    if (!dryRun) RestoreFromTray();
                 });
             }
 
@@ -6819,6 +6819,28 @@ public partial class MainWindow : Window
                 orbDelayMs, actionMs, clipMs, npcOcrText,
                 upgradeThreshold, upgradeDelayMs,
                 craftStashCfg, craftLog, ct).ConfigureAwait(false);
+        }
+        else if (dryRun)
+        {
+            var hasFrag = _fragmentGridCells.Count > 0;
+            var hasScan = _tabletScanCells.Count > 0;
+            if (!hasFrag && !hasScan)
+            {
+                Report("[DRY-RUN] Крафт-цикл: ячейки не настроены — пропуск.");
+            }
+            else
+            {
+                var enabledTypes = _fragmentTabletTypeSettings
+                    .Where(ts => ts.IsEnabled)
+                    .Select(ts => ts.Name)
+                    .ToList();
+                var typeStr = enabledTypes.Count > 0
+                    ? string.Join(", ", enabledTypes) : "нет включённых";
+                Report($"[DRY-RUN] Крафт-цикл: фрагменты={_fragmentGridCells.Count} ячеек | " +
+                       $"инвентарь={_tabletScanCells.Count} ячеек | лимит={fillCount}");
+                Report($"[DRY-RUN] Типы: {typeStr}");
+                Report("[DRY-RUN] Заполнение, крафт и листинг пропущены (нет кликов).");
+            }
         }
 
         ct.ThrowIfCancellationRequested();
