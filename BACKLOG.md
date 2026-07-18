@@ -646,7 +646,7 @@ while есть активные предметы (не Done/Failed):
     3. Порог сделать настраиваемым в `TradeBotSettings.PauseFillRateThreshold` (default 0.75)
   - **Зависит от**: `listings_index.json` (уже есть), `TabletListingsIndex` (уже есть)
 
-- [ ] **TABFLOW-2** Батчинг `evaluate_clipboard.py` — 1 процесс на итерацию вместо ~120
+- [x] **TABFLOW-2** Батчинг `evaluate_clipboard.py` — 1 процесс на итерацию вместо ~120
   - **Проблема**: `TabletInventoryScanService` запускает `wsl.exe evaluate_clipboard.py` по одному на каждую ячейку инвентаря (~120 штук/итерацию). Каждый запуск WSL стоит ~200-300мс → итерация ≥ 24 секунды только на оценку.
   - **Решение**: передавать все буферы разом — stdin или временный файл со списком текстов → скрипт возвращает JSON-массив цен.
   - **Что нужно:**

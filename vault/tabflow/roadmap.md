@@ -67,8 +67,8 @@ TradeBot.exe           — buy loop, отчуждаемое приложение
 **Без игры (день):**
 - [x] `SoldDetector`: polling GGG API `sales_history` → сравнение с listings_index → `sold: true`
 - [x] `LoopOrchestrator`: фоновый цикл (`RunTabFlowLoopAsync`/`RunTabFlowIterationAsync` в MainWindow)
-- [ ] Интеграция с TradeBot: TradeBot читает listings_index → при fill > 75% приостанавливает покупки — **TABFLOW-1**
-- [ ] Dry-run режим: цикл логирует действия без кликов
+- [x] Интеграция с TradeBot: TradeBot читает listings_index → при fill > 75% приостанавливает покупки — **TABFLOW-1**
+- [x] Dry-run режим: цикл логирует действия без кликов
 
 **С игрой (вечер):**
 - [ ] Полный прогон в dry-run с верификацией логов
