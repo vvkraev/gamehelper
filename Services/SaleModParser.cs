@@ -58,10 +58,12 @@ public static class SaleModParser
     private static readonly Dictionary<string, (string AffixName, string FamilyId)> KnownCraftedExact =
         new(StringComparer.OrdinalIgnoreCase)
         {
-            ["+1 Prefix Modifier allowed"] = ("Ancient Potent Liquid Contempt", "MaxPrefixCount"),
-            ["-1 Prefix Modifier allowed"] = ("Prefix Limiter",                 "MaxPrefixCount"),
-            ["-1 Suffix Modifier allowed"] = ("Suffix Limiter",                 "MaxSuffixCount"),
-            ["+20% to Maximum Quality"]    = ("Quality Crafted",                "CraftedQuality"),
+            ["+1 Prefix Modifier allowed"]   = ("Ancient Potent Liquid Contempt", "MaxPrefixCount"),
+            ["+1 Suffix Modifier allowed"]   = ("Ancient Potent Liquid Contempt", "MaxSuffixCount"),
+            ["-1 Prefix Modifier allowed"]   = ("Prefix Limiter",                 "MaxPrefixCount"),
+            ["-1 Suffix Modifier allowed"]   = ("Suffix Limiter",                 "MaxSuffixCount"),
+            ["+20% to Maximum Quality"]      = ("Quality Crafted",                "CraftedQuality"),
+            ["Upgrades Radius to Very Large"] = ("Ancient Potent Liquid Melancholy", "JewelRadiusUpgrade"),
         };
 
     /// <summary>
@@ -69,8 +71,9 @@ public static class SaleModParser
     /// </summary>
     private static readonly (string Template, string AffixName, string FamilyId)[] KnownCraftedTemplates =
     [
-        ("#% increased Effect of Suffixes", "Potent Liquid Ferocity", "DeliriumEffectSuffixes"),
-        ("#% increased Effect of Prefixes", "Potent Liquid Ferocity", "DeliriumEffectPrefixes"),
+        ("#% increased Effect of Suffixes",              "Potent Liquid Ferocity",   "DeliriumEffectSuffixes"),
+        ("#% increased Effect of Prefixes",              "Potent Liquid Ferocity",   "DeliriumEffectPrefixes"),
+        ("#% increased effect of Socketed Augment Items","Socketed Augment Crafted", "SocketedAugmentEffect"),
     ];
 
     /// <summary>
@@ -104,8 +107,14 @@ public static class SaleModParser
     {
         var runeEntries = RuneAffixLibrary.GetAllEntries();
         var result = new List<ParsedModInfo>();
-        result.AddRange(AffixResolver.Resolve(record.ExplicitMods, isFractured: false, entries, runeEntries));
-        result.AddRange(AffixResolver.Resolve(record.FracturedMods, isFractured: true, entries, runeEntries));
+
+        // Старый формат: crafted-моды (AncPLC, QualityCrafted и т.д.) могли попасть в ExplicitMods
+        // или FracturedMods — пробуем crafted-fallback для неразобранных.
+        var explicitParsed = AffixResolver.Resolve(record.ExplicitMods, isFractured: false, entries, runeEntries);
+        result.AddRange(explicitParsed.Select(m => m.Unmatched ? ResolveCraftedMod(m.Raw) : m));
+
+        var fracParsed = AffixResolver.Resolve(record.FracturedMods, isFractured: true, entries, runeEntries);
+        result.AddRange(fracParsed.Select(m => m.Unmatched ? ResolveCraftedMod(m.Raw) : m));
         result.AddRange(AffixResolver.Resolve(record.DesecrateMods, isFractured: false, entries, runeEntries));
         result.AddRange(record.CraftedMods.Select(ResolveCraftedMod));
         result.AddRange(AffixResolver.Resolve(record.ImplicitMods, isFractured: false, entries, runeEntries));

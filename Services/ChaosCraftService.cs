@@ -64,6 +64,11 @@ public sealed class ChaosCraftService : IChaosCraftService
     /// </summary>
     public Func<string, Task>? StepConfirmAsync { get; set; }
 
+    /// <summary>
+    /// Если задан — проверяет процесс игры при старте и после серии пустых буферов.
+    /// </summary>
+    public GameClientGuard? Guard { get; set; }
+
     private static int WithJitter(int baseMs)
     {
         if (baseMs <= 0)
@@ -104,12 +109,19 @@ public sealed class ChaosCraftService : IChaosCraftService
 
         var first = await OnceAsync().ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(first))
+        {
+            Guard?.RecordSuccess();
             return first;
+        }
 
         // Retry: буфер может быть пуст из-за фокуса/обновления подсказки/гонки чтения.
         log?.Report($"{tag}: буфер пуст, повтор Ctrl+Alt+C (retry) …");
         await Task.Delay(1000, ct).ConfigureAwait(false);
         var second = await OnceAsync().ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(second))
+            Guard?.RecordMiss(log);
+        else
+            Guard?.RecordSuccess();
         return second;
     }
 
@@ -251,7 +263,9 @@ public sealed class ChaosCraftService : IChaosCraftService
         int globalAttemptOffset,
         IProgress<string>? log,
         CancellationToken cancellationToken,
-        CraftRunFileLog? craftLog = null)
+        CraftRunFileLog? craftLog = null,
+        bool orbAlreadySelected = false,
+        bool keepOrbSelected = false)
     {
         // Включаем детальный трейс Alt/Ctrl на время выполнения.
         var prevTrace = Win32Input.InputTrace;
@@ -274,6 +288,8 @@ public sealed class ChaosCraftService : IChaosCraftService
             return CraftResult.Failed();
         }
 
+        Guard?.EnsureRunning();
+
         var pattern = conditionSummary.Trim();
         if (pattern.Length == 0)
             pattern = "(разбор предмета, ItemParser)";
@@ -281,8 +297,9 @@ public sealed class ChaosCraftService : IChaosCraftService
         if (TraceInputToLog)
             log?.Report($"[Ввод] задержка мыши={MouseActionDelayMs} мс, после Ctrl+Alt+C={ClipboardDelayMs} мс; клики — случайная точка внутри области");
 
-        var orbSelected = false;
-        var shiftHeld = false;
+        // orbAlreadySelected=true: батч держит Shift+орб между предметами — не кликать заново.
+        var orbSelected = orbAlreadySelected;
+        var shiftHeld = orbAlreadySelected;
         // CRAFT-11: отслеживаем фактическое потребление орбов при overflow.
         // preClip в начале итерации N = пост-состояние орба из итерации N-1,
         // поэтому дополнительные clipboard-читы не нужны.
@@ -311,7 +328,7 @@ public sealed class ChaosCraftService : IChaosCraftService
                     if (string.IsNullOrWhiteSpace(preClip))
                     {
                         log?.Report("Буфер пуст после Ctrl+Alt+C — ячейка, вероятно, пустая. Переходим к следующей ячейке.");
-                        if (shiftHeld)
+                        if (shiftHeld && !keepOrbSelected)
                             Win32Input.ReleaseShift();
                         return CraftResult.Empty(0);
                     }
@@ -342,7 +359,7 @@ public sealed class ChaosCraftService : IChaosCraftService
                     if (alreadyMatch)
                     {
                         log?.Report("Условие уже выполнено — орб не применяется, переходим к следующей ячейке.");
-                        if (shiftHeld)
+                        if (shiftHeld && !keepOrbSelected)
                             Win32Input.ReleaseShift();
                         return CraftResult.Found(attempt - 1, preClip, orbsActuallyConsumed);
                     }
@@ -442,7 +459,7 @@ public sealed class ChaosCraftService : IChaosCraftService
             Win32Input.InputTrace = prevTrace;
         }
 
-        if (shiftHeld)
+        if (shiftHeld && !keepOrbSelected)
             Win32Input.ReleaseShift();
         log?.Report(
             $"Достигнут лимит попыток для текущей ячейки ({segmentMaxOperations} в блоке, всего в сессии не более {globalTotal}), аффикс не найден.");

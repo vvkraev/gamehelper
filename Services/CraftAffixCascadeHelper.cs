@@ -127,18 +127,32 @@ public static class CraftAffixCascadeHelper
         ["Evasion/Energy Shield"] = new(StringComparer.Ordinal) { "Dexterity", "Intelligence" },
     };
 
+    // Defence stats that some subClass=null entries carry (e.g. "Mammoth's" = #% increased Armour).
+    // Ordered longest-first so "Energy Shield" matches before "Energy".
+    private static readonly string[] _defenceKeywords = ["Energy Shield", "Evasion", "Armour"];
+
+    private static readonly Dictionary<string, HashSet<string>> _allowedDefencesBySubType = new(StringComparer.Ordinal)
+    {
+        ["Armour"]                = new(StringComparer.Ordinal) { "Armour" },
+        ["Evasion"]               = new(StringComparer.Ordinal) { "Evasion" },
+        ["Energy Shield"]         = new(StringComparer.Ordinal) { "Energy Shield" },
+        ["Armour/Evasion"]        = new(StringComparer.Ordinal) { "Armour", "Evasion" },
+        ["Armour/Energy Shield"]  = new(StringComparer.Ordinal) { "Armour", "Energy Shield" },
+        ["Evasion/Energy Shield"] = new(StringComparer.Ordinal) { "Evasion", "Energy Shield" },
+    };
+
     private static readonly string[] _allAttributes = ["Strength", "Dexterity", "Intelligence"];
 
     /// <summary>
     /// Фильтрует записи по типу защиты доспеха (Armour / Evasion / Energy Shield и гибриды).
     /// <para>
-    /// Два уровня фильтрации:
+    /// Три уровня фильтрации для записей с subClass=null:
     /// <list type="bullet">
     ///   <item>Записи с непустым <see cref="AffixLibraryEntry.AffixSubClass"/>: разрешены если subClass совпадает
-    ///   с выбранным типом или является одним из его компонентов («Armour» входит в «Armour/Evasion»).
-    ///   Источник разметки — теги armour/evasion/energy_shield с poe2db.tw.</item>
-    ///   <item>Записи с subClass=null и атрибутным статом (Strength/Dexterity/Intelligence):
-    ///   разрешены только если все упомянутые атрибуты покрываются требованиями типа защиты.</item>
+    ///   с выбранным типом или является одним из его компонентов («Armour» входит в «Armour/Evasion»).</item>
+    ///   <item>Записи с subClass=null и защитным статом (Armour/Evasion/Energy Shield в тексте):
+    ///   разрешены только если все упомянутые защитные слова покрыты выбранным подтипом.</item>
+    ///   <item>Остальные subClass=null (атрибутные и универсальные): фильтруются по Strength/Dexterity/Intelligence.</item>
     /// </list>
     /// </para>
     /// </summary>
@@ -157,15 +171,23 @@ public static class CraftAffixCascadeHelper
             allowedSubClasses.Add(subType[(slashIdx + 1)..]);
         }
 
-        var allowedAttrs = _allowedAttrsBySubType[subType];
+        var allowedAttrs    = _allowedAttrsBySubType[subType];
+        var allowedDefences = _allowedDefencesBySubType[subType];
 
         return entries.Where(e =>
         {
             if (!string.IsNullOrEmpty(e.AffixSubClass))
                 return allowedSubClasses.Contains(e.AffixSubClass);
 
-            // Universal affix: pass unless it mentions attributes incompatible with this defence type
             var statText = e.AffixStats.Count > 0 ? e.AffixStats[0] : "";
+
+            // subClass=null entries whose stat text mentions defence keywords (e.g. "Mammoth's" = #% increased Armour)
+            // must have ALL mentioned defence types covered by the selected subtype.
+            var mentionedDefences = _defenceKeywords.Where(d => statText.Contains(d, StringComparison.Ordinal)).ToList();
+            if (mentionedDefences.Count > 0)
+                return mentionedDefences.All(d => allowedDefences.Contains(d));
+
+            // Universal affixes (attribute bonuses etc.): pass unless they mention incompatible attributes.
             var mentionedAttrs = _allAttributes.Where(a => statText.Contains(a, StringComparison.Ordinal));
             return mentionedAttrs.All(a => allowedAttrs.Contains(a));
         }).ToList();

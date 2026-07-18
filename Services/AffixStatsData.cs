@@ -102,6 +102,45 @@ public sealed class ClassStats
     public int GetAvailableSamples(string statKey) =>
         SnapshotsWithFracture - SnapshotsByFracturedAffix.GetValueOrDefault(statKey, 0);
 
+    /// <summary>
+    /// Скорректированный вес аффикса в пуле: count / availableSamples.
+    /// Правильный знаменатель для каждого мода учитывает, что в снапшотах где
+    /// этот мод был зафрактурирован он не мог выпасть как натуральный.
+    /// Используется для нормализации внутри PREFIX/SUFFIX группы и в расчёте
+    /// вероятностей крафта вместо count/TotalSnapshots.
+    /// </summary>
+    public double GetCorrectedWeight(string statKey)
+    {
+        AffixCountsInFracturedSnapshots.TryGetValue(statKey, out var count);
+        if (count == 0) return 0.0;
+        var avail = GetAvailableSamples(statKey);
+        return avail > 0 ? (double)count / avail : 0.0;
+    }
+
+    /// <summary>
+    /// Удобная перегрузка: строит statKey из имени аффикса и шаблона стата,
+    /// нормализуя роллы и регистр так же, как при сборе статистики.
+    /// </summary>
+    public double GetCorrectedWeight(string affixName, string statTemplate) =>
+        GetCorrectedWeight(MakeStatKey(affixName, statTemplate));
+
+    /// <summary>
+    /// Сумма скорректированных весов по всем стат-вариантам данного аффикса.
+    /// Используется когда StatTemplate недоступен (WholeModifier клоз).
+    /// </summary>
+    public double GetCorrectedWeightByName(string affixName)
+    {
+        var prefix = affixName + "|";
+        var total = 0.0;
+        foreach (var (key, _) in AffixCountsInFracturedSnapshots)
+        {
+            if (key == affixName ||
+                key.StartsWith(prefix, StringComparison.Ordinal))
+                total += GetCorrectedWeight(key);
+        }
+        return total;
+    }
+
     /// <summary>Количество предметов, на которых встречался аффикс с данным именем (любой вариант).</summary>
     [JsonPropertyName("affixCounts")]
     public Dictionary<string, int> AffixCounts { get; set; } = new(StringComparer.Ordinal);

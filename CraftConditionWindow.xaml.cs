@@ -1,10 +1,13 @@
 using System.Globalization;
 using System.Linq;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using GameHelper.Services;
 using WpfBorder = System.Windows.Controls.Border;
 using WpfButton = System.Windows.Controls.Button;
+using WpfColor = System.Windows.Media.Color;
+using WpfSolidBrush = System.Windows.Media.SolidColorBrush;
 using WpfComboBox = System.Windows.Controls.ComboBox;
 using WpfGroupBox = System.Windows.Controls.GroupBox;
 using WpfListBox = System.Windows.Controls.ListBox;
@@ -40,6 +43,21 @@ public partial class CraftConditionWindow : Window
     private int _fracturedPrefixCount;
     private int _fracturedSuffixCount;
     private readonly HashSet<string> _fracturedFamilyIds = new(StringComparer.Ordinal);
+
+    // ── Выделение и внутренний буфер обмена ─────────────────────────────────────
+    private enum ClipKind { None, Clauses, Groups }
+
+    private readonly HashSet<CraftClause> _selectedClauses =
+        new(ReferenceEqualityComparer.Instance);
+    private readonly HashSet<CraftAndGroup> _selectedGroups =
+        new(ReferenceEqualityComparer.Instance);
+
+    private ClipKind _clipKind = ClipKind.None;
+    private List<CraftClause>? _clipClauses;
+    private List<CraftAndGroup>? _clipGroups;
+
+    /// <summary>Цели для «Переместить в» — заполняется в UpdateSelectionToolbar.</summary>
+    private List<CraftAndGroup> _moveTargets = new();
 
     private static readonly string[] CraftOrbNames =
     [
@@ -418,27 +436,98 @@ public partial class CraftConditionWindow : Window
         return null;
     }
 
+    /// <summary>Удаляет клоз из группы; если группа становится пустой — удаляет и саму группу.</summary>
+    private void RemoveClauseFromGroup(CraftAndGroup group, CraftClause clause)
+    {
+        group.Clauses.Remove(clause);
+        if (group.Clauses.Count == 0)
+            _plan.OrAlternatives.Remove(group);
+        RefreshOrAlternativesUi();
+    }
+
     private void RefreshOrAlternativesUi()
     {
+        // Удаляем устаревшие ссылки (если группа/клоз были удалены другим способом)
+        _selectedGroups.IntersectWith(_plan.OrAlternatives);
+        var liveClauses = new HashSet<CraftClause>(
+            _plan.OrAlternatives.SelectMany(g => g.Clauses),
+            ReferenceEqualityComparer.Instance);
+        _selectedClauses.IntersectWith(liveClauses);
+
         OrAlternativesHost.Children.Clear();
         for (var i = 0; i < _plan.OrAlternatives.Count; i++)
             OrAlternativesHost.Children.Add(BuildOrGroupUi(_plan.OrAlternatives[i], i));
+
+        PasteGroupBtn.Visibility = _clipKind == ClipKind.Groups
+            ? Visibility.Visible
+            : Visibility.Collapsed;
+        if (_clipKind == ClipKind.Groups && _clipGroups != null)
+            PasteGroupBtn.Content = $"Вставить вариант ({_clipGroups.Count})";
+
+        UpdateSelectionToolbar();
         UpdateCombinedChanceLabel();
     }
 
     private UIElement BuildOrGroupUi(CraftAndGroup group, int orIndex)
     {
-        var gb = new WpfGroupBox
+        var headerPanel = new WpfStackPanel { Orientation = WpfOrientation.Horizontal };
+        var groupChk = new System.Windows.Controls.CheckBox
         {
-            Header = $"Вариант {orIndex + 1} (внутри — И)",
-            Margin = new Thickness(0, 0, 0, 10),
-            Padding = new Thickness(8),
+            IsChecked = _selectedGroups.Contains(group),
+            VerticalAlignment = VerticalAlignment.Center,
+            Margin = new Thickness(0, 0, 6, 0),
+            ToolTip = "Выделить вариант целиком",
         };
-        var sp = new WpfStackPanel();
+        groupChk.Checked   += (_, _) => { _selectedGroups.Add(group);    UpdateSelectionToolbar(); };
+        groupChk.Unchecked += (_, _) => { _selectedGroups.Remove(group); UpdateSelectionToolbar(); };
+        headerPanel.Children.Add(groupChk);
+        headerPanel.Children.Add(new WpfTextBlock
+        {
+            Text = $"Вариант {orIndex + 1} (внутри — И)",
+            VerticalAlignment = VerticalAlignment.Center,
+            FontWeight = FontWeights.SemiBold,
+            Foreground = new WpfSolidBrush(WpfColor.FromRgb(0x1A, 0x23, 0x7E)),
+        });
+
+        // ── Контейнер варианта: левая акцентная полоса + тело ──────────────────
+        var container = new Grid { Margin = new Thickness(0, 0, 0, 14) };
+        container.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(4) });
+        container.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+        var accentBar = new WpfBorder
+        {
+            Background = new WpfSolidBrush(WpfColor.FromRgb(0x3F, 0x51, 0xB5)),
+        };
+        Grid.SetColumn(accentBar, 0);
+        container.Children.Add(accentBar);
+
+        var bodyBorder = new WpfBorder
+        {
+            BorderBrush     = new WpfSolidBrush(WpfColor.FromRgb(0x9F, 0xA8, 0xDA)),
+            BorderThickness = new Thickness(0, 1, 1, 1),
+            Background      = new WpfSolidBrush(WpfColor.FromRgb(0xF5, 0xF6, 0xFF)),
+        };
+        Grid.SetColumn(bodyBorder, 1);
+        container.Children.Add(bodyBorder);
+
+        var bodySp = new WpfStackPanel();
+
+        var headerRow = new WpfBorder
+        {
+            Background      = new WpfSolidBrush(WpfColor.FromRgb(0xE8, 0xEA, 0xF6)),
+            BorderBrush     = new WpfSolidBrush(WpfColor.FromRgb(0x9F, 0xA8, 0xDA)),
+            BorderThickness = new Thickness(0, 0, 0, 1),
+            Padding         = new Thickness(8, 7, 8, 7),
+            Child           = headerPanel,
+        };
+        bodySp.Children.Add(headerRow);
+
+        // sp = контент внутри тела (клозы + кнопки)
+        var sp = new WpfStackPanel { Margin = new Thickness(8, 8, 8, 8) };
         for (var j = 0; j < group.Clauses.Count; j++)
             sp.Children.Add(BuildClauseUi(group, group.Clauses[j], orIndex, j));
 
-        var btns = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 6, 0, 0) };
+        var btns = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 4, 0, 0) };
         var addSingle = new WpfButton { Content = "Одиночный аффикс", Margin = new Thickness(0, 0, 8, 0), Padding = new Thickness(8, 4, 8, 4) };
         addSingle.Click += (_, _) =>
         {
@@ -570,16 +659,47 @@ public partial class CraftConditionWindow : Window
             });
             RefreshOrAlternativesUi();
         };
+        var addAnyDesecrate = new WpfButton
+        {
+            Content = "Любой десекрейт",
+            Margin = new Thickness(0, 0, 8, 0),
+            Padding = new Thickness(8, 4, 8, 4),
+        };
+        addAnyDesecrate.Click += (_, _) =>
+        {
+            group.Clauses.Add(new CraftClause { Kind = CraftClauseKind.HasAnyDesecrate });
+            RefreshOrAlternativesUi();
+        };
+
         btns.Children.Add(addSingle);
         btns.Children.Add(addSum);
         btns.Children.Add(addCount);
         btns.Children.Add(addWhole);
         btns.Children.Add(addAffixCount);
         btns.Children.Add(addDesecrate);
+        btns.Children.Add(addAnyDesecrate);
+
+        if (_clipKind == ClipKind.Clauses && _clipClauses is { Count: > 0 })
+        {
+            var pasteClausesBtn = new WpfButton
+            {
+                Content = $"Вставить клозы ({_clipClauses.Count})",
+                Margin = new Thickness(0, 0, 8, 0),
+                Padding = new Thickness(8, 4, 8, 4),
+            };
+            pasteClausesBtn.Click += (_, _) =>
+            {
+                group.Clauses.AddRange(DeepCloneClauses(_clipClauses));
+                RefreshOrAlternativesUi();
+            };
+            btns.Children.Add(pasteClausesBtn);
+        }
+
         btns.Children.Add(removeOr);
         sp.Children.Add(btns);
-        gb.Content = sp;
-        return gb;
+        bodySp.Children.Add(sp);
+        bodyBorder.Child = bodySp;
+        return container;
     }
 
     private UIElement BuildClauseUi(CraftAndGroup group, CraftClause clause, int orIndex, int clauseIndex)
@@ -609,7 +729,7 @@ public partial class CraftConditionWindow : Window
             panel.Children.Add(header);
             panel.Children.Add(BuildSingleAffixCoreUi(
                 s,
-                () => { group.Clauses.Remove(clause); RefreshOrAlternativesUi(); },
+                () => RemoveClauseFromGroup(group, clause),
                 "Удалить строку"));
         }
         else if (clause.Kind == CraftClauseKind.WholeModifier && clause.Whole is { } whole)
@@ -628,8 +748,9 @@ public partial class CraftConditionWindow : Window
                 {
                     sum.Parts.Remove(part);
                     if (sum.Parts.Count == 0)
-                        group.Clauses.Remove(clause);
-                    RefreshOrAlternativesUi();
+                        RemoveClauseFromGroup(group, clause);
+                    else
+                        RefreshOrAlternativesUi();
                 };
                 line.Children.Add(rem);
                 panel.Children.Add(line);
@@ -651,21 +772,43 @@ public partial class CraftConditionWindow : Window
             panel.Children.Add(addPart);
 
             var sumRow = new WpfStackPanel { Orientation = WpfOrientation.Horizontal };
-            sumRow.Children.Add(new WpfTextBlock { Text = "Мин. сумма:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 8, 0) });
-            var tbSum = new WpfTextBox { Width = 120, Text = FormatNum(sum.MinSum) };
+            sumRow.Children.Add(new WpfTextBlock { Text = "Мин.:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(0, 0, 6, 0) });
+            var tbSum = new WpfTextBox { Width = 90, Text = FormatNum(sum.MinSum) };
             tbSum.LostFocus += (_, _) =>
             {
                 if (double.TryParse(tbSum.Text.Trim().Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out var v))
                     sum.MinSum = v;
             };
             sumRow.Children.Add(tbSum);
+            sumRow.Children.Add(new WpfTextBlock { Text = "Макс.:", VerticalAlignment = VerticalAlignment.Center, Margin = new Thickness(12, 0, 6, 0) });
+            var tbSumMax = new WpfTextBox
+            {
+                Width = 90,
+                Text = sum.MaxSum > 0 ? FormatNum(sum.MaxSum) : "",
+                ToolTip = "Максимальная сумма. Пусто = нет ограничения. Если равно мин — точное совпадение.",
+            };
+            tbSumMax.LostFocus += (_, _) =>
+            {
+                if (string.IsNullOrWhiteSpace(tbSumMax.Text))
+                    sum.MaxSum = 0;
+                else if (double.TryParse(tbSumMax.Text.Trim().Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out var v))
+                    sum.MaxSum = v;
+            };
+            sumRow.Children.Add(tbSumMax);
+            sumRow.Children.Add(new WpfTextBlock
+            {
+                Text = "(пусто = нет огр.)",
+                VerticalAlignment = VerticalAlignment.Center,
+                Foreground = System.Windows.Media.Brushes.Gray,
+                Margin = new Thickness(6, 0, 0, 0),
+                FontSize = 11,
+            });
             panel.Children.Add(sumRow);
 
             var removeClause = new WpfButton { Content = "Удалить условие «Сумма»", Margin = new Thickness(0, 8, 0, 0), HorizontalAlignment = System.Windows.HorizontalAlignment.Left, Padding = new Thickness(8, 2, 8, 2) };
             removeClause.Click += (_, _) =>
             {
-                group.Clauses.Remove(clause);
-                RefreshOrAlternativesUi();
+                RemoveClauseFromGroup(group, clause);
             };
             panel.Children.Add(removeClause);
         }
@@ -680,11 +823,11 @@ public partial class CraftConditionWindow : Window
             var countRow = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 0, 0, 8) };
             countRow.Children.Add(new WpfTextBlock
             {
-                Text = "Мин. выполненных строк из набора:",
+                Text = "Мин.:",
                 VerticalAlignment = VerticalAlignment.Center,
-                Margin = new Thickness(0, 0, 8, 0),
+                Margin = new Thickness(0, 0, 6, 0),
             });
-            var tbCount = new WpfTextBox { Width = 56, Text = cnt.MinMatchCount.ToString(CultureInfo.InvariantCulture) };
+            var tbCount = new WpfTextBox { Width = 48, Text = cnt.MinMatchCount.ToString(CultureInfo.InvariantCulture) };
             tbCount.LostFocus += (_, _) =>
             {
                 if (int.TryParse(tbCount.Text.Trim(), out var v))
@@ -697,10 +840,35 @@ public partial class CraftConditionWindow : Window
             countRow.Children.Add(tbCount);
             countRow.Children.Add(new WpfTextBlock
             {
-                Text = $"из {cnt.Members.Count}",
+                Text = "Макс.:",
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(12, 0, 6, 0),
+            });
+            var tbCountMax = new WpfTextBox
+            {
+                Width = 48,
+                Text = cnt.MaxMatchCount > 0 ? cnt.MaxMatchCount.ToString(CultureInfo.InvariantCulture) : "",
+                ToolTip = "Максимум совпадений. Пусто = нет ограничения. Если равно мин — точное совпадение.",
+            };
+            tbCountMax.LostFocus += (_, _) =>
+            {
+                if (string.IsNullOrWhiteSpace(tbCountMax.Text))
+                    cnt.MaxMatchCount = 0;
+                else if (int.TryParse(tbCountMax.Text.Trim(), out var v))
+                {
+                    var n = Math.Max(1, cnt.Members.Count);
+                    cnt.MaxMatchCount = Math.Clamp(v, 0, n);
+                    tbCountMax.Text = cnt.MaxMatchCount > 0 ? cnt.MaxMatchCount.ToString(CultureInfo.InvariantCulture) : "";
+                }
+            };
+            countRow.Children.Add(tbCountMax);
+            countRow.Children.Add(new WpfTextBlock
+            {
+                Text = $"из {cnt.Members.Count}  (пусто = нет огр.)",
                 VerticalAlignment = VerticalAlignment.Center,
                 Foreground = System.Windows.Media.Brushes.Gray,
                 Margin = new Thickness(8, 0, 0, 0),
+                FontSize = 11,
             });
             panel.Children.Add(countRow);
 
@@ -729,8 +897,11 @@ public partial class CraftConditionWindow : Window
                     {
                         cnt.Members.Remove(mem);
                         if (cnt.Members.Count == 0)
-                            group.Clauses.Remove(clause);
-                        else if (cnt.MinMatchCount > cnt.Members.Count)
+                        {
+                            RemoveClauseFromGroup(group, clause);
+                            return;
+                        }
+                        if (cnt.MinMatchCount > cnt.Members.Count)
                             cnt.MinMatchCount = cnt.Members.Count;
                         RefreshOrAlternativesUi();
                     }),
@@ -760,8 +931,7 @@ public partial class CraftConditionWindow : Window
             };
             removeCountClause.Click += (_, _) =>
             {
-                group.Clauses.Remove(clause);
-                RefreshOrAlternativesUi();
+                RemoveClauseFromGroup(group, clause);
             };
             panel.Children.Add(removeCountClause);
         }
@@ -821,8 +991,7 @@ public partial class CraftConditionWindow : Window
             };
             removeAcClause.Click += (_, _) =>
             {
-                group.Clauses.Remove(clause);
-                RefreshOrAlternativesUi();
+                RemoveClauseFromGroup(group, clause);
             };
             panel.Children.Add(removeAcClause);
         }
@@ -857,13 +1026,57 @@ public partial class CraftConditionWindow : Window
             };
             removeDesClause.Click += (_, _) =>
             {
-                group.Clauses.Remove(clause);
+                RemoveClauseFromGroup(group, clause);
                 RefreshOrAlternativesUi();
             };
             panel.Children.Add(removeDesClause);
         }
+        else if (clause.Kind == CraftClauseKind.HasAnyDesecrate)
+        {
+            panel.Children.Add(new WpfTextBlock
+            {
+                Text = "Любой десекрейт-мод (раскрытый или нет)",
+                FontWeight = FontWeights.SemiBold,
+                Margin = new Thickness(0, 0, 0, 6),
+            });
+            var removeAnyDes = new WpfButton
+            {
+                Content = "Удалить условие «Любой десекрейт»",
+                Margin = new Thickness(0, 4, 0, 0),
+                HorizontalAlignment = System.Windows.HorizontalAlignment.Left,
+                Padding = new Thickness(8, 2, 8, 2),
+            };
+            removeAnyDes.Click += (_, _) => RemoveClauseFromGroup(group, clause);
+            panel.Children.Add(removeAnyDes);
+        }
 
-        return new WpfBorder { BorderBrush = System.Windows.Media.Brushes.LightGray, BorderThickness = new Thickness(1), Padding = new Thickness(8), Child = panel };
+        var border = new WpfBorder
+        {
+            BorderBrush     = new WpfSolidBrush(WpfColor.FromRgb(0xB0, 0xBE, 0xC5)),
+            BorderThickness = new Thickness(1),
+            Background      = System.Windows.Media.Brushes.White,
+            Padding         = new Thickness(10),
+            Child           = panel,
+        };
+
+        var selChk = new System.Windows.Controls.CheckBox
+        {
+            IsChecked = _selectedClauses.Contains(clause),
+            VerticalAlignment = VerticalAlignment.Top,
+            Margin = new Thickness(0, 10, 6, 0),
+            ToolTip = "Выделить клоз",
+        };
+        selChk.Checked   += (_, _) => { _selectedClauses.Add(clause);    UpdateSelectionToolbar(); };
+        selChk.Unchecked += (_, _) => { _selectedClauses.Remove(clause); UpdateSelectionToolbar(); };
+
+        var outerGrid = new Grid { Margin = new Thickness(0, 0, 0, 6) };
+        outerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = GridLength.Auto });
+        outerGrid.ColumnDefinitions.Add(new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+        Grid.SetColumn(selChk, 0);
+        Grid.SetColumn(border, 1);
+        outerGrid.Children.Add(selChk);
+        outerGrid.Children.Add(border);
+        return outerGrid;
     }
 
     private sealed record AffixComboItem(string Label, AffixLibraryEntry Entry);
@@ -1048,10 +1261,10 @@ public partial class CraftConditionWindow : Window
                     e.AffixTier == data.AffixTier &&
                     SameStatFamily(fi.Entry, e))
                 : null;
-            // Preserve user-set MinRolls across the rebuild so that loading a saved condition
+            // Preserve user-set MinRolls/MaxRolls across the rebuild so that loading a saved condition
             // or calling RefreshOrAlternativesUi does not reset sliders to the range minimum.
             var savedWholeMins = data.Lines
-                .Select(l => (l.StatTemplate, l.MinRoll, Rolls: l.MinRolls.ToList()))
+                .Select(l => (l.StatTemplate, l.MinRoll, Rolls: l.MinRolls.ToList(), l.MaxRoll, MaxRolls: l.MaxRolls.ToList()))
                 .ToList();
             SyncWholeModifierFromLibraryEntry(data, bestRef ?? fi.Entry);
             foreach (var dl in data.Lines)
@@ -1063,6 +1276,8 @@ public partial class CraftConditionWindow : Window
                 {
                     dl.MinRolls = saved.Rolls.ToList();
                     dl.MinRoll = saved.MinRoll;
+                    dl.MaxRolls = saved.MaxRolls.ToList();
+                    dl.MaxRoll = saved.MaxRoll;
                 }
             }
 
@@ -1131,13 +1346,15 @@ public partial class CraftConditionWindow : Window
                     SameStatFamily(fi, e))
                 : null;
             refE ??= ti.RefEntry;
-            // Preserve MinRolls — same stat family, only bounds change
-            var savedRolls = data.Lines.Select(l => (l.MinRoll, Rolls: l.MinRolls.ToList())).ToList();
+            // Preserve MinRolls/MaxRolls — same stat family, only bounds change
+            var savedRolls = data.Lines.Select(l => (l.MinRoll, Rolls: l.MinRolls.ToList(), l.MaxRoll, MaxRolls: l.MaxRolls.ToList())).ToList();
             SyncWholeModifierFromLibraryEntry(data, refE);
             for (var i = 0; i < Math.Min(savedRolls.Count, data.Lines.Count); i++)
             {
                 data.Lines[i].MinRoll = savedRolls[i].MinRoll;
                 data.Lines[i].MinRolls = savedRolls[i].Rolls;
+                data.Lines[i].MaxRoll = savedRolls[i].MaxRoll;
+                data.Lines[i].MaxRolls = savedRolls[i].MaxRolls;
             }
             // Update names to available ones at new tier
             var prevSelected = new HashSet<string>(data.SelectedAffixNames, StringComparer.Ordinal);
@@ -1201,6 +1418,19 @@ public partial class CraftConditionWindow : Window
             TextWrapping = TextWrapping.Wrap,
         });
         root.Children.Add(BuildWholeAffixCoreUi(data, multiStatOnly: true));
+
+        var cbFracWhole = new System.Windows.Controls.CheckBox
+        {
+            Content = "Считать фрактурные моды",
+            IsChecked = data.IncludeFractured,
+            ToolTip = "Фрактурный аффикс с таким же именем/тиром тоже засчитывается.\nПо умолчанию выключено: divine не меняет фрактурные моды,\nпоэтому они не должны делать предмет «уже готовым».\nВключать только если фрактурный мод сам является условием остановки.",
+            Margin = new Thickness(0, 4, 0, 0),
+            VerticalAlignment = VerticalAlignment.Center,
+        };
+        cbFracWhole.Checked   += (_, _) => { data.IncludeFractured = true;  RefreshOrAlternativesUi(); };
+        cbFracWhole.Unchecked += (_, _) => { data.IncludeFractured = false; RefreshOrAlternativesUi(); };
+        root.Children.Add(cbFracWhole);
+
         var removeClause = new WpfButton
         {
             Content = "Удалить условие «Целый модификатор»",
@@ -1210,8 +1440,7 @@ public partial class CraftConditionWindow : Window
         };
         removeClause.Click += (_, _) =>
         {
-            group.Clauses.Remove(clause);
-            RefreshOrAlternativesUi();
+            RemoveClauseFromGroup(group, clause);
         };
         root.Children.Add(removeClause);
         return root;
@@ -1282,6 +1511,49 @@ public partial class CraftConditionWindow : Window
         col.Children.Add(lblBounds);
         col.Children.Add(slider);
         col.Children.Add(lblVal);
+
+        if (!fixedRoll)
+        {
+            var maxRow = new WpfStackPanel { Orientation = WpfOrientation.Horizontal, Margin = new Thickness(0, 2, 0, 0) };
+            maxRow.Children.Add(new WpfTextBlock
+            {
+                Text = "Макс.:",
+                VerticalAlignment = VerticalAlignment.Center,
+                Margin = new Thickness(0, 0, 6, 0),
+            });
+            var tbMax = new WpfTextBox
+            {
+                Width = 80,
+                Text = line.MaxRoll > 0 ? FormatNum(line.MaxRoll) : "",
+                ToolTip = "Максимальный перекат. Оставьте пустым — нет ограничения сверху. Если равно минимуму — точное совпадение.",
+            };
+            tbMax.LostFocus += (_, _) =>
+            {
+                if (string.IsNullOrWhiteSpace(tbMax.Text))
+                {
+                    line.MaxRoll = 0;
+                    line.EnsureMaxRollsSize(slots);
+                    for (var i = 0; i < line.MaxRolls.Count; i++) line.MaxRolls[i] = 0;
+                }
+                else if (double.TryParse(tbMax.Text.Trim().Replace(',', '.'), NumberStyles.Float, CultureInfo.InvariantCulture, out var mv))
+                {
+                    line.MaxRoll = mv;
+                    line.EnsureMaxRollsSize(slots);
+                    for (var i = 0; i < line.MaxRolls.Count; i++) line.MaxRolls[i] = mv;
+                }
+            };
+            maxRow.Children.Add(tbMax);
+            maxRow.Children.Add(new WpfTextBlock
+            {
+                Text = "(пусто = нет ограничения сверху)",
+                VerticalAlignment = VerticalAlignment.Center,
+                Foreground = System.Windows.Media.Brushes.Gray,
+                Margin = new Thickness(6, 0, 0, 0),
+                FontSize = 11,
+            });
+            col.Children.Add(maxRow);
+        }
+
         return col;
     }
 
@@ -2278,7 +2550,10 @@ public partial class CraftConditionWindow : Window
             costStr = !string.IsNullOrEmpty(orbName) ? $" · {orbName}" : "";
         }
 
-        return $"Практика (опыт, N={cs!.TotalSnapshots}): ~{pct:F1}%{costStr}{avgStr}{dataNote}";
+        var nLabel = cs!.SnapshotsWithFracture > 0
+            ? $"N={cs.TotalSnapshots}, норм. по фрактуре"
+            : $"N={cs.TotalSnapshots}";
+        return $"Практика (опыт, {nLabel}): ~{pct:F1}%{costStr}{avgStr}{dataNote}";
     }
 
     // ── Весовой расчёт (CRAFT-3) ──────────────────────────────────────────────────
@@ -2482,12 +2757,25 @@ public partial class CraftConditionWindow : Window
         if (names.Count == 0) return 0.0;
 
         var hasTpl = !string.IsNullOrEmpty(s.StatTemplate);
-        var count = hasTpl
-            ? names.Sum(n => cs.GetStatCount(n, s.StatTemplate))
-            : names.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
-        if (count == 0) { hasPartialData = true; return 0.0; }
 
-        var freq = (double)count / cs.TotalSnapshots;
+        double freq;
+        if (cs.SnapshotsWithFracture > 0 && hasTpl)
+        {
+            // Скорректированный режим: GetCorrectedWeight использует count/availableSamples,
+            // что даёт правильную вероятность для каждого мода независимо от того,
+            // в каких снапшотах он был зафрактурирован (например, CD при frac-CDS: 2.14%, не 0.18%).
+            freq = names.Sum(n => cs.GetCorrectedWeight(n, s.StatTemplate));
+            if (freq == 0.0) { hasPartialData = true; return 0.0; }
+        }
+        else
+        {
+            var count = hasTpl
+                ? names.Sum(n => cs.GetStatCount(n, s.StatTemplate))
+                : names.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
+            if (count == 0) { hasPartialData = true; return 0.0; }
+            freq = (double)count / cs.TotalSnapshots;
+        }
+
         var (lo, hi) = CraftAffixCascadeHelper.GetUnionRollBoundsForSingleStat(
             ic, s.AffixType, s.StatTemplate, names, s.AffixTier, EffectiveEntries);
         return Math.Max(0.0, Math.Min(1.0, freq * CalcRollFraction(lo, hi, s.MinRoll)));
@@ -2522,10 +2810,18 @@ public partial class CraftConditionWindow : Window
         var names = whole.EffectiveWholeAffixNames();
         if (names.Count == 0) return 0.0;
 
-        var count = names.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
-        if (count == 0) { hasPartialData = true; return 0.0; }
-
-        var freq = (double)count / cs.TotalSnapshots;
+        double freq;
+        if (cs.SnapshotsWithFracture > 0)
+        {
+            freq = names.Sum(n => cs.GetCorrectedWeightByName(n));
+            if (freq == 0.0) { hasPartialData = true; return 0.0; }
+        }
+        else
+        {
+            var count = names.Sum(n => cs.AffixCounts.TryGetValue(n, out var c) ? c : 0);
+            if (count == 0) { hasPartialData = true; return 0.0; }
+            freq = (double)count / cs.TotalSnapshots;
+        }
         var rollFrac = 1.0;
         var entry = AffixCraftPatternBuilder.FindEntryByNameAndTierTypeCompatible(
             EffectiveEntries, ic, whole.AffixType, names[0], whole.AffixTier);
@@ -2558,5 +2854,150 @@ public partial class CraftConditionWindow : Window
         var c = 0;
         while (x != 0) { c += x & 1; x >>= 1; }
         return c;
+    }
+
+    // ── Выделение: тулбар ────────────────────────────────────────────────────────
+
+    private void UpdateSelectionToolbar()
+    {
+        var hasGroups  = _selectedGroups.Count > 0;
+        var hasClauses = _selectedClauses.Count > 0;
+
+        if (!hasGroups && !hasClauses)
+        {
+            SelectionToolbar.Visibility = Visibility.Collapsed;
+            return;
+        }
+
+        SelectionToolbar.Visibility = Visibility.Visible;
+
+        if (hasGroups && hasClauses)
+        {
+            SelectionInfoLabel.Text          = "";
+            SelectionCopyBtn.Visibility      = Visibility.Collapsed;
+            SelectionDeleteBtn.Visibility    = Visibility.Collapsed;
+            SelectionMovePanel.Visibility    = Visibility.Collapsed;
+            SelectionWarningLabel.Text       = "Выберите только клозы или только варианты";
+            SelectionWarningLabel.Visibility = Visibility.Visible;
+            return;
+        }
+
+        SelectionWarningLabel.Visibility = Visibility.Collapsed;
+        SelectionCopyBtn.Visibility      = Visibility.Visible;
+        SelectionDeleteBtn.Visibility    = Visibility.Visible;
+
+        if (hasGroups)
+        {
+            SelectionInfoLabel.Text       = $"Выделено: {_selectedGroups.Count} вариант(ов)";
+            SelectionCopyBtn.Content      = $"Копировать ({_selectedGroups.Count})";
+            SelectionMovePanel.Visibility = Visibility.Collapsed;
+        }
+        else
+        {
+            SelectionInfoLabel.Text  = $"Выделено: {_selectedClauses.Count} клоз(а/ов)";
+            SelectionCopyBtn.Content = $"Копировать ({_selectedClauses.Count})";
+
+            var sourceGroups = _plan.OrAlternatives
+                .Where(g => g.Clauses.Any(c => _selectedClauses.Contains(c)))
+                .ToList();
+
+            if (sourceGroups.Count == 1)
+            {
+                _moveTargets = _plan.OrAlternatives.Where(g => g != sourceGroups[0]).ToList();
+                SelectionMoveCombo.ItemsSource = _moveTargets
+                    .Select(g => $"Вариант {_plan.OrAlternatives.IndexOf(g) + 1}")
+                    .ToList();
+                SelectionMoveCombo.SelectedIndex  = -1;
+                SelectionMovePanel.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                _moveTargets = new List<CraftAndGroup>();
+                SelectionMovePanel.Visibility = Visibility.Collapsed;
+            }
+        }
+    }
+
+    // ── Выделение: действия ──────────────────────────────────────────────────────
+
+    private void SelectionCopy_Click(object sender, RoutedEventArgs e)
+    {
+        if (_selectedGroups.Count > 0 && _selectedClauses.Count == 0)
+        {
+            var ordered = _plan.OrAlternatives.Where(g => _selectedGroups.Contains(g)).ToList();
+            _clipGroups  = DeepCloneGroups(ordered);
+            _clipClauses = null;
+            _clipKind    = ClipKind.Groups;
+        }
+        else if (_selectedClauses.Count > 0 && _selectedGroups.Count == 0)
+        {
+            var ordered = _plan.OrAlternatives
+                .SelectMany(g => g.Clauses)
+                .Where(c => _selectedClauses.Contains(c))
+                .ToList();
+            _clipClauses = DeepCloneClauses(ordered);
+            _clipGroups  = null;
+            _clipKind    = ClipKind.Clauses;
+        }
+        RefreshOrAlternativesUi();
+    }
+
+    private void SelectionDelete_Click(object sender, RoutedEventArgs e)
+    {
+        if (_selectedGroups.Count > 0 && _selectedClauses.Count == 0)
+        {
+            foreach (var g in _selectedGroups.ToList())
+                _plan.OrAlternatives.Remove(g);
+            _selectedGroups.Clear();
+        }
+        else if (_selectedClauses.Count > 0 && _selectedGroups.Count == 0)
+        {
+            foreach (var g in _plan.OrAlternatives)
+                g.Clauses.RemoveAll(c => _selectedClauses.Contains(c));
+            _plan.OrAlternatives.RemoveAll(g => g.Clauses.Count == 0);
+            _selectedClauses.Clear();
+        }
+        RefreshOrAlternativesUi();
+    }
+
+    private void SelectionMove_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var idx = SelectionMoveCombo.SelectedIndex;
+        if (idx < 0 || idx >= _moveTargets.Count) return;
+
+        var target  = _moveTargets[idx];
+        var toMove  = _plan.OrAlternatives
+            .SelectMany(g => g.Clauses)
+            .Where(c => _selectedClauses.Contains(c))
+            .ToList();
+
+        foreach (var g in _plan.OrAlternatives)
+            g.Clauses.RemoveAll(c => _selectedClauses.Contains(c));
+        _plan.OrAlternatives.RemoveAll(g => g.Clauses.Count == 0);
+
+        target.Clauses.AddRange(toMove);
+        _selectedClauses.Clear();
+        RefreshOrAlternativesUi();
+    }
+
+    private void PasteGroup_Click(object sender, RoutedEventArgs e)
+    {
+        if (_clipKind != ClipKind.Groups || _clipGroups == null) return;
+        _plan.OrAlternatives.AddRange(DeepCloneGroups(_clipGroups));
+        RefreshOrAlternativesUi();
+    }
+
+    // ── Глубокое копирование через JSON ─────────────────────────────────────────
+
+    private static List<CraftClause> DeepCloneClauses(List<CraftClause> src)
+    {
+        var json = JsonSerializer.Serialize(src, SettingsStore.JsonOptions);
+        return JsonSerializer.Deserialize<List<CraftClause>>(json, SettingsStore.JsonOptions) ?? new List<CraftClause>();
+    }
+
+    private static List<CraftAndGroup> DeepCloneGroups(List<CraftAndGroup> src)
+    {
+        var json = JsonSerializer.Serialize(src, SettingsStore.JsonOptions);
+        return JsonSerializer.Deserialize<List<CraftAndGroup>>(json, SettingsStore.JsonOptions) ?? new List<CraftAndGroup>();
     }
 }

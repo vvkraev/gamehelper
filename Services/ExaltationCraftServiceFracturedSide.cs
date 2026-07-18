@@ -30,6 +30,11 @@ public sealed class ExaltationCraftServiceFracturedSide : IExaltationCraftServic
 
     public Func<string, Task>? StepConfirmAsync { get; set; }
 
+    /// <summary>
+    /// Если задан — проверяет процесс игры при старте и после серии пустых буферов.
+    /// </summary>
+    public GameClientGuard? Guard { get; set; }
+
     private void SchemaTrace(IProgress<string>? log, string anchor, string? state = null)
     {
         if (!SchemaTraceToLog || log is null)
@@ -1001,11 +1006,19 @@ public sealed class ExaltationCraftServiceFracturedSide : IExaltationCraftServic
 
         var first = await OnceAsync().ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(first))
+        {
+            Guard?.RecordSuccess();
             return first;
+        }
 
         log?.Report($"{tag}: буфер пуст, retry через 1000ms…");
         await Task.Delay(1000, ct).ConfigureAwait(false);
-        return await OnceAsync().ConfigureAwait(false);
+        var second = await OnceAsync().ConfigureAwait(false);
+        if (string.IsNullOrWhiteSpace(second))
+            Guard?.RecordMiss(log);
+        else
+            Guard?.RecordSuccess();
+        return second;
     }
 
     private async Task ApplyCurrencyAsync(ScreenRect currencyArea, ScreenRect itemArea, IProgress<string>? log, CancellationToken ct, string currencyLabel)
@@ -1175,6 +1188,8 @@ public sealed class ExaltationCraftServiceFracturedSide : IExaltationCraftServic
             log?.Report("Экзальт: для suffix-only задайте область Dextral omen stash.");
             return CraftResult.Failed();
         }
+
+        Guard?.EnsureRunning();
 
         SchemaTrace(
             log,

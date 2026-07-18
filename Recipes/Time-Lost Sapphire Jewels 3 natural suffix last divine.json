@@ -1,0 +1,203 @@
+{
+  "name": "Time-Lost Sapphire Jewels 3 natural suffix last divine",
+  "savedAt": "2026-07-12T12:37:05.5954244+03:00",
+  "craftMode": "\u0414\u0438\u0432\u0430\u0439\u043D\u0438\u043D\u0433",
+  "plan": {
+    "expectedItemClass": "Time-Lost Sapphire Jewels",
+    "expectedItemSubType": "",
+    "expectedItemIlvl": 0,
+    "craftOrbName": "Chaos Orb",
+    "negate": false,
+    "orAlternatives": [
+      {
+        "clauses": [
+          {
+            "kind": "count",
+            "negate": false,
+            "single": null,
+            "sum": null,
+            "count": {
+              "minMatchCount": 3,
+              "members": [
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Potency",
+                  "selectedAffixNames": [
+                    "of Potency"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Damage Bonus",
+                      "minRoll": 10,
+                      "minRolls": [
+                        10
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Unmaking",
+                  "selectedAffixNames": [
+                    "of Unmaking"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Spell Damage Bonus",
+                      "minRoll": 10,
+                      "minRolls": [
+                        10
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Enchanting",
+                  "selectedAffixNames": [
+                    "of Enchanting"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Cast Speed",
+                      "minRoll": 2,
+                      "minRolls": [
+                        2
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Annihilation",
+                  "selectedAffixNames": [
+                    "of Annihilation"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance",
+                      "minRoll": 7,
+                      "minRolls": [
+                        7
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Supremacy",
+                  "selectedAffixNames": [
+                    "of Supremacy"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "#% increased Effect of Notable Passive Skills in Radius",
+                      "minRoll": 20,
+                      "minRolls": [
+                        20
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Annihilating",
+                  "selectedAffixNames": [
+                    "of Annihilating"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Critical Hit Chance for Spells",
+                      "minRoll": 7,
+                      "minRolls": [
+                        7
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Lengthening",
+                  "selectedAffixNames": [
+                    "of Lengthening"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant #% increased Skill Effect Duration",
+                      "minRoll": 5,
+                      "minRolls": [
+                        5
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Generation",
+                  "selectedAffixNames": [
+                    "of Generation"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant Meta Skills gain #% increased Energy",
+                      "minRoll": 4,
+                      "minRolls": [
+                        4
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Mind",
+                  "selectedAffixNames": [
+                    "of Mind"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant 1% of Damage is taken from Mana before Life",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "affixType": "Suffix Modifier",
+                  "affixName": "of Osmosis",
+                  "selectedAffixNames": [
+                    "of Osmosis"
+                  ],
+                  "affixTier": 1,
+                  "lines": [
+                    {
+                      "statTemplate": "Notable Passive Skills in Radius also grant Recover 1% of maximum Mana on Kill",
+                      "minRoll": 1,
+                      "minRolls": [
+                        1
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "includeFractured": true
+            },
+            "whole": null,
+            "affixCount": null,
+            "desecrateSide": "any"
+          }
+        ]
+      }
+    ]
+  }
+}

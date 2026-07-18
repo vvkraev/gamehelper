@@ -1419,6 +1419,633 @@
                         <TextBox x:Name="ChancingPostApplyWaitBox" Grid.Column="1" Text="600" Padding="4,2"/>
                     </Grid>
 
+                    <Separator Margin="0,8,0,10"/>
+
+                    <!-- Fragment Stash Fill -->
+                    <Expander x:Name="FragmentFillExpander" Header="Заполнение из Fragment Stash" IsExpanded="False" Margin="0,0,0,10">
+                        <StackPanel Margin="8,8,0,0">
+
+                            <!-- Области вкладок -->
+                            <TextBlock Text="Области вкладок" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Вкладка Fragment:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentStashTabInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="FragmentPickStashTabRect_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Под-вкладка Tablets:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentSubTabTabletsInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="FragmentPickSubTabTabletsRect_Click"/>
+                            </Grid>
+                            <!-- 8 пикеров типов таблеток + чекбоксы включения -->
+                            <TextBlock Text="Типы таблеток:" FontSize="11" Foreground="#555" Margin="0,0,0,2"/>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Ritual:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo0" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="0" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck0" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Breach:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo1" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="1" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck1" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Delirium:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo2" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="2" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck2" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Abyss:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo3" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="3" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck3" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Temple:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo4" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="4" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck4" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Irradiated:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo5" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="5" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck5" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Overseer:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo6" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="6" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck6" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="100"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="46"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Unique:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentTypeInfo7" Grid.Column="1" VerticalAlignment="Center" Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="4,2" Tag="7" Click="FragmentPickTypeRect_Click"/>
+                                <CheckBox x:Name="FragmentTypeCheck7" Grid.Column="3" Content="Вкл." VerticalAlignment="Center" HorizontalAlignment="Center"
+                                          Checked="FragmentTypeCheck_Changed" Unchecked="FragmentTypeCheck_Changed"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Кнопки страниц (1-6):" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentPageRectsInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать сетку…" Padding="8,4"
+                                        Click="FragmentPickPageRects_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Сетка предметов:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="FragmentGridCellsInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать сетку…" Padding="8,4"
+                                        Click="FragmentPickGridCells_Click"/>
+                            </Grid>
+
+                            <!-- Параметры -->
+                            <TextBlock Text="Параметры" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="60"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Макс. Ctrl+ЛКМ (60 = инвентарь):" VerticalAlignment="Center"/>
+                                <TextBox x:Name="FragmentFillCountBox" Grid.Column="1" Text="60" Padding="4,2"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="60"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Задержка Ctrl+ЛКМ, мс:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="FragmentTransferDelayBox" Grid.Column="1" Text="300" Padding="4,2"/>
+                            </Grid>
+
+                            <!-- Кнопка -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <Button x:Name="FragmentFillStartBtn"
+                                        Content="▶ Заполнить из стэша"
+                                        FontWeight="Bold"
+                                        Padding="12,6"
+                                        Margin="0,0,8,0"
+                                        Click="FragmentFillStartBtn_Click"/>
+                                <Button x:Name="FragmentFillStopBtn"
+                                        Content="■ Стоп"
+                                        Padding="12,6"
+                                        IsEnabled="False"
+                                        Click="FragmentFillStopBtn_Click"/>
+                            </StackPanel>
+                            <TextBlock x:Name="FragmentFillStatusText"
+                                       FontSize="11" Foreground="#555" Margin="0,0,0,4"
+                                       Text=""/>
+
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander x:Name="TabletScanExpander" Header="Сканер таблеток (инвентарь → оценка)" IsExpanded="False" Margin="0,0,0,10">
+                        <StackPanel Margin="8,8,0,0">
+
+                            <!-- NPC OCR -->
+                            <TextBlock Text="NPC / начальная точка (OCR)" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Область поиска NPC:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TabletScanNpcOcrInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="TabletScanPickNpcOcrRect_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Текст NPC (OCR):" VerticalAlignment="Center"/>
+                                <TextBox x:Name="TabletScanNpcOcrTextBox" Grid.Column="1" Text="DORYANI" Padding="4,2"/>
+                            </Grid>
+
+                            <!-- Stash → Currency -->
+                            <TextBlock Text="Навигация к стэшу" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <TextBlock Text="OCR STASH, задержка и вкладка Currency берутся из уже заданных областей."
+                                       FontSize="11" Foreground="#777" Margin="0,0,0,8"/>
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                                <Button x:Name="TabletScanTestStashBtn"
+                                        Content="🔍 Тест STASH → Currency"
+                                        Padding="10,6"
+                                        Click="TabletScanTestStashBtn_Click"/>
+                            </StackPanel>
+
+                            <!-- Ячейки инвентаря -->
+                            <TextBlock Text="Ячейки таблеток (инвентарь)" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Ячейки для сканирования:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="TabletScanCellsInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать сетку…" Padding="8,4"
+                                        Click="TabletScanPickCells_Click"/>
+                            </Grid>
+
+                            <!-- Задержки -->
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="60"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Hover перед Ctrl+Alt+C, мс:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="TabletScanHoverBox" Grid.Column="1" Text="120" Padding="4,2"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="180"/>
+                                    <ColumnDefinition Width="60"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Clipboard delay, мс:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="TabletScanClipboardDelayBox" Grid.Column="1" Text="220" Padding="4,2"/>
+                            </Grid>
+
+                            <!-- Управление -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <Button x:Name="TabletScanTestOcrBtn"
+                                        Content="🔍 Тест OCR + Ctrl+ЛКМ"
+                                        Padding="10,6"
+                                        Margin="0,0,8,0"
+                                        Click="TabletScanTestOcrBtn_Click"/>
+                                <Button x:Name="TabletScanStartBtn"
+                                        Content="▶ Сканировать все"
+                                        FontWeight="Bold"
+                                        Padding="12,6"
+                                        Margin="0,0,8,0"
+                                        Click="TabletScanStartBtn_Click"/>
+                                <Button x:Name="TabletScanStopBtn"
+                                        Content="■ Стоп"
+                                        Padding="12,6"
+                                        IsEnabled="False"
+                                        Click="TabletScanStopBtn_Click"/>
+                            </StackPanel>
+                            <TextBlock x:Name="TabletScanStatusText"
+                                       FontSize="11" Foreground="#555" Margin="0,0,0,4" Text=""/>
+
+                            <!-- Результаты -->
+                            <TextBlock Text="Результаты оценки" FontWeight="SemiBold" Margin="0,6,0,4"/>
+                            <TextBox x:Name="TabletScanResultsBox"
+                                     IsReadOnly="True"
+                                     FontFamily="Consolas"
+                                     FontSize="11"
+                                     Height="200"
+                                     VerticalScrollBarVisibility="Auto"
+                                     HorizontalScrollBarVisibility="Auto"
+                                     TextWrapping="NoWrap"/>
+
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Нанесение орбов: делает все таблички Magic (синими) через OoT + OoA.
+                         Альтернатива этому шагу — шансинг с Omen of Ancient для получения уникальных табличек,
+                         если normal-таблички в данный момент дешевле для конвертации в уники. -->
+                    <Expander x:Name="OrbApplyExpander" Header="Нанесение орбов (OoT → OoA)" IsExpanded="False" Margin="0,0,0,10">
+                        <StackPanel Margin="8,8,0,0">
+                            <TextBlock Text="Цель: сделать все таблички Magic (синими, 2 аффикса) через OoT → OoA."
+                                       FontSize="11" Foreground="#555" Margin="0,0,0,4"/>
+                            <TextBlock Text="Орбы берутся из Currency стэша (должен быть уже открыт на Currency-вкладке)."
+                                       FontSize="11" Foreground="#777" Margin="0,0,0,4"/>
+                            <TextBlock Text="Ячейки таблеток — те же, что заданы в сканере выше."
+                                       FontSize="11" Foreground="#777" Margin="0,0,0,10"/>
+
+                            <!-- Задержка -->
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Задержка между кликами, мс:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="OrbApplyDelayBox" Grid.Column="1" Text="400" Padding="4,2"/>
+                                <TextBlock Grid.Column="2" Text="  (джиттер ±20%)" VerticalAlignment="Center" Foreground="#777" FontSize="11"/>
+                            </Grid>
+
+                            <!-- Кнопки -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <Button x:Name="OrbApplyTestOoTBtn"
+                                        Content="▶ Тест OoT"
+                                        Padding="10,6" Margin="0,0,8,0"
+                                        Click="OrbApplyTestOoTBtn_Click"/>
+                                <Button x:Name="OrbApplyTestOoABtn"
+                                        Content="▶ Тест OoA"
+                                        Padding="10,6" Margin="0,0,8,0"
+                                        Click="OrbApplyTestOoABtn_Click"/>
+                                <Button x:Name="OrbApplyAllBtn"
+                                        Content="▶ OoT → OoA (всё)"
+                                        FontWeight="Bold"
+                                        Padding="12,6" Margin="0,0,8,0"
+                                        Click="OrbApplyAllBtn_Click"/>
+                                <Button x:Name="OrbApplyStopBtn"
+                                        Content="■ Стоп"
+                                        Padding="12,6"
+                                        IsEnabled="False"
+                                        Click="OrbApplyStopBtn_Click"/>
+                            </StackPanel>
+                            <TextBlock x:Name="OrbApplyStatusText"
+                                       FontSize="11" Foreground="#555" Margin="0,0,0,4" Text=""/>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Апгрейд: Magic → Rare (Regal+Exalt или Alchemy).
+                         Дорогие (>порога) получают Regal + Exalt: 2→3→4 мода.
+                         Дешёвые (≤порога) получают Alchemy: мгновенно 4 случайных мода.
+                         Alchemy не действует на уже Rare — безопасно гонять по всем. -->
+                    <Expander x:Name="UpgradeOrbsExpander" Header="Апгрейд табличек (Regal+Exalt / Alchemy)" IsExpanded="False" Margin="0,0,0,10">
+                        <StackPanel Margin="8,8,0,0">
+                            <TextBlock FontSize="11" Foreground="#555" Margin="0,0,0,4"
+                                       Text="Использует результаты последнего скана. Дорогие → Regal Orb + Exalted Orb. Дешёвые → Orb of Alchemy."/>
+                            <TextBlock FontSize="11" Foreground="#777" Margin="0,0,0,10"
+                                       Text="Орбы из Currency стэша (должен быть открыт). Ячейки — те же что в сканере."/>
+
+                            <!-- Порог -->
+                            <Grid Margin="0,0,0,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Порог цены (divine):" VerticalAlignment="Center"/>
+                                <TextBox x:Name="UpgradeThresholdBox" Grid.Column="1" Text="1" Padding="4,2"/>
+                                <TextBlock Grid.Column="2" Text="  ≥ порога → Regal+Exalt   &lt; порога → Alchemy"
+                                           VerticalAlignment="Center" Foreground="#777" FontSize="11"/>
+                            </Grid>
+
+                            <!-- Задержка -->
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="220"/>
+                                    <ColumnDefinition Width="60"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Задержка между кликами, мс:" VerticalAlignment="Center"/>
+                                <TextBox x:Name="UpgradeDelayBox" Grid.Column="1" Text="400" Padding="4,2"/>
+                                <TextBlock Grid.Column="2" Text="  (джиттер ±20%)" VerticalAlignment="Center" Foreground="#777" FontSize="11"/>
+                            </Grid>
+
+                            <!-- Загрузка из файла -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                <Button x:Name="UpgradeLoadMdBtn"
+                                        Content="↑ Загрузить последний скан из MD"
+                                        Padding="10,4" Margin="0,0,8,0"
+                                        Click="UpgradeLoadMdBtn_Click"/>
+                                <TextBlock x:Name="UpgradeLoadedFileText"
+                                           VerticalAlignment="Center" FontSize="11" Foreground="#777"/>
+                            </StackPanel>
+
+                            <!-- Предпросмотр сплита -->
+                            <TextBlock x:Name="UpgradeSplitText"
+                                       FontSize="11" Foreground="#555" Margin="0,0,0,8"
+                                       Text="Загрузите скан или запустите «Сканировать все»."/>
+
+                            <!-- Кнопки -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <Button x:Name="UpgradeOrbsBtn"
+                                        Content="▶ Применить орбы"
+                                        FontWeight="Bold"
+                                        Padding="12,6" Margin="0,0,8,0"
+                                        Click="UpgradeOrbsBtn_Click"/>
+                                <Button x:Name="UpgradeOrbsStopBtn"
+                                        Content="■ Стоп"
+                                        Padding="12,6"
+                                        IsEnabled="False"
+                                        Click="UpgradeOrbsStopBtn_Click"/>
+                            </StackPanel>
+                            <TextBlock x:Name="UpgradeOrbsStatusText"
+                                       FontSize="11" Foreground="#555" Margin="0,0,0,4" Text=""/>
+                        </StackPanel>
+                    </Expander>
+
+                    <!-- Листинг табличек у Ange -->
+                    <Expander x:Name="TabletListingExpander" Header="Листинг табличек (Ange)" IsExpanded="False" Margin="0,0,0,10">
+                        <StackPanel Margin="8,8,0,0">
+                            <TextBlock FontSize="11" Foreground="#555" Margin="0,0,0,4"
+                                       Text="Предполагает: Ange открыта, вкладка табличек выбрана."/>
+                            <TextBlock FontSize="11" Foreground="#777" Margin="0,0,0,10"
+                                       Text="Для теста укажите номер ячейки (1-based) и цену вручную."/>
+
+                            <!-- Вкладка Ange -->
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Вкладка табличек (Ange):" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="AngeTabletTabInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="AngeTabletTabPick_Click"/>
+                            </Grid>
+
+                            <!-- Под-вкладка Ange (shop sub-tab) -->
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Под-вкладка витрины Ange:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="AngeShopSubTabInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="AngeShopSubTabPick_Click"/>
+                            </Grid>
+
+                            <!-- Проверка «Merchant» — подтверждение открытого интерфейса Ange -->
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Область «Merchant» (verify):" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="AngeShopVerifyInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="AngeShopVerifyPick_Click"/>
+                            </Grid>
+
+                            <!-- Ячейки Ange -->
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Ячейки магазина Ange:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="AngeTabletCellsInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задана"/>
+                                <Button Grid.Column="2" Content="Задать сетку…" Padding="8,4"
+                                        Click="AngeTabletCellsPick_Click"/>
+                            </Grid>
+
+                            <!-- Поля диалога Set Item Price -->
+                            <TextBlock Text="Диалог «Set Item Price»" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Поле ввода числа:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="ListingPriceInputInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задано"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="ListingPriceInputPick_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Дропдаун валюты:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="ListingCurrencyDropdownInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задано"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="ListingCurrencyDropdownPick_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Область OCR «Divine Orb»:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="ListingDivineOrbOcrInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задано"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="ListingDivineOrbOcrPick_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="120"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Кнопка LIST ITEM:" VerticalAlignment="Center"/>
+                                <TextBlock x:Name="ListingListItemBtnInfo" Grid.Column="1" VerticalAlignment="Center"
+                                           Foreground="#555" FontSize="11" Text="не задано"/>
+                                <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                        Click="ListingListItemBtnPick_Click"/>
+                            </Grid>
+
+                            <!-- Тест одной ячейки -->
+                            <TextBlock Text="Тест (одна ячейка)" FontWeight="SemiBold" Margin="0,0,0,6"/>
+                            <Grid Margin="0,0,0,4">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="20"/>
+                                    <ColumnDefinition Width="50"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Ячейка инвентаря (кол / строка):" VerticalAlignment="Center"/>
+                                <TextBox x:Name="ListingTestColBox" Grid.Column="1" Text="1" Padding="4,2"/>
+                                <TextBlock Grid.Column="2" Text="/" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                <TextBox x:Name="ListingTestRowBox" Grid.Column="3" Text="1" Padding="4,2"/>
+                                <Button Grid.Column="4" Content="Навести мышь" Padding="8,2" Margin="8,0,0,0"
+                                        ToolTip="Навести мышь на выбранную ячейку — визуальная проверка координат"
+                                        Click="ListingHoverCellBtn_Click"/>
+                            </Grid>
+                            <Grid Margin="0,0,0,12">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="200"/>
+                                    <ColumnDefinition Width="80"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Text="Цена (divine):" VerticalAlignment="Center"/>
+                                <TextBox x:Name="ListingTestPriceBox" Grid.Column="1" Text="5" Padding="4,2"/>
+                                <TextBlock Grid.Column="2" Text="  (0 = из последнего скана)"
+                                           VerticalAlignment="Center" Foreground="#777" FontSize="11"/>
+                            </Grid>
+
+                            <!-- Кнопки -->
+                            <StackPanel Orientation="Horizontal" Margin="0,0,0,6">
+                                <Button x:Name="ListingTestBtn"
+                                        Content="▶ Тест листинга (1 ячейка)"
+                                        Padding="10,6" Margin="0,0,8,0"
+                                        Click="ListingTestBtn_Click"/>
+                                <Button x:Name="ListingAllBtn"
+                                        Content="▶▶ Залистить все"
+                                        Padding="10,6" Margin="0,0,8,0"
+                                        ToolTip="Залистить все предметы из последнего скана (пустые ячейки пропускаются)"
+                                        Click="ListingAllBtn_Click"/>
+                                <Button Content="Тест OCR дропдауна"
+                                        Padding="10,6" Margin="0,0,8,0"
+                                        ToolTip="Открыть дропдаун валюты и показать что нашёл OCR"
+                                        Click="ListingTestDropdownOcrBtn_Click"/>
+                                <Button x:Name="SmartRepricingBtn"
+                                        Content="📉 Умная переоценка"
+                                        Padding="10,6" Margin="0,0,8,0"
+                                        ToolTip="Запустить reprice.py → выполнить план переоценки (divine −1d / switch to chaos)"
+                                        Click="SmartRepricingBtn_Click"/>
+                                <Button x:Name="ListingStopBtn"
+                                        Content="■ Стоп"
+                                        Padding="12,6"
+                                        IsEnabled="False"
+                                        Click="ListingStopBtn_Click"/>
+                            </StackPanel>
+
+                            <!-- Автоцикл переоценки -->
+                            <StackPanel Orientation="Horizontal" Margin="0,6,0,0">
+                                <Button x:Name="TabFlowLoopStartBtn"
+                                        Content="🔄 Запустить цикл"
+                                        Padding="10,6" Margin="0,0,8,0"
+                                        ToolTip="Запустить автоцикл: fetch продаж → SoldDetector → переоценка. ESC прерывает текущую итерацию, цикл продолжается."
+                                        Click="TabFlowLoopStartBtn_Click"/>
+                                <Button x:Name="TabFlowLoopStopBtn"
+                                        Content="⏹ Стоп цикла"
+                                        Padding="10,6" Margin="0,0,16,0"
+                                        IsEnabled="False"
+                                        Click="TabFlowLoopStopBtn_Click"/>
+                                <TextBlock Text="Интервал (мин):" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                                <TextBox x:Name="TabFlowCycleIntervalBox"
+                                         Width="50" Padding="4,3" Text="30"
+                                         ToolTip="Интервал между итерациями цикла (минуты)"/>
+                                <CheckBox x:Name="TabFlowDryRunCheckBox"
+                                          Content="Dry-run"
+                                          VerticalAlignment="Center" Margin="16,0,0,0"
+                                          ToolTip="Dry-run: fetch + план без кликов. Все действия логируются, но не выполняются."/>
+                            </StackPanel>
+
+                            <TextBlock x:Name="ListingStatusText"
+                                       FontSize="11" Foreground="#555" Margin="0,0,0,4" Text=""/>
+                        </StackPanel>
+                    </Expander>
+
                     <Separator Margin="0,0,0,12"/>
 
                     <!-- Горячая клавиша -->
@@ -1571,9 +2198,18 @@
                 </Grid.RowDefinitions>
 
                 <StackPanel Grid.Row="0" Margin="0,0,0,8">
-                    <TextBlock Text="POESESSID (F12 → Application → Cookies → pathofexile.com)" FontWeight="SemiBold" Margin="0,0,0,4"
+                    <TextBlock Text="POESESSID" FontWeight="SemiBold" Margin="0,0,0,4"
                                ToolTip="Токен сессии. Хранится в settings.json локально. Обновляется при входе на сайт."/>
-                    <TextBox x:Name="TradeSessionIdBox" FontFamily="Consolas" FontSize="11" Padding="4,3"/>
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="TradeSessionIdBox" FontFamily="Consolas" FontSize="11" Padding="4,3"/>
+                        <Button Grid.Column="1" Content="Из браузера" Padding="8,3" Margin="6,0,0,0"
+                                Click="AutoDetectPoeSessIdBtn_Click"
+                                ToolTip="Автоматически прочитать POESESSID из Chrome / Yandex Browser / Edge."/>
+                    </Grid>
                 </StackPanel>
 
                 <Grid Grid.Row="1" Margin="0,0,0,8">
@@ -1771,13 +2407,25 @@
                             Click="PipelineDetectStepBtn_Click"/>
 
                     <!-- Старт / Стоп -->
-                    <Button DockPanel.Dock="Top"
-                            x:Name="PipelineStartBtn"
-                            Content="▶  Старт"
-                            Margin="0,0,0,4"
-                            Padding="8,5"
-                            IsEnabled="{Binding CanStartPipeline}"
-                            Click="PipelineStartBtn_Click"/>
+                    <Grid DockPanel.Dock="Top" Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="PipelineStartBtn"
+                                Content="▶  Старт"
+                                Padding="8,5"
+                                IsEnabled="{Binding CanStartPipeline}"
+                                Click="PipelineStartBtn_Click"/>
+                        <TextBlock Grid.Column="1" Text="с шага №:" VerticalAlignment="Center"
+                                   Margin="6,0,4,0" FontSize="11"
+                                   ToolTip="Начать выполнение с этого шага (0 = с начала). Удобно для тестирования отдельных шагов."/>
+                        <TextBox Grid.Column="2" x:Name="PipelineStartStepBox"
+                                 Text="0" Padding="4,3" FontSize="11"
+                                 VerticalContentAlignment="Center"
+                                 ToolTip="Индекс шага, с которого начать (0-based). Предыдущие шаги пропускаются."/>
+                    </Grid>
                     <Button DockPanel.Dock="Top"
                             x:Name="PipelineStopBtn"
                             Content="■  Стоп"
@@ -1796,7 +2444,26 @@
                                  Text="batch-1"
                                  Padding="4,3"
                                  FontSize="11"
+                                 LostFocus="BatchNameBox_LostFocus"
                                  ToolTip="Имя батча — одинаковое для всех перезапусков. Расходы накапливаются по этому имени в batch_ledger.json"/>
+                    </Grid>
+                    <Grid DockPanel.Dock="Top" Margin="0,0,0,2">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="60"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Vault:" VerticalAlignment="Center" Margin="0,0,4,0" FontSize="11"/>
+                        <TextBox Grid.Column="1" x:Name="BatchVaultDirBox"
+                                 Padding="4,3" FontSize="11"
+                                 LostFocus="BatchVaultDirBox_LostFocus"
+                                 ToolTip="Относительный путь к каталогу vault для батча (от корня проекта). Если задан, в процессе крафта автоматически обновляется _costs.md. Пример: vault/crafts/time_lost_sapphire/batch_2026-07-13"/>
+                        <TextBlock Grid.Column="2" Text="База:" VerticalAlignment="Center" Margin="6,0,4,0" FontSize="11"/>
+                        <TextBox Grid.Column="3" x:Name="BatchBaseCostBox"
+                                 Padding="4,3" FontSize="11" Text="0"
+                                 LostFocus="BatchBaseCostBox_LostFocus"
+                                 ToolTip="Стоимость одной базы в дивайнах (для таблицы полной себестоимости)"/>
                     </Grid>
                     <Button DockPanel.Dock="Top"
                             x:Name="PipelineBatchStartBtn"
@@ -1832,6 +2499,22 @@
                                Margin="0,0,0,8"
                                TextWrapping="Wrap"/>
 
+                    <!-- Область названия локации (для OCR-верификации TravelToLocation) -->
+                    <Button DockPanel.Dock="Top"
+                            x:Name="PipelinePickLocationAreaBtn"
+                            Content="📍 Область локации"
+                            Padding="8,4"
+                            Margin="0,0,0,4"
+                            Click="PipelinePickLocationAreaBtn_Click"
+                            ToolTip="Задать область экрана с названием текущей локации (minimap/HUD) — используется для OCR-верификации после TravelToLocation и определения вехи при старте батча"/>
+                    <TextBlock DockPanel.Dock="Top"
+                               x:Name="PipelineLocationAreaInfo"
+                               Text="Локация: не задана"
+                               FontSize="11"
+                               Foreground="#666"
+                               Margin="0,0,0,8"
+                               TextWrapping="Wrap"/>
+
                     <Separator DockPanel.Dock="Top" Margin="0,0,0,6"/>
 
                     <!-- Список сохранённых рецептов -->
@@ -1845,23 +2528,32 @@
                     <Grid.RowDefinitions>
                         <RowDefinition Height="Auto"/>
                         <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="Auto"/>
-                        <RowDefinition Height="110"/>
+                        <RowDefinition Height="*" MinHeight="60"/>
+                        <RowDefinition Height="5"/>
+                        <RowDefinition Height="150" MinHeight="60"/>
                     </Grid.RowDefinitions>
 
                     <!-- Шапка рецепта: имя + предохранитель -->
                     <StackPanel Grid.Row="0" Margin="0,0,0,6">
 
-                        <!-- Имя рецепта -->
+                        <!-- Имя рецепта + тип предмета -->
                         <Grid Margin="0,0,0,6">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="Auto"/>
                                 <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="220"/>
                             </Grid.ColumnDefinitions>
                             <TextBlock Text="Имя рецепта:" VerticalAlignment="Center" Margin="0,0,8,0" FontWeight="SemiBold"/>
                             <TextBox Grid.Column="1" x:Name="PipelineNameBox" Padding="4,3"
                                      TextChanged="PipelineNameBox_TextChanged"/>
+                            <TextBlock Grid.Column="2" Text="Тип предмета:" VerticalAlignment="Center"
+                                       Margin="12,0,8,0" FontWeight="SemiBold"
+                                       ToolTip="Класс предмета — подставляется во все условия крафта и DesecratePick автоматически"/>
+                            <ComboBox Grid.Column="3" x:Name="PipelineItemClassCombo"
+                                      IsEditable="True" Padding="4,2"
+                                      SelectionChanged="PipelineItemClassCombo_SelectionChanged"
+                                      ToolTip="Выберите класс предмета из списка"/>
                         </Grid>
 
                         <!-- Предохранитель (BATCH-1c): GuardCondition -->
@@ -1907,7 +2599,7 @@
                     </StackPanel>
 
                     <!-- Список шагов -->
-                    <ListView x:Name="PipelineStepsList" Grid.Row="2"
+                    <ListView x:Name="PipelineStepsList" Grid.Row="2" Margin="0,0,0,0"
                               MouseDoubleClick="PipelineStepsList_MouseDoubleClick">
                         <ListView.View>
                             <GridView>
@@ -1925,27 +2617,38 @@
                         </ListView.View>
                     </ListView>
 
-                    <!-- Статус выполнения -->
-                    <Grid Grid.Row="3" Margin="0,6,0,3">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="Auto"/>
-                        </Grid.ColumnDefinitions>
-                        <TextBlock FontWeight="SemiBold" VerticalAlignment="Center"
-                                   Text="{Binding PipelineStatusText}"/>
-                        <Button Grid.Column="1" Content="Очистить лог" Padding="6,2"
-                                Click="PipelineClearLogBtn_Click"/>
-                    </Grid>
+                    <!-- Разделитель лога -->
+                    <GridSplitter Grid.Row="3" Height="5" HorizontalAlignment="Stretch"
+                                  Background="#DDD" ResizeDirection="Rows" ResizeBehavior="PreviousAndNext"
+                                  Cursor="SizeNS"/>
 
-                    <!-- Лог -->
-                    <TextBox Grid.Row="4"
-                             x:Name="PipelineLogBox"
-                             IsReadOnly="True"
-                             TextWrapping="Wrap"
-                             VerticalScrollBarVisibility="Auto"
-                             HorizontalScrollBarVisibility="Disabled"
-                             FontFamily="Consolas"
-                             FontSize="11"/>
+                    <!-- Статус выполнения + Лог (единый блок ниже разделителя) -->
+                    <Grid Grid.Row="4">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <Grid Grid.Row="0" Margin="0,6,0,3">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontWeight="SemiBold" VerticalAlignment="Center"
+                                       Text="{Binding PipelineStatusText}"/>
+                            <Button Grid.Column="1" Content="Очистить лог" Padding="6,2"
+                                    Click="PipelineClearLogBtn_Click"/>
+                        </Grid>
+
+                        <TextBox Grid.Row="1"
+                                 x:Name="PipelineLogBox"
+                                 IsReadOnly="True"
+                                 TextWrapping="Wrap"
+                                 VerticalScrollBarVisibility="Auto"
+                                 HorizontalScrollBarVisibility="Disabled"
+                                 FontFamily="Consolas"
+                                 FontSize="11"/>
+                    </Grid>
                 </Grid>
             </Grid>
         </TabItem>
@@ -2063,6 +2766,36 @@
                                 Click="OpenLogBtn_OnClick"
                                 ToolTip="Открыть файл текущего крафта (если запущен) или последнего завершённого крафта."/>
                     </StackPanel>
+
+                    <Separator Margin="0,0,0,12"/>
+
+                    <!-- Проверка открытого стэша -->
+                    <TextBlock Text="Проверка открытого стэша" FontWeight="Bold" FontSize="14" Margin="0,0,0,8"/>
+                    <TextBlock TextWrapping="Wrap" Foreground="#555" FontSize="11" Margin="0,0,0,8"
+                               Text="Отдельная область, где ищем текст когда стэш открыт (например заголовок вкладки). Если текст найден — шаг OpenStash в пайплайне пропускает клик."/>
+                    <Grid Margin="0,0,0,4">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Текст для проверки:" VerticalAlignment="Center"/>
+                        <TextBox x:Name="StashIsOpenCheckTextBox" Text="Stash" Grid.Column="1" Padding="4,2"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,12">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="160"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBlock Text="Область проверки:" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="StashIsOpenCheckInfo" Grid.Column="1"
+                                   Text="не задана" VerticalAlignment="Center"
+                                   Foreground="#555" FontSize="11"/>
+                        <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                Click="PickStashIsOpenCheckBtn_Click"/>
+                    </Grid>
+
+                    <Separator Margin="0,0,0,12"/>
 
                     <TextBlock TextWrapping="Wrap" FontWeight="SemiBold" Margin="0,0,0,4">
                         Лог в окне; полный лог крафта (буфер vs строка пользователя) — файл в папке Log проекта после каждого «Старт». Сессионный лог — при закрытии приложения.

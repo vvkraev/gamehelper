@@ -228,12 +228,18 @@ public static class Win32Input
     public static bool IsAltDown() =>
         (GetAsyncKeyState(VkMenu) & 0x8000) != 0;
 
+    public static bool IsLeftButtonDown() =>
+        (GetAsyncKeyState(0x01) & 0x8000) != 0;
+
     /// <summary>Однократное нажатие произвольной клавиши (down + up).</summary>
     public static void PressKey(byte vk)
     {
         keybd_event(vk, 0, 0, UIntPtr.Zero);
         keybd_event(vk, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
     }
+
+    public static void KeyDown(byte vk) => keybd_event(vk, 0, 0, UIntPtr.Zero);
+    public static void KeyUp(byte vk)   => keybd_event(vk, 0, KEYEVENTF_KEYUP, UIntPtr.Zero);
 
     /// <summary>Вводит строку через SendInput (Unicode events) — для полей ввода цены.</summary>
     public static void TypeText(string text)

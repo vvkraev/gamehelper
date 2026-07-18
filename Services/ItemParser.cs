@@ -432,6 +432,12 @@ public static class ItemParser
     /// <summary>
     /// Разбор строки эффекта: <c>N(мин-макс)</c> (одно или несколько), иначе ведущее <c>±число</c> без скобок — Stat без переката (<c>+ to Level …</c>), Range и Value — число.
     /// </summary>
+    /// <summary>
+    /// Парсит одну строку эффекта мода из OCR-текста (reveal-интерфейс, читаемые строки буфера).
+    /// Возвращает <see cref="AffixEffectLine"/> с разобранными полями <c>StatText</c> и <c>RolledValue</c>.
+    /// </summary>
+    public static AffixEffectLine ParseRawStatLine(string line) => ParseAffixEffectLine(line);
+
     private static AffixEffectLine ParseAffixEffectLine(string line)
     {
         var raw = line.Trim();

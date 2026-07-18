@@ -42,6 +42,13 @@
                     <ComboBoxItem Content="ManualPause — пауза (успех без действий)"/>
                     <ComboBoxItem Content="TravelToLocation — переход между локациями через Waypoint"/>
                     <ComboBoxItem Content="SimpleAbyssalBone — применить одну Abyssal Bone"/>
+                    <ComboBoxItem Content="WalkToPosition — ходьба внутри локации (WASD)"/>
+                    <ComboBoxItem Content="OpenStash — открыть стэш через OCR"/>
+                    <ComboBoxItem Content="ClickTemplate — найти и кликнуть кнопку по PNG-шаблону"/>
+                    <ComboBoxItem Content="DesecratePick — OCR reveal-мода, лог десекрейт-пула"/>
+                    <ComboBoxItem Content="DesecrateReveal — полный цикл reveal (атомарный шаг батча)"/>
+                    <ComboBoxItem Content="CtrlClickItem — Ctrl+ЛКМ по предмету (перемещение)"/>
+                    <ComboBoxItem Content="ClickRegion — клик по области (кнопки Reveal, Reroll и др.)"/>
                 </ComboBox>
 
                 <!-- Максимум итераций -->
@@ -84,6 +91,9 @@
                             <TextBox   Grid.Row="2" Grid.Column="1" x:Name="OmenInvColBox" Text="0" Width="60"
                                        HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
                         </Grid>
+                        <CheckBox x:Name="OmenUseActiveBatchCountChk" Margin="0,8,0,0"
+                                  Content="Количество = число активных предметов в батче"
+                                  ToolTip="Если включено — при переносе вводится кол-во активных (не Failed) предметов батча. Нужно для Omen of Abyssal Echo."/>
                     </StackPanel>
                 </Border>
 
@@ -210,6 +220,53 @@
                             <TextBox   Grid.Row="1" Grid.Column="1" x:Name="TravelLoadDelayBox" Text="15000"
                                        Width="80" HorizontalAlignment="Left" Margin="0,3" Padding="4,2"/>
                         </Grid>
+
+                        <!-- Ожидаемое название локации -->
+                        <StackPanel Orientation="Horizontal" Margin="0,8,0,0">
+                            <TextBlock Text="Название локации:" VerticalAlignment="Center" Margin="0,0,6,0"/>
+                            <TextBox x:Name="TravelExpectedLocationBox" Width="200" Padding="4,2"
+                                     VerticalAlignment="Center"
+                                     ToolTip="Ожидаемое название после перехода — OCR проверяет область «Локация» (задаётся в панели пайплайна). Пример: «The Well of Souls», «Hideout». Пусто = не проверять."/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- WalkToPosition -->
+                <Border x:Name="WalkConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Ходьба внутри локации (WASD)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,8"
+                                   Text="Веха — один раз на батч. Клавиши выполняются последовательно: зажать → ждать → отпустить."/>
+
+                        <!-- Escape -->
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                            <CheckBox x:Name="WalkEscapeCheckBox" IsChecked="True" VerticalAlignment="Center"
+                                      ToolTip="Нажимает Escape перед движением чтобы закрыть стэш/инвентарь."/>
+                            <TextBlock Text="Нажать Escape перед движением" VerticalAlignment="Center" Margin="6,0,0,0"/>
+                        </StackPanel>
+
+                        <!-- Список нажатий -->
+                        <TextBlock Text="Последовательность нажатий:" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <StackPanel x:Name="WalkKeyPressList" Margin="0,0,0,6"/>
+                        <StackPanel Orientation="Horizontal">
+                            <Button x:Name="WalkAddKeyBtn" Content="+ Добавить нажатие"
+                                    Padding="8,4" Margin="0,0,8,0"
+                                    Click="WalkAddKeyBtn_Click"/>
+                            <Button x:Name="WalkRecordBtn" Content="⏺ Записать макрос"
+                                    Padding="8,4"
+                                    Click="WalkRecordBtn_Click"/>
+                            <TextBlock x:Name="WalkRecordStatus"
+                                       VerticalAlignment="Center" Margin="10,0,0,0"
+                                       Foreground="#CC0000" FontSize="11"
+                                       Visibility="Collapsed"/>
+                        </StackPanel>
                     </StackPanel>
                 </Border>
 
@@ -262,6 +319,388 @@
                     </StackPanel>
                 </Border>
 
+                <!-- ClickTemplate — поиск кнопки по PNG-шаблону -->
+                <Border x:Name="ClickTemplateConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Поиск кнопки по PNG-шаблону" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,8"
+                                   Text="Сделайте снимок кнопки — он сохранится как шаблон. Во время выполнения шага программа ищет этот шаблон в заданной области и кликает по нему."/>
+
+                        <!-- Шаблон -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Шаблон:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TemplatePathLabel" Grid.Column="1"
+                                       Text="не задан" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11" TextTrimming="CharacterEllipsis"/>
+                            <Button Grid.Column="2" Content="Сделать снимок…" Padding="8,4"
+                                    Click="CaptureTemplateBtn_Click"/>
+                        </Grid>
+
+                        <!-- Область поиска -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Область поиска:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="TemplateSearchRectLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickTemplateSearchRectBtn_Click"/>
+                        </Grid>
+
+                        <!-- Порог / допуск / задержка -->
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="80"/>
+                                <ColumnDefinition Width="120"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Порог совпад.:" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TemplateThresholdBox" Grid.Column="1" Text="0.80" Padding="4,2" Margin="0,0,8,0"/>
+                            <TextBlock Grid.Column="2" Text="Допуск яркости:" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TemplateToleranceBox" Grid.Column="3" Text="30" Padding="4,2" Margin="0,0,8,0"/>
+                            <TextBlock Grid.Column="4" Text="Задержка, мс:" VerticalAlignment="Center"/>
+                            <TextBox x:Name="TemplateClickDelayBox" Grid.Column="5" Text="500" Padding="4,2"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
+                <!-- DesecratePick — reveal мода + лог -->
+                <Border x:Name="DesecratePickConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Reveal: десекрейт-мод" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,8"
+                                   Text="Область делится на N равных секций (по умолчанию 3). OCR каждой секции — один мод. Без условия кликается десекрейт-мод. С условием — первый мод, удовлетворяющий условию."/>
+
+                        <!-- Область reveal + количество секций -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Область модов:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="DesecrateRevealAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickDesecrateRevealAreaBtn_Click"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Секций (модов):" VerticalAlignment="Center"/>
+                            <TextBox x:Name="DesecrateRevealSectionsBox" Grid.Column="1"
+                                     Text="3" Padding="4,2"
+                                     ToolTip="На сколько равных частей делить область. Обычно 3 (три варианта reveal)."/>
+                        </Grid>
+
+                        <!-- Название предмета (класс берётся из «Тип предмета» рецепта) -->
+                        <Grid Margin="0,0,0,4">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Название предмета:" VerticalAlignment="Center"/>
+                            <TextBox x:Name="DesecrateItemNameBox" Grid.Column="1" Padding="4,2"
+                                     ToolTip="Используется в имени файла лога. Класс предмета берётся из поля «Тип предмета» рецепта."/>
+                        </Grid>
+                        <!-- скрытый TextBox для обратной совместимости -->
+                        <TextBox x:Name="DesecrateItemClassBox" Visibility="Collapsed"/>
+
+                        <!-- Особый омен -->
+                        <CheckBox x:Name="DesecrateAllModsCheckBox" Margin="0,4,0,8"
+                                  Content="Все 3 мода из десекрейт-пула (особый омен для оружия/бижутерии)"
+                                  ToolTip="Если не отмечено — ровно 1 мод из пула десекрейт, 2 обычных"/>
+
+                        <!-- Кнопка Confirm -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Кнопка Confirm:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="DesecrateConfirmAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickDesecrateConfirmAreaBtn_Click"/>
+                        </Grid>
+                        <CheckBox x:Name="DesecrateAutoConfirmChk" Margin="0,0,0,6"
+                                  Content="Нажимать Confirm автоматически"
+                                  IsChecked="False"
+                                  ToolTip="По умолчанию выключено — для тестирования. Включить когда пайплайн отлажен."/>
+
+                        <!-- Reroll -->
+                        <CheckBox x:Name="DesecrateUseRerollChk" Margin="0,0,0,6"
+                                  Content="Использовать омен на переброс (Reroll)"
+                                  IsChecked="True"
+                                  ToolTip="Если нужный мод не найден — наводить курсор на кнопку Reroll вместо клика по неподходящему моду"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Кнопка Reroll:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="DesecrateRerollAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickDesecrateRerollAreaBtn_Click"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Задержка после Reroll:" VerticalAlignment="Center"/>
+                            <TextBox x:Name="DesecrateAfterRerollDelayBox" Grid.Column="1"
+                                     Text="1500" Width="80" HorizontalAlignment="Left"/>
+                        </Grid>
+
+                        <!-- Условие выбора мода -->
+                        <TextBlock Text="Условие выбора мода (PickCondition):" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,6"
+                                   Text="Проверяется для каждой строки интерфейса reveal. Первая строка, удовлетворяющая условию, кликается. Если условие не задано — кликается первый найденный десекрейт-мод."/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <Button x:Name="EditDesecratePickCondBtn" Content="✎ Задать условие…" Padding="8,4"
+                                    Margin="0,0,6,0" Click="EditDesecratePickCondBtn_Click"/>
+                            <Button x:Name="ClearDesecratePickCondBtn" Content="✕ Убрать" Padding="8,4"
+                                    Click="ClearDesecratePickCondBtn_Click"/>
+                        </StackPanel>
+                        <TextBlock x:Name="DesecratePickCondSummary" FontSize="11" Foreground="#666"
+                                   TextWrapping="Wrap" Text="PickCondition: (нет — принять любой)"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- DesecrateReveal — полный цикл (атомарный шаг батча) -->
+                <Border x:Name="DesecrateRevealConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Reveal: полный цикл (атомарный шаг батча)" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,8"
+                                   Text="Ctrl+ЛКМ предмет → клик Reveal → DesecratePick (выбор мода + пауза) → Ctrl+ЛКМ слот reveal (возврат). Один шаг батча = один предмет целиком."/>
+
+                        <!-- Кнопка Reveal -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Кнопка Reveal:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="DrRevealBtnAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickDrRevealBtnAreaBtn_Click"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Задержка после Reveal (мс):" VerticalAlignment="Center"/>
+                            <TextBox x:Name="DrAfterRevealDelayBox" Grid.Column="1"
+                                     Text="1500" Padding="4,2"
+                                     ToolTip="Ожидание анимации reveal перед OCR модов"/>
+                        </Grid>
+
+                        <!-- Слот reveal -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Слот reveal (предмет):" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="DrRevealSlotAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickDrRevealSlotAreaBtn_Click"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Задержка Ctrl+ЛКМ (мс):" VerticalAlignment="Center"/>
+                            <TextBox x:Name="DrCtrlClickDelayBox" Grid.Column="1"
+                                     Text="500" Padding="4,2"
+                                     ToolTip="Задержка после каждого Ctrl+ЛКМ (перемещение предмета)"/>
+                        </Grid>
+
+                        <!-- Секция DesecratePick (вложенная) -->
+                        <TextBlock Text="Область модов (OCR):" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Область карточек:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="DrRevealAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickDrRevealAreaBtn_Click"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="60"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Секций (модов):" VerticalAlignment="Center"/>
+                            <TextBox x:Name="DrRevealSectionsBox" Grid.Column="1"
+                                     Text="3" Padding="4,2"/>
+                        </Grid>
+
+                        <!-- Кнопка Confirm -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Кнопка Confirm:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="DrConfirmAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickDrConfirmAreaBtn_Click"/>
+                        </Grid>
+                        <CheckBox x:Name="DrAutoConfirmChk" Margin="0,0,0,6"
+                                  Content="Нажимать Confirm автоматически" IsChecked="False"/>
+                        <TextBox x:Name="DrItemNameBox" Margin="0,0,0,6" Padding="4,2"
+                                 ToolTip="Название предмета (для лога десекрейта)"/>
+                        <CheckBox x:Name="DrAllModsChk" Margin="0,0,0,6"
+                                  Content="Все 3 мода из десекрейт-пула (особый омен)"/>
+
+                        <!-- Reroll -->
+                        <CheckBox x:Name="DrUseRerollChk" Margin="0,0,0,6"
+                                  Content="Использовать омен на переброс (Reroll)"
+                                  IsChecked="True"
+                                  ToolTip="Если нужный мод не найден — наводить курсор на кнопку Reroll вместо клика по неподходящему моду"/>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Кнопка Reroll:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="DrRerollAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickDrRerollAreaBtn_Click"/>
+                        </Grid>
+                        <Grid Margin="0,0,0,10">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Задержка после Reroll:" VerticalAlignment="Center"/>
+                            <TextBox x:Name="DrAfterRerollDelayBox" Grid.Column="1"
+                                     Text="1500" Width="80" HorizontalAlignment="Left"/>
+                        </Grid>
+
+                        <!-- Условие выбора мода -->
+                        <TextBlock Text="Условие выбора мода (PickCondition):" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                            <Button x:Name="EditDrPickCondBtn" Content="✎ Задать условие…" Padding="8,4"
+                                    Margin="0,0,6,0" Click="EditDrPickCondBtn_Click"/>
+                            <Button x:Name="ClearDrPickCondBtn" Content="✕ Убрать" Padding="8,4"
+                                    Click="ClearDrPickCondBtn_Click"/>
+                        </StackPanel>
+                        <TextBlock x:Name="DrPickCondSummary" FontSize="11" Foreground="#666"
+                                   TextWrapping="Wrap" Text="PickCondition: (нет — принять любой)"/>
+                    </StackPanel>
+                </Border>
+
+                <!-- ClickRegion — простой клик по области -->
+                <Border x:Name="ClickRegionConfigPanel"
+                        Visibility="Collapsed"
+                        BorderBrush="#BBBBBB"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="10,8"
+                        Margin="0,0,0,10"
+                        Background="#F8F8F8">
+                    <StackPanel>
+                        <TextBlock Text="Клик по области" FontWeight="SemiBold" Margin="0,0,0,4"/>
+                        <TextBlock FontSize="11" Foreground="#666" TextWrapping="Wrap" Margin="0,0,0,8"
+                                   Text="Кликает по центру указанной области. Используйте для кнопок Reveal, Reroll, Accept и любых статичных элементов UI."/>
+
+                        <!-- Область -->
+                        <Grid Margin="0,0,0,6">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="140"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Область клика:" VerticalAlignment="Center"/>
+                            <TextBlock x:Name="ClickRegionAreaLabel" Grid.Column="1"
+                                       Text="не задана" VerticalAlignment="Center"
+                                       Foreground="#555" FontSize="11"/>
+                            <Button Grid.Column="2" Content="Задать…" Padding="8,4"
+                                    Click="PickClickRegionAreaBtn_Click"/>
+                        </Grid>
+
+                        <!-- UseCtrl / задержка -->
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="160"/>
+                                <ColumnDefinition Width="80"/>
+                            </Grid.ColumnDefinitions>
+                            <CheckBox x:Name="ClickRegionCtrlChk"
+                                      Content="Ctrl+ЛКМ (перемещение предмета)"
+                                      VerticalAlignment="Center"
+                                      ToolTip="Если отмечено — зажимается Ctrl; используется для перемещения предметов"/>
+                            <TextBlock Grid.Column="1" Text="Задержка после клика, мс:"
+                                       VerticalAlignment="Center"/>
+                            <TextBox x:Name="ClickRegionDelayBox" Grid.Column="2" Text="500"
+                                     Padding="4,2"/>
+                        </Grid>
+                    </StackPanel>
+                </Border>
+
                 <!-- Условия: EntryCondition / LoopUntil -->
                 <TextBlock Text="Условия" FontWeight="SemiBold" Margin="0,0,0,6"/>
                 <StackPanel Orientation="Horizontal" Margin="0,0,0,2">
@@ -272,8 +711,12 @@
                             Click="ClearEntryBtn_Click" ToolTip="Убрать EntryCondition — шаг выполняется всегда"/>
                     <Button x:Name="CopyEntryBtn" Content="Копировать" Padding="8,4" Margin="0,0,6,0"
                             Click="CopyEntryBtn_Click" ToolTip="Скопировать EntryCondition в буфер"/>
-                    <Button x:Name="PasteEntryBtn" Content="Вставить" Padding="8,4"
+                    <Button x:Name="PasteEntryBtn" Content="Вставить" Padding="8,4" Margin="0,0,6,0"
                             Click="PasteEntryBtn_Click" ToolTip="Вставить условие из буфера в EntryCondition"/>
+                    <Button x:Name="ExportEntryJsonBtn" Content="JSON↑" Padding="8,4" Margin="0,0,6,0"
+                            Click="ExportEntryJsonBtn_Click" ToolTip="Скопировать EntryCondition как JSON в системный буфер обмена"/>
+                    <Button x:Name="ImportEntryJsonBtn" Content="JSON↓" Padding="8,4"
+                            Click="ImportEntryJsonBtn_Click" ToolTip="Загрузить EntryCondition из JSON в системном буфере обмена"/>
                 </StackPanel>
                 <CheckBox x:Name="EntryNegateChk" Content="НЕ (инвертировать результат)"
                           Margin="0,2,0,4"
@@ -288,8 +731,12 @@
                             Click="ClearLoopBtn_Click" ToolTip="Убрать LoopUntil — цикл идёт до MaxIterations без проверки"/>
                     <Button x:Name="CopyLoopBtn" Content="Копировать" Padding="8,4" Margin="0,0,6,0"
                             Click="CopyLoopBtn_Click" ToolTip="Скопировать LoopUntil в буфер"/>
-                    <Button x:Name="PasteLoopBtn" Content="Вставить" Padding="8,4"
+                    <Button x:Name="PasteLoopBtn" Content="Вставить" Padding="8,4" Margin="0,0,6,0"
                             Click="PasteLoopBtn_Click" ToolTip="Вставить условие из буфера в LoopUntil"/>
+                    <Button x:Name="ExportLoopJsonBtn" Content="JSON↑" Padding="8,4" Margin="0,0,6,0"
+                            Click="ExportLoopJsonBtn_Click" ToolTip="Скопировать LoopUntil как JSON в системный буфер обмена"/>
+                    <Button x:Name="ImportLoopJsonBtn" Content="JSON↓" Padding="8,4"
+                            Click="ImportLoopJsonBtn_Click" ToolTip="Загрузить LoopUntil из JSON в системном буфере обмена"/>
                 </StackPanel>
                 <CheckBox x:Name="LoopNegateChk" Content="НЕ (инвертировать результат)"
                           Margin="0,2,0,4"

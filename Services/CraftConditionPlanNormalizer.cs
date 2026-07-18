@@ -5,6 +5,9 @@ public static class CraftConditionPlanNormalizer
 {
     public static void NormalizeInPlace(CraftConditionPlan plan, IReadOnlyList<AffixLibraryEntry> entries)
     {
+        // Удаляем пустые OR-группы, которые могли накопиться при ручном редактировании условий
+        plan.OrAlternatives.RemoveAll(g => g.Clauses.Count == 0);
+
         foreach (var or in plan.OrAlternatives)
         foreach (var c in or.Clauses)
         {

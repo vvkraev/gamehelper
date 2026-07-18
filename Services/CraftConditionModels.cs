@@ -64,6 +64,9 @@ public enum CraftClauseKind
 
     /// <summary>На предмете есть нераскрытый десекрейт-слот (Prefix "Veiled" + "Desecrated Prefix/Suffix").</summary>
     HasDesecrate,
+
+    /// <summary>На предмете есть хоть один десекрейт-мод — раскрытый или нет.</summary>
+    HasAnyDesecrate,
 }
 
 public enum DesecrateSide
@@ -216,6 +219,14 @@ public sealed class CraftWholeModifierAffixData
 
     public int AffixTier { get; set; }
 
+    /// <summary>
+    /// Когда true — фрактурные аффиксы тоже засчитываются при проверке модификатора.
+    /// По умолчанию false (фрактурные моды игнорируются — divine их не меняет, поэтому
+    /// они не должны влиять на решение «условие выполнено → пропускаем ячейку»).
+    /// Включать только если фрактурный мод сам является целевым условием остановки.
+    /// </summary>
+    public bool IncludeFractured { get; set; } = false;
+
     public List<CraftWholeModifierLine> Lines { get; set; } = new();
 
     public IReadOnlyList<string> EffectiveWholeAffixNames()
@@ -234,50 +245,72 @@ public sealed class CraftWholeModifierLine
     public string StatTemplate { get; set; } = "";
 
     public double MinRoll { get; set; }
-
     public List<double> MinRolls { get; set; } = new();
+
+    /// <summary>Максимальный перекат (включительно). 0 = без верхней границы.</summary>
+    public double MaxRoll { get; set; }
+    public List<double> MaxRolls { get; set; } = new();
 
     public IReadOnlyList<double> GetEffectiveMinRolls(int slotCount)
     {
-        if (slotCount < 1)
-            slotCount = 1;
-        if (MinRolls.Count == slotCount)
-            return MinRolls;
+        if (slotCount < 1) slotCount = 1;
+        if (MinRolls.Count == slotCount) return MinRolls;
         if (MinRolls.Count > 0)
         {
             var copy = MinRolls.Take(slotCount).ToList();
-            while (copy.Count < slotCount)
-                copy.Add(0);
+            while (copy.Count < slotCount) copy.Add(0);
             return copy;
         }
-
         return Enumerable.Repeat(MinRoll, slotCount).ToList();
+    }
+
+    public IReadOnlyList<double> GetEffectiveMaxRolls(int slotCount)
+    {
+        if (slotCount < 1) slotCount = 1;
+        if (MaxRolls.Count == slotCount) return MaxRolls;
+        if (MaxRolls.Count > 0)
+        {
+            var copy = MaxRolls.Take(slotCount).ToList();
+            while (copy.Count < slotCount) copy.Add(0);
+            return copy;
+        }
+        return Enumerable.Repeat(MaxRoll, slotCount).ToList();
     }
 
     public void EnsureMinRollsSize(int slotCount)
     {
-        if (slotCount < 1)
-            slotCount = 1;
-        if (MinRolls.Count == slotCount)
-            return;
+        if (slotCount < 1) slotCount = 1;
+        if (MinRolls.Count == slotCount) return;
         if (MinRolls.Count == 0 && MinRoll != 0)
         {
             MinRolls = Enumerable.Repeat(MinRoll, slotCount).ToList();
             return;
         }
+        while (MinRolls.Count < slotCount) MinRolls.Add(0);
+        while (MinRolls.Count > slotCount) MinRolls.RemoveAt(MinRolls.Count - 1);
+    }
 
-        while (MinRolls.Count < slotCount)
-            MinRolls.Add(0);
-        while (MinRolls.Count > slotCount)
-            MinRolls.RemoveAt(MinRolls.Count - 1);
+    public void EnsureMaxRollsSize(int slotCount)
+    {
+        if (slotCount < 1) slotCount = 1;
+        if (MaxRolls.Count == slotCount) return;
+        if (MaxRolls.Count == 0 && MaxRoll != 0)
+        {
+            MaxRolls = Enumerable.Repeat(MaxRoll, slotCount).ToList();
+            return;
+        }
+        while (MaxRolls.Count < slotCount) MaxRolls.Add(0);
+        while (MaxRolls.Count > slotCount) MaxRolls.RemoveAt(MaxRolls.Count - 1);
     }
 }
 
-/// <summary>Сумма перекатов по перечисленным аффиксам (нет на предмете — вклад 0) ≥ <see cref="MinSum"/>.</summary>
+/// <summary>Сумма перекатов по перечисленным аффиксам (нет на предмете — вклад 0) ≥ <see cref="MinSum"/> (и ≤ <see cref="MaxSum"/>, если задан).</summary>
 public sealed class CraftSumAffixData
 {
     public List<CraftAffixRef> Parts { get; set; } = new();
     public double MinSum { get; set; }
+    /// <summary>Максимальная сумма (включительно). 0 = без верхней границы.</summary>
+    public double MaxSum { get; set; }
 }
 
 /// <summary>
@@ -288,6 +321,8 @@ public sealed class CraftCountAffixData
 {
     /// <summary>Минимум выполненных членов набора (от 1 до числа членов).</summary>
     public int MinMatchCount { get; set; } = 1;
+    /// <summary>Максимум выполненных членов набора (включительно). 0 = без верхней границы.</summary>
+    public int MaxMatchCount { get; set; } = 0;
 
     public List<CraftWholeModifierAffixData> Members { get; set; } = new();
 

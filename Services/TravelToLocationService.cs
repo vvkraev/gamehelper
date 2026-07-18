@@ -19,7 +19,8 @@ public sealed class TravelToLocationService
     public async Task<bool> TravelAsync(
         TravelActionConfig config,
         IProgress<string>? log,
-        CancellationToken ct)
+        CancellationToken ct,
+        ScreenRect locationNameArea = default)
     {
         ct.ThrowIfCancellationRequested();
 
@@ -74,6 +75,27 @@ public sealed class TravelToLocationService
         // Ждём загрузки
         log?.Report($"[Travel] Ожидание загрузки {config.LoadingDelayMs} мс…");
         await DelayAsync(config.LoadingDelayMs, ct).ConfigureAwait(false);
+
+        // OCR-верификация: проверяем что оказались в нужной локации
+        if (!string.IsNullOrEmpty(config.ExpectedLocation) && locationNameArea.Width > 0)
+        {
+            log?.Report($"[Travel] Проверяем локацию OCR: ожидаем «{config.ExpectedLocation}»…");
+            const int maxAttempts = 8;
+            for (var i = 0; i < maxAttempts; i++)
+            {
+                ct.ThrowIfCancellationRequested();
+                var detected = await LocationDetector.DetectAsync(locationNameArea, ct).ConfigureAwait(false);
+                if (LocationDetector.LocationMatchesExpected(detected, config.ExpectedLocation))
+                {
+                    log?.Report($"[Travel] Локация подтверждена: «{detected}»");
+                    return true;
+                }
+                log?.Report($"[Travel] OCR: «{detected}» ≠ «{config.ExpectedLocation}» (попытка {i + 1}/{maxAttempts}), ждём 2с…");
+                await DelayAsync(2000, ct).ConfigureAwait(false);
+            }
+            log?.Report($"[Travel] Локация «{config.ExpectedLocation}» не подтверждена за {maxAttempts} попыток.");
+            return false;
+        }
 
         log?.Report("[Travel] Переход выполнен.");
         return true;

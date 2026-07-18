@@ -13,6 +13,13 @@ public sealed class BatchItem
     public int TotalAttempts { get; set; }
     public decimal TotalCostDiv { get; set; }
     public List<BatchCostRecord> CostRecords { get; } = [];
+
+    /// <summary>
+    /// Последний известный текст предмета в ячейке. Используется как кэш вместо probe Ctrl+Alt+C.
+    /// Null = кэш недействителен, нужно читать буфер.
+    /// Инвалидируется после state-changing шагов, не возвращающих FinalItemText.
+    /// </summary>
+    internal string? LastKnownText { get; set; }
 }
 
 public sealed class BatchCostRecord
@@ -62,12 +69,14 @@ public sealed class BatchPipelineRunner
     /// Запускает пакетный крафт.
     /// При наличии <see cref="IChaosCraftService"/> предварительно определяет начальные стадии через DetectStep.
     /// </summary>
+    /// <param name="onProgress">Вызывается после каждой итерации главного цикла — можно использовать для обновления MD-файла расходов.</param>
     public async Task<BatchRunResult> RunAsync(
         CraftPipeline pipeline,
         PipelineScreenConfig screenTemplate,
         IReadOnlyList<ScreenRect> itemCells,
         IProgress<string>? log,
-        CancellationToken ct)
+        CancellationToken ct,
+        Action<IReadOnlyList<BatchItem>>? onProgress = null)
     {
         if (pipeline.Steps.Count == 0 || itemCells.Count == 0)
             return new BatchRunResult { Items = Array.Empty<BatchItem>(), BatchId = "", PipelineName = pipeline.Name };
@@ -81,7 +90,10 @@ public sealed class BatchPipelineRunner
         if (_chaos is not null && _testStepExecutor is null)
             await InitializeStagesAsync(items, pipeline, screenTemplate, itemCells, log, ct).ConfigureAwait(false);
 
-        return await RunCoreAsync(pipeline, screenTemplate, itemCells, items, log, ct, batchId).ConfigureAwait(false);
+        if (_testStepExecutor is null)
+            await AdjustStagesForCurrentLocationAsync(items, pipeline, screenTemplate.LocationNameArea, log, ct).ConfigureAwait(false);
+
+        return await RunCoreAsync(pipeline, screenTemplate, itemCells, items, log, ct, batchId, onProgress).ConfigureAwait(false);
     }
 
     /// <summary>
@@ -95,7 +107,8 @@ public sealed class BatchPipelineRunner
         List<BatchItem> items,
         IProgress<string>? log,
         CancellationToken ct,
-        string? batchId = null)
+        string? batchId = null,
+        Action<IReadOnlyList<BatchItem>>? onProgress = null)
     {
         var executionCount = 0;
 
@@ -126,7 +139,7 @@ public sealed class BatchPipelineRunner
 
                     // Веха: действие выполняется один раз для всей группы предметов,
                     // переход применяется ко всем (барьер уже гарантирует, что все дошли).
-                    if (IsMilestoneAction(step.Action))
+                    if (IsMilestoneAction(step))
                     {
                         executionCount++;
                         ct.ThrowIfCancellationRequested();
@@ -135,17 +148,81 @@ public sealed class BatchPipelineRunner
                         if (_testStepExecutor is not null)
                             milestoneOutcome = await _testStepExecutor(targetItems[0], step, ct).ConfigureAwait(false);
                         else
-                            milestoneOutcome = await _runner.ExecuteStepAsync(step, screenTemplate, log, ct).ConfigureAwait(false);
+                        {
+                            // Для шагов с entryCondition (напр. OmenActivation) передаём область
+                            // первого предмета и его кэш, чтобы не смещаться на ячейку 0.
+                            var milestoneScreen = screenTemplate with { ItemArea = itemCells[targetItems[0].CellIndex] };
+                            _runner.ActiveBatchItemCount = targetItems.Count;
+                            milestoneOutcome = await _runner.ExecuteStepAsync(step, milestoneScreen, log, ct,
+                                cachedText: targetItems[0].LastKnownText).ConfigureAwait(false);
+                            _runner.ActiveBatchItemCount = 1;
+                        }
                         foreach (var mi in targetItems)
                         {
                             mi.TotalAttempts++;
                             ApplyTransition(mi, step, milestoneOutcome.Succeeded, n, pipeline.Steps.Count, log);
                         }
+
+                        // OmenActivation: размещаем N оменов за один раз (qty=N через клавиатуру),
+                        // затем сразу применяем следующий шаг per-item — каждый омен расходуется
+                        // на одно применение орба к конкретному предмету.
+                        // Fused-шаг определяется реальным переходом OnSuccess, а не всегда n+1:
+                        // пайплайны часто переходят через Step(idx), минуя n+1.
+                        if (step.Action == PipelineAction.OmenActivation && milestoneOutcome.Succeeded)
+                        {
+                            var fusedStepIndex = step.OnSuccess.Target switch
+                            {
+                                TransitionTarget.Next => n + 1,
+                                TransitionTarget.Step => step.OnSuccess.StepIndex,
+                                _ => -1,
+                            };
+                            if (fusedStepIndex >= 0 && fusedStepIndex < pipeline.Steps.Count)
+                            {
+                                var fusedStep = pipeline.Steps[fusedStepIndex];
+                                var fusedItems = targetItems.Where(i => i.Status == BatchItemStatus.Active).ToList();
+
+                                // Если fused-шаг — веха, не выполняем per-item: предметы уже на стадии fusedStepIndex
+                                // (ApplyTransition выше), и нормальная milestone-логика запустит его один раз для всей группы.
+                                if (IsMilestoneAction(fusedStep))
+                                {
+                                    log?.Report($"[Батч] Омен-сшивка: стадия {fusedStepIndex} «{fusedStep.Name}» — веха, выполнится один раз для всей группы.");
+                                    continue;
+                                }
+
+                                log?.Report($"[Батч] Омен-сшивка × {fusedItems.Count}: стадия {fusedStepIndex} «{fusedStep.Name}»");
+                                foreach (var item in fusedItems)
+                                {
+                                    executionCount++;
+                                    ct.ThrowIfCancellationRequested();
+                                    var screen = screenTemplate with { ItemArea = itemCells[item.CellIndex] };
+                                    StepOutcome fusedOutcome;
+                                    if (_testStepExecutor is not null)
+                                        fusedOutcome = await _testStepExecutor(item, fusedStep, ct).ConfigureAwait(false);
+                                    else
+                                        fusedOutcome = await _runner.ExecuteStepAsync(fusedStep, screen, log, ct, cachedText: item.LastKnownText).ConfigureAwait(false);
+                                    item.TotalAttempts += fusedOutcome.Attempts;
+                                    if (fusedOutcome.Succeeded)
+                                        AccumulateCost(item, fusedStep, fusedOutcome.Attempts);
+                                    LogItemState(item.CellIndex, fusedStep.Name, fusedOutcome);
+                                    UpdateItemTextCache(item, fusedStep);
+                                    if (!string.IsNullOrWhiteSpace(fusedOutcome.FinalItemText))
+                                        item.LastKnownText = fusedOutcome.FinalItemText;
+                                    ApplyTransition(item, fusedStep, fusedOutcome.Succeeded, fusedStepIndex, pipeline.Steps.Count, log);
+                                }
+                            }
+                        }
+
                         continue;
                     }
 
                     log?.Report($"[Батч] Стадия {n} «{step.Name}»: {targetItems.Count} предм.");
 
+                    // Для ChaosCraft/DivineCraft: держим Shift+орб между предметами одной стадии.
+                    // Первый предмет кликает орб; остальные просто ЛКМ по предмету — экономим N-1 кликов орба.
+                    var batchOrbSelected = false;
+
+                    try
+                    {
                     foreach (var item in targetItems)
                     {
                         executionCount++;
@@ -153,42 +230,75 @@ public sealed class BatchPipelineRunner
 
                         var screen = screenTemplate with { ItemArea = itemCells[item.CellIndex] };
 
+                        // Probe: используем межшаговый кэш если он актуален, иначе Ctrl+Alt+C.
+                        // Кэш обновляется из FinalItemText каждого шага; инвалидируется после
+                        // state-changing действий, не возвращающих текст предмета.
+                        string? probeText = item.LastKnownText;
+                        if (_chaos is not null && _testStepExecutor is null)
+                        {
+                            if (string.IsNullOrWhiteSpace(probeText))
+                            {
+                                probeText = await _chaos.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
+                                if (string.IsNullOrWhiteSpace(probeText))
+                                {
+                                    item.Status = BatchItemStatus.Failed;
+                                    item.LastMessage = "Пустой буфер — ячейка пропущена";
+                                    log?.Report($"[Батч] [{item.CellIndex}]: буфер пуст перед шагом «{step.Name}» — ячейка помечена как необрабатываемая.");
+                                    continue;
+                                }
+                            }
+                            else
+                            {
+                                log?.Report($"[Батч] [{item.CellIndex}]: используем кэш предмета (без Ctrl+Alt+C перед «{step.Name}»)");
+                            }
+                        }
+
+                        bool isLastItem = item == targetItems[^1];
+                        bool keepOrb = IsIterativeCurrencyStep(step) && !isLastItem;
+
                         StepOutcome outcome;
-                        if (_testStepExecutor is not null)
-                            outcome = await _testStepExecutor(item, step, ct).ConfigureAwait(false);
-                        else
-                            outcome = await _runner.ExecuteStepAsync(step, screen, log, ct).ConfigureAwait(false);
+                        try
+                        {
+                            if (_testStepExecutor is not null)
+                                outcome = await _testStepExecutor(item, step, ct).ConfigureAwait(false);
+                            else
+                                outcome = await _runner.ExecuteStepAsync(step, screen, log, ct,
+                                    cachedText: probeText,
+                                    orbAlreadySelected: batchOrbSelected,
+                                    keepOrbSelected: keepOrb).ConfigureAwait(false);
+                            // Орб реально выбран только если были попытки применения.
+                            // Attempts==0 → мгновенный выход (LoopUntil уже выполнен) → RMB не делался.
+                            // Если при этом Shift остался зажатым с предыдущего предмета — отпускаем.
+                            var orbUsed = outcome.Attempts > 0;
+                            if (batchOrbSelected && !orbUsed)
+                                Win32Input.ReleaseShift();
+                            batchOrbSelected = keepOrb && orbUsed;
+                        }
+                        catch
+                        {
+                            batchOrbSelected = false; // исключение: RunAsync уже отпустил Shift
+                            throw;
+                        }
 
                         item.TotalAttempts += outcome.Attempts;
                         if (outcome.Succeeded)
                             AccumulateCost(item, step, outcome.Attempts);
                         LogItemState(item.CellIndex, step.Name, outcome);
+                        UpdateItemTextCache(item, step);
+                        if (!string.IsNullOrWhiteSpace(outcome.FinalItemText))
+                            item.LastKnownText = outcome.FinalItemText;
                         ApplyTransition(item, step, outcome.Succeeded, n, pipeline.Steps.Count, log);
 
-                        // OmenActivation кладёт омен в ячейку — расходуется следующим шагом.
-                        // Чтобы ячейка не была занята при обработке следующего предмета,
-                        // выполняем следующий шаг для ЭТОГО предмета сразу (атомарная сшивка).
-                        if (outcome.Succeeded && step.Action == PipelineAction.OmenActivation
-                            && item.Status == BatchItemStatus.Active)
+                    }
+                    } // foreach targetItems
+                    finally
+                    {
+                        // Если орб остался выбранным (исключение посреди батча или последний предмет не дошёл до RunAsync),
+                        // освобождаем Shift здесь. В штатном случае это no-op (RunAsync уже отпустил Shift).
+                        if (batchOrbSelected)
                         {
-                            var fusedN = item.CurrentStage;
-                            if (fusedN < pipeline.Steps.Count)
-                            {
-                                executionCount++;
-                                ct.ThrowIfCancellationRequested();
-                                var fusedStep = pipeline.Steps[fusedN];
-                                log?.Report($"[Батч] [{item.CellIndex}]: сшивка → стадия {fusedN} «{fusedStep.Name}»");
-                                StepOutcome fusedOutcome;
-                                if (_testStepExecutor is not null)
-                                    fusedOutcome = await _testStepExecutor(item, fusedStep, ct).ConfigureAwait(false);
-                                else
-                                    fusedOutcome = await _runner.ExecuteStepAsync(fusedStep, screen, log, ct).ConfigureAwait(false);
-                                item.TotalAttempts += fusedOutcome.Attempts;
-                                if (fusedOutcome.Succeeded)
-                                    AccumulateCost(item, fusedStep, fusedOutcome.Attempts);
-                                LogItemState(item.CellIndex, fusedStep.Name, fusedOutcome);
-                                ApplyTransition(item, fusedStep, fusedOutcome.Succeeded, fusedN, pipeline.Steps.Count, log);
-                            }
+                            Win32Input.ReleaseShift();
+                            batchOrbSelected = false;
                         }
                     }
                 }
@@ -198,7 +308,13 @@ public sealed class BatchPipelineRunner
                     log?.Report("[Батч] Нет прогресса — возможен deadlock. Остановлено.");
                     break;
                 }
+
+                onProgress?.Invoke(items);
             }
+        }
+        catch (OperationCanceledException)
+        {
+            log?.Report("[Батч] Остановлено пользователем — считаем накопленные расходы.");
         }
         finally
         {
@@ -210,6 +326,7 @@ public sealed class BatchPipelineRunner
         var failedCount = items.Count(i => i.Status == BatchItemStatus.Failed);
         var totalCost   = items.Sum(i => i.TotalCostDiv);
         log?.Report($"[Батч] Итог: Done={doneCount}, Failed={failedCount}, Расход≈{totalCost:F2}d");
+        onProgress?.Invoke(items);
         return new BatchRunResult { Items = items, BatchId = batchId ?? "", PipelineName = pipeline.Name };
     }
 
@@ -312,11 +429,39 @@ public sealed class BatchPipelineRunner
     }
 
     /// <summary>
+    /// Инвалидирует <see cref="BatchItem.LastKnownText"/> если действие меняет предмет
+    /// но не возвращает FinalItemText в StepOutcome.
+    /// Вызывать ДО присвоения outcome.FinalItemText — тогда FinalItemText перезапишет null.
+    /// </summary>
+    private static void UpdateItemTextCache(BatchItem item, CraftPipelineStep step)
+    {
+        // Эти действия меняют предмет, но возвращают Success без FinalItemText.
+        // Без явной инвалидации кэш будет содержать устаревший текст.
+        if (step.Action is PipelineAction.DeliriumLiquid
+            or PipelineAction.SimpleAnnul
+            or PipelineAction.SimpleChaos
+            or PipelineAction.SimpleExalt
+            or PipelineAction.SimpleCurrency
+            or PipelineAction.SimpleAbyssalBone
+            or PipelineAction.CtrlClickItem
+            or PipelineAction.DesecrateReveal
+            or PipelineAction.DesecratePick
+            or PipelineAction.ManualPause)
+        {
+            item.LastKnownText = null;
+        }
+    }
+
+    /// <summary>
     /// Веха: выполняется один раз для всей группы предметов, достигших этой стадии.
     /// Не требует итерации по предметам — не зависит от конкретного предмета.
     /// </summary>
-    private static bool IsMilestoneAction(PipelineAction action) =>
-        action == PipelineAction.TravelToLocation;
+    private static bool IsMilestoneAction(CraftPipelineStep step) =>
+        step.Action == PipelineAction.TravelToLocation
+        || step.Action == PipelineAction.WalkToPosition
+        || step.Action == PipelineAction.OpenStash
+        || step.Action == PipelineAction.ClickTemplate
+        || step.Action == PipelineAction.OmenActivation;
 
     private async Task InitializeStagesAsync(
         List<BatchItem> items, CraftPipeline pipeline,
@@ -331,7 +476,9 @@ public sealed class BatchPipelineRunner
             var text = await _chaos!.ReadItemClipboardTextAsync(screen.ItemArea, log, ct).ConfigureAwait(false);
             if (string.IsNullOrWhiteSpace(text))
             {
-                log?.Report($"[Батч] [{item.CellIndex}]: буфер пуст — начинаем со стадии 0");
+                item.Status = BatchItemStatus.Failed;
+                item.LastMessage = "Пустой буфер — ячейка пропущена";
+                log?.Report($"[Батч] [{item.CellIndex}]: буфер пуст — ячейка помечена как необрабатываемая.");
                 continue;
             }
             var parsed = ItemParser.Parse(text);
@@ -340,4 +487,62 @@ public sealed class BatchPipelineRunner
             log?.Report($"[Батч] [{item.CellIndex}]: стадия {item.CurrentStage} «{pipeline.Steps[item.CurrentStage].Name}»");
         }
     }
+
+    /// <summary>
+    /// OCR-детектирует текущую локацию и продвигает активные предметы через уже пройденные вехи TravelToLocation.
+    /// Полезно при старте батча в середине пайплайна: если мы уже в Well of Souls, предметы
+    /// на стадиях до этой вехи продвигаются на стадию после неё.
+    /// </summary>
+    private static async Task AdjustStagesForCurrentLocationAsync(
+        List<BatchItem> items, CraftPipeline pipeline,
+        ScreenRect locationNameArea, IProgress<string>? log, CancellationToken ct)
+    {
+        if (locationNameArea.Width <= 0 || locationNameArea.Height <= 0) return;
+
+        // Собираем TravelToLocation-шаги с заданной локацией
+        var travelSteps = pipeline.Steps
+            .Select((s, i) => (step: s, index: i))
+            .Where(t => t.step.Action == PipelineAction.TravelToLocation
+                        && !string.IsNullOrEmpty(t.step.TravelConfig?.ExpectedLocation))
+            .ToList();
+
+        if (travelSteps.Count == 0) return;
+
+        ct.ThrowIfCancellationRequested();
+        var detected = await LocationDetector.DetectAsync(locationNameArea, ct).ConfigureAwait(false);
+        log?.Report($"[Батч] Текущая локация OCR: «{detected}»");
+
+        // Ищем совпадение с одним из TravelToLocation-шагов
+        var matchedTravel = travelSteps.FirstOrDefault(
+            t => LocationDetector.LocationMatchesExpected(detected, t.step.TravelConfig!.ExpectedLocation));
+
+        if (matchedTravel.step is null)
+        {
+            log?.Report("[Батч] Локация не совпадает ни с одной вехой — стадии не корректируются.");
+            return;
+        }
+
+        var milestoneIndex = matchedTravel.index;
+        log?.Report($"[Батч] Локация совпадает с вехой {milestoneIndex} «{matchedTravel.step.Name}». Предметы до этой вехи продвигаются на стадию {milestoneIndex + 1}.");
+
+        foreach (var item in items.Where(i => i.Status == BatchItemStatus.Active && i.CurrentStage <= milestoneIndex))
+        {
+            log?.Report($"[Батч] [{item.CellIndex}]: стадия {item.CurrentStage} → {milestoneIndex + 1} (уже в локации)");
+            item.CurrentStage = milestoneIndex + 1;
+        }
+    }
+
+    /// <summary>
+    /// Шаги с итеративной орб-механикой (Shift+RMB на орбе, затем ЛКМ по предметам).
+    /// Для них батч удерживает Shift между предметами одной стадии.
+    /// </summary>
+    private static bool IsIterativeCurrencyStep(CraftPipelineStep step) =>
+        step.Action is PipelineAction.ChaosCraft
+            or PipelineAction.DivineCraft
+            or PipelineAction.DeliriumLiquid
+            or PipelineAction.SimpleCurrency
+            or PipelineAction.SimpleAnnul
+            or PipelineAction.SimpleChaos
+            or PipelineAction.SimpleExalt
+            or PipelineAction.SimpleAbyssalBone;
 }

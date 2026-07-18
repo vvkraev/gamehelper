@@ -194,4 +194,149 @@ public sealed class DivineCraftServiceTests
     {
         Assert.IsAssignableFrom<IDivineCraftService>(new DivineCraftService());
     }
+
+    // ── AreAllConditionAffixesPresent: IncludeFractured в Count-клозе ─────────
+
+    private static ParsedItem MakeJewelWithAffixes(params (string name, bool isFractured)[] affixes)
+    {
+        var item = ItemParser.Parse(string.Join("\r\n",
+            "Item Class: Time-Lost Sapphire Jewels",
+            "Rarity: Rare",
+            "Test Jewel",
+            "Time-Lost Sapphire",
+            "--------",
+            "Item Level: 83"));
+        foreach (var (name, frac) in affixes)
+            item!.Affixes.Add(new AffixInfo { Name = name, IsFractured = frac });
+        return item!;
+    }
+
+    private static CraftConditionPlan MakeCountPlan(int minMatch, bool includeFractured, params string[] memberNames)
+    {
+        var members = memberNames.Select(n => new CraftWholeModifierAffixData
+        {
+            AffixName = n,
+            SelectedAffixNames = { n },
+            AffixTier = 1,
+        }).ToList();
+        return new CraftConditionPlan
+        {
+            ExpectedItemClass = "Time-Lost Sapphire Jewels",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Count,
+                            Count = new CraftCountAffixData
+                            {
+                                MinMatchCount = minMatch,
+                                IncludeFractured = includeFractured,
+                                Members = members,
+                            },
+                        },
+                    },
+                },
+            },
+        };
+    }
+
+    [Fact]
+    public void AreAllConditionAffixesPresent_CountIncludeFracturedFalse_FracturedMemberExcluded()
+    {
+        // Item has ONLY a fractured "of Potency" — with IncludeFractured=false,
+        // the fractured affix must not count → presence returns false → AffixesMissing (no infinite loop).
+        var item = MakeJewelWithAffixes(("of Potency", true));
+        var plan = MakeCountPlan(minMatch: 1, includeFractured: false, "of Potency");
+
+        var present = DivineCraftService.AreAllConditionAffixesPresent(plan, item);
+
+        Assert.False(present, "Фрактурный 'of Potency' не должен считаться при IncludeFractured=false");
+    }
+
+    [Fact]
+    public void AreAllConditionAffixesPresent_CountIncludeFracturedTrue_FracturedMemberCounts()
+    {
+        // With IncludeFractured=true, the fractured affix counts → presence returns true.
+        var item = MakeJewelWithAffixes(("of Potency", true));
+        var plan = MakeCountPlan(minMatch: 1, includeFractured: true, "of Potency");
+
+        var present = DivineCraftService.AreAllConditionAffixesPresent(plan, item);
+
+        Assert.True(present, "Фрактурный 'of Potency' должен считаться при IncludeFractured=true");
+    }
+
+    [Fact]
+    public void AreAllConditionAffixesPresent_CountIncludeFracturedFalse_NonFracturedMemberCounts()
+    {
+        // Non-fractured affix always counts regardless of IncludeFractured flag.
+        var item = MakeJewelWithAffixes(("of Potency", false));
+        var plan = MakeCountPlan(minMatch: 1, includeFractured: false, "of Potency");
+
+        var present = DivineCraftService.AreAllConditionAffixesPresent(plan, item);
+
+        Assert.True(present, "Нефрактурный 'of Potency' всегда считается");
+    }
+
+    [Fact]
+    public void AreAllConditionAffixesPresent_CountIncludeFracturedFalse_MixedItemPassesViaSecondMember()
+    {
+        // Item has fractured "of Potency" + non-fractured "of Unmaking".
+        // With IncludeFractured=false for Count≥1: "of Potency" excluded,
+        // "of Unmaking" counts → 1 >= 1 → presence true.
+        var item = MakeJewelWithAffixes(("of Potency", true), ("of Unmaking", false));
+        var plan = MakeCountPlan(minMatch: 1, includeFractured: false, "of Potency", "of Unmaking");
+
+        var present = DivineCraftService.AreAllConditionAffixesPresent(plan, item);
+
+        Assert.True(present, "Нефрактурный 'of Unmaking' должен давать присутствие даже если 'of Potency' фрактурный");
+    }
+
+    // ── WholeModifier IncludeFractured ────────────────────────────────────────
+
+    private static CraftConditionPlan MakeWholeModifierPlan(bool includeFractured, string affixName)
+    {
+        return new CraftConditionPlan
+        {
+            ExpectedItemClass = "Time-Lost Sapphire Jewels",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.WholeModifier,
+                            Whole = new CraftWholeModifierAffixData
+                            {
+                                AffixName = affixName,
+                                SelectedAffixNames = { affixName },
+                                AffixTier = 1,
+                                IncludeFractured = includeFractured,
+                                Lines = { new CraftWholeModifierLine { StatTemplate = "dummy stat" } },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+    }
+
+    [Fact]
+    public void AreAllConditionAffixesPresent_WholeModifier_FracturedAlwaysIncludedInPresenceCheck()
+    {
+        // IsClauseAffixPresent for WholeModifier doesn't filter fractured (presence ≠ value evaluation).
+        // Presence check just confirms the affix NAME exists — value thresholds are checked by the evaluator.
+        var item = MakeJewelWithAffixes(("of Potency", true));
+        var plan = MakeWholeModifierPlan(includeFractured: false, affixName: "of Potency");
+
+        // Presence check should still see the fractured affix by name (it's physically present)
+        var present = DivineCraftService.AreAllConditionAffixesPresent(plan, item);
+
+        Assert.True(present, "WholeModifier: присутствие проверяется по имени, фрактурный физически есть на предмете");
+    }
 }

@@ -79,6 +79,16 @@ public class TradeImportService
         return merged;
     }
 
+    private static object[] ToRichList(List<ModRecord> records) =>
+        records.ConvertAll(r => (object)new
+        {
+            text     = r.Text,
+            hash     = r.Hash,
+            value    = r.Value,
+            roll_min = r.RollMin,
+            roll_max = r.RollMax,
+        }).ToArray();
+
     private static void SaveJson(string path, List<TradeItem> items, string baseType, string date, string slug)
     {
         var payload = new
@@ -96,6 +106,7 @@ public class TradeImportService
                 quality = it.Quality,
                 ilvl = it.Ilvl,
                 corrupted = it.Corrupted,
+                double_corrupted = it.DoubleCorrupted,
                 fractured = it.Fractured,
                 sanctified = it.Sanctified,
                 sockets = it.Sockets,
@@ -105,8 +116,14 @@ public class TradeImportService
                 mods_fractured = it.FracturedMods,
                 mods_desecrated = it.DesecrateMods,
                 mods_implicit = it.ImplicitMods,
+                mods_enchant = it.EnchantMods,
                 mods_explicit = it.ExplicitMods,
                 mods_crafted = it.CraftedMods,
+                mods_runes = it.RuneMods,
+                mods_explicit_rich   = ToRichList(it.ExplicitModRecords),
+                mods_fractured_rich  = ToRichList(it.FracturedModRecords),
+                mods_desecrated_rich = ToRichList(it.DesecrateModRecords),
+                mods_crafted_rich    = ToRichList(it.CraftedModRecords),
             })
         };
         File.WriteAllText(path, JsonSerializer.Serialize(payload, new JsonSerializerOptions { WriteIndented = true }), Encoding.UTF8);
@@ -131,6 +148,7 @@ public class TradeImportService
                 Ilvl = item["ilvl"]?.GetValue<int>() ?? 0,
                 Quality = item["quality"]?.GetValue<int>() ?? 0,
                 Corrupted = item["corrupted"]?.GetValue<bool>() ?? false,
+                DoubleCorrupted = item["doubleCorrupted"]?.GetValue<bool>() ?? false,
                 Fractured = item["fractured"]?.GetValue<bool>() ?? false,
                 Sanctified = item["sanctified"]?.GetValue<bool>() ?? false,
                 Sockets = item["sockets"]?.AsArray()?.Count ?? 0,
@@ -143,8 +161,12 @@ public class TradeImportService
             ReadProperties(item["properties"]?.AsArray(), it);
 
             // implicitMods и fracturedMods — обычно простые строки с [Tag|Display] разметкой
-            it.ImplicitMods = SortPrefixFirst(PlainStringList(item["implicitMods"]?.AsArray()));
+            it.ImplicitMods  = SortPrefixFirst(PlainStringList(item["implicitMods"]?.AsArray()));
             it.FracturedMods = SortPrefixFirst(PlainStringList(item["fracturedMods"]?.AsArray()));
+            // enchantMods: коррупшн-улучшения (Twice Corrupted) + аноинты Delirium
+            it.EnchantMods = PlainStringList(item["enchantMods"]?.AsArray());
+            // runeMods: руны, вставленные в сокеты
+            it.RuneMods = PlainStringList(item["runeMods"]?.AsArray());
 
             // explicitMods в PoE2 API — массив объектов; desecrated/crafted идут туда же,
             // определяются по flags.desecrated / flags.crafted / prefix хеша
@@ -219,16 +241,57 @@ public class TradeImportService
                            || hash.StartsWith("stat.fractured");
 
             var label = BuildModLabel(n);
+            var record = BuildModRecord(n, label, hash);
 
             if (isDesecrated)
+            {
                 it.DesecrateMods.Add(label);
+                it.DesecrateModRecords.Add(record);
+            }
             else if (isCrafted)
+            {
                 it.CraftedMods.Add(label);
+                it.CraftedModRecords.Add(record);
+            }
             else if (isFractured)
+            {
                 it.FracturedMods.Add(label);
+                it.FracturedModRecords.Add(record);
+            }
             else
+            {
                 it.ExplicitMods.Add(label);
+                it.ExplicitModRecords.Add(record);
+            }
         }
+    }
+
+    private static ModRecord BuildModRecord(JsonNode modNode, string label, string rawHash)
+    {
+        var desc = CleanMarkup(modNode["description"]?.GetValue<string>() ?? "");
+        var modsArr = modNode["mods"]?.AsArray();
+
+        double? rollMin = null, rollMax = null, value = null;
+        if (modsArr is { Count: > 0 })
+        {
+            var magnitudes = modsArr[0]?["magnitudes"]?.AsArray();
+            if (magnitudes is { Count: > 0 })
+            {
+                var inv = System.Globalization.CultureInfo.InvariantCulture;
+                if (double.TryParse(magnitudes[0]?["min"]?.GetValue<string>(), System.Globalization.NumberStyles.Any, inv, out var mn)) rollMin = mn;
+                if (double.TryParse(magnitudes[0]?["max"]?.GetValue<string>(), System.Globalization.NumberStyles.Any, inv, out var mx)) rollMax = mx;
+            }
+        }
+
+        // Первое число из текста описания — это фактический ролл
+        var m = Regex.Match(desc, @"(?<![a-zA-Z])(\d+(?:\.\d+)?)");
+        if (m.Success && double.TryParse(m.Groups[1].Value, System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out var v))
+            value = v;
+
+        // Убираем префикс "stat." из хэша → "explicit.stat_XXXX"
+        var hash = rawHash.StartsWith("stat.") ? rawHash[5..] : rawHash;
+
+        return new ModRecord { Text = label, Hash = hash, Value = value, RollMin = rollMin, RollMax = rollMax };
     }
 
     // "Mystic P1 — 12% increased Spell Damage"
@@ -277,44 +340,51 @@ public class TradeImportService
         sb.AppendLine();
 
         // Определяем максимальное число модов каждого типа по всем листингам
-        var maxFrac  = items.Count > 0 ? items.Max(it => it.FracturedMods.Count)  : 0;
-        var maxDes   = items.Count > 0 ? items.Max(it => it.DesecrateMods.Count)  : 0;
-        var maxImpl  = items.Count > 0 ? items.Max(it => it.ImplicitMods.Count)   : 0;
-        var maxExpl  = items.Count > 0 ? items.Max(it => it.ExplicitMods.Count)   : 0;
-        var maxCraft = items.Count > 0 ? items.Max(it => it.CraftedMods.Count)    : 0;
+        var maxFrac    = items.Count > 0 ? items.Max(it => it.FracturedMods.Count)  : 0;
+        var maxDes     = items.Count > 0 ? items.Max(it => it.DesecrateMods.Count)  : 0;
+        var maxImpl    = items.Count > 0 ? items.Max(it => it.ImplicitMods.Count)   : 0;
+        var maxEnchant = items.Count > 0 ? items.Max(it => it.EnchantMods.Count)    : 0;
+        var maxExpl    = items.Count > 0 ? items.Max(it => it.ExplicitMods.Count)   : 0;
+        var maxCraft   = items.Count > 0 ? items.Max(it => it.CraftedMods.Count)    : 0;
+        var maxRunes   = items.Count > 0 ? items.Max(it => it.RuneMods.Count)       : 0;
 
         var scanDate = DateTime.TryParse(date, out var d) ? d : DateTime.Today;
 
         // Заголовок таблицы — каждый мод в отдельном столбце
-        sb.Append("| Цена | Имя | Q | ilvl | Sock | Освящён | Крп | Выставлен | Дней | Evas | ES | Armour |");
-        for (var i = 1; i <= maxFrac;  i++) sb.Append($" Фрак {i} |");
-        for (var i = 1; i <= maxImpl;  i++) sb.Append($" Impl {i} |");
-        for (var i = 1; i <= maxDes;   i++) sb.Append($" Дес {i} |");
-        for (var i = 1; i <= maxExpl;  i++) sb.Append($" Mod {i} |");
-        for (var i = 1; i <= maxCraft; i++) sb.Append($" Craft {i} |");
+        sb.Append("| Цена | Имя | Q | ilvl | Sock | Освящён | Крп | 2xКрп | Выставлен | Дней | Evas | ES | Armour |");
+        for (var i = 1; i <= maxFrac;    i++) sb.Append($" Фрак {i} |");
+        for (var i = 1; i <= maxImpl;    i++) sb.Append($" Impl {i} |");
+        for (var i = 1; i <= maxEnchant; i++) sb.Append($" Enchant {i} |");
+        for (var i = 1; i <= maxDes;     i++) sb.Append($" Дес {i} |");
+        for (var i = 1; i <= maxExpl;    i++) sb.Append($" Mod {i} |");
+        for (var i = 1; i <= maxCraft;   i++) sb.Append($" Craft {i} |");
+        for (var i = 1; i <= maxRunes;   i++) sb.Append($" Rune {i} |");
         sb.AppendLine();
 
-        var dynCols = maxFrac + maxImpl + maxDes + maxExpl + maxCraft;
-        sb.Append("|---|---|---|---|---|---|---|---|---|---|---|---|");
+        var dynCols = maxFrac + maxImpl + maxEnchant + maxDes + maxExpl + maxCraft + maxRunes;
+        sb.Append("|---|---|---|---|---|---|---|---|---|---|---|---|---|");
         for (var i = 0; i < dynCols; i++) sb.Append("---|");
         sb.AppendLine();
 
         // Строки
         foreach (var it in items)
         {
-            var corr = it.Corrupted ? "да" : "нет";
+            var corr       = it.Corrupted       ? "да" : "нет";
+            var doubleCorr = it.DoubleCorrupted ? "да" : "";
             var listedDate = DateTime.TryParse(it.ListedAt, null, System.Globalization.DateTimeStyles.RoundtripKind, out var ld)
                 ? ld.ToLocalTime() : (DateTime?)null;
             var listedStr = listedDate.HasValue ? listedDate.Value.ToString("MM-dd HH:mm") : "—";
-            var daysStr = listedDate.HasValue ? ((int)(scanDate - listedDate.Value.ToLocalTime().Date).TotalDays).ToString() : "—";
-            var sockStr = it.Sockets > 0 ? it.Sockets.ToString() : "—";
-            var sanctStr = it.Sanctified ? "да" : "";
-            sb.Append($"| {it.PriceAmount}{CurrencyShort(it.PriceCurrency)} | {EscapeCell(it.Name)} | {it.Quality}% | {it.Ilvl} | {sockStr} | {sanctStr} | {corr} | {listedStr} | {daysStr} | {it.Evasion} | {it.EnergyShield} | {it.Armour} |");
+            var daysStr   = listedDate.HasValue ? ((int)(scanDate - listedDate.Value.ToLocalTime().Date).TotalDays).ToString() : "—";
+            var sockStr   = it.Sockets > 0 ? it.Sockets.ToString() : "—";
+            var sanctStr  = it.Sanctified ? "да" : "";
+            sb.Append($"| {it.PriceAmount}{CurrencyShort(it.PriceCurrency)} | {EscapeCell(it.Name)} | {it.Quality}% | {it.Ilvl} | {sockStr} | {sanctStr} | {corr} | {doubleCorr} | {listedStr} | {daysStr} | {it.Evasion} | {it.EnergyShield} | {it.Armour} |");
             AppendModCells(sb, it.FracturedMods,  maxFrac);
             AppendModCells(sb, it.ImplicitMods,   maxImpl);
+            AppendModCells(sb, it.EnchantMods,    maxEnchant);
             AppendModCells(sb, it.DesecrateMods,  maxDes);
             AppendModCells(sb, it.ExplicitMods,   maxExpl);
             AppendModCells(sb, it.CraftedMods,    maxCraft);
+            AppendModCells(sb, it.RuneMods,        maxRunes);
             sb.AppendLine();
         }
 
@@ -366,6 +436,7 @@ public class TradeImportService
         public int Ilvl { get; set; }
         public int Quality { get; set; }
         public bool Corrupted { get; set; }
+        public bool DoubleCorrupted { get; set; }
         public bool Fractured { get; set; }
         public bool Sanctified { get; set; }
         public int Sockets { get; set; }
@@ -379,5 +450,23 @@ public class TradeImportService
         public List<string> CraftedMods { get; set; } = new();
         public List<string> ImplicitMods { get; set; } = new();
         public List<string> DesecrateMods { get; set; } = new();
+        /// <summary>Коррупшн-улучшения (doubleCorrupted) и аноинты Delirium — из GGG API поля enchantMods.</summary>
+        public List<string> EnchantMods { get; set; } = new();
+        /// <summary>Руны в сокетах — из GGG API поля runeMods.</summary>
+        public List<string> RuneMods { get; set; } = new();
+        // Rich records with stat_id, rolled value and tier range — for ML training
+        public List<ModRecord> ExplicitModRecords  { get; set; } = new();
+        public List<ModRecord> FracturedModRecords { get; set; } = new();
+        public List<ModRecord> CraftedModRecords   { get; set; } = new();
+        public List<ModRecord> DesecrateModRecords { get; set; } = new();
+    }
+
+    private sealed class ModRecord
+    {
+        public string  Text    { get; set; } = "";
+        public string  Hash    { get; set; } = "";
+        public double? Value   { get; set; }
+        public double? RollMin { get; set; }
+        public double? RollMax { get; set; }
     }
 }
