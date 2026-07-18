@@ -69,6 +69,7 @@ public partial class MainWindow : Window
         AutoDumpBox.IsChecked = _settings.AutoDumpToStash;
         ScanOnStartupBox.IsChecked = _settings.ScanInventoryOnStartup;
         CloseOnInventoryFullBox.IsChecked = _settings.CloseOnInventoryFull;
+        PauseFillRateBox.Text = _settings.PauseFillRateThreshold.ToString("F2", System.Globalization.CultureInfo.InvariantCulture);
         GameExePathBox.Text = _settings.GameExePath;
         ExpectedHideoutTextBox.Text = _settings.ExpectedHideoutText;
         LoginScreenTextBox.Text = _settings.LoginSettings.LoginScreenText;
@@ -96,6 +97,9 @@ public partial class MainWindow : Window
         _settings.AutoDumpToStash = AutoDumpBox.IsChecked == true;
         _settings.ScanInventoryOnStartup = ScanOnStartupBox.IsChecked == true;
         _settings.CloseOnInventoryFull = CloseOnInventoryFullBox.IsChecked == true;
+        _settings.PauseFillRateThreshold = double.TryParse(PauseFillRateBox.Text,
+            System.Globalization.NumberStyles.Any,
+            System.Globalization.CultureInfo.InvariantCulture, out var fr) ? Math.Clamp(fr, 0, 1) : 0.75;
         _settings.GameExePath = GameExePathBox.Text.Trim();
         _settings.ExpectedHideoutText = string.IsNullOrWhiteSpace(ExpectedHideoutTextBox.Text)
             ? "Hideout"
