@@ -338,9 +338,23 @@ def check_misses(models_dir: Path) -> None:
         print(predict(base_type, mods, models_dir))
 
 
+def _evaluate_one(text: str, models_dir: Path) -> str:
+    """Оценивает один предмет; возвращает строку результата."""
+    if not text or not text.strip():
+        return "Пустой ввод"
+    base_type, mods = parse_item(text.strip(), models_dir)
+    if not base_type:
+        return "Не удалось определить тип предмета"
+    if 'tablet' not in base_type.lower():
+        return f"Это не планшетка: {base_type}"
+    return predict(base_type, mods, models_dir)
+
+
 def main() -> None:
     ap = argparse.ArgumentParser()
     ap.add_argument('--file', help='Файл с текстом предмета')
+    ap.add_argument('--batch', help='JSON-файл со списком текстов предметов; '
+                                    'вывод — JSON-массив результатов')
     ap.add_argument('--check-misses', action='store_true',
                     help='Прогнать все miss-записи из listings_index.json через модель')
     ap.add_argument('--models-dir', default=str(HERE / 'models'))
@@ -352,26 +366,18 @@ def main() -> None:
         check_misses(models_dir)
         return
 
+    if args.batch:
+        texts = json.loads(Path(args.batch).read_text(encoding='utf-8'))
+        results = [_evaluate_one(t, models_dir) for t in texts]
+        print(json.dumps(results, ensure_ascii=False))
+        return
+
     if args.file:
         text = Path(args.file).read_text(encoding='utf-8-sig')
     else:
         text = sys.stdin.read()
 
-    if not text.strip():
-        print("Пустой ввод")
-        sys.exit(1)
-
-    base_type, mods = parse_item(text, models_dir)
-
-    if not base_type:
-        print("Не удалось определить тип предмета")
-        sys.exit(1)
-
-    if 'tablet' not in base_type.lower():
-        print(f"Это не планшетка: {base_type}")
-        sys.exit(1)
-
-    print(predict(base_type, mods, models_dir))
+    print(_evaluate_one(text, models_dir))
 
 
 if __name__ == '__main__':

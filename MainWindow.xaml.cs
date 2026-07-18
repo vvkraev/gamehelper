@@ -5861,13 +5861,15 @@ public partial class MainWindow : Window
             mdSb.AppendLine($"Сканировано: {scanResults.Count} ячеек | с предметами: {nonEmpty.Count}");
             mdSb.AppendLine();
 
+            ct.ThrowIfCancellationRequested();
+            TabletScanStatusText.Text = $"Оценка {nonEmpty.Count} предметов...";
+            var evalResults = await EvaluateTabletsBatchAsync(nonEmpty.Select(r => r.ItemText).ToList())
+                .ConfigureAwait(true);
+
             for (var i = 0; i < nonEmpty.Count; i++)
             {
-                ct.ThrowIfCancellationRequested();
-                var r = nonEmpty[i];
-                TabletScanStatusText.Text = $"Оценка {i + 1}/{nonEmpty.Count}...";
-
-                var evalResult = await EvaluateTabletClipboardAsync(r.ItemText).ConfigureAwait(true);
+                var r          = nonEmpty[i];
+                var evalResult = i < evalResults.Count ? evalResults[i] : "Нет ответа";
 
                 var priceMatch = System.Text.RegularExpressions.Regex.Match(evalResult, @"~(\d+\.?\d*)d");
                 if (priceMatch.Success && double.TryParse(priceMatch.Groups[1].Value,
@@ -5884,10 +5886,9 @@ public partial class MainWindow : Window
                 mdSb.AppendLine();
                 mdSb.AppendLine("---");
                 mdSb.AppendLine();
-
-                TabletScanResultsBox.Text = uiSb.ToString();
-                TabletScanResultsBox.ScrollToEnd();
             }
+            TabletScanResultsBox.Text = uiSb.ToString();
+            TabletScanResultsBox.ScrollToEnd();
 
             // ── Запись MD-файла ────────────────────────────────────────────
             var vaultDir = System.IO.Path.Combine(ProjectPaths.GetProjectRoot(), "vault", "tabflow");
@@ -6677,16 +6678,19 @@ public partial class MainWindow : Window
         Report("[Крафт] Сканирование (Magic)...");
         var magicResults = await scanSvc.ScanAsync(npcTarget, occupiedCells, log, ct).ConfigureAwait(false);
 
-        var magicPrices = new List<(ScreenRect Cell, double Price, string ItemText)>();
-        foreach (var r in magicResults.Where(r => !r.IsEmpty))
+        var magicPrices   = new List<(ScreenRect Cell, double Price, string ItemText)>();
+        ct.ThrowIfCancellationRequested();
+        var magicNonEmpty = magicResults.Where(r => !r.IsEmpty).ToList();
+        var magicEvals    = await EvaluateTabletsBatchAsync(magicNonEmpty.Select(r => r.ItemText).ToList())
+            .ConfigureAwait(true);
+        for (var i = 0; i < magicNonEmpty.Count; i++)
         {
-            ct.ThrowIfCancellationRequested();
-            var eval = await EvaluateTabletClipboardAsync(r.ItemText).ConfigureAwait(true);
+            var eval = i < magicEvals.Count ? magicEvals[i] : "Нет ответа";
             var pm   = System.Text.RegularExpressions.Regex.Match(eval, @"~(\d+\.?\d*)d");
             if (pm.Success && double.TryParse(pm.Groups[1].Value,
                     System.Globalization.NumberStyles.Any,
                     System.Globalization.CultureInfo.InvariantCulture, out var price))
-                magicPrices.Add((r.Cell, price, r.ItemText));
+                magicPrices.Add((magicNonEmpty[i].Cell, price, magicNonEmpty[i].ItemText));
         }
         Report($"[Крафт] Magic-оценка: {magicPrices.Count} табличек.");
 
@@ -6720,15 +6724,18 @@ public partial class MainWindow : Window
         Report("[Крафт] Сканирование (Rare)...");
         var rareResults = await scanSvc.ScanAsync(npcTarget, occupiedCells, log, ct).ConfigureAwait(false);
 
-        foreach (var r in rareResults.Where(r => !r.IsEmpty))
+        ct.ThrowIfCancellationRequested();
+        var rareNonEmpty = rareResults.Where(r => !r.IsEmpty).ToList();
+        var rareEvals    = await EvaluateTabletsBatchAsync(rareNonEmpty.Select(r => r.ItemText).ToList())
+            .ConfigureAwait(true);
+        for (var i = 0; i < rareNonEmpty.Count; i++)
         {
-            ct.ThrowIfCancellationRequested();
-            var eval = await EvaluateTabletClipboardAsync(r.ItemText).ConfigureAwait(true);
+            var eval = i < rareEvals.Count ? rareEvals[i] : "Нет ответа";
             var pm   = System.Text.RegularExpressions.Regex.Match(eval, @"~(\d+\.?\d*)d");
             if (pm.Success && double.TryParse(pm.Groups[1].Value,
                     System.Globalization.NumberStyles.Any,
                     System.Globalization.CultureInfo.InvariantCulture, out var price))
-                scanPrices.Add((r.Cell, price, r.ItemText));
+                scanPrices.Add((rareNonEmpty[i].Cell, price, rareNonEmpty[i].ItemText));
         }
         Report($"[Крафт] Rare-оценка: {scanPrices.Count} табличек готово к листингу.");
 
@@ -7160,25 +7167,42 @@ public partial class MainWindow : Window
         }
     }
 
+    private static string NormalizePathForWsl(string winPath)
+    {
+        var p = winPath.Replace('\\', '/');
+        if (p.Length >= 2 && p[1] == ':')
+            p = "/mnt/" + char.ToLower(p[0]) + p[2..];
+        return p;
+    }
+
+    /// <summary>Оценивает один предмет; обёртка над батч-методом для совместимости.</summary>
     private static async Task<string> EvaluateTabletClipboardAsync(string itemText)
     {
+        var results = await EvaluateTabletsBatchAsync([itemText]).ConfigureAwait(false);
+        return results.Count > 0 ? results[0] : "Нет ответа от скрипта";
+    }
+
+    /// <summary>
+    /// Оценивает несколько предметов одним вызовом evaluate_clipboard.py --batch.
+    /// Модель загружается один раз на весь батч → ×N быстрее относительно N одиночных вызовов.
+    /// </summary>
+    private static async Task<IReadOnlyList<string>> EvaluateTabletsBatchAsync(IReadOnlyList<string> itemTexts)
+    {
+        if (itemTexts.Count == 0) return [];
+
         var tmpFile = System.IO.Path.GetTempFileName();
         try
         {
-            await System.IO.File.WriteAllTextAsync(tmpFile, itemText, System.Text.Encoding.UTF8);
-            var normalized = tmpFile.Replace('\\', '/');
-            if (normalized.Length >= 2 && normalized[1] == ':')
-                normalized = "/mnt/" + char.ToLower(normalized[0]) + normalized[2..];
+            var json = System.Text.Json.JsonSerializer.Serialize(itemTexts);
+            await System.IO.File.WriteAllTextAsync(tmpFile, json, System.Text.Encoding.UTF8);
 
-            var projectRoot = ProjectPaths.GetProjectRoot().Replace('\\', '/');
-            if (projectRoot.Length >= 2 && projectRoot[1] == ':')
-                projectRoot = "/mnt/" + char.ToLower(projectRoot[0]) + projectRoot[2..];
+            var normalized  = NormalizePathForWsl(tmpFile);
+            var projectRoot = NormalizePathForWsl(ProjectPaths.GetProjectRoot());
+            var scriptDir   = $"{projectRoot}/scripts/tabflow";
+            var python      = $"{scriptDir}/.venv/bin/python3";
+            var script      = $"{scriptDir}/evaluate_clipboard.py";
 
-            var scriptDir = $"{projectRoot}/scripts/tabflow";
-            var python    = $"{scriptDir}/.venv/bin/python3";
-            var script    = $"{scriptDir}/evaluate_clipboard.py";
-
-            var psi = new ProcessStartInfo("wsl.exe", $"-e {python} {script} --file {normalized}")
+            var psi = new ProcessStartInfo("wsl.exe", $"-e {python} {script} --batch {normalized}")
             {
                 RedirectStandardOutput = true,
                 RedirectStandardError  = true,
@@ -7194,17 +7218,27 @@ public partial class MainWindow : Window
             await proc.WaitForExitAsync();
 
             var output = stdout.Trim();
-            if (string.IsNullOrEmpty(output) && !string.IsNullOrEmpty(stderr))
-                output = stderr.Trim();
-            return string.IsNullOrEmpty(output) ? "Нет ответа от скрипта" : output;
+            if (string.IsNullOrEmpty(output))
+            {
+                var err = stderr.Trim();
+                var msg = string.IsNullOrEmpty(err) ? "Нет ответа от скрипта" : $"Ошибка скрипта: {err}";
+                return itemTexts.Select(_ => msg).ToArray();
+            }
+
+            var parsed = System.Text.Json.JsonSerializer.Deserialize<string[]>(output);
+            return parsed ?? itemTexts.Select(_ => "Нет ответа от скрипта").ToArray();
+        }
+        catch (System.Text.Json.JsonException jex)
+        {
+            return itemTexts.Select(_ => $"Ошибка разбора ответа скрипта: {jex.Message}").ToArray();
         }
         catch (Exception ex)
         {
-            return $"Ошибка: {ex.Message}";
+            return itemTexts.Select(_ => $"Ошибка: {ex.Message}").ToArray();
         }
         finally
         {
-            System.IO.File.Delete(tmpFile);
+            try { System.IO.File.Delete(tmpFile); } catch { }
         }
     }
 
