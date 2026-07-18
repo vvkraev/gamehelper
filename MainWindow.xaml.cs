@@ -6804,6 +6804,22 @@ public partial class MainWindow : Window
             Report($"Флор: {floorLog}");
         }
 
+        // 2a. Обновить poe.ninja (курс chaos/divine + цены орбов) раз в час
+        {
+            var lastFetch = Services.PoeNinjaPriceService.LastFetchedAt;
+            if (lastFetch is null || (DateTime.Now - lastFetch.Value).TotalHours >= 1)
+            {
+                Report("poe.ninja: обновление цен...");
+                try
+                {
+                    await Services.PoeNinjaPriceService.FetchAsync(league, ct).ConfigureAwait(false);
+                    Report($"poe.ninja: {Services.PoeNinjaPriceService.ItemCount} предметов");
+                }
+                catch (OperationCanceledException) { throw; }
+                catch (Exception ex) { Report($"poe.ninja: {ex.Message}"); }
+            }
+        }
+
         ct.ThrowIfCancellationRequested();
 
         // 2b. Крафт-цикл: заполнение → орбы → скан → апгрейд → ресканирование
