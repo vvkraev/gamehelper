@@ -137,7 +137,7 @@ while есть активные предметы (не Done/Failed):
 
 **`TabletReforgeQueue` — не потокобезопасен.** Статический список; обращения из UI-потока и фонового Task без lock. Не добавляй новые потоки без lock.
 
-**Python↔C# контракт:** `evaluate_clipboard.py` → stdout → regex `~(\d+\.?\d*)d`. При изменении формата вывода скрипта — обновить regex в `TabletInventoryScanService`.
+**Python↔C# контракт:** `EvaluateTabletsBatchAsync` в `MainWindow.xaml.cs` передаёт JSON-массив текстов в `evaluate_clipboard.py --batch <file>`, получает JSON-массив строк. Цена парсится regex `~(\d+\.?\d*)d` из каждой строки результата. При изменении формата вывода скрипта — обновить regex в `MainWindow.xaml.cs`.
 
 ---
 
