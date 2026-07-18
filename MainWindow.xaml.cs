@@ -5863,7 +5863,7 @@ public partial class MainWindow : Window
 
             ct.ThrowIfCancellationRequested();
             TabletScanStatusText.Text = $"Оценка {nonEmpty.Count} предметов...";
-            var evalResults = await EvaluateTabletsBatchAsync(nonEmpty.Select(r => r.ItemText).ToList())
+            var evalResults = await Services.TabletEvaluator.EvaluateBatchAsync(nonEmpty.Select(r => r.ItemText).ToList())
                 .ConfigureAwait(true);
 
             for (var i = 0; i < nonEmpty.Count; i++)
@@ -6490,525 +6490,73 @@ public partial class MainWindow : Window
 
     private async Task RunTabFlowLoopAsync(int intervalMin, bool dryRun, CancellationToken loopCt)
     {
-        var shopTabs = new List<(ScreenRect, IReadOnlyList<ScreenRect>)>
-        {
-            (_angeTabletTabRect, _angeTabletCells),
-        };
         var sessid = Dispatcher.Invoke(() => TradeSessionIdBox.Text.Trim());
         var league = Dispatcher.Invoke(() => TradeHistoryLeagueBox.Text.Trim());
         if (string.IsNullOrWhiteSpace(league)) league = "Runes of Aldur";
 
-        var modeTag = dryRun ? " [DRY-RUN]" : "";
-        Report($"Цикл TabFlow запущен (интервал {intervalMin} мин){modeTag}.");
-
-        while (!loopCt.IsCancellationRequested)
-        {
-            _listingCts?.Cancel();
-            using var iterCts = CancellationTokenSource.CreateLinkedTokenSource(loopCt);
-            _listingCts = iterCts;
-            var iterCt = iterCts.Token;
-
-            Dispatcher.Invoke(() =>
-            {
-                TryRegisterCraftCancelHotkey();
-                if (!dryRun) MinimizeToTrayOnStart(); // в dry-run кликов нет — окно не прячем
-            });
-            try
-            {
-                await RunTabFlowIterationAsync(shopTabs, sessid, league, dryRun, iterCt);
-            }
-            catch (OperationCanceledException) when (!loopCt.IsCancellationRequested)
-            {
-                Dispatcher.Invoke(() => ListingStatusText.Text =
-                    $"Итерация прервана. Следующая через {intervalMin} мин...");
-            }
-            finally
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    UnregisterCraftCancelHotkey();
-                    if (!dryRun) RestoreFromTray();
-                });
-            }
-
-            loopCt.ThrowIfCancellationRequested();
-            Report($"Следующая итерация через {intervalMin} мин...");
-            await Task.Delay(TimeSpan.FromMinutes(intervalMin), loopCt);
-        }
+        var orchestrator = new Services.TabFlowOrchestrator(CreateTabFlowContext());
+        await orchestrator.RunLoopAsync(
+            sessid, league, intervalMin, dryRun,
+            getIterSettings: () => Dispatcher.Invoke(CaptureTabFlowIterSettings),
+            loopCt);
     }
 
-    /// <summary>
-    /// Крафт-цикл: заполнение из стэша → OoT+OoA → скан Magic → апгрейд → скан Rare.
-    /// Возвращает список оценённых Rare-табличек для последующего листинга.
-    /// </summary>
-    private async Task<List<(ScreenRect Cell, double Price, string ItemText)>> RunCraftCycleAsync(
-        int mouseFillDelayMs, int transferDelayMs, int maxFillCount,
-        int orbDelayMs, int hoverMs, int clipMs, string npcOcrText,
-        double upgradeThreshold, int upgradeDelayMs,
-        Services.StashOpenConfig stashCfg,
-        IProgress<string> log, CancellationToken ct)
+    private Services.TabFlowContext CreateTabFlowContext() => new()
     {
-        var scanPrices = new List<(ScreenRect Cell, double Price, string ItemText)>();
+        ShopTabs                    = [(_angeTabletTabRect, _angeTabletCells)],
+        AngeShopSubTabRect          = _angeShopSubTabRect,
+        AngeShopVerifyRect          = _angeShopVerifyRect,
+        RepricingTraderOcrRect      = _repricingTraderOcrRect,
+        RepricingManageShopOcrRect  = _repricingManageShopOcrRect,
+        ListingPriceInputRect       = _listingPriceInputRect,
+        ListingCurrencyDropdownRect = _listingCurrencyDropdownRect,
+        ListingDivineOrbOcrRect     = _listingDivineOrbOcrRect,
+        ListingListItemBtnRect      = _listingListItemBtnRect,
+        ListingService              = _tabletListingService,
+        StashOcrSearchRect          = _stashOcrSearchRect,
+        StashIsOpenCheckRect        = _stashIsOpenCheckRect,
+        FragmentStashTabRect        = _fragmentStashTabRect,
+        FragmentSubTabTabletsRect   = _fragmentSubTabTabletsRect,
+        FragmentGridCells           = _fragmentGridCells,
+        FragmentPageRects           = _fragmentPageRects,
+        FragmentTabletTypeSettings  = _fragmentTabletTypeSettings,
+        TabletScanCells             = _tabletScanCells,
+        TabletScanNpcOcrRect        = _tabletScanNpcOcrRect,
+        TabletScanGridCols          = _tabletScanGridCols,
+        ReforgeState                = _reforgeState,
+        RfService                   = _rfService,
+        CurrencyItemRegions         = _currencyItemRegions,
+        Report                      = Report,
+        RebuildTradeGrid            = RebuildTradeHistoryGrid,
+        ScheduleSalesFetch          = ScheduleSalesFetch,
+        UpdateTradeHistory          = history => _tradeHistory = history,
+        MinimizeToTray              = () => Dispatcher.Invoke(MinimizeToTrayOnStart),
+        RestoreFromTray             = () => Dispatcher.Invoke(RestoreFromTray),
+        RegisterHotkey              = () => Dispatcher.Invoke(TryRegisterCraftCancelHotkey),
+        UnregisterHotkey            = () => Dispatcher.Invoke(UnregisterCraftCancelHotkey),
+        SetIterCts                  = cts => _listingCts = cts,
+    };
 
-        // ── 1. Заполнение из стэша ───────────────────────────────────────
-        if (_fragmentGridCells.Count > 0)
-        {
-            Report("[Крафт] Заполнение из стэша...");
-            var fillSvc = new Services.FragmentStashFillService
-            {
-                MouseActionDelayMs = mouseFillDelayMs,
-                TransferDelayMs    = transferDelayMs,
-                ClipboardDelayMs      = clipMs,
-                SkipReforgeQueueItems = true,
-            };
-            var enabledTypes = _fragmentTabletTypeSettings.Where(t => t.IsEnabled && t.IconRect.Width > 0).ToList();
-            var remaining    = maxFillCount > 0 ? maxFillCount : int.MaxValue;
-            var totalTaken   = 0;
-            if (enabledTypes.Count == 0)
-            {
-                totalTaken = await fillSvc.FillAsync(
-                    _fragmentStashTabRect, _fragmentSubTabTabletsRect,
-                    default, _fragmentPageRects, _fragmentGridCells,
-                    maxFillCount, log, ct).ConfigureAwait(false);
-            }
-            else
-            {
-                foreach (var ts in enabledTypes)
-                {
-                    ct.ThrowIfCancellationRequested();
-                    if (remaining <= 0) break;
-                    var taken = await fillSvc.FillAsync(
-                        _fragmentStashTabRect, _fragmentSubTabTabletsRect,
-                        ts.IconRect, _fragmentPageRects, _fragmentGridCells,
-                        remaining == int.MaxValue ? 0 : remaining,
-                        log, ct).ConfigureAwait(false);
-                    totalTaken += taken;
-                    if (maxFillCount > 0) remaining -= taken;
-                }
-            }
-            Report($"[Крафт] Взято {totalTaken} шт. из стэша.");
-        }
+    private Services.TabFlowIterSettings CaptureTabFlowIterSettings() => new(
+        ActionMs:          RfParseInt(TabletScanHoverBox.Text, 300),
+        ClipMs:            RfParseInt(TabletScanClipboardDelayBox.Text, 220),
+        TraderOcrText:     RepricingTraderOcrTextBox.Text.Trim(),
+        ManageShopOcrText: RepricingManageShopOcrTextBox.Text.Trim(),
+        TraderDelayMs:     RfParseInt(RepricingTraderOpenDelayBox.Text, 1000),
+        FillCount:         RfParseInt(FragmentFillCountBox.Text, 60),
+        TransferMs:        RfParseInt(FragmentTransferDelayBox.Text, 300),
+        StashOcrText:      StashOcrTextBox.Text.Trim(),
+        StashCheckText:    StashIsOpenCheckTextBox.Text.Trim(),
+        StashDelayMs:      RfParseInt(RfStashOpenDelayBox.Text, 3000),
+        MouseFillDelayMs:  RfParseInt(ChancingMouseDelayBox.Text, 80),
+        OrbDelayMs:        RfParseInt(OrbApplyDelayBox.Text, 400),
+        UpgradeDelayMs:    RfParseInt(UpgradeDelayBox.Text, 400),
+        NpcOcrText:        TabletScanNpcOcrTextBox.Text.Trim(),
+        UpgradeThreshold:  double.TryParse(UpgradeThresholdBox.Text,
+                               System.Globalization.NumberStyles.Any,
+                               System.Globalization.CultureInfo.InvariantCulture, out var ut) ? ut : 1.0
+    );
 
-        ct.ThrowIfCancellationRequested();
-
-        if (_tabletScanCells.Count == 0)
-            return scanPrices;
-
-        // ── 2. Идентификация через NPC (Ctrl+ЛКМ по Doryani) ────────────
-        if (_tabletScanNpcOcrRect.Width > 0 && !string.IsNullOrEmpty(npcOcrText))
-        {
-            Report("[Крафт] Поиск NPC для идентификации...");
-            var norm  = Services.WindowsOcrTextLocator.NormalizeForMatch(npcOcrText);
-            var match = await Services.WindowsOcrTextLocator
-                .TryFindNormalizedSubstringAsync(_tabletScanNpcOcrRect, norm, null, ct)
-                .ConfigureAwait(false);
-            if (match is { } found)
-            {
-                var (nx, ny) = found.BoundsOnScreen.GetInteriorPoint(1);
-                Report($"[Крафт] Identify All: Ctrl+ЛКМ по «{found.MatchedLineText}» ({nx},{ny})...");
-                Native.Win32Input.MoveTo(nx, ny);
-                await Task.Delay(hoverMs, ct).ConfigureAwait(false);
-                Native.Win32Input.SendCtrlLeftClick();
-                await Task.Delay(hoverMs * 3, ct).ConfigureAwait(false);
-            }
-            else
-            {
-                Report($"[Крафт] NPC «{npcOcrText}» не найден — идентификация пропущена.");
-            }
-        }
-
-        ct.ThrowIfCancellationRequested();
-
-        // ── 2b. Определяем занятые ячейки инвентаря ─────────────────────
-        var occupiedCells = Services.GridOccupancyDetector.FilterOccupied(_tabletScanCells);
-        Report($"[Крафт] Занято {occupiedCells.Count} из {_tabletScanCells.Count} ячеек.");
-        if (occupiedCells.Count == 0)
-        {
-            Report("[Крафт] Инвентарь пуст — пропускаем орбы и листинг.");
-            return scanPrices;
-        }
-
-        ct.ThrowIfCancellationRequested();
-
-        // ── 3. Открытие стэша (орбы берём из стэша) ─────────────────────
-        Report("[Крафт] Открываю стэш...");
-        var stashOk = await Services.GameUiHelper.EnsureStashOpenAsync(stashCfg, log, ct).ConfigureAwait(false);
-        if (!stashOk)
-        {
-            Report("[Крафт] Стэш не открылся — пропускаем орбы и апгрейд.");
-            return scanPrices;
-        }
-
-        // ── 4. OoT → занятые ячейки (Normal → Magic) ───────────────────
-        var orbSvc = new Services.TabletOrbApplicationService { ActionDelayMs = orbDelayMs };
-        if (_currencyItemRegions.TryGetValue("Orb of Transmutation", out var ootRect) && ootRect.Width > 0)
-        {
-            Report("[Крафт] Применяю OoT...");
-            await orbSvc.ApplyAsync(ootRect, occupiedCells, log, ct).ConfigureAwait(false);
-        }
-
-        ct.ThrowIfCancellationRequested();
-
-        // ── 5. OoA → занятые ячейки (+1 мод к Magic) ───────────────────
-        if (_currencyItemRegions.TryGetValue("Orb of Augmentation", out var ooaRect) && ooaRect.Width > 0)
-        {
-            Report("[Крафт] Применяю OoA...");
-            await orbSvc.ApplyAsync(ooaRect, occupiedCells, log, ct).ConfigureAwait(false);
-        }
-
-        ct.ThrowIfCancellationRequested();
-
-        // ── 6. Скан и оценка Magic-табличек ─────────────────────────────
-        (int x, int y)? npcTarget = null;
-        if (_tabletScanNpcOcrRect.Width > 0 && !string.IsNullOrEmpty(npcOcrText))
-        {
-            var norm  = Services.WindowsOcrTextLocator.NormalizeForMatch(npcOcrText);
-            var match = await Services.WindowsOcrTextLocator
-                .TryFindNormalizedSubstringAsync(_tabletScanNpcOcrRect, norm, null, ct)
-                .ConfigureAwait(false);
-            if (match is { } found)
-                npcTarget = found.BoundsOnScreen.GetInteriorPoint(1);
-        }
-
-        var scanSvc = new Services.TabletInventoryScanService
-        {
-            HoverSettleMs    = hoverMs,
-            ClipboardDelayMs = clipMs,
-        };
-
-        Report("[Крафт] Сканирование (Magic)...");
-        var magicResults = await scanSvc.ScanAsync(npcTarget, occupiedCells, log, ct).ConfigureAwait(false);
-
-        var magicPrices   = new List<(ScreenRect Cell, double Price, string ItemText)>();
-        ct.ThrowIfCancellationRequested();
-        var magicNonEmpty = magicResults.Where(r => !r.IsEmpty).ToList();
-        var magicEvals    = await EvaluateTabletsBatchAsync(magicNonEmpty.Select(r => r.ItemText).ToList())
-            .ConfigureAwait(true);
-        for (var i = 0; i < magicNonEmpty.Count; i++)
-        {
-            var eval = i < magicEvals.Count ? magicEvals[i] : "Нет ответа";
-            var pm   = System.Text.RegularExpressions.Regex.Match(eval, @"~(\d+\.?\d*)d");
-            if (pm.Success && double.TryParse(pm.Groups[1].Value,
-                    System.Globalization.NumberStyles.Any,
-                    System.Globalization.CultureInfo.InvariantCulture, out var price))
-                magicPrices.Add((magicNonEmpty[i].Cell, price, magicNonEmpty[i].ItemText));
-        }
-        Report($"[Крафт] Magic-оценка: {magicPrices.Count} табличек.");
-
-        ct.ThrowIfCancellationRequested();
-
-        // ── 7. Апгрейд: Regal+Exalt / Alchemy ───────────────────────────
-        var expensive = magicPrices.Where(p => p.Price >= upgradeThreshold).Select(p => p.Cell).ToList();
-        var cheap     = magicPrices.Where(p => p.Price <  upgradeThreshold).Select(p => p.Cell).ToList();
-        Report($"[Крафт] Апгрейд: {expensive.Count} × Regal+Exalt, {cheap.Count} × Alchemy.");
-
-        var upgSvc   = new Services.TabletOrbApplicationService { ActionDelayMs = upgradeDelayMs };
-        var regalRect = GetCurrencyRect("Regal Orb", "Greater Regal Orb", "Perfect Regal Orb");
-        var exaltRect = GetCurrencyRect("Exalted Orb", "Greater Exalted Orb", "Perfect Exalted Orb");
-        var alchRect  = GetCurrencyRect("Orb of Alchemy");
-
-        if (expensive.Count > 0 && regalRect is { } reg && exaltRect is { } ext)
-        {
-            await upgSvc.ApplyAsync(reg, expensive, log, ct).ConfigureAwait(false);
-            ct.ThrowIfCancellationRequested();
-            await upgSvc.ApplyAsync(ext, expensive, log, ct).ConfigureAwait(false);
-        }
-        if (cheap.Count > 0 && alchRect is { } alc)
-        {
-            ct.ThrowIfCancellationRequested();
-            await upgSvc.ApplyAsync(alc, cheap, log, ct).ConfigureAwait(false);
-        }
-
-        ct.ThrowIfCancellationRequested();
-
-        // ── 8. Ресканирование Rare-табличек (финальная оценка) ───────────
-        Report("[Крафт] Сканирование (Rare)...");
-        var rareResults = await scanSvc.ScanAsync(npcTarget, occupiedCells, log, ct).ConfigureAwait(false);
-
-        ct.ThrowIfCancellationRequested();
-        var rareNonEmpty = rareResults.Where(r => !r.IsEmpty).ToList();
-        var rareEvals    = await EvaluateTabletsBatchAsync(rareNonEmpty.Select(r => r.ItemText).ToList())
-            .ConfigureAwait(true);
-        for (var i = 0; i < rareNonEmpty.Count; i++)
-        {
-            var eval = i < rareEvals.Count ? rareEvals[i] : "Нет ответа";
-            var pm   = System.Text.RegularExpressions.Regex.Match(eval, @"~(\d+\.?\d*)d");
-            if (pm.Success && double.TryParse(pm.Groups[1].Value,
-                    System.Globalization.NumberStyles.Any,
-                    System.Globalization.CultureInfo.InvariantCulture, out var price))
-                scanPrices.Add((rareNonEmpty[i].Cell, price, rareNonEmpty[i].ItemText));
-        }
-        Report($"[Крафт] Rare-оценка: {scanPrices.Count} табличек готово к листингу.");
-
-        return scanPrices;
-    }
-
-    private async Task RunTabFlowIterationAsync(
-        List<(ScreenRect, IReadOnlyList<ScreenRect>)> shopTabs,
-        string sessid, string league, bool dryRun, CancellationToken ct)
-    {
-        // Читаем все UI-значения на UI-потоке — метод выполняется в Task.Run
-        var (actionMs, clipMs, traderOcrText, manageShopOcrText, traderDelayMs,
-             fillCount, transferMs, stashOcrText, stashCheckText, stashDelayMs) =
-            Dispatcher.Invoke(() => (
-                RfParseInt(TabletScanHoverBox.Text, 300),
-                RfParseInt(TabletScanClipboardDelayBox.Text, 220),
-                RepricingTraderOcrTextBox.Text.Trim(),
-                RepricingManageShopOcrTextBox.Text.Trim(),
-                RfParseInt(RepricingTraderOpenDelayBox.Text, 1000),
-                RfParseInt(FragmentFillCountBox.Text, 60),
-                RfParseInt(FragmentTransferDelayBox.Text, 300),
-                StashOcrTextBox.Text.Trim(),
-                StashIsOpenCheckTextBox.Text.Trim(),
-                RfParseInt(RfStashOpenDelayBox.Text, 3000)
-            ));
-
-        var (mouseFillDelayMs, orbDelayMs, upgradeDelayMs, npcOcrText, upgradeThreshold) =
-            Dispatcher.Invoke(() => (
-                RfParseInt(ChancingMouseDelayBox.Text, 80),
-                RfParseInt(OrbApplyDelayBox.Text, 400),
-                RfParseInt(UpgradeDelayBox.Text, 400),
-                TabletScanNpcOcrTextBox.Text.Trim(),
-                double.TryParse(UpgradeThresholdBox.Text,
-                    System.Globalization.NumberStyles.Any,
-                    System.Globalization.CultureInfo.InvariantCulture, out var ut) ? ut : 1.0
-            ));
-
-        // 1. Fetch продаж
-        if (!string.IsNullOrWhiteSpace(sessid))
-        {
-            Report("Обновление истории продаж...");
-            try
-            {
-                var existing = Services.TradeHistoryService.LoadFromFile();
-                var (merged, newCount) = await Services.TradeHistoryService
-                    .FetchAndMergeAsync(league, sessid, existing, ct);
-                Services.TradeHistoryService.Save(merged);
-                _tradeHistory = merged;
-                var marked = Services.SoldDetector.DetectAndMark(merged);
-                Report($"+{newCount} продаж, {marked} закрыто в индексе.");
-                Dispatcher.Invoke(RebuildTradeHistoryGrid);
-            }
-            catch (OperationCanceledException) { throw; }
-            catch (Exception ex) { Report($"Fetch продаж: {ex.Message}"); }
-        }
-
-        ct.ThrowIfCancellationRequested();
-
-        // 2. Обновить флор-цены (пропускается если данные свежее 4 часов)
-        if (!string.IsNullOrWhiteSpace(sessid))
-        {
-            Report("Флор-цены: проверка...");
-            var floorLog = await Services.SmartRepricingService.FetchFloorPricesAsync(
-                ProjectPaths.GetProjectRoot(), sessid, league, ct).ConfigureAwait(false);
-            Report($"Флор: {floorLog}");
-        }
-
-        // 2a. Обновить poe.ninja (курс chaos/divine + цены орбов) раз в час
-        {
-            var lastFetch = Services.PoeNinjaPriceService.LastFetchedAt;
-            if (lastFetch is null || (DateTime.Now - lastFetch.Value).TotalHours >= 1)
-            {
-                Report("poe.ninja: обновление цен...");
-                try
-                {
-                    await Services.PoeNinjaPriceService.FetchAsync(league, ct).ConfigureAwait(false);
-                    Report($"poe.ninja: {Services.PoeNinjaPriceService.ItemCount} предметов");
-                }
-                catch (OperationCanceledException) { throw; }
-                catch (Exception ex) { Report($"poe.ninja: {ex.Message}"); }
-            }
-        }
-
-        ct.ThrowIfCancellationRequested();
-
-        // 2b. Крафт-цикл: заполнение → орбы → скан → апгрейд → ресканирование
-        var craftScanPrices = new List<(ScreenRect Cell, double Price, string ItemText)>();
-        if (!dryRun && (_fragmentGridCells.Count > 0 || _tabletScanCells.Count > 0))
-        {
-            var craftLog = new Progress<string>(Report);
-            var craftStashCfg = new Services.StashOpenConfig(
-                _stashOcrSearchRect, stashOcrText,
-                _stashIsOpenCheckRect, stashCheckText,
-                stashDelayMs);
-            craftScanPrices = await RunCraftCycleAsync(
-                mouseFillDelayMs, transferMs, fillCount,
-                orbDelayMs, actionMs, clipMs, npcOcrText,
-                upgradeThreshold, upgradeDelayMs,
-                craftStashCfg, craftLog, ct).ConfigureAwait(false);
-        }
-        else if (dryRun)
-        {
-            var hasFrag = _fragmentGridCells.Count > 0;
-            var hasScan = _tabletScanCells.Count > 0;
-            if (!hasFrag && !hasScan)
-            {
-                Report("[DRY-RUN] Крафт-цикл: ячейки не настроены — пропуск.");
-            }
-            else
-            {
-                var enabledTypes = _fragmentTabletTypeSettings
-                    .Where(ts => ts.IsEnabled)
-                    .Select(ts => ts.Name)
-                    .ToList();
-                var typeStr = enabledTypes.Count > 0
-                    ? string.Join(", ", enabledTypes) : "нет включённых";
-                Report($"[DRY-RUN] Крафт-цикл: фрагменты={_fragmentGridCells.Count} ячеек | " +
-                       $"инвентарь={_tabletScanCells.Count} ячеек | лимит={fillCount}");
-                Report($"[DRY-RUN] Типы: {typeStr}");
-                Report("[DRY-RUN] Заполнение, крафт и листинг пропущены (нет кликов).");
-            }
-        }
-
-        ct.ThrowIfCancellationRequested();
-
-        // 3. Генерация плана
-        Report("Генерация плана переоценки...");
-        var (plan, scriptLog) = await Services.SmartRepricingService
-            .GeneratePlanAsync(ProjectPaths.GetProjectRoot(), ct);
-        var lastLine = scriptLog.Split('\n').LastOrDefault("") ?? "";
-        Report(lastLine);
-
-        if (plan.Count == 0) { Report("Нет позиций для переоценки."); return; }
-
-        ct.ThrowIfCancellationRequested();
-
-        // 4. Выполнение переоценки
-        var progress = new Progress<string>(msg => Dispatcher.Invoke(() => ListingStatusText.Text = msg));
-
-        int done = 0, skipped = 0, delisted = 0;
-        if (dryRun)
-        {
-            // Dry-run: логируем план без кликов
-            var reprice = plan.Where(p => p.Action != "delist_for_reforge").ToList();
-            var delist  = plan.Where(p => p.Action == "delist_for_reforge").ToList();
-            Report($"[DRY-RUN] Репрайс: {reprice.Count} позиций, снять на рефордж: {delist.Count}");
-            foreach (var p in reprice)
-                ((IProgress<string>)progress).Report(
-                    $"  [DRY-RUN] 📉 [{p.Col},{p.Row}] {p.BaseType} " +
-                    $"{p.CurrentPrice}{p.CurrentCurrency[0]} → {p.NewPrice}{p.NewCurrency[0]}  ({p.Reason})");
-            foreach (var p in delist)
-                ((IProgress<string>)progress).Report(
-                    $"  [DRY-RUN] ♻ [{p.Col},{p.Row}] {p.BaseType} {p.CurrentPrice}{p.CurrentCurrency[0]} — delist");
-            await Task.Delay(500, ct);
-        }
-        else
-        {
-            ProcessForeground.TryBringProcessToForeground(
-                ProcessForeground.PathOfExile2SteamProcessName);
-            await Task.Delay(500, ct).ConfigureAwait(false);
-
-            Report($"[Ange-DBG] traderRect={_repricingTraderOcrRect.Width}×{_repricingTraderOcrRect.Height} text='{traderOcrText}' " +
-                   $"shopRect={_repricingManageShopOcrRect.Width}×{_repricingManageShopOcrRect.Height} text='{manageShopOcrText}'");
-
-            var angeOk = await Services.GameUiHelper.EnsureAngeOpenAsync(
-                _repricingTraderOcrRect, traderOcrText,
-                _repricingManageShopOcrRect, manageShopOcrText,
-                traderOpenDelayMs: traderDelayMs,
-                mouseDelayMs:      actionMs,
-                log:               new Progress<string>(Report),
-                ct:                ct,
-                shopSubTabRect:    _angeShopSubTabRect,
-                shopVerifyRect:    _angeShopVerifyRect);
-            if (!angeOk)
-            {
-                Report("Не удалось открыть магазин Ange — переоценка пропущена.");
-                return;
-            }
-
-            // 4a. Листинг скрафченных табличек (Ange уже открыт)
-            if (craftScanPrices.Count > 0)
-            {
-                Report($"[Крафт] Листинг {craftScanPrices.Count} новых табличек...");
-                var logPath  = System.IO.Path.Combine(ProjectPaths.GetProjectRoot(), "vault", "tabflow", "listings.jsonl");
-                var gridRows = _tabletScanGridCols > 0 && _tabletScanCells.Count > 0
-                    ? _tabletScanCells.Count / _tabletScanGridCols : 5;
-                var lSvc = _tabletListingService;
-                lSvc.ResetState();
-                int newListed = 0, newSkipped = 0;
-                for (var i = 0; i < craftScanPrices.Count; i++)
-                {
-                    ct.ThrowIfCancellationRequested();
-                    var (cell, price, itemText) = craftScanPrices[i];
-                    var cellIdx = _tabletScanCells.IndexOf(cell);
-                    var (col, row) = cellIdx >= 0
-                        ? Services.TabletListingsIndex.CellIndexToColRow(cellIdx, gridRows)
-                        : (i + 1, 1);
-                    var wasListed = await lSvc.ListAsync(
-                        cell, price, col, row, itemText, logPath,
-                        _listingPriceInputRect, _listingCurrencyDropdownRect,
-                        _listingDivineOrbOcrRect, _listingListItemBtnRect,
-                        progress, ct).ConfigureAwait(false);
-                    if (wasListed) newListed++; else newSkipped++;
-                }
-                Report($"[Крафт] Выставлено {newListed}, пропущено (пустых) {newSkipped}.");
-                if (newListed > 0) ScheduleSalesFetch();
-            }
-
-            var svc = new Services.SmartRepricingService
-            {
-                ActionDelayMs    = actionMs,
-                ClipboardDelayMs = clipMs,
-            };
-            (done, skipped, delisted) = await svc.ExecutePlanAsync(
-                plan, shopTabs,
-                chaosOrbOcrRect:      _listingDivineOrbOcrRect,
-                priceInputRect:       _listingPriceInputRect,
-                currencyDropdownRect: _listingCurrencyDropdownRect,
-                listItemBtnRect:      _listingListItemBtnRect,
-                log:                  progress,
-                ct:                   ct);
-            Report($"Переоценка: {done} готово, {delisted} на рефордж, {skipped} пропущено.");
-        }
-
-        ct.ThrowIfCancellationRequested();
-
-        // 4. Рефордж «3 в 1»
-        var reforgeQueue = Services.TabletReforgeQueue.Count;
-
-        if (dryRun)
-        {
-            var wouldDelist = plan.Count(p => p.Action == "delist_for_reforge");
-            var queueAfter  = reforgeQueue + wouldDelist;
-            Report($"[DRY-RUN] Очередь рефорджа: {reforgeQueue} + {wouldDelist} = {queueAfter}/{fillCount}" +
-                   (queueAfter >= fillCount ? " → запустил бы цикл рефорджа" : " → накапливаем"));
-        }
-        else if (delisted > 0)
-        {
-            var reforgeInv = _reforgeState.ItemCells.Count > 0
-                                 ? (IReadOnlyList<ScreenRect>)_reforgeState.ItemCells
-                                 : [];
-
-            var tabletReforge = new Services.TabletReforgeService(_rfService)
-            {
-                ActionDelayMs   = actionMs,
-                TransferDelayMs = transferMs,
-            };
-
-            var stashCfg = new Services.StashOpenConfig(
-                _stashOcrSearchRect, stashOcrText,
-                _stashIsOpenCheckRect, stashCheckText,
-                stashDelayMs);
-
-            if (reforgeQueue >= fillCount && reforgeInv.Count > 0 && _fragmentGridCells.Count > 0)
-            {
-                Report($"[Рефордж] Очередь {reforgeQueue} ≥ {fillCount} — запускаем цикл...");
-                await tabletReforge.RunAsync(
-                    reforgeInv,
-                    _fragmentStashTabRect, _fragmentSubTabTabletsRect, _fragmentGridCells,
-                    _reforgeState.Slot1Rect, _reforgeState.Slot2Rect, _reforgeState.Slot3Rect,
-                    _reforgeState.ConfirmRect, _reforgeState.ResultRect,
-                    stashCfg: stashCfg, targetCount: fillCount, log: progress, ct: ct);
-            }
-            else if (reforgeInv.Count > 0)
-            {
-                Report($"[Рефордж] Очередь {reforgeQueue}/{fillCount} — сброс в стэш...");
-                await tabletReforge.DumpInventoryToStashAsync(
-                    reforgeInv, _fragmentStashTabRect, _fragmentSubTabTabletsRect,
-                    stashCfg: stashCfg, log: progress, ct: ct);
-            }
-        }
-    }
 
     private void Report(string msg)
     {
@@ -7204,81 +6752,6 @@ public partial class MainWindow : Window
         finally
         {
             Dispatcher.Invoke(RestoreFromTray);
-        }
-    }
-
-    private static string NormalizePathForWsl(string winPath)
-    {
-        var p = winPath.Replace('\\', '/');
-        if (p.Length >= 2 && p[1] == ':')
-            p = "/mnt/" + char.ToLower(p[0]) + p[2..];
-        return p;
-    }
-
-    /// <summary>Оценивает один предмет; обёртка над батч-методом для совместимости.</summary>
-    private static async Task<string> EvaluateTabletClipboardAsync(string itemText)
-    {
-        var results = await EvaluateTabletsBatchAsync([itemText]).ConfigureAwait(false);
-        return results.Count > 0 ? results[0] : "Нет ответа от скрипта";
-    }
-
-    /// <summary>
-    /// Оценивает несколько предметов одним вызовом evaluate_clipboard.py --batch.
-    /// Модель загружается один раз на весь батч → ×N быстрее относительно N одиночных вызовов.
-    /// </summary>
-    private static async Task<IReadOnlyList<string>> EvaluateTabletsBatchAsync(IReadOnlyList<string> itemTexts)
-    {
-        if (itemTexts.Count == 0) return [];
-
-        var tmpFile = System.IO.Path.GetTempFileName();
-        try
-        {
-            var json = System.Text.Json.JsonSerializer.Serialize(itemTexts);
-            await System.IO.File.WriteAllTextAsync(tmpFile, json, System.Text.Encoding.UTF8);
-
-            var normalized  = NormalizePathForWsl(tmpFile);
-            var projectRoot = NormalizePathForWsl(ProjectPaths.GetProjectRoot());
-            var scriptDir   = $"{projectRoot}/scripts/tabflow";
-            var python      = $"{scriptDir}/.venv/bin/python3";
-            var script      = $"{scriptDir}/evaluate_clipboard.py";
-
-            var psi = new ProcessStartInfo("wsl.exe", $"-e {python} {script} --batch {normalized}")
-            {
-                RedirectStandardOutput = true,
-                RedirectStandardError  = true,
-                UseShellExecute        = false,
-                CreateNoWindow         = true,
-                StandardOutputEncoding = System.Text.Encoding.UTF8,
-                StandardErrorEncoding  = System.Text.Encoding.UTF8,
-            };
-
-            using var proc = Process.Start(psi)!;
-            var stdout = await proc.StandardOutput.ReadToEndAsync();
-            var stderr = await proc.StandardError.ReadToEndAsync();
-            await proc.WaitForExitAsync();
-
-            var output = stdout.Trim();
-            if (string.IsNullOrEmpty(output))
-            {
-                var err = stderr.Trim();
-                var msg = string.IsNullOrEmpty(err) ? "Нет ответа от скрипта" : $"Ошибка скрипта: {err}";
-                return itemTexts.Select(_ => msg).ToArray();
-            }
-
-            var parsed = System.Text.Json.JsonSerializer.Deserialize<string[]>(output);
-            return parsed ?? itemTexts.Select(_ => "Нет ответа от скрипта").ToArray();
-        }
-        catch (System.Text.Json.JsonException jex)
-        {
-            return itemTexts.Select(_ => $"Ошибка разбора ответа скрипта: {jex.Message}").ToArray();
-        }
-        catch (Exception ex)
-        {
-            return itemTexts.Select(_ => $"Ошибка: {ex.Message}").ToArray();
-        }
-        finally
-        {
-            try { System.IO.File.Delete(tmpFile); } catch { }
         }
     }
 

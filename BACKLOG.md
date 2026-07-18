@@ -85,9 +85,10 @@
   - Покрыть парсинг редких предметов, магических, нормальных
   - Покрыть edge cases: пустой буфер, нераспознанный формат
 
-- [ ] **TEST-4** Unit-тесты для `CraftConditionEvaluator`
+- [x] **TEST-4** Unit-тесты для `CraftConditionEvaluator`
   - Расширить существующие тесты в `CraftConditionCountEvaluatorTests.cs`
   - Покрыть все типы условий остановки
+  - Добавлено 8 тестов для `CraftClauseKind.Sum` (single part / two parts / MaxSum / missing affix / fractured skip)
 
 ---
 
@@ -670,11 +671,13 @@ while есть активные предметы (не Done/Failed):
     4. Таймаут → `OperationCanceledException` + лог «другой процесс удерживает ввод»
   - **Зависит от**: ничего нового; только именованный mutex через `System.Threading.Mutex`
 
-- [ ] **TABFLOW-5** Вынести `RunTabFlowLoopAsync` в отдельный `TabFlowOrchestrator`
+- [x] **TABFLOW-5** Вынести `RunTabFlowLoopAsync` в отдельный `TabFlowOrchestrator`
   - **Проблема**: весь TabFlow-цикл (~600 строк) живёт в code-behind `MainWindow.xaml.cs`. Это нарушает принцип «не добавляй новую логику в code-behind» и делает `MainWindow` ещё больше.
   - **Решение**: создать `Services/TabFlowOrchestrator.cs` — принимает все нужные сервисы через конструктор, реализует `RunAsync(CancellationToken)`.
   - `MainWindow` остаётся: ESC-хук, MinimizeToTray, прогресс-репортер, UI-события. Вся логика → `TabFlowOrchestrator`.
-  - **Зависит от**: TABFLOW-4 (mutex), ARCH-2 (DI)
+  - Реализовано без TABFLOW-4/ARCH-2: mutex и DI можно добавить поверх.
+  - Создан `Services/TabletEvaluator.cs` (публичный хелпер для evaluate_clipboard.py).
+  - `MainWindow` сократился на ~540 строк; добавлены `CreateTabFlowContext()` + `CaptureTabFlowIterSettings()`.
 
 ---
 

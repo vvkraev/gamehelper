@@ -1360,4 +1360,197 @@ public sealed class CraftConditionCountEvaluatorTests
             CraftConditionEvaluator.TryEvaluate(plan, item, out var expl),
             $"Mind(fixed 1%)+Osmosis(fixed 1%)+Potency(10%) — все три засчитываются. Объяснение: {expl}");
     }
+
+    // ── Клоз «Sum» — сумма значений нескольких аффиксов ────────────────────────────────────
+
+    // Предмет с двумя нефрактурными суффиксами: +3 к Level of all Spell Skills и +4 к Physical Spell Skills
+    private const string TwoSuffixAmuletClipboard = """
+        Item Class: Amulets
+        Rarity: Rare
+        Test Pendant
+        Absent Amulet
+        --------
+        Item Level: 79
+        --------
+        { Suffix Modifier "of the Sorcerer" (Tier: 1) — Caster, Gem }
+        +3 to Level of all Spell Skills
+        { Suffix Modifier "of Grief" (Tier: 1) — Physical, Caster, Gem }
+        +4 to Level of all Physical Spell Skills
+        """;
+
+    private static CraftConditionPlan SumPlan(string itemClass, string affixType, string statTemplate,
+                                               double minSum, double maxSum = 0) =>
+        new()
+        {
+            ExpectedItemClass = itemClass,
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Sum,
+                            Sum  = new CraftSumAffixData
+                            {
+                                Parts  = { new CraftAffixRef { AffixType = affixType, StatTemplate = statTemplate } },
+                                MinSum = minSum,
+                                MaxSum = maxSum,
+                            },
+                        },
+                    },
+                },
+            },
+        };
+
+    /// <summary>Roll=3, MinSum=3 → сумма ≥ порогу → true.</summary>
+    [Fact]
+    public void Sum_SinglePart_MinSum3_Roll3_Matches()
+    {
+        var item = ItemParser.Parse(SorcererAmuletClipboard);
+        var plan = SumPlan("Amulets", "Suffix Modifier", "+# to Level of all Spell Skills", minSum: 3);
+        Assert.True(CraftConditionEvaluator.TryEvaluate(plan, item, out _));
+    }
+
+    /// <summary>Roll=3, MinSum=4 → сумма < порогу → false.</summary>
+    [Fact]
+    public void Sum_SinglePart_MinSum4_Roll3_DoesNotMatch()
+    {
+        var item = ItemParser.Parse(SorcererAmuletClipboard);
+        var plan = SumPlan("Amulets", "Suffix Modifier", "+# to Level of all Spell Skills", minSum: 4);
+        Assert.False(CraftConditionEvaluator.TryEvaluate(plan, item, out _));
+    }
+
+    /// <summary>MaxSum=3, Roll=3 → сумма ≤ MaxSum → true (граничное значение).</summary>
+    [Fact]
+    public void Sum_MaxSum3_Roll3_Matches()
+    {
+        var item = ItemParser.Parse(SorcererAmuletClipboard);
+        var plan = SumPlan("Amulets", "Suffix Modifier", "+# to Level of all Spell Skills", minSum: 1, maxSum: 3);
+        Assert.True(CraftConditionEvaluator.TryEvaluate(plan, item, out _));
+    }
+
+    /// <summary>MaxSum=2, Roll=3 → сумма > MaxSum → false.</summary>
+    [Fact]
+    public void Sum_MaxSum2_Roll3_DoesNotMatch()
+    {
+        var item = ItemParser.Parse(SorcererAmuletClipboard);
+        var plan = SumPlan("Amulets", "Suffix Modifier", "+# to Level of all Spell Skills", minSum: 1, maxSum: 2);
+        Assert.False(CraftConditionEvaluator.TryEvaluate(plan, item, out _));
+    }
+
+    /// <summary>Два Parts: +3 и +4 = 7, MinSum=7 → matches.</summary>
+    [Fact]
+    public void Sum_TwoParts_Sum7_MinSum7_Matches()
+    {
+        var item = ItemParser.Parse(TwoSuffixAmuletClipboard);
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Amulets",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Sum,
+                            Sum  = new CraftSumAffixData
+                            {
+                                MinSum = 7,
+                                Parts  =
+                                {
+                                    new CraftAffixRef { AffixType = "Suffix Modifier", StatTemplate = "+# to Level of all Spell Skills" },
+                                    new CraftAffixRef { AffixType = "Suffix Modifier", StatTemplate = "+# to Level of all Physical Spell Skills" },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+        Assert.True(CraftConditionEvaluator.TryEvaluate(plan, item, out _), "3+4=7 ≥ 7");
+    }
+
+    /// <summary>Два Parts: +3 и +4 = 7, MinSum=8 → не совпадает.</summary>
+    [Fact]
+    public void Sum_TwoParts_Sum7_MinSum8_DoesNotMatch()
+    {
+        var item = ItemParser.Parse(TwoSuffixAmuletClipboard);
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Amulets",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Sum,
+                            Sum  = new CraftSumAffixData
+                            {
+                                MinSum = 8,
+                                Parts  =
+                                {
+                                    new CraftAffixRef { AffixType = "Suffix Modifier", StatTemplate = "+# to Level of all Spell Skills" },
+                                    new CraftAffixRef { AffixType = "Suffix Modifier", StatTemplate = "+# to Level of all Physical Spell Skills" },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+        Assert.False(CraftConditionEvaluator.TryEvaluate(plan, item, out _), "3+4=7 < 8");
+    }
+
+    /// <summary>Отсутствующий аффикс → contrib=0; сумма = только от присутствующего.</summary>
+    [Fact]
+    public void Sum_MissingPart_ContribZero_SumEqualsPresent()
+    {
+        var item = ItemParser.Parse(SorcererAmuletClipboard); // только +3 to Level of all Spell Skills
+        var plan = new CraftConditionPlan
+        {
+            ExpectedItemClass = "Amulets",
+            OrAlternatives =
+            {
+                new CraftAndGroup
+                {
+                    Clauses =
+                    {
+                        new CraftClause
+                        {
+                            Kind = CraftClauseKind.Sum,
+                            Sum  = new CraftSumAffixData
+                            {
+                                MinSum = 3,
+                                Parts  =
+                                {
+                                    new CraftAffixRef { AffixType = "Suffix Modifier", StatTemplate = "+# to Level of all Spell Skills" },
+                                    new CraftAffixRef { AffixType = "Suffix Modifier", StatTemplate = "+# to Level of all Physical Spell Skills" },
+                                },
+                            },
+                        },
+                    },
+                },
+            },
+        };
+        // Второй аффикс отсутствует → contrib=0 → sum=3 ≥ 3
+        Assert.True(CraftConditionEvaluator.TryEvaluate(plan, item, out _), "3+0=3 ≥ 3");
+    }
+
+    /// <summary>Фрактурный аффикс не считается в Sum → сумма = 0 → MinSum=1 → false.</summary>
+    [Fact]
+    public void Sum_FracturedAffix_NotCountedInSum()
+    {
+        var item = ItemParser.Parse(FracturedRunicWandClipboard); // Runic (fractured) + of Grief
+        var plan = SumPlan("Wands", "Prefix Modifier", "% increased Spell Damage", minSum: 1);
+        // Runic (fractured) не считается → contrib=0 → sum=0 < 1 → false
+        Assert.False(CraftConditionEvaluator.TryEvaluate(plan, item, out _),
+            "Fractured Runic не должен засчитываться в Sum");
+    }
 }
