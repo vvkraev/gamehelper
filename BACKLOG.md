@@ -655,7 +655,7 @@ while есть активные предметы (не Done/Failed):
     3. Регрессия: убедиться что одиночный режим (без `--batch`) не сломан
   - **Зависит от**: `evaluate_clipboard.py`, `TabletInventoryScanService`
 
-- [ ] **TABFLOW-3** Тесты для `SoldDetector` и маппинга col/row → ячейка сетки
+- [x] **TABFLOW-3** Тесты для `SoldDetector` и маппинга col/row → ячейка сетки
   - **SoldDetector**: сравнение `sales_history` с `listings_index` — чистая логика без Win32. Тест: N продаж в `sales_history` → M записей в listings_index → ожидаемые `sold: true`.
   - **col/row маппинг**: `TabletInventoryScanService` преобразует (col, row) в индекс ячейки — протестировать граничные случаи (первая/последняя ячейка, нестандартная сетка).
   - **Зависит от**: `SoldDetector`, `TabletInventoryScanService`
