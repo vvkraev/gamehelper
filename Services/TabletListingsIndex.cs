@@ -223,6 +223,13 @@ public static class TabletListingsIndex
     /// <summary>Публичный парсер timestamp для использования в SoldDetector.</summary>
     public static DateTime? TryParseTimestamp(string? ts) => TryParseTs(ts);
 
+    /// <summary>
+    /// Преобразует 0-based индекс ячейки в (col, row) 1-based при column-major раскладке.
+    /// Формула: col = cellIdx / gridRows + 1, row = cellIdx % gridRows + 1.
+    /// </summary>
+    public static (int Col, int Row) CellIndexToColRow(int cellIdx, int gridRows) =>
+        (cellIdx / gridRows + 1, cellIdx % gridRows + 1);
+
     // ── Архивирование ────────────────────────────────────────────────────────
 
     /// <summary>

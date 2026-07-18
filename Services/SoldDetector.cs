@@ -13,20 +13,34 @@ public static class SoldDetector
     public static int DetectAndMark(List<SaleRecord> sales)
     {
         var entries = TabletListingsIndex.Load();
-        var unsold  = entries.Where(e => !e.Sold).ToList();
-        if (unsold.Count == 0) return 0;
+        var matches = FindMatches(sales, entries);
+        foreach (var (entry, info) in matches)
+            TabletListingsIndex.MarkSold(entry.Id, info);
+        return matches.Count;
+    }
 
-        // Только продажи таблеток
+    /// <summary>
+    /// Чистая логика сопоставления — без файловой системы. Internal для тестов.
+    /// Помечает совпавшие записи в переданном списке (Sold = true) во избежание
+    /// двойного матча в одном проходе.
+    /// </summary>
+    internal static List<(TabletListingEntry Entry, SoldInfo Info)> FindMatches(
+        IReadOnlyList<SaleRecord> sales,
+        List<TabletListingEntry> entries)
+    {
+        var results    = new List<(TabletListingEntry, SoldInfo)>();
+        var unsold     = entries.Where(e => !e.Sold).ToList();
+        if (unsold.Count == 0) return results;
+
         var tabletSales = sales
             .Where(s => s.BaseType.Contains("Tablet", StringComparison.OrdinalIgnoreCase))
             .ToList();
-        if (tabletSales.Count == 0) return 0;
-
-        int marked = 0;
+        if (tabletSales.Count == 0) return results;
 
         foreach (var sale in tabletSales)
         {
             var saleTime = sale.Time.ToLocalTime();
+            var saleMods = NormSet(sale.ExplicitMods.Concat(sale.FracturedMods));
 
             // Кандидаты: тот же BaseType, листинг раньше продажи, ещё не закрыты
             var candidates = unsold
@@ -34,12 +48,10 @@ public static class SoldDetector
                 .Where(e => string.Equals(e.BaseType, sale.BaseType, StringComparison.OrdinalIgnoreCase))
                 .Where(e => TabletListingsIndex.TryParseTimestamp(e.Timestamp) is { } ts && ts < saleTime)
                 .ToList();
-
             if (candidates.Count == 0) continue;
 
             // Выбираем по максимальному пересечению модов, при равенстве — самый старый листинг
-            var saleMods  = NormSet(sale.ExplicitMods.Concat(sale.FracturedMods));
-            var best      = candidates
+            var best = candidates
                 .OrderByDescending(e => ModOverlap(e.Mods, saleMods))
                 .ThenBy(e => e.Timestamp)
                 .First();
@@ -47,26 +59,25 @@ public static class SoldDetector
             // Принимаем матч только если хотя бы 2 мода совпали
             if (ModOverlap(best.Mods, saleMods) < 2) continue;
 
-            var listingTime = TabletListingsIndex.TryParseTimestamp(best.Timestamp);
+            var listingTime   = TabletListingsIndex.TryParseTimestamp(best.Timestamp);
             var minutesToSale = listingTime.HasValue
                 ? (int)(saleTime - listingTime.Value).TotalMinutes
                 : (int?)null;
 
-            TabletListingsIndex.MarkSold(best.Id, new SoldInfo(
-                SaleId:           sale.ItemId,
-                SaleTime:         saleTime.ToString("yyyy-MM-ddTHH:mm:ss"),
-                SalePriceAmount:  sale.PriceAmount,
+            var info = new SoldInfo(
+                SaleId:            sale.ItemId,
+                SaleTime:          saleTime.ToString("yyyy-MM-ddTHH:mm:ss"),
+                SalePriceAmount:   sale.PriceAmount,
                 SalePriceCurrency: sale.PriceCurrency,
-                MinutesToSale:    minutesToSale,
-                Miss:             minutesToSale.HasValue && minutesToSale.Value <= TabletListingsIndex.MissThresholdMinutes,
-                SoldAfterReprice: best.Repricings.Count > 0
-            ));
-
+                MinutesToSale:     minutesToSale,
+                Miss:              minutesToSale.HasValue && minutesToSale.Value <= TabletListingsIndex.MissThresholdMinutes,
+                SoldAfterReprice:  best.Repricings.Count > 0
+            );
             best.Sold = true; // не матчить повторно в этом проходе
-            marked++;
+            results.Add((best, info));
         }
 
-        return marked;
+        return results;
     }
 
     private static HashSet<string> NormSet(IEnumerable<string> mods) =>

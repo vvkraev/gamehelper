@@ -6404,8 +6404,9 @@ public partial class MainWindow : Window
 
                 var (cell, price, itemText) = _lastScanPrices[i];
                 var cellIdx = _tabletScanCells.IndexOf(cell);
-                var col = cellIdx >= 0 ? cellIdx / gridRows + 1 : i + 1;
-                var row = cellIdx >= 0 ? cellIdx % gridRows + 1 : 1;
+                var (col, row) = cellIdx >= 0
+                    ? Services.TabletListingsIndex.CellIndexToColRow(cellIdx, gridRows)
+                    : (i + 1, 1);
 
                 ListingStatusText.Text = $"[{i + 1}/{total}] {col}/{row} — проверяем…";
 
@@ -6914,8 +6915,9 @@ public partial class MainWindow : Window
                     ct.ThrowIfCancellationRequested();
                     var (cell, price, itemText) = craftScanPrices[i];
                     var cellIdx = _tabletScanCells.IndexOf(cell);
-                    var col = cellIdx >= 0 ? cellIdx / gridRows + 1 : i + 1;
-                    var row = cellIdx >= 0 ? cellIdx % gridRows + 1 : 1;
+                    var (col, row) = cellIdx >= 0
+                        ? Services.TabletListingsIndex.CellIndexToColRow(cellIdx, gridRows)
+                        : (i + 1, 1);
                     var wasListed = await lSvc.ListAsync(
                         cell, price, col, row, itemText, logPath,
                         _listingPriceInputRect, _listingCurrencyDropdownRect,
