@@ -22,19 +22,23 @@ P = Throughput × Yield
 
 ---
 
-## Текущее состояние (2026-07-17)
+## Текущее состояние (2026-07-18)
 
 **Реализовано:**
 - TradeBot: `LiveSearch → Buy → Deposit to stash` — автономный цикл покупки ✓
 - GameHelper: листинг (`ListingAllBtn`), переоценка (`SmartRepricingBtn`, `reprice.py`) ✓
 - `listings_index.json` — общее состояние между процессами ✓
+- `SoldDetector` (`Services/SoldDetector.cs`) — GGG API `sales_history` → `sold: true` в listings_index ✓
+- `LoopOrchestrator` — реализован как `RunTabFlowLoopAsync` / `RunTabFlowIterationAsync` в `MainWindow.xaml.cs` ✓
 - Оценщик таблеток из буфера обмена ✓
+- 8 пикеров типов таблеток с чекбоксами (`FragmentTabletTypeSetting`) ✓
+- `GridOccupancyDetector` — пропуск пустых ячеек без лишних Ctrl+C ✓
 
-**Отсутствует:**
-- `SoldDetector` — поле `sold` в listings_index не обновляется автоматически
-- `LoopOrchestrator` — нет фонового цикла, каждый шаг запускается вручную
-- Интеграция TradeBot ↔ GameHelper (TradeBot не знает о заполненности витрины)
-- Динамическая модель ценообразования
+**Отсутствует / не реализовано:**
+- Интеграция TradeBot ↔ GameHelper по fill_rate (TradeBot не знает о заполненности витрины) — TABFLOW-1
+- Батчинг `evaluate_clipboard.py` (~120 процессов/итерацию → 1) — TABFLOW-2
+- `PoE2Bot_InputMutex` — named mutex для монополии Win32 Input между процессами — TABFLOW-4
+- Динамическая модель ценообразования (patience по velocity) — Фаза 2
 
 ---
 
@@ -61,15 +65,15 @@ TradeBot.exe           — buy loop, отчуждаемое приложение
 *Цель: sell-сторона работает без ручного запуска*
 
 **Без игры (день):**
-- `SoldDetector`: polling GGG API `sales_history` → сравнение с listings_index → `sold: true`
-- `LoopOrchestrator`: фоновый цикл `DetectSold → RepriceTrigger → sleep(N) → repeat`
-- Интеграция с TradeBot: TradeBot читает listings_index → при fill > 75% приостанавливает покупки
-- Dry-run режим: цикл логирует действия без кликов
+- [x] `SoldDetector`: polling GGG API `sales_history` → сравнение с listings_index → `sold: true`
+- [x] `LoopOrchestrator`: фоновый цикл (`RunTabFlowLoopAsync`/`RunTabFlowIterationAsync` в MainWindow)
+- [ ] Интеграция с TradeBot: TradeBot читает listings_index → при fill > 75% приостанавливает покупки — **TABFLOW-1**
+- [ ] Dry-run режим: цикл логирует действия без кликов
 
 **С игрой (вечер):**
-- Полный прогон в dry-run с верификацией логов
-- Первый боевой прогон цикла
-- Проверка остановки TradeBot при полной витрине
+- [ ] Полный прогон в dry-run с верификацией логов
+- [ ] Первый боевой прогон цикла
+- [ ] Проверка остановки TradeBot при полной витрине
 
 **Критерий перехода:** sell-цикл прошёл боевой прогон без ручного вмешательства.
 

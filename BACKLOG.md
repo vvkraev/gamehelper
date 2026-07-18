@@ -633,6 +633,51 @@ while есть активные предметы (не Done/Failed):
 
 ---
 
+## TabFlow
+
+Задачи по системе автоторговли таблетками. Подробная архитектура: [`vault/tabflow/roadmap.md`](vault/tabflow/roadmap.md).
+
+- [ ] **TABFLOW-1** Интеграция TradeBot ↔ GameHelper по заполненности витрины
+  - **Проблема**: TradeBot покупает таблетки независимо от fill_rate витрины. При заполнении 100% новые покупки только переполняют стэш.
+  - **Решение**: TradeBot читает `listings_index.json` → поле `fill_rate` (заполненных слотов / 144) → при `fill_rate > 0.75` приостанавливает покупки.
+  - **Что нужно:**
+    1. `TabletListingsIndex` — добавить поле `FillRate` (обновляется при каждом листинге/сканировании)
+    2. TradeBot: перед LiveSearch → читать `listings_index.json` → если `FillRate > 0.75` → skip iteration + log
+    3. Порог сделать настраиваемым в `TradeBotSettings.PauseFillRateThreshold` (default 0.75)
+  - **Зависит от**: `listings_index.json` (уже есть), `TabletListingsIndex` (уже есть)
+
+- [ ] **TABFLOW-2** Батчинг `evaluate_clipboard.py` — 1 процесс на итерацию вместо ~120
+  - **Проблема**: `TabletInventoryScanService` запускает `wsl.exe evaluate_clipboard.py` по одному на каждую ячейку инвентаря (~120 штук/итерацию). Каждый запуск WSL стоит ~200-300мс → итерация ≥ 24 секунды только на оценку.
+  - **Решение**: передавать все буферы разом — stdin или временный файл со списком текстов → скрипт возвращает JSON-массив цен.
+  - **Что нужно:**
+    1. Изменить `evaluate_clipboard.py`: принимать `--batch <файл>` (JSON-список строк) → возвращать JSON-массив `[price_or_null, ...]`
+    2. В `TabletInventoryScanService`: накопить все Ctrl+C тексты → передать батчем → распарсить ответ
+    3. Регрессия: убедиться что одиночный режим (без `--batch`) не сломан
+  - **Зависит от**: `evaluate_clipboard.py`, `TabletInventoryScanService`
+
+- [ ] **TABFLOW-3** Тесты для `SoldDetector` и маппинга col/row → ячейка сетки
+  - **SoldDetector**: сравнение `sales_history` с `listings_index` — чистая логика без Win32. Тест: N продаж в `sales_history` → M записей в listings_index → ожидаемые `sold: true`.
+  - **col/row маппинг**: `TabletInventoryScanService` преобразует (col, row) в индекс ячейки — протестировать граничные случаи (первая/последняя ячейка, нестандартная сетка).
+  - **Зависит от**: `SoldDetector`, `TabletInventoryScanService`
+
+- [ ] **TABFLOW-4** Реализовать `PoE2Bot_InputMutex` — монополия Win32 Input между процессами
+  - **Проблема**: `GameHelper.exe` и `TradeBot.exe` могут одновременно управлять мышью/клавиатурой — гарантированный хаос.
+  - **Решение**: named mutex `PoE2Bot_InputMutex` (уже описан в `vault/tabflow/roadmap.md`).
+  - **Что нужно:**
+    1. `GameHelper.Shared` (или копия в каждом exe): `Win32InputMutex.Acquire(timeout)` / `.Release()`
+    2. Каждый сервис с мышью/клавой: `using (Win32InputMutex.Acquire(30_000))` перед первым кликом
+    3. `TradeBot`: аналогично — `Acquire` перед торговой сессией, `Release` в `finally`
+    4. Таймаут → `OperationCanceledException` + лог «другой процесс удерживает ввод»
+  - **Зависит от**: ничего нового; только именованный mutex через `System.Threading.Mutex`
+
+- [ ] **TABFLOW-5** Вынести `RunTabFlowLoopAsync` в отдельный `TabFlowOrchestrator`
+  - **Проблема**: весь TabFlow-цикл (~600 строк) живёт в code-behind `MainWindow.xaml.cs`. Это нарушает принцип «не добавляй новую логику в code-behind» и делает `MainWindow` ещё больше.
+  - **Решение**: создать `Services/TabFlowOrchestrator.cs` — принимает все нужные сервисы через конструктор, реализует `RunAsync(CancellationToken)`.
+  - `MainWindow` остаётся: ESC-хук, MinimizeToTray, прогресс-репортер, UI-события. Вся логика → `TabFlowOrchestrator`.
+  - **Зависит от**: TABFLOW-4 (mutex), ARCH-2 (DI)
+
+---
+
 ## Очерёдность реализации (рекомендуемый порядок)
 
 ```

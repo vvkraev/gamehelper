@@ -6,10 +6,14 @@
 
 ## Что это за проект
 
-WPF-приложение (.NET 10, Windows) для автоматизации крафта предметов в **Path of Exile 2**.
+WPF-приложение (.NET 10, Windows) для автоматизации крафта предметов и торговли таблетками в **Path of Exile 2**.
 Работает через Win32 API (эмуляция мыши/клавиатуры) и буфер обмена — никаких читов, только клики.
 
-Подробно: [`docs/SRS.md`](docs/SRS.md) | Планы: [`docs/ROADMAP.md`](docs/ROADMAP.md) | Бэклог: [`BACKLOG.md`](BACKLOG.md)
+**Два основных модуля:**
+- **Крафт** — циклы Chaos/Aug+Annul/Exalt/Divine, визард условий остановки, пакетный крафт по стадиям
+- **TabFlow** — цикл торговли таблетками: Buy (TradeBot) → Fill→Craft→Scan→List → Reprice/ReforgeQueue → Reforge→Stash
+
+Подробно: [`docs/SRS.md`](docs/SRS.md) | Планы: [`docs/ROADMAP.md`](docs/ROADMAP.md) | Бэклог: [`BACKLOG.md`](BACKLOG.md) | TabFlow: [`vault/tabflow/roadmap.md`](vault/tabflow/roadmap.md)
 
 ---
 
@@ -17,7 +21,7 @@ WPF-приложение (.NET 10, Windows) для автоматизации к
 
 | Файл / папка | Роль |
 |---|---|
-| `MainWindow.xaml.cs` | Точка входа UI — координирует все сервисы (~2000 строк, рефакторинг запланирован в ARCH-3) |
+| `MainWindow.xaml.cs` | Точка входа UI — координирует все сервисы (~8800 строк; MVVM ✓; ~40% занимает TabFlow) |
 | `AppSettings.cs` | Все настройки приложения — области экрана, задержки, условие крафта |
 | `SettingsStore.cs` | Сериализация `AppSettings` ↔ `settings.json` |
 | `Services/ChaosCraftService.cs` | Основной цикл Chaos Orb крафта |
@@ -33,16 +37,29 @@ WPF-приложение (.NET 10, Windows) для автоматизации к
 | `Services/SessionLogger.cs` | Логирование сессии (статический синглтон) |
 | `Native/Win32Input.cs` | Низкоуровневые клики и клавиши через WinAPI |
 | `affix_library.json` | База данных аффиксов PoE2 — не генерировать, не перезаписывать |
+| **TabFlow** | |
+| `Services/FragmentStashFillService.cs` | Забирает таблетки из Fragment Stash (Fragment → Tablets → тип → страницы) |
+| `Services/GridOccupancyDetector.cs` | Скриншот сетки → яркость ячеек → список занятых (исключает пустые) |
+| `Services/TabletInventoryScanService.cs` | Ctrl+C по ячейкам инвентаря → `evaluate_clipboard.py` → цены |
+| `Services/TabletListingsIndex.cs` | Управление `listings_index.json` — общее состояние GameHelper и TradeBot |
+| `Services/TabletReforgeQueue.cs` | Очередь рефорджа (статический список; **не потокобезопасен**) |
+| `Services/TabletReforgeService.cs` | Применяет орб рефорджа к таблетке в инвентаре |
+| `Services/TabletListingService.cs` | Выставляет таблетки через торговый UI (Ange) |
+| `Services/SoldDetector.cs` | GGG API `sales_history` → помечает проданные записи в listings_index |
+| `Services/SmartRepricingService.cs` | Переоценка листингов: флор из `floor_prices.json` → новая цена |
+| `scripts/tabflow/evaluate_clipboard.py` | Оценка таблетки (буфер → predict.py → цена div) |
+| `scripts/tabflow/floor_fetcher.py` | Получение флор-цен по 7+1 типам таблеток (GGG Trade API) |
+| `scripts/tabflow/reprice.py` | Пакетная переоценка листингов (Python) |
 
 ---
 
 ## Архитектурные решения — почему так, а не иначе
 
-**Нет DI-контейнера (пока)** — сервисы создаются через `new()` прямо в `MainWindow`. Это известная проблема, запланирован рефакторинг (ARCH-2). Не добавляй DI без явной задачи на это.
+**DI-контейнер (ARCH-2 ✓)** — `Microsoft.Extensions.DependencyInjection`, регистрация в `App.xaml.cs`. Не добавляй новые DI-регистрации без явной задачи.
 
-**`SessionLogger` и `AffixLibrary` — статические классы** — намеренное решение для упрощения. Запланирована замена на инъектируемые сервисы (ARCH-5). Не рефакторь попутно.
+**`SessionLogger`, `AffixLibrary` — адаптеры добавлены (ARCH-5 ✓)** — существуют `SessionLoggerAdapter`, `AffixLibraryAdapter`. Статические вызовы в legacy-коде сохранены намеренно — не мигрируй попутно.
 
-**`MainWindow.xaml.cs` — монолит** — вся логика UI собрана в одном файле. Запланирован переход на MVVM (ARCH-3). Не добавляй новую логику в code-behind без крайней необходимости.
+**`MainWindow.xaml.cs` (~8800 строк)** — MVVM внедрён (ARCH-3 ✓), но code-behind остаётся большим: ~40% — TabFlow (циклы, сервисные вызовы). Не добавляй новую логику в code-behind без крайней необходимости.
 
 **Задержки (`MouseActionDelayMs`, `ClipboardDelayMs`)** — критичны для стабильной работы в игре. Не убирай, не сокращай без тестирования. Значения подобраны под реальные тайминги PoE2.
 
@@ -99,6 +116,31 @@ while есть активные предметы (не Done/Failed):
 
 ---
 
+## TabFlow — торговля таблетками
+
+Подробная документация: [`vault/tabflow/roadmap.md`](vault/tabflow/roadmap.md)
+
+**Четыре workflow** (`RunTabFlowLoopAsync` / `RunTabFlowIterationAsync` в `MainWindow.xaml.cs`):
+
+| # | Workflow | Ключевые сервисы |
+|---|---|---|
+| 1 | **Buy** (TradeBot) | Отдельный процесс `TradeBot.exe`; читает `listings_index.json` |
+| 2 | **Fill→Craft→Scan→List** | `FragmentStashFillService`, `TabletOrbApplicationService`, `TabletInventoryScanService`, `TabletListingService` |
+| 3 | **Reprice→ReforgeQueue** | `SmartRepricingService`, `TabletReforgeQueue` |
+| 4 | **Reforge→Stash** | `TabletReforgeService`, `AutoReforgeService` |
+
+**Общее состояние между процессами:** `listings_index.json` — `TabletListingsIndex` управляет сериализацией; читается обоими процессами.
+
+**Оценка таблеток:** `TabletInventoryScanService` вызывает `wsl.exe evaluate_clipboard.py` по одному на каждую ячейку (~120 вызовов/итерацию). Батчинг — задача TABFLOW-2.
+
+**Монополия на Win32 Input:** named mutex `PoE2Bot_InputMutex` — **запланировано, не реализовано** (TABFLOW-4). Сейчас процессы не пересекаются по времени вручную. Не реализуй mutex без явной задачи.
+
+**`TabletReforgeQueue` — не потокобезопасен.** Статический список; обращения из UI-потока и фонового Task без lock. Не добавляй новые потоки без lock.
+
+**Python↔C# контракт:** `evaluate_clipboard.py` → stdout → regex `~(\d+\.?\d*)d`. При изменении формата вывода скрипта — обновить regex в `TabletInventoryScanService`.
+
+---
+
 ## Git-ветки
 
 **Крупные задачи — в feature-ветке, не в `main`.**
@@ -140,6 +182,10 @@ while есть активные предметы (не Done/Failed):
 2. Убедись, что `CancellationToken` проверяется после каждого шага
 3. Убедись, что при отмене мышь и клавиши освобождены (нет зависшего Shift)
 
+**Обязательно при создании любого нового сервиса с мышью/клавиатурой (нарушение = неуправляемый ПК):**
+1. **ESC-прерывание** — ПЕРВОЕ: глобальный хук ESC → `CancellationTokenSource.Cancel()`. Без него при зависании ОС не поддаётся управлению.
+2. **Сворачивание окна** — при старте `MinimizeToTrayOnStart()`, в `finally` → `Dispatcher.Invoke(RestoreFromTray)`. Без этого окно перекрывает игру.
+
 ---
 
 ## Как добавить новый режим крафта
@@ -157,7 +203,7 @@ while есть активные предметы (не Done/Failed):
 Тесты находятся в `GameHelper.Tests/` — отдельный проект в той же папке.
 Запуск: `dotnet test GameHelper.Tests`
 
-Текущее покрытие неполное (см. BACKLOG.md, раздел Тесты). При добавлении новой логики в `CraftConditionEvaluator` или `ItemParser` — добавляй тест.
+Текущее покрытие неполное (см. BACKLOG.md, раздел Тесты). При добавлении новой логики в `CraftConditionEvaluator` или `ItemParser` — добавляй тест. При добавлении чистой логики в TabFlow-сервисах (без Win32) — аналогично.
 
 ---
 
@@ -172,3 +218,5 @@ while есть активные предметы (не Done/Failed):
 | `ITEM_PARSING.md` | Формат текста предмета из буфера |
 | `CRAFTING_STRATEGIES.md` | Зачем нужен каждый режим крафта |
 | `*_FLOW_ASCII.txt` | ASCII-диаграммы потоков каждого сервиса |
+| `vault/tabflow/roadmap.md` | Архитектура и фазы TabFlow — текущее состояние, целевая функция |
+| `vault/tabflow/tablet_types.md` | 7+1 типов таблеток (API-имена, индексы) |
